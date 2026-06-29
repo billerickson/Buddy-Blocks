@@ -1,0 +1,50 @@
+---
+import BrandMark from '../components/BrandMark.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  showNav?: boolean;
+  active?: 'profiles' | 'parent' | 'kid';
+}
+
+const { title, showNav = true, active } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="theme-color" content="#e63e80" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Buddy Blocks" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icons/moxie.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/moxie.svg" />
+  </head>
+  <body class="blocks">
+    {showNav && (
+      <header class="topbar">
+        <div class="app-shell topbar-inner">
+          <BrandMark />
+          <nav class="nav-links" aria-label="Main">
+            <a class="nav-link" href="/profiles/" aria-current={active === 'profiles' ? 'page' : undefined}>Profiles</a>
+            <a class="nav-link" href="/parent/" aria-current={active === 'parent' ? 'page' : undefined}>Parent</a>
+            <a class="nav-link" href="/logout/">Log out</a>
+          </nav>
+        </div>
+      </header>
+    )}
+    <slot />
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>
+

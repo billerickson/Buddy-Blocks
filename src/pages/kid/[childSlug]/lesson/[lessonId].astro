@@ -1,0 +1,19 @@
+---
+import LessonPlayer from '../../../../components/islands/LessonPlayer';
+import { CHILDREN, getAllLessons } from '../../../../lib/content';
+import AppLayout from '../../../../layouts/AppLayout.astro';
+
+export function getStaticPaths() {
+  return CHILDREN.flatMap((child) =>
+    getAllLessons().map((lesson) => ({ params: { childSlug: child.slug, lessonId: lesson.id } })),
+  );
+}
+
+const { childSlug, lessonId } = Astro.params;
+---
+
+<AppLayout title="Lesson · Buddy Blocks" active="kid">
+  <main class="app-shell page-band">
+    <LessonPlayer childSlug={childSlug!} lessonId={lessonId!} client:load />
+  </main>
+</AppLayout>

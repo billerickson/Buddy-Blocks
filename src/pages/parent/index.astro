@@ -1,0 +1,11 @@
+---
+import ParentDashboard from '../../components/islands/ParentDashboard';
+import AppLayout from '../../layouts/AppLayout.astro';
+---
+
+<AppLayout title="Parent dashboard · Buddy Blocks" active="parent">
+  <main class="app-shell page-band">
+    <ParentDashboard client:load />
+  </main>
+</AppLayout>
+

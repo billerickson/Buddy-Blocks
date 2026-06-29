@@ -1,0 +1,19 @@
+---
+import TrackOverview from '../../../../components/islands/TrackOverview';
+import { CHILDREN, TRACKS } from '../../../../lib/content';
+import AppLayout from '../../../../layouts/AppLayout.astro';
+
+export function getStaticPaths() {
+  return CHILDREN.flatMap((child) =>
+    TRACKS.map((track) => ({ params: { childSlug: child.slug, trackSlug: track.slug } })),
+  );
+}
+
+const { childSlug, trackSlug } = Astro.params;
+---
+
+<AppLayout title="Track · Buddy Blocks" active="kid">
+  <main class="app-shell page-band">
+    <TrackOverview childSlug={childSlug!} trackSlug={trackSlug!} client:load />
+  </main>
+</AppLayout>

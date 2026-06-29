@@ -1,0 +1,11 @@
+---
+import ProfileSelector from '../components/islands/ProfileSelector';
+import AppLayout from '../layouts/AppLayout.astro';
+---
+
+<AppLayout title="Choose a profile · Buddy Blocks" active="profiles">
+  <main class="app-shell page-band">
+    <ProfileSelector client:load />
+  </main>
+</AppLayout>
+

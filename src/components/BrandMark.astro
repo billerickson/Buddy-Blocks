@@ -1,0 +1,13 @@
+---
+interface Props {
+  href?: string;
+}
+
+const { href = '/profiles/' } = Astro.props;
+---
+
+<a class="brand-mark" href={href} aria-label="Buddy Blocks home">
+  <span class="brand-cube" aria-hidden="true">BB</span>
+  <span>Buddy Blocks</span>
+</a>
+
