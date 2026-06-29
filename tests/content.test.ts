@@ -27,7 +27,7 @@ describe('seed content', () => {
     expect(getTracksForChild(CHILDREN[0]).map((track) => track.slug)).toEqual([
       'grade-6-math',
       'grade-6-vocabulary',
-      'grade-6-spanish',
+      'grade-3-spanish',
     ]);
     expect(getTracksForChild(CHILDREN[1]).map((track) => track.slug)).toEqual([
       'grade-3-math',
@@ -37,7 +37,7 @@ describe('seed content', () => {
     expect(getTrackPaths()).toEqual([
       { childSlug: 'reagan', trackSlug: 'grade-6-math' },
       { childSlug: 'reagan', trackSlug: 'grade-6-vocabulary' },
-      { childSlug: 'reagan', trackSlug: 'grade-6-spanish' },
+      { childSlug: 'reagan', trackSlug: 'grade-3-spanish' },
       { childSlug: 'ada', trackSlug: 'grade-3-math' },
       { childSlug: 'ada', trackSlug: 'grade-3-vocabulary' },
       { childSlug: 'ada', trackSlug: 'grade-3-spanish' },

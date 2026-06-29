@@ -50,6 +50,20 @@ for (const child of CHILDREN) {
     },
     ['parent_id', 'slug', 'display_name', 'avatar_key', 'level_band', 'grade_level', 'updated_at'],
   );
+
+  for (const [subject, gradeLevel] of Object.entries(child.subjectGradeLevels ?? {})) {
+    insertWithUpdate(
+      'child_subject_levels',
+      {
+        id: `subject_level_${child.id}_${subject}`,
+        child_profile_id: child.id,
+        subject,
+        grade_level: gradeLevel,
+        updated_at: now,
+      },
+      ['grade_level', 'updated_at'],
+    );
+  }
 }
 
 TRACKS.forEach((track, trackIndex) => {
@@ -101,26 +115,6 @@ for (const question of getAllQuestions()) {
     sort_order: question.sortOrder,
   });
 }
-
-statements.push(`DELETE FROM child_track_progress
-WHERE id IN (
-  SELECT child_track_progress.id
-  FROM child_track_progress
-  JOIN child_profiles ON child_profiles.id = child_track_progress.child_profile_id
-  JOIN tracks ON tracks.id = child_track_progress.track_id
-  WHERE tracks.grade_level != child_profiles.grade_level
-);`);
-
-statements.push(`DELETE FROM child_lesson_progress
-WHERE id IN (
-  SELECT child_lesson_progress.id
-  FROM child_lesson_progress
-  JOIN child_profiles ON child_profiles.id = child_lesson_progress.child_profile_id
-  JOIN lessons ON lessons.id = child_lesson_progress.lesson_id
-  JOIN units ON units.id = lessons.unit_id
-  JOIN tracks ON tracks.id = units.track_id
-  WHERE tracks.grade_level != child_profiles.grade_level
-);`);
 
 for (const child of CHILDREN) {
   for (const track of getTracksForChild(child)) {

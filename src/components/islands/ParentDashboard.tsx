@@ -12,7 +12,15 @@ type DashboardData = {
       displayName: string;
       avatarKey: string;
       levelBand: string;
+      gradeLevel: number;
     };
+    subjectLevels: Array<{
+      subject: string;
+      label: string;
+      defaultGradeLevel: number;
+      overrideGradeLevel: number | null;
+      effectiveGradeLevel: number;
+    }>;
     stats: {
       xpTotal: number;
       streak: number;
@@ -39,9 +47,12 @@ type DashboardData = {
   }>;
 };
 
+const GRADE_LEVEL_OPTIONS = Array.from({ length: 12 }, (_, index) => index + 1);
+
 export default function ParentDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState('');
+  const [savingLevel, setSavingLevel] = useState('');
 
   useEffect(() => {
     fetchApi<DashboardData>('/api/parent/dashboard')
@@ -76,6 +87,36 @@ export default function ParentDashboard() {
               <span className="stat-chip">{childSummary.stats.xpTotal} XP</span>
               <span className="stat-chip">{childSummary.stats.streak} day streak</span>
               <span className="stat-chip">{childSummary.stats.heartsRemaining} hearts</span>
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <h3 className="text-2xl">Subject Levels</h3>
+            <div className="mt-3 grid gap-3 md:grid-cols-3">
+              {childSummary.subjectLevels.map((level) => {
+                const saveKey = `${childSummary.child.id}-${level.subject}`;
+                return (
+                  <label key={level.subject} className="block-card p-4">
+                    <span className="text-sm font-black uppercase text-muted">{level.label}</span>
+                    <select
+                      className="mt-2 min-h-[48px] w-full rounded-lg border-[3px] border-ink bg-white px-3 font-black outline-none focus:ring-4 focus:ring-reward"
+                      value={level.overrideGradeLevel ?? ''}
+                      disabled={savingLevel === saveKey}
+                      onChange={(event) =>
+                        void updateSubjectLevel(childSummary.child.id, level.subject, (event.currentTarget as HTMLSelectElement).value)
+                      }
+                    >
+                      <option value="">Default Grade {level.defaultGradeLevel}</option>
+                      {GRADE_LEVEL_OPTIONS.map((gradeLevel) => (
+                        <option key={gradeLevel} value={gradeLevel}>
+                          Grade {gradeLevel}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="mt-2 block font-extrabold text-muted">Using Grade {level.effectiveGradeLevel}</span>
+                  </label>
+                );
+              })}
             </div>
           </div>
 
@@ -137,5 +178,22 @@ export default function ParentDashboard() {
       ))}
     </section>
   );
-}
 
+  async function updateSubjectLevel(childId: string, subject: string, value: string) {
+    const saveKey = `${childId}-${subject}`;
+    setSavingLevel(saveKey);
+
+    try {
+      await fetchApi(`/api/parent/children/${encodeURIComponent(childId)}/subject-levels`, {
+        method: 'PATCH',
+        body: JSON.stringify({ subject, gradeLevel: value ? Number(value) : null }),
+      });
+      const refreshed = await fetchApi<DashboardData>('/api/parent/dashboard');
+      setData(refreshed);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'Could not update the subject level.');
+    } finally {
+      setSavingLevel('');
+    }
+  }
+}

@@ -57,6 +57,14 @@ type TrackRow = {
   sort_order: number;
 };
 
+type ChildSubjectLevelRow = {
+  id: string;
+  child_profile_id: string;
+  subject: string;
+  grade_level: number;
+  updated_at: string;
+};
+
 type UnitRow = {
   id: string;
   track_id: string;
@@ -174,6 +182,11 @@ const MadMinuteSubmissionSchema = z.object({
       }),
     )
     .max(240),
+});
+
+const SubjectLevelUpdateSchema = z.object({
+  subject: z.string().trim().toLowerCase().min(1).regex(/^[a-z][a-z0-9-]*$/),
+  gradeLevel: z.number().int().min(1).max(12).nullable(),
 });
 
 export default {
@@ -338,6 +351,14 @@ async function apiRouter(request: Request, env: Env) {
     return apiParentDashboard(parent, env);
   }
 
+  const subjectLevelMatch = pathname.match(/^\/api\/parent\/children\/([^/]+)\/subject-levels$/);
+  if (subjectLevelMatch) {
+    if (childModeSlug) return parentReauthResponse();
+    if (request.method === 'PATCH') {
+      return apiUpdateChildSubjectLevel(parent, env, request, decodeURIComponent(subjectLevelMatch[1]));
+    }
+  }
+
   const childHomeMatch = pathname.match(/^\/api\/children\/([^/]+)\/home$/);
   if (childHomeMatch) return apiChildHome(parent, env, decodeURIComponent(childHomeMatch[1]), childModeSlug);
 
@@ -434,9 +455,7 @@ async function apiChildTrack(
   if (!child) return json({ error: 'child_not_found' }, 404);
   if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
 
-  const track = await env.DB.prepare('SELECT * FROM tracks WHERE slug = ? AND grade_level = ? LIMIT 1')
-    .bind(trackSlug, child.grade_level)
-    .first<TrackRow>();
+  const track = await getTrackForChild(env, child, trackSlug);
   if (!track) return json({ error: 'track_not_found' }, 404);
 
   const units = await all<UnitRow>(
@@ -501,7 +520,7 @@ async function apiLesson(
 
   const lesson = await getLessonDetail(env, lessonId);
   if (!lesson) return json({ error: 'lesson_not_found' }, 404);
-  if (lesson.track_grade_level !== child.grade_level) return json({ error: 'lesson_not_found' }, 404);
+  if (!(await canAccessLessonTrack(env, child, lesson))) return json({ error: 'lesson_not_found' }, 404);
 
   const progress = await getLessonProgress(env, child.id, lesson.id);
   if (progress?.status === 'locked' || !progress) return json({ error: 'lesson_locked' }, 403);
@@ -552,7 +571,7 @@ async function apiSubmitLesson(
 
   const lesson = await getLessonDetail(env, lessonId);
   if (!lesson) return json({ error: 'lesson_not_found' }, 404);
-  if (lesson.track_grade_level !== child.grade_level) return json({ error: 'lesson_not_found' }, 404);
+  if (!(await canAccessLessonTrack(env, child, lesson))) return json({ error: 'lesson_not_found' }, 404);
 
   const progress = await getLessonProgress(env, child.id, lesson.id);
   if (progress?.status === 'locked' || !progress) return json({ error: 'lesson_locked' }, 403);
@@ -859,14 +878,14 @@ async function apiParentDashboard(parent: SessionParent, env: Env) {
          JOIN units ON units.id = lessons.unit_id
          JOIN tracks ON tracks.id = units.track_id
          WHERE lesson_attempts.child_profile_id = ?
-           AND tracks.grade_level = ?
          ORDER BY lesson_attempts.completed_at DESC
          LIMIT 6`,
-      ).bind(child.id, child.grade_level),
+      ).bind(child.id),
     );
 
     childSummaries.push({
       child: childResponse(child),
+      subjectLevels: await getSubjectLevelResponses(env, child),
       stats: {
         xpTotal: trackSummaries.reduce((sum, track) => sum + track.xpTotal, 0),
         streak,
@@ -883,6 +902,39 @@ async function apiParentDashboard(parent: SessionParent, env: Env) {
     fixedV1Profiles: true,
     children: childSummaries,
   });
+}
+
+async function apiUpdateChildSubjectLevel(parent: SessionParent, env: Env, request: Request, childKey: string) {
+  const child = await getChildForParent(parent, env, childKey);
+  if (!child) return json({ error: 'child_not_found' }, 404);
+
+  let body: z.infer<typeof SubjectLevelUpdateSchema>;
+  try {
+    body = SubjectLevelUpdateSchema.parse(await request.json());
+  } catch {
+    return json({ error: 'invalid_subject_level_payload' }, 400);
+  }
+
+  if (!(await subjectExists(env, body.subject))) return json({ error: 'subject_not_found' }, 404);
+
+  const now = new Date().toISOString();
+  if (body.gradeLevel === null || body.gradeLevel === child.grade_level) {
+    await env.DB.prepare('DELETE FROM child_subject_levels WHERE child_profile_id = ? AND subject = ?')
+      .bind(child.id, body.subject)
+      .run();
+  } else {
+    await env.DB.prepare(
+      `INSERT INTO child_subject_levels (id, child_profile_id, subject, grade_level, updated_at)
+       VALUES (?, ?, ?, ?, ?)
+       ON CONFLICT(child_profile_id, subject) DO UPDATE SET
+         grade_level = excluded.grade_level,
+         updated_at = excluded.updated_at`,
+    )
+      .bind(`subject_level_${child.id}_${body.subject}`, child.id, body.subject, body.gradeLevel, now)
+      .run();
+  }
+
+  return json({ subjectLevels: await getSubjectLevelResponses(env, child) });
 }
 
 async function getParentFromRequest(request: Request, env: Env): Promise<SessionParent | null> {
@@ -917,8 +969,88 @@ async function getChildForParent(parent: SessionParent, env: Env, childKey: stri
 
 async function getTracksForChild(env: Env, child: ChildRow) {
   return all<TrackRow>(
-    env.DB.prepare('SELECT * FROM tracks WHERE grade_level = ? ORDER BY sort_order').bind(child.grade_level),
+    env.DB.prepare(
+      `SELECT tracks.*
+       FROM tracks
+       LEFT JOIN child_subject_levels
+         ON child_subject_levels.child_profile_id = ?
+        AND child_subject_levels.subject = tracks.subject
+       WHERE tracks.grade_level = COALESCE(child_subject_levels.grade_level, ?)
+       ORDER BY CASE tracks.subject
+         WHEN 'math' THEN 1
+         WHEN 'vocabulary' THEN 2
+         WHEN 'spanish' THEN 3
+         ELSE tracks.sort_order
+       END, tracks.sort_order`,
+    ).bind(child.id, child.grade_level),
   );
+}
+
+async function getTrackForChild(env: Env, child: ChildRow, trackSlug: string) {
+  return env.DB.prepare(
+    `SELECT tracks.*
+     FROM tracks
+     LEFT JOIN child_subject_levels
+       ON child_subject_levels.child_profile_id = ?
+      AND child_subject_levels.subject = tracks.subject
+     WHERE tracks.slug = ?
+       AND tracks.grade_level = COALESCE(child_subject_levels.grade_level, ?)
+     LIMIT 1`,
+  )
+    .bind(child.id, trackSlug, child.grade_level)
+    .first<TrackRow>();
+}
+
+async function canAccessLessonTrack(env: Env, child: ChildRow, lesson: Pick<LessonDetailRow, 'track_subject' | 'track_grade_level'>) {
+  const effectiveGradeLevel = await getEffectiveGradeLevelForSubject(env, child, lesson.track_subject);
+  return lesson.track_grade_level === effectiveGradeLevel;
+}
+
+async function getEffectiveGradeLevelForSubject(env: Env, child: ChildRow, subject: string) {
+  const level = await getChildSubjectLevel(env, child.id, subject);
+  return level?.grade_level ?? child.grade_level;
+}
+
+async function getChildSubjectLevel(env: Env, childId: string, subject: string) {
+  return env.DB.prepare('SELECT * FROM child_subject_levels WHERE child_profile_id = ? AND subject = ? LIMIT 1')
+    .bind(childId, subject)
+    .first<ChildSubjectLevelRow>();
+}
+
+async function subjectExists(env: Env, subject: string) {
+  const row = await env.DB.prepare('SELECT subject FROM tracks WHERE subject = ? LIMIT 1').bind(subject).first<{ subject: string }>();
+  return Boolean(row);
+}
+
+async function getSubjectLevelResponses(env: Env, child: ChildRow) {
+  const subjects = await all<{ subject: string }>(
+    env.DB.prepare(
+      `SELECT subject
+       FROM tracks
+       GROUP BY subject
+       ORDER BY CASE subject
+         WHEN 'math' THEN 1
+         WHEN 'vocabulary' THEN 2
+         WHEN 'spanish' THEN 3
+         ELSE 100
+       END, subject`,
+    ),
+  );
+  const overrides = await all<ChildSubjectLevelRow>(
+    env.DB.prepare('SELECT * FROM child_subject_levels WHERE child_profile_id = ?').bind(child.id),
+  );
+  const overrideBySubject = new Map(overrides.map((level) => [level.subject, level]));
+
+  return subjects.map(({ subject }) => {
+    const override = overrideBySubject.get(subject);
+    return {
+      subject,
+      label: subjectLabel(subject),
+      defaultGradeLevel: child.grade_level,
+      overrideGradeLevel: override?.grade_level ?? null,
+      effectiveGradeLevel: override?.grade_level ?? child.grade_level,
+    };
+  });
 }
 
 async function getTrackProgress(env: Env, childId: string, trackId: string) {
@@ -1081,6 +1213,17 @@ function trackResponse(track: TrackRow) {
     color: track.color,
     accent: track.accent,
   };
+}
+
+function subjectLabel(subject: string) {
+  if (subject === 'math') return 'Math';
+  if (subject === 'vocabulary') return 'Vocabulary';
+  if (subject === 'spanish') return 'Spanish';
+  return subject
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 }
 
 function lessonProgressResponse(progress: LessonProgressRow) {

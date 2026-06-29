@@ -11,6 +11,7 @@ export type ChildFixture = {
   avatarKey: string;
   levelBand: string;
   gradeLevel: number;
+  subjectGradeLevels?: Record<string, number>;
 };
 
 export type QuestionFixture = {
@@ -80,6 +81,9 @@ export const CHILDREN: ChildFixture[] = [
     avatarKey: 'berry-builder',
     levelBand: 'Grade 6',
     gradeLevel: 6,
+    subjectGradeLevels: {
+      spanish: 3,
+    },
   },
   {
     id: 'child_ada',
@@ -189,13 +193,18 @@ type AuthoredLesson = z.infer<typeof lessonFileSchema>;
 export const TRACKS: TrackFixture[] = loadCurriculum();
 export const GRADE_3_TRACKS: TrackFixture[] = getTracksForGrade(3);
 export const GRADE_6_TRACKS: TrackFixture[] = getTracksForGrade(6);
+const SUBJECT_ORDER = Array.from(new Set(TRACKS.map((track) => track.subject)));
 
 export function getTracksForGrade(gradeLevel: number) {
   return TRACKS.filter((track) => track.gradeLevel === gradeLevel);
 }
 
 export function getTracksForChild(child: ChildFixture) {
-  return getTracksForGrade(child.gradeLevel);
+  return TRACKS.filter((track) => track.gradeLevel === getSubjectGradeLevel(child, track.subject)).sort(compareBySubjectOrder);
+}
+
+export function getSubjectGradeLevel(child: ChildFixture, subject: string) {
+  return child.subjectGradeLevels?.[subject] ?? child.gradeLevel;
 }
 
 export function getChildBySlug(slug: string) {
@@ -384,6 +393,12 @@ function markdownFiles(path: string) {
 
 function compareByName(a: { name: string }, b: { name: string }) {
   return a.name.localeCompare(b.name, undefined, { numeric: true });
+}
+
+function compareBySubjectOrder(a: TrackFixture, b: TrackFixture) {
+  const subjectOrder = SUBJECT_ORDER.indexOf(a.subject) - SUBJECT_ORDER.indexOf(b.subject);
+  if (subjectOrder !== 0) return subjectOrder;
+  return a.gradeLevel - b.gradeLevel;
 }
 
 function parseGradeLevel(name: string) {
