@@ -398,6 +398,8 @@ function MadMinuteLesson({
 }) {
   const config = data.lesson.config ?? defaultMadMinuteConfig();
   const inputRef = useRef<HTMLInputElement>(null);
+  const runningRef = useRef(false);
+  const submittingRef = useRef(false);
   const [running, setRunning] = useState(false);
   const [timeLeft, setTimeLeft] = useState(config.durationSeconds);
   const [fact, setFact] = useState(() => generateMadMinuteFact(config));
@@ -412,6 +414,14 @@ function MadMinuteLesson({
   const timeProgress = Math.round((timeLeft / config.durationSeconds) * 100);
 
   useEffect(() => {
+    runningRef.current = running;
+  }, [running]);
+
+  useEffect(() => {
+    submittingRef.current = submitting;
+  }, [submitting]);
+
+  useEffect(() => {
     if (!running || submitting) return undefined;
     if (timeLeft <= 0) {
       void submitMadMinute();
@@ -423,8 +433,11 @@ function MadMinuteLesson({
   }, [running, submitting, timeLeft]);
 
   useEffect(() => {
-    if (running) inputRef.current?.focus();
-  }, [fact, running]);
+    if (!running || submitting) return undefined;
+
+    const frame = window.requestAnimationFrame(focusAnswerInput);
+    return () => window.cancelAnimationFrame(frame);
+  }, [fact, running, submitting]);
 
   return (
     <section className="mx-auto max-w-4xl space-y-5">
@@ -500,7 +513,14 @@ function MadMinuteLesson({
                 pattern="[0-9]*"
                 disabled={!running || submitting}
                 onInput={(event) => setAnswer((event.currentTarget as HTMLInputElement).value.replace(/[^0-9]/g, ''))}
+                onFocus={(event) => event.currentTarget.select()}
+                onBlur={() => {
+                  if (!runningRef.current || submittingRef.current) return;
+                  window.setTimeout(focusAnswerInput, 50);
+                }}
                 autoComplete="off"
+                autoFocus
+                enterKeyHint="done"
               />
               <button className="primary-button min-h-[70px]" type="submit" disabled={!running || submitting || !answer}>
                 Enter
@@ -519,6 +539,8 @@ function MadMinuteLesson({
   );
 
   function start() {
+    runningRef.current = true;
+    submittingRef.current = false;
     setAttempts([]);
     setAnswer('');
     setFact(generateMadMinuteFact(config));
@@ -526,6 +548,7 @@ function MadMinuteLesson({
     setStartedAt(new Date().toISOString());
     setTimeLeft(config.durationSeconds);
     setRunning(true);
+    window.requestAnimationFrame(focusAnswerInput);
   }
 
   function submitFact(event: Event) {
@@ -542,6 +565,8 @@ function MadMinuteLesson({
 
   async function submitMadMinute() {
     if (submitting) return;
+    runningRef.current = false;
+    submittingRef.current = true;
     setRunning(false);
     setSubmitting(true);
 
@@ -556,6 +581,13 @@ function MadMinuteLesson({
     } finally {
       setSubmitting(false);
     }
+  }
+
+  function focusAnswerInput() {
+    const input = inputRef.current;
+    if (!input || !runningRef.current || submittingRef.current) return;
+    input.focus({ preventScroll: true });
+    input.select();
   }
 }
 
