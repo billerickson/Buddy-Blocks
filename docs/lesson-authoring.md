@@ -71,7 +71,7 @@ color: "#5b79ff"
 accent: "#ffd84d"
 ```
 
-`subject` is matched against [src/lib/subjects.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/subjects.ts) for labels, track ordering, icons, and starter badges. Existing subjects are `math`, `vocabulary`, `spanish`, and `french`. Unknown subject keys still load with a fallback label and generic icon, but add metadata when the subject should have a specific order, icon, or starter badge.
+`subject` is matched against [src/lib/subjects.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/subjects.ts) for labels, track ordering, icons, and starter badges. Existing subjects are `math`, `vocabulary`, `spanish`, `french`, and `latin`. Unknown subject keys still load with a fallback label and generic icon, but add metadata when the subject should have a specific order, icon, or starter badge.
 
 Badge rules live in [src/lib/badges.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/badges.ts). Subject starter badges are read from subject metadata, so adding a starter badge for a new subject should not require Worker reward logic changes.
 
@@ -237,7 +237,7 @@ Use Easy flash cards for recognition with multiple-choice answers below the card
   answerType: text
 ```
 
-For world-language vocabulary ladders, place Medium between Easy and Hard:
+For world-language and classical-language vocabulary ladders, place Medium between Easy and Hard:
 
 ```yaml
 - type: flash-card

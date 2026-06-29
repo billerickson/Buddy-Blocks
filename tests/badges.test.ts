@@ -32,6 +32,7 @@ describe('badge policy', () => {
         streak: 0,
         completedBySubject: [
           { subject: 'french', total: 3 },
+          { subject: 'latin', total: 2 },
           { subject: 'spanish', total: 1 },
           { subject: 'math', total: 2 },
           { subject: 'science', total: 5 },
@@ -42,6 +43,7 @@ describe('badge policy', () => {
       { key: 'math-starter', label: 'Math Starter' },
       { key: 'spanish-starter', label: 'Spanish Starter' },
       { key: 'french-starter', label: 'French Starter' },
+      { key: 'latin-starter', label: 'Latin Starter' },
     ]);
   });
 

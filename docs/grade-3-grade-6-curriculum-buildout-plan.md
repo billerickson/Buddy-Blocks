@@ -220,6 +220,7 @@ Reasoning:
 - Grade 3 Spanish complete: expanded the actual repository content from Greetings and Colors into the full beginner Level I path with Classroom Words, Numbers And Calendar, People And Family, Likes And Dislikes, Food And Everyday Things, Places And Actions, Simple Sentences, and Cumulative Conversation Review. Vocabulary-focused units now include Easy, Medium, and Hard flash-card ladders.
 - Grade 4 Spanish and handoff complete: added the full Spanish II / Level II path with 11 units and Easy, Medium, and Hard flash-card ladders in vocabulary-focused units. The Worker now unlocks Grade 4 Spanish when the current Grade 3 Spanish track is completed, keeps the rule scoped to Spanish, and recommends the first Grade 4 lesson after Grade 3 completion.
 - French tracks complete: added Grade 3 French / French I with 10 units and Grade 4 French / French II with 11 units. Both tracks use the world-language Easy, Medium, and Hard flash-card ladder in reusable vocabulary units and mirror the practical Level I / Level II progression used by Spanish.
+- Latin tracks complete: added Grade 3 Latin / Latin I with 10 units and Grade 4 Latin / Latin II with 10 units. Grade 3 Latin matches the beginner language-track lesson load, while Grade 4 Latin uses 71 lessons to match the Spanish II and French II course scale with reading, translation, grammar, roots, mythology, and Roman culture practice.
 
 ## Grade 3 Math Remaining Units
 
@@ -947,8 +948,8 @@ Current status:
 
 - Grade 3 French is complete.
 - Grade 4 French is complete.
-- Grade 3 Latin remains.
-- Grade 4 Latin remains.
+- Grade 3 Latin is complete.
+- Grade 4 Latin is complete.
 
 Difficulty target:
 
@@ -1086,18 +1087,18 @@ Add or update tests as the curriculum grows:
 - No duplicate track, unit, lesson, or question IDs.
 - Every standard lesson has 8-12 scored questions unless explicitly exempted.
 - Every multiple-choice and fill-blank answer appears in choices.
-- Every world-language Medium flash-card has English accepted answers.
-- Every world-language Hard flash-card has target-language accepted answers.
-- World-language flash-card sets use Easy, Medium, and Hard consistently when introducing reusable vocabulary.
+- Every language-track Medium flash-card has English accepted answers.
+- Every language-track Hard flash-card has target-language accepted answers.
+- Language-track flash-card sets use Easy, Medium, and Hard consistently when introducing reusable vocabulary.
 - Every track has at least one available first lesson.
 - Grade 3 and Grade 6 path tests are updated intentionally, not by accident.
 - Grade 3 Spanish coverage is checked against Texas Spanish I / Level I communication modes, culture, and authentic-resource expectations.
 - Grade 4 Spanish coverage is checked against Texas Spanish II / Level II communication modes, culture, connected statements, and authentic-resource expectations.
 - Spanish sequence tests verify Grade 3 Spanish completion can hand students to Grade 4 Spanish once that track exists.
-- Grade 3 French coverage is checked against Texas French I / Level I communication modes, culture, and authentic-resource expectations once that track exists.
-- Grade 4 French coverage is checked against Texas French II / Level II communication modes, culture, connected statements, and authentic-resource expectations once that track exists.
-- Grade 3 Latin coverage is checked against Texas Latin I / Classical Languages Level I reading, grammar, translation, culture, and Latin-English connection expectations once that track exists.
-- Grade 4 Latin coverage is checked against Texas Latin II / Classical Languages Level II reading, grammar, translation, culture, and connected-text expectations once that track exists.
+- Grade 3 French coverage is checked against Texas French I / Level I communication modes, culture, and authentic-resource expectations.
+- Grade 4 French coverage is checked against Texas French II / Level II communication modes, culture, connected statements, and authentic-resource expectations.
+- Grade 3 Latin coverage is checked against Texas Latin I / Classical Languages Level I reading, grammar, translation, culture, and Latin-English connection expectations.
+- Grade 4 Latin coverage is checked against Texas Latin II / Classical Languages Level II reading, grammar, translation, culture, and connected-text expectations.
 - Seed script inserts missing progress rows without overwriting completion rows.
 - Route tests continue to use generic kid shells rather than enumerating every child/track/lesson path.
 - New subject tests update subject metadata and starter badge expectations when a subject is added.

@@ -9,7 +9,7 @@ import {
 
 describe('subject metadata', () => {
   it('loads metadata for production subjects', () => {
-    expect(SUBJECTS.map((subject) => subject.key)).toEqual(['math', 'vocabulary', 'spanish', 'french']);
+    expect(SUBJECTS.map((subject) => subject.key)).toEqual(['math', 'vocabulary', 'spanish', 'french', 'latin']);
     expect(getSubjectMetadata('math')).toMatchObject({
       label: 'Math',
       sortOrder: 1,
@@ -22,14 +22,21 @@ describe('subject metadata', () => {
       iconKey: 'speech-bubble',
       starterBadge: { key: 'french-starter', label: 'French Starter' },
     });
+    expect(getSubjectMetadata('latin')).toMatchObject({
+      label: 'Latin',
+      sortOrder: 5,
+      iconKey: 'clipboard',
+      starterBadge: { key: 'latin-starter', label: 'Latin Starter' },
+    });
   });
 
   it('orders tracks by metadata sort order with unknown subjects last', () => {
-    expect(['science', 'spanish', 'math', 'french', 'vocabulary'].sort(compareSubjectKeys)).toEqual([
+    expect(['science', 'spanish', 'math', 'latin', 'french', 'vocabulary'].sort(compareSubjectKeys)).toEqual([
       'math',
       'vocabulary',
       'spanish',
       'french',
+      'latin',
       'science',
     ]);
   });
@@ -49,6 +56,7 @@ describe('subject metadata', () => {
   it('generates starter badges from metadata only', () => {
     expect(getStarterBadgeForSubject('vocabulary')).toEqual({ key: 'word-explorer', label: 'Word Explorer' });
     expect(getStarterBadgeForSubject('french')).toEqual({ key: 'french-starter', label: 'French Starter' });
+    expect(getStarterBadgeForSubject('latin')).toEqual({ key: 'latin-starter', label: 'Latin Starter' });
     expect(getStarterBadgeForSubject('science')).toBeNull();
   });
 });

@@ -27,6 +27,7 @@ describe('fixed v1 seed family', () => {
       'grade-3-vocabulary',
       'grade-3-spanish',
       'grade-3-french',
+      'grade-3-latin',
     ]);
   });
 
@@ -39,6 +40,7 @@ describe('fixed v1 seed family', () => {
       { childSlug: 'ada', trackSlug: 'grade-3-vocabulary' },
       { childSlug: 'ada', trackSlug: 'grade-3-spanish' },
       { childSlug: 'ada', trackSlug: 'grade-3-french' },
+      { childSlug: 'ada', trackSlug: 'grade-3-latin' },
     ]);
   });
 });

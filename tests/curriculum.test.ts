@@ -24,13 +24,13 @@ describe('curriculum content', () => {
   });
 
   it('provides grade-specific curriculum tracks', () => {
-    expect(getTracksForGrade(3).map((track) => track.subject)).toEqual(['math', 'vocabulary', 'spanish', 'french']);
-    expect(getTracksForGrade(4).map((track) => track.subject)).toEqual(['spanish', 'french']);
+    expect(getTracksForGrade(3).map((track) => track.subject)).toEqual(['math', 'vocabulary', 'spanish', 'french', 'latin']);
+    expect(getTracksForGrade(4).map((track) => track.subject)).toEqual(['spanish', 'french', 'latin']);
     expect(getTracksForGrade(6).map((track) => track.subject)).toEqual(['math', 'vocabulary']);
   });
 
   it('provides the current curriculum shape', () => {
-    expect(TRACKS).toHaveLength(8);
+    expect(TRACKS).toHaveLength(10);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'addition-basics',
       'subtraction-basics',
@@ -82,6 +82,18 @@ describe('curriculum content', () => {
       'reading-listening-french',
       'cumulative-conversation-review',
     ]);
+    expect(GRADE_3_TRACKS.find((track) => track.subject === 'latin')?.units.map((unit) => unit.slug)).toEqual([
+      'latin-sounds-classroom-words-roman-greetings',
+      'nouns-gender-simple-sentences',
+      'family-people-descriptions',
+      'verbs-everyday-actions',
+      'places-home-school',
+      'food-animals-daily-life',
+      'mythology-roman-culture',
+      'latin-roots-english',
+      'reading-short-latin',
+      'cumulative-latin-i-review',
+    ]);
     expect(getTracksForGrade(4).find((track) => track.subject === 'spanish')?.units.map((unit) => unit.slug)).toEqual([
       'grade-3-review-classroom-routines',
       'numbers-dates-time',
@@ -108,6 +120,18 @@ describe('curriculum content', () => {
       'reading-listening-french',
       'cumulative-conversation-review',
     ]);
+    expect(getTracksForGrade(4).find((track) => track.subject === 'latin')?.units.map((unit) => unit.slug)).toEqual([
+      'latin-i-review-reading-routines',
+      'cases-sentence-roles',
+      'verbs-across-time',
+      'people-places-descriptions',
+      'roman-daily-life-public-spaces',
+      'mythology-heroes-stories',
+      'latin-roots-phrases-english-connections',
+      'reading-adapted-latin-passages',
+      'culture-history-through-texts',
+      'cumulative-latin-ii-review',
+    ]);
     expect(GRADE_6_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'ratios-rates',
       'rational-number-operations',
@@ -132,8 +156,8 @@ describe('curriculum content', () => {
       'research-inquiry-vocabulary',
       'cumulative-review',
     ]);
-    expect(getAllLessons()).toHaveLength(448);
-    expect(getAllQuestions()).toHaveLength(3470);
+    expect(getAllLessons()).toHaveLength(569);
+    expect(getAllQuestions()).toHaveLength(4438);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -199,6 +223,33 @@ describe('curriculum content', () => {
     expect(grade4French).toBeDefined();
 
     for (const unit of [...(grade3French?.units.slice(0, 7) ?? []), ...(grade4French?.units.slice(0, 7) ?? [])]) {
+      const flashLessons = unit.lessons.filter((lesson) => lesson.slug.includes('flash-cards'));
+      expect(flashLessons.map((lesson) => lesson.slug)).toEqual([
+        `${unit.slug}-flash-cards-easy`,
+        `${unit.slug}-flash-cards-medium`,
+        `${unit.slug}-flash-cards-hard`,
+      ]);
+      expect(flashLessons[0].questions.every((question) => flashCardPayload(question, 'easy'))).toBe(true);
+      expect(
+        flashLessons[1].questions.every(
+          (question) => Boolean(flashCardPayload(question, 'medium')?.acceptedAnswers?.length),
+        ),
+      ).toBe(true);
+      expect(
+        flashLessons[2].questions.every(
+          (question) => Boolean(flashCardPayload(question, 'hard')?.acceptedAnswers?.length),
+        ),
+      ).toBe(true);
+    }
+  });
+
+  it('uses Easy, Medium, and Hard Latin flash-card ladders in vocabulary and roots units', () => {
+    const grade3Latin = getTracksForGrade(3).find((track) => track.subject === 'latin');
+    const grade4Latin = getTracksForGrade(4).find((track) => track.subject === 'latin');
+    expect(grade3Latin).toBeDefined();
+    expect(grade4Latin).toBeDefined();
+
+    for (const unit of [...(grade3Latin?.units.slice(0, 8) ?? []), ...(grade4Latin?.units.slice(0, 7) ?? [])]) {
       const flashLessons = unit.lessons.filter((lesson) => lesson.slug.includes('flash-cards'));
       expect(flashLessons.map((lesson) => lesson.slug)).toEqual([
         `${unit.slug}-flash-cards-easy`,
@@ -302,10 +353,10 @@ describe('curriculum content', () => {
     const summary = summarizeCurriculum(TRACKS);
 
     expect(summary.totals).toEqual({
-      tracks: 8,
-      units: 85,
-      lessons: 448,
-      questions: 3470,
+      tracks: 10,
+      units: 105,
+      lessons: 569,
+      questions: 4438,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
       tracks: 1,
@@ -331,6 +382,12 @@ describe('curriculum content', () => {
       lessons: 50,
       questions: 400,
     });
+    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'latin')).toMatchObject({
+      tracks: 1,
+      units: 10,
+      lessons: 50,
+      questions: 400,
+    });
     expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'spanish')).toMatchObject({
       tracks: 1,
       units: 11,
@@ -340,6 +397,12 @@ describe('curriculum content', () => {
     expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'french')).toMatchObject({
       tracks: 1,
       units: 11,
+      lessons: 71,
+      questions: 568,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'latin')).toMatchObject({
+      tracks: 1,
+      units: 10,
       lessons: 71,
       questions: 568,
     });
