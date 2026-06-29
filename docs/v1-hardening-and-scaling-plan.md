@@ -788,3 +788,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: focused `npm test -- --run tests/worker-api.test.ts`, `npm test`, and `npm run check` passed.
 - Risks: the current model still supports only one effective track per subject; multiple active tracks, pinned review tracks, and special courses need the future assignment layer.
 - Future improvements: introduce `child_track_assignments` only when the product needs multiple active tracks or parent-controlled assignments beyond grade overrides.
+
+### Item 13: Security and Access Control Regression Tests
+
+- Changed: added explicit Worker access-control regression coverage for unauthenticated APIs, parent-page reauth redirects, parent API reauth in child mode, child API isolation, and invalid-origin rejection.
+- Tests/docs: expanded `tests/worker-api.test.ts` and added a security/access-control doc covering API and protected page expectations; practice-set ownership scoping remains covered by the Item 8 tests.
+- Verification: focused `npm test -- --run tests/worker-api.test.ts`, `npm test`, `npm run check`, and `npm run build` passed.
+- Risks: tests cover Worker-level behavior with a SQLite-backed D1 harness, not a real browser session or remote Cloudflare runtime.
+- Future improvements: add Playwright smoke tests for login, child-mode switching, parent gate, and cross-child navigation once browser automation is part of the project.

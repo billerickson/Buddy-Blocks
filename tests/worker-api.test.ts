@@ -252,10 +252,12 @@ async function requestJson(
     method = 'GET',
     body,
     cookie = `${SESSION_COOKIE}=session_1`,
-  }: { method?: string; body?: unknown; cookie?: string } = {},
+    origin,
+  }: { method?: string; body?: unknown; cookie?: string; origin?: string } = {},
 ) {
   const headers = new Headers({ Cookie: cookie });
   if (body !== undefined) headers.set('Content-Type', 'application/json');
+  if (origin) headers.set('Origin', origin);
   const response = await worker.fetch(
     new Request(`https://learn.example.test${pathname}`, {
       method,
@@ -677,6 +679,62 @@ describe('worker protected page shells', () => {
     expect(response.headers.get('Location')).toBe(
       'https://learn.example.test/parent-gate/?next=%2Fkid%2Freagan%2Ftrack%2Fgrade-3-spanish%2F',
     );
+  });
+});
+
+describe('worker access control', () => {
+  it('returns 401 for unauthenticated API requests', async () => {
+    const { env } = createEnv();
+
+    const { response, body } = await requestJson('/api/me', env, { cookie: '' });
+
+    expect(response.status).toBe(401);
+    expect(body).toEqual({ error: 'not_authenticated' });
+  });
+
+  it('redirects parent pages to the parent gate while child mode is active', async () => {
+    const { env } = createEnv();
+
+    const { response } = await getText('/parent/', env, `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=reagan`);
+
+    expect(response.status).toBe(303);
+    expect(response.headers.get('Location')).toBe('https://learn.example.test/parent-gate/?next=%2Fparent%2F');
+  });
+
+  it('requires parent reauth for parent APIs while child mode is active', async () => {
+    const { env } = createEnv();
+
+    const { response, body } = await requestJson('/api/parent/dashboard', env, {
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=reagan`,
+    });
+
+    expect(response.status).toBe(403);
+    expect(body).toEqual({ error: 'parent_reauth_required' });
+  });
+
+  it('blocks child mode from reading another child API', async () => {
+    const { env, sqlite } = createEnv();
+    insertChild(sqlite.db, 'child_ada', 'ada', 3);
+
+    const { response, body } = await requestJson('/api/children/ada/home', env, {
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=reagan`,
+    });
+
+    expect(response.status).toBe(403);
+    expect(body).toEqual({ error: 'child_locked' });
+  });
+
+  it('rejects mutating APIs from a different origin', async () => {
+    const { env } = createEnv();
+
+    const { response, body } = await requestJson('/api/parent/children/reagan/subject-levels', env, {
+      method: 'PATCH',
+      origin: 'https://evil.example.test',
+      body: { subject: 'spanish', gradeLevel: 3 },
+    });
+
+    expect(response.status).toBe(403);
+    expect(body).toEqual({ error: 'invalid_origin' });
   });
 });
 
