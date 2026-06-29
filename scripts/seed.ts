@@ -19,6 +19,7 @@ import {
 } from '../src/lib/seed-family';
 import { hashPassword } from '../src/lib/auth';
 import {
+  buildChildTrackRepairStatements,
   buildCurriculumSeedStatements,
   insertIgnoreStatement,
   insertWithUpdateStatement,
@@ -123,6 +124,8 @@ for (const child of CHILDREN) {
         }),
       );
     }
+
+    statements.push(...buildChildTrackRepairStatements(child.id, track.id, now));
   }
 }
 
