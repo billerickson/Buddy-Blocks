@@ -41,8 +41,10 @@ The numeric prefixes control display order. The app uses the `slug` values insid
 
 Current v1 profiles:
 
-- Ada is Grade 3 and sees `grade-03`.
-- Reagan is Grade 6 and sees `grade-06`.
+- Ada is Grade 3 and sees `grade-03` unless a parent overrides one subject.
+- Reagan is Grade 6 overall, with Spanish overridden to Grade 3.
+
+Parents can adjust a student's grade level per subject from the parent dashboard. If a subject is left on the default option, the app uses the student's global grade level.
 
 ## Track Files
 
@@ -201,6 +203,8 @@ Use `answerType: number` for numeric answers. Quote numeric answers, such as `"1
 ```
 
 ## Adding Content
+
+Use TEKS (Texas Essential Knowledge and Skills) as a guide for what should be covered in each subject level. The lessons can stay playful and compact, but the topic progression should map back to the expectations for that level.
 
 To add a lesson:
 
