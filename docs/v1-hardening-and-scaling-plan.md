@@ -748,3 +748,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: focused `npm test -- --run tests/lesson-completion.test.ts`, `npm test`, `npm run check`, and `npm run build` passed.
 - Risks: the Worker is still mostly a large single file around routing, auth, data access, and response shaping; only the highest-risk duplicate write flow was extracted in this pass.
 - Future improvements: continue the Worker split by moving route handlers, data access helpers, response mappers, and badge rules into focused modules after the completion service has settled.
+
+### Item 8: Temporary Weekly School Vocabulary Practice Sets
+
+- Changed: added D1 practice-set, card, and practice-attempt tables; added parent APIs to list/create/update/archive child practice sets; surfaced active pinned sets on Kid Home; served practice sets as virtual standard lessons with generated flash-card questions and practice-specific completion history.
+- Tests/docs: added Worker API coverage for practice-set lifecycle, Kid Home active/pinned visibility, generated flash-card lesson shape, completion attempt persistence, archive retention, and child-mode scoping; added a dedicated practice-set workflow doc and updated lesson authoring, question types, and local setup docs.
+- Verification: focused `npm test -- --run tests/worker-api.test.ts`, `npm test`, `npm run check`, `npm run build`, and `npm run db:migrate:local` passed.
+- Risks: practice sets currently have API support but no dedicated parent dashboard form, so creation requires direct API use or a later UI layer.
+- Future improvements: add parent UI for weekly word entry, surface archived practice history in the parent dashboard, and consider richer practice modes beyond generated flash cards.

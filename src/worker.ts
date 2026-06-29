@@ -147,6 +147,33 @@ type TrackLessonProgressRow = {
   best_score_total: number | null;
 };
 
+type PracticeSetStatus = 'draft' | 'active' | 'archived';
+
+type PracticeSetRow = {
+  id: string;
+  child_profile_id: string;
+  subject: string;
+  title: string;
+  source: string | null;
+  status: PracticeSetStatus;
+  pinned: number;
+  starts_at: string | null;
+  expires_at: string | null;
+  archived_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type PracticeSetCardRow = {
+  id: string;
+  practice_set_id: string;
+  term: string;
+  definition: string | null;
+  example: string | null;
+  accepted_answers_json: string | null;
+  sort_order: number;
+};
+
 type Env = {
   ASSETS: { fetch(request: Request): Promise<Response> };
   DB: D1Database;
@@ -157,6 +184,8 @@ const SESSION_DAYS = 14;
 const PROTECTED_PAGE_PREFIXES = ['/profiles', '/kid', '/parent'];
 const PUBLIC_FILE_PREFIXES = ['/icons/', '/assets/', '/_astro/'];
 const PARENT_GATE_PATH = '/parent-gate/';
+const PRACTICE_LESSON_PREFIX = 'practice_set_';
+const PRACTICE_SET_XP_BASE = 8;
 
 const AttemptSubmissionSchema = z.object({
   startedAt: z.string().optional(),
@@ -179,6 +208,35 @@ const MadMinuteSubmissionSchema = z.object({
       }),
     )
     .max(240),
+});
+
+const PracticeSetCardInputSchema = z.object({
+  term: z.string().trim().min(1),
+  definition: z.string().trim().min(1).optional().nullable(),
+  example: z.string().trim().min(1).optional().nullable(),
+  acceptedAnswers: z.array(z.string().trim().min(1)).optional().default([]),
+});
+
+const PracticeSetCreateSchema = z.object({
+  title: z.string().trim().min(1),
+  subject: z.string().trim().min(1).default('vocabulary'),
+  source: z.string().trim().min(1).optional().nullable(),
+  status: z.enum(['draft', 'active', 'archived']).default('active'),
+  pinned: z.boolean().default(false),
+  startsAt: z.string().trim().min(1).optional().nullable(),
+  expiresAt: z.string().trim().min(1).optional().nullable(),
+  cards: z.array(PracticeSetCardInputSchema).min(1),
+});
+
+const PracticeSetUpdateSchema = z.object({
+  title: z.string().trim().min(1).optional(),
+  subject: z.string().trim().min(1).optional(),
+  source: z.string().trim().min(1).optional().nullable(),
+  status: z.enum(['draft', 'active', 'archived']).optional(),
+  pinned: z.boolean().optional(),
+  startsAt: z.string().trim().min(1).optional().nullable(),
+  expiresAt: z.string().trim().min(1).optional().nullable(),
+  cards: z.array(PracticeSetCardInputSchema).min(1).optional(),
 });
 
 const SubjectLevelUpdateSchema = z.object({
@@ -358,6 +416,16 @@ async function apiRouter(request: Request, env: Env) {
     }
   }
 
+  const parentPracticeSetMatch = pathname.match(/^\/api\/parent\/children\/([^/]+)\/practice-sets(?:\/([^/]+))?$/);
+  if (parentPracticeSetMatch) {
+    if (childModeSlug) return parentReauthResponse();
+    const childKey = decodeURIComponent(parentPracticeSetMatch[1]);
+    const practiceSetId = parentPracticeSetMatch[2] ? decodeURIComponent(parentPracticeSetMatch[2]) : null;
+    if (!practiceSetId && request.method === 'GET') return apiParentPracticeSets(parent, env, childKey);
+    if (!practiceSetId && request.method === 'POST') return apiCreatePracticeSet(parent, env, request, childKey);
+    if (practiceSetId && request.method === 'PATCH') return apiUpdatePracticeSet(parent, env, request, childKey, practiceSetId);
+  }
+
   const childHomeMatch = pathname.match(/^\/api\/children\/([^/]+)\/home$/);
   if (childHomeMatch) return apiChildHome(parent, env, decodeURIComponent(childHomeMatch[1]), childModeSlug);
 
@@ -402,6 +470,9 @@ async function apiChildHome(parent: SessionParent, env: Env, childKey: string, c
   );
   const trackCards = [];
   let recommendedLesson = null;
+  const activePracticeSets = await getVisiblePracticeSets(env, child.id, new Date());
+  const pinnedPracticeSet = activePracticeSets.find((practiceSet) => Boolean(practiceSet.pinned));
+  if (pinnedPracticeSet) recommendedLesson = practiceSetLinkResponse(pinnedPracticeSet);
 
   for (const track of tracks) {
     const progress = trackStats.progressByTrack.get(track.id);
@@ -441,6 +512,7 @@ async function apiChildHome(parent: SessionParent, env: Env, childKey: string, c
       heartsRemaining: child.hearts_remaining,
     },
     recommendedLesson,
+    practiceSets: activePracticeSets.map(practiceSetHomeResponse),
     tracks: trackCards,
     badges,
   });
@@ -489,6 +561,9 @@ async function apiLesson(
   const child = await getChildForParent(parent, env, childKey);
   if (!child) return json({ error: 'child_not_found' }, 404);
   if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
+
+  const practiceSetId = practiceSetIdFromLessonId(lessonId);
+  if (practiceSetId) return apiPracticeLesson(env, child, practiceSetId);
 
   const lesson = await getLessonDetail(env, lessonId);
   if (!lesson) return json({ error: 'lesson_not_found' }, 404);
@@ -540,6 +615,9 @@ async function apiSubmitLesson(
   const child = await getChildForParent(parent, env, childKey);
   if (!child) return json({ error: 'child_not_found' }, 404);
   if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
+
+  const practiceSetId = practiceSetIdFromLessonId(lessonId);
+  if (practiceSetId) return apiSubmitPracticeLesson(env, request, child, practiceSetId);
 
   const lesson = await getLessonDetail(env, lessonId);
   if (!lesson) return json({ error: 'lesson_not_found' }, 404);
@@ -747,6 +825,240 @@ async function apiUpdateChildSubjectLevel(parent: SessionParent, env: Env, reque
   return json({ subjectLevels: await getSubjectLevelResponses(env, child) });
 }
 
+async function apiParentPracticeSets(parent: SessionParent, env: Env, childKey: string) {
+  const child = await getChildForParent(parent, env, childKey);
+  if (!child) return json({ error: 'child_not_found' }, 404);
+
+  const practiceSets = await getPracticeSetsForChild(env, child.id);
+  const responses = await Promise.all(practiceSets.map((practiceSet) => practiceSetResponseWithCards(env, practiceSet)));
+  return json({ practiceSets: responses });
+}
+
+async function apiCreatePracticeSet(parent: SessionParent, env: Env, request: Request, childKey: string) {
+  const child = await getChildForParent(parent, env, childKey);
+  if (!child) return json({ error: 'child_not_found' }, 404);
+
+  let body: z.infer<typeof PracticeSetCreateSchema>;
+  try {
+    body = PracticeSetCreateSchema.parse(await request.json());
+  } catch {
+    return json({ error: 'invalid_practice_set_payload' }, 400);
+  }
+
+  const now = new Date().toISOString();
+  const practiceSetId = randomId('practice_');
+  const statements: D1PreparedStatement[] = [
+    env.DB.prepare(
+      `INSERT INTO practice_sets
+       (id, child_profile_id, subject, title, source, status, pinned, starts_at, expires_at, archived_at, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ).bind(
+      practiceSetId,
+      child.id,
+      body.subject,
+      body.title,
+      body.source ?? null,
+      body.status,
+      body.pinned ? 1 : 0,
+      body.startsAt ?? null,
+      body.expiresAt ?? null,
+      body.status === 'archived' ? now : null,
+      now,
+      now,
+    ),
+    ...practiceCardInsertStatements(env, practiceSetId, body.cards),
+  ];
+  await env.DB.batch(statements);
+
+  const practiceSet = await getPracticeSetForChild(env, child.id, practiceSetId);
+  if (!practiceSet) return json({ error: 'practice_set_not_found' }, 404);
+  return json({ practiceSet: await practiceSetResponseWithCards(env, practiceSet) }, 201);
+}
+
+async function apiUpdatePracticeSet(parent: SessionParent, env: Env, request: Request, childKey: string, practiceSetId: string) {
+  const child = await getChildForParent(parent, env, childKey);
+  if (!child) return json({ error: 'child_not_found' }, 404);
+
+  const practiceSet = await getPracticeSetForChild(env, child.id, practiceSetId);
+  if (!practiceSet) return json({ error: 'practice_set_not_found' }, 404);
+
+  let body: z.infer<typeof PracticeSetUpdateSchema>;
+  try {
+    body = PracticeSetUpdateSchema.parse(await request.json());
+  } catch {
+    return json({ error: 'invalid_practice_set_payload' }, 400);
+  }
+
+  const now = new Date().toISOString();
+  const nextStatus = body.status ?? practiceSet.status;
+  const archivedAt =
+    nextStatus === 'archived' ? (practiceSet.archived_at ?? now) : body.status ? null : practiceSet.archived_at;
+  const statements: D1PreparedStatement[] = [
+    env.DB.prepare(
+      `UPDATE practice_sets
+       SET subject = ?, title = ?, source = ?, status = ?, pinned = ?, starts_at = ?, expires_at = ?, archived_at = ?, updated_at = ?
+       WHERE id = ? AND child_profile_id = ?`,
+    ).bind(
+      body.subject ?? practiceSet.subject,
+      body.title ?? practiceSet.title,
+      body.source === undefined ? practiceSet.source : body.source,
+      nextStatus,
+      body.pinned === undefined ? practiceSet.pinned : body.pinned ? 1 : 0,
+      body.startsAt === undefined ? practiceSet.starts_at : body.startsAt,
+      body.expiresAt === undefined ? practiceSet.expires_at : body.expiresAt,
+      archivedAt,
+      now,
+      practiceSet.id,
+      child.id,
+    ),
+  ];
+
+  if (body.cards) {
+    statements.push(env.DB.prepare('DELETE FROM practice_set_cards WHERE practice_set_id = ?').bind(practiceSet.id));
+    statements.push(...practiceCardInsertStatements(env, practiceSet.id, body.cards));
+  }
+
+  await env.DB.batch(statements);
+
+  const updated = await getPracticeSetForChild(env, child.id, practiceSet.id);
+  if (!updated) return json({ error: 'practice_set_not_found' }, 404);
+  return json({ practiceSet: await practiceSetResponseWithCards(env, updated) });
+}
+
+async function apiPracticeLesson(env: Env, child: ChildRow, practiceSetId: string) {
+  const practiceSet = await getVisiblePracticeSetForChild(env, child.id, practiceSetId, new Date());
+  if (!practiceSet) return json({ error: 'lesson_not_found' }, 404);
+
+  const cards = await getPracticeSetCards(env, practiceSet.id);
+  const progress = await getPracticeSetProgress(env, child.id, practiceSet.id);
+
+  return json({
+    child: childResponse(child),
+    heartsStart: 5,
+    progress: {
+      status: 'available',
+      completedAt: progress.completedAt,
+      bestScoreCorrect: progress.bestScoreCorrect,
+      bestScoreTotal: progress.bestScoreTotal,
+    },
+    lesson: {
+      id: practiceLessonId(practiceSet.id),
+      slug: practiceSet.id,
+      title: practiceSet.title,
+      kind: 'standard',
+      config: {
+        review: {
+          mode: 'deck',
+          label: 'Weekly practice',
+          shuffleQuestions: false,
+        },
+      },
+      xpBase: PRACTICE_SET_XP_BASE,
+      unit: {
+        id: `practice_unit_${practiceSet.id}`,
+        slug: 'weekly-practice',
+        title: 'Weekly Practice',
+      },
+      track: {
+        id: `practice_track_${practiceSet.subject}`,
+        slug: 'weekly-vocabulary',
+        subject: practiceSet.subject,
+        gradeLevel: child.grade_level,
+        title: getSubjectLabel(practiceSet.subject),
+        color: 'bg-[#50c2ff]',
+        accent: 'text-ink',
+      },
+      questions: practiceQuestionsFromCards(cards),
+    },
+  });
+}
+
+async function apiSubmitPracticeLesson(env: Env, request: Request, child: ChildRow, practiceSetId: string) {
+  const practiceSet = await getVisiblePracticeSetForChild(env, child.id, practiceSetId, new Date());
+  if (!practiceSet) return json({ error: 'lesson_not_found' }, 404);
+
+  let body: z.infer<typeof AttemptSubmissionSchema>;
+  try {
+    body = AttemptSubmissionSchema.parse(await request.json());
+  } catch {
+    return json({ error: 'invalid_attempt_payload' }, 400);
+  }
+
+  const cards = await getPracticeSetCards(env, practiceSet.id);
+  const questions = practiceQuestionsFromCards(cards);
+  const cardIdByQuestionId = new Map(questions.map((question) => [question.id, practiceCardIdFromQuestionId(question.id)]));
+  const attemptsByQuestion = new Map(body.attempts.map((attempt) => [attempt.questionId, attempt.answer]));
+  const completedAt = new Date();
+  const completedIso = completedAt.toISOString();
+  const scoreTotal = questions.length;
+  const scored = questions.map((question) => {
+    const answer = attemptsByQuestion.get(question.id);
+    return {
+      question,
+      answer,
+      isCorrect: attemptsByQuestion.has(question.id) ? evaluateAnswer(question, answer) : false,
+    };
+  });
+  const scoreCorrect = scored.filter((attempt) => attempt.isCorrect).length;
+  const heartsRemaining = Math.max(0, 5 - (scoreTotal - scoreCorrect));
+  const xpAwarded = calculateXp(PRACTICE_SET_XP_BASE, scoreCorrect, scoreTotal, heartsRemaining);
+  const practiceAttemptId = randomId('practice_attempt_');
+
+  const inserts = [
+    env.DB.prepare(
+      `INSERT INTO practice_set_attempts
+       (id, child_profile_id, practice_set_id, started_at, completed_at, score_correct, score_total, xp_awarded, hearts_remaining)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ).bind(
+      practiceAttemptId,
+      child.id,
+      practiceSet.id,
+      body.startedAt || completedIso,
+      completedIso,
+      scoreCorrect,
+      scoreTotal,
+      xpAwarded,
+      heartsRemaining,
+    ),
+    ...scored.map((attempt) =>
+      env.DB.prepare(
+        `INSERT INTO practice_card_attempts
+         (id, practice_set_attempt_id, practice_set_card_id, is_correct, answer_json, attempted_at)
+         VALUES (?, ?, ?, ?, ?, ?)`,
+      ).bind(
+        randomId('practice_card_attempt_'),
+        practiceAttemptId,
+        cardIdByQuestionId.get(attempt.question.id) ?? null,
+        attempt.isCorrect ? 1 : 0,
+        JSON.stringify(attempt.answer ?? null),
+        completedIso,
+      ),
+    ),
+  ];
+  await env.DB.batch(inserts);
+
+  const today = localDate(completedAt, env.TIME_ZONE);
+  await updateDailyActivity(env, child.id, today, xpAwarded);
+  await env.DB.prepare('UPDATE child_profiles SET hearts_remaining = ?, updated_at = ? WHERE id = ?')
+    .bind(heartsRemaining, completedIso, child.id)
+    .run();
+
+  const activityDates = await getActivityDates(env, child.id);
+  const streak = calculateCurrentStreak(activityDates, today);
+
+  return json({
+    result: {
+      lessonAttemptId: practiceAttemptId,
+      scoreCorrect,
+      scoreTotal,
+      xpAwarded,
+      heartsRemaining,
+      streak,
+      nextLesson: null,
+    },
+  });
+}
+
 async function getParentFromRequest(request: Request, env: Env): Promise<SessionParent | null> {
   const sessionId = parseCookies(request.headers.get('Cookie')).get(SESSION_COOKIE);
   if (!sessionId) return null;
@@ -852,6 +1164,254 @@ async function getSubjectLevelResponses(env: Env, child: ChildRow) {
       effectiveGradeLevel: override?.grade_level ?? child.grade_level,
     };
   });
+}
+
+async function getPracticeSetsForChild(env: Env, childId: string) {
+  return all<PracticeSetRow>(
+    env.DB.prepare(
+      `SELECT *
+       FROM practice_sets
+       WHERE child_profile_id = ?
+       ORDER BY pinned DESC, created_at DESC`,
+    ).bind(childId),
+  );
+}
+
+async function getPracticeSetForChild(env: Env, childId: string, practiceSetId: string) {
+  return env.DB.prepare('SELECT * FROM practice_sets WHERE child_profile_id = ? AND id = ? LIMIT 1')
+    .bind(childId, practiceSetId)
+    .first<PracticeSetRow>();
+}
+
+async function getVisiblePracticeSets(env: Env, childId: string, now: Date) {
+  const nowIso = now.toISOString();
+  return all<PracticeSetRow>(
+    env.DB.prepare(
+      `SELECT *
+       FROM practice_sets
+       WHERE child_profile_id = ?
+         AND status = 'active'
+         AND (starts_at IS NULL OR starts_at <= ?)
+         AND (expires_at IS NULL OR expires_at > ?)
+       ORDER BY pinned DESC, COALESCE(expires_at, '9999-12-31T23:59:59.999Z'), created_at DESC`,
+    ).bind(childId, nowIso, nowIso),
+  );
+}
+
+async function getVisiblePracticeSetForChild(env: Env, childId: string, practiceSetId: string, now: Date) {
+  const nowIso = now.toISOString();
+  return env.DB.prepare(
+    `SELECT *
+     FROM practice_sets
+     WHERE child_profile_id = ?
+       AND id = ?
+       AND status = 'active'
+       AND (starts_at IS NULL OR starts_at <= ?)
+       AND (expires_at IS NULL OR expires_at > ?)
+     LIMIT 1`,
+  )
+    .bind(childId, practiceSetId, nowIso, nowIso)
+    .first<PracticeSetRow>();
+}
+
+async function getPracticeSetCards(env: Env, practiceSetId: string) {
+  return all<PracticeSetCardRow>(
+    env.DB.prepare('SELECT * FROM practice_set_cards WHERE practice_set_id = ? ORDER BY sort_order').bind(practiceSetId),
+  );
+}
+
+async function practiceSetResponseWithCards(env: Env, practiceSet: PracticeSetRow) {
+  const cards = await getPracticeSetCards(env, practiceSet.id);
+  return {
+    ...practiceSetResponse(practiceSet),
+    cards: cards.map(practiceSetCardResponse),
+  };
+}
+
+function practiceSetResponse(practiceSet: PracticeSetRow) {
+  return {
+    id: practiceSet.id,
+    lessonId: practiceLessonId(practiceSet.id),
+    childProfileId: practiceSet.child_profile_id,
+    subject: practiceSet.subject,
+    subjectLabel: getSubjectLabel(practiceSet.subject),
+    title: practiceSet.title,
+    source: practiceSet.source,
+    status: practiceSet.status,
+    pinned: Boolean(practiceSet.pinned),
+    startsAt: practiceSet.starts_at,
+    expiresAt: practiceSet.expires_at,
+    archivedAt: practiceSet.archived_at,
+    createdAt: practiceSet.created_at,
+    updatedAt: practiceSet.updated_at,
+  };
+}
+
+function practiceSetHomeResponse(practiceSet: PracticeSetRow) {
+  return {
+    id: practiceSet.id,
+    lessonId: practiceLessonId(practiceSet.id),
+    subject: practiceSet.subject,
+    subjectLabel: getSubjectLabel(practiceSet.subject),
+    title: practiceSet.title,
+    source: practiceSet.source,
+    pinned: Boolean(practiceSet.pinned),
+    expiresAt: practiceSet.expires_at,
+  };
+}
+
+function practiceSetCardResponse(card: PracticeSetCardRow) {
+  return {
+    id: card.id,
+    term: card.term,
+    definition: card.definition,
+    example: card.example,
+    acceptedAnswers: acceptedAnswersFromCard(card),
+    sortOrder: card.sort_order,
+  };
+}
+
+function practiceSetLinkResponse(practiceSet: PracticeSetRow) {
+  return {
+    id: practiceLessonId(practiceSet.id),
+    slug: practiceSet.id,
+    title: practiceSet.title,
+    unitTitle: 'Weekly Practice',
+    trackSlug: 'weekly-vocabulary',
+    trackSubject: practiceSet.subject,
+    trackGradeLevel: 0,
+    trackTitle: getSubjectLabel(practiceSet.subject),
+  };
+}
+
+function practiceCardInsertStatements(
+  env: Env,
+  practiceSetId: string,
+  cards: Array<z.infer<typeof PracticeSetCardInputSchema>>,
+) {
+  return cards.map((card, index) =>
+    env.DB.prepare(
+      `INSERT INTO practice_set_cards
+       (id, practice_set_id, term, definition, example, accepted_answers_json, sort_order)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    ).bind(
+      randomId('practice_card_'),
+      practiceSetId,
+      card.term,
+      card.definition ?? null,
+      card.example ?? null,
+      JSON.stringify(card.acceptedAnswers ?? []),
+      index + 1,
+    ),
+  );
+}
+
+function practiceLessonId(practiceSetId: string) {
+  return `${PRACTICE_LESSON_PREFIX}${practiceSetId}`;
+}
+
+function practiceSetIdFromLessonId(lessonId: string) {
+  return lessonId.startsWith(PRACTICE_LESSON_PREFIX) ? lessonId.slice(PRACTICE_LESSON_PREFIX.length) : null;
+}
+
+function practiceCardIdFromQuestionId(questionId: string) {
+  return questionId.replace(/^practice_question_(.+)_(easy|hard)$/, '$1');
+}
+
+function practiceQuestionsFromCards(cards: PracticeSetCardRow[]): LessonQuestion[] {
+  const definitions = uniqueStrings(cards.map((card) => card.definition ?? card.term));
+
+  return cards.flatMap((card) => {
+    const answer = card.definition ?? card.term;
+    const choices = uniqueStrings([answer, ...definitions.filter((definition) => definition !== answer)]).slice(0, 4);
+    const acceptedAnswers = acceptedAnswersFromCard(card);
+    const frontForHard = card.definition ?? card.example ?? card.term;
+
+    return [
+      {
+        id: `practice_question_${card.id}_easy`,
+        type: 'flash-card',
+        prompt: 'Choose the best meaning.',
+        payload: {
+          mode: 'easy',
+          front: card.term,
+          choices,
+          correctAnswer: answer,
+        },
+        explanation: card.example ?? card.definition,
+      },
+      {
+        id: `practice_question_${card.id}_hard`,
+        type: 'flash-card',
+        prompt: 'Type the vocabulary word.',
+        payload: {
+          mode: 'hard',
+          front: frontForHard,
+          acceptedAnswers,
+          answerType: 'text',
+        },
+        explanation: card.example ?? card.definition,
+      },
+    ];
+  });
+}
+
+function acceptedAnswersFromCard(card: PracticeSetCardRow) {
+  const parsed = parseStringArray(card.accepted_answers_json);
+  return uniqueStrings([card.term, ...parsed]);
+}
+
+function parseStringArray(value: string | null) {
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === 'string' && Boolean(item.trim())) : [];
+  } catch {
+    return [];
+  }
+}
+
+function uniqueStrings(values: string[]) {
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const value of values) {
+    const trimmed = value.trim();
+    if (!trimmed || seen.has(trimmed.toLowerCase())) continue;
+    seen.add(trimmed.toLowerCase());
+    result.push(trimmed);
+  }
+  return result;
+}
+
+async function getPracticeSetProgress(env: Env, childId: string, practiceSetId: string) {
+  const row = await env.DB.prepare(
+    `SELECT completed_at, score_correct, score_total
+     FROM practice_set_attempts
+     WHERE child_profile_id = ? AND practice_set_id = ?
+     ORDER BY score_correct DESC, completed_at DESC
+     LIMIT 1`,
+  )
+    .bind(childId, practiceSetId)
+    .first<{ completed_at: string; score_correct: number; score_total: number }>();
+
+  return {
+    completedAt: row?.completed_at ?? null,
+    bestScoreCorrect: row?.score_correct ?? 0,
+    bestScoreTotal: row?.score_total ?? 0,
+  };
+}
+
+async function updateDailyActivity(env: Env, childId: string, today: string, xpAwarded: number) {
+  await env.DB.prepare(
+    `INSERT INTO child_daily_activity
+     (id, child_profile_id, activity_date, lessons_completed, xp_earned)
+     VALUES (?, ?, ?, 1, ?)
+     ON CONFLICT(child_profile_id, activity_date) DO UPDATE SET
+       lessons_completed = child_daily_activity.lessons_completed + 1,
+       xp_earned = child_daily_activity.xp_earned + excluded.xp_earned`,
+  )
+    .bind(`activity_${childId}_${today}`, childId, today, xpAwarded)
+    .run();
 }
 
 async function getTrackProgress(env: Env, childId: string, trackId: string) {

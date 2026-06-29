@@ -230,10 +230,37 @@ function createEnv() {
   };
 }
 
+function countRows(db: DatabaseSync, sql: string, ...bindings: unknown[]) {
+  const row = db.prepare(sql).get(...(bindings as never[])) as { total: number } | undefined;
+  return row?.total ?? 0;
+}
+
 async function getJson(pathname: string, env: unknown) {
   const response = await worker.fetch(
     new Request(`https://learn.example.test${pathname}`, {
       headers: { Cookie: `${SESSION_COOKIE}=session_1` },
+    }),
+    env as Parameters<typeof worker.fetch>[1],
+  );
+  return { response, body: (await response.json()) as any };
+}
+
+async function requestJson(
+  pathname: string,
+  env: unknown,
+  {
+    method = 'GET',
+    body,
+    cookie = `${SESSION_COOKIE}=session_1`,
+  }: { method?: string; body?: unknown; cookie?: string } = {},
+) {
+  const headers = new Headers({ Cookie: cookie });
+  if (body !== undefined) headers.set('Content-Type', 'application/json');
+  const response = await worker.fetch(
+    new Request(`https://learn.example.test${pathname}`, {
+      method,
+      headers,
+      body: body === undefined ? undefined : JSON.stringify(body),
     }),
     env as Parameters<typeof worker.fetch>[1],
   );
@@ -316,6 +343,229 @@ describe('worker track APIs', () => {
   });
 });
 
+describe('worker practice set APIs', () => {
+  it('creates, lists, updates, and archives child-scoped practice sets', async () => {
+    const { env, sqlite } = createEnv();
+
+    const created = await requestJson('/api/parent/children/reagan/practice-sets', env, {
+      method: 'POST',
+      body: {
+        title: 'Week 1 Words',
+        source: 'Friday quiz',
+        pinned: true,
+        expiresAt: '2099-01-05T00:00:00.000Z',
+        cards: [
+          { term: 'vast', definition: 'very big', example: 'The desert is vast.', acceptedAnswers: ['large'] },
+          { term: 'nimble', definition: 'quick and light', example: 'The dancer was nimble.' },
+        ],
+      },
+    });
+
+    expect(created.response.status).toBe(201);
+    expect(created.body.practiceSet).toMatchObject({
+      title: 'Week 1 Words',
+      source: 'Friday quiz',
+      status: 'active',
+      pinned: true,
+      subject: 'vocabulary',
+    });
+    expect(created.body.practiceSet.lessonId).toMatch(/^practice_set_practice_/);
+    expect(created.body.practiceSet.cards).toHaveLength(2);
+    expect(created.body.practiceSet.cards[0]).toMatchObject({
+      term: 'vast',
+      definition: 'very big',
+      acceptedAnswers: ['vast', 'large'],
+    });
+
+    const listed = await requestJson('/api/parent/children/reagan/practice-sets', env);
+    expect(listed.response.status).toBe(200);
+    expect(listed.body.practiceSets.map((set: { id: string }) => set.id)).toEqual([created.body.practiceSet.id]);
+
+    const updated = await requestJson(`/api/parent/children/reagan/practice-sets/${created.body.practiceSet.id}`, env, {
+      method: 'PATCH',
+      body: { title: 'Week 1 Vocabulary', pinned: false },
+    });
+    expect(updated.response.status).toBe(200);
+    expect(updated.body.practiceSet).toMatchObject({
+      title: 'Week 1 Vocabulary',
+      pinned: false,
+      archivedAt: null,
+    });
+
+    const archived = await requestJson(`/api/parent/children/reagan/practice-sets/${created.body.practiceSet.id}`, env, {
+      method: 'PATCH',
+      body: { status: 'archived' },
+    });
+    expect(archived.response.status).toBe(200);
+    expect(archived.body.practiceSet.status).toBe('archived');
+    expect(archived.body.practiceSet.archivedAt).toEqual(expect.any(String));
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_set_cards WHERE practice_set_id = ?', created.body.practiceSet.id)).toBe(2);
+  });
+
+  it('puts pinned active practice sets above normal recommendations on Kid Home', async () => {
+    const { env } = createEnv();
+
+    const active = await requestJson('/api/parent/children/reagan/practice-sets', env, {
+      method: 'POST',
+      body: {
+        title: 'Pinned School Words',
+        pinned: true,
+        expiresAt: '2099-01-05T00:00:00.000Z',
+        cards: [{ term: 'scarce', definition: 'hard to find' }],
+      },
+    });
+    await requestJson('/api/parent/children/reagan/practice-sets', env, {
+      method: 'POST',
+      body: {
+        title: 'Expired Words',
+        pinned: true,
+        expiresAt: '2000-01-05T00:00:00.000Z',
+        cards: [{ term: 'stale', definition: 'old' }],
+      },
+    });
+    await requestJson('/api/parent/children/reagan/practice-sets', env, {
+      method: 'POST',
+      body: {
+        title: 'Archived Words',
+        status: 'archived',
+        pinned: true,
+        cards: [{ term: 'hidden', definition: 'not visible' }],
+      },
+    });
+
+    const home = await getJson('/api/children/reagan/home', env);
+
+    expect(home.response.status).toBe(200);
+    expect(home.body.practiceSets).toEqual([
+      expect.objectContaining({
+        id: active.body.practiceSet.id,
+        lessonId: active.body.practiceSet.lessonId,
+        title: 'Pinned School Words',
+        pinned: true,
+      }),
+    ]);
+    expect(home.body.recommendedLesson).toMatchObject({
+      id: active.body.practiceSet.lessonId,
+      title: 'Pinned School Words',
+      unitTitle: 'Weekly Practice',
+    });
+  });
+
+  it('renders and completes a practice set as generated flashcard questions', async () => {
+    const { env, sqlite } = createEnv();
+    const created = await requestJson('/api/parent/children/reagan/practice-sets', env, {
+      method: 'POST',
+      body: {
+        title: 'Quiz Words',
+        pinned: true,
+        cards: [
+          { term: 'vast', definition: 'very big', example: 'The canyon is vast.', acceptedAnswers: ['large'] },
+          { term: 'nimble', definition: 'quick and light' },
+        ],
+      },
+    });
+    const lessonId = created.body.practiceSet.lessonId;
+
+    const lesson = await getJson(`/api/children/reagan/lessons/${lessonId}`, env);
+
+    expect(lesson.response.status).toBe(200);
+    expect(lesson.body.lesson).toMatchObject({
+      id: lessonId,
+      title: 'Quiz Words',
+      kind: 'standard',
+      unit: { title: 'Weekly Practice' },
+      track: { subject: 'vocabulary', title: 'Vocabulary' },
+    });
+    expect(lesson.body.lesson.questions).toHaveLength(4);
+    expect(lesson.body.lesson.questions[0]).toMatchObject({
+      type: 'flash-card',
+      prompt: 'Choose the best meaning.',
+      payload: {
+        mode: 'easy',
+        front: 'vast',
+        correctAnswer: 'very big',
+        choices: expect.arrayContaining(['very big', 'quick and light']),
+      },
+    });
+    expect(lesson.body.lesson.questions[1]).toMatchObject({
+      type: 'flash-card',
+      prompt: 'Type the vocabulary word.',
+      payload: {
+        mode: 'hard',
+        front: 'very big',
+        acceptedAnswers: ['vast', 'large'],
+      },
+    });
+
+    const completion = await requestJson(`/api/children/reagan/lessons/${lessonId}`, env, {
+      method: 'POST',
+      body: {
+        startedAt: '2026-06-29T12:05:00.000Z',
+        attempts: lesson.body.lesson.questions.map((question: any) => ({
+          questionId: question.id,
+          answer: question.payload.mode === 'easy' ? question.payload.correctAnswer : question.payload.acceptedAnswers[0],
+        })),
+      },
+    });
+
+    expect(completion.response.status).toBe(200);
+    expect(completion.body.result).toMatchObject({
+      scoreCorrect: 4,
+      scoreTotal: 4,
+      heartsRemaining: 5,
+      nextLesson: null,
+    });
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_set_attempts')).toBe(1);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(4);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM lesson_attempts')).toBe(0);
+
+    await requestJson(`/api/parent/children/reagan/practice-sets/${created.body.practiceSet.id}`, env, {
+      method: 'PATCH',
+      body: { status: 'archived' },
+    });
+
+    const archivedLesson = await getJson(`/api/children/reagan/lessons/${lessonId}`, env);
+    expect(archivedLesson.response.status).toBe(404);
+    expect(archivedLesson.body).toEqual({ error: 'lesson_not_found' });
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_set_attempts')).toBe(1);
+  });
+
+  it('enforces child-mode scoping for practice set APIs and virtual lessons', async () => {
+    const { env, sqlite } = createEnv();
+    insertChild(sqlite.db, 'child_ada', 'ada', 3);
+    const created = await requestJson('/api/parent/children/reagan/practice-sets', env, {
+      method: 'POST',
+      body: {
+        title: 'Private Words',
+        cards: [{ term: 'private', definition: 'for one student' }],
+      },
+    });
+
+    const parentMutation = await requestJson('/api/parent/children/reagan/practice-sets', env, {
+      method: 'POST',
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=reagan`,
+      body: {
+        title: 'Blocked',
+        cards: [{ term: 'blocked', definition: 'not allowed' }],
+      },
+    });
+    expect(parentMutation.response.status).toBe(403);
+    expect(parentMutation.body).toEqual({ error: 'parent_reauth_required' });
+
+    const mismatchedChildMode = await requestJson(`/api/children/reagan/lessons/${created.body.practiceSet.lessonId}`, env, {
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=ada`,
+    });
+    expect(mismatchedChildMode.response.status).toBe(403);
+    expect(mismatchedChildMode.body).toEqual({ error: 'child_locked' });
+
+    const wrongChild = await requestJson(`/api/children/ada/lessons/${created.body.practiceSet.lessonId}`, env, {
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=ada`,
+    });
+    expect(wrongChild.response.status).toBe(404);
+    expect(wrongChild.body).toEqual({ error: 'lesson_not_found' });
+  });
+});
+
 describe('worker protected page shells', () => {
   it('serves generic kid app shells for a database child outside static fixtures', async () => {
     const { env, sqlite } = createEnv();
@@ -365,6 +615,12 @@ describe('performance index migration', () => {
     const db = createTestDatabase();
     const indexesFor = (table: string) =>
       new Set(db.prepare(`PRAGMA index_list(${table})`).all().map((row) => String((row as { name: unknown }).name)));
+    const tables = new Set(
+      db
+        .prepare("SELECT name FROM sqlite_master WHERE type = 'table'")
+        .all()
+        .map((row) => String((row as { name: unknown }).name)),
+    );
 
     expect(indexesFor('tracks').has('idx_tracks_grade_subject_sort')).toBe(true);
     expect(indexesFor('tracks').has('idx_tracks_subject_grade')).toBe(true);
@@ -372,5 +628,12 @@ describe('performance index migration', () => {
     expect(indexesFor('child_lesson_progress').has('idx_child_lesson_progress_child_lesson')).toBe(true);
     expect(indexesFor('child_track_progress').has('idx_child_track_progress_child_track')).toBe(true);
     expect(indexesFor('child_subject_levels').has('idx_child_subject_levels_child_subject')).toBe(true);
+    expect(tables.has('practice_sets')).toBe(true);
+    expect(tables.has('practice_set_cards')).toBe(true);
+    expect(tables.has('practice_set_attempts')).toBe(true);
+    expect(tables.has('practice_card_attempts')).toBe(true);
+    expect(indexesFor('practice_sets').has('idx_practice_sets_child_status')).toBe(true);
+    expect(indexesFor('practice_set_cards').has('idx_practice_set_cards_set_sort')).toBe(true);
+    expect(indexesFor('practice_set_attempts').has('idx_practice_set_attempts_child_set')).toBe(true);
   });
 });

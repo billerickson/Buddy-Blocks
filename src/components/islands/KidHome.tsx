@@ -22,6 +22,16 @@ type HomeData = {
     trackTitle: string;
     unitTitle: string;
   };
+  practiceSets: Array<{
+    id: string;
+    lessonId: string;
+    subject: string;
+    subjectLabel: string;
+    title: string;
+    source: string | null;
+    pinned: boolean;
+    expiresAt: string | null;
+  }>;
   tracks: Array<{
     id: string;
     slug: string;
@@ -93,6 +103,40 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
           )}
         </div>
       </div>
+
+      {data.practiceSets.length > 0 && (
+        <section className="space-y-4">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="stat-chip w-fit">Weekly practice</p>
+              <h2 className="mt-3 text-4xl">School words</h2>
+            </div>
+          </div>
+          <div className="track-grid">
+            {data.practiceSets.map((practiceSet) => (
+              <a
+                key={practiceSet.id}
+                href={`/kid/${data.child.slug}/lesson/${practiceSet.lessonId}/`}
+                className="block-card p-5 no-underline"
+              >
+                <div className="flex items-start gap-4">
+                  <TrackIcon iconKey={getSubjectMetadata(practiceSet.subject).iconKey} color="bg-[#50c2ff]" />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap gap-2">
+                      <span className="stat-chip">{practiceSet.subjectLabel}</span>
+                      {practiceSet.pinned && <span className="stat-chip bg-reward">Pinned</span>}
+                    </div>
+                    <h3 className="mt-3 text-3xl">{practiceSet.title}</h3>
+                    <p className="mt-2 font-bold text-muted">
+                      {practiceSet.source ?? (practiceSet.expiresAt ? `Due ${new Date(practiceSet.expiresAt).toLocaleDateString()}` : 'Vocabulary')}
+                    </p>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
 
       <div className="track-grid">
         {data.tracks.map((track) => {
