@@ -740,3 +740,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: `npm test`, `npm run check`, and `npm run build` passed.
 - Risks: subject metadata is currently TypeScript data rather than editable YAML so it can be imported safely by the Worker and browser; non-developer authoring of subjects would need a later build-time loader.
 - Future improvements: expose `iconKey` and `subjectLabel` directly from track APIs if future clients should avoid importing subject metadata.
+
+### Item 7: Refactor Worker Modules
+
+- Changed: added `src/worker/lesson-completion.ts` and moved the duplicated standard/Mad Minute completion side effects into one shared service while leaving each API's request validation, scoring, and response shape in `src/worker.ts`.
+- Tests/docs: added SQLite-backed `lesson-completion` service tests for repeat completion XP accumulation, best-score behavior, first `completed_at` preservation, idempotent next-lesson unlocks, question attempt writes, and Mad Minute best-attempt score totals; documented the shared completion service in the lesson authoring guide.
+- Verification: focused `npm test -- --run tests/lesson-completion.test.ts`, `npm test`, `npm run check`, and `npm run build` passed.
+- Risks: the Worker is still mostly a large single file around routing, auth, data access, and response shaping; only the highest-risk duplicate write flow was extracted in this pass.
+- Future improvements: continue the Worker split by moving route handlers, data access helpers, response mappers, and badge rules into focused modules after the completion service has settled.

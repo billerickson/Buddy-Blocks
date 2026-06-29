@@ -21,6 +21,7 @@ import { parseMadMinuteConfig, parseStandardLessonConfig, type LessonKind } from
 import { calculateMadMinuteXp, scoreMadMinuteAttempts } from './lib/mad-minute';
 import { calculateCurrentStreak } from './lib/streak';
 import { compareSubjectKeys, getStarterBadgeForSubject, getSubjectLabel } from './lib/subjects';
+import { completeLesson, type CompletionLesson } from './worker/lesson-completion';
 
 type ParentRow = {
   id: string;
@@ -558,8 +559,6 @@ async function apiSubmitLesson(
 
   const questions = await getLessonQuestions(env, lesson.id);
   const attemptsByQuestion = new Map(body.attempts.map((attempt) => [attempt.questionId, attempt.answer]));
-  const completedAt = new Date();
-  const completedIso = completedAt.toISOString();
   const scored = questions.map((question) => {
     const answer = attemptsByQuestion.get(question.id);
     return {
@@ -572,110 +571,32 @@ async function apiSubmitLesson(
   const scoreTotal = questions.length;
   const heartsRemaining = Math.max(0, 5 - (scoreTotal - scoreCorrect));
   const xpAwarded = calculateXp(lesson.xp_base, scoreCorrect, scoreTotal, heartsRemaining);
-  const lessonAttemptId = randomId('attempt_');
-  const startedAt = body.startedAt || completedIso;
-
-  const inserts = [
-    env.DB.prepare(
-      `INSERT INTO lesson_attempts
-       (id, child_profile_id, lesson_id, started_at, completed_at, score_correct, score_total, xp_awarded, hearts_remaining)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    ).bind(lessonAttemptId, child.id, lesson.id, startedAt, completedIso, scoreCorrect, scoreTotal, xpAwarded, heartsRemaining),
-    ...scored.map((attempt) =>
-      env.DB.prepare(
-        `INSERT INTO question_attempts
-         (id, lesson_attempt_id, question_id, is_correct, answer_json, attempted_at)
-         VALUES (?, ?, ?, ?, ?, ?)`,
-      ).bind(
-        randomId('qa_'),
-        lessonAttemptId,
-        attempt.question.id,
-        attempt.isCorrect ? 1 : 0,
-        JSON.stringify(attempt.answer ?? null),
-        completedIso,
-      ),
-    ),
-  ];
-  await env.DB.batch(inserts);
-
-  await env.DB.prepare(
-    `INSERT INTO child_lesson_progress
-     (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
-     VALUES (?, ?, ?, 'completed', ?, ?, ?)
-     ON CONFLICT(child_profile_id, lesson_id) DO UPDATE SET
-       status = 'completed',
-       completed_at = COALESCE(child_lesson_progress.completed_at, excluded.completed_at),
-       best_score_correct = max(child_lesson_progress.best_score_correct, excluded.best_score_correct),
-       best_score_total = excluded.best_score_total`,
-  )
-    .bind(`lesson_progress_${child.id}_${lesson.id}`, child.id, lesson.id, completedIso, scoreCorrect, scoreTotal)
-    .run();
-
-  const nextLesson = await getNextLesson(env, lesson);
-  if (nextLesson) {
-    await env.DB.prepare(
-      `INSERT INTO child_lesson_progress
-       (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
-       VALUES (?, ?, ?, 'available', NULL, 0, 0)
-       ON CONFLICT(child_profile_id, lesson_id) DO UPDATE SET
-         status = CASE WHEN child_lesson_progress.status = 'locked' THEN 'available' ELSE child_lesson_progress.status END`,
-    )
-      .bind(`lesson_progress_${child.id}_${nextLesson.id}`, child.id, nextLesson.id)
-      .run();
-  }
-
-  const lessonsCompleted = await countCompletedTrackLessons(env, child.id, lesson.track_id);
-  await env.DB.prepare(
-    `INSERT INTO child_track_progress
-     (id, child_profile_id, track_id, current_unit_id, current_lesson_id, lessons_completed, xp_total, updated_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-     ON CONFLICT(child_profile_id, track_id) DO UPDATE SET
-       current_unit_id = excluded.current_unit_id,
-       current_lesson_id = excluded.current_lesson_id,
-       lessons_completed = excluded.lessons_completed,
-       xp_total = child_track_progress.xp_total + excluded.xp_total,
-       updated_at = excluded.updated_at`,
-  )
-    .bind(
-      `track_progress_${child.id}_${lesson.track_id}`,
-      child.id,
-      lesson.track_id,
-      nextLesson?.unit_id ?? lesson.unit_id,
-      nextLesson?.id ?? lesson.id,
-      lessonsCompleted,
-      xpAwarded,
-      completedIso,
-    )
-    .run();
-
-  const today = localDate(completedAt, env.TIME_ZONE);
-  await env.DB.prepare(
-    `INSERT INTO child_daily_activity
-     (id, child_profile_id, activity_date, lessons_completed, xp_earned)
-     VALUES (?, ?, ?, 1, ?)
-     ON CONFLICT(child_profile_id, activity_date) DO UPDATE SET
-       lessons_completed = child_daily_activity.lessons_completed + 1,
-       xp_earned = child_daily_activity.xp_earned + excluded.xp_earned`,
-  )
-    .bind(`activity_${child.id}_${today}`, child.id, today, xpAwarded)
-    .run();
-
-  await env.DB.prepare('UPDATE child_profiles SET hearts_remaining = ?, updated_at = ? WHERE id = ?')
-    .bind(heartsRemaining, completedIso, child.id)
-    .run();
-
-  const activityDates = await getActivityDates(env, child.id);
-  const streak = calculateCurrentStreak(activityDates, today);
+  const completed = await completeLesson({
+    env,
+    child,
+    lesson,
+    startedAt: body.startedAt || '',
+    scoreCorrect,
+    scoreTotal,
+    xpAwarded,
+    heartsRemaining,
+    questionAttempts: scored.map((attempt) => ({
+      questionId: attempt.question.id,
+      answer: attempt.answer,
+      isCorrect: attempt.isCorrect,
+    })),
+    bestScoreTotalStrategy: 'latest',
+  });
 
   return json({
     result: {
-      lessonAttemptId,
+      lessonAttemptId: completed.lessonAttemptId,
       scoreCorrect,
       scoreTotal,
-      xpAwarded,
-      heartsRemaining,
-      streak,
-      nextLesson: nextLesson ? lessonLinkResponse(nextLesson) : null,
+      xpAwarded: completed.xpAwarded,
+      heartsRemaining: completed.heartsRemaining,
+      streak: completed.streak,
+      nextLesson: completed.nextLesson ? lessonLinkResponse(completed.nextLesson) : null,
     },
   });
 }
@@ -689,106 +610,32 @@ async function apiSubmitMadMinuteLesson(env: Env, request: Request, child: Child
     return json({ error: 'invalid_mad_minute_payload' }, 400);
   }
 
-  const completedAt = new Date();
-  const completedIso = completedAt.toISOString();
   const { scoreCorrect, scoreTotal } = scoreMadMinuteAttempts(config, body.attempts);
   const heartsRemaining = 5;
   const xpAwarded = calculateMadMinuteXp(lesson.xp_base, scoreCorrect, scoreTotal, config.goalCorrect);
-  const lessonAttemptId = randomId('attempt_');
-  const startedAt = body.startedAt || completedIso;
-
-  await env.DB.prepare(
-    `INSERT INTO lesson_attempts
-     (id, child_profile_id, lesson_id, started_at, completed_at, score_correct, score_total, xp_awarded, hearts_remaining)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-  )
-    .bind(lessonAttemptId, child.id, lesson.id, startedAt, completedIso, scoreCorrect, scoreTotal, xpAwarded, heartsRemaining)
-    .run();
-
-  await env.DB.prepare(
-    `INSERT INTO child_lesson_progress
-     (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
-     VALUES (?, ?, ?, 'completed', ?, ?, ?)
-     ON CONFLICT(child_profile_id, lesson_id) DO UPDATE SET
-       status = 'completed',
-       completed_at = COALESCE(child_lesson_progress.completed_at, excluded.completed_at),
-       best_score_correct = max(child_lesson_progress.best_score_correct, excluded.best_score_correct),
-       best_score_total = CASE
-         WHEN excluded.best_score_correct >= child_lesson_progress.best_score_correct THEN excluded.best_score_total
-         ELSE child_lesson_progress.best_score_total
-       END`,
-  )
-    .bind(`lesson_progress_${child.id}_${lesson.id}`, child.id, lesson.id, completedIso, scoreCorrect, scoreTotal)
-    .run();
-
-  const nextLesson = await getNextLesson(env, lesson);
-  if (nextLesson) {
-    await env.DB.prepare(
-      `INSERT INTO child_lesson_progress
-       (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
-       VALUES (?, ?, ?, 'available', NULL, 0, 0)
-       ON CONFLICT(child_profile_id, lesson_id) DO UPDATE SET
-         status = CASE WHEN child_lesson_progress.status = 'locked' THEN 'available' ELSE child_lesson_progress.status END`,
-    )
-      .bind(`lesson_progress_${child.id}_${nextLesson.id}`, child.id, nextLesson.id)
-      .run();
-  }
-
-  const lessonsCompleted = await countCompletedTrackLessons(env, child.id, lesson.track_id);
-  await env.DB.prepare(
-    `INSERT INTO child_track_progress
-     (id, child_profile_id, track_id, current_unit_id, current_lesson_id, lessons_completed, xp_total, updated_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-     ON CONFLICT(child_profile_id, track_id) DO UPDATE SET
-       current_unit_id = excluded.current_unit_id,
-       current_lesson_id = excluded.current_lesson_id,
-       lessons_completed = excluded.lessons_completed,
-       xp_total = child_track_progress.xp_total + excluded.xp_total,
-       updated_at = excluded.updated_at`,
-  )
-    .bind(
-      `track_progress_${child.id}_${lesson.track_id}`,
-      child.id,
-      lesson.track_id,
-      nextLesson?.unit_id ?? lesson.unit_id,
-      nextLesson?.id ?? lesson.id,
-      lessonsCompleted,
-      xpAwarded,
-      completedIso,
-    )
-    .run();
-
-  const today = localDate(completedAt, env.TIME_ZONE);
-  await env.DB.prepare(
-    `INSERT INTO child_daily_activity
-     (id, child_profile_id, activity_date, lessons_completed, xp_earned)
-     VALUES (?, ?, ?, 1, ?)
-     ON CONFLICT(child_profile_id, activity_date) DO UPDATE SET
-       lessons_completed = child_daily_activity.lessons_completed + 1,
-       xp_earned = child_daily_activity.xp_earned + excluded.xp_earned`,
-  )
-    .bind(`activity_${child.id}_${today}`, child.id, today, xpAwarded)
-    .run();
-
-  await env.DB.prepare('UPDATE child_profiles SET hearts_remaining = ?, updated_at = ? WHERE id = ?')
-    .bind(heartsRemaining, completedIso, child.id)
-    .run();
-
-  const activityDates = await getActivityDates(env, child.id);
-  const streak = calculateCurrentStreak(activityDates, today);
-  const updatedProgress = await getLessonProgress(env, child.id, lesson.id);
+  const completed = await completeLesson({
+    env,
+    child,
+    lesson,
+    startedAt: body.startedAt || '',
+    scoreCorrect,
+    scoreTotal,
+    xpAwarded,
+    heartsRemaining,
+    bestScoreTotalStrategy: 'best-score-attempt',
+  });
 
   return json({
     result: {
-      lessonAttemptId,
+      lessonAttemptId: completed.lessonAttemptId,
       scoreCorrect,
       scoreTotal,
-      xpAwarded,
-      heartsRemaining,
-      streak,
-      bestScoreCorrect: updatedProgress?.best_score_correct ?? scoreCorrect,
+      xpAwarded: completed.xpAwarded,
+      heartsRemaining: completed.heartsRemaining,
+      streak: completed.streak,
+      bestScoreCorrect: completed.lessonProgress?.best_score_correct ?? scoreCorrect,
       goalCorrect: config.goalCorrect,
-      nextLesson: nextLesson ? lessonLinkResponse(nextLesson) : null,
+      nextLesson: completed.nextLesson ? lessonLinkResponse(completed.nextLesson) : null,
     },
   });
 }
@@ -1170,21 +1017,6 @@ async function getLessonProgress(env: Env, childId: string, lessonId: string) {
     .first<LessonProgressRow>();
 }
 
-async function countCompletedTrackLessons(env: Env, childId: string, trackId: string) {
-  const row = await env.DB.prepare(
-    `SELECT count(*) as total
-     FROM child_lesson_progress
-     JOIN lessons ON lessons.id = child_lesson_progress.lesson_id
-     JOIN units ON units.id = lessons.unit_id
-     WHERE child_lesson_progress.child_profile_id = ?
-       AND units.track_id = ?
-       AND child_lesson_progress.status = 'completed'`,
-  )
-    .bind(childId, trackId)
-    .first<CountRow>();
-  return row?.total ?? 0;
-}
-
 async function getLessonDetail(env: Env, lessonId: string) {
   return env.DB.prepare(
     `SELECT lessons.*, units.title as unit_title, units.slug as unit_slug,
@@ -1229,24 +1061,6 @@ async function getLessonQuestions(env: Env, lessonId: string): Promise<LessonQue
     payload: JSON.parse(row.payload_json) as QuestionPayload,
     explanation: row.explanation,
   }));
-}
-
-async function getNextLesson(env: Env, lesson: LessonDetailRow) {
-  const lessons = await all<LessonDetailRow>(
-    env.DB.prepare(
-      `SELECT lessons.*, units.title as unit_title, units.slug as unit_slug,
-              tracks.id as track_id, tracks.slug as track_slug, tracks.subject as track_subject,
-              tracks.grade_level as track_grade_level, tracks.title as track_title,
-              tracks.color as track_color, tracks.accent as track_accent
-       FROM lessons
-       JOIN units ON units.id = lessons.unit_id
-       JOIN tracks ON tracks.id = units.track_id
-       WHERE tracks.id = ?
-       ORDER BY units.sort_order, lessons.sort_order`,
-    ).bind(lesson.track_id),
-  );
-  const index = lessons.findIndex((item) => item.id === lesson.id);
-  return index >= 0 ? (lessons[index + 1] ?? null) : null;
 }
 
 async function getActivityDates(env: Env, childId: string) {
@@ -1341,7 +1155,7 @@ function lessonProgressResponse(progress: LessonProgressRow) {
   };
 }
 
-function lessonLinkResponse(lesson: LessonDetailRow) {
+function lessonLinkResponse(lesson: CompletionLesson) {
   return {
     id: lesson.id,
     slug: lesson.slug,

@@ -18,6 +18,8 @@ Do not edit generated files in `dist/` or local D1 files directly. Treat D1 as t
 
 Lesson `config` validation and runtime defaults live in [src/lib/lesson-config.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/lesson-config.ts), backed by the UI-safe defaults and type guards in [src/lib/lesson-config-core.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/lesson-config-core.ts). Content loading, Worker API parsing, and the lesson player all use those shared exports so authored Markdown, stored D1 JSON, and UI fallback behavior stay aligned.
 
+Lesson submission side effects live in [src/worker/lesson-completion.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/worker/lesson-completion.ts). Standard lessons and Mad Minute lessons still score differently, but they share the same completion service for lesson attempts, progress updates, next-lesson unlocks, track XP, daily activity, hearts, and streak results.
+
 ## Folder Shape
 
 Use grade folders, ordered track folders, ordered unit folders, and one Markdown file per lesson:
