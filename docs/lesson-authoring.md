@@ -66,7 +66,7 @@ color: "#5b79ff"
 accent: "#ffd84d"
 ```
 
-`subject` drives icons and subject badges. Existing subjects are `math`, `vocabulary`, and `spanish`, but the loader accepts new subject keys for future tracks.
+`subject` is matched against [src/lib/subjects.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/subjects.ts) for labels, track ordering, icons, and starter badges. Existing subjects are `math`, `vocabulary`, and `spanish`. Unknown subject keys still load with a fallback label and generic icon, but add metadata when the subject should have a specific order, icon, or starter badge.
 
 ## Unit Files
 

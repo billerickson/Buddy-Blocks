@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
+import { getSubjectMetadata } from '../../lib/subjects';
 import { fetchApi, percent } from './api';
 import { BlockAvatar, TrackIcon } from './BlockAvatar';
 import { childSlugFromLocation } from './route-params';
@@ -99,7 +100,7 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
           return (
             <a key={track.id} href={`/kid/${data.child.slug}/track/${track.slug}/`} className="block-card p-5 no-underline">
               <div className="flex items-start gap-4">
-                <TrackIcon slug={track.subject} color={track.color} />
+                <TrackIcon iconKey={getSubjectMetadata(track.subject).iconKey} color={track.color} />
                 <div className="min-w-0 flex-1">
                   <h2 className="text-3xl">{track.title}</h2>
                   <p className="mt-2 font-bold text-muted">{track.description}</p>

@@ -1,4 +1,5 @@
 import { TRACKS, type TrackFixture } from './curriculum';
+import { compareSubjectKeys } from './subjects';
 
 export type ChildFixture = {
   id: string;
@@ -36,8 +37,6 @@ export const CHILDREN: ChildFixture[] = [
   },
 ];
 
-const SUBJECT_ORDER = Array.from(new Set(TRACKS.map((track) => track.subject)));
-
 export function getTracksForChild(child: ChildFixture) {
   return TRACKS.filter((track) => track.gradeLevel === getSubjectGradeLevel(child, track.subject)).sort(compareBySubjectOrder);
 }
@@ -73,7 +72,7 @@ export function getTrackPaths() {
 }
 
 function compareBySubjectOrder(a: TrackFixture, b: TrackFixture) {
-  const subjectOrder = SUBJECT_ORDER.indexOf(a.subject) - SUBJECT_ORDER.indexOf(b.subject);
+  const subjectOrder = compareSubjectKeys(a.subject, b.subject);
   if (subjectOrder !== 0) return subjectOrder;
   return a.gradeLevel - b.gradeLevel;
 }

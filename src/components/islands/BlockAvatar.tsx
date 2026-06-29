@@ -1,3 +1,5 @@
+import type { SubjectMetadata } from '../../lib/subjects';
+
 type Props = {
   avatarKey?: string;
   label: string;
@@ -28,8 +30,8 @@ export function BlockAvatar({ avatarKey = 'berry-builder', label, size = 'lg' }:
   );
 }
 
-export function TrackIcon({ slug, color = '#5b79ff' }: { slug: string; color?: string }) {
-  if (slug === 'vocabulary') {
+export function TrackIcon({ iconKey, color = '#5b79ff' }: { iconKey: SubjectMetadata['iconKey']; color?: string }) {
+  if (iconKey === 'clipboard') {
     return (
       <svg className="h-16 w-16" viewBox="0 0 100 100" aria-hidden="true">
         <rect x="18" y="24" width="64" height="58" rx="12" fill="#ffd84d" stroke="#242134" strokeWidth="6" />
@@ -39,7 +41,7 @@ export function TrackIcon({ slug, color = '#5b79ff' }: { slug: string; color?: s
     );
   }
 
-  if (slug === 'spanish') {
+  if (iconKey === 'speech-bubble') {
     return (
       <svg className="h-16 w-16" viewBox="0 0 100 100" aria-hidden="true">
         <path d="M17 27 H83 V67 H58 L42 82 V67 H17 Z" fill="#18bca4" stroke="#242134" strokeWidth="6" strokeLinejoin="round" />
@@ -51,12 +53,21 @@ export function TrackIcon({ slug, color = '#5b79ff' }: { slug: string; color?: s
     );
   }
 
+  if (iconKey === 'plus-block') {
+    return (
+      <svg className="h-16 w-16" viewBox="0 0 100 100" aria-hidden="true">
+        <rect x="17" y="20" width="66" height="66" rx="14" fill={color} stroke="#242134" strokeWidth="6" />
+        <rect x="38" y="8" width="24" height="18" rx="8" fill="#ffd84d" stroke="#242134" strokeWidth="5" />
+        <path d="M31 53 H69 M50 34 V72" stroke="#fff" strokeWidth="8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
   return (
     <svg className="h-16 w-16" viewBox="0 0 100 100" aria-hidden="true">
       <rect x="17" y="20" width="66" height="66" rx="14" fill={color} stroke="#242134" strokeWidth="6" />
       <rect x="38" y="8" width="24" height="18" rx="8" fill="#ffd84d" stroke="#242134" strokeWidth="5" />
-      <path d="M31 53 H69 M50 34 V72" stroke="#fff" strokeWidth="8" strokeLinecap="round" />
+      <circle cx="50" cy="53" r="12" fill="#fff" />
     </svg>
   );
 }
-

@@ -20,6 +20,7 @@ import {
 import { parseMadMinuteConfig, parseStandardLessonConfig, type LessonKind } from './lib/lesson-config';
 import { calculateMadMinuteXp, scoreMadMinuteAttempts } from './lib/mad-minute';
 import { calculateCurrentStreak } from './lib/streak';
+import { compareSubjectKeys, getStarterBadgeForSubject, getSubjectLabel } from './lib/subjects';
 
 type ParentRow = {
   id: string;
@@ -930,7 +931,7 @@ async function getChildForParent(parent: SessionParent, env: Env, childKey: stri
 }
 
 async function getTracksForChild(env: Env, child: ChildRow) {
-  return all<TrackRow>(
+  const tracks = await all<TrackRow>(
     env.DB.prepare(
       `SELECT tracks.*
        FROM tracks
@@ -938,14 +939,10 @@ async function getTracksForChild(env: Env, child: ChildRow) {
          ON child_subject_levels.child_profile_id = ?
         AND child_subject_levels.subject = tracks.subject
        WHERE tracks.grade_level = COALESCE(child_subject_levels.grade_level, ?)
-       ORDER BY CASE tracks.subject
-         WHEN 'math' THEN 1
-         WHEN 'vocabulary' THEN 2
-         WHEN 'spanish' THEN 3
-         ELSE tracks.sort_order
-       END, tracks.sort_order`,
+       ORDER BY tracks.sort_order`,
     ).bind(child.id, child.grade_level),
   );
+  return tracks.sort(compareTracksBySubjectMetadata);
 }
 
 async function getTrackForChild(env: Env, child: ChildRow, trackSlug: string) {
@@ -990,12 +987,7 @@ async function getSubjectLevelResponses(env: Env, child: ChildRow) {
       `SELECT subject
        FROM tracks
        GROUP BY subject
-       ORDER BY CASE subject
-         WHEN 'math' THEN 1
-         WHEN 'vocabulary' THEN 2
-         WHEN 'spanish' THEN 3
-         ELSE 100
-       END, subject`,
+       ORDER BY subject`,
     ),
   );
   const overrides = await all<ChildSubjectLevelRow>(
@@ -1003,11 +995,11 @@ async function getSubjectLevelResponses(env: Env, child: ChildRow) {
   );
   const overrideBySubject = new Map(overrides.map((level) => [level.subject, level]));
 
-  return subjects.map(({ subject }) => {
+  return subjects.sort((a, b) => compareSubjectKeys(a.subject, b.subject)).map(({ subject }) => {
     const override = overrideBySubject.get(subject);
     return {
       subject,
-      label: subjectLabel(subject),
+      label: getSubjectLabel(subject),
       defaultGradeLevel: child.grade_level,
       overrideGradeLevel: override?.grade_level ?? null,
       effectiveGradeLevel: override?.grade_level ?? child.grade_level,
@@ -1292,12 +1284,19 @@ async function getBadges(env: Env, childId: string, streak: number) {
 
   if ((attempts?.total ?? 0) > 0) badges.push({ key: 'first-lesson', label: 'First Lesson' });
   if (streak >= 3) badges.push({ key: 'three-day-streak', label: 'Three Day Streak' });
-  if ((completed.get('math') ?? 0) > 0) badges.push({ key: 'math-starter', label: 'Math Starter' });
-  if ((completed.get('vocabulary') ?? 0) > 0) badges.push({ key: 'word-explorer', label: 'Word Explorer' });
-  if ((completed.get('spanish') ?? 0) > 0) badges.push({ key: 'spanish-starter', label: 'Spanish Starter' });
+  for (const [subject, total] of Array.from(completed.entries()).sort(([subjectA], [subjectB]) => compareSubjectKeys(subjectA, subjectB))) {
+    const starterBadge = getStarterBadgeForSubject(subject);
+    if (total > 0 && starterBadge) badges.push(starterBadge);
+  }
   if ((perfect?.total ?? 0) > 0) badges.push({ key: 'perfect-lesson', label: 'Perfect Lesson' });
 
   return badges;
+}
+
+function compareTracksBySubjectMetadata(a: TrackRow, b: TrackRow) {
+  const subjectOrder = compareSubjectKeys(a.subject, b.subject);
+  if (subjectOrder !== 0) return subjectOrder;
+  return a.sort_order - b.sort_order;
 }
 
 function parentResponse(parent: SessionParent) {
@@ -1331,17 +1330,6 @@ function trackResponse(track: TrackRow) {
     color: track.color,
     accent: track.accent,
   };
-}
-
-function subjectLabel(subject: string) {
-  if (subject === 'math') return 'Math';
-  if (subject === 'vocabulary') return 'Vocabulary';
-  if (subject === 'spanish') return 'Spanish';
-  return subject
-    .split('-')
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ');
 }
 
 function lessonProgressResponse(progress: LessonProgressRow) {

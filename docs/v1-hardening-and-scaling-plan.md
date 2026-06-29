@@ -732,3 +732,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: `npm test`, `npm run check`, and `npm run build` passed. Build output now generates 8 static pages, including `/kid/shell/`, `/kid/track-shell/`, and `/kid/lesson-shell/`.
 - Risks: the shell asset paths are implementation details under `/kid/`; direct visits to those shell URLs are still protected by child lookup and redirect to profiles unless a matching child slug exists.
 - Future improvements: once temporary practice lessons exist, add a route test for a generated practice lesson URL that resolves through `/kid/lesson-shell/`.
+
+### Item 6: Add Subject Metadata
+
+- Changed: added `src/lib/subjects.ts` for subject labels, sort order, icon keys, and starter badges; replaced Worker subject ordering/labels/badge conditionals and UI track icon subject checks with metadata helpers.
+- Tests/docs: added subject metadata tests for production metadata, fallback `science` behavior, metadata sorting, and starter badge lookup; documented subject metadata in the lesson authoring guide.
+- Verification: `npm test`, `npm run check`, and `npm run build` passed.
+- Risks: subject metadata is currently TypeScript data rather than editable YAML so it can be imported safely by the Worker and browser; non-developer authoring of subjects would need a later build-time loader.
+- Future improvements: expose `iconKey` and `subjectLabel` directly from track APIs if future clients should avoid importing subject metadata.

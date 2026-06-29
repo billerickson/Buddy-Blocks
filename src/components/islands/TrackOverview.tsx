@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
+import { getSubjectMetadata } from '../../lib/subjects';
 import { fetchApi, percent } from './api';
 import { TrackIcon } from './BlockAvatar';
 import { trackRouteParams } from './route-params';
@@ -68,7 +69,7 @@ export default function TrackOverview({
       <div className="block-card p-6 sm:p-8">
         <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
           <div className="flex items-start gap-4">
-            <TrackIcon slug={data.track.subject} color={data.track.color} />
+            <TrackIcon iconKey={getSubjectMetadata(data.track.subject).iconKey} color={data.track.color} />
             <div>
               <p className="stat-chip w-fit">{data.child.displayName}'s path</p>
               <h1 className="mt-4 text-[clamp(3rem,8vw,5.5rem)]">{data.track.title}</h1>
