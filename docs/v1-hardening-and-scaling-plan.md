@@ -690,3 +690,13 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Run `npm test` and `npm run check` after each item.
 - Run `npm run build` after route, Astro, or Worker entry changes.
 - Do not combine temporary vocabulary practice with unrelated Worker splitting in the same goal.
+
+## Execution Notes
+
+### Item 1: Performance Indexes and Query Batching
+
+- Changed: added migration `0005_performance_indexes.sql` with the planned lookup indexes; batched child home and parent dashboard track summary reads; replaced `apiChildTrack` unit/lesson/progress N+1 loading with one ordered joined query.
+- Tests/docs: added Worker API regression tests for batched `apiChildTrack` response shape, multi-unit lesson ordering, completed/available/locked status handling, subject override access, and index migration coverage.
+- Verification: `npm test`, `npm run check`, `npm run build`, and `npm run db:migrate:local` passed.
+- Risks: the Worker API test uses Node's experimental built-in SQLite adapter as a D1-shaped harness; it exercises real SQL but is not a perfect D1 runtime.
+- Future improvements: batch parent dashboard activity, subject-level, and badge reads across all children when the family model grows beyond the fixed v1 profiles.
