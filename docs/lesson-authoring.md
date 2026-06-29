@@ -52,6 +52,8 @@ Current v1 profiles:
 
 Parents can adjust a student's grade level per subject from the parent dashboard. If a subject is left on the default option, the app uses the student's global grade level.
 
+The v1 enrollment model is documented in [docs/enrollment-model.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/enrollment-model.md). It intentionally uses global grade plus subject overrides instead of explicit track assignment tables.
+
 Kid app pages are generic static shells. The Worker maps authenticated dynamic URLs such as `/kid/:childSlug/`, `/kid/:childSlug/track/:trackSlug/`, and `/kid/:childSlug/lesson/:lessonId/` to fixed shell assets, then the browser fetches child/track/lesson data from the API using the URL path. Adding children or temporary lessons should not increase the number of generated Astro pages.
 
 Temporary school vocabulary belongs in child-specific practice sets, not canonical curriculum Markdown. See [docs/practice-sets.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/practice-sets.md) for the parent API workflow, archive behavior, and generated flash-card lesson shape.

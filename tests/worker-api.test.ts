@@ -341,6 +341,76 @@ describe('worker track APIs', () => {
     expect(hidden.response.status).toBe(404);
     expect(hidden.body).toEqual({ error: 'track_not_found' });
   });
+
+  it('clears subject overrides when the parent resets a subject to the global grade', async () => {
+    const { env } = createEnv();
+
+    const cleared = await requestJson('/api/parent/children/reagan/subject-levels', env, {
+      method: 'PATCH',
+      body: { subject: 'spanish', gradeLevel: 6 },
+    });
+    expect(cleared.response.status).toBe(200);
+    expect(cleared.body.subjectLevels.find((level: { subject: string }) => level.subject === 'spanish')).toMatchObject({
+      defaultGradeLevel: 6,
+      overrideGradeLevel: null,
+      effectiveGradeLevel: 6,
+    });
+    await expect(getJson('/api/children/reagan/tracks/grade-3-spanish', env)).resolves.toMatchObject({
+      response: expect.objectContaining({ status: 404 }),
+    });
+    await expect(getJson('/api/children/reagan/tracks/grade-6-spanish', env)).resolves.toMatchObject({
+      response: expect.objectContaining({ status: 200 }),
+    });
+
+    const restored = await requestJson('/api/parent/children/reagan/subject-levels', env, {
+      method: 'PATCH',
+      body: { subject: 'spanish', gradeLevel: 3 },
+    });
+    expect(restored.response.status).toBe(200);
+    expect(restored.body.subjectLevels.find((level: { subject: string }) => level.subject === 'spanish')).toMatchObject({
+      defaultGradeLevel: 6,
+      overrideGradeLevel: 3,
+      effectiveGradeLevel: 3,
+    });
+  });
+
+  it('keeps historical activity visible after a subject override no longer exposes the old track', async () => {
+    const { env, sqlite } = createEnv();
+    sqlite.db
+      .prepare(
+        `INSERT INTO lesson_attempts
+         (id, child_profile_id, lesson_id, started_at, completed_at, score_correct, score_total, xp_awarded, hearts_remaining)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      )
+      .run(
+        'attempt_old_spanish',
+        'child_reagan',
+        'lesson_1',
+        '2026-06-28T10:00:00.000Z',
+        '2026-06-28T10:05:00.000Z',
+        3,
+        3,
+        18,
+        5,
+      );
+
+    await requestJson('/api/parent/children/reagan/subject-levels', env, {
+      method: 'PATCH',
+      body: { subject: 'spanish', gradeLevel: 6 },
+    });
+
+    const dashboard = await getJson('/api/parent/dashboard', env);
+
+    expect(dashboard.response.status).toBe(200);
+    expect(dashboard.body.children[0].tracks.map((track: { slug: string }) => track.slug)).toContain('grade-6-spanish');
+    expect(dashboard.body.children[0].tracks.map((track: { slug: string }) => track.slug)).not.toContain('grade-3-spanish');
+    expect(dashboard.body.children[0].recentActivity).toEqual([
+      expect.objectContaining({
+        lesson_title: 'Completed Lesson',
+        track_slug: 'grade-3-spanish',
+      }),
+    ]);
+  });
 });
 
 describe('worker practice set APIs', () => {

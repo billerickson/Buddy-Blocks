@@ -780,3 +780,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: focused `npm test -- --run tests/badges.test.ts tests/subjects.test.ts`, `npm test`, `npm run check`, and `npm run build` passed.
 - Risks: practice-set attempts do not currently feed badge policy; badges remain based on canonical lesson attempts and completed curriculum subjects.
 - Future improvements: decide whether weekly practice completion should have its own badge category before adding practice attempts to reward rules.
+
+### Item 12: Grade and Enrollment Model
+
+- Changed: documented the v1 decision to keep global child grade plus subject-level overrides rather than adding track assignment tables.
+- Tests/docs: added Worker API tests for clearing/restoring subject overrides and for preserving historical activity visibility after an old track is no longer currently exposed; added an enrollment model doc and linked it from lesson authoring.
+- Verification: focused `npm test -- --run tests/worker-api.test.ts`, `npm test`, and `npm run check` passed.
+- Risks: the current model still supports only one effective track per subject; multiple active tracks, pinned review tracks, and special courses need the future assignment layer.
+- Future improvements: introduce `child_track_assignments` only when the product needs multiple active tracks or parent-controlled assignments beyond grade overrides.
