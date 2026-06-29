@@ -1,6 +1,9 @@
 import { z } from 'zod';
 import {
+  CHILD_COOKIE,
   SESSION_COOKIE,
+  childCookie,
+  clearChildCookie,
   clearSessionCookie,
   parseCookies,
   randomId,
@@ -111,6 +114,7 @@ type Env = {
 const SESSION_DAYS = 14;
 const PROTECTED_PAGE_PREFIXES = ['/profiles', '/kid', '/parent'];
 const PUBLIC_FILE_PREFIXES = ['/icons/', '/assets/', '/_astro/'];
+const PARENT_GATE_PATH = '/parent-gate/';
 
 const AttemptSubmissionSchema = z.object({
   startedAt: z.string().optional(),
@@ -135,6 +139,7 @@ export default {
     }
 
     if (url.pathname === '/logout' || url.pathname === '/logout/') return logout(request, env);
+    if (url.pathname === '/parent-gate' || url.pathname === '/parent-gate/') return parentGate(request, env);
     if (url.pathname.startsWith('/api/')) return apiRouter(request, env);
 
     if (PROTECTED_PAGE_PREFIXES.some((prefix) => url.pathname === prefix || url.pathname.startsWith(`${prefix}/`))) {
@@ -147,7 +152,10 @@ export default {
 
 async function rootRedirect(request: Request, env: Env) {
   const parent = await getParentFromRequest(request, env);
-  return redirect(new URL(parent ? '/profiles/' : '/login/', request.url));
+  if (!parent) return redirect(new URL('/login/', request.url));
+
+  const childSlug = getChildModeSlug(request);
+  return redirect(new URL(childSlug ? `/kid/${encodeURIComponent(childSlug)}/` : '/profiles/', request.url));
 }
 
 async function login(request: Request, env: Env) {
@@ -180,6 +188,7 @@ async function login(request: Request, env: Env) {
 
   const response = redirect(new URL('/profiles/', request.url), 303);
   response.headers.append('Set-Cookie', sessionCookie(sessionId, expires));
+  response.headers.append('Set-Cookie', clearChildCookie());
   return response;
 }
 
@@ -189,13 +198,70 @@ async function logout(request: Request, env: Env) {
 
   const response = redirect(new URL('/login/', request.url), 303);
   response.headers.append('Set-Cookie', clearSessionCookie());
+  response.headers.append('Set-Cookie', clearChildCookie());
+  return response;
+}
+
+async function parentGate(request: Request, env: Env) {
+  const parent = await getParentFromRequest(request, env);
+  if (!parent) return redirect(new URL('/login/', request.url), 303);
+
+  if (request.method === 'GET' || request.method === 'HEAD') return serveAsset(request, env, PARENT_GATE_PATH);
+  if (request.method !== 'POST') return json({ error: 'method_not_allowed' }, 405);
+  if (!sameOrigin(request)) return json({ error: 'invalid_origin' }, 403);
+
+  const form = await request.formData();
+  const password = String(form.get('password') || '');
+  const next = safeNextPath(String(form.get('next') || ''), '/parent/');
+
+  const credentials = await env.DB.prepare(
+    'SELECT password_hash, password_salt, status FROM parents WHERE id = ? LIMIT 1',
+  )
+    .bind(parent.id)
+    .first<Pick<ParentRow, 'password_hash' | 'password_salt' | 'status'>>();
+  const valid =
+    credentials?.status === 'active' && password.length > 0
+      ? await verifyPassword(password, credentials.password_salt, credentials.password_hash)
+      : false;
+
+  if (!valid) {
+    const url = new URL(PARENT_GATE_PATH, request.url);
+    url.searchParams.set('error', '1');
+    url.searchParams.set('next', next);
+    return redirect(url, 303);
+  }
+
+  const response = redirect(new URL(next, request.url), 303);
+  response.headers.append('Set-Cookie', clearChildCookie());
   return response;
 }
 
 async function protectedAsset(request: Request, env: Env) {
   const parent = await getParentFromRequest(request, env);
   if (!parent) return redirect(new URL('/login/', request.url), 303);
-  return serveAsset(request, env, new URL(request.url).pathname);
+
+  const url = new URL(request.url);
+  const childModeSlug = getChildModeSlug(request);
+
+  if (isParentPage(url.pathname)) {
+    if (childModeSlug) return parentGateRedirect(request, url.pathname);
+    return serveAsset(request, env, url.pathname);
+  }
+
+  const requestedChildSlug = childSlugFromKidPath(url.pathname);
+  if (!requestedChildSlug) return serveAsset(request, env, url.pathname);
+
+  const child = await getChildForParent(parent, env, requestedChildSlug);
+  if (!child) {
+    const response = redirect(new URL('/profiles/', request.url), 303);
+    response.headers.append('Set-Cookie', clearChildCookie());
+    return response;
+  }
+
+  if (childModeSlug && childModeSlug !== child.slug) return parentGateRedirect(request, url.pathname);
+
+  const response = await serveAsset(request, env, url.pathname);
+  return childModeSlug === child.slug ? response : withCookie(response, childCookie(child.slug, childCookieExpiry()));
 }
 
 async function apiRouter(request: Request, env: Env) {
@@ -207,25 +273,35 @@ async function apiRouter(request: Request, env: Env) {
 
   const url = new URL(request.url);
   const pathname = stripTrailingSlash(url.pathname);
+  const childModeSlug = getChildModeSlug(request);
 
-  if (pathname === '/api/me') return apiMe(parent, env);
-  if (pathname === '/api/children') return apiChildren(parent, env);
-  if (pathname === '/api/parent/dashboard') return apiParentDashboard(parent, env);
+  if (pathname === '/api/me') {
+    if (childModeSlug) return parentReauthResponse();
+    return apiMe(parent, env);
+  }
+  if (pathname === '/api/children') {
+    if (childModeSlug) return parentReauthResponse();
+    return apiChildren(parent, env);
+  }
+  if (pathname === '/api/parent/dashboard') {
+    if (childModeSlug) return parentReauthResponse();
+    return apiParentDashboard(parent, env);
+  }
 
   const childHomeMatch = pathname.match(/^\/api\/children\/([^/]+)\/home$/);
-  if (childHomeMatch) return apiChildHome(parent, env, decodeURIComponent(childHomeMatch[1]));
+  if (childHomeMatch) return apiChildHome(parent, env, decodeURIComponent(childHomeMatch[1]), childModeSlug);
 
   const trackMatch = pathname.match(/^\/api\/children\/([^/]+)\/tracks\/([^/]+)$/);
   if (trackMatch) {
-    return apiChildTrack(parent, env, decodeURIComponent(trackMatch[1]), decodeURIComponent(trackMatch[2]));
+    return apiChildTrack(parent, env, decodeURIComponent(trackMatch[1]), decodeURIComponent(trackMatch[2]), childModeSlug);
   }
 
   const lessonMatch = pathname.match(/^\/api\/children\/([^/]+)\/lessons\/([^/]+)$/);
   if (lessonMatch) {
     const childKey = decodeURIComponent(lessonMatch[1]);
     const lessonId = decodeURIComponent(lessonMatch[2]);
-    if (request.method === 'GET') return apiLesson(parent, env, childKey, lessonId);
-    if (request.method === 'POST') return apiSubmitLesson(parent, env, request, childKey, lessonId);
+    if (request.method === 'GET') return apiLesson(parent, env, childKey, lessonId, childModeSlug);
+    if (request.method === 'POST') return apiSubmitLesson(parent, env, request, childKey, lessonId, childModeSlug);
   }
 
   return json({ error: 'not_found' }, 404);
@@ -243,9 +319,10 @@ async function apiChildren(parent: SessionParent, env: Env) {
   return json({ children: children.map(childResponse) });
 }
 
-async function apiChildHome(parent: SessionParent, env: Env, childKey: string) {
+async function apiChildHome(parent: SessionParent, env: Env, childKey: string, childModeSlug: string | null) {
   const child = await getChildForParent(parent, env, childKey);
   if (!child) return json({ error: 'child_not_found' }, 404);
+  if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
 
   const tracks = await all<TrackRow>(env.DB.prepare('SELECT * FROM tracks ORDER BY sort_order'));
   const trackCards = [];
@@ -294,9 +371,16 @@ async function apiChildHome(parent: SessionParent, env: Env, childKey: string) {
   });
 }
 
-async function apiChildTrack(parent: SessionParent, env: Env, childKey: string, trackSlug: string) {
+async function apiChildTrack(
+  parent: SessionParent,
+  env: Env,
+  childKey: string,
+  trackSlug: string,
+  childModeSlug: string | null,
+) {
   const child = await getChildForParent(parent, env, childKey);
   if (!child) return json({ error: 'child_not_found' }, 404);
+  if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
 
   const track = await env.DB.prepare('SELECT * FROM tracks WHERE slug = ? LIMIT 1').bind(trackSlug).first<TrackRow>();
   if (!track) return json({ error: 'track_not_found' }, 404);
@@ -348,9 +432,16 @@ async function apiChildTrack(parent: SessionParent, env: Env, childKey: string, 
   });
 }
 
-async function apiLesson(parent: SessionParent, env: Env, childKey: string, lessonId: string) {
+async function apiLesson(
+  parent: SessionParent,
+  env: Env,
+  childKey: string,
+  lessonId: string,
+  childModeSlug: string | null,
+) {
   const child = await getChildForParent(parent, env, childKey);
   if (!child) return json({ error: 'child_not_found' }, 404);
+  if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
 
   const lesson = await getLessonDetail(env, lessonId);
   if (!lesson) return json({ error: 'lesson_not_found' }, 404);
@@ -386,9 +477,17 @@ async function apiLesson(parent: SessionParent, env: Env, childKey: string, less
   });
 }
 
-async function apiSubmitLesson(parent: SessionParent, env: Env, request: Request, childKey: string, lessonId: string) {
+async function apiSubmitLesson(
+  parent: SessionParent,
+  env: Env,
+  request: Request,
+  childKey: string,
+  lessonId: string,
+  childModeSlug: string | null,
+) {
   const child = await getChildForParent(parent, env, childKey);
   if (!child) return json({ error: 'child_not_found' }, 404);
+  if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
 
   const lesson = await getLessonDetail(env, lessonId);
   if (!lesson) return json({ error: 'lesson_not_found' }, 404);
@@ -782,9 +881,70 @@ function lessonLinkResponse(lesson: LessonDetailRow) {
   };
 }
 
+function getChildModeSlug(request: Request) {
+  return parseCookies(request.headers.get('Cookie')).get(CHILD_COOKIE) || null;
+}
+
+function canAccessChild(childModeSlug: string | null, child: ChildRow) {
+  return !childModeSlug || childModeSlug === child.slug;
+}
+
+function childLockedResponse() {
+  return json({ error: 'child_locked' }, 403);
+}
+
+function parentReauthResponse() {
+  return json({ error: 'parent_reauth_required' }, 403);
+}
+
 async function all<T>(statement: D1PreparedStatement) {
   const result = await statement.all<T>();
   return result.results ?? [];
+}
+
+function isParentPage(pathname: string) {
+  return (
+    pathname === '/profiles' ||
+    pathname.startsWith('/profiles/') ||
+    pathname === '/parent' ||
+    pathname.startsWith('/parent/')
+  );
+}
+
+function childSlugFromKidPath(pathname: string) {
+  const match = pathname.match(/^\/kid\/([^/]+)(?:\/|$)/);
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function parentGateRedirect(request: Request, nextPath: string) {
+  const url = new URL(PARENT_GATE_PATH, request.url);
+  url.searchParams.set('next', safeNextPath(nextPath, '/parent/'));
+  return redirect(url, 303);
+}
+
+function safeNextPath(value: string, fallback: string) {
+  if (!value || !value.startsWith('/') || value.startsWith('//')) return fallback;
+
+  try {
+    const url = new URL(value, 'https://buddy-blocks.local');
+    return `${url.pathname}${url.search}${url.hash}`;
+  } catch {
+    return fallback;
+  }
+}
+
+function childCookieExpiry() {
+  return new Date(Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000);
+}
+
+function withCookie(response: Response, cookie: string) {
+  const headers = new Headers(response.headers);
+  headers.append('Set-Cookie', cookie);
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 }
 
 function serveAsset(request: Request, env: Env, pathname: string) {

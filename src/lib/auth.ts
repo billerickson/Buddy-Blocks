@@ -1,4 +1,5 @@
 export const SESSION_COOKIE = 'buddy_blocks_session';
+export const CHILD_COOKIE = 'buddy_blocks_child';
 const ITERATIONS = 100_000;
 const KEY_LENGTH_BYTES = 32;
 
@@ -67,3 +68,10 @@ export function clearSessionCookie() {
   return `${SESSION_COOKIE}=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/; HttpOnly; Secure; SameSite=Lax`;
 }
 
+export function childCookie(value: string, expires: Date) {
+  return `${CHILD_COOKIE}=${encodeURIComponent(value)}; Expires=${expires.toUTCString()}; Path=/; HttpOnly; Secure; SameSite=Lax`;
+}
+
+export function clearChildCookie() {
+  return `${CHILD_COOKIE}=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/; HttpOnly; Secure; SameSite=Lax`;
+}

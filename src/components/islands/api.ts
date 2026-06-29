@@ -12,6 +12,12 @@ export async function fetchApi<T>(path: string, init?: RequestInit): Promise<T> 
 
   if (!response.ok) {
     const body = (await response.json().catch(() => ({}))) as { error?: string };
+    if (response.status === 403 && (body.error === 'parent_reauth_required' || body.error === 'child_locked')) {
+      const next = encodeURIComponent(`${window.location.pathname}${window.location.search}`);
+      window.location.href = `/parent-gate/?next=${next}`;
+      throw new Error('Parent password required');
+    }
+
     throw new Error(body.error || `Request failed: ${response.status}`);
   }
 
