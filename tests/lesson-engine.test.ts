@@ -146,7 +146,7 @@ describe('lesson engine', () => {
     ).toBe(true);
   });
 
-  it('scores easy and hard flash cards', () => {
+  it('scores easy, medium, and hard flash cards', () => {
     expect(
       evaluateAnswer(
         question({
@@ -159,6 +159,21 @@ describe('lesson engine', () => {
           },
         }),
         'context',
+      ),
+    ).toBe(true);
+
+    expect(
+      evaluateAnswer(
+        question({
+          type: 'flash-card',
+          payload: {
+            mode: 'medium',
+            front: 'la escuela',
+            acceptedAnswers: ['school', 'the school'],
+            answerType: 'text',
+          },
+        }),
+        'the school',
       ),
     ).toBe(true);
 

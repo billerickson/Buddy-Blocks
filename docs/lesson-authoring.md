@@ -11,7 +11,7 @@ The editable curriculum source is [src/content/curriculum](/Users/billerickson/D
 At runtime, lessons still live in D1 after seeding:
 
 1. Author content in [src/content/curriculum](/Users/billerickson/Downloads/learn.billplustara.com/src/content/curriculum).
-2. Run [scripts/seed.ts](/Users/billerickson/Downloads/learn.billplustara.com/scripts/seed.ts), which writes canonical curriculum into D1, then seeds the fixed v1 family/profile data.
+2. Run [scripts/seed.ts](/Users/billerickson/Downloads/learn.billplustara.com/scripts/seed.ts), which writes canonical curriculum into D1, prunes retired curriculum rows that no longer exist in Markdown, then seeds the fixed v1 family/profile data.
 3. The Worker reads D1 tables and serves lesson APIs to the Preact lesson player.
 
 Do not edit generated files in `dist/` or local D1 files directly. Treat D1 as the deployed copy and `src/content/curriculum` as the curriculum source of truth.
@@ -71,7 +71,7 @@ color: "#5b79ff"
 accent: "#ffd84d"
 ```
 
-`subject` is matched against [src/lib/subjects.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/subjects.ts) for labels, track ordering, icons, and starter badges. Existing subjects are `math`, `vocabulary`, and `spanish`. Unknown subject keys still load with a fallback label and generic icon, but add metadata when the subject should have a specific order, icon, or starter badge.
+`subject` is matched against [src/lib/subjects.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/subjects.ts) for labels, track ordering, icons, and starter badges. Existing subjects are `math`, `vocabulary`, `spanish`, `french`, and `latin`. Unknown subject keys still load with a fallback label and generic icon, but add metadata when the subject should have a specific order, icon, or starter badge.
 
 Badge rules live in [src/lib/badges.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/badges.ts). Subject starter badges are read from subject metadata, so adding a starter badge for a new subject should not require Worker reward logic changes.
 
@@ -113,7 +113,7 @@ questions:
 ---
 ```
 
-Keep lesson IDs stable after seeding. A changed `id` looks like a brand-new lesson to D1 and can orphan old progress.
+Keep lesson IDs stable after seeding. A changed `id` looks like a brand-new lesson to D1 and the old row will be retired on the next seed. Retired lesson attempts and progress are pruned with that row, while child track pointers are repaired to the next available canonical lesson.
 
 ### Standard Lesson Config
 
@@ -236,6 +236,20 @@ Use Easy flash cards for recognition with multiple-choice answers below the card
     - contexto
   answerType: text
 ```
+
+For world-language and classical-language vocabulary ladders, place Medium between Easy and Hard:
+
+```yaml
+- type: flash-card
+  mode: medium
+  prompt: Type the English meaning.
+  front: contexto
+  acceptedAnswers:
+    - context
+  answerType: text
+```
+
+Use Easy for target-language-to-English multiple choice, Medium for target-language-to-English typed meaning, and Hard for English-to-target-language typed production.
 
 ### Fill Blank
 

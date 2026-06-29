@@ -360,7 +360,7 @@ export default function LessonPlayer({
       question.type === 'text-input' ||
       question.type === 'error-correction' ||
       question.type === 'constructed-response' ||
-      (question.type === 'flash-card' && (question.payload as FlashCardPayload).mode === 'hard')
+      (question.type === 'flash-card' && (question.payload as FlashCardPayload).mode !== 'easy')
     ) {
       return Boolean(textAnswer.trim());
     }
@@ -404,7 +404,7 @@ export default function LessonPlayer({
       question.type === 'text-input' ||
       question.type === 'error-correction' ||
       question.type === 'constructed-response' ||
-      (question.type === 'flash-card' && (question.payload as FlashCardPayload).mode === 'hard')
+      (question.type === 'flash-card' && (question.payload as FlashCardPayload).mode !== 'easy')
     ) {
       return textAnswer;
     }

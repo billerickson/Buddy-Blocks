@@ -187,6 +187,7 @@ const PUBLIC_FILE_PREFIXES = ['/icons/', '/assets/', '/_astro/'];
 const PARENT_GATE_PATH = '/parent-gate/';
 const PRACTICE_LESSON_PREFIX = 'practice_set_';
 const PRACTICE_SET_XP_BASE = 8;
+const SEQUENTIAL_SUBJECTS = new Set(['spanish']);
 
 const AttemptSubmissionSchema = z.object({
   startedAt: z.string().optional(),
@@ -478,8 +479,11 @@ async function apiChildHome(parent: SessionParent, env: Env, childKey: string, c
   for (const track of tracks) {
     const progress = trackStats.progressByTrack.get(track.id);
     const currentLesson = trackStats.currentLessonsByTrack.get(track.id) ?? null;
+    const lessonsCompleted = trackStats.completedLessonsByTrack.get(track.id) ?? 0;
+    const totalLessons = trackStats.totalLessonsByTrack.get(track.id) ?? 0;
+    const trackComplete = totalLessons > 0 && lessonsCompleted >= totalLessons;
 
-    if (!recommendedLesson && currentLesson) {
+    if (!recommendedLesson && currentLesson && !trackComplete) {
       recommendedLesson = lessonLinkResponse(currentLesson);
     }
 
@@ -492,8 +496,8 @@ async function apiChildHome(parent: SessionParent, env: Env, childKey: string, c
       description: track.description,
       color: track.color,
       accent: track.accent,
-      lessonsCompleted: trackStats.completedLessonsByTrack.get(track.id) ?? 0,
-      totalLessons: trackStats.totalLessonsByTrack.get(track.id) ?? 0,
+      lessonsCompleted,
+      totalLessons,
       xpTotal: progress?.xp_total ?? 0,
       currentLesson: currentLesson ? lessonLinkResponse(currentLesson) : null,
     });
@@ -1102,27 +1106,80 @@ async function getTracksForChild(env: Env, child: ChildRow) {
        ORDER BY tracks.sort_order`,
     ).bind(child.id, child.grade_level),
   );
-  return tracks.sort(compareTracksBySubjectMetadata);
+  const sequentialTracks = await getSequentialTracksForChild(env, child);
+  return uniqueTracks([...tracks, ...sequentialTracks]).sort(compareTracksBySubjectMetadata);
 }
 
 async function getTrackForChild(env: Env, child: ChildRow, trackSlug: string) {
-  return env.DB.prepare(
-    `SELECT tracks.*
-     FROM tracks
-     LEFT JOIN child_subject_levels
-       ON child_subject_levels.child_profile_id = ?
-      AND child_subject_levels.subject = tracks.subject
-     WHERE tracks.slug = ?
-       AND tracks.grade_level = COALESCE(child_subject_levels.grade_level, ?)
-     LIMIT 1`,
-  )
-    .bind(child.id, trackSlug, child.grade_level)
+  const track = await env.DB.prepare('SELECT * FROM tracks WHERE slug = ? LIMIT 1')
+    .bind(trackSlug)
     .first<TrackRow>();
+  if (!track) return null;
+  return (await canAccessTrack(env, child, track.subject, track.grade_level)) ? track : null;
 }
 
 async function canAccessLessonTrack(env: Env, child: ChildRow, lesson: Pick<LessonDetailRow, 'track_subject' | 'track_grade_level'>) {
-  const effectiveGradeLevel = await getEffectiveGradeLevelForSubject(env, child, lesson.track_subject);
-  return lesson.track_grade_level === effectiveGradeLevel;
+  return canAccessTrack(env, child, lesson.track_subject, lesson.track_grade_level);
+}
+
+async function canAccessTrack(env: Env, child: ChildRow, subject: string, gradeLevel: number) {
+  const effectiveGradeLevel = await getEffectiveGradeLevelForSubject(env, child, subject);
+  if (gradeLevel === effectiveGradeLevel) return true;
+  if (!SEQUENTIAL_SUBJECTS.has(subject) || gradeLevel !== effectiveGradeLevel + 1) return false;
+
+  const currentTrack = await getTrackBySubjectGrade(env, subject, effectiveGradeLevel);
+  return currentTrack ? isTrackCompleteForChild(env, child.id, currentTrack.id) : false;
+}
+
+async function getSequentialTracksForChild(env: Env, child: ChildRow) {
+  const tracks: TrackRow[] = [];
+
+  for (const subject of SEQUENTIAL_SUBJECTS) {
+    const effectiveGradeLevel = await getEffectiveGradeLevelForSubject(env, child, subject);
+    const currentTrack = await getTrackBySubjectGrade(env, subject, effectiveGradeLevel);
+    if (!currentTrack || !(await isTrackCompleteForChild(env, child.id, currentTrack.id))) continue;
+
+    const nextTrack = await getTrackBySubjectGrade(env, subject, effectiveGradeLevel + 1);
+    if (nextTrack) tracks.push(nextTrack);
+  }
+
+  return tracks;
+}
+
+async function getTrackBySubjectGrade(env: Env, subject: string, gradeLevel: number) {
+  return env.DB.prepare(
+    `SELECT *
+     FROM tracks
+     WHERE subject = ?
+       AND grade_level = ?
+     LIMIT 1`,
+  )
+    .bind(subject, gradeLevel)
+    .first<TrackRow>();
+}
+
+async function isTrackCompleteForChild(env: Env, childId: string, trackId: string) {
+  const row = await env.DB.prepare(
+    `SELECT count(lessons.id) as total,
+            sum(CASE WHEN child_lesson_progress.status = 'completed' THEN 1 ELSE 0 END) as completed
+     FROM units
+     JOIN lessons ON lessons.unit_id = units.id
+     LEFT JOIN child_lesson_progress
+       ON child_lesson_progress.child_profile_id = ?
+      AND child_lesson_progress.lesson_id = lessons.id
+     WHERE units.track_id = ?`,
+  )
+    .bind(childId, trackId)
+    .first<{ total: number; completed: number | null }>();
+
+  const total = row?.total ?? 0;
+  return total > 0 && (row?.completed ?? 0) >= total;
+}
+
+function uniqueTracks(tracks: TrackRow[]) {
+  const byId = new Map<string, TrackRow>();
+  for (const track of tracks) byId.set(track.id, track);
+  return Array.from(byId.values());
 }
 
 async function getEffectiveGradeLevelForSubject(env: Env, child: ChildRow, subject: string) {

@@ -24,24 +24,140 @@ describe('curriculum content', () => {
   });
 
   it('provides grade-specific curriculum tracks', () => {
-    expect(getTracksForGrade(3).map((track) => track.subject)).toEqual(['math', 'vocabulary', 'spanish']);
+    expect(getTracksForGrade(3).map((track) => track.subject)).toEqual(['math', 'vocabulary', 'spanish', 'french', 'latin']);
+    expect(getTracksForGrade(4).map((track) => track.subject)).toEqual(['spanish', 'french', 'latin']);
     expect(getTracksForGrade(6).map((track) => track.subject)).toEqual(['math', 'vocabulary']);
   });
 
-  it('provides the MVP curriculum shape', () => {
-    expect(TRACKS).toHaveLength(5);
+  it('provides the current curriculum shape', () => {
+    expect(TRACKS).toHaveLength(10);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'addition-basics',
       'subtraction-basics',
+      'place-value-rounding',
+      'multiplication-concepts',
+      'division-concepts',
+      'multiplication-division-word-problems',
+      'fractions',
+      'measurement-time-money',
+      'data-graphs',
+      'geometry-area-perimeter',
+      'mixed-problem-solving',
       'mad-minute',
+    ]);
+    expect(GRADE_3_TRACKS.find((track) => track.subject === 'vocabulary')?.units.map((unit) => unit.slug)).toEqual([
+      'word-meanings',
+      'context-clues',
+      'synonyms-antonyms',
+      'multiple-meaning-words',
+      'prefixes-suffixes',
+      'roots-word-families',
+      'reference-skills',
+      'figurative-language',
+      'academic-reading-words',
+      'writing-revision-words',
+      'cumulative-review',
+    ]);
+    expect(GRADE_3_TRACKS.find((track) => track.subject === 'spanish')?.units.map((unit) => unit.slug)).toEqual([
+      'greetings',
+      'colors',
+      'classroom-words',
+      'numbers-calendar',
+      'people-family',
+      'likes-dislikes',
+      'food-everyday-things',
+      'places-actions',
+      'simple-sentences',
+      'cumulative-conversation-review',
+    ]);
+    expect(GRADE_3_TRACKS.find((track) => track.subject === 'french')?.units.map((unit) => unit.slug)).toEqual([
+      'greetings-polite-phrases',
+      'colors-classroom-objects',
+      'numbers-calendar',
+      'people-family',
+      'likes-needs-food',
+      'places-actions',
+      'simple-sentences',
+      'culture-everyday-french',
+      'reading-listening-french',
+      'cumulative-conversation-review',
+    ]);
+    expect(GRADE_3_TRACKS.find((track) => track.subject === 'latin')?.units.map((unit) => unit.slug)).toEqual([
+      'latin-sounds-classroom-words-roman-greetings',
+      'nouns-gender-simple-sentences',
+      'family-people-descriptions',
+      'verbs-everyday-actions',
+      'places-home-school',
+      'food-animals-daily-life',
+      'mythology-roman-culture',
+      'latin-roots-english',
+      'reading-short-latin',
+      'cumulative-latin-i-review',
+    ]);
+    expect(getTracksForGrade(4).find((track) => track.subject === 'spanish')?.units.map((unit) => unit.slug)).toEqual([
+      'grade-3-review-classroom-routines',
+      'numbers-dates-time',
+      'school-supplies',
+      'people-descriptions-feelings',
+      'food-preferences-polite-requests',
+      'places-directions',
+      'present-tense-action-patterns',
+      'questions-short-conversations',
+      'culture-authentic-resources',
+      'reading-listening-spanish',
+      'cumulative-conversation-review',
+    ]);
+    expect(getTracksForGrade(4).find((track) => track.subject === 'french')?.units.map((unit) => unit.slug)).toEqual([
+      'french-i-review-classroom-routines',
+      'numbers-dates-time',
+      'school-supplies',
+      'people-descriptions-feelings',
+      'food-preferences-polite-requests',
+      'places-directions',
+      'present-tense-action-patterns',
+      'questions-short-conversations',
+      'culture-authentic-resources',
+      'reading-listening-french',
+      'cumulative-conversation-review',
+    ]);
+    expect(getTracksForGrade(4).find((track) => track.subject === 'latin')?.units.map((unit) => unit.slug)).toEqual([
+      'latin-i-review-reading-routines',
+      'cases-sentence-roles',
+      'verbs-across-time',
+      'people-places-descriptions',
+      'roman-daily-life-public-spaces',
+      'mythology-heroes-stories',
+      'latin-roots-phrases-english-connections',
+      'reading-adapted-latin-passages',
+      'culture-history-through-texts',
+      'cumulative-latin-ii-review',
     ]);
     expect(GRADE_6_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'ratios-rates',
+      'rational-number-operations',
+      'fractions-decimals-percents',
       'expressions-equations',
+      'inequalities-relationships',
+      'coordinate-plane',
+      'geometry',
+      'statistics-data',
+      'mixed-problem-solving',
       'mad-minute',
     ]);
-    expect(getAllLessons()).toHaveLength(76);
-    expect(getAllQuestions()).toHaveLength(486);
+    expect(GRADE_6_TRACKS.find((track) => track.subject === 'vocabulary')?.units.map((unit) => unit.slug)).toEqual([
+      'context-reference-skills',
+      'roots-send-write-law',
+      'roots-good-hand-empty',
+      'academic-reading',
+      'genre-structure',
+      'authors-craft',
+      'argument-media',
+      'writing-revision',
+      'research-inquiry-vocabulary',
+      'cumulative-review',
+    ]);
+    expect(getAllLessons()).toHaveLength(569);
+    expect(getAllQuestions()).toHaveLength(4438);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -70,6 +186,85 @@ describe('curriculum content', () => {
       expect(
         madMinute?.lessons.every(
           (lesson) => lesson.config && 'goalCorrect' in lesson.config && lesson.config.goalCorrect === 40,
+        ),
+      ).toBe(true);
+    }
+  });
+
+  it('uses Easy, Medium, and Hard Spanish flash-card ladders in Grade 4 vocabulary units', () => {
+    const grade4Spanish = getTracksForGrade(4).find((track) => track.subject === 'spanish');
+    expect(grade4Spanish).toBeDefined();
+
+    for (const unit of grade4Spanish?.units.slice(0, 7) ?? []) {
+      const flashLessons = unit.lessons.filter((lesson) => lesson.slug.includes('flash-cards'));
+      expect(flashLessons.map((lesson) => lesson.slug)).toEqual([
+        expect.stringContaining('easy'),
+        expect.stringContaining('medium'),
+        expect.stringContaining('hard'),
+      ]);
+      expect(flashLessons[0].questions.every((question) => flashCardPayload(question, 'easy'))).toBe(true);
+      expect(
+        flashLessons[1].questions.every(
+          (question) => Boolean(flashCardPayload(question, 'medium')?.acceptedAnswers?.length),
+        ),
+      ).toBe(true);
+      expect(
+        flashLessons[2].questions.every(
+          (question) => Boolean(flashCardPayload(question, 'hard')?.acceptedAnswers?.length),
+        ),
+      ).toBe(true);
+    }
+  });
+
+  it('uses Easy, Medium, and Hard French flash-card ladders in vocabulary units', () => {
+    const grade3French = getTracksForGrade(3).find((track) => track.subject === 'french');
+    const grade4French = getTracksForGrade(4).find((track) => track.subject === 'french');
+    expect(grade3French).toBeDefined();
+    expect(grade4French).toBeDefined();
+
+    for (const unit of [...(grade3French?.units.slice(0, 7) ?? []), ...(grade4French?.units.slice(0, 7) ?? [])]) {
+      const flashLessons = unit.lessons.filter((lesson) => lesson.slug.includes('flash-cards'));
+      expect(flashLessons.map((lesson) => lesson.slug)).toEqual([
+        `${unit.slug}-flash-cards-easy`,
+        `${unit.slug}-flash-cards-medium`,
+        `${unit.slug}-flash-cards-hard`,
+      ]);
+      expect(flashLessons[0].questions.every((question) => flashCardPayload(question, 'easy'))).toBe(true);
+      expect(
+        flashLessons[1].questions.every(
+          (question) => Boolean(flashCardPayload(question, 'medium')?.acceptedAnswers?.length),
+        ),
+      ).toBe(true);
+      expect(
+        flashLessons[2].questions.every(
+          (question) => Boolean(flashCardPayload(question, 'hard')?.acceptedAnswers?.length),
+        ),
+      ).toBe(true);
+    }
+  });
+
+  it('uses Easy, Medium, and Hard Latin flash-card ladders in vocabulary and roots units', () => {
+    const grade3Latin = getTracksForGrade(3).find((track) => track.subject === 'latin');
+    const grade4Latin = getTracksForGrade(4).find((track) => track.subject === 'latin');
+    expect(grade3Latin).toBeDefined();
+    expect(grade4Latin).toBeDefined();
+
+    for (const unit of [...(grade3Latin?.units.slice(0, 8) ?? []), ...(grade4Latin?.units.slice(0, 7) ?? [])]) {
+      const flashLessons = unit.lessons.filter((lesson) => lesson.slug.includes('flash-cards'));
+      expect(flashLessons.map((lesson) => lesson.slug)).toEqual([
+        `${unit.slug}-flash-cards-easy`,
+        `${unit.slug}-flash-cards-medium`,
+        `${unit.slug}-flash-cards-hard`,
+      ]);
+      expect(flashLessons[0].questions.every((question) => flashCardPayload(question, 'easy'))).toBe(true);
+      expect(
+        flashLessons[1].questions.every(
+          (question) => Boolean(flashCardPayload(question, 'medium')?.acceptedAnswers?.length),
+        ),
+      ).toBe(true);
+      expect(
+        flashLessons[2].questions.every(
+          (question) => Boolean(flashCardPayload(question, 'hard')?.acceptedAnswers?.length),
         ),
       ).toBe(true);
     }
@@ -158,15 +353,70 @@ describe('curriculum content', () => {
     const summary = summarizeCurriculum(TRACKS);
 
     expect(summary.totals).toEqual({
-      tracks: 5,
-      units: 19,
-      lessons: 76,
-      questions: 486,
+      tracks: 10,
+      units: 105,
+      lessons: 569,
+      questions: 4438,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
       tracks: 1,
-      units: 3,
-      lessons: 16,
+      units: 12,
+      lessons: 60,
+      questions: 384,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'vocabulary')).toMatchObject({
+      tracks: 1,
+      units: 11,
+      lessons: 49,
+      questions: 392,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'spanish')).toMatchObject({
+      tracks: 1,
+      units: 10,
+      lessons: 50,
+      questions: 400,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'french')).toMatchObject({
+      tracks: 1,
+      units: 10,
+      lessons: 50,
+      questions: 400,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'latin')).toMatchObject({
+      tracks: 1,
+      units: 10,
+      lessons: 50,
+      questions: 400,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'spanish')).toMatchObject({
+      tracks: 1,
+      units: 11,
+      lessons: 71,
+      questions: 568,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'french')).toMatchObject({
+      tracks: 1,
+      units: 11,
+      lessons: 71,
+      questions: 568,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'latin')).toMatchObject({
+      tracks: 1,
+      units: 10,
+      lessons: 71,
+      questions: 568,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'math')).toMatchObject({
+      tracks: 1,
+      units: 10,
+      lessons: 57,
+      questions: 360,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'vocabulary')).toMatchObject({
+      tracks: 1,
+      units: 10,
+      lessons: 40,
+      questions: 398,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'spanish')).toBeUndefined();
   });
@@ -277,4 +527,10 @@ function duplicateFixtureTrack(id: string, slug: string, unitId: string, lessonI
       },
     ],
   };
+}
+
+function flashCardPayload(question: { type: string; payload: unknown }, mode: 'easy' | 'medium' | 'hard') {
+  if (question.type !== 'flash-card' || typeof question.payload !== 'object' || question.payload === null) return null;
+  const payload = question.payload as { mode?: string; acceptedAnswers?: string[] };
+  return payload.mode === mode ? payload : null;
 }

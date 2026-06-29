@@ -1,0 +1,80 @@
+---
+id: lesson_grade3_vocabulary_reference_dictionary_entries
+slug: dictionary-entries
+title: Dictionary Entries
+xpBase: 10
+questions:
+  - type: multiple-choice
+    prompt: Which part of a dictionary entry tells what the word means?
+    choices:
+      - definition
+      - page color
+      - cover
+      - barcode
+    correctAnswer: definition
+  - type: fill-blank
+    prompt: A pronunciation guide helps you say a word ___.
+    sentenceBefore: A pronunciation guide helps you say a word
+    sentenceAfter: .
+    choices:
+      - correctly
+      - backward
+      - louder only
+      - silently
+    correctAnswer: correctly
+  - type: text-input
+    prompt: Type the dictionary part that tells whether a word is a noun or verb.
+    acceptedAnswers:
+      - part of speech
+      - speech
+      - part
+    answerType: text
+  - type: match-pairs
+    prompt: Match each entry part to its job.
+    pairs:
+      - left: definition
+        right: meaning
+      - left: example sentence
+        right: word in use
+      - left: part of speech
+        right: word job
+  - type: order-items
+    prompt: Order what to check in a dictionary entry.
+    items:
+      - Read the definition
+      - Find the word
+      - Check the example
+    correctOrder:
+      - Find the word
+      - Read the definition
+      - Check the example
+  - type: passage-question
+    prompt: Read an entry.
+    passageTitle: Entry
+    passage: "drift verb: to move slowly without control. The leaf drifted down the stream."
+    question: What does drift mean?
+    choices:
+      - move slowly without control
+      - run quickly
+      - stand still
+      - make a loud sound
+    correctAnswer: move slowly without control
+  - type: multiple-choice
+    prompt: Which entry part can show plural spelling?
+    choices:
+      - word forms
+      - page number only
+      - cover art
+      - chapter heading
+    correctAnswer: word forms
+  - type: fill-blank
+    prompt: A dictionary can show more than one definition for words with multiple ___.
+    sentenceBefore: A dictionary can show more than one definition for words with multiple
+    sentenceAfter: .
+    choices:
+      - meanings
+      - covers
+      - authors
+      - answers
+    correctAnswer: meanings
+---

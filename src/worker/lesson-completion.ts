@@ -50,6 +50,8 @@ export type CompleteLessonOptions = {
   bestScoreTotalStrategy: 'latest' | 'best-score-attempt';
 };
 
+const SEQUENTIAL_SUBJECTS = new Set(['spanish']);
+
 export async function completeLesson({
   env,
   child,
@@ -102,6 +104,7 @@ export async function completeLesson({
   if (nextLesson) await unlockNextLesson(env, child.id, nextLesson.id);
 
   const lessonsCompleted = await countCompletedTrackLessons(env, child.id, lesson.track_id);
+  const nextSequentialLesson = nextLesson ? null : await unlockNextSequentialTrack(env, child.id, lesson, lessonsCompleted, completedIso);
   await updateTrackProgress(env, {
     childId: child.id,
     lesson,
@@ -128,7 +131,7 @@ export async function completeLesson({
     xpAwarded,
     heartsRemaining,
     streak,
-    nextLesson,
+    nextLesson: nextLesson ?? nextSequentialLesson,
     lessonProgress,
   };
 }
@@ -276,6 +279,74 @@ async function getNextLesson(env: CompletionEnv, lesson: CompletionLesson) {
   );
   const index = lessons.findIndex((item) => item.id === lesson.id);
   return index >= 0 ? (lessons[index + 1] ?? null) : null;
+}
+
+async function unlockNextSequentialTrack(
+  env: CompletionEnv,
+  childId: string,
+  lesson: CompletionLesson,
+  lessonsCompleted: number,
+  completedIso: string,
+) {
+  if (!SEQUENTIAL_SUBJECTS.has(lesson.track_subject)) return null;
+
+  const totalLessons = await countTrackLessons(env, lesson.track_id);
+  if (totalLessons === 0 || lessonsCompleted < totalLessons) return null;
+
+  const nextTrack = await env.DB.prepare(
+    `SELECT *
+     FROM tracks
+     WHERE subject = ?
+       AND grade_level = ?
+     LIMIT 1`,
+  )
+    .bind(lesson.track_subject, lesson.track_grade_level + 1)
+    .first<{ id: string }>();
+  if (!nextTrack) return null;
+
+  const firstLesson = await getFirstLessonForTrack(env, nextTrack.id);
+  if (!firstLesson) return null;
+
+  await env.DB.prepare(
+    `INSERT INTO child_track_progress
+     (id, child_profile_id, track_id, current_unit_id, current_lesson_id, lessons_completed, xp_total, updated_at)
+     VALUES (?, ?, ?, ?, ?, 0, 0, ?)
+     ON CONFLICT(child_profile_id, track_id) DO NOTHING`,
+  )
+    .bind(`track_progress_${childId}_${firstLesson.track_id}`, childId, firstLesson.track_id, firstLesson.unit_id, firstLesson.id, completedIso)
+    .run();
+
+  await unlockNextLesson(env, childId, firstLesson.id);
+
+  return firstLesson;
+}
+
+async function countTrackLessons(env: CompletionEnv, trackId: string) {
+  const row = await env.DB.prepare(
+    `SELECT count(lessons.id) as total
+     FROM units
+     JOIN lessons ON lessons.unit_id = units.id
+     WHERE units.track_id = ?`,
+  )
+    .bind(trackId)
+    .first<{ total: number }>();
+  return row?.total ?? 0;
+}
+
+async function getFirstLessonForTrack(env: CompletionEnv, trackId: string) {
+  return env.DB.prepare(
+    `SELECT lessons.*, units.title as unit_title, units.slug as unit_slug,
+            tracks.id as track_id, tracks.slug as track_slug, tracks.subject as track_subject,
+            tracks.grade_level as track_grade_level, tracks.title as track_title
+     FROM lessons
+     JOIN units ON units.id = lessons.unit_id
+     JOIN tracks ON tracks.id = units.track_id
+     WHERE tracks.id = ?
+     ORDER BY units.sort_order, lessons.sort_order
+     LIMIT 1`,
+  )
+    .bind(trackId)
+    .first<CompletionLesson>();
 }
 
 async function getActivityDates(env: CompletionEnv, childId: string) {

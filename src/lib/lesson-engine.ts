@@ -124,7 +124,7 @@ export type ConjugationGridPayload = MediaPayload & {
 };
 
 export type FlashCardPayload = MediaPayload & {
-  mode: 'easy' | 'hard';
+  mode: 'easy' | 'medium' | 'hard';
   front: string;
   choices?: string[];
   correctAnswer?: string;
@@ -397,7 +397,7 @@ export function getAccentFeedback(question: LessonQuestion, answer: unknown) {
 
   if (question.type === 'flash-card') {
     const payload = question.payload as FlashCardPayload;
-    if (payload.mode !== 'hard') return null;
+    if (payload.mode === 'easy') return null;
     return accentFeedbackForAnswer(answer, flashCardAcceptedAnswers(payload), payload.answerType ?? 'text');
   }
 
