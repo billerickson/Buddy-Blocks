@@ -708,3 +708,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: `npm test`, `npm run check`, and `npm run build` passed.
 - Risks: importing schema exports directly into browser islands pulls Zod into the client bundle, so browser code should import `lesson-config-core.ts` for defaults/types/type guards.
 - Future improvements: add a dedicated content validation script that exercises the shared schemas without running the seed process.
+
+### Item 3: Move Mad Minute Logic Out of the UI Component
+
+- Changed: added `src/lib/mad-minute.ts` for fact generation, allowed-fact validation, submitted attempt scoring, and Mad Minute XP; updated the lesson player and Worker to use the shared helpers.
+- Tests/docs: moved fact generation tests to the domain module import and added mixed-range, fixed-factor, invalid submitted fact, and XP goal-boundary coverage; documented the shared Mad Minute domain module.
+- Verification: `npm test`, `npm run check`, and `npm run build` passed.
+- Risks: Mad Minute submission attempts are still stored only as aggregate lesson attempts, so per-fact audit/debug history is unavailable.
+- Future improvements: add Worker route tests for Mad Minute submissions once the Worker API harness covers authenticated POST flows.

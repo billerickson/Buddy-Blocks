@@ -152,6 +152,8 @@ For a mixed fact lesson, set `factor: mixed` and use `minFactor`/`maxFactor` to 
 
 Mad Minute defaults are centralized as `DEFAULT_MAD_MINUTE_CONFIG`: mixed 2s-12s multiplication facts, multipliers 1-12, 60 seconds, and a goal of 40 correct. Authored Mad Minute Markdown should still specify the config explicitly for readability.
 
+Fact generation, allowed-fact validation, scoring, and Mad Minute XP rules live in [src/lib/mad-minute.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/mad-minute.ts) so the lesson player and Worker use the same domain behavior.
+
 ## Question Types
 
 Every question type can include optional question-level media:

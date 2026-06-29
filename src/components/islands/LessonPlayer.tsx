@@ -28,6 +28,7 @@ import {
   type MadMinuteConfig,
   type StandardLessonConfig,
 } from '../../lib/lesson-config-core';
+import { generateMadMinuteFact } from '../../lib/mad-minute';
 import { fetchApi } from './api';
 
 type LessonData = {
@@ -62,8 +63,6 @@ type MadMinuteAttempt = {
   multiplier: number;
   answer: number;
 };
-
-export type MadMinuteFact = Pick<MadMinuteAttempt, 'factor' | 'multiplier'>;
 
 type QueueItem = {
   question: LessonQuestion;
@@ -749,39 +748,6 @@ function MadMinuteLesson({
     input.focus({ preventScroll: true });
     input.select();
   }
-}
-
-export function generateMadMinuteFact(config: MadMinuteConfig, previousFact?: MadMinuteFact | null): MadMinuteFact {
-  const minFactor = config.factor === 'mixed' ? (config.minFactor ?? 2) : config.factor;
-  const maxFactor = config.factor === 'mixed' ? (config.maxFactor ?? 12) : config.factor;
-  const candidates: MadMinuteFact[] = [];
-
-  for (let factor = Math.ceil(Math.min(minFactor, maxFactor)); factor <= Math.floor(Math.max(minFactor, maxFactor)); factor += 1) {
-    for (
-      let multiplier = Math.ceil(Math.min(config.minMultiplier, config.maxMultiplier));
-      multiplier <= Math.floor(Math.max(config.minMultiplier, config.maxMultiplier));
-      multiplier += 1
-    ) {
-      candidates.push({ factor, multiplier });
-    }
-  }
-
-  const nextCandidates =
-    previousFact && candidates.length > 1
-      ? candidates.filter((candidate) => !sameMadMinuteFact(candidate, previousFact))
-      : candidates;
-
-  return nextCandidates[randomInteger(0, nextCandidates.length - 1)] ?? { factor: minFactor, multiplier: config.minMultiplier };
-}
-
-function sameMadMinuteFact(a: MadMinuteFact, b: MadMinuteFact) {
-  return a.factor === b.factor && a.multiplier === b.multiplier;
-}
-
-function randomInteger(min: number, max: number) {
-  const low = Math.ceil(Math.min(min, max));
-  const high = Math.floor(Math.max(min, max));
-  return Math.floor(Math.random() * (high - low + 1)) + low;
 }
 
 function factRangeLabel(config: MadMinuteConfig) {

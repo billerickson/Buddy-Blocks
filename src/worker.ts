@@ -17,7 +17,8 @@ import {
   type LessonQuestion,
   type QuestionPayload,
 } from './lib/lesson-engine';
-import { parseMadMinuteConfig, parseStandardLessonConfig, type LessonKind, type MadMinuteConfig } from './lib/lesson-config';
+import { parseMadMinuteConfig, parseStandardLessonConfig, type LessonKind } from './lib/lesson-config';
+import { calculateMadMinuteXp, scoreMadMinuteAttempts } from './lib/mad-minute';
 import { calculateCurrentStreak } from './lib/streak';
 
 type ParentRow = {
@@ -689,18 +690,7 @@ async function apiSubmitMadMinuteLesson(env: Env, request: Request, child: Child
 
   const completedAt = new Date();
   const completedIso = completedAt.toISOString();
-  const scored = body.attempts.map((attempt) => {
-    const answer = Number(String(attempt.answer).trim());
-    return {
-      ...attempt,
-      isCorrect:
-        Number.isFinite(answer) &&
-        isAllowedMadMinuteFact(config, attempt.factor, attempt.multiplier) &&
-        answer === attempt.factor * attempt.multiplier,
-    };
-  });
-  const scoreCorrect = scored.filter((attempt) => attempt.isCorrect).length;
-  const scoreTotal = scored.length;
+  const { scoreCorrect, scoreTotal } = scoreMadMinuteAttempts(config, body.attempts);
   const heartsRemaining = 5;
   const xpAwarded = calculateMadMinuteXp(lesson.xp_base, scoreCorrect, scoreTotal, config.goalCorrect);
   const lessonAttemptId = randomId('attempt_');
@@ -1374,23 +1364,6 @@ function lessonLinkResponse(lesson: LessonDetailRow) {
     trackGradeLevel: lesson.track_grade_level,
     trackTitle: lesson.track_title,
   };
-}
-
-function isAllowedMadMinuteFact(config: MadMinuteConfig, factor: number, multiplier: number) {
-  const minFactor = config.factor === 'mixed' ? (config.minFactor ?? 2) : config.factor;
-  const maxFactor = config.factor === 'mixed' ? (config.maxFactor ?? 12) : config.factor;
-  return (
-    factor >= minFactor &&
-    factor <= maxFactor &&
-    multiplier >= config.minMultiplier &&
-    multiplier <= config.maxMultiplier
-  );
-}
-
-function calculateMadMinuteXp(baseXp: number, scoreCorrect: number, scoreTotal: number, goalCorrect: number) {
-  if (scoreTotal === 0) return 0;
-  const goalBonus = scoreCorrect >= goalCorrect ? 10 : 0;
-  return Math.min(75, baseXp + scoreCorrect + goalBonus);
 }
 
 function getChildModeSlug(request: Request) {
