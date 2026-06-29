@@ -424,7 +424,7 @@ To add a lesson:
 1. Choose the grade folder, track folder, and unit folder.
 2. Add the next numbered Markdown file, such as `03-equal-parts.md`.
 3. Use a stable grade-scoped lesson `id`, a URL-safe `slug`, a kid-facing `title`, `xpBase: 10`, and 8-12 questions.
-4. Run `npm run test` and `npm run build`.
+4. Run `npm run content:validate`, `npm run test`, and `npm run build`.
 5. Run `npm run db:seed:local` before checking the local Worker.
 
 To add a new track:
@@ -440,6 +440,7 @@ To add a new track:
 After changing content:
 
 ```bash
+npm run content:validate
 npm run test
 npm run build
 npm run db:seed:local
@@ -460,7 +461,7 @@ For remote Cloudflare D1, seed without resetting progress:
 BUDDY_BLOCKS_PARENT_PASSWORD='your-parent-password' npm run db:seed:remote
 ```
 
-The seed script upserts authored tracks, units, lessons, and questions. It inserts missing child progress rows, but it does not overwrite existing lesson completion rows.
+The seed script upserts authored tracks, units, lessons, and questions. It inserts missing child progress rows, but it does not overwrite existing lesson completion rows. Seed output includes a grade/subject summary so large content changes are easier to scan before QA.
 
 ## Curriculum Intake Workflow
 

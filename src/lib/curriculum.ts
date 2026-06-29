@@ -50,6 +50,31 @@ export type TrackFixture = {
   units: UnitFixture[];
 };
 
+export type CurriculumDuplicate = {
+  kind: 'track' | 'unit' | 'lesson' | 'question';
+  id: string;
+  paths: string[];
+};
+
+export type CurriculumSummaryRow = {
+  gradeLevel: number;
+  subject: string;
+  tracks: number;
+  units: number;
+  lessons: number;
+  questions: number;
+};
+
+export type CurriculumSummary = {
+  rows: CurriculumSummaryRow[];
+  totals: {
+    tracks: number;
+    units: number;
+    lessons: number;
+    questions: number;
+  };
+};
+
 type LessonWithContext = LessonFixture & {
   track: TrackFixture;
   unit: UnitFixture;
@@ -234,7 +259,7 @@ const lessonFileSchema = z.object({
 type AuthoredQuestion = z.infer<typeof questionSchema>;
 type AuthoredLesson = z.infer<typeof lessonFileSchema>;
 
-export const TRACKS: TrackFixture[] = loadCurriculum();
+export const TRACKS: TrackFixture[] = loadCurriculumFromRoot();
 export const GRADE_3_TRACKS: TrackFixture[] = getTracksForGrade(3);
 export const GRADE_6_TRACKS: TrackFixture[] = getTracksForGrade(6);
 
@@ -265,13 +290,107 @@ export function getAllQuestions() {
   );
 }
 
-function loadCurriculum() {
-  if (!existsSync(curriculumRoot)) throw new Error(`Curriculum root not found: ${curriculumRoot}`);
+export function loadCurriculumFromRoot(root = curriculumRoot) {
+  if (!existsSync(root)) throw new Error(`Curriculum root not found: ${root}`);
 
-  return childDirectories(curriculumRoot).flatMap((gradeDir) => {
+  const tracks = childDirectories(root).flatMap((gradeDir) => {
     const gradeLevel = parseGradeLevel(gradeDir.name);
     return childDirectories(gradeDir.path).map((trackDir) => loadTrack(trackDir.path, gradeLevel));
   });
+  validateCurriculum(tracks);
+  return tracks;
+}
+
+export function validateCurriculum(tracks: TrackFixture[] = TRACKS) {
+  const duplicates = findDuplicateCurriculumIds(tracks);
+  if (duplicates.length === 0) return;
+
+  const details = duplicates
+    .map((duplicate) => `${duplicate.kind} id "${duplicate.id}" used by ${duplicate.paths.join(', ')}`)
+    .join('; ');
+  throw new Error(`Duplicate curriculum IDs found: ${details}`);
+}
+
+export function findDuplicateCurriculumIds(tracks: TrackFixture[]): CurriculumDuplicate[] {
+  const seen = new Map<string, string[]>();
+
+  for (const track of tracks) {
+    addId(seen, 'track', track.id, `grade-${String(track.gradeLevel).padStart(2, '0')}/${track.slug}`);
+    for (const unit of track.units) {
+      const unitPath = `${track.slug}/${unit.slug}`;
+      addId(seen, 'unit', unit.id, unitPath);
+      for (const lesson of unit.lessons) {
+        const lessonPath = `${unitPath}/${lesson.slug}`;
+        addId(seen, 'lesson', lesson.id, lessonPath);
+        lesson.questions.forEach((_, index) => {
+          addId(seen, 'question', `${lesson.id}_q${String(index + 1).padStart(2, '0')}`, `${lessonPath}#q${index + 1}`);
+        });
+      }
+    }
+  }
+
+  return Array.from(seen.entries())
+    .filter(([, paths]) => paths.length > 1)
+    .map(([key, paths]) => {
+      const [kind, id] = key.split(':', 2) as [CurriculumDuplicate['kind'], string];
+      return { kind, id, paths };
+    });
+}
+
+export function summarizeCurriculum(tracks: TrackFixture[] = TRACKS): CurriculumSummary {
+  const rowsByGradeSubject = new Map<string, CurriculumSummaryRow>();
+
+  for (const track of tracks) {
+    const key = `${track.gradeLevel}:${track.subject}`;
+    const row =
+      rowsByGradeSubject.get(key) ??
+      {
+        gradeLevel: track.gradeLevel,
+        subject: track.subject,
+        tracks: 0,
+        units: 0,
+        lessons: 0,
+        questions: 0,
+      };
+    row.tracks += 1;
+    row.units += track.units.length;
+    row.lessons += track.units.reduce((total, unit) => total + unit.lessons.length, 0);
+    row.questions += track.units.reduce(
+      (total, unit) => total + unit.lessons.reduce((lessonTotal, lesson) => lessonTotal + lesson.questions.length, 0),
+      0,
+    );
+    rowsByGradeSubject.set(key, row);
+  }
+
+  const rows = Array.from(rowsByGradeSubject.values()).sort((a, b) => a.gradeLevel - b.gradeLevel || a.subject.localeCompare(b.subject));
+  return {
+    rows,
+    totals: rows.reduce(
+      (totals, row) => ({
+        tracks: totals.tracks + row.tracks,
+        units: totals.units + row.units,
+        lessons: totals.lessons + row.lessons,
+        questions: totals.questions + row.questions,
+      }),
+      { tracks: 0, units: 0, lessons: 0, questions: 0 },
+    ),
+  };
+}
+
+export function formatCurriculumSummary(summary: CurriculumSummary) {
+  const rows = summary.rows.map(
+    (row) =>
+      `Grade ${row.gradeLevel} ${row.subject}: ${row.tracks} track(s), ${row.units} unit(s), ${row.lessons} lesson(s), ${row.questions} question(s)`,
+  );
+  rows.push(
+    `Totals: ${summary.totals.tracks} track(s), ${summary.totals.units} unit(s), ${summary.totals.lessons} lesson(s), ${summary.totals.questions} question(s)`,
+  );
+  return rows.join('\n');
+}
+
+function addId(seen: Map<string, string[]>, kind: CurriculumDuplicate['kind'], id: string, path: string) {
+  const key = `${kind}:${id}`;
+  seen.set(key, [...(seen.get(key) ?? []), path]);
 }
 
 function loadTrack(trackDir: string, gradeLevel: number): TrackFixture {

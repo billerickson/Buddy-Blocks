@@ -4,8 +4,11 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import {
   TRACKS,
+  formatCurriculumSummary,
   getAllLessons,
   getAllQuestions,
+  summarizeCurriculum,
+  validateCurriculum,
 } from '../src/lib/curriculum';
 import {
   CHILDREN,
@@ -15,6 +18,12 @@ import {
   getTracksForChild,
 } from '../src/lib/seed-family';
 import { hashPassword } from '../src/lib/auth';
+import {
+  buildCurriculumSeedStatements,
+  insertIgnoreStatement,
+  insertWithUpdateStatement,
+  upsertStatement,
+} from '../src/lib/seed-sql';
 
 const databaseName = 'buddy_blocks';
 const local = process.argv.includes('--remote') ? false : true;
@@ -23,99 +32,60 @@ const parentPassword = process.env.BUDDY_BLOCKS_PARENT_PASSWORD || 'blocks';
 const { hash, salt } = await hashPassword(parentPassword);
 
 const statements: string[] = ['PRAGMA foreign_keys = ON;'];
+validateCurriculum(TRACKS);
+const allLessons = getAllLessons();
+const questions = getAllQuestions();
 
 // Phase 1: canonical curriculum from Markdown source.
-TRACKS.forEach((track, trackIndex) => {
-  upsert('tracks', {
-    id: track.id,
-    slug: track.slug,
-    subject: track.subject,
-    grade_level: track.gradeLevel,
-    title: track.title,
-    description: track.description,
-    color: track.color,
-    accent: track.accent,
-    sort_order: trackIndex + 1,
-  });
-
-  track.units.forEach((unit, unitIndex) => {
-    upsert('units', {
-      id: unit.id,
-      track_id: track.id,
-      slug: unit.slug,
-      title: unit.title,
-      description: unit.description,
-      sort_order: unitIndex + 1,
-    });
-
-    unit.lessons.forEach((lesson, lessonIndex) => {
-      upsert('lessons', {
-        id: lesson.id,
-        unit_id: unit.id,
-        slug: lesson.slug,
-        title: lesson.title,
-        kind: lesson.kind ?? 'standard',
-        config_json: lesson.config ? JSON.stringify(lesson.config) : null,
-        sort_order: lessonIndex + 1,
-        xp_base: lesson.xpBase,
-      });
-    });
-  });
-});
-
-for (const question of getAllQuestions()) {
-  upsert('questions', {
-    id: question.id,
-    lesson_id: question.lessonId,
-    type: question.type,
-    prompt: question.prompt,
-    payload_json: JSON.stringify(question.payload),
-    explanation: question.explanation ?? null,
-    sort_order: question.sortOrder,
-  });
-}
+statements.push(...buildCurriculumSeedStatements(TRACKS, questions));
 
 // Phase 2: fixed v1 family/profile data.
-upsert('parents', {
-  id: PARENT_ID,
-  username: PARENT_USERNAME,
-  email: PARENT_EMAIL,
-  password_hash: hash,
-  password_salt: salt,
-  status: 'active',
-  created_at: now,
-  updated_at: now,
-});
+statements.push(
+  upsertStatement('parents', {
+    id: PARENT_ID,
+    username: PARENT_USERNAME,
+    email: PARENT_EMAIL,
+    password_hash: hash,
+    password_salt: salt,
+    status: 'active',
+    created_at: now,
+    updated_at: now,
+  }),
+);
 
 for (const child of CHILDREN) {
-  insertWithUpdate(
-    'child_profiles',
-    {
-      id: child.id,
-      parent_id: PARENT_ID,
-      slug: child.slug,
-      display_name: child.displayName,
-      avatar_key: child.avatarKey,
-      level_band: child.levelBand,
-      grade_level: child.gradeLevel,
-      hearts_remaining: 5,
-      created_at: now,
-      updated_at: now,
-    },
-    ['parent_id', 'slug', 'display_name', 'avatar_key', 'level_band', 'grade_level', 'updated_at'],
+  statements.push(
+    insertWithUpdateStatement(
+      'child_profiles',
+      {
+        id: child.id,
+        parent_id: PARENT_ID,
+        slug: child.slug,
+        display_name: child.displayName,
+        avatar_key: child.avatarKey,
+        level_band: child.levelBand,
+        grade_level: child.gradeLevel,
+        hearts_remaining: 5,
+        created_at: now,
+        updated_at: now,
+      },
+      ['parent_id', 'slug', 'display_name', 'avatar_key', 'level_band', 'grade_level', 'updated_at'],
+    ),
   );
 
   for (const [subject, gradeLevel] of Object.entries(child.subjectGradeLevels ?? {})) {
-    insertWithUpdate(
-      'child_subject_levels',
-      {
-        id: `subject_level_${child.id}_${subject}`,
-        child_profile_id: child.id,
-        subject,
-        grade_level: gradeLevel,
-        updated_at: now,
-      },
-      ['grade_level', 'updated_at'],
+    statements.push(
+      insertWithUpdateStatement(
+        'child_subject_levels',
+        {
+          id: `subject_level_${child.id}_${subject}`,
+          child_profile_id: child.id,
+          subject,
+          grade_level: gradeLevel,
+          updated_at: now,
+        },
+        ['grade_level', 'updated_at'],
+      ),
     );
   }
 }
@@ -126,28 +96,32 @@ for (const child of CHILDREN) {
     const firstUnit = track.units[0];
     if (!firstLesson || !firstUnit) continue;
 
-    insertIgnore('child_track_progress', {
-      id: `track_progress_${child.id}_${track.id}`,
-      child_profile_id: child.id,
-      track_id: track.id,
-      current_unit_id: firstUnit.id,
-      current_lesson_id: firstLesson.id,
-      lessons_completed: 0,
-      xp_total: 0,
-      updated_at: now,
-    });
-
-    for (const lesson of getAllLessons().filter((item) => item.track.id === track.id)) {
-      const status = lesson.id === firstLesson.id || lesson.kind === 'mad-minute' ? 'available' : 'locked';
-      insertIgnore('child_lesson_progress', {
-        id: `lesson_progress_${child.id}_${lesson.id}`,
+    statements.push(
+      insertIgnoreStatement('child_track_progress', {
+        id: `track_progress_${child.id}_${track.id}`,
         child_profile_id: child.id,
-        lesson_id: lesson.id,
-        status,
-        completed_at: null,
-        best_score_correct: 0,
-        best_score_total: 0,
-      });
+        track_id: track.id,
+        current_unit_id: firstUnit.id,
+        current_lesson_id: firstLesson.id,
+        lessons_completed: 0,
+        xp_total: 0,
+        updated_at: now,
+      }),
+    );
+
+    for (const lesson of allLessons.filter((item) => item.track.id === track.id)) {
+      const status = lesson.id === firstLesson.id || lesson.kind === 'mad-minute' ? 'available' : 'locked';
+      statements.push(
+        insertIgnoreStatement('child_lesson_progress', {
+          id: `lesson_progress_${child.id}_${lesson.id}`,
+          child_profile_id: child.id,
+          lesson_id: lesson.id,
+          status,
+          completed_at: null,
+          best_score_correct: 0,
+          best_score_total: 0,
+        }),
+      );
     }
   }
 }
@@ -160,32 +134,4 @@ const args = ['wrangler', 'd1', 'execute', databaseName, local ? '--local' : '--
 execFileSync(command, args, { stdio: 'inherit' });
 
 console.log(`Seeded ${databaseName} ${local ? 'locally' : 'remotely'} with parent "${PARENT_USERNAME}" and ${CHILDREN.length} child profiles.`);
-
-function upsert(table: string, row: Record<string, unknown>) {
-  insertWithUpdate(
-    table,
-    row,
-    Object.keys(row).filter((column) => column !== 'id' && column !== 'created_at'),
-  );
-}
-
-function insertWithUpdate(table: string, row: Record<string, unknown>, updateColumns: string[]) {
-  const columns = Object.keys(row);
-  const updates = updateColumns.map((column) => `${column} = excluded.${column}`).join(', ');
-  statements.push(
-    `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${columns.map((column) => sql(row[column])).join(', ')}) ON CONFLICT(id) DO UPDATE SET ${updates};`,
-  );
-}
-
-function insertIgnore(table: string, row: Record<string, unknown>) {
-  const columns = Object.keys(row);
-  statements.push(
-    `INSERT OR IGNORE INTO ${table} (${columns.join(', ')}) VALUES (${columns.map((column) => sql(row[column])).join(', ')});`,
-  );
-}
-
-function sql(value: unknown) {
-  if (value === null || value === undefined) return 'NULL';
-  if (typeof value === 'number') return String(value);
-  return `'${String(value).replaceAll("'", "''")}'`;
-}
+console.log(formatCurriculumSummary(summarizeCurriculum(TRACKS)));

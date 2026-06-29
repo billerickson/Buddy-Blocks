@@ -756,3 +756,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: focused `npm test -- --run tests/worker-api.test.ts`, `npm test`, `npm run check`, `npm run build`, and `npm run db:migrate:local` passed.
 - Risks: practice sets currently have API support but no dedicated parent dashboard form, so creation requires direct API use or a later UI layer.
 - Future improvements: add parent UI for weekly word entry, surface archived practice history in the parent dashboard, and consider richer practice modes beyond generated flash cards.
+
+### Item 9: Content Scale and Seed Strategy
+
+- Changed: added reusable curriculum duplicate-ID validation, dynamic-root loading, grade/subject summaries, a `content:validate` command, seed SQL builders, and seed output summaries while keeping child progress rows insert-only.
+- Tests/docs: added curriculum tests for dynamic `grade-07` loading, numeric folder ordering, duplicate track/unit/lesson/generated-question IDs, and summary counts; added seed SQL tests for stable authored IDs and `INSERT OR IGNORE` progress rows; updated authoring and local-run docs.
+- Verification: focused `npm test -- --run tests/curriculum.test.ts tests/seed-sql.test.ts`, `npm test`, `npm run check`, and `npm run build` passed. `npm run content:validate` was not run because the `tsx` runner needed escalation for a local IPC socket and automatic approval was blocked by the session usage limit.
+- Risks: seed modes such as `--grade`, `--curriculum-only`, and `--fixtures-only` are still future work; this pass made the existing all-content seed safer and more inspectable without changing its mode behavior.
+- Future improvements: add seed CLI mode parsing around the new pure SQL builders and include a CI job that runs `npm run content:validate` outside the desktop sandbox.
