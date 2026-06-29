@@ -204,6 +204,7 @@ Reasoning:
 
 - Grade 3 Math complete: added Place Value And Rounding, Multiplication Concepts, Division Concepts, Multiplication And Division Word Problems, Fractions, Measurement, Time, And Money, Data And Graphs, Geometry, Area, And Perimeter, and Mixed Problem Solving. Mad Minute remains the final fluency unit with stable lesson IDs.
 - Grade 6 Math complete: added the remaining Ratios And Rates lessons plus Rational Number Operations, Fractions, Decimals, And Percents, Inequalities And Relationships, Coordinate Plane, Geometry, Statistics And Data, and Mixed Problem Solving. Expressions And Equations kept its existing lessons and IDs, and Mad Minute remains the final fluency unit with stable lesson IDs.
+- Grade 3 Vocabulary complete: expanded Word Meanings, added Context Clues, renamed the Synonyms unit to Synonyms And Antonyms while keeping existing IDs stable, and added Multiple-Meaning Words, Prefixes And Suffixes, Roots And Word Families, Reference Skills, Figurative Language, Academic Reading Words, Writing And Revision Words, and Cumulative Review.
 
 ## Grade 3 Math Remaining Units
 
