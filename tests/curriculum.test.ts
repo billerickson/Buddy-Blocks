@@ -46,11 +46,18 @@ describe('curriculum content', () => {
     ]);
     expect(GRADE_6_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'ratios-rates',
+      'rational-number-operations',
+      'fractions-decimals-percents',
       'expressions-equations',
+      'inequalities-relationships',
+      'coordinate-plane',
+      'geometry',
+      'statistics-data',
+      'mixed-problem-solving',
       'mad-minute',
     ]);
-    expect(getAllLessons()).toHaveLength(120);
-    expect(getAllQuestions()).toHaveLength(838);
+    expect(getAllLessons()).toHaveLength(161);
+    expect(getAllQuestions()).toHaveLength(1166);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -168,15 +175,21 @@ describe('curriculum content', () => {
 
     expect(summary.totals).toEqual({
       tracks: 5,
-      units: 28,
-      lessons: 120,
-      questions: 838,
+      units: 35,
+      lessons: 161,
+      questions: 1166,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
       tracks: 1,
       units: 12,
       lessons: 60,
       questions: 384,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'math')).toMatchObject({
+      tracks: 1,
+      units: 10,
+      lessons: 57,
+      questions: 360,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'spanish')).toBeUndefined();
   });
