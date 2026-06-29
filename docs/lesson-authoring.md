@@ -449,6 +449,8 @@ npm run dev:worker
 
 Then open the local Worker URL, usually `http://localhost:8787`.
 
+After changing lesson-player rendering or question controls, also use [docs/lesson-player-qa.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/lesson-player-qa.md) for the manual smoke pass.
+
 If you need to wipe local progress and start from fresh seed data:
 
 ```bash

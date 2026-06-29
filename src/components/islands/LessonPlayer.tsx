@@ -16,7 +16,6 @@ import {
   type MultipleChoicePayload,
   type OrderItemsPayload,
   type PassageQuestionPayload,
-  type QuestionMedia,
   type SpeakingPromptPayload,
   type TextInputPayload,
 } from '../../lib/lesson-engine';
@@ -29,6 +28,9 @@ import {
   type StandardLessonConfig,
 } from '../../lib/lesson-config-core';
 import { generateMadMinuteFact } from '../../lib/mad-minute';
+import { LessonIntro } from '../lesson/LessonIntro';
+import { prepareLessonQueue, hashString, nextSeed, type QueueItem } from '../lesson/lesson-flow';
+import { AudioBlock, QuestionMediaDisplay, mediaFromQuestion } from '../lesson/media';
 import { fetchApi } from './api';
 import { lessonRouteParams } from './route-params';
 
@@ -63,11 +65,6 @@ type MadMinuteAttempt = {
   factor: number;
   multiplier: number;
   answer: number;
-};
-
-type QueueItem = {
-  question: LessonQuestion;
-  review: boolean;
 };
 
 type FirstAttempt = {
@@ -485,69 +482,6 @@ export default function LessonPlayer({
     setGridAnswer({});
     setSpeakingAnswer({});
   }
-}
-
-function LessonIntro({
-  data,
-  config,
-  onStart,
-}: {
-  data: LessonData;
-  config: StandardLessonConfig;
-  onStart: () => void;
-}) {
-  return (
-    <section className="mx-auto max-w-4xl space-y-5">
-      <header className="block-card p-5">
-        <p className="stat-chip w-fit">
-          {data.lesson.track.title} · {data.lesson.unit.title}
-        </p>
-        <h1 className="mt-3 text-[clamp(2.3rem,6vw,4.2rem)]">{data.lesson.title}</h1>
-      </header>
-
-      <article className="block-card p-5 sm:p-7">
-        <div className="space-y-6">
-          {config.intro?.map((card, index) => (
-            <section key={`${card.title}-${index}`} className={index > 0 ? 'border-t-[3px] border-ink pt-6' : ''}>
-              <QuestionMediaDisplay media={card.media} />
-              <h2 className="text-[clamp(2rem,5vw,3.4rem)] leading-tight">{card.title}</h2>
-              <p className="mt-3 text-lg font-bold text-muted">{card.body}</p>
-              {card.bullets && (
-                <ul className="mt-4 space-y-2 text-lg font-black">
-                  {card.bullets.map((bullet) => (
-                    <li key={bullet} className="rounded-lg border-2 border-ink bg-white px-4 py-3">
-                      {bullet}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
-          ))}
-        </div>
-        <button className="primary-button mt-7 w-full sm:w-auto" type="button" onClick={onStart}>
-          Start Lesson
-        </button>
-      </article>
-    </section>
-  );
-}
-
-function prepareLessonQueue(questions: LessonQuestion[], config: StandardLessonConfig | null, lessonId: string): QueueItem[] {
-  const orderedQuestions = config?.review?.shuffleQuestions ? shuffleQuestions(questions, lessonId) : questions;
-  return orderedQuestions.map((question) => ({ question, review: false }));
-}
-
-function shuffleQuestions(questions: LessonQuestion[], seedValue: string) {
-  const shuffled = [...questions];
-  let seed = hashString(seedValue || questions.map((question) => question.id).join('|'));
-
-  for (let index = shuffled.length - 1; index > 0; index--) {
-    seed = nextSeed(seed);
-    const swapIndex = seed % (index + 1);
-    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
-  }
-
-  return shuffled;
 }
 
 function getStandardLessonConfig(config: LessonConfig | null): StandardLessonConfig | null {
@@ -1417,23 +1351,6 @@ function DialogueBlock({ turns }: { turns: DialogueBuilderPayload['turns'] }) {
   );
 }
 
-function AudioBlock({ src, label, transcript }: { src: string; label?: string; transcript?: string }) {
-  return (
-    <section className="rounded-lg border-[3px] border-ink bg-white p-4">
-      {label && <h3 className="text-2xl font-black">{label}</h3>}
-      <audio className="mt-3 w-full" controls src={src}>
-        <a href={src}>Open audio</a>
-      </audio>
-      {transcript && (
-        <details className="mt-3 rounded-lg border-2 border-ink bg-[#f0fff9] p-3 font-bold">
-          <summary className="cursor-pointer font-black">Transcript</summary>
-          <p className="mt-2 whitespace-pre-line text-muted">{transcript}</p>
-        </details>
-      )}
-    </section>
-  );
-}
-
 function SpeakingPromptControl({
   payload,
   answer,
@@ -1528,31 +1445,6 @@ function SpeakingPromptControl({
   }
 }
 
-function QuestionMediaDisplay({ media }: { media?: QuestionMedia }) {
-  if (!media?.image && !media?.audio && !media?.video) return null;
-
-  return (
-    <div className="mb-5 space-y-3 rounded-lg border-[3px] border-ink bg-white p-4">
-      {media.image && (
-        <figure>
-          <img className="max-h-[360px] w-full rounded-lg object-contain" src={media.image.src} alt={media.image.alt} />
-          {media.image.caption && <figcaption className="mt-2 text-sm font-black text-muted">{media.image.caption}</figcaption>}
-        </figure>
-      )}
-      {media.audio && <AudioBlock src={media.audio.src} label={media.audio.label} transcript={media.audio.transcript} />}
-      {media.video && (
-        <video className="w-full rounded-lg border-2 border-ink" controls src={media.video.src}>
-          <a href={media.video.src}>{media.video.label ?? 'Open video'}</a>
-        </video>
-      )}
-    </div>
-  );
-}
-
-function mediaFromQuestion(question: LessonQuestion) {
-  return (question.payload as { media?: QuestionMedia }).media;
-}
-
 function updateArrayValue(values: string[], index: number, value: string) {
   const nextValues = [...values];
   nextValues[index] = value;
@@ -1583,18 +1475,6 @@ function shuffledMatchRights(pairs: Array<{ left: string; right: string }>, ques
   }
 
   return shuffled;
-}
-
-function hashString(value: string) {
-  let hash = 2166136261;
-  for (let index = 0; index < value.length; index++) {
-    hash = Math.imul(hash ^ value.charCodeAt(index), 16777619);
-  }
-  return hash >>> 0;
-}
-
-function nextSeed(seed: number) {
-  return (Math.imul(seed, 1664525) + 1013904223) >>> 0;
 }
 
 function ChoiceGrid({

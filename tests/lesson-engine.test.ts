@@ -10,6 +10,48 @@ const question = (overrides: Partial<LessonQuestion>): LessonQuestion => ({
 });
 
 describe('lesson engine', () => {
+  it('scores choice-based question answer shapes', () => {
+    expect(
+      evaluateAnswer(
+        question({
+          type: 'multiple-choice',
+          payload: { choices: ['A', 'B'], correctAnswer: 'B' },
+        }),
+        'B',
+      ),
+    ).toBe(true);
+
+    expect(
+      evaluateAnswer(
+        question({
+          type: 'fill-blank',
+          payload: {
+            sentenceBefore: '6 + ',
+            sentenceAfter: ' = 10',
+            choices: ['2', '3', '4'],
+            correctAnswer: '4',
+          },
+        }),
+        '4',
+      ),
+    ).toBe(true);
+
+    expect(
+      evaluateAnswer(
+        question({
+          type: 'passage-question',
+          payload: {
+            passage: 'Mia watered the plant every morning.',
+            question: 'Who watered the plant?',
+            choices: ['Mia', 'Noah'],
+            correctAnswer: 'Mia',
+          },
+        }),
+        'Mia',
+      ),
+    ).toBe(true);
+  });
+
   it('scores text answers with case and whitespace normalization', () => {
     expect(
       evaluateAnswer(

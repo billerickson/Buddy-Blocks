@@ -764,3 +764,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: focused `npm test -- --run tests/curriculum.test.ts tests/seed-sql.test.ts`, `npm test`, `npm run check`, and `npm run build` passed. `npm run content:validate` was not run because the `tsx` runner needed escalation for a local IPC socket and automatic approval was blocked by the session usage limit.
 - Risks: seed modes such as `--grade`, `--curriculum-only`, and `--fixtures-only` are still future work; this pass made the existing all-content seed safer and more inspectable without changing its mode behavior.
 - Future improvements: add seed CLI mode parsing around the new pure SQL builders and include a CI job that runs `npm run content:validate` outside the desktop sandbox.
+
+### Item 10: LessonPlayer Component Split
+
+- Changed: moved intro rendering, media/audio display, and pure lesson queue/shuffle helpers out of `LessonPlayer.tsx` into focused `src/components/lesson` modules without changing the existing question-control state flow.
+- Tests/docs: added lesson-flow tests for ordered and deterministic shuffled queues; added scoring regression coverage for multiple-choice, fill-blank, and passage question answer shapes; added a manual lesson-player QA checklist and linked it from the authoring guide.
+- Verification: focused `npm test -- --run tests/lesson-flow.test.ts tests/lesson-engine.test.ts`, `npm test`, `npm run check`, and `npm run build` passed.
+- Risks: the largest answer-control and completion sections still live in `LessonPlayer.tsx`; this pass deliberately moved low-risk pieces first to keep behavior stable.
+- Future improvements: continue with `LessonCompletion`, `MadMinuteLesson`, and individual question-control modules once browser/component smoke testing exists.
