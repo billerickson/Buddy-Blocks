@@ -1,0 +1,10 @@
+---
+import KidHome from '../../components/islands/KidHome';
+import AppLayout from '../../layouts/AppLayout.astro';
+---
+
+<AppLayout title="Home · Buddy Blocks" active="kid">
+  <main class="app-shell page-band">
+    <KidHome client:load />
+  </main>
+</AppLayout>

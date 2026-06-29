@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { fetchApi, percent } from './api';
 import { BlockAvatar, TrackIcon } from './BlockAvatar';
+import { childSlugFromLocation } from './route-params';
 
 type HomeData = {
   child: {
@@ -37,11 +38,17 @@ type HomeData = {
   badges: Array<{ key: string; label: string }>;
 };
 
-export default function KidHome({ childSlug }: { childSlug: string }) {
+export default function KidHome({ childSlug: childSlugProp }: { childSlug?: string }) {
+  const childSlug = childSlugFromLocation(childSlugProp);
   const [data, setData] = useState<HomeData | null>(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (!childSlug) {
+      setError('Child path not found.');
+      return;
+    }
+
     fetchApi<HomeData>(`/api/children/${childSlug}/home`)
       .then(setData)
       .catch((reason) => setError(reason.message));

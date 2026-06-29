@@ -1,0 +1,10 @@
+---
+import TrackOverview from '../../components/islands/TrackOverview';
+import AppLayout from '../../layouts/AppLayout.astro';
+---
+
+<AppLayout title="Track · Buddy Blocks" active="kid">
+  <main class="app-shell page-band">
+    <TrackOverview client:load />
+  </main>
+</AppLayout>

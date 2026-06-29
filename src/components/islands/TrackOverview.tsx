@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { fetchApi, percent } from './api';
 import { TrackIcon } from './BlockAvatar';
+import { trackRouteParams } from './route-params';
 
 type TrackData = {
   child: { slug: string; displayName: string };
@@ -34,11 +35,23 @@ type TrackData = {
   }>;
 };
 
-export default function TrackOverview({ childSlug, trackSlug }: { childSlug: string; trackSlug: string }) {
+export default function TrackOverview({
+  childSlug: childSlugProp,
+  trackSlug: trackSlugProp,
+}: {
+  childSlug?: string;
+  trackSlug?: string;
+}) {
+  const { childSlug, trackSlug } = trackRouteParams(childSlugProp, trackSlugProp);
   const [data, setData] = useState<TrackData | null>(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (!childSlug || !trackSlug) {
+      setError('Track path not found.');
+      return;
+    }
+
     fetchApi<TrackData>(`/api/children/${childSlug}/tracks/${trackSlug}`)
       .then(setData)
       .catch((reason) => setError(reason.message));

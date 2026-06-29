@@ -1,0 +1,10 @@
+---
+import LessonPlayer from '../../components/islands/LessonPlayer';
+import AppLayout from '../../layouts/AppLayout.astro';
+---
+
+<AppLayout title="Lesson · Buddy Blocks" active="kid">
+  <main class="app-shell page-band">
+    <LessonPlayer client:load />
+  </main>
+</AppLayout>

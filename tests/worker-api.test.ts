@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { describe, expect, it } from 'vitest';
-import { SESSION_COOKIE } from '../src/lib/auth';
+import { CHILD_COOKIE, SESSION_COOKIE } from '../src/lib/auth';
 import worker from '../src/worker';
 
 type QueryLog = string[];
@@ -156,6 +156,15 @@ function seedTrackFixture(db: DatabaseSync) {
   ).run('lesson_progress_child_reagan_lesson_2', 'child_reagan', 'lesson_2', 'available', null, 0, 0);
 }
 
+function insertChild(db: DatabaseSync, id: string, slug: string, gradeLevel: number) {
+  const now = '2026-06-29T12:00:00.000Z';
+  db.prepare(
+    `INSERT INTO child_profiles
+     (id, parent_id, slug, display_name, avatar_key, level_band, grade_level, hearts_remaining, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  ).run(id, 'parent_1', slug, slug.charAt(0).toUpperCase() + slug.slice(1), 'test-builder', `Grade ${gradeLevel}`, gradeLevel, 5, now, now);
+}
+
 function insertTrack(
   db: DatabaseSync,
   track: { id: string; slug: string; subject: string; gradeLevel: number; title: string; sortOrder: number },
@@ -216,7 +225,7 @@ function createEnv() {
     env: {
       DB: sqlite,
       TIME_ZONE: 'America/Chicago',
-      ASSETS: { fetch: async () => new Response('asset not found', { status: 404 }) },
+      ASSETS: { fetch: async (request: Request) => new Response(`asset:${new URL(request.url).pathname}`) },
     },
   };
 }
@@ -229,6 +238,16 @@ async function getJson(pathname: string, env: unknown) {
     env as Parameters<typeof worker.fetch>[1],
   );
   return { response, body: (await response.json()) as any };
+}
+
+async function getText(pathname: string, env: unknown, cookie = `${SESSION_COOKIE}=session_1`) {
+  const response = await worker.fetch(
+    new Request(`https://learn.example.test${pathname}`, {
+      headers: { Cookie: cookie },
+    }),
+    env as Parameters<typeof worker.fetch>[1],
+  );
+  return { response, body: await response.text() };
 }
 
 describe('worker track APIs', () => {
@@ -294,6 +313,50 @@ describe('worker track APIs', () => {
     expect(visible.response.status).toBe(200);
     expect(hidden.response.status).toBe(404);
     expect(hidden.body).toEqual({ error: 'track_not_found' });
+  });
+});
+
+describe('worker protected page shells', () => {
+  it('serves generic kid app shells for a database child outside static fixtures', async () => {
+    const { env, sqlite } = createEnv();
+    insertChild(sqlite.db, 'child_mira', 'mira', 4);
+
+    await expect(getText('/kid/mira/', env)).resolves.toMatchObject({
+      response: expect.objectContaining({ status: 200 }),
+      body: 'asset:/kid/shell/',
+    });
+    await expect(getText('/kid/mira/track/grade-4-science/', env)).resolves.toMatchObject({
+      response: expect.objectContaining({ status: 200 }),
+      body: 'asset:/kid/track-shell/',
+    });
+    await expect(getText('/kid/mira/lesson/temp_week_1/', env)).resolves.toMatchObject({
+      response: expect.objectContaining({ status: 200 }),
+      body: 'asset:/kid/lesson-shell/',
+    });
+  });
+
+  it('redirects unknown child pages back to profiles', async () => {
+    const { env } = createEnv();
+
+    const { response } = await getText('/kid/not-a-child/lesson/lesson_1/', env);
+
+    expect(response.status).toBe(303);
+    expect(response.headers.get('Location')).toBe('https://learn.example.test/profiles/');
+  });
+
+  it('requires parent reauth when child mode opens a different child page', async () => {
+    const { env } = createEnv();
+
+    const { response } = await getText(
+      '/kid/reagan/track/grade-3-spanish/',
+      env,
+      `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=ada`,
+    );
+
+    expect(response.status).toBe(303);
+    expect(response.headers.get('Location')).toBe(
+      'https://learn.example.test/parent-gate/?next=%2Fkid%2Freagan%2Ftrack%2Fgrade-3-spanish%2F',
+    );
   });
 });
 

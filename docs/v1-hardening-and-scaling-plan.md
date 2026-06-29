@@ -724,3 +724,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: `npm test`, `npm run check`, `npm run build`, and `npm run db:seed:local` passed.
 - Risks: static route generation still depends on `seed-family.ts` until Item 5 replaces fixture-based routes with generic route shells.
 - Future improvements: refactor seed SQL generation into pure functions so seed ordering and stable-ID behavior can be tested without invoking Wrangler.
+
+### Item 5: Replace Static Child/Lesson Route Generation With Generic Route Shells
+
+- Changed: replaced fixture-enumerated kid home, track, and lesson Astro routes with three fixed static shells; updated the Worker to map authenticated dynamic kid URLs to those shells; updated islands to derive route params from `window.location` when shell props are absent.
+- Tests/docs: added Worker protected-page tests for dynamic DB-backed child shells, unknown child redirects, and child-mode mismatch redirects; documented generic route shell behavior.
+- Verification: `npm test`, `npm run check`, and `npm run build` passed. Build output now generates 8 static pages, including `/kid/shell/`, `/kid/track-shell/`, and `/kid/lesson-shell/`.
+- Risks: the shell asset paths are implementation details under `/kid/`; direct visits to those shell URLs are still protected by child lookup and redirect to profiles unless a matching child slug exists.
+- Future improvements: once temporary practice lessons exist, add a route test for a generated practice lesson URL that resolves through `/kid/lesson-shell/`.

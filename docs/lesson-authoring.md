@@ -50,6 +50,8 @@ Current v1 profiles:
 
 Parents can adjust a student's grade level per subject from the parent dashboard. If a subject is left on the default option, the app uses the student's global grade level.
 
+Kid app pages are generic static shells. The Worker maps authenticated dynamic URLs such as `/kid/:childSlug/`, `/kid/:childSlug/track/:trackSlug/`, and `/kid/:childSlug/lesson/:lessonId/` to fixed shell assets, then the browser fetches child/track/lesson data from the API using the URL path. Adding children or temporary lessons should not increase the number of generated Astro pages.
+
 ## Track Files
 
 Each track folder needs a `track.yaml`:

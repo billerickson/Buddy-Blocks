@@ -30,6 +30,7 @@ import {
 } from '../../lib/lesson-config-core';
 import { generateMadMinuteFact } from '../../lib/mad-minute';
 import { fetchApi } from './api';
+import { lessonRouteParams } from './route-params';
 
 type LessonData = {
   child: {
@@ -107,7 +108,14 @@ type SpeakingAnswer = {
   transcript?: string;
 };
 
-export default function LessonPlayer({ childSlug, lessonId }: { childSlug: string; lessonId: string }) {
+export default function LessonPlayer({
+  childSlug: childSlugProp,
+  lessonId: lessonIdProp,
+}: {
+  childSlug?: string;
+  lessonId?: string;
+}) {
+  const { childSlug, lessonId } = lessonRouteParams(childSlugProp, lessonIdProp);
   const [data, setData] = useState<LessonData | null>(null);
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const [position, setPosition] = useState(0);
@@ -130,6 +138,11 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
   const [speakingAnswer, setSpeakingAnswer] = useState<SpeakingAnswer>({});
 
   useEffect(() => {
+    if (!childSlug || !lessonId) {
+      setError('Lesson path not found.');
+      return;
+    }
+
     fetchApi<LessonData>(`/api/children/${childSlug}/lessons/${lessonId}`)
       .then((lessonData) => {
         const standardConfig = getStandardLessonConfig(lessonData.lesson.config);

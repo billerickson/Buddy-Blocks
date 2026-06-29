@@ -320,7 +320,7 @@ async function protectedAsset(request: Request, env: Env) {
 
   if (childModeSlug && childModeSlug !== child.slug) return parentGateRedirect(request, url.pathname);
 
-  const response = await serveAsset(request, env, url.pathname);
+  const response = await serveAsset(request, env, kidShellAssetPath(url.pathname) ?? url.pathname);
   return childModeSlug === child.slug ? response : withCookie(response, childCookie(child.slug, childCookieExpiry()));
 }
 
@@ -1403,6 +1403,14 @@ function isParentPage(pathname: string) {
 function childSlugFromKidPath(pathname: string) {
   const match = pathname.match(/^\/kid\/([^/]+)(?:\/|$)/);
   return match ? decodeURIComponent(match[1]) : null;
+}
+
+function kidShellAssetPath(pathname: string) {
+  const path = stripTrailingSlash(pathname);
+  if (/^\/kid\/[^/]+$/.test(path)) return '/kid/shell/';
+  if (/^\/kid\/[^/]+\/track\/[^/]+$/.test(path)) return '/kid/track-shell/';
+  if (/^\/kid\/[^/]+\/lesson\/[^/]+$/.test(path)) return '/kid/lesson-shell/';
+  return null;
 }
 
 function parentGateRedirect(request: Request, nextPath: string) {
