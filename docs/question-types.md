@@ -258,7 +258,7 @@ Easy flash cards show a large card and multiple-choice answers:
   correctAnswer: school
 ```
 
-Medium flash cards show the card and ask the student to type an answer. In Spanish, use Medium for Spanish front / English typed meaning:
+Medium flash cards show the card and ask the student to type an answer. In world-language tracks such as Spanish and French, use Medium for target-language front / English typed meaning:
 
 ```yaml
 - type: flash-card
@@ -284,7 +284,7 @@ Hard flash cards show the card and ask the student to type production answers. I
   answerType: text
 ```
 
-Recommended pattern: author Spanish vocabulary ladders as separate Easy, Medium, and Hard lessons using the same deck concept. Non-Spanish vocabulary can keep using Easy and Hard unless a typed recognition step is useful.
+Recommended pattern: author world-language vocabulary ladders as separate Easy, Medium, and Hard lessons using the same deck concept. General English vocabulary can keep using Easy and Hard unless a typed recognition step is useful.
 
 ## Passage Question
 

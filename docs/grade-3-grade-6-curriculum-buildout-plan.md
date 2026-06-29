@@ -219,6 +219,7 @@ Reasoning:
 - Shared flash-card support complete: added `mode: medium` for typed recognition cards so Spanish can use the planned Easy/Medium/Hard ladder.
 - Grade 3 Spanish complete: expanded the actual repository content from Greetings and Colors into the full beginner Level I path with Classroom Words, Numbers And Calendar, People And Family, Likes And Dislikes, Food And Everyday Things, Places And Actions, Simple Sentences, and Cumulative Conversation Review. Vocabulary-focused units now include Easy, Medium, and Hard flash-card ladders.
 - Grade 4 Spanish and handoff complete: added the full Spanish II / Level II path with 11 units and Easy, Medium, and Hard flash-card ladders in vocabulary-focused units. The Worker now unlocks Grade 4 Spanish when the current Grade 3 Spanish track is completed, keeps the rule scoped to Spanish, and recommends the first Grade 4 lesson after Grade 3 completion.
+- French tracks complete: added Grade 3 French / French I with 10 units and Grade 4 French / French II with 11 units. Both tracks use the world-language Easy, Medium, and Hard flash-card ladder in reusable vocabulary units and mirror the practical Level I / Level II progression used by Spanish.
 
 ## Grade 3 Math Remaining Units
 
@@ -942,6 +943,13 @@ Build these courses only after the currently scoped Grade 3, Grade 4 Spanish, an
 3. Grade 3 Latin, equivalent to Texas Latin I / Classical Languages Level I.
 4. Grade 4 Latin, equivalent to Texas Latin II / Classical Languages Level II.
 
+Current status:
+
+- Grade 3 French is complete.
+- Grade 4 French is complete.
+- Grade 3 Latin remains.
+- Grade 4 Latin remains.
+
 Difficulty target:
 
 - Grade 3 French should match the Grade 3 Spanish / Spanish I difficulty level.
@@ -1078,9 +1086,9 @@ Add or update tests as the curriculum grows:
 - No duplicate track, unit, lesson, or question IDs.
 - Every standard lesson has 8-12 scored questions unless explicitly exempted.
 - Every multiple-choice and fill-blank answer appears in choices.
-- Every Spanish Medium flash-card has English accepted answers.
-- Every Spanish Hard flash-card has Spanish accepted answers.
-- Spanish flash-card sets use Easy, Medium, and Hard consistently when introducing reusable vocabulary.
+- Every world-language Medium flash-card has English accepted answers.
+- Every world-language Hard flash-card has target-language accepted answers.
+- World-language flash-card sets use Easy, Medium, and Hard consistently when introducing reusable vocabulary.
 - Every track has at least one available first lesson.
 - Grade 3 and Grade 6 path tests are updated intentionally, not by accident.
 - Grade 3 Spanish coverage is checked against Texas Spanish I / Level I communication modes, culture, and authentic-resource expectations.

@@ -24,13 +24,13 @@ describe('curriculum content', () => {
   });
 
   it('provides grade-specific curriculum tracks', () => {
-    expect(getTracksForGrade(3).map((track) => track.subject)).toEqual(['math', 'vocabulary', 'spanish']);
-    expect(getTracksForGrade(4).map((track) => track.subject)).toEqual(['spanish']);
+    expect(getTracksForGrade(3).map((track) => track.subject)).toEqual(['math', 'vocabulary', 'spanish', 'french']);
+    expect(getTracksForGrade(4).map((track) => track.subject)).toEqual(['spanish', 'french']);
     expect(getTracksForGrade(6).map((track) => track.subject)).toEqual(['math', 'vocabulary']);
   });
 
   it('provides the current curriculum shape', () => {
-    expect(TRACKS).toHaveLength(6);
+    expect(TRACKS).toHaveLength(8);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'addition-basics',
       'subtraction-basics',
@@ -70,6 +70,18 @@ describe('curriculum content', () => {
       'simple-sentences',
       'cumulative-conversation-review',
     ]);
+    expect(GRADE_3_TRACKS.find((track) => track.subject === 'french')?.units.map((unit) => unit.slug)).toEqual([
+      'greetings-polite-phrases',
+      'colors-classroom-objects',
+      'numbers-calendar',
+      'people-family',
+      'likes-needs-food',
+      'places-actions',
+      'simple-sentences',
+      'culture-everyday-french',
+      'reading-listening-french',
+      'cumulative-conversation-review',
+    ]);
     expect(getTracksForGrade(4).find((track) => track.subject === 'spanish')?.units.map((unit) => unit.slug)).toEqual([
       'grade-3-review-classroom-routines',
       'numbers-dates-time',
@@ -81,6 +93,19 @@ describe('curriculum content', () => {
       'questions-short-conversations',
       'culture-authentic-resources',
       'reading-listening-spanish',
+      'cumulative-conversation-review',
+    ]);
+    expect(getTracksForGrade(4).find((track) => track.subject === 'french')?.units.map((unit) => unit.slug)).toEqual([
+      'french-i-review-classroom-routines',
+      'numbers-dates-time',
+      'school-supplies',
+      'people-descriptions-feelings',
+      'food-preferences-polite-requests',
+      'places-directions',
+      'present-tense-action-patterns',
+      'questions-short-conversations',
+      'culture-authentic-resources',
+      'reading-listening-french',
       'cumulative-conversation-review',
     ]);
     expect(GRADE_6_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
@@ -107,8 +132,8 @@ describe('curriculum content', () => {
       'research-inquiry-vocabulary',
       'cumulative-review',
     ]);
-    expect(getAllLessons()).toHaveLength(327);
-    expect(getAllQuestions()).toHaveLength(2502);
+    expect(getAllLessons()).toHaveLength(448);
+    expect(getAllQuestions()).toHaveLength(3470);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -152,6 +177,33 @@ describe('curriculum content', () => {
         expect.stringContaining('easy'),
         expect.stringContaining('medium'),
         expect.stringContaining('hard'),
+      ]);
+      expect(flashLessons[0].questions.every((question) => flashCardPayload(question, 'easy'))).toBe(true);
+      expect(
+        flashLessons[1].questions.every(
+          (question) => Boolean(flashCardPayload(question, 'medium')?.acceptedAnswers?.length),
+        ),
+      ).toBe(true);
+      expect(
+        flashLessons[2].questions.every(
+          (question) => Boolean(flashCardPayload(question, 'hard')?.acceptedAnswers?.length),
+        ),
+      ).toBe(true);
+    }
+  });
+
+  it('uses Easy, Medium, and Hard French flash-card ladders in vocabulary units', () => {
+    const grade3French = getTracksForGrade(3).find((track) => track.subject === 'french');
+    const grade4French = getTracksForGrade(4).find((track) => track.subject === 'french');
+    expect(grade3French).toBeDefined();
+    expect(grade4French).toBeDefined();
+
+    for (const unit of [...(grade3French?.units.slice(0, 7) ?? []), ...(grade4French?.units.slice(0, 7) ?? [])]) {
+      const flashLessons = unit.lessons.filter((lesson) => lesson.slug.includes('flash-cards'));
+      expect(flashLessons.map((lesson) => lesson.slug)).toEqual([
+        `${unit.slug}-flash-cards-easy`,
+        `${unit.slug}-flash-cards-medium`,
+        `${unit.slug}-flash-cards-hard`,
       ]);
       expect(flashLessons[0].questions.every((question) => flashCardPayload(question, 'easy'))).toBe(true);
       expect(
@@ -250,10 +302,10 @@ describe('curriculum content', () => {
     const summary = summarizeCurriculum(TRACKS);
 
     expect(summary.totals).toEqual({
-      tracks: 6,
-      units: 64,
-      lessons: 327,
-      questions: 2502,
+      tracks: 8,
+      units: 85,
+      lessons: 448,
+      questions: 3470,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
       tracks: 1,
@@ -273,7 +325,19 @@ describe('curriculum content', () => {
       lessons: 50,
       questions: 400,
     });
+    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'french')).toMatchObject({
+      tracks: 1,
+      units: 10,
+      lessons: 50,
+      questions: 400,
+    });
     expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'spanish')).toMatchObject({
+      tracks: 1,
+      units: 11,
+      lessons: 71,
+      questions: 568,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'french')).toMatchObject({
       tracks: 1,
       units: 11,
       lessons: 71,

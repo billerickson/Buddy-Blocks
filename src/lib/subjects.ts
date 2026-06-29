@@ -45,6 +45,16 @@ export const SUBJECTS: SubjectMetadata[] = [
       label: 'Spanish Starter',
     },
   },
+  {
+    key: 'french',
+    label: 'French',
+    sortOrder: 4,
+    iconKey: 'speech-bubble',
+    starterBadge: {
+      key: 'french-starter',
+      label: 'French Starter',
+    },
+  },
 ];
 
 const SUBJECTS_BY_KEY = new Map(SUBJECTS.map((subject) => [subject.key, subject]));
