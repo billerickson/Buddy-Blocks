@@ -237,6 +237,20 @@ Use Easy flash cards for recognition with multiple-choice answers below the card
   answerType: text
 ```
 
+For Spanish vocabulary ladders, place Medium between Easy and Hard:
+
+```yaml
+- type: flash-card
+  mode: medium
+  prompt: Type the English meaning.
+  front: contexto
+  acceptedAnswers:
+    - context
+  answerType: text
+```
+
+Use Easy for Spanish-to-English multiple choice, Medium for Spanish-to-English typed meaning, and Hard for English-to-Spanish typed production.
+
 ### Fill Blank
 
 ```yaml

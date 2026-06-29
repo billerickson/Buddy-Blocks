@@ -118,7 +118,7 @@ The schemas and runtime parsers for standard lesson config and Mad Minute config
 | `fill-blank` | One blank with choices | string | selected choice equals `correctAnswer` |
 | `match-pairs` | Vocabulary pairs, equivalent facts | object map | every left item matched to correct right item |
 | `order-items` | Word order, sequencing, ranking | string array | exact order, or grouped order when configured |
-| `flash-card` | Word learning, easy/hard card practice | string | easy uses choices; hard uses typed accepted answers |
+| `flash-card` | Word learning, easy/medium/hard card practice | string | easy uses choices; medium and hard use typed accepted answers |
 | `passage-question` | Reading comprehension | string | selected choice equals `correctAnswer` |
 | `multi-blank-cloze` | Multi-blank grammar and paragraph completion | string array | every blank matches |
 | `constructed-response` | Short written production | string | non-empty and meets optional length gates |
@@ -258,7 +258,20 @@ Easy flash cards show a large card and multiple-choice answers:
   correctAnswer: school
 ```
 
-Hard flash cards show the card and ask the student to type:
+Medium flash cards show the card and ask the student to type an answer. In Spanish, use Medium for Spanish front / English typed meaning:
+
+```yaml
+- type: flash-card
+  mode: medium
+  prompt: Type the English meaning.
+  front: la escuela
+  acceptedAnswers:
+    - school
+    - the school
+  answerType: text
+```
+
+Hard flash cards show the card and ask the student to type production answers. In Spanish, use Hard for English front / Spanish typed answer:
 
 ```yaml
 - type: flash-card
@@ -271,7 +284,7 @@ Hard flash cards show the card and ask the student to type:
   answerType: text
 ```
 
-Recommended pattern: author Easy and Hard as separate lessons using the same deck concept.
+Recommended pattern: author Spanish vocabulary ladders as separate Easy, Medium, and Hard lessons using the same deck concept. Non-Spanish vocabulary can keep using Easy and Hard unless a typed recognition step is useful.
 
 ## Passage Question
 
@@ -466,6 +479,7 @@ The number of `answers` in each row should match the number of `columns`.
 Use this quick guide when authoring lessons:
 
 - Vocabulary recognition: `flash-card` easy, `multiple-choice`, `match-pairs`.
+- Vocabulary typed recognition: `flash-card` medium, `text-input`.
 - Vocabulary production: `flash-card` hard, `text-input`.
 - Spanish sentence building: `order-items`, `multi-blank-cloze`, `error-correction`.
 - Spanish communication: `dialogue-builder`, `constructed-response`, `speaking-prompt`.
