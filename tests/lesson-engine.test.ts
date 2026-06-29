@@ -61,9 +61,23 @@ describe('lesson engine', () => {
     ).toBe(false);
   });
 
+  it('scores unordered groups inside order-items questions', () => {
+    const synonymPairs = question({
+      type: 'order-items',
+      payload: {
+        items: ['cold', 'small', 'chilly', 'little'],
+        correctOrder: ['cold', 'chilly', 'small', 'little'],
+        unorderedGroupsOf: 2,
+      },
+    });
+
+    expect(evaluateAnswer(synonymPairs, ['chilly', 'cold', 'small', 'little'])).toBe(true);
+    expect(evaluateAnswer(synonymPairs, ['small', 'little', 'chilly', 'cold'])).toBe(true);
+    expect(evaluateAnswer(synonymPairs, ['cold', 'small', 'chilly', 'little'])).toBe(false);
+  });
+
   it('awards completion, correctness, perfect, and practice-mode XP', () => {
     expect(calculateXp(10, 8, 8, 5)).toBe(23);
     expect(calculateXp(10, 3, 8, 0)).toBe(6);
   });
 });
-

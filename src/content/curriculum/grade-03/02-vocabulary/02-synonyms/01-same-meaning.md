@@ -57,6 +57,7 @@ questions:
       - chilly
       - small
       - little
+    unorderedGroupsOf: 2
   - type: fill-blank
     prompt: A synonym for "finish" is ___ .
     sentenceBefore: A synonym for "finish" is

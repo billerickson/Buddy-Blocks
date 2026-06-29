@@ -162,6 +162,7 @@ const orderItemsQuestionSchema = baseQuestionSchema.extend({
   type: z.literal('order-items'),
   items: stringListSchema,
   correctOrder: stringListSchema,
+  unorderedGroupsOf: z.number().int().min(2).optional(),
 });
 
 const questionSchema = z.discriminatedUnion('type', [
@@ -339,7 +340,11 @@ function normalizeQuestion(question: AuthoredQuestion): QuestionFixture {
   return {
     type: question.type,
     prompt: question.prompt,
-    payload: { items: question.items, correctOrder: question.correctOrder },
+    payload: {
+      items: question.items,
+      correctOrder: question.correctOrder,
+      unorderedGroupsOf: question.unorderedGroupsOf,
+    },
     explanation: question.explanation,
   };
 }

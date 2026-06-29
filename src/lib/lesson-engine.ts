@@ -17,6 +17,7 @@ export type MatchPairsPayload = {
 export type OrderItemsPayload = {
   items: string[];
   correctOrder: string[];
+  unorderedGroupsOf?: number;
 };
 
 export type FillBlankPayload = {
@@ -76,11 +77,49 @@ export function evaluateAnswer(question: LessonQuestion, answer: unknown) {
     case 'order-items': {
       const payload = question.payload as OrderItemsPayload;
       if (!Array.isArray(answer) || answer.length !== payload.correctOrder.length) return false;
+      if (payload.unorderedGroupsOf && payload.unorderedGroupsOf > 1) {
+        return groupedItemsMatch(answer, payload.correctOrder, payload.unorderedGroupsOf);
+      }
       return payload.correctOrder.every((item, index) => normalizeText(answer[index]) === normalizeText(item));
     }
     default:
       return false;
   }
+}
+
+function groupedItemsMatch(answer: unknown[], correctOrder: string[], groupSize: number) {
+  if (answer.length % groupSize !== 0 || correctOrder.length % groupSize !== 0) return false;
+
+  const selectedGroups = groupItems(answer, groupSize);
+  const correctGroups = groupItems(correctOrder, groupSize);
+  const remaining = new Map<string, number>();
+
+  for (const group of correctGroups) {
+    const key = groupKey(group);
+    remaining.set(key, (remaining.get(key) ?? 0) + 1);
+  }
+
+  for (const group of selectedGroups) {
+    const key = groupKey(group);
+    const count = remaining.get(key) ?? 0;
+    if (count <= 0) return false;
+    if (count === 1) remaining.delete(key);
+    else remaining.set(key, count - 1);
+  }
+
+  return remaining.size === 0;
+}
+
+function groupItems(items: unknown[], groupSize: number) {
+  const groups: unknown[][] = [];
+  for (let index = 0; index < items.length; index += groupSize) {
+    groups.push(items.slice(index, index + groupSize));
+  }
+  return groups;
+}
+
+function groupKey(items: unknown[]) {
+  return items.map(normalizeText).sort().join('\u0000');
 }
 
 export function getCorrectAnswerLabel(question: LessonQuestion) {
@@ -105,4 +144,3 @@ export function calculateXp(baseXp: number, correct: number, total: number, hear
   const earned = baseXp + correct + perfectBonus;
   return heartsRemaining <= 0 ? Math.max(5, Math.floor(earned / 2)) : earned;
 }
-
