@@ -2,9 +2,9 @@
 
 ## Round 1
 
-1. Previously, when inside a kid profile, clicking the "Buddy Blocks" logo at the top took you to their dashboard (ex: /kid/Reagan), but now it takes me to the parent dashboard. Can you restore the previous functionality? It might have been lost/reverted in a recent change.
+1. Previously, when inside a kid profile, clicking the "Buddy Blocks" logo at the top took you to their dashboard (ex: /kid/Reagan), but now it takes me to the parent dashboard. Can you restore the previous functionality so it goes to the kid's dashboard?
 
-2. Can you check all lessons and make sure the answers are mixed up? On the Grade 6 Vocabulary > Context And Reference Skills > Easy Context Cards, the answer to every question was (A) the first choice.
+2. Can you check all lessons and make sure the answers are mixed up? On the Grade 6 Vocabulary > Context And Reference Skills > Easy Context Cards, the answer to every question was (A) the first choice. I think there was also a lesson in Grade 3 that had the same issue.
 
 3. On the "Match each word to an example" question type, if you press the wrong word and match it to something else, there's no way to undo your selection and select the correct word. They should be able to undo the selection without submitting the wrong answer.
 
