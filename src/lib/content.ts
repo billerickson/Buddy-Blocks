@@ -6,6 +6,7 @@ export type ChildFixture = {
   displayName: string;
   avatarKey: string;
   levelBand: string;
+  gradeLevel: 3 | 6;
 };
 
 export type QuestionFixture = {
@@ -48,7 +49,9 @@ export type UnitFixture = {
 
 export type TrackFixture = {
   id: string;
-  slug: 'math' | 'vocabulary' | 'spanish';
+  slug: string;
+  subject: 'math' | 'vocabulary' | 'spanish';
+  gradeLevel: 3 | 6;
   title: string;
   description: string;
   color: string;
@@ -66,14 +69,16 @@ export const CHILDREN: ChildFixture[] = [
     slug: 'reagan',
     displayName: 'Reagan',
     avatarKey: 'berry-builder',
-    levelBand: 'Upper elementary',
+    levelBand: 'Grade 6',
+    gradeLevel: 6,
   },
   {
     id: 'child_ada',
     slug: 'ada',
     displayName: 'Ada',
     avatarKey: 'teal-tinkerer',
-    levelBand: 'Early elementary',
+    levelBand: 'Grade 3',
+    gradeLevel: 3,
   },
 ];
 
@@ -127,11 +132,11 @@ const order = (prompt: string, items: string[], correctOrder: string[], explanat
   explanation,
 });
 
-const madMinute = (factor: number | 'mixed'): LessonFixture => {
+const madMinute = (gradeLevel: 3 | 6, factor: number | 'mixed'): LessonFixture => {
   const label = factor === 'mixed' ? 'Mixed' : `${factor}s`;
 
   return {
-    id: `lesson_math_mad_minute_${factor === 'mixed' ? 'mixed' : `${factor}s`}`,
+    id: `lesson_grade${gradeLevel}_math_mad_minute_${factor === 'mixed' ? 'mixed' : `${factor}s`}`,
     slug: factor === 'mixed' ? 'mixed' : `${factor}s`,
     title: `${label} Facts`,
     xpBase: 10,
@@ -150,17 +155,19 @@ const madMinute = (factor: number | 'mixed'): LessonFixture => {
   };
 };
 
-export const TRACKS: TrackFixture[] = [
+export const GRADE_3_TRACKS: TrackFixture[] = [
   {
-    id: 'track_math',
-    slug: 'math',
+    id: 'track_grade3_math',
+    slug: 'grade-3-math',
+    subject: 'math',
+    gradeLevel: 3,
     title: 'Math',
-    description: 'Snap numbers together with addition and subtraction blocks.',
+    description: 'Build Grade 3 addition, subtraction, multiplication, and word-problem fluency.',
     color: '#5b79ff',
     accent: '#ffd84d',
     units: [
       {
-        id: 'unit_math_addition_basics',
+        id: 'unit_grade3_math_addition_basics',
         slug: 'addition-basics',
         title: 'Addition Basics',
         description: 'Build sums with tens, doubles, and short stories.',
@@ -208,7 +215,7 @@ export const TRACKS: TrackFixture[] = [
         ],
       },
       {
-        id: 'unit_math_subtraction_basics',
+        id: 'unit_grade3_math_subtraction_basics',
         slug: 'subtraction-basics',
         title: 'Subtraction Basics',
         description: 'Take away, compare, and find the missing piece.',
@@ -256,24 +263,26 @@ export const TRACKS: TrackFixture[] = [
         ],
       },
       {
-        id: 'unit_math_mad_minute',
+        id: 'unit_grade3_math_mad_minute',
         slug: 'mad-minute',
         title: 'Mad Minute',
         description: 'Race the clock with multiplication facts from 2s through 12s.',
-        lessons: ([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'mixed'] as const).map((factor) => madMinute(factor)),
+        lessons: ([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'mixed'] as const).map((factor) => madMinute(3, factor)),
       },
     ],
   },
   {
-    id: 'track_vocabulary',
-    slug: 'vocabulary',
+    id: 'track_grade3_vocabulary',
+    slug: 'grade-3-vocabulary',
+    subject: 'vocabulary',
+    gradeLevel: 3,
     title: 'Vocabulary',
-    description: 'Stack word meaning, spelling, synonyms, and context clues.',
+    description: 'Practice Grade 3 word meanings, context clues, synonyms, and vivid words.',
     color: '#ffd84d',
     accent: '#18bca4',
     units: [
       {
-        id: 'unit_vocabulary_word_meanings',
+        id: 'unit_grade3_vocabulary_word_meanings',
         slug: 'word-meanings',
         title: 'Word Meanings',
         description: 'Choose definitions and use clues around the word.',
@@ -321,7 +330,7 @@ export const TRACKS: TrackFixture[] = [
         ],
       },
       {
-        id: 'unit_vocabulary_synonyms',
+        id: 'unit_grade3_vocabulary_synonyms',
         slug: 'synonyms',
         title: 'Synonyms',
         description: 'Find words that mean the same thing.',
@@ -371,15 +380,17 @@ export const TRACKS: TrackFixture[] = [
     ],
   },
   {
-    id: 'track_spanish',
-    slug: 'spanish',
+    id: 'track_grade3_spanish',
+    slug: 'grade-3-spanish',
+    subject: 'spanish',
+    gradeLevel: 3,
     title: 'Spanish',
-    description: 'Build greetings, colors, animals, food, and family phrases.',
+    description: 'Learn Grade 3-friendly greetings, polite phrases, colors, and starter sentences.',
     color: '#18bca4',
     accent: '#ff7f45',
     units: [
       {
-        id: 'unit_spanish_greetings',
+        id: 'unit_grade3_spanish_greetings',
         slug: 'greetings',
         title: 'Greetings',
         description: 'Say hello, goodbye, and polite starter phrases.',
@@ -427,7 +438,7 @@ export const TRACKS: TrackFixture[] = [
         ],
       },
       {
-        id: 'unit_spanish_colors',
+        id: 'unit_grade3_spanish_colors',
         slug: 'colors',
         title: 'Colors',
         description: 'Name bright colors and use them in small phrases.',
@@ -478,6 +489,354 @@ export const TRACKS: TrackFixture[] = [
   },
 ];
 
+export const GRADE_6_TRACKS: TrackFixture[] = [
+  {
+    id: 'track_grade6_math',
+    slug: 'grade-6-math',
+    subject: 'math',
+    gradeLevel: 6,
+    title: 'Math',
+    description: 'Practice Grade 6 ratios, rates, expressions, equations, and fact fluency.',
+    color: '#5b79ff',
+    accent: '#ffd84d',
+    units: [
+      {
+        id: 'unit_grade6_math_ratios_rates',
+        slug: 'ratios-rates',
+        title: 'Ratios And Rates',
+        description: 'Compare quantities, build tables, and find unit rates.',
+        lessons: [
+          {
+            id: 'lesson_grade6_math_ratios_tables',
+            slug: 'ratio-tables',
+            title: 'Ratio Tables',
+            xpBase: 10,
+            questions: [
+              mc('A recipe uses 2 cups of oats for every 5 cups of flour. Which ratio shows oats to flour?', ['2:5', '5:2', '2:7', '5:7'], '2:5'),
+              text('A class has 18 pencils for 6 students. Type the pencils per student.', ['3'], 'number'),
+              fill('If 3 notebooks cost $12, then 1 notebook costs', '.', ['3', '4', '9', '15'], '4'),
+              match('Match each ratio to an equivalent ratio.', [
+                { left: '2:3', right: '6:9' },
+                { left: '4:5', right: '8:10' },
+                { left: '1:6', right: '3:18' },
+              ]),
+              order('Tap the rates from least to greatest.', ['12 miles in 3 hr', '20 miles in 4 hr', '18 miles in 6 hr'], ['18 miles in 6 hr', '12 miles in 3 hr', '20 miles in 4 hr']),
+              mc('Which table matches 4 stickers per page?', ['1 -> 4, 2 -> 8, 3 -> 12', '1 -> 5, 2 -> 8, 3 -> 11', '1 -> 4, 2 -> 6, 3 -> 8', '1 -> 3, 2 -> 7, 3 -> 12'], '1 -> 4, 2 -> 8, 3 -> 12'),
+              text('A trail map uses 1 inch for 8 miles. How many miles for 5 inches?', ['40'], 'number'),
+              fill('Equivalent ratios make the same', '.', ['comparison', 'shape', 'sound', 'letter'], 'comparison'),
+            ],
+          },
+          {
+            id: 'lesson_grade6_math_unit_rates',
+            slug: 'unit-rates',
+            title: 'Unit Rates',
+            xpBase: 10,
+            questions: [
+              mc('A bike travels 36 miles in 3 hours. What is the unit rate?', ['9 miles/hour', '12 miles/hour', '33 miles/hour', '39 miles/hour'], '12 miles/hour'),
+              text('24 ounces cost $6. Type the dollars per 1 ounce.', ['0.25', '.25'], 'number'),
+              fill('To find a unit rate, divide so the second quantity is', '.', ['1', '2', '10', '100'], '1'),
+              match('Match each situation to its unit rate.', [
+                { left: '$15 for 3 books', right: '$5/book' },
+                { left: '45 pages in 5 days', right: '9 pages/day' },
+                { left: '72 miles in 6 hr', right: '12 miles/hr' },
+              ]),
+              mc('Which is the better buy?', ['$12 for 3 packs', '$15 for 5 packs', '$10 for 2 packs', '$21 for 6 packs'], '$15 for 5 packs'),
+              text('A printer makes 84 pages in 7 minutes. Pages per minute?', ['12'], 'number'),
+              order('Tap unit prices from cheapest to most expensive.', ['$4 each', '$2 each', '$3 each'], ['$2 each', '$3 each', '$4 each']),
+              mc('Which question asks for a unit rate?', ['How much for one ticket?', 'How many tickets total?', 'What color is the ticket?', 'Who has tickets?'], 'How much for one ticket?'),
+            ],
+          },
+        ],
+      },
+      {
+        id: 'unit_grade6_math_expressions_equations',
+        slug: 'expressions-equations',
+        title: 'Expressions And Equations',
+        description: 'Use variables, expressions, and one-step equations.',
+        lessons: [
+          {
+            id: 'lesson_grade6_math_expressions',
+            slug: 'expressions',
+            title: 'Expressions',
+            xpBase: 10,
+            questions: [
+              mc('Which expression means "5 more than n"?', ['n + 5', '5n', 'n - 5', '5 - n'], 'n + 5'),
+              text('Evaluate 3x + 2 when x = 4.', ['14'], 'number'),
+              fill('The expression 6m means 6 times', '.', ['m', '6', '12', 'one'], 'm'),
+              match('Match the phrase to the expression.', [
+                { left: 'twice a number', right: '2n' },
+                { left: '7 less than x', right: 'x - 7' },
+                { left: 'the sum of y and 9', right: 'y + 9' },
+              ]),
+              mc('Which expression is equivalent to 4(a + 3)?', ['4a + 12', '4a + 3', 'a + 12', '7a'], '4a + 12'),
+              text('Evaluate p/3 when p = 27.', ['9'], 'number'),
+              order('Tap the steps to evaluate 2x + 5 when x = 6.', ['Add 5', 'Replace x with 6', 'Multiply 2 x 6'], ['Replace x with 6', 'Multiply 2 x 6', 'Add 5']),
+              fill('A variable is a symbol for an unknown', '.', ['number', 'paragraph', 'color', 'sound'], 'number'),
+            ],
+          },
+          {
+            id: 'lesson_grade6_math_equations',
+            slug: 'one-step-equations',
+            title: 'One-Step Equations',
+            xpBase: 10,
+            questions: [
+              mc('Solve x + 9 = 17.', ['6', '8', '9', '26'], '8'),
+              text('Solve 4n = 28.', ['7'], 'number'),
+              fill('To solve y - 6 = 11, add', 'to both sides.', ['6', '11', '17', '5'], '6'),
+              match('Match each equation to its solution.', [
+                { left: 'a + 4 = 10', right: '6' },
+                { left: '3b = 21', right: '7' },
+                { left: 'c - 5 = 8', right: '13' },
+              ]),
+              mc('Which inverse operation solves x/5 = 6?', ['multiply by 5', 'divide by 5', 'add 5', 'subtract 5'], 'multiply by 5'),
+              text('Solve m - 12 = 19.', ['31'], 'number'),
+              order('Tap the solving steps.', ['Check the solution', 'Undo the operation', 'Write the equation'], ['Write the equation', 'Undo the operation', 'Check the solution']),
+              mc('Which value makes 2x = 18 true?', ['8', '9', '16', '20'], '9'),
+            ],
+          },
+        ],
+      },
+      {
+        id: 'unit_grade6_math_mad_minute',
+        slug: 'mad-minute',
+        title: 'Mad Minute',
+        description: 'Race the clock with multiplication facts from 2s through 12s.',
+        lessons: ([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'mixed'] as const).map((factor) => madMinute(6, factor)),
+      },
+    ],
+  },
+  {
+    id: 'track_grade6_vocabulary',
+    slug: 'grade-6-vocabulary',
+    subject: 'vocabulary',
+    gradeLevel: 6,
+    title: 'Vocabulary',
+    description: 'Build Grade 6 academic vocabulary, word parts, claims, and evidence language.',
+    color: '#ffd84d',
+    accent: '#18bca4',
+    units: [
+      {
+        id: 'unit_grade6_vocabulary_academic_words',
+        slug: 'academic-words',
+        title: 'Academic Words',
+        description: 'Use context and word parts to unlock school vocabulary.',
+        lessons: [
+          {
+            id: 'lesson_grade6_vocabulary_context_precision',
+            slug: 'context-precision',
+            title: 'Context And Precision',
+            xpBase: 10,
+            questions: [
+              mc('In "The evidence was sufficient," what does sufficient mean?', ['enough', 'hidden', 'late', 'incorrect'], 'enough'),
+              fill('A precise word for "walked slowly" is', '.', ['strolled', 'sprinted', 'shouted', 'measured'], 'strolled'),
+              text('Type a word that means "to examine closely".', ['analyze', 'inspect', 'study'], 'text'),
+              match('Match each academic word.', [
+                { left: 'summarize', right: 'tell the main ideas briefly' },
+                { left: 'compare', right: 'tell how things are alike' },
+                { left: 'contrast', right: 'tell how things are different' },
+              ]),
+              mc('Which word best completes: The scientist made a careful ___ of the data.', ['analysis', 'celebration', 'nap', 'detour'], 'analysis'),
+              order('Tap from weakest to strongest evidence.', ['specific quote', 'random guess', 'general idea'], ['random guess', 'general idea', 'specific quote']),
+              fill('To infer means to use clues to make a reasonable', '.', ['guess', 'noise', 'drawing', 'copy'], 'guess'),
+              mc('Which clue helps define "reluctant"?', ['She did not want to begin.', 'She ran very fast.', 'It was bright blue.', 'They counted coins.'], 'She did not want to begin.'),
+            ],
+          },
+          {
+            id: 'lesson_grade6_vocabulary_word_parts',
+            slug: 'word-parts',
+            title: 'Word Parts',
+            xpBase: 10,
+            questions: [
+              mc('What does the prefix "re-" usually mean?', ['again', 'not', 'before', 'many'], 'again'),
+              fill('The suffix "-less" means', '.', ['without', 'full of', 'again', 'before'], 'without'),
+              text('Type the base word in "unhelpful".', ['help'], 'text'),
+              match('Match each word part.', [
+                { left: 'pre-', right: 'before' },
+                { left: 'sub-', right: 'under' },
+                { left: '-ful', right: 'full of' },
+              ]),
+              mc('Which word means "not visible"?', ['invisible', 'visible', 'preview', 'revision'], 'invisible'),
+              order('Build the word meaning "not careful".', ['care', 'less'], ['care', 'less']),
+              fill('A "prediction" is something said before it', '.', ['happens', 'breaks', 'sings', 'shrinks'], 'happens'),
+              mc('What does "transport" suggest?', ['carry across', 'write again', 'not fair', 'full of hope'], 'carry across'),
+            ],
+          },
+        ],
+      },
+      {
+        id: 'unit_grade6_vocabulary_argument',
+        slug: 'argument-reading',
+        title: 'Argument Reading',
+        description: 'Recognize claims, reasons, evidence, and tone.',
+        lessons: [
+          {
+            id: 'lesson_grade6_vocabulary_claims_evidence',
+            slug: 'claims-evidence',
+            title: 'Claims And Evidence',
+            xpBase: 10,
+            questions: [
+              mc('What is a claim?', ['a position the writer wants to prove', 'a random detail', 'a title', 'a comma rule'], 'a position the writer wants to prove'),
+              fill('Evidence should be relevant and', '.', ['specific', 'sleepy', 'round', 'silent'], 'specific'),
+              text('Type the word for facts or examples that support a claim.', ['evidence'], 'text'),
+              match('Match each argument part.', [
+                { left: 'claim', right: 'main position' },
+                { left: 'reason', right: 'why the claim makes sense' },
+                { left: 'evidence', right: 'facts or examples' },
+              ]),
+              mc('Which sentence is evidence?', ['The survey found 82% agreed.', 'I think recess matters.', 'Schools should change.', 'This is my claim.'], 'The survey found 82% agreed.'),
+              order('Tap the argument parts in a strong order.', ['Evidence', 'Claim', 'Reason'], ['Claim', 'Reason', 'Evidence']),
+              fill('A counterclaim is an opposing', '.', ['claim', 'number', 'suffix', 'setting'], 'claim'),
+              mc('Which evidence is strongest?', ['A direct quote from the text', 'A personal guess', 'A vague memory', 'A funny picture'], 'A direct quote from the text'),
+            ],
+          },
+          {
+            id: 'lesson_grade6_vocabulary_tone_connotation',
+            slug: 'tone-connotation',
+            title: 'Tone And Connotation',
+            xpBase: 10,
+            questions: [
+              mc('Which word has the most positive connotation?', ['confident', 'bossy', 'pushy', 'arrogant'], 'confident'),
+              fill("Tone is the writer's attitude toward the", '.', ['subject', 'page number', 'font', 'period'], 'subject'),
+              text('Type a word that means "feeling unsure".', ['uncertain', 'doubtful', 'unsure'], 'text'),
+              match('Match each tone word.', [
+                { left: 'humorous', right: 'funny' },
+                { left: 'serious', right: 'thoughtful and not silly' },
+                { left: 'critical', right: 'pointing out faults' },
+              ]),
+              mc('Which word sounds more intense than "upset"?', ['furious', 'calm', 'okay', 'fine'], 'furious'),
+              order('Tap from least to most intense.', ['furious', 'annoyed', 'angry'], ['annoyed', 'angry', 'furious']),
+              fill('Connotation is the feeling a word suggests beyond its dictionary', '.', ['meaning', 'spelling', 'shape', 'sound'], 'meaning'),
+              mc('Which phrase creates a worried tone?', ['The dark hallway seemed endless.', 'The balloons bobbed happily.', 'The joke made us laugh.', 'The sun warmed the porch.'], 'The dark hallway seemed endless.'),
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'track_grade6_spanish',
+    slug: 'grade-6-spanish',
+    subject: 'spanish',
+    gradeLevel: 6,
+    title: 'Spanish',
+    description: 'Practice Grade 6 Spanish classroom phrases, descriptions, and present-tense verbs.',
+    color: '#18bca4',
+    accent: '#ff7f45',
+    units: [
+      {
+        id: 'unit_grade6_spanish_classroom',
+        slug: 'classroom-conversation',
+        title: 'Classroom Conversation',
+        description: 'Use school phrases and describe classroom needs.',
+        lessons: [
+          {
+            id: 'lesson_grade6_spanish_classroom_phrases',
+            slug: 'classroom-phrases',
+            title: 'Classroom Phrases',
+            xpBase: 10,
+            questions: [
+              mc('What does "Necesito ayuda" mean?', ['I need help', 'I have a dog', 'I like apples', 'Good night'], 'I need help'),
+              fill('To ask "May I go to the bathroom?" say "Puedo ir al', '?"', ['bano', 'libro', 'perro', 'rojo'], 'bano'),
+              text('Type the Spanish word for "book".', ['libro'], 'text'),
+              match('Match each classroom phrase.', [
+                { left: 'No entiendo', right: 'I do not understand' },
+                { left: 'Repita, por favor', right: 'Repeat, please' },
+                { left: 'Tengo una pregunta', right: 'I have a question' },
+              ]),
+              mc('Which phrase means "I am finished"?', ['Termine', 'Tengo hambre', 'Me llamo', 'Es azul'], 'Termine'),
+              order('Build "I need a pencil".', ['un lapiz', 'necesito'], ['necesito', 'un lapiz']),
+              fill('"Escuchen" means', '.', ['listen', 'write', 'run', 'eat'], 'listen'),
+              mc('What does "abre el libro" mean?', ['open the book', 'close the door', 'write the date', 'read the clock'], 'open the book'),
+            ],
+          },
+          {
+            id: 'lesson_grade6_spanish_descriptions',
+            slug: 'descriptions',
+            title: 'Descriptions',
+            xpBase: 10,
+            questions: [
+              mc('What does "alto" mean?', ['tall', 'short', 'new', 'old'], 'tall'),
+              fill('A red backpack is "la mochila', '."', ['roja', 'azul', 'verde', 'grande'], 'roja'),
+              text('Type the Spanish word for "small".', ['pequeno', 'pequena'], 'text'),
+              match('Match each description.', [
+                { left: 'rapido', right: 'fast' },
+                { left: 'lento', right: 'slow' },
+                { left: 'interesante', right: 'interesting' },
+              ]),
+              mc('Which phrase means "the big class"?', ['la clase grande', 'el libro rojo', 'la mochila pequena', 'el amigo rapido'], 'la clase grande'),
+              order('Build "the interesting book".', ['interesante', 'el', 'libro'], ['el', 'libro', 'interesante']),
+              fill('"Nuevo" means', '.', ['new', 'old', 'cold', 'full'], 'new'),
+              mc('Which adjective agrees with "la maestra"?', ['inteligente', 'rojo', 'alto', 'pequeno'], 'inteligente'),
+            ],
+          },
+        ],
+      },
+      {
+        id: 'unit_grade6_spanish_present_tense',
+        slug: 'present-tense',
+        title: 'Present Tense',
+        description: 'Use common present-tense verbs in simple sentences.',
+        lessons: [
+          {
+            id: 'lesson_grade6_spanish_ar_verbs',
+            slug: 'ar-verbs',
+            title: 'AR Verbs',
+            xpBase: 10,
+            questions: [
+              mc('What does "hablo" mean?', ['I speak', 'you speak', 'we speak', 'they speak'], 'I speak'),
+              fill('"Estudiamos" means we', '.', ['study', 'eat', 'run', 'sleep'], 'study'),
+              text('Type the Spanish for "I study".', ['estudio'], 'text'),
+              match('Match each verb form.', [
+                { left: 'yo hablo', right: 'I speak' },
+                { left: 'tu hablas', right: 'you speak' },
+                { left: 'nosotros hablamos', right: 'we speak' },
+              ]),
+              mc('Which ending goes with "yo" for regular -ar verbs?', ['-o', '-as', '-amos', '-an'], '-o'),
+              order('Build "I study Spanish".', ['espanol', 'estudio'], ['estudio', 'espanol']),
+              fill('"Ellos cantan" means they', '.', ['sing', 'study', 'ask', 'need'], 'sing'),
+              mc('Which sentence means "we dance"?', ['bailamos', 'bailo', 'bailas', 'bailan'], 'bailamos'),
+            ],
+          },
+          {
+            id: 'lesson_grade6_spanish_er_ir_verbs',
+            slug: 'er-ir-verbs',
+            title: 'ER And IR Verbs',
+            xpBase: 10,
+            questions: [
+              mc('What does "como" mean?', ['I eat', 'I write', 'I live', 'I speak'], 'I eat'),
+              fill('"Vivo en Texas" means I', 'in Texas.', ['live', 'eat', 'open', 'read'], 'live'),
+              text('Type the Spanish for "I write".', ['escribo'], 'text'),
+              match('Match each verb.', [
+                { left: 'comer', right: 'to eat' },
+                { left: 'vivir', right: 'to live' },
+                { left: 'escribir', right: 'to write' },
+              ]),
+              mc('Which form means "we eat"?', ['comemos', 'como', 'comes', 'comen'], 'comemos'),
+              order('Build "I write a sentence".', ['una frase', 'escribo'], ['escribo', 'una frase']),
+              fill('"Ellas viven" means they', '.', ['live', 'eat', 'write', 'listen'], 'live'),
+              mc('Which ending goes with "yo" for regular -er and -ir verbs?', ['-o', '-es', '-emos', '-en'], '-o'),
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const TRACKS: TrackFixture[] = [...GRADE_3_TRACKS, ...GRADE_6_TRACKS];
+
+export function getTracksForGrade(gradeLevel: ChildFixture['gradeLevel']) {
+  return TRACKS.filter((track) => track.gradeLevel === gradeLevel);
+}
+
+export function getTracksForChild(child: ChildFixture) {
+  return getTracksForGrade(child.gradeLevel);
+}
+
+export function getChildBySlug(slug: string) {
+  return CHILDREN.find((child) => child.slug === slug) ?? null;
+}
+
 export function getAllLessons() {
   return TRACKS.flatMap((track) =>
     track.units.flatMap((unit) =>
@@ -502,15 +861,23 @@ export function getAllQuestions() {
 }
 
 export function getLessonPaths() {
-  return getAllLessons().map((lesson) => ({
-    childSlugs: CHILDREN.map((child) => child.slug),
-    lessonId: lesson.id,
-  }));
+  return CHILDREN.flatMap((child) =>
+    getTracksForChild(child).flatMap((track) =>
+      track.units.flatMap((unit) =>
+        unit.lessons.map((lesson) => ({
+          childSlug: child.slug,
+          lessonId: lesson.id,
+        })),
+      ),
+    ),
+  );
 }
 
 export function getTrackPaths() {
-  return TRACKS.map((track) => ({
-    trackSlug: track.slug,
-    childSlugs: CHILDREN.map((child) => child.slug),
-  }));
+  return CHILDREN.flatMap((child) =>
+    getTracksForChild(child).map((track) => ({
+      childSlug: child.slug,
+      trackSlug: track.slug,
+    })),
+  );
 }

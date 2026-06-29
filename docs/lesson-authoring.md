@@ -6,7 +6,8 @@ The source of truth for courses, units, lessons, and questions is [src/lib/conte
 
 That file exports:
 
-- `TRACKS`: the authored curriculum tree. In the app UI, a "course" is currently called a "track".
+- `GRADE_3_TRACKS` and `GRADE_6_TRACKS`: the authored curriculum trees for Ada and Reagan. In the app UI, a "course" is currently called a "track".
+- `TRACKS`: the combined curriculum tree used by the seed script.
 - `CHILDREN`: the fixed v1 child profiles, `reagan` and `ada`.
 - `getAllLessons()`, `getAllQuestions()`, `getLessonPaths()`, and `getTrackPaths()`: helpers used by seeding and static route generation.
 
@@ -29,11 +30,13 @@ track/course
       question
 ```
 
-Current v1 content has:
+Current v1 content has separate grade-level tracks:
 
-- 3 tracks: Math, Vocabulary, Spanish
-- Math has 3 units, including Mad Minute multiplication practice
-- Vocabulary and Spanish have 2 units each
+- Ada is Grade 3 and uses `GRADE_3_TRACKS`.
+- Reagan is Grade 6 and uses `GRADE_6_TRACKS`.
+- Each grade has Math, Vocabulary, and Spanish tracks.
+- Math has 3 units, including Mad Minute multiplication practice.
+- Vocabulary and Spanish have 2 units each.
 - Standard lessons have 8 questions
 - Mad Minute lessons are timed fact-practice lessons with generated prompts
 
@@ -42,15 +45,16 @@ The database schema mirrors this structure in [migrations/0001_initial.sql](/Use
 ## Adding A Lesson To An Existing Course
 
 1. Open [src/lib/content.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/content.ts).
-2. Find the track and unit where the lesson belongs.
-3. Add a new object to that unit's `lessons` array.
-4. Give it a stable `id`, a URL-safe `slug`, a kid-facing `title`, `xpBase: 10`, and 8-12 questions.
+2. Choose the right grade array: `GRADE_3_TRACKS` for Ada or `GRADE_6_TRACKS` for Reagan.
+3. Find the track and unit where the lesson belongs.
+4. Add a new object to that unit's `lessons` array.
+5. Give it a stable grade-scoped `id`, a URL-safe `slug`, a kid-facing `title`, `xpBase: 10`, and 8-12 questions.
 
 Example:
 
 ```ts
 {
-  id: 'lesson_math_fractions_equal_parts',
+  id: 'lesson_grade3_math_fractions_equal_parts',
   slug: 'equal-parts',
   title: 'Equal Parts',
   xpBase: 10,
@@ -81,7 +85,7 @@ Example:
 
 ```ts
 {
-  id: 'lesson_math_mad_minute_6s',
+  id: 'lesson_grade3_math_mad_minute_6s',
   slug: '6s',
   title: '6s Facts',
   xpBase: 10,
@@ -106,18 +110,23 @@ For a mixed fact lesson, set `factor: 'mixed'` and use `minFactor`/`maxFactor` t
 
 In the current codebase, a course is a `TrackFixture`.
 
-1. Add a new object to the top-level `TRACKS` array in [src/lib/content.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/content.ts).
+1. Add a new object to `GRADE_3_TRACKS` or `GRADE_6_TRACKS` in [src/lib/content.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/content.ts).
 2. Include at least one unit and one lesson so each child has an available starting point.
 3. Pick `color` and `accent` values from the Buddy Blocks palette or brand guide.
-4. Update `TrackFixture.slug` near the top of [src/lib/content.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/content.ts). It currently restricts slugs to `'math' | 'vocabulary' | 'spanish'` for v1.
-5. Update [tests/content.test.ts](/Users/billerickson/Downloads/learn.billplustara.com/tests/content.test.ts), because it currently asserts the fixed v1 shape.
+4. Set `subject` to the friendly subject key used for icons and badges, and set `gradeLevel` to `3` or `6`.
+5. Use grade-scoped track IDs and slugs, such as `track_grade6_science` and `grade-6-science`.
+6. Update [tests/content.test.ts](/Users/billerickson/Downloads/learn.billplustara.com/tests/content.test.ts), because it asserts the fixed v1 grade shape.
+
+For v1, `subject` is restricted to `math`, `vocabulary`, or `spanish`. If you add a brand-new subject like Science, also extend `TrackFixture.subject`, `TrackRow.subject`, [src/components/islands/BlockAvatar.tsx](/Users/billerickson/Downloads/learn.billplustara.com/src/components/islands/BlockAvatar.tsx), and any badge logic that should recognize the new subject.
 
 Example track shell:
 
 ```ts
 {
-  id: 'track_science',
-  slug: 'science',
+  id: 'track_grade6_science',
+  slug: 'grade-6-science',
+  subject: 'science',
+  gradeLevel: 6,
   title: 'Science',
   description: 'Build observation, nature, and experiment skills.',
   color: '#18bca4',

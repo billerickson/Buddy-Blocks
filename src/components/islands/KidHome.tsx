@@ -23,6 +23,8 @@ type HomeData = {
   tracks: Array<{
     id: string;
     slug: string;
+    subject: 'math' | 'vocabulary' | 'spanish';
+    gradeLevel: number;
     title: string;
     description: string;
     color: string;
@@ -90,7 +92,7 @@ export default function KidHome({ childSlug }: { childSlug: string }) {
           return (
             <a key={track.id} href={`/kid/${data.child.slug}/track/${track.slug}/`} className="block-card p-5 no-underline">
               <div className="flex items-start gap-4">
-                <TrackIcon slug={track.slug} color={track.color} />
+                <TrackIcon slug={track.subject} color={track.color} />
                 <div className="min-w-0 flex-1">
                   <h2 className="text-3xl">{track.title}</h2>
                   <p className="mt-2 font-bold text-muted">{track.description}</p>
@@ -125,4 +127,3 @@ export default function KidHome({ childSlug }: { childSlug: string }) {
     </section>
   );
 }
-

@@ -2,7 +2,16 @@ import { execFileSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { CHILDREN, PARENT_EMAIL, PARENT_ID, PARENT_USERNAME, TRACKS, getAllLessons, getAllQuestions } from '../src/lib/content';
+import {
+  CHILDREN,
+  PARENT_EMAIL,
+  PARENT_ID,
+  PARENT_USERNAME,
+  TRACKS,
+  getAllLessons,
+  getAllQuestions,
+  getTracksForChild,
+} from '../src/lib/content';
 import { hashPassword } from '../src/lib/auth';
 
 const databaseName = 'buddy_blocks';
@@ -34,11 +43,12 @@ for (const child of CHILDREN) {
       display_name: child.displayName,
       avatar_key: child.avatarKey,
       level_band: child.levelBand,
+      grade_level: child.gradeLevel,
       hearts_remaining: 5,
       created_at: now,
       updated_at: now,
     },
-    ['parent_id', 'slug', 'display_name', 'avatar_key', 'level_band', 'updated_at'],
+    ['parent_id', 'slug', 'display_name', 'avatar_key', 'level_band', 'grade_level', 'updated_at'],
   );
 }
 
@@ -46,6 +56,8 @@ TRACKS.forEach((track, trackIndex) => {
   upsert('tracks', {
     id: track.id,
     slug: track.slug,
+    subject: track.subject,
+    grade_level: track.gradeLevel,
     title: track.title,
     description: track.description,
     color: track.color,
@@ -90,8 +102,28 @@ for (const question of getAllQuestions()) {
   });
 }
 
+statements.push(`DELETE FROM child_track_progress
+WHERE id IN (
+  SELECT child_track_progress.id
+  FROM child_track_progress
+  JOIN child_profiles ON child_profiles.id = child_track_progress.child_profile_id
+  JOIN tracks ON tracks.id = child_track_progress.track_id
+  WHERE tracks.grade_level != child_profiles.grade_level
+);`);
+
+statements.push(`DELETE FROM child_lesson_progress
+WHERE id IN (
+  SELECT child_lesson_progress.id
+  FROM child_lesson_progress
+  JOIN child_profiles ON child_profiles.id = child_lesson_progress.child_profile_id
+  JOIN lessons ON lessons.id = child_lesson_progress.lesson_id
+  JOIN units ON units.id = lessons.unit_id
+  JOIN tracks ON tracks.id = units.track_id
+  WHERE tracks.grade_level != child_profiles.grade_level
+);`);
+
 for (const child of CHILDREN) {
-  for (const track of TRACKS) {
+  for (const track of getTracksForChild(child)) {
     const firstLesson = track.units[0]?.lessons[0];
     const firstUnit = track.units[0];
     if (!firstLesson || !firstUnit) continue;

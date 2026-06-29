@@ -57,8 +57,6 @@ CREATE TABLE IF NOT EXISTS lessons (
   unit_id TEXT NOT NULL,
   slug TEXT NOT NULL,
   title TEXT NOT NULL,
-  kind TEXT NOT NULL DEFAULT 'standard' CHECK (kind IN ('standard', 'mad-minute')),
-  config_json TEXT,
   sort_order INTEGER NOT NULL,
   xp_base INTEGER NOT NULL DEFAULT 10,
   UNIQUE (unit_id, slug),

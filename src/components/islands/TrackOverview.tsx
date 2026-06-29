@@ -6,6 +6,8 @@ type TrackData = {
   child: { slug: string; displayName: string };
   track: {
     slug: string;
+    subject: 'math' | 'vocabulary' | 'spanish';
+    gradeLevel: number;
     title: string;
     description: string;
     color: string;
@@ -53,7 +55,7 @@ export default function TrackOverview({ childSlug, trackSlug }: { childSlug: str
       <div className="block-card p-6 sm:p-8">
         <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
           <div className="flex items-start gap-4">
-            <TrackIcon slug={data.track.slug} color={data.track.color} />
+            <TrackIcon slug={data.track.subject} color={data.track.color} />
             <div>
               <p className="stat-chip w-fit">{data.child.displayName}'s path</p>
               <h1 className="mt-4 text-[clamp(3rem,8vw,5.5rem)]">{data.track.title}</h1>

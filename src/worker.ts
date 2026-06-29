@@ -39,6 +39,7 @@ type ChildRow = {
   display_name: string;
   avatar_key: string;
   level_band: string | null;
+  grade_level: 3 | 6;
   hearts_remaining: number;
   created_at: string;
   updated_at: string;
@@ -47,6 +48,8 @@ type ChildRow = {
 type TrackRow = {
   id: string;
   slug: string;
+  subject: 'math' | 'vocabulary' | 'spanish';
+  grade_level: 3 | 6;
   title: string;
   description: string;
   color: string;
@@ -92,6 +95,8 @@ type LessonDetailRow = LessonRow & {
   unit_slug: string;
   track_id: string;
   track_slug: string;
+  track_subject: 'math' | 'vocabulary' | 'spanish';
+  track_grade_level: 3 | 6;
   track_title: string;
   track_color: string;
   track_accent: string;
@@ -369,7 +374,7 @@ async function apiChildHome(parent: SessionParent, env: Env, childKey: string, c
   if (!child) return json({ error: 'child_not_found' }, 404);
   if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
 
-  const tracks = await all<TrackRow>(env.DB.prepare('SELECT * FROM tracks ORDER BY sort_order'));
+  const tracks = await getTracksForChild(env, child);
   const trackCards = [];
   let recommendedLesson = null;
 
@@ -386,6 +391,8 @@ async function apiChildHome(parent: SessionParent, env: Env, childKey: string, c
     trackCards.push({
       id: track.id,
       slug: track.slug,
+      subject: track.subject,
+      gradeLevel: track.grade_level,
       title: track.title,
       description: track.description,
       color: track.color,
@@ -427,7 +434,9 @@ async function apiChildTrack(
   if (!child) return json({ error: 'child_not_found' }, 404);
   if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
 
-  const track = await env.DB.prepare('SELECT * FROM tracks WHERE slug = ? LIMIT 1').bind(trackSlug).first<TrackRow>();
+  const track = await env.DB.prepare('SELECT * FROM tracks WHERE slug = ? AND grade_level = ? LIMIT 1')
+    .bind(trackSlug, child.grade_level)
+    .first<TrackRow>();
   if (!track) return json({ error: 'track_not_found' }, 404);
 
   const units = await all<UnitRow>(
@@ -469,7 +478,7 @@ async function apiChildTrack(
 
   return json({
     child: childResponse(child),
-    track,
+    track: trackResponse(track),
     progress: {
       lessonsCompleted: progress?.lessons_completed ?? 0,
       xpTotal: progress?.xp_total ?? 0,
@@ -492,6 +501,7 @@ async function apiLesson(
 
   const lesson = await getLessonDetail(env, lessonId);
   if (!lesson) return json({ error: 'lesson_not_found' }, 404);
+  if (lesson.track_grade_level !== child.grade_level) return json({ error: 'lesson_not_found' }, 404);
 
   const progress = await getLessonProgress(env, child.id, lesson.id);
   if (progress?.status === 'locked' || !progress) return json({ error: 'lesson_locked' }, 403);
@@ -517,6 +527,8 @@ async function apiLesson(
       track: {
         id: lesson.track_id,
         slug: lesson.track_slug,
+        subject: lesson.track_subject,
+        gradeLevel: lesson.track_grade_level,
         title: lesson.track_title,
         color: lesson.track_color,
         accent: lesson.track_accent,
@@ -540,6 +552,7 @@ async function apiSubmitLesson(
 
   const lesson = await getLessonDetail(env, lessonId);
   if (!lesson) return json({ error: 'lesson_not_found' }, 404);
+  if (lesson.track_grade_level !== child.grade_level) return json({ error: 'lesson_not_found' }, 404);
 
   const progress = await getLessonProgress(env, child.id, lesson.id);
   if (progress?.status === 'locked' || !progress) return json({ error: 'lesson_locked' }, 403);
@@ -803,11 +816,11 @@ async function apiSubmitMadMinuteLesson(env: Env, request: Request, child: Child
 
 async function apiParentDashboard(parent: SessionParent, env: Env) {
   const children = await getChildren(parent, env);
-  const tracks = await all<TrackRow>(env.DB.prepare('SELECT * FROM tracks ORDER BY sort_order'));
   const today = localDate(new Date(), env.TIME_ZONE);
   const childSummaries = [];
 
   for (const child of children) {
+    const tracks = await getTracksForChild(env, child);
     const activityDates = await getActivityDates(env, child.id);
     const streak = calculateCurrentStreak(activityDates, today);
     const trackSummaries = [];
@@ -819,6 +832,8 @@ async function apiParentDashboard(parent: SessionParent, env: Env) {
       trackSummaries.push({
         id: track.id,
         slug: track.slug,
+        subject: track.subject,
+        gradeLevel: track.grade_level,
         title: track.title,
         color: track.color,
         lessonsCompleted,
@@ -844,9 +859,10 @@ async function apiParentDashboard(parent: SessionParent, env: Env) {
          JOIN units ON units.id = lessons.unit_id
          JOIN tracks ON tracks.id = units.track_id
          WHERE lesson_attempts.child_profile_id = ?
+           AND tracks.grade_level = ?
          ORDER BY lesson_attempts.completed_at DESC
          LIMIT 6`,
-      ).bind(child.id),
+      ).bind(child.id, child.grade_level),
     );
 
     childSummaries.push({
@@ -899,6 +915,12 @@ async function getChildForParent(parent: SessionParent, env: Env, childKey: stri
     .first<ChildRow>();
 }
 
+async function getTracksForChild(env: Env, child: ChildRow) {
+  return all<TrackRow>(
+    env.DB.prepare('SELECT * FROM tracks WHERE grade_level = ? ORDER BY sort_order').bind(child.grade_level),
+  );
+}
+
 async function getTrackProgress(env: Env, childId: string, trackId: string) {
   return env.DB.prepare('SELECT * FROM child_track_progress WHERE child_profile_id = ? AND track_id = ? LIMIT 1')
     .bind(childId, trackId)
@@ -941,7 +963,8 @@ async function countCompletedTrackLessons(env: Env, childId: string, trackId: st
 async function getLessonDetail(env: Env, lessonId: string) {
   return env.DB.prepare(
     `SELECT lessons.*, units.title as unit_title, units.slug as unit_slug,
-            tracks.id as track_id, tracks.slug as track_slug, tracks.title as track_title,
+            tracks.id as track_id, tracks.slug as track_slug, tracks.subject as track_subject,
+            tracks.grade_level as track_grade_level, tracks.title as track_title,
             tracks.color as track_color, tracks.accent as track_accent
      FROM lessons
      JOIN units ON units.id = lessons.unit_id
@@ -970,7 +993,8 @@ async function getNextLesson(env: Env, lesson: LessonDetailRow) {
   const lessons = await all<LessonDetailRow>(
     env.DB.prepare(
       `SELECT lessons.*, units.title as unit_title, units.slug as unit_slug,
-              tracks.id as track_id, tracks.slug as track_slug, tracks.title as track_title,
+              tracks.id as track_id, tracks.slug as track_slug, tracks.subject as track_subject,
+              tracks.grade_level as track_grade_level, tracks.title as track_title,
               tracks.color as track_color, tracks.accent as track_accent
        FROM lessons
        JOIN units ON units.id = lessons.unit_id
@@ -1001,19 +1025,19 @@ async function getBadges(env: Env, childId: string, streak: number) {
   )
     .bind(childId)
     .first<CountRow>();
-  const completedByTrack = await all<{ slug: string; total: number }>(
+  const completedBySubject = await all<{ subject: TrackRow['subject']; total: number }>(
     env.DB.prepare(
-      `SELECT tracks.slug, count(*) as total
+      `SELECT tracks.subject, count(*) as total
        FROM child_lesson_progress
        JOIN lessons ON lessons.id = child_lesson_progress.lesson_id
        JOIN units ON units.id = lessons.unit_id
        JOIN tracks ON tracks.id = units.track_id
        WHERE child_lesson_progress.child_profile_id = ?
          AND child_lesson_progress.status = 'completed'
-       GROUP BY tracks.slug`,
+       GROUP BY tracks.subject`,
     ).bind(childId),
   );
-  const completed = new Map(completedByTrack.map((row) => [row.slug, row.total]));
+  const completed = new Map(completedBySubject.map((row) => [row.subject, row.total]));
   const badges = [];
 
   if ((attempts?.total ?? 0) > 0) badges.push({ key: 'first-lesson', label: 'First Lesson' });
@@ -1041,7 +1065,21 @@ function childResponse(child: ChildRow) {
     displayName: child.display_name,
     avatarKey: child.avatar_key,
     levelBand: child.level_band,
+    gradeLevel: child.grade_level,
     heartsRemaining: child.hearts_remaining,
+  };
+}
+
+function trackResponse(track: TrackRow) {
+  return {
+    id: track.id,
+    slug: track.slug,
+    subject: track.subject,
+    gradeLevel: track.grade_level,
+    title: track.title,
+    description: track.description,
+    color: track.color,
+    accent: track.accent,
   };
 }
 
@@ -1061,6 +1099,8 @@ function lessonLinkResponse(lesson: LessonDetailRow) {
     title: lesson.title,
     unitTitle: lesson.unit_title,
     trackSlug: lesson.track_slug,
+    trackSubject: lesson.track_subject,
+    trackGradeLevel: lesson.track_grade_level,
     trackTitle: lesson.track_title,
   };
 }

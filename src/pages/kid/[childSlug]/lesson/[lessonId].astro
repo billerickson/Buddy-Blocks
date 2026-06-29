@@ -1,12 +1,10 @@
 ---
 import LessonPlayer from '../../../../components/islands/LessonPlayer';
-import { CHILDREN, getAllLessons } from '../../../../lib/content';
+import { getLessonPaths } from '../../../../lib/content';
 import AppLayout from '../../../../layouts/AppLayout.astro';
 
 export function getStaticPaths() {
-  return CHILDREN.flatMap((child) =>
-    getAllLessons().map((lesson) => ({ params: { childSlug: child.slug, lessonId: lesson.id } })),
-  );
+  return getLessonPaths().map((path) => ({ params: { childSlug: path.childSlug, lessonId: path.lessonId } }));
 }
 
 const { childSlug, lessonId } = Astro.params;

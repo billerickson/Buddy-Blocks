@@ -1,12 +1,10 @@
 ---
 import TrackOverview from '../../../../components/islands/TrackOverview';
-import { CHILDREN, TRACKS } from '../../../../lib/content';
+import { getTrackPaths } from '../../../../lib/content';
 import AppLayout from '../../../../layouts/AppLayout.astro';
 
 export function getStaticPaths() {
-  return CHILDREN.flatMap((child) =>
-    TRACKS.map((track) => ({ params: { childSlug: child.slug, trackSlug: track.slug } })),
-  );
+  return getTrackPaths().map((path) => ({ params: { childSlug: path.childSlug, trackSlug: path.trackSlug } }));
 }
 
 const { childSlug, trackSlug } = Astro.params;
