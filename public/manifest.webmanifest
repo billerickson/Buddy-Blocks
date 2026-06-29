@@ -1,0 +1,20 @@
+{
+  "name": "Buddy Blocks",
+  "short_name": "Buddy Blocks",
+  "description": "Short, colorful lessons for Math, Vocabulary, and Spanish.",
+  "start_url": "/profiles/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f0fff9",
+  "theme_color": "#e63e80",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/moxie.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
+

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-labelledby="title desc">
+  <title id="title">Moxie app icon</title>
+  <desc id="desc">A smiling cube mascot for Buddy Blocks.</desc>
+  <rect x="18" y="18" width="184" height="184" rx="34" fill="#fff1f7" stroke="#242134" stroke-width="8"/>
+  <rect x="62" y="75" width="96" height="96" rx="22" fill="#e63e80" stroke="#242134" stroke-width="8"/>
+  <rect x="87" y="43" width="48" height="38" rx="14" fill="#18bca4" stroke="#242134" stroke-width="7"/>
+  <circle cx="94" cy="116" r="7" fill="#242134"/>
+  <circle cx="126" cy="116" r="7" fill="#242134"/>
+  <path d="M93 140 Q110 155 129 140" fill="none" stroke="#242134" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="151" cy="57" r="15" fill="#ffd84d" stroke="#242134" stroke-width="6"/>
+</svg>
+
