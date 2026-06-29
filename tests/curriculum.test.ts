@@ -57,6 +57,18 @@ describe('curriculum content', () => {
       'writing-revision-words',
       'cumulative-review',
     ]);
+    expect(GRADE_3_TRACKS.find((track) => track.subject === 'spanish')?.units.map((unit) => unit.slug)).toEqual([
+      'greetings',
+      'colors',
+      'classroom-words',
+      'numbers-calendar',
+      'people-family',
+      'likes-dislikes',
+      'food-everyday-things',
+      'places-actions',
+      'simple-sentences',
+      'cumulative-conversation-review',
+    ]);
     expect(GRADE_6_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'ratios-rates',
       'rational-number-operations',
@@ -81,8 +93,8 @@ describe('curriculum content', () => {
       'research-inquiry-vocabulary',
       'cumulative-review',
     ]);
-    expect(getAllLessons()).toHaveLength(210);
-    expect(getAllQuestions()).toHaveLength(1566);
+    expect(getAllLessons()).toHaveLength(256);
+    expect(getAllQuestions()).toHaveLength(1934);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -200,9 +212,9 @@ describe('curriculum content', () => {
 
     expect(summary.totals).toEqual({
       tracks: 5,
-      units: 45,
-      lessons: 210,
-      questions: 1566,
+      units: 53,
+      lessons: 256,
+      questions: 1934,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
       tracks: 1,
@@ -215,6 +227,12 @@ describe('curriculum content', () => {
       units: 11,
       lessons: 49,
       questions: 392,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'spanish')).toMatchObject({
+      tracks: 1,
+      units: 10,
+      lessons: 50,
+      questions: 400,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'math')).toMatchObject({
       tracks: 1,
