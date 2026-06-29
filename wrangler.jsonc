@@ -8,11 +8,17 @@
     "directory": "./dist",
     "run_worker_first": true
   },
+  "routes": [
+    {
+      "pattern": "learn.billplustara.com",
+      "custom_domain": true
+    }
+  ],
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "buddy_blocks",
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID"
+      "database_id": "40b6ce07-3195-4b56-bb85-e0ae23337453"
     }
   ],
   "vars": {
