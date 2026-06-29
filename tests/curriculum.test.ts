@@ -25,11 +25,12 @@ describe('curriculum content', () => {
 
   it('provides grade-specific curriculum tracks', () => {
     expect(getTracksForGrade(3).map((track) => track.subject)).toEqual(['math', 'vocabulary', 'spanish']);
+    expect(getTracksForGrade(4).map((track) => track.subject)).toEqual(['spanish']);
     expect(getTracksForGrade(6).map((track) => track.subject)).toEqual(['math', 'vocabulary']);
   });
 
   it('provides the current curriculum shape', () => {
-    expect(TRACKS).toHaveLength(5);
+    expect(TRACKS).toHaveLength(6);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'addition-basics',
       'subtraction-basics',
@@ -69,6 +70,19 @@ describe('curriculum content', () => {
       'simple-sentences',
       'cumulative-conversation-review',
     ]);
+    expect(getTracksForGrade(4).find((track) => track.subject === 'spanish')?.units.map((unit) => unit.slug)).toEqual([
+      'grade-3-review-classroom-routines',
+      'numbers-dates-time',
+      'school-supplies',
+      'people-descriptions-feelings',
+      'food-preferences-polite-requests',
+      'places-directions',
+      'present-tense-action-patterns',
+      'questions-short-conversations',
+      'culture-authentic-resources',
+      'reading-listening-spanish',
+      'cumulative-conversation-review',
+    ]);
     expect(GRADE_6_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'ratios-rates',
       'rational-number-operations',
@@ -93,8 +107,8 @@ describe('curriculum content', () => {
       'research-inquiry-vocabulary',
       'cumulative-review',
     ]);
-    expect(getAllLessons()).toHaveLength(256);
-    expect(getAllQuestions()).toHaveLength(1934);
+    expect(getAllLessons()).toHaveLength(327);
+    expect(getAllQuestions()).toHaveLength(2502);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -123,6 +137,31 @@ describe('curriculum content', () => {
       expect(
         madMinute?.lessons.every(
           (lesson) => lesson.config && 'goalCorrect' in lesson.config && lesson.config.goalCorrect === 40,
+        ),
+      ).toBe(true);
+    }
+  });
+
+  it('uses Easy, Medium, and Hard Spanish flash-card ladders in Grade 4 vocabulary units', () => {
+    const grade4Spanish = getTracksForGrade(4).find((track) => track.subject === 'spanish');
+    expect(grade4Spanish).toBeDefined();
+
+    for (const unit of grade4Spanish?.units.slice(0, 7) ?? []) {
+      const flashLessons = unit.lessons.filter((lesson) => lesson.slug.includes('flash-cards'));
+      expect(flashLessons.map((lesson) => lesson.slug)).toEqual([
+        expect.stringContaining('easy'),
+        expect.stringContaining('medium'),
+        expect.stringContaining('hard'),
+      ]);
+      expect(flashLessons[0].questions.every((question) => flashCardPayload(question, 'easy'))).toBe(true);
+      expect(
+        flashLessons[1].questions.every(
+          (question) => Boolean(flashCardPayload(question, 'medium')?.acceptedAnswers?.length),
+        ),
+      ).toBe(true);
+      expect(
+        flashLessons[2].questions.every(
+          (question) => Boolean(flashCardPayload(question, 'hard')?.acceptedAnswers?.length),
         ),
       ).toBe(true);
     }
@@ -211,10 +250,10 @@ describe('curriculum content', () => {
     const summary = summarizeCurriculum(TRACKS);
 
     expect(summary.totals).toEqual({
-      tracks: 5,
-      units: 53,
-      lessons: 256,
-      questions: 1934,
+      tracks: 6,
+      units: 64,
+      lessons: 327,
+      questions: 2502,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
       tracks: 1,
@@ -233,6 +272,12 @@ describe('curriculum content', () => {
       units: 10,
       lessons: 50,
       questions: 400,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'spanish')).toMatchObject({
+      tracks: 1,
+      units: 11,
+      lessons: 71,
+      questions: 568,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'math')).toMatchObject({
       tracks: 1,
@@ -355,4 +400,10 @@ function duplicateFixtureTrack(id: string, slug: string, unitId: string, lessonI
       },
     ],
   };
+}
+
+function flashCardPayload(question: { type: string; payload: unknown }, mode: 'easy' | 'medium' | 'hard') {
+  if (question.type !== 'flash-card' || typeof question.payload !== 'object' || question.payload === null) return null;
+  const payload = question.payload as { mode?: string; acceptedAnswers?: string[] };
+  return payload.mode === mode ? payload : null;
 }

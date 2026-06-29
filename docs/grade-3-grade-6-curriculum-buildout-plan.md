@@ -140,13 +140,23 @@ Status:
 
 Existing units:
 
-- None yet.
+- Grade 3 Review And Classroom Routines.
+- Numbers, Dates, And Time.
+- School And Supplies.
+- People, Descriptions, And Feelings.
+- Food, Preferences, And Polite Requests.
+- Places And Directions.
+- Present-Tense Action Patterns.
+- Questions And Short Conversations.
+- Culture And Authentic Resources.
+- Reading And Listening In Spanish.
+- Cumulative Conversation Review.
 
 Status:
 
-- Needs to be built as the next sequential Spanish course after Grade 3 Spanish.
-- Should cover Texas Spanish II / LOTE Level II expectations.
-- Should target practical Novice High to Intermediate Low growth rather than mirroring academic Grade 4 standards one-to-one.
+- Complete as the next sequential Spanish course after Grade 3 Spanish.
+- Covers Texas Spanish II / LOTE Level II expectations through short connected exchanges, resource interpretation, presentational sentences, culture comparisons, and high-frequency present-tense patterns.
+- Targets practical Novice High to Intermediate Low growth rather than mirroring academic Grade 4 standards one-to-one.
 
 ### Grade 6 Math
 
@@ -208,6 +218,7 @@ Reasoning:
 - Grade 6 Vocabulary quality pass complete: existing lessons stayed within the 8-12 question target and easy/hard flash-card pairs were preserved. Added one focused Research And Inquiry Vocabulary unit for the standards gap around inquiry questions, keywords, source evaluation, citation, paraphrase, plagiarism, primary/secondary sources, relevance, and bibliography.
 - Shared flash-card support complete: added `mode: medium` for typed recognition cards so Spanish can use the planned Easy/Medium/Hard ladder.
 - Grade 3 Spanish complete: expanded the actual repository content from Greetings and Colors into the full beginner Level I path with Classroom Words, Numbers And Calendar, People And Family, Likes And Dislikes, Food And Everyday Things, Places And Actions, Simple Sentences, and Cumulative Conversation Review. Vocabulary-focused units now include Easy, Medium, and Hard flash-card ladders.
+- Grade 4 Spanish and handoff complete: added the full Spanish II / Level II path with 11 units and Easy, Medium, and Hard flash-card ladders in vocabulary-focused units. The Worker now unlocks Grade 4 Spanish when the current Grade 3 Spanish track is completed, keeps the rule scoped to Spanish, and recommends the first Grade 4 lesson after Grade 3 completion.
 
 ## Grade 3 Math Remaining Units
 
@@ -920,7 +931,7 @@ Planning implications:
 
 - Keep Grade 3 Spanish beginner-friendly and complete enough to serve every student.
 - Ensure the Grade 3 Spanish mastery challenge clearly marks readiness for Grade 4 Spanish.
-- Add Grade 4 Spanish and verify the app can recommend or unlock it after Grade 3 Spanish completion before claiming the handoff is complete.
+- Grade 4 Spanish is now added, and the app can unlock and recommend it after Grade 3 Spanish completion.
 
 ## Future French And Latin Buildout
 

@@ -106,8 +106,17 @@ function seedTrackFixture(db: DatabaseSync) {
     title: 'Grade 3 Spanish',
     sortOrder: 2,
   });
+  insertTrack(db, {
+    id: 'track_g4_spanish',
+    slug: 'grade-4-spanish',
+    subject: 'spanish',
+    gradeLevel: 4,
+    title: 'Grade 4 Spanish',
+    sortOrder: 3,
+  });
   insertUnit(db, 'unit_2', 'track_g3_spanish', 'unit-two', 'Unit Two', 2);
   insertUnit(db, 'unit_1', 'track_g3_spanish', 'unit-one', 'Unit One', 1);
+  insertUnit(db, 'unit_g4_1', 'track_g4_spanish', 'spanish-ii-start', 'Spanish II Start', 1);
 
   insertLesson(db, {
     id: 'lesson_2',
@@ -129,6 +138,21 @@ function seedTrackFixture(db: DatabaseSync) {
   insertLesson(db, { id: 'lesson_3', unitId: 'unit_1', slug: 'locked-a', title: 'Locked A', sortOrder: 3 });
   insertLesson(db, { id: 'lesson_5', unitId: 'unit_2', slug: 'locked-c', title: 'Locked C', sortOrder: 2 });
   insertLesson(db, { id: 'lesson_4', unitId: 'unit_2', slug: 'locked-b', title: 'Locked B', sortOrder: 1 });
+  insertLesson(db, {
+    id: 'lesson_g4_1',
+    unitId: 'unit_g4_1',
+    slug: 'quick-spanish-ii-start',
+    title: 'Quick Spanish II Start',
+    sortOrder: 1,
+  });
+  insertQuestion(db, 'question_lesson_5', 'lesson_5', 'Type si.', {
+    acceptedAnswers: ['si'],
+    answerType: 'text',
+  });
+  insertQuestion(db, 'question_lesson_g4_1', 'lesson_g4_1', 'Type hola.', {
+    acceptedAnswers: ['hola'],
+    answerType: 'text',
+  });
 
   db.prepare(
     `INSERT INTO child_track_progress
@@ -205,6 +229,14 @@ function insertLesson(
      (id, unit_id, slug, title, kind, config_json, sort_order, xp_base)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
   ).run(lesson.id, lesson.unitId, lesson.slug, lesson.title, lesson.kind ?? 'standard', lesson.config ?? null, lesson.sortOrder, 10);
+}
+
+function insertQuestion(db: DatabaseSync, id: string, lessonId: string, prompt: string, payload: unknown) {
+  db.prepare(
+    `INSERT INTO questions
+     (id, lesson_id, type, prompt, payload_json, explanation, sort_order)
+     VALUES (?, ?, 'text-input', ?, ?, NULL, 1)`,
+  ).run(id, lessonId, prompt, JSON.stringify(payload));
 }
 
 function createEnv() {
@@ -328,11 +360,93 @@ describe('worker track APIs', () => {
     const { env } = createEnv();
 
     const visible = await getJson('/api/children/reagan/tracks/grade-3-spanish', env);
+    const nextSequence = await getJson('/api/children/reagan/tracks/grade-4-spanish', env);
     const hidden = await getJson('/api/children/reagan/tracks/grade-6-spanish', env);
 
     expect(visible.response.status).toBe(200);
+    expect(nextSequence.response.status).toBe(404);
+    expect(nextSequence.body).toEqual({ error: 'track_not_found' });
     expect(hidden.response.status).toBe(404);
     expect(hidden.body).toEqual({ error: 'track_not_found' });
+  });
+
+  it('unlocks Grade 4 Spanish after completing Grade 3 Spanish', async () => {
+    const { env, sqlite } = createEnv();
+
+    expect((await getJson('/api/children/reagan/tracks/grade-4-spanish', env)).response.status).toBe(404);
+
+    sqlite.db
+      .prepare(
+        `UPDATE child_lesson_progress
+         SET status = 'completed', completed_at = '2026-06-29T10:00:00.000Z', best_score_correct = 1, best_score_total = 1
+         WHERE child_profile_id = ? AND lesson_id = ?`,
+      )
+      .run('child_reagan', 'lesson_2');
+    for (const lessonId of ['lesson_3', 'lesson_4']) {
+      sqlite.db
+        .prepare(
+          `INSERT INTO child_lesson_progress
+           (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+           VALUES (?, ?, ?, 'completed', '2026-06-29T10:00:00.000Z', 1, 1)`,
+        )
+        .run(`lesson_progress_child_reagan_${lessonId}`, 'child_reagan', lessonId);
+    }
+    sqlite.db
+      .prepare(
+        `INSERT INTO child_lesson_progress
+         (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+         VALUES (?, ?, ?, 'available', NULL, 0, 0)`,
+      )
+      .run('lesson_progress_child_reagan_lesson_5', 'child_reagan', 'lesson_5');
+    sqlite.db
+      .prepare(
+        `UPDATE child_track_progress
+         SET current_unit_id = ?, current_lesson_id = ?, lessons_completed = ?
+         WHERE child_profile_id = ? AND track_id = ?`,
+      )
+      .run('unit_2', 'lesson_5', 4, 'child_reagan', 'track_g3_spanish');
+
+    const completion = await requestJson('/api/children/reagan/lessons/lesson_5', env, {
+      method: 'POST',
+      body: {
+        startedAt: '2026-06-29T12:05:00.000Z',
+        attempts: [{ questionId: 'question_lesson_5', answer: 'si' }],
+      },
+    });
+
+    expect(completion.response.status).toBe(200);
+    expect(completion.body.result).toMatchObject({
+      scoreCorrect: 1,
+      scoreTotal: 1,
+      nextLesson: {
+        id: 'lesson_g4_1',
+        trackSlug: 'grade-4-spanish',
+        trackGradeLevel: 4,
+      },
+    });
+
+    const grade4 = await getJson('/api/children/reagan/tracks/grade-4-spanish', env);
+    expect(grade4.response.status).toBe(200);
+    expect(grade4.body.progress.currentLesson).toMatchObject({
+      id: 'lesson_g4_1',
+      trackSlug: 'grade-4-spanish',
+    });
+    expect(grade4.body.units[0].lessons[0]).toMatchObject({
+      id: 'lesson_g4_1',
+      status: 'available',
+    });
+
+    const home = await getJson('/api/children/reagan/home', env);
+    expect(home.response.status).toBe(200);
+    expect(home.body.tracks.map((track: { slug: string }) => track.slug)).toEqual([
+      'grade-6-math',
+      'grade-3-spanish',
+      'grade-4-spanish',
+    ]);
+    expect(home.body.recommendedLesson).toMatchObject({
+      id: 'lesson_g4_1',
+      trackSlug: 'grade-4-spanish',
+    });
   });
 
   it('clears subject overrides when the parent resets a subject to the global grade', async () => {
