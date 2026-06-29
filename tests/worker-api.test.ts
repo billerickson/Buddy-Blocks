@@ -106,15 +106,6 @@ function seedTrackFixture(db: DatabaseSync) {
     title: 'Grade 3 Spanish',
     sortOrder: 2,
   });
-  insertTrack(db, {
-    id: 'track_g6_spanish',
-    slug: 'grade-6-spanish',
-    subject: 'spanish',
-    gradeLevel: 6,
-    title: 'Grade 6 Spanish',
-    sortOrder: 3,
-  });
-
   insertUnit(db, 'unit_2', 'track_g3_spanish', 'unit-two', 'Unit Two', 2);
   insertUnit(db, 'unit_1', 'track_g3_spanish', 'unit-one', 'Unit One', 1);
 
@@ -361,7 +352,7 @@ describe('worker track APIs', () => {
       response: expect.objectContaining({ status: 404 }),
     });
     await expect(getJson('/api/children/reagan/tracks/grade-6-spanish', env)).resolves.toMatchObject({
-      response: expect.objectContaining({ status: 200 }),
+      response: expect.objectContaining({ status: 404 }),
     });
 
     const restored = await requestJson('/api/parent/children/reagan/subject-levels', env, {
@@ -404,7 +395,7 @@ describe('worker track APIs', () => {
     const dashboard = await getJson('/api/parent/dashboard', env);
 
     expect(dashboard.response.status).toBe(200);
-    expect(dashboard.body.children[0].tracks.map((track: { slug: string }) => track.slug)).toContain('grade-6-spanish');
+    expect(dashboard.body.children[0].tracks.map((track: { slug: string }) => track.slug)).toEqual(['grade-6-math']);
     expect(dashboard.body.children[0].tracks.map((track: { slug: string }) => track.slug)).not.toContain('grade-3-spanish');
     expect(dashboard.body.children[0].recentActivity).toEqual([
       expect.objectContaining({

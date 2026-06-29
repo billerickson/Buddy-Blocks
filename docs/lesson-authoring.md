@@ -40,7 +40,6 @@ src/content/curriculum/
   grade-06/
     01-math/
     02-vocabulary/
-    03-spanish/
 ```
 
 The numeric prefixes control display order. The app uses the `slug` values inside YAML for URLs, not the folder/file prefix.
