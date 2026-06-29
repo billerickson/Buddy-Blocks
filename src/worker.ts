@@ -193,6 +193,8 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
+    if (shouldRedirectToHttps(request, url)) return httpsRedirect(url);
+
     if (url.pathname === '/') return rootRedirect(request, env);
     if (isPublicAsset(url.pathname)) return env.ASSETS.fetch(request);
 
@@ -1377,6 +1379,29 @@ function redirect(url: URL, status = 302) {
       Location: url.toString(),
     },
   });
+}
+
+function httpsRedirect(url: URL) {
+  const secureUrl = new URL(url);
+  secureUrl.protocol = 'https:';
+  return redirect(secureUrl, 308);
+}
+
+function shouldRedirectToHttps(request: Request, url: URL) {
+  const forwardedProtocol = request.headers.get('X-Forwarded-Proto')?.split(',')[0]?.trim().toLowerCase();
+  const isHttp = url.protocol === 'http:' || forwardedProtocol === 'http';
+  return isHttp && !isLocalHostname(url.hostname);
+}
+
+function isLocalHostname(hostname: string) {
+  return (
+    hostname === 'localhost' ||
+    hostname.endsWith('.localhost') ||
+    hostname === '127.0.0.1' ||
+    hostname === '0.0.0.0' ||
+    hostname === '::1' ||
+    hostname === '[::1]'
+  );
 }
 
 function json(data: unknown, status = 200) {
