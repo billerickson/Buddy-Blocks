@@ -15,6 +15,7 @@ import {
   evaluateAnswer,
   type ExerciseType,
   type LessonQuestion,
+  type QuestionMedia,
   type QuestionPayload,
 } from './lib/lesson-engine';
 import { calculateCurrentStreak } from './lib/streak';
@@ -98,6 +99,20 @@ type MadMinuteConfig = {
   goalCorrect: number;
 };
 
+type StandardLessonConfig = {
+  intro?: Array<{
+    title: string;
+    body: string;
+    bullets?: string[];
+    media?: QuestionMedia;
+  }>;
+  review?: {
+    mode?: 'deck' | 'spaced';
+    label?: string;
+    shuffleQuestions?: boolean;
+  };
+};
+
 type LessonDetailRow = LessonRow & {
   unit_title: string;
   unit_slug: string;
@@ -169,6 +184,50 @@ const MadMinuteConfigSchema = z.object({
   maxMultiplier: z.number().int().min(1).max(12),
   durationSeconds: z.number().int().min(10).max(120),
   goalCorrect: z.number().int().min(1).max(120),
+});
+
+const MediaSchema = z.object({
+  image: z
+    .object({
+      src: z.string().min(1),
+      alt: z.string().min(1),
+      caption: z.string().optional(),
+    })
+    .optional(),
+  audio: z
+    .object({
+      src: z.string().min(1),
+      label: z.string().optional(),
+      transcript: z.string().optional(),
+    })
+    .optional(),
+  video: z
+    .object({
+      src: z.string().min(1),
+      label: z.string().optional(),
+    })
+    .optional(),
+});
+
+const StandardLessonConfigSchema = z.object({
+  intro: z
+    .array(
+      z.object({
+        title: z.string().min(1),
+        body: z.string().min(1),
+        bullets: z.array(z.string()).min(1).optional(),
+        media: MediaSchema.optional(),
+      }),
+    )
+    .min(1)
+    .optional(),
+  review: z
+    .object({
+      mode: z.enum(['deck', 'spaced']).default('deck'),
+      label: z.string().optional(),
+      shuffleQuestions: z.boolean().optional(),
+    })
+    .optional(),
 });
 
 const MadMinuteSubmissionSchema = z.object({
@@ -538,7 +597,7 @@ async function apiLesson(
       slug: lesson.slug,
       title: lesson.title,
       kind: lesson.kind,
-      config: lesson.kind === 'mad-minute' ? parseMadMinuteConfig(lesson) : null,
+      config: lesson.kind === 'mad-minute' ? parseMadMinuteConfig(lesson) : parseStandardLessonConfig(lesson),
       xpBase: lesson.xp_base,
       unit: {
         id: lesson.unit_id,
@@ -1248,6 +1307,19 @@ function lessonLinkResponse(lesson: LessonDetailRow) {
     trackGradeLevel: lesson.track_grade_level,
     trackTitle: lesson.track_title,
   };
+}
+
+function parseStandardLessonConfig(lesson: Pick<LessonRow, 'config_json'>): StandardLessonConfig | null {
+  if (!lesson.config_json) return null;
+
+  try {
+    const parsed = StandardLessonConfigSchema.safeParse(JSON.parse(lesson.config_json));
+    if (!parsed.success) return null;
+    if (!parsed.data.intro && !parsed.data.review) return null;
+    return parsed.data;
+  } catch {
+    return null;
+  }
 }
 
 function parseMadMinuteConfig(lesson: Pick<LessonRow, 'config_json'>): MadMinuteConfig {

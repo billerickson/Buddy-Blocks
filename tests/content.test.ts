@@ -56,8 +56,8 @@ describe('seed content', () => {
       'expressions-equations',
       'mad-minute',
     ]);
-    expect(getAllLessons()).toHaveLength(48);
-    expect(getAllQuestions()).toHaveLength(192);
+    expect(getAllLessons()).toHaveLength(80);
+    expect(getAllQuestions()).toHaveLength(518);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -78,8 +78,8 @@ describe('seed content', () => {
         'mixed',
       ]);
       expect(madMinute?.lessons.every((lesson) => lesson.kind === 'mad-minute')).toBe(true);
-      expect(madMinute?.lessons.every((lesson) => lesson.config?.durationSeconds === 60)).toBe(true);
-      expect(madMinute?.lessons.every((lesson) => lesson.config?.goalCorrect === 40)).toBe(true);
+      expect(madMinute?.lessons.every((lesson) => lesson.config && 'durationSeconds' in lesson.config && lesson.config.durationSeconds === 60)).toBe(true);
+      expect(madMinute?.lessons.every((lesson) => lesson.config && 'goalCorrect' in lesson.config && lesson.config.goalCorrect === 40)).toBe(true);
     }
   });
 });

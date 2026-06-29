@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { calculateXp, evaluateAnswer, type LessonQuestion } from '../src/lib/lesson-engine';
+import { calculateXp, evaluateAnswer, getAccentFeedback, type LessonQuestion } from '../src/lib/lesson-engine';
 
 const question = (overrides: Partial<LessonQuestion>): LessonQuestion => ({
   id: 'q1',
@@ -20,6 +20,16 @@ describe('lesson engine', () => {
         '  Quick   Fox ',
       ),
     ).toBe(true);
+  });
+
+  it('scores text answers with accent-tolerant normalization and returns accent feedback', () => {
+    const accentQuestion = question({
+      type: 'text-input',
+      payload: { acceptedAnswers: ['está en la escuela'], answerType: 'text' },
+    });
+
+    expect(evaluateAnswer(accentQuestion, 'esta en la escuela')).toBe(true);
+    expect(getAccentFeedback(accentQuestion, 'esta en la escuela')).toBe('está en la escuela');
   });
 
   it('scores numeric text input by numeric value', () => {
@@ -74,6 +84,125 @@ describe('lesson engine', () => {
     expect(evaluateAnswer(synonymPairs, ['chilly', 'cold', 'small', 'little'])).toBe(true);
     expect(evaluateAnswer(synonymPairs, ['small', 'little', 'chilly', 'cold'])).toBe(true);
     expect(evaluateAnswer(synonymPairs, ['cold', 'small', 'chilly', 'little'])).toBe(false);
+  });
+
+  it('scores multi-blank cloze answers', () => {
+    expect(
+      evaluateAnswer(
+        question({
+          type: 'multi-blank-cloze',
+          payload: {
+            parts: ['Yo ', ' en Texas y ', ' español.'],
+            blanks: [
+              { correctAnswer: 'vivo', acceptedAnswers: ['vivo'] },
+              { correctAnswer: 'estudio', acceptedAnswers: ['estudio'] },
+            ],
+          },
+        }),
+        ['vivo', 'estudio'],
+      ),
+    ).toBe(true);
+  });
+
+  it('scores easy and hard flash cards', () => {
+    expect(
+      evaluateAnswer(
+        question({
+          type: 'flash-card',
+          payload: {
+            mode: 'easy',
+            front: 'contexto',
+            choices: ['context', 'school'],
+            correctAnswer: 'context',
+          },
+        }),
+        'context',
+      ),
+    ).toBe(true);
+
+    expect(
+      evaluateAnswer(
+        question({
+          type: 'flash-card',
+          payload: {
+            mode: 'hard',
+            front: 'school',
+            acceptedAnswers: ['la escuela', 'escuela'],
+            answerType: 'text',
+          },
+        }),
+        'escuela',
+      ),
+    ).toBe(true);
+  });
+
+  it('scores constructed response length gates', () => {
+    const responseQuestion = question({
+      type: 'constructed-response',
+      payload: { minWords: 4, sampleAnswer: 'Me gusta jugar futbol.' },
+    });
+
+    expect(evaluateAnswer(responseQuestion, 'Me gusta jugar futbol.')).toBe(true);
+    expect(evaluateAnswer(responseQuestion, 'Me gusta.')).toBe(false);
+  });
+
+  it('scores dialogue, listening, speaking, and correction prompts', () => {
+    expect(
+      evaluateAnswer(
+        question({
+          type: 'dialogue-builder',
+          payload: {
+            turns: [{ speaker: 'Ana', line: 'Como estas?' }],
+            choices: ['Estoy bien.', 'Tengo trece anos.'],
+            correctAnswer: 'Estoy bien.',
+          },
+        }),
+        'Estoy bien.',
+      ),
+    ).toBe(true);
+
+    expect(
+      evaluateAnswer(
+        question({
+          type: 'listening-question',
+          payload: { audioSrc: '/audio/test.mp3', choices: ['lunes', 'martes'], correctAnswer: 'martes' },
+        }),
+        'martes',
+      ),
+    ).toBe(true);
+
+    expect(evaluateAnswer(question({ type: 'speaking-prompt', payload: { minSeconds: 5 } }), { recorded: true })).toBe(true);
+
+    expect(
+      evaluateAnswer(
+        question({
+          type: 'error-correction',
+          payload: { sentence: 'Yo tiene hambre.', acceptedAnswers: ['Yo tengo hambre.'] },
+        }),
+        'yo tengo hambre',
+      ),
+    ).toBe(true);
+  });
+
+  it('scores conjugation grid answers with accent-tolerant cells', () => {
+    expect(
+      evaluateAnswer(
+        question({
+          type: 'conjugation-grid',
+          payload: {
+            columns: ['presente', 'preterito'],
+            rows: [
+              { label: 'yo hablar', answers: ['hablo', 'hablé'] },
+              { label: 'ella vivir', answers: ['vive', ['vivió', 'vivio']] },
+            ],
+          },
+        }),
+        {
+          'yo hablar': ['hablo', 'hable'],
+          'ella vivir': ['vive', 'vivio'],
+        },
+      ),
+    ).toBe(true);
   });
 
   it('awards completion, correctness, perfect, and practice-mode XP', () => {

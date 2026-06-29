@@ -102,6 +102,26 @@ questions:
 
 Keep lesson IDs stable after seeding. A changed `id` looks like a brand-new lesson to D1 and can orphan old progress.
 
+### Standard Lesson Config
+
+Standard lessons can include optional teaching cards and review/deck behavior in `config`.
+
+```yaml
+config:
+  intro:
+    - title: Ser And Estar
+      body: Use ser for identity and traits. Use estar for location and changing states.
+      bullets:
+        - soy, eres, es, somos, son
+        - estoy, estas, esta, estamos, estan
+  review:
+    mode: spaced
+    label: Verb review
+    shuffleQuestions: true
+```
+
+`intro` cards appear before the scored questions. `review.shuffleQuestions: true` turns the lesson into deck-style practice by shuffling the authored question order.
+
 ## Mad Minute Files
 
 Mad Minute lessons use `kind: mad-minute` and do not author fixed questions. The lesson player generates multiplication facts from `config`.
@@ -130,6 +150,21 @@ For a mixed fact lesson, set `factor: mixed` and use `minFactor`/`maxFactor` to 
 
 ## Question Types
 
+Every question type can include optional question-level media:
+
+```yaml
+media:
+  image:
+    src: /assets/spanish/classroom.jpg
+    alt: Classroom with desks and a whiteboard
+    caption: la clase
+  audio:
+    src: /audio/spanish/classroom.mp3
+    label: Listen
+```
+
+Text scoring is accent-tolerant. For example, `esta` can match an accepted answer of `está`; the player can still show an accent note after a correct answer.
+
 ### Multiple Choice
 
 ```yaml
@@ -157,6 +192,33 @@ For a mixed fact lesson, set `factor: mixed` and use `minFactor`/`maxFactor` to 
 ```
 
 Use `answerType: number` for numeric answers. Quote numeric answers, such as `"13"`, so YAML keeps them as strings.
+
+### Flash Card
+
+Use Easy flash cards for recognition with multiple-choice answers below the card. Use Hard flash cards for production with a typed answer.
+
+```yaml
+- type: flash-card
+  mode: easy
+  prompt: Choose the best meaning.
+  front: contexto
+  choices:
+    - context
+    - classroom
+    - lunch
+    - weather
+  correctAnswer: context
+```
+
+```yaml
+- type: flash-card
+  mode: hard
+  prompt: Type the Spanish word.
+  front: context
+  acceptedAnswers:
+    - contexto
+  answerType: text
+```
 
 ### Fill Blank
 
@@ -200,6 +262,143 @@ Use `answerType: number` for numeric answers. Quote numeric answers, such as `"1
     - 6 + 6
     - 9 + 5
     - 7 + 8
+```
+
+### Passage Question
+
+Use this for reading comprehension. Repeat the same passage across several questions when a lesson needs a shared reading set.
+
+```yaml
+- type: passage-question
+  prompt: Read the paragraph and answer.
+  passageTitle: Una tarde ocupada
+  passage: |
+    Después de la escuela, Elena va a la biblioteca.
+    Ella estudia español y luego practica fútbol.
+  question: Where does Elena go after school?
+  choices:
+    - the library
+    - the store
+    - the park
+    - the kitchen
+  correctAnswer: the library
+```
+
+### Multi Blank Cloze
+
+Use this for sentence-level grammar, verb forms, and short paragraphs with several blanks.
+
+```yaml
+- type: multi-blank-cloze
+  prompt: Complete the sentence.
+  parts:
+    - "Yo "
+    - " en Texas y "
+    - " español."
+  blanks:
+    - correctAnswer: vivo
+      acceptedAnswers:
+        - vivo
+    - correctAnswer: estudio
+      acceptedAnswers:
+        - estudio
+```
+
+For choice-based blanks, add `choices` to a blank.
+
+### Constructed Response
+
+Use this for short written production. Scoring checks that the answer is not empty and meets optional length gates; the sample answer appears after submission.
+
+```yaml
+- type: constructed-response
+  prompt: Write four or more words about what you like to do.
+  minWords: 4
+  sampleAnswer: Me gusta jugar al fútbol.
+  checklist:
+    - Include me gusta
+    - Include an activity
+```
+
+### Dialogue Builder
+
+Use this for conversation turns and appropriate responses.
+
+```yaml
+- type: dialogue-builder
+  prompt: Choose the best next line.
+  turns:
+    - speaker: Ana
+      line: ¿Cómo estás?
+  choices:
+    - Estoy bien, gracias.
+    - Son las tres.
+    - Tengo trece años.
+  correctAnswer: Estoy bien, gracias.
+```
+
+### Listening Question
+
+Use this when the lesson has an audio asset. The answer is multiple choice.
+
+```yaml
+- type: listening-question
+  prompt: Listen and choose the day you hear.
+  audioSrc: /audio/spanish/days-martes.mp3
+  audioLabel: Days
+  choices:
+    - lunes
+    - martes
+    - jueves
+  correctAnswer: martes
+```
+
+### Speaking Prompt
+
+Use this for oral practice. The browser can record locally for playback; Buddy Blocks stores only the submitted practice flag or note.
+
+```yaml
+- type: speaking-prompt
+  prompt: Say two sentences about your family.
+  minSeconds: 8
+  sampleAnswer: Mi familia es grande. Tengo una hermana.
+  checklist:
+    - Use tener or ser
+    - Say at least two sentences
+```
+
+### Error Correction
+
+Use this for editing grammar and spelling in context.
+
+```yaml
+- type: error-correction
+  prompt: Correct the sentence.
+  sentence: Yo tiene hambre.
+  acceptedAnswers:
+    - Yo tengo hambre.
+    - Tengo hambre.
+```
+
+### Conjugation Grid
+
+Use this for verb transformation practice. Each row supplies one answer per column; a cell can accept either one string or a list of strings.
+
+```yaml
+- type: conjugation-grid
+  prompt: Complete the present-tense forms.
+  columns:
+    - yo
+    - ella
+  rows:
+    - label: hablar
+      answers:
+        - hablo
+        - habla
+    - label: vivir
+      answers:
+        - vivo
+        - vive
 ```
 
 ## Adding Content

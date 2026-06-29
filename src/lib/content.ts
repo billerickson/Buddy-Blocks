@@ -2,7 +2,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { basename, join, relative } from 'node:path';
 import { parse as parseYaml } from 'yaml';
 import { z } from 'zod';
-import type { ExerciseType, QuestionPayload } from './lesson-engine';
+import type { ExerciseType, QuestionMedia, QuestionPayload } from './lesson-engine';
 
 export type ChildFixture = {
   id: string;
@@ -34,13 +34,29 @@ export type MadMinuteConfig = {
   goalCorrect: number;
 };
 
+export type StandardLessonConfig = {
+  intro?: Array<{
+    title: string;
+    body: string;
+    bullets?: string[];
+    media?: QuestionMedia;
+  }>;
+  review?: {
+    mode?: 'deck' | 'spaced';
+    label?: string;
+    shuffleQuestions?: boolean;
+  };
+};
+
+export type LessonConfig = MadMinuteConfig | StandardLessonConfig;
+
 export type LessonFixture = {
   id: string;
   slug: string;
   title: string;
   xpBase: number;
   kind?: LessonKind;
-  config?: MadMinuteConfig;
+  config?: LessonConfig;
   questions: QuestionFixture[];
 };
 
@@ -132,9 +148,51 @@ const madMinuteConfigSchema = z.object({
   goalCorrect: z.number().int().positive(),
 });
 
+const mediaSchema = z.object({
+  image: z
+    .object({
+      src: z.string().min(1),
+      alt: z.string().min(1),
+      caption: z.string().optional(),
+    })
+    .optional(),
+  audio: z
+    .object({
+      src: z.string().min(1),
+      label: z.string().optional(),
+      transcript: z.string().optional(),
+    })
+    .optional(),
+  video: z
+    .object({
+      src: z.string().min(1),
+      label: z.string().optional(),
+    })
+    .optional(),
+});
+
+const teachingCardSchema = z.object({
+  title: z.string().min(1),
+  body: z.string().min(1),
+  bullets: stringListSchema.optional(),
+  media: mediaSchema.optional(),
+});
+
+const standardLessonConfigSchema = z.object({
+  intro: z.array(teachingCardSchema).min(1).optional(),
+  review: z
+    .object({
+      mode: z.enum(['deck', 'spaced']).default('deck'),
+      label: z.string().optional(),
+      shuffleQuestions: z.boolean().optional(),
+    })
+    .optional(),
+});
+
 const baseQuestionSchema = z.object({
   prompt: z.string().min(1),
   explanation: z.string().optional(),
+  media: mediaSchema.optional(),
 });
 
 const multipleChoiceQuestionSchema = baseQuestionSchema.extend({
@@ -169,12 +227,106 @@ const orderItemsQuestionSchema = baseQuestionSchema.extend({
   unorderedGroupsOf: z.number().int().min(2).optional(),
 });
 
+const passageQuestionSchema = baseQuestionSchema.extend({
+  type: z.literal('passage-question'),
+  passageTitle: z.string().optional(),
+  passage: z.string().min(1),
+  question: z.string().min(1),
+  choices: stringListSchema,
+  correctAnswer: z.coerce.string(),
+});
+
+const multiBlankClozeQuestionSchema = baseQuestionSchema.extend({
+  type: z.literal('multi-blank-cloze'),
+  parts: stringListSchema,
+  blanks: z
+    .array(
+      z.object({
+        label: z.string().optional(),
+        correctAnswer: z.coerce.string(),
+        acceptedAnswers: stringListSchema.optional(),
+        answerType: z.enum(['text', 'number']).default('text'),
+        choices: stringListSchema.optional(),
+      }),
+    )
+    .min(1),
+});
+
+const constructedResponseQuestionSchema = baseQuestionSchema.extend({
+  type: z.literal('constructed-response'),
+  sampleAnswer: z.string().optional(),
+  minWords: z.number().int().positive().optional(),
+  minCharacters: z.number().int().positive().optional(),
+  checklist: stringListSchema.optional(),
+});
+
+const dialogueBuilderQuestionSchema = baseQuestionSchema.extend({
+  type: z.literal('dialogue-builder'),
+  turns: z.array(z.object({ speaker: z.string().min(1), line: z.string().min(1) })).min(1),
+  choices: stringListSchema,
+  correctAnswer: z.coerce.string(),
+});
+
+const listeningQuestionSchema = baseQuestionSchema.extend({
+  type: z.literal('listening-question'),
+  audioSrc: z.string().min(1),
+  audioLabel: z.string().optional(),
+  transcript: z.string().optional(),
+  choices: stringListSchema,
+  correctAnswer: z.coerce.string(),
+});
+
+const speakingPromptQuestionSchema = baseQuestionSchema.extend({
+  type: z.literal('speaking-prompt'),
+  sampleAnswer: z.string().optional(),
+  minSeconds: z.number().int().positive().optional(),
+  checklist: stringListSchema.optional(),
+});
+
+const errorCorrectionQuestionSchema = baseQuestionSchema.extend({
+  type: z.literal('error-correction'),
+  sentence: z.string().min(1),
+  acceptedAnswers: stringListSchema,
+});
+
+const conjugationGridQuestionSchema = baseQuestionSchema.extend({
+  type: z.literal('conjugation-grid'),
+  columns: stringListSchema,
+  rows: z
+    .array(
+      z.object({
+        label: z.string().min(1),
+        answers: z.array(z.union([z.coerce.string(), stringListSchema])).min(1),
+      }),
+    )
+    .min(1),
+});
+
+const flashCardQuestionSchema = baseQuestionSchema.extend({
+  type: z.literal('flash-card'),
+  mode: z.enum(['easy', 'hard']),
+  front: z.coerce.string(),
+  choices: stringListSchema.optional(),
+  correctAnswer: z.coerce.string().optional(),
+  acceptedAnswers: stringListSchema.optional(),
+  answerType: z.enum(['text', 'number']).default('text'),
+});
+
 const questionSchema = z.discriminatedUnion('type', [
   multipleChoiceQuestionSchema,
   textInputQuestionSchema,
   fillBlankQuestionSchema,
   matchPairsQuestionSchema,
   orderItemsQuestionSchema,
+  passageQuestionSchema,
+  multiBlankClozeQuestionSchema,
+  constructedResponseQuestionSchema,
+  dialogueBuilderQuestionSchema,
+  listeningQuestionSchema,
+  speakingPromptQuestionSchema,
+  errorCorrectionQuestionSchema,
+  conjugationGridQuestionSchema,
+  flashCardQuestionSchema,
 ]);
 
 const lessonFileSchema = z.object({
@@ -183,7 +335,7 @@ const lessonFileSchema = z.object({
   title: z.string().min(1),
   xpBase: z.number().int().positive().default(10),
   kind: z.enum(['standard', 'mad-minute']).default('standard'),
-  config: madMinuteConfigSchema.optional(),
+  config: z.union([madMinuteConfigSchema, standardLessonConfigSchema]).optional(),
   questions: z.array(questionSchema).default([]),
 });
 
@@ -286,8 +438,11 @@ function loadLesson(lessonPath: string): LessonFixture {
   const lesson = readLesson(lessonPath);
   const kind = lesson.kind ?? 'standard';
 
-  if (kind === 'mad-minute' && !lesson.config) {
+  if (kind === 'mad-minute' && (!lesson.config || !isMadMinuteConfig(lesson.config))) {
     throw new Error(`Mad Minute lesson missing config: ${displayPath(lessonPath)}`);
+  }
+  if (kind === 'standard' && lesson.config && isMadMinuteConfig(lesson.config)) {
+    throw new Error(`Standard lesson cannot use Mad Minute config: ${displayPath(lessonPath)}`);
   }
   if (kind === 'standard' && lesson.questions.length === 0) {
     throw new Error(`Standard lesson has no questions: ${displayPath(lessonPath)}`);
@@ -309,7 +464,7 @@ function normalizeQuestion(question: AuthoredQuestion): QuestionFixture {
     return {
       type: question.type,
       prompt: question.prompt,
-      payload: { choices: question.choices, correctAnswer: question.correctAnswer },
+      payload: withMedia({ choices: question.choices, correctAnswer: question.correctAnswer }, question),
       explanation: question.explanation,
     };
   }
@@ -318,7 +473,7 @@ function normalizeQuestion(question: AuthoredQuestion): QuestionFixture {
     return {
       type: question.type,
       prompt: question.prompt,
-      payload: { acceptedAnswers: question.acceptedAnswers, answerType: question.answerType },
+      payload: withMedia({ acceptedAnswers: question.acceptedAnswers, answerType: question.answerType }, question),
       explanation: question.explanation,
     };
   }
@@ -327,12 +482,12 @@ function normalizeQuestion(question: AuthoredQuestion): QuestionFixture {
     return {
       type: question.type,
       prompt: question.prompt,
-      payload: {
+      payload: withMedia({
         sentenceBefore: question.sentenceBefore,
         sentenceAfter: question.sentenceAfter,
         choices: question.choices,
         correctAnswer: question.correctAnswer,
-      },
+      }, question),
       explanation: question.explanation,
     };
   }
@@ -341,7 +496,127 @@ function normalizeQuestion(question: AuthoredQuestion): QuestionFixture {
     return {
       type: question.type,
       prompt: question.prompt,
-      payload: { pairs: question.pairs },
+      payload: withMedia({ pairs: question.pairs }, question),
+      explanation: question.explanation,
+    };
+  }
+
+  if (question.type === 'order-items') {
+    return {
+      type: question.type,
+      prompt: question.prompt,
+      payload: withMedia({
+        items: question.items,
+        correctOrder: question.correctOrder,
+        unorderedGroupsOf: question.unorderedGroupsOf,
+      }, question),
+      explanation: question.explanation,
+    };
+  }
+
+  if (question.type === 'passage-question') {
+    return {
+      type: question.type,
+      prompt: question.prompt,
+      payload: withMedia({
+        passageTitle: question.passageTitle,
+        passage: question.passage,
+        question: question.question,
+        choices: question.choices,
+        correctAnswer: question.correctAnswer,
+      }, question),
+      explanation: question.explanation,
+    };
+  }
+
+  if (question.type === 'multi-blank-cloze') {
+    return {
+      type: question.type,
+      prompt: question.prompt,
+      payload: withMedia({ parts: question.parts, blanks: question.blanks }, question),
+      explanation: question.explanation,
+    };
+  }
+
+  if (question.type === 'constructed-response') {
+    return {
+      type: question.type,
+      prompt: question.prompt,
+      payload: withMedia({
+        sampleAnswer: question.sampleAnswer,
+        minWords: question.minWords,
+        minCharacters: question.minCharacters,
+        checklist: question.checklist,
+      }, question),
+      explanation: question.explanation,
+    };
+  }
+
+  if (question.type === 'dialogue-builder') {
+    return {
+      type: question.type,
+      prompt: question.prompt,
+      payload: withMedia({
+        turns: question.turns,
+        choices: question.choices,
+        correctAnswer: question.correctAnswer,
+      }, question),
+      explanation: question.explanation,
+    };
+  }
+
+  if (question.type === 'listening-question') {
+    return {
+      type: question.type,
+      prompt: question.prompt,
+      payload: withMedia({
+        audioSrc: question.audioSrc,
+        audioLabel: question.audioLabel,
+        transcript: question.transcript,
+        choices: question.choices,
+        correctAnswer: question.correctAnswer,
+      }, question),
+      explanation: question.explanation,
+    };
+  }
+
+  if (question.type === 'speaking-prompt') {
+    return {
+      type: question.type,
+      prompt: question.prompt,
+      payload: withMedia({
+        sampleAnswer: question.sampleAnswer,
+        minSeconds: question.minSeconds,
+        checklist: question.checklist,
+      }, question),
+      explanation: question.explanation,
+    };
+  }
+
+  if (question.type === 'error-correction') {
+    return {
+      type: question.type,
+      prompt: question.prompt,
+      payload: withMedia({
+        sentence: question.sentence,
+        acceptedAnswers: question.acceptedAnswers,
+      }, question),
+      explanation: question.explanation,
+    };
+  }
+
+  if (question.type === 'flash-card') {
+    return {
+      type: question.type,
+      prompt: question.prompt,
+      payload: withMedia({
+        mode: question.mode,
+        front: question.front,
+        choices: question.choices,
+        correctAnswer: question.correctAnswer,
+        acceptedAnswers: question.acceptedAnswers,
+        answerType: question.answerType,
+      }, question),
       explanation: question.explanation,
     };
   }
@@ -349,13 +624,20 @@ function normalizeQuestion(question: AuthoredQuestion): QuestionFixture {
   return {
     type: question.type,
     prompt: question.prompt,
-    payload: {
-      items: question.items,
-      correctOrder: question.correctOrder,
-      unorderedGroupsOf: question.unorderedGroupsOf,
-    },
+    payload: withMedia({
+      columns: question.columns,
+      rows: question.rows,
+    }, question),
     explanation: question.explanation,
   };
+}
+
+function isMadMinuteConfig(config: LessonConfig): config is MadMinuteConfig {
+  return 'mode' in config && config.mode === 'multiplication';
+}
+
+function withMedia<T extends QuestionPayload>(payload: T, question: { media?: QuestionMedia }) {
+  return question.media ? ({ ...payload, media: question.media } as T) : payload;
 }
 
 function readLesson(lessonPath: string): AuthoredLesson {

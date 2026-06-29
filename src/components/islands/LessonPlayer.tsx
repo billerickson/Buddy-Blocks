@@ -1,12 +1,23 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import {
   evaluateAnswer,
+  getAccentFeedback,
   getCorrectAnswerLabel,
+  type ConjugationGridPayload,
+  type ConstructedResponsePayload,
+  type DialogueBuilderPayload,
+  type ErrorCorrectionPayload,
+  type FlashCardPayload,
   type FillBlankPayload,
   type LessonQuestion,
+  type ListeningQuestionPayload,
   type MatchPairsPayload,
+  type MultiBlankClozePayload,
   type MultipleChoicePayload,
   type OrderItemsPayload,
+  type PassageQuestionPayload,
+  type QuestionMedia,
+  type SpeakingPromptPayload,
   type TextInputPayload,
 } from '../../lib/lesson-engine';
 import { fetchApi } from './api';
@@ -25,7 +36,7 @@ type LessonData = {
     id: string;
     title: string;
     kind: LessonKind;
-    config: MadMinuteConfig | null;
+    config: LessonConfig | null;
     xpBase: number;
     unit: { title: string };
     track: {
@@ -50,6 +61,22 @@ type MadMinuteConfig = {
   durationSeconds: number;
   goalCorrect: number;
 };
+
+type StandardLessonConfig = {
+  intro?: Array<{
+    title: string;
+    body: string;
+    bullets?: string[];
+    media?: QuestionMedia;
+  }>;
+  review?: {
+    mode?: 'deck' | 'spaced';
+    label?: string;
+    shuffleQuestions?: boolean;
+  };
+};
+
+type LessonConfig = MadMinuteConfig | StandardLessonConfig;
 
 type MadMinuteAttempt = {
   factor: number;
@@ -93,6 +120,13 @@ type Feedback = {
   review: boolean;
   answerLabel: string;
   explanation?: string | null;
+  accentFeedback?: string | null;
+};
+
+type SpeakingAnswer = {
+  recorded?: boolean;
+  note?: string;
+  transcript?: string;
 };
 
 export default function LessonPlayer({ childSlug, lessonId }: { childSlug: string; lessonId: string }) {
@@ -106,19 +140,25 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
   const [completion, setCompletion] = useState<CompletionResult['result'] | null>(null);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [introComplete, setIntroComplete] = useState(false);
 
   const [choiceAnswer, setChoiceAnswer] = useState('');
   const [textAnswer, setTextAnswer] = useState('');
   const [selectedLeft, setSelectedLeft] = useState('');
   const [matchAnswer, setMatchAnswer] = useState<Record<string, string>>({});
   const [orderAnswer, setOrderAnswer] = useState<string[]>([]);
+  const [multiBlankAnswer, setMultiBlankAnswer] = useState<string[]>([]);
+  const [gridAnswer, setGridAnswer] = useState<Record<string, string[]>>({});
+  const [speakingAnswer, setSpeakingAnswer] = useState<SpeakingAnswer>({});
 
   useEffect(() => {
     fetchApi<LessonData>(`/api/children/${childSlug}/lessons/${lessonId}`)
       .then((lessonData) => {
+        const standardConfig = getStandardLessonConfig(lessonData.lesson.config);
         setData(lessonData);
         setHearts(lessonData.heartsStart);
-        setQueue(lessonData.lesson.questions.map((question) => ({ question, review: false })));
+        setIntroComplete(!standardConfig?.intro?.length);
+        setQueue(prepareLessonQueue(lessonData.lesson.questions, standardConfig, lessonData.lesson.id));
       })
       .catch((reason) => setError(reason.message));
   }, [childSlug, lessonId]);
@@ -126,6 +166,7 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
   const current = queue[position];
   const progress = queue.length ? Math.round(((position + (feedback ? 1 : 0)) / queue.length) * 100) : 0;
   const firstAttemptIds = useMemo(() => new Set(firstAttempts.map((attempt) => attempt.questionId)), [firstAttempts]);
+  const standardConfig = getStandardLessonConfig(data?.lesson.config ?? null);
 
   if (error) {
     return (
@@ -144,7 +185,7 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
   if (completion) {
     const isMadMinute = data.lesson.kind === 'mad-minute';
     const perfectLesson = !isMadMinute && completion.scoreCorrect === completion.scoreTotal;
-    const goalCorrect = completion.goalCorrect ?? data.lesson.config?.goalCorrect ?? 40;
+    const goalCorrect = completion.goalCorrect ?? (isMadMinuteConfig(data.lesson.config) ? data.lesson.config.goalCorrect : 40);
     const bestScoreCorrect = completion.bestScoreCorrect ?? Math.max(data.progress.bestScoreCorrect, completion.scoreCorrect);
     const factLabel = completion.scoreCorrect === 1 ? 'fact' : 'facts';
 
@@ -232,6 +273,10 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
     );
   }
 
+  if (standardConfig?.intro?.length && !introComplete) {
+    return <LessonIntro data={data} config={standardConfig} onStart={() => setIntroComplete(true)} />;
+  }
+
   if (!current) return <p className="text-xl font-black text-muted">Snapping lesson blocks together...</p>;
 
   return (
@@ -254,11 +299,17 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
         <div className="mt-5 progress-rail" aria-label="Lesson progress">
           <span className="progress-fill" style={{ width: `${progress}%` }} />
         </div>
+        {standardConfig?.review && (
+          <p className="stat-chip mt-4 w-fit bg-[#f0fff9]">
+            {standardConfig.review.label ?? (standardConfig.review.mode === 'spaced' ? 'Spaced review' : 'Deck practice')}
+          </p>
+        )}
       </header>
 
       <article className="block-card p-5 sm:p-7">
         {current.review && <p className="stat-chip mb-4 w-fit bg-reward">Review block</p>}
         <h2 className="text-[clamp(2rem,5vw,3.4rem)] leading-tight">{current.question.prompt}</h2>
+        <QuestionMediaDisplay media={mediaFromQuestion(current.question)} />
 
         <div className="mt-6">
           <QuestionControl
@@ -274,6 +325,12 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
             setMatchAnswer={setMatchAnswer}
             orderAnswer={orderAnswer}
             setOrderAnswer={setOrderAnswer}
+            multiBlankAnswer={multiBlankAnswer}
+            setMultiBlankAnswer={setMultiBlankAnswer}
+            gridAnswer={gridAnswer}
+            setGridAnswer={setGridAnswer}
+            speakingAnswer={speakingAnswer}
+            setSpeakingAnswer={setSpeakingAnswer}
           />
         </div>
 
@@ -284,6 +341,7 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
               {feedback.correct ? 'That block snapped in.' : `Answer: ${feedback.answerLabel}`}
             </p>
             {feedback.explanation && <p className="mt-2 font-bold">{feedback.explanation}</p>}
+            {feedback.correct && feedback.accentFeedback && <p className="mt-2 font-bold">{feedback.accentFeedback}</p>}
             <button className="primary-button mt-5 w-full sm:w-auto" type="button" onClick={advance} disabled={submitting}>
               {position + 1 >= queue.length ? 'Finish' : 'Next'}
             </button>
@@ -298,8 +356,24 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
   );
 
   function hasAnswer(question: LessonQuestion) {
-    if (question.type === 'multiple-choice' || question.type === 'fill-blank') return Boolean(choiceAnswer);
-    if (question.type === 'text-input') return Boolean(textAnswer.trim());
+    if (
+      question.type === 'multiple-choice' ||
+      question.type === 'fill-blank' ||
+      question.type === 'passage-question' ||
+      question.type === 'dialogue-builder' ||
+      question.type === 'listening-question' ||
+      (question.type === 'flash-card' && (question.payload as FlashCardPayload).mode === 'easy')
+    ) {
+      return Boolean(choiceAnswer);
+    }
+    if (
+      question.type === 'text-input' ||
+      question.type === 'error-correction' ||
+      question.type === 'constructed-response' ||
+      (question.type === 'flash-card' && (question.payload as FlashCardPayload).mode === 'hard')
+    ) {
+      return Boolean(textAnswer.trim());
+    }
     if (question.type === 'match-pairs') {
       const payload = question.payload as MatchPairsPayload;
       return payload.pairs.every((pair) => matchAnswer[pair.left]);
@@ -308,14 +382,47 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
       const payload = question.payload as OrderItemsPayload;
       return orderAnswer.length === payload.correctOrder.length;
     }
+    if (question.type === 'multi-blank-cloze') {
+      const payload = question.payload as MultiBlankClozePayload;
+      return payload.blanks.every((_, index) => Boolean(multiBlankAnswer[index]?.trim()));
+    }
+    if (question.type === 'speaking-prompt') {
+      return Boolean(speakingAnswer.recorded) || Boolean(speakingAnswer.note?.trim()) || Boolean(speakingAnswer.transcript?.trim());
+    }
+    if (question.type === 'conjugation-grid') {
+      const payload = question.payload as ConjugationGridPayload;
+      return payload.rows.every((row) => {
+        const answers = gridAnswer[row.label] ?? [];
+        return payload.columns.every((_, index) => Boolean(answers[index]?.trim()));
+      });
+    }
     return false;
   }
 
   function currentAnswer(question: LessonQuestion) {
-    if (question.type === 'multiple-choice' || question.type === 'fill-blank') return choiceAnswer;
-    if (question.type === 'text-input') return textAnswer;
+    if (
+      question.type === 'multiple-choice' ||
+      question.type === 'fill-blank' ||
+      question.type === 'passage-question' ||
+      question.type === 'dialogue-builder' ||
+      question.type === 'listening-question' ||
+      (question.type === 'flash-card' && (question.payload as FlashCardPayload).mode === 'easy')
+    ) {
+      return choiceAnswer;
+    }
+    if (
+      question.type === 'text-input' ||
+      question.type === 'error-correction' ||
+      question.type === 'constructed-response' ||
+      (question.type === 'flash-card' && (question.payload as FlashCardPayload).mode === 'hard')
+    ) {
+      return textAnswer;
+    }
     if (question.type === 'match-pairs') return matchAnswer;
     if (question.type === 'order-items') return orderAnswer;
+    if (question.type === 'multi-blank-cloze') return multiBlankAnswer;
+    if (question.type === 'speaking-prompt') return speakingAnswer;
+    if (question.type === 'conjugation-grid') return gridAnswer;
     return null;
   }
 
@@ -336,6 +443,7 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
       review: current.review,
       answerLabel: getCorrectAnswerLabel(current.question),
       explanation: current.question.explanation,
+      accentFeedback: correct ? getAccentFeedback(current.question, answer) : null,
     });
   }
 
@@ -380,7 +488,82 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
     setSelectedLeft('');
     setMatchAnswer({});
     setOrderAnswer([]);
+    setMultiBlankAnswer([]);
+    setGridAnswer({});
+    setSpeakingAnswer({});
   }
+}
+
+function LessonIntro({
+  data,
+  config,
+  onStart,
+}: {
+  data: LessonData;
+  config: StandardLessonConfig;
+  onStart: () => void;
+}) {
+  return (
+    <section className="mx-auto max-w-4xl space-y-5">
+      <header className="block-card p-5">
+        <p className="stat-chip w-fit">
+          {data.lesson.track.title} · {data.lesson.unit.title}
+        </p>
+        <h1 className="mt-3 text-[clamp(2.3rem,6vw,4.2rem)]">{data.lesson.title}</h1>
+      </header>
+
+      <article className="block-card p-5 sm:p-7">
+        <div className="space-y-6">
+          {config.intro?.map((card, index) => (
+            <section key={`${card.title}-${index}`} className={index > 0 ? 'border-t-[3px] border-ink pt-6' : ''}>
+              <QuestionMediaDisplay media={card.media} />
+              <h2 className="text-[clamp(2rem,5vw,3.4rem)] leading-tight">{card.title}</h2>
+              <p className="mt-3 text-lg font-bold text-muted">{card.body}</p>
+              {card.bullets && (
+                <ul className="mt-4 space-y-2 text-lg font-black">
+                  {card.bullets.map((bullet) => (
+                    <li key={bullet} className="rounded-lg border-2 border-ink bg-white px-4 py-3">
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+        </div>
+        <button className="primary-button mt-7 w-full sm:w-auto" type="button" onClick={onStart}>
+          Start Lesson
+        </button>
+      </article>
+    </section>
+  );
+}
+
+function prepareLessonQueue(questions: LessonQuestion[], config: StandardLessonConfig | null, lessonId: string): QueueItem[] {
+  const orderedQuestions = config?.review?.shuffleQuestions ? shuffleQuestions(questions, lessonId) : questions;
+  return orderedQuestions.map((question) => ({ question, review: false }));
+}
+
+function shuffleQuestions(questions: LessonQuestion[], seedValue: string) {
+  const shuffled = [...questions];
+  let seed = hashString(seedValue || questions.map((question) => question.id).join('|'));
+
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    seed = nextSeed(seed);
+    const swapIndex = seed % (index + 1);
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+
+  return shuffled;
+}
+
+function getStandardLessonConfig(config: LessonConfig | null): StandardLessonConfig | null {
+  if (!config || isMadMinuteConfig(config)) return null;
+  return config;
+}
+
+function isMadMinuteConfig(config: LessonConfig | null): config is MadMinuteConfig {
+  return Boolean(config && 'mode' in config && config.mode === 'multiplication');
 }
 
 function MadMinuteLesson({
@@ -396,7 +579,7 @@ function MadMinuteLesson({
   onComplete: (result: CompletionResult['result']) => void;
   onError: (message: string) => void;
 }) {
-  const config = data.lesson.config ?? defaultMadMinuteConfig();
+  const config = isMadMinuteConfig(data.lesson.config) ? data.lesson.config : defaultMadMinuteConfig();
   const inputRef = useRef<HTMLInputElement>(null);
   const runningRef = useRef(false);
   const submittingRef = useRef(false);
@@ -873,6 +1056,12 @@ type QuestionControlProps = {
   setMatchAnswer: (value: Record<string, string>) => void;
   orderAnswer: string[];
   setOrderAnswer: (value: string[]) => void;
+  multiBlankAnswer: string[];
+  setMultiBlankAnswer: (value: string[]) => void;
+  gridAnswer: Record<string, string[]>;
+  setGridAnswer: (value: Record<string, string[]>) => void;
+  speakingAnswer: SpeakingAnswer;
+  setSpeakingAnswer: (value: SpeakingAnswer) => void;
 };
 
 function QuestionControl({
@@ -888,6 +1077,12 @@ function QuestionControl({
   setMatchAnswer,
   orderAnswer,
   setOrderAnswer,
+  multiBlankAnswer,
+  setMultiBlankAnswer,
+  gridAnswer,
+  setGridAnswer,
+  speakingAnswer,
+  setSpeakingAnswer,
 }: QuestionControlProps) {
   if (question.type === 'multiple-choice') {
     const payload = question.payload as MultipleChoicePayload;
@@ -905,6 +1100,19 @@ function QuestionControl({
         </p>
         <ChoiceGrid choices={payload.choices} value={choiceAnswer} disabled={disabled} onChange={setChoiceAnswer} />
       </div>
+    );
+  }
+
+  if (question.type === 'flash-card') {
+    return (
+      <FlashCardControl
+        payload={question.payload as FlashCardPayload}
+        disabled={disabled}
+        choiceAnswer={choiceAnswer}
+        setChoiceAnswer={setChoiceAnswer}
+        textAnswer={textAnswer}
+        setTextAnswer={setTextAnswer}
+      />
     );
   }
 
@@ -978,47 +1186,440 @@ function QuestionControl({
     );
   }
 
-  const payload = question.payload as OrderItemsPayload;
+  if (question.type === 'order-items') {
+    const payload = question.payload as OrderItemsPayload;
+    return (
+      <div>
+        <div
+          className="flex min-h-[72px] flex-wrap items-center gap-3 rounded-lg border-[3px] border-ink bg-white p-3 text-xl font-black"
+          aria-live="polite"
+        >
+          {orderAnswer.length ? (
+            orderAnswer.map((item, index) => (
+              <span
+                key={`${item}-${index}`}
+                className="inline-flex min-h-[46px] items-center rounded-lg border-[3px] border-ink bg-reward px-4 py-2 shadow-[3px_3px_0_var(--block-shadow)]"
+              >
+                {item}
+              </span>
+            ))
+          ) : (
+            <span className="text-muted">Tap words or numbers below</span>
+          )}
+        </div>
+        <div className="mt-4 flex flex-wrap gap-3">
+          {payload.items.map((item) => {
+            const used = orderAnswer.includes(item);
+            return (
+              <button
+                key={item}
+                type="button"
+                disabled={disabled || used}
+                className="touch-choice min-w-[110px]"
+                onClick={() => setOrderAnswer([...orderAnswer, item])}
+              >
+                {item}
+              </button>
+            );
+          })}
+        </div>
+        <button type="button" className="secondary-button mt-4" disabled={disabled || orderAnswer.length === 0} onClick={() => setOrderAnswer([])}>
+          Clear
+        </button>
+      </div>
+    );
+  }
+
+  if (question.type === 'passage-question') {
+    const payload = question.payload as PassageQuestionPayload;
+    return (
+      <div className="space-y-5">
+        <PassageBlock title={payload.passageTitle} passage={payload.passage} />
+        <p className="text-2xl font-black">{payload.question}</p>
+        <ChoiceGrid choices={payload.choices} value={choiceAnswer} disabled={disabled} onChange={setChoiceAnswer} />
+      </div>
+    );
+  }
+
+  if (question.type === 'multi-blank-cloze') {
+    const payload = question.payload as MultiBlankClozePayload;
+    return (
+      <div className="rounded-lg border-[3px] border-ink bg-white p-4">
+        <div className="flex flex-wrap items-center gap-3 text-xl font-black">
+          {payload.parts.map((part, index) => (
+            <span key={`${part}-${index}`} className="contents">
+              <span>{part}</span>
+              {payload.blanks[index] && (
+                <ClozeBlankControl
+                  blank={payload.blanks[index]}
+                  value={multiBlankAnswer[index] ?? ''}
+                  disabled={disabled}
+                  onChange={(value) => setMultiBlankAnswer(updateArrayValue(multiBlankAnswer, index, value))}
+                />
+              )}
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (question.type === 'constructed-response') {
+    const payload = question.payload as ConstructedResponsePayload;
+    return (
+      <div>
+        {payload.checklist && <Checklist items={payload.checklist} />}
+        <textarea
+          className="mt-4 min-h-[150px] w-full rounded-lg border-[3px] border-ink bg-white px-4 py-3 text-xl font-black outline-none focus:ring-4 focus:ring-reward"
+          value={textAnswer}
+          disabled={disabled}
+          onInput={(event) => setTextAnswer((event.currentTarget as HTMLTextAreaElement).value)}
+          autoFocus
+        />
+      </div>
+    );
+  }
+
+  if (question.type === 'dialogue-builder') {
+    const payload = question.payload as DialogueBuilderPayload;
+    return (
+      <div className="space-y-5">
+        <DialogueBlock turns={payload.turns} />
+        <ChoiceGrid choices={payload.choices} value={choiceAnswer} disabled={disabled} onChange={setChoiceAnswer} />
+      </div>
+    );
+  }
+
+  if (question.type === 'listening-question') {
+    const payload = question.payload as ListeningQuestionPayload;
+    return (
+      <div className="space-y-5">
+        <AudioBlock src={payload.audioSrc} label={payload.audioLabel} transcript={payload.transcript} />
+        <ChoiceGrid choices={payload.choices} value={choiceAnswer} disabled={disabled} onChange={setChoiceAnswer} />
+      </div>
+    );
+  }
+
+  if (question.type === 'speaking-prompt') {
+    return <SpeakingPromptControl payload={question.payload as SpeakingPromptPayload} answer={speakingAnswer} onChange={setSpeakingAnswer} disabled={disabled} />;
+  }
+
+  if (question.type === 'error-correction') {
+    const payload = question.payload as ErrorCorrectionPayload;
+    return (
+      <div>
+        <p className="rounded-lg border-[3px] border-ink bg-white p-4 text-2xl font-black">{payload.sentence}</p>
+        <input
+          className="mt-4 min-h-[62px] w-full rounded-lg border-[3px] border-ink bg-white px-4 text-2xl font-black outline-none focus:ring-4 focus:ring-reward"
+          value={textAnswer}
+          disabled={disabled}
+          onInput={(event) => setTextAnswer((event.currentTarget as HTMLInputElement).value)}
+          autoFocus
+        />
+      </div>
+    );
+  }
+
+  if (question.type === 'conjugation-grid') {
+    const payload = question.payload as ConjugationGridPayload;
+    return (
+      <div className="overflow-x-auto rounded-lg border-[3px] border-ink bg-white">
+        <table className="w-full min-w-[560px] border-collapse text-left">
+          <thead className="bg-[#f0fff9]">
+            <tr>
+              <th className="border-b-[3px] border-ink p-3 text-sm font-black uppercase text-muted">Prompt</th>
+              {payload.columns.map((column) => (
+                <th key={column} className="border-b-[3px] border-ink p-3 text-sm font-black uppercase text-muted">
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {payload.rows.map((row) => (
+              <tr key={row.label} className="border-t-2 border-ink/20">
+                <th className="p-3 text-xl font-black">{row.label}</th>
+                {payload.columns.map((column, index) => (
+                  <td key={`${row.label}-${column}`} className="p-3">
+                    <input
+                      className="min-h-[50px] w-full rounded-lg border-[3px] border-ink bg-white px-3 text-lg font-black outline-none focus:ring-4 focus:ring-reward"
+                      value={gridAnswer[row.label]?.[index] ?? ''}
+                      disabled={disabled}
+                      onInput={(event) => setGridAnswer(updateGridValue(gridAnswer, row.label, index, (event.currentTarget as HTMLInputElement).value))}
+                    />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  return <p className="rounded-lg border-[3px] border-ink bg-[#ffe1ea] p-4 font-black">This question type is not supported yet.</p>;
+}
+
+function FlashCardControl({
+  payload,
+  disabled,
+  choiceAnswer,
+  setChoiceAnswer,
+  textAnswer,
+  setTextAnswer,
+}: {
+  payload: FlashCardPayload;
+  disabled: boolean;
+  choiceAnswer: string;
+  setChoiceAnswer: (value: string) => void;
+  textAnswer: string;
+  setTextAnswer: (value: string) => void;
+}) {
   return (
     <div>
-      <div
-        className="flex min-h-[72px] flex-wrap items-center gap-3 rounded-lg border-[3px] border-ink bg-white p-3 text-xl font-black"
-        aria-live="polite"
-      >
-        {orderAnswer.length ? (
-          orderAnswer.map((item, index) => (
-            <span
-              key={`${item}-${index}`}
-              className="inline-flex min-h-[46px] items-center rounded-lg border-[3px] border-ink bg-reward px-4 py-2 shadow-[3px_3px_0_var(--block-shadow)]"
-            >
-              {item}
-            </span>
-          ))
+      <div className="flex min-h-[180px] items-center justify-center rounded-lg border-[4px] border-ink bg-[#f0fff9] p-6 text-center shadow-[5px_5px_0_var(--block-shadow)]">
+        <p className="text-[clamp(2.5rem,8vw,5rem)] font-black leading-tight">{payload.front}</p>
+      </div>
+      <div className="mt-5">
+        {payload.mode === 'easy' ? (
+          <ChoiceGrid choices={payload.choices ?? []} value={choiceAnswer} disabled={disabled} onChange={setChoiceAnswer} />
         ) : (
-          <span className="text-muted">Tap words or numbers below</span>
+          <input
+            className="min-h-[62px] w-full rounded-lg border-[3px] border-ink bg-white px-4 text-2xl font-black outline-none focus:ring-4 focus:ring-reward"
+            value={textAnswer}
+            inputMode={payload.answerType === 'number' ? 'numeric' : 'text'}
+            disabled={disabled}
+            onInput={(event) => setTextAnswer((event.currentTarget as HTMLInputElement).value)}
+            autoFocus
+          />
         )}
       </div>
-      <div className="mt-4 flex flex-wrap gap-3">
-        {payload.items.map((item) => {
-          const used = orderAnswer.includes(item);
-          return (
-            <button
-              key={item}
-              type="button"
-              disabled={disabled || used}
-              className="touch-choice min-w-[110px]"
-              onClick={() => setOrderAnswer([...orderAnswer, item])}
-            >
-              {item}
-            </button>
-          );
-        })}
-      </div>
-      <button type="button" className="secondary-button mt-4" disabled={disabled || orderAnswer.length === 0} onClick={() => setOrderAnswer([])}>
-        Clear
-      </button>
     </div>
   );
+}
+
+function PassageBlock({ title, passage }: { title?: string; passage: string }) {
+  return (
+    <section className="rounded-lg border-[3px] border-ink bg-white p-4">
+      {title && <h3 className="text-2xl font-black">{title}</h3>}
+      <p className={`${title ? 'mt-3' : ''} whitespace-pre-line text-lg font-bold leading-relaxed text-muted`}>{passage}</p>
+    </section>
+  );
+}
+
+function ClozeBlankControl({
+  blank,
+  value,
+  disabled,
+  onChange,
+}: {
+  blank: MultiBlankClozePayload['blanks'][number];
+  value: string;
+  disabled: boolean;
+  onChange: (value: string) => void;
+}) {
+  if (blank.choices?.length) {
+    return (
+      <select
+        className="min-h-[52px] rounded-lg border-[3px] border-ink bg-reward px-3 text-lg font-black outline-none focus:ring-4 focus:ring-reward"
+        value={value}
+        disabled={disabled}
+        aria-label={blank.label ?? 'Blank answer'}
+        onChange={(event) => onChange((event.currentTarget as HTMLSelectElement).value)}
+      >
+        <option value="">---</option>
+        {blank.choices.map((choice) => (
+          <option key={choice} value={choice}>
+            {choice}
+          </option>
+        ))}
+      </select>
+    );
+  }
+
+  return (
+    <input
+      className="min-h-[52px] w-[min(220px,100%)] rounded-lg border-[3px] border-ink bg-reward px-3 text-lg font-black outline-none focus:ring-4 focus:ring-reward"
+      value={value}
+      disabled={disabled}
+      inputMode={blank.answerType === 'number' ? 'numeric' : 'text'}
+      aria-label={blank.label ?? 'Blank answer'}
+      onInput={(event) => onChange((event.currentTarget as HTMLInputElement).value)}
+    />
+  );
+}
+
+function Checklist({ items }: { items: string[] }) {
+  return (
+    <ul className="grid gap-2 sm:grid-cols-2">
+      {items.map((item) => (
+        <li key={item} className="rounded-lg border-2 border-ink bg-[#f0fff9] px-4 py-3 font-black">
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function DialogueBlock({ turns }: { turns: DialogueBuilderPayload['turns'] }) {
+  return (
+    <section className="space-y-3 rounded-lg border-[3px] border-ink bg-white p-4">
+      {turns.map((turn, index) => (
+        <div key={`${turn.speaker}-${index}`} className="flex flex-col gap-1 sm:flex-row sm:gap-3">
+          <span className="min-w-[100px] font-black text-muted">{turn.speaker}</span>
+          <span className="text-lg font-black">{turn.line}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function AudioBlock({ src, label, transcript }: { src: string; label?: string; transcript?: string }) {
+  return (
+    <section className="rounded-lg border-[3px] border-ink bg-white p-4">
+      {label && <h3 className="text-2xl font-black">{label}</h3>}
+      <audio className="mt-3 w-full" controls src={src}>
+        <a href={src}>Open audio</a>
+      </audio>
+      {transcript && (
+        <details className="mt-3 rounded-lg border-2 border-ink bg-[#f0fff9] p-3 font-bold">
+          <summary className="cursor-pointer font-black">Transcript</summary>
+          <p className="mt-2 whitespace-pre-line text-muted">{transcript}</p>
+        </details>
+      )}
+    </section>
+  );
+}
+
+function SpeakingPromptControl({
+  payload,
+  answer,
+  onChange,
+  disabled,
+}: {
+  payload: SpeakingPromptPayload;
+  answer: SpeakingAnswer;
+  onChange: (value: SpeakingAnswer) => void;
+  disabled: boolean;
+}) {
+  const recorderRef = useRef<MediaRecorder | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
+  const [recording, setRecording] = useState(false);
+  const [audioUrl, setAudioUrl] = useState('');
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    return () => {
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+      if (audioUrl) window.URL.revokeObjectURL(audioUrl);
+    };
+  }, [audioUrl]);
+
+  return (
+    <div className="space-y-4">
+      {payload.checklist && <Checklist items={payload.checklist} />}
+      <div className="rounded-lg border-[3px] border-ink bg-white p-4">
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <button className="primary-button w-full sm:w-auto" type="button" disabled={disabled || recording} onClick={() => void startRecording()}>
+            Start Recording
+          </button>
+          <button className="secondary-button w-full sm:w-auto" type="button" disabled={disabled || !recording} onClick={stopRecording}>
+            Stop Recording
+          </button>
+        </div>
+        {message && <p className="mt-3 font-black text-muted">{message}</p>}
+        {audioUrl && <audio className="mt-4 w-full" controls src={audioUrl} />}
+      </div>
+      <textarea
+        className="min-h-[110px] w-full rounded-lg border-[3px] border-ink bg-white px-4 py-3 text-xl font-black outline-none focus:ring-4 focus:ring-reward"
+        value={answer.note ?? ''}
+        disabled={disabled}
+        onInput={(event) => onChange({ ...answer, note: (event.currentTarget as HTMLTextAreaElement).value })}
+      />
+    </div>
+  );
+
+  async function startRecording() {
+    if (recording || disabled) return;
+    if (typeof window === 'undefined' || !navigator.mediaDevices?.getUserMedia || !('MediaRecorder' in window)) {
+      setMessage('Recording is not available in this browser.');
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      streamRef.current = stream;
+      recorderRef.current = recorder;
+      chunksRef.current = [];
+
+      recorder.addEventListener('dataavailable', (event) => {
+        if (event.data.size > 0) chunksRef.current.push(event.data);
+      });
+      recorder.addEventListener('stop', () => {
+        stream.getTracks().forEach((track) => track.stop());
+        const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
+        if (audioBlob.size > 0) {
+          setAudioUrl((previousUrl) => {
+            if (previousUrl) window.URL.revokeObjectURL(previousUrl);
+            return window.URL.createObjectURL(audioBlob);
+          });
+        }
+        onChange({ ...answer, recorded: true });
+        setRecording(false);
+        setMessage('Recording saved for this attempt.');
+      });
+
+      recorder.start();
+      setRecording(true);
+      setMessage(payload.minSeconds ? `Recording... aim for ${payload.minSeconds} seconds.` : 'Recording...');
+    } catch {
+      setMessage('Microphone permission was not granted.');
+    }
+  }
+
+  function stopRecording() {
+    if (!recording) return;
+    recorderRef.current?.stop();
+  }
+}
+
+function QuestionMediaDisplay({ media }: { media?: QuestionMedia }) {
+  if (!media?.image && !media?.audio && !media?.video) return null;
+
+  return (
+    <div className="mb-5 space-y-3 rounded-lg border-[3px] border-ink bg-white p-4">
+      {media.image && (
+        <figure>
+          <img className="max-h-[360px] w-full rounded-lg object-contain" src={media.image.src} alt={media.image.alt} />
+          {media.image.caption && <figcaption className="mt-2 text-sm font-black text-muted">{media.image.caption}</figcaption>}
+        </figure>
+      )}
+      {media.audio && <AudioBlock src={media.audio.src} label={media.audio.label} transcript={media.audio.transcript} />}
+      {media.video && (
+        <video className="w-full rounded-lg border-2 border-ink" controls src={media.video.src}>
+          <a href={media.video.src}>{media.video.label ?? 'Open video'}</a>
+        </video>
+      )}
+    </div>
+  );
+}
+
+function mediaFromQuestion(question: LessonQuestion) {
+  return (question.payload as { media?: QuestionMedia }).media;
+}
+
+function updateArrayValue(values: string[], index: number, value: string) {
+  const nextValues = [...values];
+  nextValues[index] = value;
+  return nextValues;
+}
+
+function updateGridValue(values: Record<string, string[]>, rowLabel: string, index: number, value: string) {
+  const rowValues = [...(values[rowLabel] ?? [])];
+  rowValues[index] = value;
+  return { ...values, [rowLabel]: rowValues };
 }
 
 function shuffledMatchRights(pairs: Array<{ left: string; right: string }>, questionId: string) {
