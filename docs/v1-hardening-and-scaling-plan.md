@@ -716,3 +716,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: `npm test`, `npm run check`, and `npm run build` passed.
 - Risks: Mad Minute submission attempts are still stored only as aggregate lesson attempts, so per-fact audit/debug history is unavailable.
 - Future improvements: add Worker route tests for Mad Minute submissions once the Worker API harness covers authenticated POST flows.
+
+### Item 4: Split Curriculum Source From Fixed Family Seed Data
+
+- Changed: moved canonical Markdown curriculum loading to `src/lib/curriculum.ts`; moved fixed v1 parent/child fixtures and child-specific helpers to `src/lib/seed-family.ts`; kept `src/lib/content.ts` as a compatibility barrel; reordered seed generation into curriculum first, then family/profile data.
+- Tests/docs: split content tests into curriculum and seed-family suites, including a check that curriculum exports no family fixtures; updated lesson authoring, question type, and local run docs.
+- Verification: `npm test`, `npm run check`, `npm run build`, and `npm run db:seed:local` passed.
+- Risks: static route generation still depends on `seed-family.ts` until Item 5 replaces fixture-based routes with generic route shells.
+- Future improvements: refactor seed SQL generation into pure functions so seed ordering and stable-ID behavior can be tested without invoking Wrangler.

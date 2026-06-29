@@ -3,15 +3,17 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import {
+  TRACKS,
+  getAllLessons,
+  getAllQuestions,
+} from '../src/lib/curriculum';
+import {
   CHILDREN,
   PARENT_EMAIL,
   PARENT_ID,
   PARENT_USERNAME,
-  TRACKS,
-  getAllLessons,
-  getAllQuestions,
   getTracksForChild,
-} from '../src/lib/content';
+} from '../src/lib/seed-family';
 import { hashPassword } from '../src/lib/auth';
 
 const databaseName = 'buddy_blocks';
@@ -22,50 +24,7 @@ const { hash, salt } = await hashPassword(parentPassword);
 
 const statements: string[] = ['PRAGMA foreign_keys = ON;'];
 
-upsert('parents', {
-  id: PARENT_ID,
-  username: PARENT_USERNAME,
-  email: PARENT_EMAIL,
-  password_hash: hash,
-  password_salt: salt,
-  status: 'active',
-  created_at: now,
-  updated_at: now,
-});
-
-for (const child of CHILDREN) {
-  insertWithUpdate(
-    'child_profiles',
-    {
-      id: child.id,
-      parent_id: PARENT_ID,
-      slug: child.slug,
-      display_name: child.displayName,
-      avatar_key: child.avatarKey,
-      level_band: child.levelBand,
-      grade_level: child.gradeLevel,
-      hearts_remaining: 5,
-      created_at: now,
-      updated_at: now,
-    },
-    ['parent_id', 'slug', 'display_name', 'avatar_key', 'level_band', 'grade_level', 'updated_at'],
-  );
-
-  for (const [subject, gradeLevel] of Object.entries(child.subjectGradeLevels ?? {})) {
-    insertWithUpdate(
-      'child_subject_levels',
-      {
-        id: `subject_level_${child.id}_${subject}`,
-        child_profile_id: child.id,
-        subject,
-        grade_level: gradeLevel,
-        updated_at: now,
-      },
-      ['grade_level', 'updated_at'],
-    );
-  }
-}
-
+// Phase 1: canonical curriculum from Markdown source.
 TRACKS.forEach((track, trackIndex) => {
   upsert('tracks', {
     id: track.id,
@@ -114,6 +73,51 @@ for (const question of getAllQuestions()) {
     explanation: question.explanation ?? null,
     sort_order: question.sortOrder,
   });
+}
+
+// Phase 2: fixed v1 family/profile data.
+upsert('parents', {
+  id: PARENT_ID,
+  username: PARENT_USERNAME,
+  email: PARENT_EMAIL,
+  password_hash: hash,
+  password_salt: salt,
+  status: 'active',
+  created_at: now,
+  updated_at: now,
+});
+
+for (const child of CHILDREN) {
+  insertWithUpdate(
+    'child_profiles',
+    {
+      id: child.id,
+      parent_id: PARENT_ID,
+      slug: child.slug,
+      display_name: child.displayName,
+      avatar_key: child.avatarKey,
+      level_band: child.levelBand,
+      grade_level: child.gradeLevel,
+      hearts_remaining: 5,
+      created_at: now,
+      updated_at: now,
+    },
+    ['parent_id', 'slug', 'display_name', 'avatar_key', 'level_band', 'grade_level', 'updated_at'],
+  );
+
+  for (const [subject, gradeLevel] of Object.entries(child.subjectGradeLevels ?? {})) {
+    insertWithUpdate(
+      'child_subject_levels',
+      {
+        id: `subject_level_${child.id}_${subject}`,
+        child_profile_id: child.id,
+        subject,
+        grade_level: gradeLevel,
+        updated_at: now,
+      },
+      ['grade_level', 'updated_at'],
+    );
+  }
 }
 
 for (const child of CHILDREN) {

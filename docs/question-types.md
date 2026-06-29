@@ -15,7 +15,7 @@ Standard lesson files are Markdown files with YAML frontmatter. Each item in `qu
 
 The relevant implementation files are:
 
-- [src/lib/content.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/content.ts): validates lesson YAML and normalizes question payloads.
+- [src/lib/curriculum.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/curriculum.ts): validates lesson YAML and normalizes question payloads.
 - [src/lib/lesson-engine.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/lesson-engine.ts): defines question payload types and scoring.
 - [src/components/islands/LessonPlayer.tsx](/Users/billerickson/Downloads/learn.billplustara.com/src/components/islands/LessonPlayer.tsx): renders question controls.
 - [src/worker.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/worker.ts): returns lesson config/questions and saves attempts.

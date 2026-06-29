@@ -1,6 +1,6 @@
 ---
 import KidHome from '../../../components/islands/KidHome';
-import { CHILDREN } from '../../../lib/content';
+import { CHILDREN } from '../../../lib/seed-family';
 import AppLayout from '../../../layouts/AppLayout.astro';
 
 export function getStaticPaths() {
@@ -15,4 +15,3 @@ const { childSlug } = Astro.params;
     <KidHome childSlug={childSlug!} client:load />
   </main>
 </AppLayout>
-

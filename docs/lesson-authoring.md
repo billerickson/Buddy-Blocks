@@ -4,12 +4,14 @@
 
 The editable curriculum source is [src/content/curriculum](/Users/billerickson/Downloads/learn.billplustara.com/src/content/curriculum).
 
-[src/lib/content.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/content.ts) is now a typed loader. It reads the file tree, validates YAML frontmatter, and exports the same normalized `TRACKS`, `getAllLessons()`, `getAllQuestions()`, `getLessonPaths()`, and `getTrackPaths()` helpers used by seeding and static route generation.
+[src/lib/curriculum.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/curriculum.ts) is the typed curriculum loader. It reads the file tree, validates YAML frontmatter, and exports normalized `TRACKS`, `getTracksForGrade()`, `getAllLessons()`, and `getAllQuestions()` helpers used by seeding.
+
+[src/lib/seed-family.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/seed-family.ts) owns the fixed v1 parent/child fixtures and child-specific route helpers for Reagan and Ada. [src/lib/content.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/content.ts) remains as a compatibility barrel only.
 
 At runtime, lessons still live in D1 after seeding:
 
 1. Author content in [src/content/curriculum](/Users/billerickson/Downloads/learn.billplustara.com/src/content/curriculum).
-2. Run [scripts/seed.ts](/Users/billerickson/Downloads/learn.billplustara.com/scripts/seed.ts), which writes tracks, units, lessons, and questions into D1.
+2. Run [scripts/seed.ts](/Users/billerickson/Downloads/learn.billplustara.com/scripts/seed.ts), which writes canonical curriculum into D1, then seeds the fixed v1 family/profile data.
 3. The Worker reads D1 tables and serves lesson APIs to the Preact lesson player.
 
 Do not edit generated files in `dist/` or local D1 files directly. Treat D1 as the deployed copy and `src/content/curriculum` as the curriculum source of truth.
