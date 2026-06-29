@@ -113,35 +113,64 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
   if (!data || !current) return <p className="text-xl font-black text-muted">Snapping lesson blocks together...</p>;
 
   if (completion) {
+    const perfectLesson = completion.scoreCorrect === completion.scoreTotal;
+
     return (
-      <section className="mx-auto max-w-3xl">
-        <div className="block-card p-6 text-center sm:p-8">
-          <p className="stat-chip mx-auto w-fit">Lesson complete</p>
-          <h1 className="mt-5 text-[clamp(3rem,9vw,5.5rem)]">Nice build!</h1>
-          <div className="mt-6 grid gap-3 sm:grid-cols-4">
-            <span className="stat-chip justify-center">{completion.xpAwarded} XP</span>
-            <span className="stat-chip justify-center">
-              {completion.scoreCorrect}/{completion.scoreTotal}
-            </span>
-            <span className="stat-chip justify-center">{completion.streak} day streak</span>
-            <span className="stat-chip justify-center">{completion.heartsRemaining} hearts</span>
-          </div>
-          {completion.heartsRemaining <= 0 && (
-            <p className="mt-5 rounded-lg border-2 border-action bg-[#fff3eb] p-3 font-black">
-              Practice mode still counts. Try another block when your brain is ready.
+      <section className="completion-stage relative mx-auto max-w-5xl overflow-hidden rounded-lg px-1 py-2">
+        <CompletionFireworks />
+        <div className="block-card relative overflow-hidden p-6 text-center sm:p-8">
+          <div className="completion-ribbon" aria-hidden="true" />
+          <div className="relative">
+            <div className="mx-auto w-fit">
+              <MoxieCelebration perfect={perfectLesson} />
+            </div>
+            <p className="stat-chip mx-auto mt-4 w-fit bg-reward">Lesson complete</p>
+            <h1 className="mt-4 text-[clamp(3.4rem,9vw,6.8rem)]">{perfectLesson ? 'Perfect stack!' : 'Nice build!'}</h1>
+            <p className="mx-auto mt-3 max-w-2xl text-lg font-black text-muted">
+              {perfectLesson
+                ? 'Every answer snapped into place. Moxie added a shiny bonus block.'
+                : 'You stacked another skill block and saved your progress.'}
             </p>
-          )}
-          <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+
+            <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <CompletionStat icon="xp" label="XP earned" value={`${completion.xpAwarded} XP`} />
+              <CompletionStat icon="score" label="Correct blocks" value={`${completion.scoreCorrect}/${completion.scoreTotal}`} />
+              <CompletionStat icon="streak" label="Streak stack" value={`${completion.streak} day${completion.streak === 1 ? '' : 's'}`} />
+              <CompletionStat icon="heart" label="Hearts left" value={`${completion.heartsRemaining}`} />
+            </div>
+
             {completion.nextLesson && (
-              <a className="primary-button" href={`/kid/${data.child.slug}/lesson/${completion.nextLesson.id}/`}>
-                Next Lesson
-              </a>
+              <div className="mx-auto mt-6 flex max-w-2xl flex-col items-center gap-3 rounded-lg border-[3px] border-ink bg-[#f0fff9] p-4 shadow-[4px_4px_0_var(--block-shadow)] sm:flex-row sm:text-left">
+                <RewardIcon type="unlock" />
+                <div>
+                  <p className="font-black uppercase text-muted">Next block unlocked</p>
+                  <h2 className="text-3xl">{completion.nextLesson.title}</h2>
+                  <p className="font-extrabold text-muted">
+                    {completion.nextLesson.trackTitle} · {completion.nextLesson.unitTitle}
+                  </p>
+                </div>
+              </div>
             )}
-            <a className="secondary-button" href={`/kid/${data.child.slug}/`}>
-              Home
-            </a>
+
+            {completion.heartsRemaining <= 0 && (
+              <p className="mx-auto mt-5 max-w-2xl rounded-lg border-2 border-action bg-[#fff3eb] p-3 font-black">
+                Practice mode still counts. Try another block when your brain is ready.
+              </p>
+            )}
+
+            <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+              {completion.nextLesson && (
+                <a className="primary-button" href={`/kid/${data.child.slug}/lesson/${completion.nextLesson.id}/`}>
+                  Next Lesson
+                </a>
+              )}
+              <a className="secondary-button" href={`/kid/${data.child.slug}/`}>
+                Home
+              </a>
+            </div>
           </div>
         </div>
+        <style>{completionStyles}</style>
       </section>
     );
   }
@@ -295,6 +324,214 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
   }
 }
 
+type RewardIconType = 'xp' | 'score' | 'streak' | 'heart' | 'unlock';
+
+function CompletionStat({ icon, label, value }: { icon: RewardIconType; label: string; value: string }) {
+  return (
+    <div className="rounded-lg border-[3px] border-ink bg-white p-4 text-left shadow-[4px_4px_0_var(--block-shadow)]">
+      <div className="flex items-center gap-3">
+        <RewardIcon type={icon} />
+        <div>
+          <p className="text-sm font-black uppercase text-muted">{label}</p>
+          <p className="text-2xl font-black">{value}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MoxieCelebration({ perfect }: { perfect: boolean }) {
+  return (
+    <svg className="h-36 w-36 sm:h-44 sm:w-44" viewBox="0 0 180 180" role="img" aria-label="Moxie celebrating">
+      <rect x="23" y="28" width="134" height="134" rx="28" fill="#fff1f7" stroke="#242134" strokeWidth="7" />
+      <rect x="48" y="70" width="84" height="78" rx="18" fill="#e63e80" stroke="#242134" strokeWidth="7" />
+      <rect x="70" y="42" width="40" height="32" rx="12" fill="#18bca4" stroke="#242134" strokeWidth="6" />
+      <circle cx="75" cy="104" r="6" fill="#242134" />
+      <circle cx="107" cy="104" r="6" fill="#242134" />
+      <path d="M74 125 Q91 140 110 125" fill="none" stroke="#242134" strokeWidth="6" strokeLinecap="round" />
+      <circle cx="129" cy="52" r="15" fill="#ffd84d" stroke="#242134" strokeWidth="6" />
+      <path d="M36 82 L19 68 M144 82 L162 68" stroke="#242134" strokeWidth="7" strokeLinecap="round" />
+      <rect x="23" y="139" width="44" height="28" rx="8" fill="#5b79ff" stroke="#242134" strokeWidth="5" />
+      <rect x="113" y="139" width="44" height="28" rx="8" fill="#ff7f45" stroke="#242134" strokeWidth="5" />
+      {perfect && (
+        <g className="completion-star">
+          <path d="M91 5 L99 25 L120 25 L103 38 L110 59 L91 46 L72 59 L79 38 L62 25 L83 25 Z" fill="#ffd84d" stroke="#242134" strokeWidth="5" strokeLinejoin="round" />
+        </g>
+      )}
+    </svg>
+  );
+}
+
+function RewardIcon({ type }: { type: RewardIconType }) {
+  if (type === 'xp') {
+    return (
+      <svg className="h-16 w-16 shrink-0" viewBox="0 0 100 100" aria-hidden="true">
+        <rect x="20" y="24" width="60" height="60" rx="15" fill="#e63e80" stroke="#242134" strokeWidth="6" />
+        <circle cx="50" cy="24" r="12" fill="#ffd84d" stroke="#242134" strokeWidth="5" />
+        <text x="50" y="62" textAnchor="middle" fontFamily="Fredoka, sans-serif" fontSize="23" fontWeight="700" fill="#ffffff">
+          XP
+        </text>
+      </svg>
+    );
+  }
+
+  if (type === 'streak') {
+    return (
+      <svg className="h-16 w-16 shrink-0" viewBox="0 0 100 100" aria-hidden="true">
+        <rect x="20" y="33" width="60" height="48" rx="13" fill="#ff7f45" stroke="#242134" strokeWidth="6" />
+        <path d="M50 8 C62 25 64 38 55 49 C66 47 73 40 74 30 C85 52 72 76 50 76 C31 76 19 64 19 48 C19 35 28 23 43 12 C40 27 43 35 50 41 C55 32 55 19 50 8 Z" fill="#ffd84d" stroke="#242134" strokeWidth="5" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (type === 'heart') {
+    return (
+      <svg className="h-16 w-16 shrink-0" viewBox="0 0 100 100" aria-hidden="true">
+        <rect x="16" y="24" width="68" height="60" rx="15" fill="#fff1f7" stroke="#242134" strokeWidth="6" />
+        <path d="M50 68 C31 54 27 45 30 36 C33 28 44 28 50 37 C56 28 67 28 70 36 C73 45 69 54 50 68 Z" fill="#e63e80" stroke="#242134" strokeWidth="5" />
+      </svg>
+    );
+  }
+
+  if (type === 'unlock') {
+    return (
+      <svg className="h-16 w-16 shrink-0" viewBox="0 0 100 100" aria-hidden="true">
+        <rect x="18" y="38" width="64" height="46" rx="13" fill="#ffd84d" stroke="#242134" strokeWidth="6" />
+        <path d="M35 39 V30 C35 18 44 11 55 13 C63 15 68 20 70 29" fill="none" stroke="#242134" strokeWidth="7" strokeLinecap="round" />
+        <circle cx="50" cy="61" r="6" fill="#242134" />
+        <path d="M50 66 V74" stroke="#242134" strokeWidth="5" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg className="h-16 w-16 shrink-0" viewBox="0 0 100 100" aria-hidden="true">
+      <rect x="18" y="24" width="64" height="58" rx="12" fill="#18bca4" stroke="#242134" strokeWidth="6" />
+      <rect x="34" y="13" width="32" height="18" rx="8" fill="#ffd84d" stroke="#242134" strokeWidth="5" />
+      <path d="M31 54 L44 67 L70 38" fill="none" stroke="#ffffff" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function CompletionFireworks() {
+  const sparks = [
+    { left: '8%', top: '16%', color: '#ffd84d', delay: '0s' },
+    { left: '20%', top: '74%', color: '#18bca4', delay: '0.35s' },
+    { left: '78%', top: '18%', color: '#5b79ff', delay: '0.2s' },
+    { left: '90%', top: '62%', color: '#ff7f45', delay: '0.55s' },
+    { left: '52%', top: '8%', color: '#e63e80', delay: '0.75s' },
+  ];
+
+  return (
+    <div className="completion-fireworks" aria-hidden="true">
+      {sparks.map((spark, index) => (
+        <span
+          key={`${spark.left}-${spark.top}`}
+          className={`completion-burst completion-burst-${index + 1}`}
+          style={{
+            left: spark.left,
+            top: spark.top,
+            '--spark-color': spark.color,
+            animationDelay: spark.delay,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+const completionStyles = `
+  .completion-stage {
+    isolation: isolate;
+  }
+
+  .completion-ribbon {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 216, 77, 0.28) 0 12%, transparent 12% 100%),
+      linear-gradient(225deg, rgba(24, 188, 164, 0.18) 0 14%, transparent 14% 100%),
+      linear-gradient(180deg, rgba(255, 241, 247, 0.9), rgba(240, 255, 249, 0.76));
+    pointer-events: none;
+  }
+
+  .completion-fireworks {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .completion-burst {
+    --spark-color: #ffd84d;
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border: 2px solid #242134;
+    border-radius: 3px;
+    background: var(--spark-color);
+    box-shadow:
+      0 -38px 0 -1px var(--spark-color),
+      27px -27px 0 -1px var(--spark-color),
+      38px 0 0 -1px var(--spark-color),
+      27px 27px 0 -1px var(--spark-color),
+      0 38px 0 -1px var(--spark-color),
+      -27px 27px 0 -1px var(--spark-color),
+      -38px 0 0 -1px var(--spark-color),
+      -27px -27px 0 -1px var(--spark-color);
+    opacity: 0;
+    transform: scale(0.45) rotate(0deg);
+    animation: buddyFirework 1.8s ease-out infinite;
+  }
+
+  .completion-burst-2,
+  .completion-burst-4 {
+    animation-duration: 2.15s;
+  }
+
+  .completion-star {
+    transform-origin: 91px 32px;
+    animation: buddyStarBounce 1.4s ease-in-out infinite;
+  }
+
+  @keyframes buddyFirework {
+    0% {
+      opacity: 0;
+      transform: scale(0.25) rotate(0deg);
+    }
+    18% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 0.85;
+      transform: scale(1) rotate(28deg);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.18) rotate(42deg);
+    }
+  }
+
+  @keyframes buddyStarBounce {
+    0%,
+    100% {
+      transform: translateY(0) rotate(-4deg);
+    }
+    50% {
+      transform: translateY(-6px) rotate(5deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .completion-burst,
+    .completion-star {
+      animation: none;
+      opacity: 0.7;
+    }
+  }
+`;
+
 type QuestionControlProps = {
   question: LessonQuestion;
   disabled: boolean;
@@ -359,40 +596,52 @@ function QuestionControl({
 
   if (question.type === 'match-pairs') {
     const payload = question.payload as MatchPairsPayload;
-    const rightValues = payload.pairs.map((pair) => pair.right);
+    const rightValues = shuffledMatchRights(payload.pairs, question.id);
 
     return (
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-3">
-          {payload.pairs.map((pair) => (
-            <button
-              key={pair.left}
-              type="button"
-              disabled={disabled || Boolean(matchAnswer[pair.left])}
-              data-selected={selectedLeft === pair.left}
-              className="touch-choice w-full"
-              onClick={() => setSelectedLeft(pair.left)}
-            >
-              {pair.left}
-            </button>
-          ))}
-        </div>
-        <div className="space-y-3">
-          {rightValues.map((right) => {
-            const used = Object.values(matchAnswer).includes(right);
+          {payload.pairs.map((pair) => {
+            const matchedRight = matchAnswer[pair.left];
+            const isMatched = Boolean(matchedRight);
+
             return (
               <button
-                key={right}
+                key={pair.left}
+                type="button"
+                disabled={disabled || isMatched}
+                data-selected={selectedLeft === pair.left}
+                className={`touch-choice w-full ${isMatched ? 'bg-[#d9fff5]' : ''}`}
+                onClick={() => setSelectedLeft(selectedLeft === pair.left ? '' : pair.left)}
+              >
+                <span className="flex flex-col gap-1">
+                  <span>{pair.left}</span>
+                  {isMatched && <span className="text-sm font-black text-muted">Matched to {matchedRight}</span>}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="space-y-3">
+          {rightValues.map((right, index) => {
+            const matchedLeft = Object.entries(matchAnswer).find(([, value]) => value === right)?.[0];
+            const used = Boolean(matchedLeft);
+            return (
+              <button
+                key={`${right}-${index}`}
                 type="button"
                 disabled={disabled || used || !selectedLeft}
-                className="touch-choice w-full"
+                className={`touch-choice w-full ${used ? 'bg-[#d9fff5]' : ''}`}
                 onClick={() => {
                   if (!selectedLeft) return;
                   setMatchAnswer({ ...matchAnswer, [selectedLeft]: right });
                   setSelectedLeft('');
                 }}
               >
-                {right}
+                <span className="flex flex-col gap-1">
+                  <span>{right}</span>
+                  {used && <span className="text-sm font-black text-muted">Matched to {matchedLeft}</span>}
+                </span>
               </button>
             );
           })}
@@ -404,8 +653,22 @@ function QuestionControl({
   const payload = question.payload as OrderItemsPayload;
   return (
     <div>
-      <div className="min-h-[64px] rounded-lg border-[3px] border-ink bg-white p-3 text-xl font-black">
-        {orderAnswer.length ? orderAnswer.join(' ') : 'Tap words or numbers below'}
+      <div
+        className="flex min-h-[72px] flex-wrap items-center gap-3 rounded-lg border-[3px] border-ink bg-white p-3 text-xl font-black"
+        aria-live="polite"
+      >
+        {orderAnswer.length ? (
+          orderAnswer.map((item, index) => (
+            <span
+              key={`${item}-${index}`}
+              className="inline-flex min-h-[46px] items-center rounded-lg border-[3px] border-ink bg-reward px-4 py-2 shadow-[3px_3px_0_var(--block-shadow)]"
+            >
+              {item}
+            </span>
+          ))
+        ) : (
+          <span className="text-muted">Tap words or numbers below</span>
+        )}
       </div>
       <div className="mt-4 flex flex-wrap gap-3">
         {payload.items.map((item) => {
@@ -428,6 +691,38 @@ function QuestionControl({
       </button>
     </div>
   );
+}
+
+function shuffledMatchRights(pairs: Array<{ left: string; right: string }>, questionId: string) {
+  const original = pairs.map((pair) => pair.right);
+  const shuffled = [...original];
+  let seed = hashString(questionId || original.join('|'));
+
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    seed = nextSeed(seed);
+    const swapIndex = seed % (index + 1);
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+
+  if (shuffled.length > 1 && shuffled.every((value, index) => value === original[index])) {
+    const rotated = shuffled.slice(1);
+    rotated.push(shuffled[0] ?? '');
+    return rotated;
+  }
+
+  return shuffled;
+}
+
+function hashString(value: string) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index++) {
+    hash = Math.imul(hash ^ value.charCodeAt(index), 16777619);
+  }
+  return hash >>> 0;
+}
+
+function nextSeed(seed: number) {
+  return (Math.imul(seed, 1664525) + 1013904223) >>> 0;
 }
 
 function ChoiceGrid({
