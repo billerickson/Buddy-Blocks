@@ -772,3 +772,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: focused `npm test -- --run tests/lesson-flow.test.ts tests/lesson-engine.test.ts`, `npm test`, `npm run check`, and `npm run build` passed.
 - Risks: the largest answer-control and completion sections still live in `LessonPlayer.tsx`; this pass deliberately moved low-risk pieces first to keep behavior stable.
 - Future improvements: continue with `LessonCompletion`, `MadMinuteLesson`, and individual question-control modules once browser/component smoke testing exists.
+
+### Item 11: Badges and Rewards Policy
+
+- Changed: moved badge reward rules into `src/lib/badges.ts`; the Worker now gathers counts and delegates first-lesson, streak, subject starter, and perfect-lesson badge policy to the shared module.
+- Tests/docs: added badge policy tests for first lesson, three-day streak, metadata-driven subject starter badges, custom future subject starter badges, and perfect lesson badges; documented the badge policy source beside subject metadata.
+- Verification: focused `npm test -- --run tests/badges.test.ts tests/subjects.test.ts`, `npm test`, `npm run check`, and `npm run build` passed.
+- Risks: practice-set attempts do not currently feed badge policy; badges remain based on canonical lesson attempts and completed curriculum subjects.
+- Future improvements: decide whether weekly practice completion should have its own badge category before adding practice attempts to reward rules.

@@ -10,6 +10,7 @@ import {
   sessionCookie,
   verifyPassword,
 } from './lib/auth';
+import { buildBadges } from './lib/badges';
 import {
   calculateXp,
   evaluateAnswer,
@@ -20,7 +21,7 @@ import {
 import { parseMadMinuteConfig, parseStandardLessonConfig, type LessonKind } from './lib/lesson-config';
 import { calculateMadMinuteXp, scoreMadMinuteAttempts } from './lib/mad-minute';
 import { calculateCurrentStreak } from './lib/streak';
-import { compareSubjectKeys, getStarterBadgeForSubject, getSubjectLabel } from './lib/subjects';
+import { compareSubjectKeys, getSubjectLabel } from './lib/subjects';
 import { completeLesson, type CompletionLesson } from './worker/lesson-completion';
 
 type ParentRow = {
@@ -1653,18 +1654,12 @@ async function getBadges(env: Env, childId: string, streak: number) {
        GROUP BY tracks.subject`,
     ).bind(childId),
   );
-  const completed = new Map(completedBySubject.map((row) => [row.subject, row.total]));
-  const badges = [];
-
-  if ((attempts?.total ?? 0) > 0) badges.push({ key: 'first-lesson', label: 'First Lesson' });
-  if (streak >= 3) badges.push({ key: 'three-day-streak', label: 'Three Day Streak' });
-  for (const [subject, total] of Array.from(completed.entries()).sort(([subjectA], [subjectB]) => compareSubjectKeys(subjectA, subjectB))) {
-    const starterBadge = getStarterBadgeForSubject(subject);
-    if (total > 0 && starterBadge) badges.push(starterBadge);
-  }
-  if ((perfect?.total ?? 0) > 0) badges.push({ key: 'perfect-lesson', label: 'Perfect Lesson' });
-
-  return badges;
+  return buildBadges({
+    attemptCount: attempts?.total ?? 0,
+    perfectAttemptCount: perfect?.total ?? 0,
+    streak,
+    completedBySubject,
+  });
 }
 
 function compareTracksBySubjectMetadata(a: TrackRow, b: TrackRow) {
