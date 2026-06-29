@@ -14,6 +14,8 @@ At runtime, lessons still live in D1 after seeding:
 
 Do not edit generated files in `dist/` or local D1 files directly. Treat D1 as the deployed copy and `src/content/curriculum` as the curriculum source of truth.
 
+Lesson `config` validation and runtime defaults live in [src/lib/lesson-config.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/lesson-config.ts), backed by the UI-safe defaults and type guards in [src/lib/lesson-config-core.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/lesson-config-core.ts). Content loading, Worker API parsing, and the lesson player all use those shared exports so authored Markdown, stored D1 JSON, and UI fallback behavior stay aligned.
+
 ## Folder Shape
 
 Use grade folders, ordered track folders, ordered unit folders, and one Markdown file per lesson:
@@ -147,6 +149,8 @@ questions: []
 ```
 
 For a mixed fact lesson, set `factor: mixed` and use `minFactor`/`maxFactor` to control the factor range. The Worker scores Mad Minute submissions server-side and saves `best_score_correct` as the child's record.
+
+Mad Minute defaults are centralized as `DEFAULT_MAD_MINUTE_CONFIG`: mixed 2s-12s multiplication facts, multipliers 1-12, 60 seconds, and a goal of 40 correct. Authored Mad Minute Markdown should still specify the config explicitly for readability.
 
 ## Question Types
 

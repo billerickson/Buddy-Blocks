@@ -700,3 +700,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: `npm test`, `npm run check`, `npm run build`, and `npm run db:migrate:local` passed.
 - Risks: the Worker API test uses Node's experimental built-in SQLite adapter as a D1-shaped harness; it exercises real SQL but is not a perfect D1 runtime.
 - Future improvements: batch parent dashboard activity, subject-level, and badge reads across all children when the family model grows beyond the fixed v1 profiles.
+
+### Item 2: Shared Lesson Config Schemas and Defaults
+
+- Changed: added shared lesson config schemas, parsers, defaults, and type guards; moved content validation and Worker runtime parsing onto the shared module; moved the lesson player to shared Mad Minute defaults through a UI-safe core module.
+- Tests/docs: added lesson config schema/parser tests; updated Mad Minute tests to use shared defaults; documented the config source of truth in lesson authoring and question type docs.
+- Verification: `npm test`, `npm run check`, and `npm run build` passed.
+- Risks: importing schema exports directly into browser islands pulls Zod into the client bundle, so browser code should import `lesson-config-core.ts` for defaults/types/type guards.
+- Future improvements: add a dedicated content validation script that exercises the shared schemas without running the seed process.

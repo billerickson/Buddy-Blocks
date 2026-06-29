@@ -107,6 +107,8 @@ config:
 questions: []
 ```
 
+The schemas and runtime parsers for standard lesson config and Mad Minute config are defined in `src/lib/lesson-config.ts`, with UI-safe defaults and type guards in `src/lib/lesson-config-core.ts`. Use those shared files as the source of truth for validation rules, runtime fallback behavior, and the default Mad Minute values.
+
 ## Question Type Summary
 
 | Type | Best For | Answer Shape | Scoring |

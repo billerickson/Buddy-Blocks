@@ -20,6 +20,14 @@ import {
   type SpeakingPromptPayload,
   type TextInputPayload,
 } from '../../lib/lesson-engine';
+import {
+  DEFAULT_MAD_MINUTE_CONFIG,
+  isMadMinuteConfig,
+  type LessonConfig,
+  type LessonKind,
+  type MadMinuteConfig,
+  type StandardLessonConfig,
+} from '../../lib/lesson-config-core';
 import { fetchApi } from './api';
 
 type LessonData = {
@@ -48,35 +56,6 @@ type LessonData = {
     questions: LessonQuestion[];
   };
 };
-
-type LessonKind = 'standard' | 'mad-minute';
-
-type MadMinuteConfig = {
-  mode: 'multiplication';
-  factor: number | 'mixed';
-  minFactor?: number;
-  maxFactor?: number;
-  minMultiplier: number;
-  maxMultiplier: number;
-  durationSeconds: number;
-  goalCorrect: number;
-};
-
-type StandardLessonConfig = {
-  intro?: Array<{
-    title: string;
-    body: string;
-    bullets?: string[];
-    media?: QuestionMedia;
-  }>;
-  review?: {
-    mode?: 'deck' | 'spaced';
-    label?: string;
-    shuffleQuestions?: boolean;
-  };
-};
-
-type LessonConfig = MadMinuteConfig | StandardLessonConfig;
 
 type MadMinuteAttempt = {
   factor: number;
@@ -185,7 +164,9 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
   if (completion) {
     const isMadMinute = data.lesson.kind === 'mad-minute';
     const perfectLesson = !isMadMinute && completion.scoreCorrect === completion.scoreTotal;
-    const goalCorrect = completion.goalCorrect ?? (isMadMinuteConfig(data.lesson.config) ? data.lesson.config.goalCorrect : 40);
+    const goalCorrect =
+      completion.goalCorrect ??
+      (isMadMinuteConfig(data.lesson.config) ? data.lesson.config.goalCorrect : DEFAULT_MAD_MINUTE_CONFIG.goalCorrect);
     const bestScoreCorrect = completion.bestScoreCorrect ?? Math.max(data.progress.bestScoreCorrect, completion.scoreCorrect);
     const factLabel = completion.scoreCorrect === 1 ? 'fact' : 'facts';
 
@@ -562,10 +543,6 @@ function getStandardLessonConfig(config: LessonConfig | null): StandardLessonCon
   return config;
 }
 
-function isMadMinuteConfig(config: LessonConfig | null): config is MadMinuteConfig {
-  return Boolean(config && 'mode' in config && config.mode === 'multiplication');
-}
-
 function MadMinuteLesson({
   data,
   childSlug,
@@ -579,7 +556,7 @@ function MadMinuteLesson({
   onComplete: (result: CompletionResult['result']) => void;
   onError: (message: string) => void;
 }) {
-  const config = isMadMinuteConfig(data.lesson.config) ? data.lesson.config : defaultMadMinuteConfig();
+  const config = isMadMinuteConfig(data.lesson.config) ? data.lesson.config : DEFAULT_MAD_MINUTE_CONFIG;
   const inputRef = useRef<HTMLInputElement>(null);
   const runningRef = useRef(false);
   const submittingRef = useRef(false);
@@ -772,19 +749,6 @@ function MadMinuteLesson({
     input.focus({ preventScroll: true });
     input.select();
   }
-}
-
-function defaultMadMinuteConfig(): MadMinuteConfig {
-  return {
-    mode: 'multiplication',
-    factor: 'mixed',
-    minFactor: 2,
-    maxFactor: 12,
-    minMultiplier: 1,
-    maxMultiplier: 12,
-    durationSeconds: 60,
-    goalCorrect: 40,
-  };
 }
 
 export function generateMadMinuteFact(config: MadMinuteConfig, previousFact?: MadMinuteFact | null): MadMinuteFact {

@@ -2,6 +2,15 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { basename, join, relative } from 'node:path';
 import { parse as parseYaml } from 'yaml';
 import { z } from 'zod';
+import {
+  isMadMinuteConfig,
+  LessonKindSchema,
+  MadMinuteConfigSchema,
+  MediaSchema,
+  StandardLessonConfigSchema,
+  type LessonConfig,
+  type LessonKind,
+} from './lesson-config';
 import type { ExerciseType, QuestionMedia, QuestionPayload } from './lesson-engine';
 
 export type ChildFixture = {
@@ -20,35 +29,6 @@ export type QuestionFixture = {
   payload: QuestionPayload;
   explanation?: string;
 };
-
-export type LessonKind = 'standard' | 'mad-minute';
-
-export type MadMinuteConfig = {
-  mode: 'multiplication';
-  factor: number | 'mixed';
-  minFactor?: number;
-  maxFactor?: number;
-  minMultiplier: number;
-  maxMultiplier: number;
-  durationSeconds: number;
-  goalCorrect: number;
-};
-
-export type StandardLessonConfig = {
-  intro?: Array<{
-    title: string;
-    body: string;
-    bullets?: string[];
-    media?: QuestionMedia;
-  }>;
-  review?: {
-    mode?: 'deck' | 'spaced';
-    label?: string;
-    shuffleQuestions?: boolean;
-  };
-};
-
-export type LessonConfig = MadMinuteConfig | StandardLessonConfig;
 
 export type LessonFixture = {
   id: string;
@@ -137,62 +117,10 @@ const unitFileSchema = z.object({
   description: z.string().min(1),
 });
 
-const madMinuteConfigSchema = z.object({
-  mode: z.literal('multiplication'),
-  factor: z.union([z.number().int(), z.literal('mixed')]),
-  minFactor: z.number().int().optional(),
-  maxFactor: z.number().int().optional(),
-  minMultiplier: z.number().int(),
-  maxMultiplier: z.number().int(),
-  durationSeconds: z.number().int().positive(),
-  goalCorrect: z.number().int().positive(),
-});
-
-const mediaSchema = z.object({
-  image: z
-    .object({
-      src: z.string().min(1),
-      alt: z.string().min(1),
-      caption: z.string().optional(),
-    })
-    .optional(),
-  audio: z
-    .object({
-      src: z.string().min(1),
-      label: z.string().optional(),
-      transcript: z.string().optional(),
-    })
-    .optional(),
-  video: z
-    .object({
-      src: z.string().min(1),
-      label: z.string().optional(),
-    })
-    .optional(),
-});
-
-const teachingCardSchema = z.object({
-  title: z.string().min(1),
-  body: z.string().min(1),
-  bullets: stringListSchema.optional(),
-  media: mediaSchema.optional(),
-});
-
-const standardLessonConfigSchema = z.object({
-  intro: z.array(teachingCardSchema).min(1).optional(),
-  review: z
-    .object({
-      mode: z.enum(['deck', 'spaced']).default('deck'),
-      label: z.string().optional(),
-      shuffleQuestions: z.boolean().optional(),
-    })
-    .optional(),
-});
-
 const baseQuestionSchema = z.object({
   prompt: z.string().min(1),
   explanation: z.string().optional(),
-  media: mediaSchema.optional(),
+  media: MediaSchema.optional(),
 });
 
 const multipleChoiceQuestionSchema = baseQuestionSchema.extend({
@@ -334,8 +262,8 @@ const lessonFileSchema = z.object({
   slug: slugSchema,
   title: z.string().min(1),
   xpBase: z.number().int().positive().default(10),
-  kind: z.enum(['standard', 'mad-minute']).default('standard'),
-  config: z.union([madMinuteConfigSchema, standardLessonConfigSchema]).optional(),
+  kind: LessonKindSchema.default('standard'),
+  config: z.union([MadMinuteConfigSchema, StandardLessonConfigSchema]).optional(),
   questions: z.array(questionSchema).default([]),
 });
 
@@ -630,10 +558,6 @@ function normalizeQuestion(question: AuthoredQuestion): QuestionFixture {
     }, question),
     explanation: question.explanation,
   };
-}
-
-function isMadMinuteConfig(config: LessonConfig): config is MadMinuteConfig {
-  return 'mode' in config && config.mode === 'multiplication';
 }
 
 function withMedia<T extends QuestionPayload>(payload: T, question: { media?: QuestionMedia }) {

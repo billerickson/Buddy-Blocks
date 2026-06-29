@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { generateMadMinuteFact } from '../src/components/islands/LessonPlayer';
+import { DEFAULT_MAD_MINUTE_CONFIG } from '../src/lib/lesson-config';
 
 describe('mad minute fact generation', () => {
   afterEach(() => {
@@ -11,12 +12,10 @@ describe('mad minute fact generation', () => {
 
     const fact = generateMadMinuteFact(
       {
-        mode: 'multiplication',
+        ...DEFAULT_MAD_MINUTE_CONFIG,
         factor: 2,
         minMultiplier: 1,
         maxMultiplier: 3,
-        durationSeconds: 60,
-        goalCorrect: 40,
       },
       { factor: 2, multiplier: 1 },
     );
@@ -27,12 +26,10 @@ describe('mad minute fact generation', () => {
   it('allows a repeat only when the config has one possible fact', () => {
     const fact = generateMadMinuteFact(
       {
-        mode: 'multiplication',
+        ...DEFAULT_MAD_MINUTE_CONFIG,
         factor: 2,
         minMultiplier: 5,
         maxMultiplier: 5,
-        durationSeconds: 60,
-        goalCorrect: 40,
       },
       { factor: 2, multiplier: 5 },
     );

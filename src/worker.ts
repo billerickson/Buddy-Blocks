@@ -15,9 +15,9 @@ import {
   evaluateAnswer,
   type ExerciseType,
   type LessonQuestion,
-  type QuestionMedia,
   type QuestionPayload,
 } from './lib/lesson-engine';
+import { parseMadMinuteConfig, parseStandardLessonConfig, type LessonKind, type MadMinuteConfig } from './lib/lesson-config';
 import { calculateCurrentStreak } from './lib/streak';
 
 type ParentRow = {
@@ -75,33 +75,6 @@ type LessonRow = {
   config_json: string | null;
   sort_order: number;
   xp_base: number;
-};
-
-type LessonKind = 'standard' | 'mad-minute';
-
-type MadMinuteConfig = {
-  mode: 'multiplication';
-  factor: number | 'mixed';
-  minFactor?: number;
-  maxFactor?: number;
-  minMultiplier: number;
-  maxMultiplier: number;
-  durationSeconds: number;
-  goalCorrect: number;
-};
-
-type StandardLessonConfig = {
-  intro?: Array<{
-    title: string;
-    body: string;
-    bullets?: string[];
-    media?: QuestionMedia;
-  }>;
-  review?: {
-    mode?: 'deck' | 'spaced';
-    label?: string;
-    shuffleQuestions?: boolean;
-  };
 };
 
 type LessonDetailRow = LessonRow & {
@@ -190,61 +163,6 @@ const AttemptSubmissionSchema = z.object({
       answer: z.unknown(),
     }),
   ),
-});
-
-const MadMinuteConfigSchema = z.object({
-  mode: z.literal('multiplication'),
-  factor: z.union([z.number().int().min(2).max(12), z.literal('mixed')]),
-  minFactor: z.number().int().min(2).max(12).optional(),
-  maxFactor: z.number().int().min(2).max(12).optional(),
-  minMultiplier: z.number().int().min(1).max(12),
-  maxMultiplier: z.number().int().min(1).max(12),
-  durationSeconds: z.number().int().min(10).max(120),
-  goalCorrect: z.number().int().min(1).max(120),
-});
-
-const MediaSchema = z.object({
-  image: z
-    .object({
-      src: z.string().min(1),
-      alt: z.string().min(1),
-      caption: z.string().optional(),
-    })
-    .optional(),
-  audio: z
-    .object({
-      src: z.string().min(1),
-      label: z.string().optional(),
-      transcript: z.string().optional(),
-    })
-    .optional(),
-  video: z
-    .object({
-      src: z.string().min(1),
-      label: z.string().optional(),
-    })
-    .optional(),
-});
-
-const StandardLessonConfigSchema = z.object({
-  intro: z
-    .array(
-      z.object({
-        title: z.string().min(1),
-        body: z.string().min(1),
-        bullets: z.array(z.string()).min(1).optional(),
-        media: MediaSchema.optional(),
-      }),
-    )
-    .min(1)
-    .optional(),
-  review: z
-    .object({
-      mode: z.enum(['deck', 'spaced']).default('deck'),
-      label: z.string().optional(),
-      shuffleQuestions: z.boolean().optional(),
-    })
-    .optional(),
 });
 
 const MadMinuteSubmissionSchema = z.object({
@@ -587,7 +505,7 @@ async function apiLesson(
       slug: lesson.slug,
       title: lesson.title,
       kind: lesson.kind,
-      config: lesson.kind === 'mad-minute' ? parseMadMinuteConfig(lesson) : parseStandardLessonConfig(lesson),
+      config: lesson.kind === 'mad-minute' ? parseMadMinuteConfig(lesson.config_json) : parseStandardLessonConfig(lesson.config_json),
       xpBase: lesson.xp_base,
       unit: {
         id: lesson.unit_id,
@@ -761,7 +679,7 @@ async function apiSubmitLesson(
 }
 
 async function apiSubmitMadMinuteLesson(env: Env, request: Request, child: ChildRow, lesson: LessonDetailRow) {
-  const config = parseMadMinuteConfig(lesson);
+  const config = parseMadMinuteConfig(lesson.config_json);
   let body: z.infer<typeof MadMinuteSubmissionSchema>;
   try {
     body = MadMinuteSubmissionSchema.parse(await request.json());
@@ -1252,7 +1170,7 @@ async function getTrackUnitResponses(env: Env, childId: string, trackId: string)
       slug: lesson.slug,
       title: lesson.title,
       kind: lesson.kind,
-      madMinuteGoal: lesson.kind === 'mad-minute' ? parseMadMinuteConfig(lesson).goalCorrect : null,
+      madMinuteGoal: lesson.kind === 'mad-minute' ? parseMadMinuteConfig(lesson.config_json).goalCorrect : null,
       xpBase: lesson.xp_base,
       status: row.progress_status ?? 'locked',
       completedAt: hasProgress ? row.completed_at : undefined,
@@ -1456,51 +1374,6 @@ function lessonLinkResponse(lesson: LessonDetailRow) {
     trackGradeLevel: lesson.track_grade_level,
     trackTitle: lesson.track_title,
   };
-}
-
-function parseStandardLessonConfig(lesson: Pick<LessonRow, 'config_json'>): StandardLessonConfig | null {
-  if (!lesson.config_json) return null;
-
-  try {
-    const parsed = StandardLessonConfigSchema.safeParse(JSON.parse(lesson.config_json));
-    if (!parsed.success) return null;
-    if (!parsed.data.intro && !parsed.data.review) return null;
-    return parsed.data;
-  } catch {
-    return null;
-  }
-}
-
-function parseMadMinuteConfig(lesson: Pick<LessonRow, 'config_json'>): MadMinuteConfig {
-  const fallback: MadMinuteConfig = {
-    mode: 'multiplication',
-    factor: 'mixed',
-    minFactor: 2,
-    maxFactor: 12,
-    minMultiplier: 1,
-    maxMultiplier: 12,
-    durationSeconds: 60,
-    goalCorrect: 40,
-  };
-
-  if (!lesson.config_json) return fallback;
-
-  try {
-    const parsed = MadMinuteConfigSchema.safeParse(JSON.parse(lesson.config_json));
-    if (!parsed.success) return fallback;
-
-    const minFactor = parsed.data.factor === 'mixed' ? (parsed.data.minFactor ?? 2) : parsed.data.factor;
-    const maxFactor = parsed.data.factor === 'mixed' ? (parsed.data.maxFactor ?? 12) : parsed.data.factor;
-    if (minFactor > maxFactor || parsed.data.minMultiplier > parsed.data.maxMultiplier) return fallback;
-
-    return {
-      ...parsed.data,
-      minFactor,
-      maxFactor,
-    };
-  } catch {
-    return fallback;
-  }
 }
 
 function isAllowedMadMinuteFact(config: MadMinuteConfig, factor: number, multiplier: number) {
