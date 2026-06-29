@@ -200,6 +200,10 @@ Reasoning:
 - Spanish is a level sequence rather than an academic-grade match. The Grade 3 Spanish course is already in place; the remaining Spanish work is Grade 3 quality review, Grade 4 buildout, and handoff behavior.
 - French and Latin should come after the current Grade 3, Grade 4 Spanish, and Grade 6 scope so the app has one complete modern-language sequence and the core academic courses are stable before adding more LOTE tracks.
 
+## Build Progress
+
+- Grade 3 Math complete: added Place Value And Rounding, Multiplication Concepts, Division Concepts, Multiplication And Division Word Problems, Fractions, Measurement, Time, And Money, Data And Graphs, Geometry, Area, And Perimeter, and Mixed Problem Solving. Mad Minute remains the final fluency unit with stable lesson IDs.
+
 ## Grade 3 Math Remaining Units
 
 Target path:

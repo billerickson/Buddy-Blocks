@@ -28,11 +28,20 @@ describe('curriculum content', () => {
     expect(getTracksForGrade(6).map((track) => track.subject)).toEqual(['math', 'vocabulary']);
   });
 
-  it('provides the MVP curriculum shape', () => {
+  it('provides the current curriculum shape', () => {
     expect(TRACKS).toHaveLength(5);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'addition-basics',
       'subtraction-basics',
+      'place-value-rounding',
+      'multiplication-concepts',
+      'division-concepts',
+      'multiplication-division-word-problems',
+      'fractions',
+      'measurement-time-money',
+      'data-graphs',
+      'geometry-area-perimeter',
+      'mixed-problem-solving',
       'mad-minute',
     ]);
     expect(GRADE_6_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
@@ -40,8 +49,8 @@ describe('curriculum content', () => {
       'expressions-equations',
       'mad-minute',
     ]);
-    expect(getAllLessons()).toHaveLength(76);
-    expect(getAllQuestions()).toHaveLength(486);
+    expect(getAllLessons()).toHaveLength(120);
+    expect(getAllQuestions()).toHaveLength(838);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -159,14 +168,15 @@ describe('curriculum content', () => {
 
     expect(summary.totals).toEqual({
       tracks: 5,
-      units: 19,
-      lessons: 76,
-      questions: 486,
+      units: 28,
+      lessons: 120,
+      questions: 838,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
       tracks: 1,
-      units: 3,
-      lessons: 16,
+      units: 12,
+      lessons: 60,
+      questions: 384,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'spanish')).toBeUndefined();
   });
