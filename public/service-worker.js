@@ -1,5 +1,5 @@
-const CACHE_NAME = 'buddy-blocks-v1';
-const STATIC_ASSETS = ['/', '/profiles/', '/manifest.webmanifest', '/icons/moxie.svg'];
+const CACHE_NAME = 'buddy-blocks-v2';
+const STATIC_ASSETS = ['/manifest.webmanifest', '/icons/moxie.svg'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS)));
@@ -17,7 +17,12 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  if (event.request.method !== 'GET' || url.pathname.startsWith('/api/')) return;
+  const cacheable =
+    url.pathname.startsWith('/_astro/') ||
+    url.pathname.startsWith('/icons/') ||
+    url.pathname === '/manifest.webmanifest';
+
+  if (event.request.method !== 'GET' || !cacheable) return;
 
   event.respondWith(
     fetch(event.request)
@@ -29,4 +34,3 @@ self.addEventListener('fetch', (event) => {
       .catch(() => caches.match(event.request)),
   );
 });
-

@@ -795,7 +795,12 @@ function serveAsset(request: Request, env: Env, pathname: string) {
 }
 
 function redirect(url: URL, status = 302) {
-  return Response.redirect(url.toString(), status);
+  return new Response(null, {
+    status,
+    headers: {
+      Location: url.toString(),
+    },
+  });
 }
 
 function json(data: unknown, status = 200) {
@@ -833,4 +838,3 @@ function localDate(date: Date, timeZone = 'America/Chicago') {
   const value = (type: string) => parts.find((part) => part.type === type)?.value ?? '01';
   return `${value('year')}-${value('month')}-${value('day')}`;
 }
-
