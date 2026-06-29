@@ -69,8 +69,20 @@ describe('curriculum content', () => {
       'mixed-problem-solving',
       'mad-minute',
     ]);
-    expect(getAllLessons()).toHaveLength(206);
-    expect(getAllQuestions()).toHaveLength(1526);
+    expect(GRADE_6_TRACKS.find((track) => track.subject === 'vocabulary')?.units.map((unit) => unit.slug)).toEqual([
+      'context-reference-skills',
+      'roots-send-write-law',
+      'roots-good-hand-empty',
+      'academic-reading',
+      'genre-structure',
+      'authors-craft',
+      'argument-media',
+      'writing-revision',
+      'research-inquiry-vocabulary',
+      'cumulative-review',
+    ]);
+    expect(getAllLessons()).toHaveLength(210);
+    expect(getAllQuestions()).toHaveLength(1566);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -188,9 +200,9 @@ describe('curriculum content', () => {
 
     expect(summary.totals).toEqual({
       tracks: 5,
-      units: 44,
-      lessons: 206,
-      questions: 1526,
+      units: 45,
+      lessons: 210,
+      questions: 1566,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
       tracks: 1,
@@ -209,6 +221,12 @@ describe('curriculum content', () => {
       units: 10,
       lessons: 57,
       questions: 360,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'vocabulary')).toMatchObject({
+      tracks: 1,
+      units: 10,
+      lessons: 40,
+      questions: 398,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'spanish')).toBeUndefined();
   });

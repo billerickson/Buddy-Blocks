@@ -1,0 +1,81 @@
+---
+id: lesson_grade6_vocabulary_research_questions_keywords
+slug: research-questions-keywords
+title: Research Questions And Keywords
+xpBase: 10
+questions:
+  - type: multiple-choice
+    prompt: Which research question is most focused?
+    choices:
+      - How did drought affect Texas farms in 2011?
+      - What is weather?
+      - Tell me everything about Texas.
+      - Why are farms interesting?
+    correctAnswer: How did drought affect Texas farms in 2011?
+  - type: fill-blank
+    prompt: A keyword should name the most important ___ in a research question.
+    sentenceBefore: A keyword should name the most important
+    sentenceAfter: in a research question.
+    choices:
+      - ideas
+      - commas
+      - rhymes
+      - opinions only
+    correctAnswer: ideas
+  - type: text-input
+    prompt: For the question "How do bees help apple trees grow?" type one useful keyword.
+    acceptedAnswers:
+      - bees
+      - apple trees
+      - pollination
+      - grow
+    answerType: text
+  - type: match-pairs
+    prompt: Match each research task to the best vocabulary word.
+    pairs:
+      - left: ask and investigate
+        right: inquiry
+      - left: important search word
+        right: keyword
+      - left: focused guiding question
+        right: research question
+  - type: order-items
+    prompt: Order the early research steps.
+    items:
+      - Choose keywords
+      - Ask a focused question
+      - Search for sources
+    correctOrder:
+      - Ask a focused question
+      - Choose keywords
+      - Search for sources
+  - type: passage-question
+    prompt: Choose keywords.
+    passageTitle: Research Plan
+    passage: A student wants to learn why monarch butterflies migrate through Texas each fall.
+    question: Which keywords would help most?
+    choices:
+      - monarch butterflies Texas migration
+      - student wants learn
+      - each fall through
+      - why do
+    correctAnswer: monarch butterflies Texas migration
+  - type: multiple-choice
+    prompt: Which question is too broad for a short research task?
+    choices:
+      - What are animals?
+      - How do armadillos protect themselves?
+      - Why did one local river flood in May?
+      - What tools did astronauts use on Apollo 11?
+    correctAnswer: What are animals?
+  - type: fill-blank
+    prompt: A good research question can be answered with evidence, not just a personal ___.
+    sentenceBefore: A good research question can be answered with evidence, not just a personal
+    sentenceAfter: .
+    choices:
+      - opinion
+      - source
+      - citation
+      - keyword
+    correctAnswer: opinion
+---
