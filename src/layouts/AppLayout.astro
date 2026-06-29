@@ -6,9 +6,12 @@ interface Props {
   title: string;
   showNav?: boolean;
   active?: 'profiles' | 'parent' | 'kid';
+  brandHref?: string;
 }
 
-const { title, showNav = true, active } = Astro.props;
+const { title, showNav = true, active, brandHref } = Astro.props;
+const kidPathMatch = Astro.url.pathname.match(/^\/kid\/([^/]+)/);
+const resolvedBrandHref = brandHref ?? (active === 'kid' && kidPathMatch ? `/kid/${kidPathMatch[1]}/` : '/profiles/');
 ---
 
 <!doctype html>
@@ -28,7 +31,7 @@ const { title, showNav = true, active } = Astro.props;
     {showNav && (
       <header class="topbar">
         <div class="app-shell topbar-inner">
-          <BrandMark />
+          <BrandMark href={resolvedBrandHref} />
           <nav class="nav-links" aria-label="Main">
             <a class="nav-link" href="/profiles/" aria-current={active === 'profiles' ? 'page' : undefined}>Profiles</a>
             <a class="nav-link" href="/parent/" aria-current={active === 'parent' ? 'page' : undefined}>Parent</a>
@@ -47,4 +50,3 @@ const { title, showNav = true, active } = Astro.props;
     </script>
   </body>
 </html>
-
