@@ -6,7 +6,7 @@ type TrackData = {
   child: { slug: string; displayName: string };
   track: {
     slug: string;
-    subject: 'math' | 'vocabulary' | 'spanish';
+    subject: string;
     gradeLevel: number;
     title: string;
     description: string;

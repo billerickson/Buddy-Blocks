@@ -23,7 +23,7 @@ type HomeData = {
   tracks: Array<{
     id: string;
     slug: string;
-    subject: 'math' | 'vocabulary' | 'spanish';
+    subject: string;
     gradeLevel: number;
     title: string;
     description: string;

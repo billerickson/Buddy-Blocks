@@ -27,6 +27,7 @@
     "tsx": "latest",
     "typescript": "latest",
     "wrangler": "latest",
+    "yaml": "^2.9.0",
     "zod": "latest"
   },
   "devDependencies": {

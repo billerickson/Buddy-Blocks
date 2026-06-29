@@ -39,7 +39,7 @@ type ChildRow = {
   display_name: string;
   avatar_key: string;
   level_band: string | null;
-  grade_level: 3 | 6;
+  grade_level: number;
   hearts_remaining: number;
   created_at: string;
   updated_at: string;
@@ -48,8 +48,8 @@ type ChildRow = {
 type TrackRow = {
   id: string;
   slug: string;
-  subject: 'math' | 'vocabulary' | 'spanish';
-  grade_level: 3 | 6;
+  subject: string;
+  grade_level: number;
   title: string;
   description: string;
   color: string;
@@ -95,8 +95,8 @@ type LessonDetailRow = LessonRow & {
   unit_slug: string;
   track_id: string;
   track_slug: string;
-  track_subject: 'math' | 'vocabulary' | 'spanish';
-  track_grade_level: 3 | 6;
+  track_subject: string;
+  track_grade_level: number;
   track_title: string;
   track_color: string;
   track_accent: string;
