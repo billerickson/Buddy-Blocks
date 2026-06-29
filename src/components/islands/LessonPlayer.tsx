@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'preact/hooks';
+import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import {
   evaluateAnswer,
   getCorrectAnswerLabel,
@@ -17,9 +17,15 @@ type LessonData = {
     displayName: string;
   };
   heartsStart: number;
+  progress: {
+    bestScoreCorrect: number;
+    bestScoreTotal: number;
+  };
   lesson: {
     id: string;
     title: string;
+    kind: LessonKind;
+    config: MadMinuteConfig | null;
     xpBase: number;
     unit: { title: string };
     track: {
@@ -30,6 +36,25 @@ type LessonData = {
     };
     questions: LessonQuestion[];
   };
+};
+
+type LessonKind = 'standard' | 'mad-minute';
+
+type MadMinuteConfig = {
+  mode: 'multiplication';
+  factor: number | 'mixed';
+  minFactor?: number;
+  maxFactor?: number;
+  minMultiplier: number;
+  maxMultiplier: number;
+  durationSeconds: number;
+  goalCorrect: number;
+};
+
+type MadMinuteAttempt = {
+  factor: number;
+  multiplier: number;
+  answer: number;
 };
 
 type QueueItem = {
@@ -50,6 +75,8 @@ type CompletionResult = {
     xpAwarded: number;
     heartsRemaining: number;
     streak: number;
+    bestScoreCorrect?: number;
+    goalCorrect?: number;
     nextLesson: null | {
       id: string;
       title: string;
@@ -110,10 +137,14 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
     );
   }
 
-  if (!data || !current) return <p className="text-xl font-black text-muted">Snapping lesson blocks together...</p>;
+  if (!data) return <p className="text-xl font-black text-muted">Snapping lesson blocks together...</p>;
 
   if (completion) {
-    const perfectLesson = completion.scoreCorrect === completion.scoreTotal;
+    const isMadMinute = data.lesson.kind === 'mad-minute';
+    const perfectLesson = !isMadMinute && completion.scoreCorrect === completion.scoreTotal;
+    const goalCorrect = completion.goalCorrect ?? data.lesson.config?.goalCorrect ?? 40;
+    const bestScoreCorrect = completion.bestScoreCorrect ?? Math.max(data.progress.bestScoreCorrect, completion.scoreCorrect);
+    const factLabel = completion.scoreCorrect === 1 ? 'fact' : 'facts';
 
     return (
       <section className="completion-stage relative mx-auto max-w-5xl overflow-hidden rounded-lg px-1 py-2">
@@ -125,18 +156,30 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
               <MoxieCelebration perfect={perfectLesson} />
             </div>
             <p className="stat-chip mx-auto mt-4 w-fit bg-reward">Lesson complete</p>
-            <h1 className="mt-4 text-[clamp(3.4rem,9vw,6.8rem)]">{perfectLesson ? 'Perfect stack!' : 'Nice build!'}</h1>
+            <h1 className="mt-4 text-[clamp(3.4rem,9vw,6.8rem)]">
+              {isMadMinute ? 'Mad Minute done!' : perfectLesson ? 'Perfect stack!' : 'Nice build!'}
+            </h1>
             <p className="mx-auto mt-3 max-w-2xl text-lg font-black text-muted">
-              {perfectLesson
-                ? 'Every answer snapped into place. Moxie added a shiny bonus block.'
-                : 'You stacked another skill block and saved your progress.'}
+              {isMadMinute
+                ? `You solved ${completion.scoreCorrect} multiplication ${factLabel} before the clock ran out.`
+                : perfectLesson
+                  ? 'Every answer snapped into place. Moxie added a shiny bonus block.'
+                  : 'You stacked another skill block and saved your progress.'}
             </p>
 
             <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <CompletionStat icon="xp" label="XP earned" value={`${completion.xpAwarded} XP`} />
-              <CompletionStat icon="score" label="Correct blocks" value={`${completion.scoreCorrect}/${completion.scoreTotal}`} />
+              <CompletionStat
+                icon="score"
+                label={isMadMinute ? 'Correct facts' : 'Correct blocks'}
+                value={`${completion.scoreCorrect}/${completion.scoreTotal}`}
+              />
               <CompletionStat icon="streak" label="Streak stack" value={`${completion.streak} day${completion.streak === 1 ? '' : 's'}`} />
-              <CompletionStat icon="heart" label="Hearts left" value={`${completion.heartsRemaining}`} />
+              {isMadMinute ? (
+                <CompletionStat icon="record" label="Best record" value={`${bestScoreCorrect}/${goalCorrect}`} />
+              ) : (
+                <CompletionStat icon="heart" label="Hearts left" value={`${completion.heartsRemaining}`} />
+              )}
             </div>
 
             {completion.nextLesson && (
@@ -174,6 +217,20 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
       </section>
     );
   }
+
+  if (data.lesson.kind === 'mad-minute') {
+    return (
+      <MadMinuteLesson
+        data={data}
+        childSlug={childSlug}
+        lessonId={lessonId}
+        onComplete={setCompletion}
+        onError={setError}
+      />
+    );
+  }
+
+  if (!current) return <p className="text-xl font-black text-muted">Snapping lesson blocks together...</p>;
 
   return (
     <section className="mx-auto max-w-4xl space-y-5">
@@ -324,7 +381,218 @@ export default function LessonPlayer({ childSlug, lessonId }: { childSlug: strin
   }
 }
 
-type RewardIconType = 'xp' | 'score' | 'streak' | 'heart' | 'unlock';
+function MadMinuteLesson({
+  data,
+  childSlug,
+  lessonId,
+  onComplete,
+  onError,
+}: {
+  data: LessonData;
+  childSlug: string;
+  lessonId: string;
+  onComplete: (result: CompletionResult['result']) => void;
+  onError: (message: string) => void;
+}) {
+  const config = data.lesson.config ?? defaultMadMinuteConfig();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [running, setRunning] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(config.durationSeconds);
+  const [fact, setFact] = useState(() => generateMadMinuteFact(config));
+  const [answer, setAnswer] = useState('');
+  const [attempts, setAttempts] = useState<MadMinuteAttempt[]>([]);
+  const [startedAt, setStartedAt] = useState('');
+  const [lastResult, setLastResult] = useState<null | { correct: boolean; answer: number }>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const correctCount = attempts.filter((attempt) => attempt.answer === attempt.factor * attempt.multiplier).length;
+  const goalProgress = Math.min(100, Math.round((Math.max(data.progress.bestScoreCorrect, correctCount) / config.goalCorrect) * 100));
+  const timeProgress = Math.round((timeLeft / config.durationSeconds) * 100);
+
+  useEffect(() => {
+    if (!running || submitting) return undefined;
+    if (timeLeft <= 0) {
+      void submitMadMinute();
+      return undefined;
+    }
+
+    const timer = window.setTimeout(() => setTimeLeft((value) => Math.max(0, value - 1)), 1000);
+    return () => window.clearTimeout(timer);
+  }, [running, submitting, timeLeft]);
+
+  useEffect(() => {
+    if (running) inputRef.current?.focus();
+  }, [fact, running]);
+
+  return (
+    <section className="mx-auto max-w-4xl space-y-5">
+      <header className="block-card p-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="stat-chip w-fit">
+              {data.lesson.track.title} · {data.lesson.unit.title}
+            </p>
+            <h1 className="mt-3 text-[clamp(2.6rem,7vw,4.8rem)]">{data.lesson.title}</h1>
+            <p className="mt-3 max-w-2xl text-lg font-extrabold text-muted">
+              Type each multiplication answer. Keep going until the 60-second clock runs out.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <span className="stat-chip">{timeLeft}s</span>
+            <span className="stat-chip">{correctCount} correct</span>
+          </div>
+        </div>
+        <div className="mt-5 progress-rail" aria-label="Time remaining">
+          <span className="progress-fill" style={{ width: `${timeProgress}%` }} />
+        </div>
+      </header>
+
+      {!running && attempts.length === 0 ? (
+        <article className="block-card p-6 text-center sm:p-8">
+          <p className="stat-chip mx-auto w-fit">Goal: {config.goalCorrect} correct</p>
+          <h2 className="mt-4 text-[clamp(2.5rem,7vw,4.5rem)]">Ready, set, multiply.</h2>
+          <div className="mx-auto mt-6 grid max-w-2xl gap-3 sm:grid-cols-3">
+            <span className="stat-chip justify-center">{config.durationSeconds} seconds</span>
+            <span className="stat-chip justify-center">Record: {data.progress.bestScoreCorrect}</span>
+            <span className="stat-chip justify-center">{factRangeLabel(config)}</span>
+          </div>
+          <div className="mx-auto mt-5 max-w-xl">
+            <div className="progress-rail" aria-label="Record progress toward goal">
+              <span className="progress-fill" style={{ width: `${goalProgress}%` }} />
+            </div>
+          </div>
+          <button className="primary-button mt-7 w-full sm:w-auto" type="button" onClick={start}>
+            Start
+          </button>
+        </article>
+      ) : (
+        <article className="block-card p-5 sm:p-7">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="stat-chip w-fit">Record goal</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="stat-chip">{Math.max(data.progress.bestScoreCorrect, correctCount)}/{config.goalCorrect}</span>
+                <span className="stat-chip">{attempts.length} answered</span>
+              </div>
+            </div>
+            <button className="secondary-button w-full sm:w-auto" type="button" disabled={submitting} onClick={() => void submitMadMinute()}>
+              End Early
+            </button>
+          </div>
+
+          <div className="mt-5 progress-rail" aria-label="Record progress toward goal">
+            <span className="progress-fill" style={{ width: `${goalProgress}%` }} />
+          </div>
+
+          <form className="mt-8" onSubmit={submitFact}>
+            <label className="block text-[clamp(4rem,14vw,8rem)] font-black leading-none text-ink" htmlFor="mad-minute-answer">
+              {fact.factor} x {fact.multiplier} =
+            </label>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+              <input
+                ref={inputRef}
+                id="mad-minute-answer"
+                className="min-h-[70px] flex-1 rounded-lg border-[3px] border-ink bg-white px-4 text-4xl font-black outline-none focus:ring-4 focus:ring-reward"
+                value={answer}
+                inputMode="numeric"
+                pattern="[0-9]*"
+                disabled={!running || submitting}
+                onInput={(event) => setAnswer((event.currentTarget as HTMLInputElement).value.replace(/[^0-9]/g, ''))}
+                autoComplete="off"
+              />
+              <button className="primary-button min-h-[70px]" type="submit" disabled={!running || submitting || !answer}>
+                Enter
+              </button>
+            </div>
+          </form>
+
+          {lastResult && (
+            <p className={`mt-5 rounded-lg border-[3px] border-ink p-4 text-xl font-black ${lastResult.correct ? 'bg-[#d9fff5]' : 'bg-[#ffe1ea]'}`}>
+              {lastResult.correct ? 'Correct' : `Answer: ${lastResult.answer}`}
+            </p>
+          )}
+        </article>
+      )}
+    </section>
+  );
+
+  function start() {
+    setAttempts([]);
+    setAnswer('');
+    setFact(generateMadMinuteFact(config));
+    setLastResult(null);
+    setStartedAt(new Date().toISOString());
+    setTimeLeft(config.durationSeconds);
+    setRunning(true);
+  }
+
+  function submitFact(event: Event) {
+    event.preventDefault();
+    if (!running || submitting || !answer) return;
+
+    const numericAnswer = Number(answer);
+    const expected = fact.factor * fact.multiplier;
+    setAttempts((items) => [...items, { ...fact, answer: numericAnswer }]);
+    setLastResult({ correct: numericAnswer === expected, answer: expected });
+    setAnswer('');
+    setFact(generateMadMinuteFact(config));
+  }
+
+  async function submitMadMinute() {
+    if (submitting) return;
+    setRunning(false);
+    setSubmitting(true);
+
+    try {
+      const response = await fetchApi<CompletionResult>(`/api/children/${childSlug}/lessons/${lessonId}`, {
+        method: 'POST',
+        body: JSON.stringify({ startedAt: startedAt || new Date().toISOString(), attempts }),
+      });
+      onComplete(response.result);
+    } catch (reason) {
+      onError(reason instanceof Error ? reason.message : 'Could not save the mad minute.');
+    } finally {
+      setSubmitting(false);
+    }
+  }
+}
+
+function defaultMadMinuteConfig(): MadMinuteConfig {
+  return {
+    mode: 'multiplication',
+    factor: 'mixed',
+    minFactor: 2,
+    maxFactor: 12,
+    minMultiplier: 1,
+    maxMultiplier: 12,
+    durationSeconds: 60,
+    goalCorrect: 40,
+  };
+}
+
+function generateMadMinuteFact(config: MadMinuteConfig) {
+  const factor =
+    config.factor === 'mixed'
+      ? randomInteger(config.minFactor ?? 2, config.maxFactor ?? 12)
+      : config.factor;
+  return {
+    factor,
+    multiplier: randomInteger(config.minMultiplier, config.maxMultiplier),
+  };
+}
+
+function randomInteger(min: number, max: number) {
+  const low = Math.ceil(Math.min(min, max));
+  const high = Math.floor(Math.max(min, max));
+  return Math.floor(Math.random() * (high - low + 1)) + low;
+}
+
+function factRangeLabel(config: MadMinuteConfig) {
+  if (config.factor !== 'mixed') return `${config.factor}s facts`;
+  return `${config.minFactor ?? 2}s-${config.maxFactor ?? 12}s facts`;
+}
+
+type RewardIconType = 'xp' | 'score' | 'streak' | 'heart' | 'unlock' | 'record';
 
 function CompletionStat({ icon, label, value }: { icon: RewardIconType; label: string; value: string }) {
   return (
@@ -389,6 +657,16 @@ function RewardIcon({ type }: { type: RewardIconType }) {
       <svg className="h-16 w-16 shrink-0" viewBox="0 0 100 100" aria-hidden="true">
         <rect x="16" y="24" width="68" height="60" rx="15" fill="#fff1f7" stroke="#242134" strokeWidth="6" />
         <path d="M50 68 C31 54 27 45 30 36 C33 28 44 28 50 37 C56 28 67 28 70 36 C73 45 69 54 50 68 Z" fill="#e63e80" stroke="#242134" strokeWidth="5" />
+      </svg>
+    );
+  }
+
+  if (type === 'record') {
+    return (
+      <svg className="h-16 w-16 shrink-0" viewBox="0 0 100 100" aria-hidden="true">
+        <rect x="18" y="22" width="64" height="62" rx="14" fill="#5b79ff" stroke="#242134" strokeWidth="6" />
+        <path d="M35 64 H65 M35 50 H65 M35 36 H58" stroke="#ffffff" strokeWidth="7" strokeLinecap="round" />
+        <circle cx="72" cy="28" r="13" fill="#ffd84d" stroke="#242134" strokeWidth="5" />
       </svg>
     );
   }

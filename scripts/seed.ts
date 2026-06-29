@@ -69,6 +69,8 @@ TRACKS.forEach((track, trackIndex) => {
         unit_id: unit.id,
         slug: lesson.slug,
         title: lesson.title,
+        kind: lesson.kind ?? 'standard',
+        config_json: lesson.config ? JSON.stringify(lesson.config) : null,
         sort_order: lessonIndex + 1,
         xp_base: lesson.xpBase,
       });
@@ -106,11 +108,12 @@ for (const child of CHILDREN) {
     });
 
     for (const lesson of getAllLessons().filter((item) => item.track.id === track.id)) {
+      const status = lesson.id === firstLesson.id || lesson.kind === 'mad-minute' ? 'available' : 'locked';
       insertIgnore('child_lesson_progress', {
         id: `lesson_progress_${child.id}_${lesson.id}`,
         child_profile_id: child.id,
         lesson_id: lesson.id,
-        status: lesson.id === firstLesson.id ? 'available' : 'locked',
+        status,
         completed_at: null,
         best_score_correct: 0,
         best_score_total: 0,
@@ -156,4 +159,3 @@ function sql(value: unknown) {
   if (typeof value === 'number') return String(value);
   return `'${String(value).replaceAll("'", "''")}'`;
 }
-

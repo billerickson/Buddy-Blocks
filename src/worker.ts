@@ -10,7 +10,13 @@ import {
   sessionCookie,
   verifyPassword,
 } from './lib/auth';
-import { calculateXp, evaluateAnswer, type ExerciseType, type LessonQuestion, type QuestionPayload } from './lib/lesson-engine';
+import {
+  calculateXp,
+  evaluateAnswer,
+  type ExerciseType,
+  type LessonQuestion,
+  type QuestionPayload,
+} from './lib/lesson-engine';
 import { calculateCurrentStreak } from './lib/streak';
 
 type ParentRow = {
@@ -62,8 +68,23 @@ type LessonRow = {
   unit_id: string;
   slug: string;
   title: string;
+  kind: LessonKind;
+  config_json: string | null;
   sort_order: number;
   xp_base: number;
+};
+
+type LessonKind = 'standard' | 'mad-minute';
+
+type MadMinuteConfig = {
+  mode: 'multiplication';
+  factor: number | 'mixed';
+  minFactor?: number;
+  maxFactor?: number;
+  minMultiplier: number;
+  maxMultiplier: number;
+  durationSeconds: number;
+  goalCorrect: number;
 };
 
 type LessonDetailRow = LessonRow & {
@@ -124,6 +145,30 @@ const AttemptSubmissionSchema = z.object({
       answer: z.unknown(),
     }),
   ),
+});
+
+const MadMinuteConfigSchema = z.object({
+  mode: z.literal('multiplication'),
+  factor: z.union([z.number().int().min(2).max(12), z.literal('mixed')]),
+  minFactor: z.number().int().min(2).max(12).optional(),
+  maxFactor: z.number().int().min(2).max(12).optional(),
+  minMultiplier: z.number().int().min(1).max(12),
+  maxMultiplier: z.number().int().min(1).max(12),
+  durationSeconds: z.number().int().min(10).max(120),
+  goalCorrect: z.number().int().min(1).max(120),
+});
+
+const MadMinuteSubmissionSchema = z.object({
+  startedAt: z.string().optional(),
+  attempts: z
+    .array(
+      z.object({
+        factor: z.number().int().min(1).max(12),
+        multiplier: z.number().int().min(1).max(12),
+        answer: z.union([z.string(), z.number()]),
+      }),
+    )
+    .max(240),
 });
 
 export default {
@@ -402,6 +447,8 @@ async function apiChildTrack(
         id: lesson.id,
         slug: lesson.slug,
         title: lesson.title,
+        kind: lesson.kind,
+        madMinuteGoal: lesson.kind === 'mad-minute' ? parseMadMinuteConfig(lesson).goalCorrect : null,
         xpBase: lesson.xp_base,
         status: lessonProgress?.status ?? 'locked',
         completedAt: lessonProgress?.completed_at,
@@ -454,11 +501,13 @@ async function apiLesson(
   return json({
     child: childResponse(child),
     heartsStart: 5,
-    progress,
+    progress: lessonProgressResponse(progress),
     lesson: {
       id: lesson.id,
       slug: lesson.slug,
       title: lesson.title,
+      kind: lesson.kind,
+      config: lesson.kind === 'mad-minute' ? parseMadMinuteConfig(lesson) : null,
       xpBase: lesson.xp_base,
       unit: {
         id: lesson.unit_id,
@@ -494,6 +543,8 @@ async function apiSubmitLesson(
 
   const progress = await getLessonProgress(env, child.id, lesson.id);
   if (progress?.status === 'locked' || !progress) return json({ error: 'lesson_locked' }, 403);
+
+  if (lesson.kind === 'mad-minute') return apiSubmitMadMinuteLesson(env, request, child, lesson);
 
   let body: z.infer<typeof AttemptSubmissionSchema>;
   try {
@@ -621,6 +672,130 @@ async function apiSubmitLesson(
       xpAwarded,
       heartsRemaining,
       streak,
+      nextLesson: nextLesson ? lessonLinkResponse(nextLesson) : null,
+    },
+  });
+}
+
+async function apiSubmitMadMinuteLesson(env: Env, request: Request, child: ChildRow, lesson: LessonDetailRow) {
+  const config = parseMadMinuteConfig(lesson);
+  let body: z.infer<typeof MadMinuteSubmissionSchema>;
+  try {
+    body = MadMinuteSubmissionSchema.parse(await request.json());
+  } catch {
+    return json({ error: 'invalid_mad_minute_payload' }, 400);
+  }
+
+  const completedAt = new Date();
+  const completedIso = completedAt.toISOString();
+  const scored = body.attempts.map((attempt) => {
+    const answer = Number(String(attempt.answer).trim());
+    return {
+      ...attempt,
+      isCorrect:
+        Number.isFinite(answer) &&
+        isAllowedMadMinuteFact(config, attempt.factor, attempt.multiplier) &&
+        answer === attempt.factor * attempt.multiplier,
+    };
+  });
+  const scoreCorrect = scored.filter((attempt) => attempt.isCorrect).length;
+  const scoreTotal = scored.length;
+  const heartsRemaining = 5;
+  const xpAwarded = calculateMadMinuteXp(lesson.xp_base, scoreCorrect, scoreTotal, config.goalCorrect);
+  const lessonAttemptId = randomId('attempt_');
+  const startedAt = body.startedAt || completedIso;
+
+  await env.DB.prepare(
+    `INSERT INTO lesson_attempts
+     (id, child_profile_id, lesson_id, started_at, completed_at, score_correct, score_total, xp_awarded, hearts_remaining)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  )
+    .bind(lessonAttemptId, child.id, lesson.id, startedAt, completedIso, scoreCorrect, scoreTotal, xpAwarded, heartsRemaining)
+    .run();
+
+  await env.DB.prepare(
+    `INSERT INTO child_lesson_progress
+     (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+     VALUES (?, ?, ?, 'completed', ?, ?, ?)
+     ON CONFLICT(child_profile_id, lesson_id) DO UPDATE SET
+       status = 'completed',
+       completed_at = COALESCE(child_lesson_progress.completed_at, excluded.completed_at),
+       best_score_correct = max(child_lesson_progress.best_score_correct, excluded.best_score_correct),
+       best_score_total = CASE
+         WHEN excluded.best_score_correct >= child_lesson_progress.best_score_correct THEN excluded.best_score_total
+         ELSE child_lesson_progress.best_score_total
+       END`,
+  )
+    .bind(`lesson_progress_${child.id}_${lesson.id}`, child.id, lesson.id, completedIso, scoreCorrect, scoreTotal)
+    .run();
+
+  const nextLesson = await getNextLesson(env, lesson);
+  if (nextLesson) {
+    await env.DB.prepare(
+      `INSERT INTO child_lesson_progress
+       (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+       VALUES (?, ?, ?, 'available', NULL, 0, 0)
+       ON CONFLICT(child_profile_id, lesson_id) DO UPDATE SET
+         status = CASE WHEN child_lesson_progress.status = 'locked' THEN 'available' ELSE child_lesson_progress.status END`,
+    )
+      .bind(`lesson_progress_${child.id}_${nextLesson.id}`, child.id, nextLesson.id)
+      .run();
+  }
+
+  const lessonsCompleted = await countCompletedTrackLessons(env, child.id, lesson.track_id);
+  await env.DB.prepare(
+    `INSERT INTO child_track_progress
+     (id, child_profile_id, track_id, current_unit_id, current_lesson_id, lessons_completed, xp_total, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+     ON CONFLICT(child_profile_id, track_id) DO UPDATE SET
+       current_unit_id = excluded.current_unit_id,
+       current_lesson_id = excluded.current_lesson_id,
+       lessons_completed = excluded.lessons_completed,
+       xp_total = child_track_progress.xp_total + excluded.xp_total,
+       updated_at = excluded.updated_at`,
+  )
+    .bind(
+      `track_progress_${child.id}_${lesson.track_id}`,
+      child.id,
+      lesson.track_id,
+      nextLesson?.unit_id ?? lesson.unit_id,
+      nextLesson?.id ?? lesson.id,
+      lessonsCompleted,
+      xpAwarded,
+      completedIso,
+    )
+    .run();
+
+  const today = localDate(completedAt, env.TIME_ZONE);
+  await env.DB.prepare(
+    `INSERT INTO child_daily_activity
+     (id, child_profile_id, activity_date, lessons_completed, xp_earned)
+     VALUES (?, ?, ?, 1, ?)
+     ON CONFLICT(child_profile_id, activity_date) DO UPDATE SET
+       lessons_completed = child_daily_activity.lessons_completed + 1,
+       xp_earned = child_daily_activity.xp_earned + excluded.xp_earned`,
+  )
+    .bind(`activity_${child.id}_${today}`, child.id, today, xpAwarded)
+    .run();
+
+  await env.DB.prepare('UPDATE child_profiles SET hearts_remaining = ?, updated_at = ? WHERE id = ?')
+    .bind(heartsRemaining, completedIso, child.id)
+    .run();
+
+  const activityDates = await getActivityDates(env, child.id);
+  const streak = calculateCurrentStreak(activityDates, today);
+  const updatedProgress = await getLessonProgress(env, child.id, lesson.id);
+
+  return json({
+    result: {
+      lessonAttemptId,
+      scoreCorrect,
+      scoreTotal,
+      xpAwarded,
+      heartsRemaining,
+      streak,
+      bestScoreCorrect: updatedProgress?.best_score_correct ?? scoreCorrect,
+      goalCorrect: config.goalCorrect,
       nextLesson: nextLesson ? lessonLinkResponse(nextLesson) : null,
     },
   });
@@ -870,6 +1045,15 @@ function childResponse(child: ChildRow) {
   };
 }
 
+function lessonProgressResponse(progress: LessonProgressRow) {
+  return {
+    status: progress.status,
+    completedAt: progress.completed_at,
+    bestScoreCorrect: progress.best_score_correct,
+    bestScoreTotal: progress.best_score_total,
+  };
+}
+
 function lessonLinkResponse(lesson: LessonDetailRow) {
   return {
     id: lesson.id,
@@ -879,6 +1063,55 @@ function lessonLinkResponse(lesson: LessonDetailRow) {
     trackSlug: lesson.track_slug,
     trackTitle: lesson.track_title,
   };
+}
+
+function parseMadMinuteConfig(lesson: Pick<LessonRow, 'config_json'>): MadMinuteConfig {
+  const fallback: MadMinuteConfig = {
+    mode: 'multiplication',
+    factor: 'mixed',
+    minFactor: 2,
+    maxFactor: 12,
+    minMultiplier: 1,
+    maxMultiplier: 12,
+    durationSeconds: 60,
+    goalCorrect: 40,
+  };
+
+  if (!lesson.config_json) return fallback;
+
+  try {
+    const parsed = MadMinuteConfigSchema.safeParse(JSON.parse(lesson.config_json));
+    if (!parsed.success) return fallback;
+
+    const minFactor = parsed.data.factor === 'mixed' ? (parsed.data.minFactor ?? 2) : parsed.data.factor;
+    const maxFactor = parsed.data.factor === 'mixed' ? (parsed.data.maxFactor ?? 12) : parsed.data.factor;
+    if (minFactor > maxFactor || parsed.data.minMultiplier > parsed.data.maxMultiplier) return fallback;
+
+    return {
+      ...parsed.data,
+      minFactor,
+      maxFactor,
+    };
+  } catch {
+    return fallback;
+  }
+}
+
+function isAllowedMadMinuteFact(config: MadMinuteConfig, factor: number, multiplier: number) {
+  const minFactor = config.factor === 'mixed' ? (config.minFactor ?? 2) : config.factor;
+  const maxFactor = config.factor === 'mixed' ? (config.maxFactor ?? 12) : config.factor;
+  return (
+    factor >= minFactor &&
+    factor <= maxFactor &&
+    multiplier >= config.minMultiplier &&
+    multiplier <= config.maxMultiplier
+  );
+}
+
+function calculateMadMinuteXp(baseXp: number, scoreCorrect: number, scoreTotal: number, goalCorrect: number) {
+  if (scoreTotal === 0) return 0;
+  const goalBonus = scoreCorrect >= goalCorrect ? 10 : 0;
+  return Math.min(75, baseXp + scoreCorrect + goalBonus);
 }
 
 function getChildModeSlug(request: Request) {

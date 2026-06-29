@@ -32,9 +32,10 @@ track/course
 Current v1 content has:
 
 - 3 tracks: Math, Vocabulary, Spanish
-- 2 units per track
-- 2 lessons per unit
-- 8 questions per lesson
+- Math has 3 units, including Mad Minute multiplication practice
+- Vocabulary and Spanish have 2 units each
+- Standard lessons have 8 questions
+- Mad Minute lessons are timed fact-practice lessons with generated prompts
 
 The database schema mirrors this structure in [migrations/0001_initial.sql](/Users/billerickson/Downloads/learn.billplustara.com/migrations/0001_initial.sql): `tracks`, `units`, `lessons`, and `questions`.
 
@@ -71,6 +72,35 @@ Example:
 ```
 
 Keep lesson IDs stable after seeding. A changed `id` looks like a brand-new lesson to D1 and can orphan old progress.
+
+## Adding A Mad Minute Lesson
+
+Mad Minute lessons are a special `LessonFixture` kind. They do not have authored `questions`; instead, the lesson player generates multiplication facts from `config` for a timed session.
+
+Example:
+
+```ts
+{
+  id: 'lesson_math_mad_minute_6s',
+  slug: '6s',
+  title: '6s Facts',
+  xpBase: 10,
+  kind: 'mad-minute',
+  config: {
+    mode: 'multiplication',
+    factor: 6,
+    minFactor: 2,
+    maxFactor: 12,
+    minMultiplier: 1,
+    maxMultiplier: 12,
+    durationSeconds: 60,
+    goalCorrect: 40,
+  },
+  questions: [],
+}
+```
+
+For a mixed fact lesson, set `factor: 'mixed'` and use `minFactor`/`maxFactor` to control the factor range. The Worker scores Mad Minute submissions server-side and saves `best_score_correct` as the child's record. Track lesson cards show that record with a progress bar that fills at `goalCorrect`.
 
 ## Adding A New Course
 
@@ -170,6 +200,10 @@ order('Tap the totals from smallest to greatest.', ['9 + 5', '6 + 6', '7 + 8'], 
 - `items` are the tappable choices.
 - `correctOrder` is the exact target sequence.
 - Avoid duplicate item labels unless the engine is updated to track unique IDs per item.
+
+### Mad Minute
+
+Mad Minute does not use the regular question helpers. Use `kind: 'mad-minute'` plus a multiplication `config`, as shown above.
 
 ## Seeding And Testing Locally
 

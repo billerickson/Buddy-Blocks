@@ -15,11 +15,26 @@ export type QuestionFixture = {
   explanation?: string;
 };
 
+export type LessonKind = 'standard' | 'mad-minute';
+
+export type MadMinuteConfig = {
+  mode: 'multiplication';
+  factor: number | 'mixed';
+  minFactor?: number;
+  maxFactor?: number;
+  minMultiplier: number;
+  maxMultiplier: number;
+  durationSeconds: number;
+  goalCorrect: number;
+};
+
 export type LessonFixture = {
   id: string;
   slug: string;
   title: string;
   xpBase: number;
+  kind?: LessonKind;
+  config?: MadMinuteConfig;
   questions: QuestionFixture[];
 };
 
@@ -111,6 +126,29 @@ const order = (prompt: string, items: string[], correctOrder: string[], explanat
   payload: { items, correctOrder },
   explanation,
 });
+
+const madMinute = (factor: number | 'mixed'): LessonFixture => {
+  const label = factor === 'mixed' ? 'Mixed' : `${factor}s`;
+
+  return {
+    id: `lesson_math_mad_minute_${factor === 'mixed' ? 'mixed' : `${factor}s`}`,
+    slug: factor === 'mixed' ? 'mixed' : `${factor}s`,
+    title: `${label} Facts`,
+    xpBase: 10,
+    kind: 'mad-minute',
+    config: {
+      mode: 'multiplication',
+      factor,
+      minFactor: 2,
+      maxFactor: 12,
+      minMultiplier: 1,
+      maxMultiplier: 12,
+      durationSeconds: 60,
+      goalCorrect: 40,
+    },
+    questions: [],
+  };
+};
 
 export const TRACKS: TrackFixture[] = [
   {
@@ -216,6 +254,13 @@ export const TRACKS: TrackFixture[] = [
             ],
           },
         ],
+      },
+      {
+        id: 'unit_math_mad_minute',
+        slug: 'mad-minute',
+        title: 'Mad Minute',
+        description: 'Race the clock with multiplication facts from 2s through 12s.',
+        lessons: ([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'mixed'] as const).map((factor) => madMinute(factor)),
       },
     ],
   },
@@ -469,4 +514,3 @@ export function getTrackPaths() {
     childSlugs: CHILDREN.map((child) => child.slug),
   }));
 }
-

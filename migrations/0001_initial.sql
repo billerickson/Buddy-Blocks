@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS lessons (
   unit_id TEXT NOT NULL,
   slug TEXT NOT NULL,
   title TEXT NOT NULL,
+  kind TEXT NOT NULL DEFAULT 'standard' CHECK (kind IN ('standard', 'mad-minute')),
+  config_json TEXT,
   sort_order INTEGER NOT NULL,
   xp_base INTEGER NOT NULL DEFAULT 10,
   UNIQUE (unit_id, slug),
@@ -148,4 +150,3 @@ CREATE INDEX IF NOT EXISTS idx_lessons_unit_id ON lessons(unit_id);
 CREATE INDEX IF NOT EXISTS idx_questions_lesson_id ON questions(lesson_id);
 CREATE INDEX IF NOT EXISTS idx_lesson_attempts_child ON lesson_attempts(child_profile_id, completed_at);
 CREATE INDEX IF NOT EXISTS idx_child_daily_activity_child ON child_daily_activity(child_profile_id, activity_date);
-

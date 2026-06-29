@@ -23,6 +23,8 @@ type TrackData = {
     lessons: Array<{
       id: string;
       title: string;
+      kind: 'standard' | 'mad-minute';
+      madMinuteGoal: number | null;
       status: 'locked' | 'available' | 'completed';
       bestScoreCorrect: number;
       bestScoreTotal: number;
@@ -92,10 +94,14 @@ export default function TrackOverview({ childSlug, trackSlug }: { childSlug: str
                 >
                   <span className="stat-chip mb-3">{statusLabel(lesson.status)}</span>
                   <h3 className="text-2xl">{lesson.title}</h3>
-                  {lesson.bestScoreTotal > 0 && (
-                    <p className="mt-2 font-extrabold text-muted">
-                      Best score: {lesson.bestScoreCorrect}/{lesson.bestScoreTotal}
-                    </p>
+                  {lesson.kind === 'mad-minute' ? (
+                    <MadMinuteCardStats lesson={lesson} />
+                  ) : (
+                    lesson.bestScoreTotal > 0 && (
+                      <p className="mt-2 font-extrabold text-muted">
+                        Best score: {lesson.bestScoreCorrect}/{lesson.bestScoreTotal}
+                      </p>
+                    )
                   )}
                 </a>
               ))}
@@ -107,9 +113,25 @@ export default function TrackOverview({ childSlug, trackSlug }: { childSlug: str
   );
 }
 
+function MadMinuteCardStats({ lesson }: { lesson: TrackData['units'][number]['lessons'][number] }) {
+  const goal = lesson.madMinuteGoal ?? 40;
+  const progress = Math.min(100, percent(lesson.bestScoreCorrect, goal));
+
+  return (
+    <div className="mt-3">
+      <div className="flex flex-wrap gap-2">
+        <span className="stat-chip">Record: {lesson.bestScoreCorrect} correct</span>
+        <span className="stat-chip">Goal: {goal}</span>
+      </div>
+      <div className="mt-3 progress-rail" aria-label={`${lesson.title} record progress`}>
+        <span className="progress-fill" style={{ width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
 function statusLabel(status: TrackData['units'][number]['lessons'][number]['status']) {
   if (status === 'completed') return 'Complete';
   if (status === 'available') return 'Ready';
   return 'Locked';
 }
-
