@@ -796,3 +796,11 @@ When using `/goal`, work one item at a time. Prefer small, behavior-preserving r
 - Verification: focused `npm test -- --run tests/worker-api.test.ts`, `npm test`, `npm run check`, and `npm run build` passed.
 - Risks: tests cover Worker-level behavior with a SQLite-backed D1 harness, not a real browser session or remote Cloudflare runtime.
 - Future improvements: add Playwright smoke tests for login, child-mode switching, parent gate, and cross-child navigation once browser automation is part of the project.
+
+### Item 14: V1 Release Checklist
+
+- Changed: added a release-run checklist document that records completed local gates separately from manual and remote release actions.
+- Tests/docs: added `docs/v1-release-checklist.md` and recorded the final release gate status in this plan.
+- Verification: `git status --short` was clean before Item 14 documentation edits; `npm test`, `npm run check`, `npm run build`, `npm run db:migrate:local`, `npm run db:seed:local`, and `npm run dev:worker` passed. The Worker reported ready on `http://localhost:8787` and was stopped after verification.
+- Risks: manual browser QA, release tagging, remote push, remote migrations, remote seed, deploy, production smoke verification, and Cloudflare log review were not run because they require intentional live-release access after manual QA approval. A follow-up localhost HTTP probe was blocked by the desktop approval usage limit after Wrangler reported ready.
+- Future improvements: add automated browser smoke tests for the product QA gate and a release script that records command outcomes without requiring manual transcription.
