@@ -314,14 +314,6 @@ The second option is cleaner long-term. The first option is sufficient for a v2 
 
 ## V2 Launch Scope
 
-Recommended minimum viable v2 launch:
-
-- Grade 3 Grammar I
-- Grade 3 Logic I
-- Grade 3 Rhetoric I
-- Subject metadata and starter badges for all three
-- Grade 3 default placement for every student in those subjects
-
 Recommended full v2 launch:
 
 - Grade 3 Grammar I
