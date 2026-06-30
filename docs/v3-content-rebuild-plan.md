@@ -259,15 +259,14 @@ research/[track-level]/01-research-brief.md
 Use this after the research brief is accepted.
 
 ```text
-You are a curriculum architect.
+You are now a curriculum architect.
 
-Using only the accepted research brief below, create a level blueprint for:
+Using only the accepted research brief below, create a level blueprint for Grade 3 Math.
 
-Track: [SUBJECT/TRACK]
-Level or grade: [LEVEL/GRADE]
+Research brief: /research/grade-03-math/01-research-brief.md
 
-Research brief:
-[PASTE ACCEPTED RESEARCH BRIEF]
+Blueprint will go here: /research/grade-03-math/02-level-blueprint.md
+
 
 Create a blueprint with:
 1. A one-paragraph level mission.
