@@ -898,6 +898,40 @@ describe('worker protected page shells', () => {
 });
 
 describe('worker access control', () => {
+  it('does not force HTTPS redirects for local Wrangler hosts', async () => {
+    const { env } = createEnv();
+
+    const response = await worker.fetch(
+      new Request('http://learn.billplustara.com/login/', {
+        headers: {
+          Host: 'learn.billplustara.com',
+          'CF-Connecting-IP': '::1',
+        },
+      }),
+      env as unknown as Parameters<typeof worker.fetch>[1],
+    );
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('asset:/login/');
+  });
+
+  it('redirects production HTTP requests to HTTPS', async () => {
+    const { env } = createEnv();
+
+    const response = await worker.fetch(
+      new Request('http://learn.billplustara.com/login/', {
+        headers: {
+          Host: 'learn.billplustara.com',
+          'CF-Connecting-IP': '203.0.113.10',
+        },
+      }),
+      env as unknown as Parameters<typeof worker.fetch>[1],
+    );
+
+    expect(response.status).toBe(308);
+    expect(response.headers.get('Location')).toBe('https://learn.billplustara.com/login/');
+  });
+
   it('returns 401 for unauthenticated API requests', async () => {
     const { env } = createEnv();
 

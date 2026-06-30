@@ -1957,18 +1957,27 @@ function httpsRedirect(url: URL) {
 
 function shouldRedirectToHttps(request: Request, url: URL) {
   const forwardedProtocol = request.headers.get('X-Forwarded-Proto')?.split(',')[0]?.trim().toLowerCase();
+  const host = request.headers.get('Host')?.split(':')[0]?.trim().toLowerCase();
+  const connectingIp = request.headers.get('CF-Connecting-IP')?.trim().toLowerCase();
   const isHttp = url.protocol === 'http:' || forwardedProtocol === 'http';
-  return isHttp && !isLocalHostname(url.hostname);
+  return (
+    isHttp &&
+    !url.port &&
+    !isLocalHostname(url.hostname) &&
+    !isLocalHostname(host ?? '') &&
+    !isLocalHostname(connectingIp ?? '')
+  );
 }
 
 function isLocalHostname(hostname: string) {
+  const normalized = hostname.trim().toLowerCase().replace(/^\[/, '').replace(/\]$/, '');
+  const withoutPort = normalized.includes(':') && normalized !== '::1' ? normalized.split(':')[0] : normalized;
   return (
-    hostname === 'localhost' ||
-    hostname.endsWith('.localhost') ||
-    hostname === '127.0.0.1' ||
-    hostname === '0.0.0.0' ||
-    hostname === '::1' ||
-    hostname === '[::1]'
+    withoutPort === 'localhost' ||
+    withoutPort.endsWith('.localhost') ||
+    withoutPort === '127.0.0.1' ||
+    withoutPort === '0.0.0.0' ||
+    normalized === '::1'
   );
 }
 
