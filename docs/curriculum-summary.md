@@ -58,7 +58,7 @@ Scholastic tracks use academic grade placement. Foundation tracks start every st
 
 ### Logic
 
-- Level 1 (`planned`): Logic I, planned for `src/content/curriculum/grade-03/07-logic`.
+- Level 1 (`complete`): Logic I, `src/content/curriculum/grade-03/07-logic`, 11 units, 11 lessons.
 - Level 2 (`empty`)
 - Level 3 (`empty`)
 - Level 4 (`empty`)
