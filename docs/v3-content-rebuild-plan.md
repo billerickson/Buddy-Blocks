@@ -232,6 +232,22 @@ Produce a research brief with:
 10. Source notes explaining how the references shaped the plan.
 
 Do not write units, lessons, or questions yet.
+
+Use this repo only for product constraints.
+
+You may read:
+- docs/v3-content-rebuild-plan.md
+- docs/v3-lesson-authoring.md
+- docs/question-types.md
+- docs/curriculum-summary.md
+
+Do not read or use:
+- src/content/curriculum
+- scripts/generate-planned-curriculum.ts
+- existing generated lesson/question files
+
+Save findings to:
+research/[track-level]/01-research-brief.md
 ```
 
 ### Stage 2: Level Blueprint
