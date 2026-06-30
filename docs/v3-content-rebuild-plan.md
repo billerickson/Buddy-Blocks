@@ -259,7 +259,7 @@ research/[track-level]/01-research-brief.md
 Use this after the research brief is accepted.
 
 ```text
-You are now a curriculum architect.
+You are a curriculum architect.
 
 Using only the accepted research brief below, create a level blueprint for Grade 3 Math.
 
@@ -280,6 +280,19 @@ Create a blueprint with:
 9. Mastery evidence for the end of the level.
 
 Keep this top-down. Do not write units, lessons, or questions yet.
+
+Use this repo only for product constraints.
+
+You may read:
+- docs/v3-content-rebuild-plan.md
+- docs/v3-lesson-authoring.md
+- docs/question-types.md
+- docs/curriculum-summary.md
+
+Do not read or use:
+- src/content/curriculum
+- scripts/generate-planned-curriculum.ts
+- existing generated lesson/question files
 ```
 
 ### Stage 3: Course Or Track Map
