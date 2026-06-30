@@ -28,6 +28,10 @@
 
 5. On the main kid dashbaord (ex: /kid/ada) show the cards in 3 columns instead of 4 columns on desktop.
 
+   - Root cause: `.track-grid` used a 240px minimum column width, allowing four cards to fit inside the desktop app shell.
+   - Fix: increased the responsive minimum to 300px with a mobile-safe `min(100%, 300px)` guard, so the 1180px shell tops out at three columns.
+   - Verified: `npm run check` and `npm run build`.
+
 6. We need to divide the current tracks into two groups: scholastic (ex: math, vocabulary) and foundation (ex: Spanish, French, latin). Scholastic tracks are based on your actual grade level, while foundation tracks start you from the beginning regardless of your grade level. This will replace the "grade override" functionality we currently have in place. Grade 3 Spanish becomes Spanish 1, and they can only progress to Spanish 2 once completing all lessons in Spanish 1. This likely requires refactoring lots of code while also maintaining the existing data for completed tasks, since the students have used Grade 3 Spanish already. Instead of "Grade 3 Spanish" we will have "Spanish 1"
 
 7. Review the v2-curriculum-plan and update it with regard to the new 'foundation' track functionality. 
