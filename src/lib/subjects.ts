@@ -15,7 +15,17 @@ export type TrackGroup = 'scholastic' | 'foundation';
 
 export const UNKNOWN_SUBJECT_SORT_ORDER = 1000;
 export const UNKNOWN_SUBJECT_ICON_KEY: SubjectMetadata['iconKey'] = 'generic-block';
-export const FOUNDATION_SUBJECTS = new Set(['spanish', 'french', 'latin']);
+export const FOUNDATION_SUBJECTS = new Set([
+  'spanish',
+  'french',
+  'latin',
+  'grammar',
+  'logic',
+  'rhetoric',
+  'literature',
+  'history-civics',
+  'memory-work',
+]);
 
 export const SUBJECTS: SubjectMetadata[] = [
   {
@@ -66,6 +76,66 @@ export const SUBJECTS: SubjectMetadata[] = [
     starterBadge: {
       key: 'latin-starter',
       label: 'Latin Starter',
+    },
+  },
+  {
+    key: 'grammar',
+    label: 'Grammar',
+    sortOrder: 6,
+    iconKey: 'clipboard',
+    starterBadge: {
+      key: 'grammar-starter',
+      label: 'Grammar Starter',
+    },
+  },
+  {
+    key: 'logic',
+    label: 'Logic',
+    sortOrder: 7,
+    iconKey: 'generic-block',
+    starterBadge: {
+      key: 'logic-starter',
+      label: 'Logic Starter',
+    },
+  },
+  {
+    key: 'rhetoric',
+    label: 'Rhetoric',
+    sortOrder: 8,
+    iconKey: 'speech-bubble',
+    starterBadge: {
+      key: 'rhetoric-starter',
+      label: 'Rhetoric Starter',
+    },
+  },
+  {
+    key: 'literature',
+    label: 'Literature',
+    sortOrder: 9,
+    iconKey: 'clipboard',
+    starterBadge: {
+      key: 'literature-starter',
+      label: 'Literature Starter',
+    },
+  },
+  {
+    key: 'history-civics',
+    label: 'History And Civics',
+    sortOrder: 10,
+    iconKey: 'clipboard',
+    starterBadge: {
+      key: 'history-civics-starter',
+      label: 'History And Civics Starter',
+    },
+  },
+  {
+    key: 'memory-work',
+    label: 'Memory Work',
+    sortOrder: 11,
+    iconKey: 'generic-block',
+    starterBadge: {
+      key: 'memory-work-starter',
+      label: 'Memory Work Starter',
     },
   },
 ];

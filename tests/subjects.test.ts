@@ -11,7 +11,19 @@ import {
 
 describe('subject metadata', () => {
   it('loads metadata for production subjects', () => {
-    expect(SUBJECTS.map((subject) => subject.key)).toEqual(['math', 'vocabulary', 'spanish', 'french', 'latin']);
+    expect(SUBJECTS.map((subject) => subject.key)).toEqual([
+      'math',
+      'vocabulary',
+      'spanish',
+      'french',
+      'latin',
+      'grammar',
+      'logic',
+      'rhetoric',
+      'literature',
+      'history-civics',
+      'memory-work',
+    ]);
     expect(getSubjectMetadata('math')).toMatchObject({
       label: 'Math',
       sortOrder: 1,
@@ -30,17 +42,50 @@ describe('subject metadata', () => {
       iconKey: 'clipboard',
       starterBadge: { key: 'latin-starter', label: 'Latin Starter' },
     });
+    expect(getSubjectMetadata('grammar')).toMatchObject({
+      label: 'Grammar',
+      sortOrder: 6,
+      iconKey: 'clipboard',
+      starterBadge: { key: 'grammar-starter', label: 'Grammar Starter' },
+    });
+    expect(getSubjectMetadata('logic')).toMatchObject({
+      label: 'Logic',
+      sortOrder: 7,
+      iconKey: 'generic-block',
+      starterBadge: { key: 'logic-starter', label: 'Logic Starter' },
+    });
+    expect(getSubjectMetadata('rhetoric')).toMatchObject({
+      label: 'Rhetoric',
+      sortOrder: 8,
+      iconKey: 'speech-bubble',
+      starterBadge: { key: 'rhetoric-starter', label: 'Rhetoric Starter' },
+    });
+    expect(getSubjectMetadata('literature')).toMatchObject({
+      label: 'Literature',
+      sortOrder: 9,
+      iconKey: 'clipboard',
+      starterBadge: { key: 'literature-starter', label: 'Literature Starter' },
+    });
+    expect(getSubjectMetadata('history-civics')).toMatchObject({
+      label: 'History And Civics',
+      sortOrder: 10,
+      iconKey: 'clipboard',
+      starterBadge: { key: 'history-civics-starter', label: 'History And Civics Starter' },
+    });
+    expect(getSubjectMetadata('memory-work')).toMatchObject({
+      label: 'Memory Work',
+      sortOrder: 11,
+      iconKey: 'generic-block',
+      starterBadge: { key: 'memory-work-starter', label: 'Memory Work Starter' },
+    });
   });
 
   it('orders tracks by metadata sort order with unknown subjects last', () => {
-    expect(['science', 'spanish', 'math', 'latin', 'french', 'vocabulary'].sort(compareSubjectKeys)).toEqual([
-      'math',
-      'vocabulary',
-      'spanish',
-      'french',
-      'latin',
-      'science',
-    ]);
+    expect(
+      ['logic', 'science', 'spanish', 'math', 'memory-work', 'latin', 'french', 'vocabulary', 'grammar'].sort(
+        compareSubjectKeys,
+      ),
+    ).toEqual(['math', 'vocabulary', 'spanish', 'french', 'latin', 'grammar', 'logic', 'memory-work', 'science']);
   });
 
   it('provides fallback label and icon metadata for unknown subjects', () => {
@@ -59,6 +104,11 @@ describe('subject metadata', () => {
     expect(getStarterBadgeForSubject('vocabulary')).toEqual({ key: 'word-explorer', label: 'Word Explorer' });
     expect(getStarterBadgeForSubject('french')).toEqual({ key: 'french-starter', label: 'French Starter' });
     expect(getStarterBadgeForSubject('latin')).toEqual({ key: 'latin-starter', label: 'Latin Starter' });
+    expect(getStarterBadgeForSubject('grammar')).toEqual({ key: 'grammar-starter', label: 'Grammar Starter' });
+    expect(getStarterBadgeForSubject('history-civics')).toEqual({
+      key: 'history-civics-starter',
+      label: 'History And Civics Starter',
+    });
     expect(getStarterBadgeForSubject('science')).toBeNull();
   });
 
@@ -68,6 +118,12 @@ describe('subject metadata', () => {
     expect(getTrackGroup('spanish')).toBe('foundation');
     expect(getTrackGroup('french')).toBe('foundation');
     expect(getTrackGroup('latin')).toBe('foundation');
+    expect(getTrackGroup('grammar')).toBe('foundation');
+    expect(getTrackGroup('logic')).toBe('foundation');
+    expect(getTrackGroup('rhetoric')).toBe('foundation');
+    expect(getTrackGroup('literature')).toBe('foundation');
+    expect(getTrackGroup('history-civics')).toBe('foundation');
+    expect(getTrackGroup('memory-work')).toBe('foundation');
     expect(isFoundationSubject('science')).toBe(false);
   });
 });

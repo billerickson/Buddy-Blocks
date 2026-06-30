@@ -49,7 +49,7 @@ Current v1 profiles:
 - Ada is Grade 3 and sees Grade 3 scholastic tracks plus foundation level 1 tracks.
 - Reagan is Grade 6 overall and sees Grade 6 scholastic tracks plus foundation level 1 tracks.
 
-Scholastic subjects use the student's global grade level. Foundation subjects, such as Spanish, French, and Latin, start every student at level 1 and unlock the next level after the previous one is complete.
+Scholastic subjects use the student's global grade level. Foundation subjects, such as Spanish, French, Latin, Grammar, Logic, Rhetoric, Literature, History And Civics, and Memory Work, start every student at level 1 and unlock the next level after the previous one is complete.
 
 The v1 enrollment model is documented in [docs/enrollment-model.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/enrollment-model.md). It intentionally uses track groups instead of explicit track assignment tables.
 
@@ -71,7 +71,7 @@ color: "#5b79ff"
 accent: "#ffd84d"
 ```
 
-`subject` is matched against [src/lib/subjects.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/subjects.ts) for labels, track ordering, icons, and starter badges. Existing subjects are `math`, `vocabulary`, `spanish`, `french`, and `latin`. Unknown subject keys still load with a fallback label and generic icon, but add metadata when the subject should have a specific order, icon, or starter badge.
+`subject` is matched against [src/lib/subjects.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/subjects.ts) for labels, track ordering, icons, and starter badges. Existing subjects are `math`, `vocabulary`, `spanish`, `french`, `latin`, `grammar`, `logic`, `rhetoric`, `literature`, `history-civics`, and `memory-work`. Unknown subject keys still load with a fallback label and generic icon, but add metadata when the subject should have a specific order, icon, or starter badge.
 
 Badge rules live in [src/lib/badges.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/badges.ts). Subject starter badges are read from subject metadata, so adding a starter badge for a new subject should not require Worker reward logic changes.
 

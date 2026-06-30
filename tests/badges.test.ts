@@ -33,6 +33,9 @@ describe('badge policy', () => {
         completedBySubject: [
           { subject: 'french', total: 3 },
           { subject: 'latin', total: 2 },
+          { subject: 'logic', total: 1 },
+          { subject: 'grammar', total: 1 },
+          { subject: 'history-civics', total: 1 },
           { subject: 'spanish', total: 1 },
           { subject: 'math', total: 2 },
           { subject: 'science', total: 5 },
@@ -44,6 +47,9 @@ describe('badge policy', () => {
       { key: 'spanish-starter', label: 'Spanish Starter' },
       { key: 'french-starter', label: 'French Starter' },
       { key: 'latin-starter', label: 'Latin Starter' },
+      { key: 'grammar-starter', label: 'Grammar Starter' },
+      { key: 'logic-starter', label: 'Logic Starter' },
+      { key: 'history-civics-starter', label: 'History And Civics Starter' },
     ]);
   });
 
