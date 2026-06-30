@@ -34,13 +34,14 @@ describe('curriculum content', () => {
       'logic',
       'rhetoric',
       'literature',
+      'history-civics',
     ]);
     expect(getTracksForGrade(4).map((track) => track.subject)).toEqual(['spanish', 'french', 'latin']);
     expect(getTracksForGrade(6).map((track) => track.subject)).toEqual(['math', 'vocabulary']);
   });
 
   it('provides the current curriculum shape', () => {
-    expect(TRACKS).toHaveLength(14);
+    expect(TRACKS).toHaveLength(15);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'addition-basics',
       'subtraction-basics',
@@ -155,6 +156,18 @@ describe('curriculum content', () => {
       'literature-connections-to-latin',
       'cumulative-literature-review',
     ]);
+    expect(GRADE_3_TRACKS.find((track) => track.subject === 'history-civics')?.units.map((unit) => unit.slug)).toEqual([
+      'timelines-and-maps',
+      'ancient-peoples-and-places',
+      'greece-and-rome',
+      'medieval-worlds',
+      'explorers-and-encounters',
+      'early-america',
+      'communities-and-government',
+      'rights-and-responsibilities',
+      'symbols-documents-and-speeches',
+      'cumulative-history-review',
+    ]);
     expect(getTracksForGrade(4).find((track) => track.subject === 'spanish')?.units.map((unit) => unit.slug)).toEqual([
       'grade-3-review-classroom-routines',
       'numbers-dates-time',
@@ -217,8 +230,8 @@ describe('curriculum content', () => {
       'research-inquiry-vocabulary',
       'cumulative-review',
     ]);
-    expect(getAllLessons()).toHaveLength(612);
-    expect(getAllQuestions()).toHaveLength(4782);
+    expect(getAllLessons()).toHaveLength(622);
+    expect(getAllQuestions()).toHaveLength(4862);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -432,10 +445,10 @@ describe('curriculum content', () => {
     const summary = summarizeCurriculum(TRACKS);
 
     expect(summary.totals).toEqual({
-      tracks: 14,
-      units: 148,
-      lessons: 612,
-      questions: 4782,
+      tracks: 15,
+      units: 158,
+      lessons: 622,
+      questions: 4862,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
       tracks: 1,
@@ -486,6 +499,12 @@ describe('curriculum content', () => {
       questions: 88,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'literature')).toMatchObject({
+      tracks: 1,
+      units: 10,
+      lessons: 10,
+      questions: 80,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'history-civics')).toMatchObject({
       tracks: 1,
       units: 10,
       lessons: 10,

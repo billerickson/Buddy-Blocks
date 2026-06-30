@@ -79,7 +79,7 @@ Scholastic tracks use academic grade placement. Foundation tracks start every st
 
 ### History And Civics
 
-- Level 1 (`planned`): History And Civics I, planned for `src/content/curriculum/grade-03/10-history-civics`.
+- Level 1 (`complete`): History And Civics I, `src/content/curriculum/grade-03/10-history-civics`, 10 units, 10 lessons.
 - Level 2 (`empty`)
 - Level 3 (`empty`)
 - Level 4 (`empty`)
