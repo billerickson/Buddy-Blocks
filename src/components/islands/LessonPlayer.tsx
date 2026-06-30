@@ -30,6 +30,7 @@ import {
 import { generateMadMinuteFact } from '../../lib/mad-minute';
 import { LessonIntro } from '../lesson/LessonIntro';
 import { prepareLessonQueue, hashString, nextSeed, type QueueItem } from '../lesson/lesson-flow';
+import { clearMatchForLeft } from '../lesson/match-pairs';
 import { AudioBlock, QuestionMediaDisplay, mediaFromQuestion } from '../lesson/media';
 import { fetchApi } from './api';
 import { lessonRouteParams } from './route-params';
@@ -1022,10 +1023,17 @@ function QuestionControl({
               <button
                 key={pair.left}
                 type="button"
-                disabled={disabled || isMatched}
+                disabled={disabled}
                 data-selected={selectedLeft === pair.left}
                 className={`touch-choice w-full ${isMatched ? 'bg-[#d9fff5]' : ''}`}
-                onClick={() => setSelectedLeft(selectedLeft === pair.left ? '' : pair.left)}
+                onClick={() => {
+                  if (isMatched) {
+                    setMatchAnswer(clearMatchForLeft(matchAnswer, pair.left));
+                    setSelectedLeft(pair.left);
+                    return;
+                  }
+                  setSelectedLeft(selectedLeft === pair.left ? '' : pair.left);
+                }}
               >
                 <span className="flex flex-col gap-1">
                   <span>{pair.left}</span>

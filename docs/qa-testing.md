@@ -16,6 +16,10 @@
 
 3. On the "Match each word to an example" question type, if you press the wrong word and match it to something else, there's no way to undo your selection and select the correct word. They should be able to undo the selection without submitting the wrong answer.
 
+   - Root cause: the lesson player disabled left-side match buttons once they had any match, so an incorrect pair could not be cleared before submitting.
+   - Fix: clicking an already matched left-side item now clears that pair and selects the item again so the student can choose a different match.
+   - Verified: `npm test -- tests/match-pairs.test.ts`, `npm test`, and `npm run check`.
+
 4. On French 1, the second question of the first lesson asked "how do you write 'goodbye' in French" when that word had not been shown/taught yet. It should start with flashcards before asking them to use the words. Can you review all lessons in Spanish 1, French 1, Latin 1, Spanish 2, French 2, and Latin 2 to ensure flash cards appear before the questions that ask how to use/spell those words?
 
 5. On the main kid dashbaord (ex: /kid/ada) show the cards in 3 columns instead of 4 columns on desktop.
