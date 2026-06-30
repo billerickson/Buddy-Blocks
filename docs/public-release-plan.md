@@ -5,6 +5,7 @@
 - Convert Buddy Blocks from a personal seeded-family app into a single-family, self-hosted Cloudflare Workers + D1 template.
 - First-run onboarding creates the only active parent account; public registration closes once that parent exists.
 - Parents can create, edit, archive, and unarchive child profiles, with grade level stored per child and progress preserved.
+- Keep the provisioning model compatible with a later hosted SaaS version that uses one multi-tenant install instead of one Cloudflare deployment per family.
 
 ## Key Changes
 
@@ -20,11 +21,19 @@
 
 ## Documentation
 
-- Add [README.md](/Users/billerickson/.codex/worktrees/5ee4/learn.billplustara.com/README.md), [AGENTS.md](/Users/billerickson/.codex/worktrees/5ee4/learn.billplustara.com/AGENTS.md), `.env.example`, and `LICENSE` with MIT as the default assumption.
+- Add `README.md`, `AGENTS.md`, `.env.example`, and `LICENSE` with MIT as the default assumption.
 - AI-assisted setup docs: tell Codex/Claude to collect domain, time zone, create D1, update Wrangler config, run migrations/seed/build/deploy, and verify onboarding.
 - Human setup docs: beginner-friendly Cloudflare steps, including `npm install`, `npx wrangler login`, `npx wrangler d1 create buddy_blocks`, migrations, seed, deploy, and custom domain setup.
 - Content authoring docs: relative paths only, sample track/unit/lesson YAML, question types, subject metadata, scholastic vs foundation rules, stable IDs, validation, and reseeding.
 - Use official Cloudflare references for setup accuracy: [Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/), [D1 Getting Started](https://developers.cloudflare.com/d1/get-started/), [D1 Migrations](https://developers.cloudflare.com/d1/reference/migrations/), [Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/), and [D1 Limits](https://developers.cloudflare.com/d1/platform/limits/).
+
+## Hosted SaaS Direction
+
+- The paid hosted version should be one multi-tenant Buddy Blocks install at `app.buddyblocks.io` or `buddyblocks.io`, not one separate Worker/D1 deployment per customer.
+- Parent login should determine the tenant/family from the authenticated session. Subdomains such as `smith.buddyblocks.io` can be added later as optional aliases, but they should not be required for the first hosted release.
+- Shared curriculum should remain global and seeded once. Family-owned data should be tenant-scoped: parents, children, sessions, progress, attempts, practice sets, and billing records all need `tenant_id` or `family_id`.
+- Self-hosted single-family mode and hosted multi-tenant mode should share the same child provisioning and progress initialization helpers so bug fixes and curriculum seeding behavior stay aligned.
+- The hosted SaaS scope is tracked separately in [hosted-saas-plan.md](hosted-saas-plan.md).
 
 ## Test Plan
 
@@ -39,3 +48,4 @@
 - Single-family app, create/edit/archive child management, and beginner-friendly docs are locked in.
 - No multi-family hosting, invite system, email password recovery, or destructive progress reset in this release.
 - Cloudflare config is sanitized for public distribution; each user supplies their own domain, D1 database ID, and time zone.
+- Hosted SaaS is a follow-on product track, not part of the first free self-hosted release.
