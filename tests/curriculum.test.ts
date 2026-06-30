@@ -17,6 +17,138 @@ import {
   type TrackFixture,
 } from '../src/lib/curriculum';
 
+const EXPECTED_GRADE_SUBJECTS: Record<number, string[]> = {
+  1: ['math', 'vocabulary'],
+  2: ['math', 'vocabulary'],
+  3: [
+    'math',
+    'vocabulary',
+    'spanish',
+    'french',
+    'latin',
+    'grammar',
+    'logic',
+    'rhetoric',
+    'literature',
+    'history-civics',
+    'memory-work',
+  ],
+  4: [
+    'math',
+    'vocabulary',
+    'spanish',
+    'french',
+    'latin',
+    'grammar',
+    'logic',
+    'rhetoric',
+    'literature',
+    'history-civics',
+    'memory-work',
+  ],
+  5: [
+    'math',
+    'vocabulary',
+    'spanish',
+    'french',
+    'latin',
+    'grammar',
+    'logic',
+    'rhetoric',
+    'literature',
+    'history-civics',
+    'memory-work',
+  ],
+  6: [
+    'math',
+    'vocabulary',
+    'spanish',
+    'french',
+    'latin',
+    'grammar',
+    'logic',
+    'rhetoric',
+    'literature',
+    'history-civics',
+    'memory-work',
+  ],
+  7: ['math', 'vocabulary', 'spanish', 'french', 'latin', 'rhetoric', 'literature', 'history-civics'],
+  8: ['math', 'vocabulary'],
+  9: ['math', 'vocabulary'],
+  10: ['math', 'vocabulary'],
+  11: ['math', 'vocabulary'],
+  12: ['math', 'vocabulary'],
+};
+
+const EXPECTED_SUMMARY_ROWS = [
+  { gradeLevel: 1, subject: 'math', tracks: 1, units: 10, lessons: 30, questions: 240 },
+  { gradeLevel: 1, subject: 'vocabulary', tracks: 1, units: 11, lessons: 42, questions: 336 },
+  { gradeLevel: 2, subject: 'math', tracks: 1, units: 11, lessons: 33, questions: 264 },
+  { gradeLevel: 2, subject: 'vocabulary', tracks: 1, units: 12, lessons: 46, questions: 368 },
+  { gradeLevel: 3, subject: 'french', tracks: 1, units: 10, lessons: 57, questions: 456 },
+  { gradeLevel: 3, subject: 'grammar', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 3, subject: 'history-civics', tracks: 1, units: 10, lessons: 10, questions: 80 },
+  { gradeLevel: 3, subject: 'latin', tracks: 1, units: 10, lessons: 58, questions: 464 },
+  { gradeLevel: 3, subject: 'literature', tracks: 1, units: 10, lessons: 10, questions: 80 },
+  { gradeLevel: 3, subject: 'logic', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 3, subject: 'math', tracks: 1, units: 13, lessons: 69, questions: 456 },
+  { gradeLevel: 3, subject: 'memory-work', tracks: 1, units: 8, lessons: 8, questions: 64 },
+  { gradeLevel: 3, subject: 'rhetoric', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 3, subject: 'spanish', tracks: 1, units: 10, lessons: 58, questions: 464 },
+  { gradeLevel: 3, subject: 'vocabulary', tracks: 1, units: 12, lessons: 55, questions: 440 },
+  { gradeLevel: 4, subject: 'french', tracks: 1, units: 11, lessons: 78, questions: 624 },
+  { gradeLevel: 4, subject: 'grammar', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 4, subject: 'history-civics', tracks: 1, units: 12, lessons: 12, questions: 96 },
+  { gradeLevel: 4, subject: 'latin', tracks: 1, units: 10, lessons: 78, questions: 624 },
+  { gradeLevel: 4, subject: 'literature', tracks: 1, units: 10, lessons: 10, questions: 80 },
+  { gradeLevel: 4, subject: 'logic', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 4, subject: 'math', tracks: 1, units: 13, lessons: 48, questions: 288 },
+  { gradeLevel: 4, subject: 'memory-work', tracks: 1, units: 8, lessons: 8, questions: 64 },
+  { gradeLevel: 4, subject: 'rhetoric', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 4, subject: 'spanish', tracks: 1, units: 11, lessons: 78, questions: 624 },
+  { gradeLevel: 4, subject: 'vocabulary', tracks: 1, units: 11, lessons: 42, questions: 336 },
+  { gradeLevel: 5, subject: 'french', tracks: 1, units: 10, lessons: 50, questions: 400 },
+  { gradeLevel: 5, subject: 'grammar', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 5, subject: 'history-civics', tracks: 1, units: 12, lessons: 12, questions: 96 },
+  { gradeLevel: 5, subject: 'latin', tracks: 1, units: 10, lessons: 50, questions: 400 },
+  { gradeLevel: 5, subject: 'literature', tracks: 1, units: 10, lessons: 10, questions: 80 },
+  { gradeLevel: 5, subject: 'logic', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 5, subject: 'math', tracks: 1, units: 13, lessons: 48, questions: 288 },
+  { gradeLevel: 5, subject: 'memory-work', tracks: 1, units: 8, lessons: 8, questions: 64 },
+  { gradeLevel: 5, subject: 'rhetoric', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 5, subject: 'spanish', tracks: 1, units: 10, lessons: 50, questions: 400 },
+  { gradeLevel: 5, subject: 'vocabulary', tracks: 1, units: 12, lessons: 46, questions: 368 },
+  { gradeLevel: 6, subject: 'french', tracks: 1, units: 10, lessons: 50, questions: 400 },
+  { gradeLevel: 6, subject: 'grammar', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 6, subject: 'history-civics', tracks: 1, units: 12, lessons: 12, questions: 96 },
+  { gradeLevel: 6, subject: 'latin', tracks: 1, units: 10, lessons: 50, questions: 400 },
+  { gradeLevel: 6, subject: 'literature', tracks: 1, units: 10, lessons: 10, questions: 80 },
+  { gradeLevel: 6, subject: 'logic', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 6, subject: 'math', tracks: 1, units: 12, lessons: 67, questions: 440 },
+  { gradeLevel: 6, subject: 'memory-work', tracks: 1, units: 8, lessons: 8, questions: 64 },
+  { gradeLevel: 6, subject: 'rhetoric', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 6, subject: 'spanish', tracks: 1, units: 10, lessons: 50, questions: 400 },
+  { gradeLevel: 6, subject: 'vocabulary', tracks: 1, units: 12, lessons: 61, questions: 558 },
+  { gradeLevel: 7, subject: 'french', tracks: 1, units: 10, lessons: 50, questions: 400 },
+  { gradeLevel: 7, subject: 'history-civics', tracks: 1, units: 12, lessons: 12, questions: 96 },
+  { gradeLevel: 7, subject: 'latin', tracks: 1, units: 10, lessons: 50, questions: 400 },
+  { gradeLevel: 7, subject: 'literature', tracks: 1, units: 10, lessons: 10, questions: 80 },
+  { gradeLevel: 7, subject: 'math', tracks: 1, units: 13, lessons: 48, questions: 288 },
+  { gradeLevel: 7, subject: 'rhetoric', tracks: 1, units: 11, lessons: 11, questions: 88 },
+  { gradeLevel: 7, subject: 'spanish', tracks: 1, units: 10, lessons: 50, questions: 400 },
+  { gradeLevel: 7, subject: 'vocabulary', tracks: 1, units: 11, lessons: 42, questions: 336 },
+  { gradeLevel: 8, subject: 'math', tracks: 1, units: 13, lessons: 48, questions: 288 },
+  { gradeLevel: 8, subject: 'vocabulary', tracks: 1, units: 12, lessons: 46, questions: 368 },
+  { gradeLevel: 9, subject: 'math', tracks: 1, units: 12, lessons: 36, questions: 288 },
+  { gradeLevel: 9, subject: 'vocabulary', tracks: 1, units: 10, lessons: 38, questions: 304 },
+  { gradeLevel: 10, subject: 'math', tracks: 1, units: 12, lessons: 36, questions: 288 },
+  { gradeLevel: 10, subject: 'vocabulary', tracks: 1, units: 10, lessons: 38, questions: 304 },
+  { gradeLevel: 11, subject: 'math', tracks: 1, units: 12, lessons: 36, questions: 288 },
+  { gradeLevel: 11, subject: 'vocabulary', tracks: 1, units: 10, lessons: 38, questions: 304 },
+  { gradeLevel: 12, subject: 'math', tracks: 1, units: 12, lessons: 36, questions: 288 },
+  { gradeLevel: 12, subject: 'vocabulary', tracks: 1, units: 10, lessons: 36, questions: 288 },
+];
+
 describe('curriculum content', () => {
   it('loads curriculum without exporting fixed family fixtures', () => {
     expect('CHILDREN' in curriculum).toBe(false);
@@ -24,25 +156,54 @@ describe('curriculum content', () => {
   });
 
   it('provides grade-specific curriculum tracks', () => {
-    expect(getTracksForGrade(3).map((track) => track.subject)).toEqual([
-      'math',
-      'vocabulary',
-      'spanish',
-      'french',
-      'latin',
-      'grammar',
-      'logic',
-      'rhetoric',
-      'literature',
-      'history-civics',
-      'memory-work',
-    ]);
-    expect(getTracksForGrade(4).map((track) => track.subject)).toEqual(['spanish', 'french', 'latin']);
-    expect(getTracksForGrade(6).map((track) => track.subject)).toEqual(['math', 'vocabulary']);
+    for (const [gradeLevel, subjects] of Object.entries(EXPECTED_GRADE_SUBJECTS)) {
+      expect(getTracksForGrade(Number(gradeLevel)).map((track) => track.subject)).toEqual(subjects);
+    }
   });
 
   it('provides the current curriculum shape', () => {
-    expect(TRACKS).toHaveLength(16);
+    expect(TRACKS).toHaveLength(EXPECTED_SUMMARY_ROWS.length);
+    expect(getTracksForGrade(1).find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
+      'counting-and-number-sense',
+      'addition-within-20',
+      'subtraction-within-20',
+      'word-problems-and-math-stories',
+      'place-value-to-120',
+      'measurement-and-data',
+      'time-money-and-financial-habits',
+      'geometry-and-equal-shares',
+      'patterns-mental-math-and-fluency',
+      'grade-1-capstone-review',
+    ]);
+    expect(getTracksForGrade(2).find((track) => track.subject === 'vocabulary')?.units.map((unit) => unit.slug)).toEqual([
+      'context-clues-across-sentences',
+      'compound-words-base-words-and-endings',
+      'prefixes-suffixes-and-word-families',
+      'synonyms-antonyms-shades-and-precision',
+      'multiple-meaning-words-and-homophones',
+      'idioms-and-figurative-readiness',
+      'reference-skills',
+      'story-poetry-and-author-craft-words',
+      'informational-and-content-area-vocabulary',
+      'academic-verbs-and-discussion-language',
+      'writing-and-revision-vocabulary',
+      'cumulative-word-learning-review',
+    ]);
+    expect(getTracksForGrade(4).find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
+      'multi-digit-addition-and-subtraction-review',
+      'multi-digit-multiplication',
+      'division-with-remainders',
+      'factors-multiples-and-prime-numbers',
+      'equivalent-and-comparing-fractions',
+      'fraction-operations-and-mixed-numbers',
+      'decimals-to-hundredths',
+      'measurement-conversions',
+      'angles-lines-and-symmetry',
+      'area-perimeter-and-data',
+      'financial-literacy-and-multi-step-problems',
+      'grade-4-capstone-review',
+      'mad-minute',
+    ]);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'addition-basics',
       'subtraction-basics',
@@ -233,6 +394,19 @@ describe('curriculum content', () => {
       'mixed-problem-solving',
       'mad-minute',
     ]);
+    expect(getTracksForGrade(6).find((track) => track.subject === 'grammar')?.units.map((unit) => unit.slug)).toEqual([
+      'verb-mood-and-voice',
+      'parallel-structure',
+      'concise-modifiers',
+      'punctuation-for-rhythm-and-clarity',
+      'usage-and-register',
+      'sentence-variety',
+      'grammar-in-literary-sentences',
+      'latin-and-english-grammar-connections',
+      'copyediting-marks',
+      'editing-portfolio',
+      'grammar-iv-cumulative-review',
+    ]);
     expect(GRADE_6_TRACKS.find((track) => track.subject === 'vocabulary')?.units.map((unit) => unit.slug)).toEqual([
       'context-reference-skills',
       'roots-send-write-law',
@@ -247,13 +421,41 @@ describe('curriculum content', () => {
       'research-inquiry-vocabulary',
       'cumulative-review',
     ]);
-    expect(getAllLessons()).toHaveLength(720);
-    expect(getAllQuestions()).toHaveLength(5638);
+    expect(getTracksForGrade(7).find((track) => track.subject === 'spanish')?.units.map((unit) => unit.slug)).toEqual([
+      'connected-reading-and-listening',
+      'opinions-with-evidence',
+      'polite-requests-and-conditional-phrases',
+      'commands',
+      'present-perfect-exposure',
+      'subjunctive-chunks-for-wishes-and-needs',
+      'media-and-community-topics',
+      'culture-comparisons',
+      'project-based-communication',
+      'spanish-5-capstone-review',
+    ]);
+    expect(getTracksForGrade(12).find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
+      'advanced-functions',
+      'trigonometric-functions',
+      'trigonometric-identities-and-inverses',
+      'vectors',
+      'polar-and-parametric-representations',
+      'conic-sections',
+      'limits-preview',
+      'discrete-math',
+      'data-analysis-and-normal-distributions',
+      'financial-mathematics',
+      'optimization-and-modeling',
+      'quantitative-reasoning-capstone',
+    ]);
+    expect(getAllLessons()).toHaveLength(2205);
+    expect(getAllQuestions()).toHaveLength(17134);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
-    for (const tracks of [GRADE_3_TRACKS, GRADE_6_TRACKS]) {
-      const madMinute = tracks.find((track) => track.subject === 'math')?.units.find((unit) => unit.slug === 'mad-minute');
+    for (const gradeLevel of [3, 4, 5, 6, 7, 8]) {
+      const madMinute = getTracksForGrade(gradeLevel)
+        .find((track) => track.subject === 'math')
+        ?.units.find((unit) => unit.slug === 'mad-minute');
       expect(madMinute?.lessons.map((lesson) => lesson.slug)).toEqual([
         '2s',
         '3s',
@@ -276,7 +478,10 @@ describe('curriculum content', () => {
       ).toBe(true);
       expect(
         madMinute?.lessons.every(
-          (lesson) => lesson.config && 'goalCorrect' in lesson.config && lesson.config.goalCorrect === 40,
+          (lesson) =>
+            lesson.config &&
+            'goalCorrect' in lesson.config &&
+            lesson.config.goalCorrect === ([4, 5].includes(gradeLevel) ? 35 : 40),
         ),
       ).toBe(true);
     }
@@ -391,16 +596,18 @@ describe('curriculum content', () => {
     expect(frenchGreetings?.lessons[1]?.slug).toBe('greetings-polite-phrases-flash-cards-easy');
   });
 
-  it('starts Grade 6 Vocabulary units with context before cards and ends with hard cards', () => {
-    const vocabulary = getTracksForGrade(6).find((track) => track.subject === 'vocabulary');
-    expect(vocabulary).toBeDefined();
+  it('starts Vocabulary units with context before cards and ends with hard cards', () => {
+    const vocabularyTracks = TRACKS.filter((track) => track.subject === 'vocabulary');
 
-    for (const unit of vocabulary?.units.filter((unit) => unit.slug !== 'cumulative-review') ?? []) {
-      expect(unit.lessons[0]?.slug).toBe(`${unit.slug}-preview`);
-      expect(unit.lessons[0]?.questions.every((question) => question.type === 'passage-question')).toBe(true);
-      expect(unit.lessons[1]?.questions.every((question) => flashCardPayload(question, 'easy'))).toBe(true);
-      expect(unit.lessons.at(-1)?.questions.every((question) => flashCardPayload(question, 'hard'))).toBe(true);
-      expect(unit.lessons.slice(2, -1).every((lesson) => !isFlashCardLesson(lesson))).toBe(true);
+    for (const track of vocabularyTracks) {
+      for (const unit of track.units) {
+        if (!unit.lessons.some(isFlashCardLesson)) continue;
+        expect(unit.lessons[0]?.slug).toBe(`${unit.slug}-preview`);
+        expect(unit.lessons[0]?.questions.every((question) => question.type === 'passage-question')).toBe(true);
+        expect(unit.lessons[1]?.questions.every((question) => flashCardPayload(question, 'easy'))).toBe(true);
+        expect(unit.lessons.at(-1)?.questions.every((question) => flashCardPayload(question, 'hard'))).toBe(true);
+        expect(unit.lessons.slice(2, -1).every((lesson) => !isFlashCardLesson(lesson))).toBe(true);
+      }
     }
   });
 
@@ -487,108 +694,17 @@ describe('curriculum content', () => {
     const summary = summarizeCurriculum(TRACKS);
 
     expect(summary.totals).toEqual({
-      tracks: 16,
-      units: 172,
-      lessons: 720,
-      questions: 5638,
+      tracks: 66,
+      units: 714,
+      lessons: 2205,
+      questions: 17134,
     });
-    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
-      tracks: 1,
-      units: 13,
-      lessons: 69,
-      questions: 456,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'vocabulary')).toMatchObject({
-      tracks: 1,
-      units: 12,
-      lessons: 55,
-      questions: 440,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'spanish')).toMatchObject({
-      tracks: 1,
-      units: 10,
-      lessons: 58,
-      questions: 464,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'french')).toMatchObject({
-      tracks: 1,
-      units: 10,
-      lessons: 57,
-      questions: 456,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'latin')).toMatchObject({
-      tracks: 1,
-      units: 10,
-      lessons: 58,
-      questions: 464,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'grammar')).toMatchObject({
-      tracks: 1,
-      units: 11,
-      lessons: 11,
-      questions: 88,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'logic')).toMatchObject({
-      tracks: 1,
-      units: 11,
-      lessons: 11,
-      questions: 88,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'rhetoric')).toMatchObject({
-      tracks: 1,
-      units: 11,
-      lessons: 11,
-      questions: 88,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'literature')).toMatchObject({
-      tracks: 1,
-      units: 10,
-      lessons: 10,
-      questions: 80,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'history-civics')).toMatchObject({
-      tracks: 1,
-      units: 10,
-      lessons: 10,
-      questions: 80,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'memory-work')).toMatchObject({
-      tracks: 1,
-      units: 8,
-      lessons: 8,
-      questions: 64,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'spanish')).toMatchObject({
-      tracks: 1,
-      units: 11,
-      lessons: 78,
-      questions: 624,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'french')).toMatchObject({
-      tracks: 1,
-      units: 11,
-      lessons: 78,
-      questions: 624,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'latin')).toMatchObject({
-      tracks: 1,
-      units: 10,
-      lessons: 78,
-      questions: 624,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'math')).toMatchObject({
-      tracks: 1,
-      units: 12,
-      lessons: 67,
-      questions: 440,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'vocabulary')).toMatchObject({
-      tracks: 1,
-      units: 12,
-      lessons: 61,
-      questions: 558,
-    });
-    expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'spanish')).toBeUndefined();
+    expect(summary.rows).toHaveLength(EXPECTED_SUMMARY_ROWS.length);
+    for (const expected of EXPECTED_SUMMARY_ROWS) {
+      expect(summary.rows.find((row) => row.gradeLevel === expected.gradeLevel && row.subject === expected.subject)).toMatchObject(
+        expected,
+      );
+    }
   });
 });
 

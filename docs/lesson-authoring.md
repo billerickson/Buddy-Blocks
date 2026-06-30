@@ -64,15 +64,15 @@ Temporary school vocabulary belongs in child-specific practice sets, not canonic
 
 [docs/curriculum-summary.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/curriculum-summary.md) is the planning source for what each canonical track should cover. Use it before adding a new grade, level, unit, or major lesson sequence. This guide explains how to author content; the summary explains what content belongs in each grade or foundation level.
 
-Scholastic Math and Vocabulary are now planned as Grade 1-12 tracks:
+Scholastic Math and Vocabulary are authored as Grade 1-12 tracks:
 
 - Math uses `grade-01/01-math` through `grade-12/01-math`.
 - Vocabulary uses `grade-01/02-vocabulary` through `grade-12/02-vocabulary`.
-- Grade 3 Math, Grade 3 Vocabulary, Grade 6 Math, and Grade 6 Vocabulary are already authored. Grades 1-2 and the remaining grades are planned until their folders exist with `track.yaml`, units, and lessons.
+- All Grade 1-12 Math and Vocabulary folders now have `track.yaml`, ordered units, and authored lessons.
 
-Foundation subjects use level placement rather than the student's academic grade. The current storage convention is Level 1 in `grade-03`, Level 2 in `grade-04`, Level 3 in `grade-05`, Level 4 in `grade-06`, and Level 5 in `grade-07` when a subject needs a fifth level. Use the level counts and strategies in the curriculum summary for Spanish, French, Latin, Grammar, Logic, Rhetoric, Classical Literature, History And Civics, and Memory Work.
+Foundation subjects use level placement rather than the student's academic grade. The current storage convention is Level 1 in `grade-03`, Level 2 in `grade-04`, Level 3 in `grade-05`, Level 4 in `grade-06`, and Level 5 in `grade-07` when a subject needs a fifth level. The planned foundation levels for Spanish, French, Latin, Grammar, Logic, Rhetoric, Classical Literature, History And Civics, and Memory Work are now authored under that convention.
 
-When building a planned track:
+When adding or revising a track:
 
 1. Start from the grade or level strategy in the curriculum summary.
 2. Convert each major strand into an ordered unit.
@@ -580,7 +580,7 @@ To add a lesson:
 
 To add a new track:
 
-1. Confirm the track is listed as `planned` or intentionally add it to [docs/curriculum-summary.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/curriculum-summary.md).
+1. Confirm the track belongs in [docs/curriculum-summary.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/curriculum-summary.md) or intentionally add the new track there first.
 2. Add the next numbered track folder under the grade, such as `04-science`.
 3. Add `track.yaml`.
 4. Add ordered unit folders with `unit.yaml` based on the summary strategy.

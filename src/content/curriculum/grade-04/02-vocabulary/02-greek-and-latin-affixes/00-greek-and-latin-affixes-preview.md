@@ -1,0 +1,111 @@
+---
+id: lesson_grade4_vocabulary_greek_and_latin_affixes_greek_and_latin_affixes_preview
+slug: greek-and-latin-affixes-preview
+title: Greek And Latin Affixes Preview
+xpBase: 5
+config:
+  intro:
+    - title: Read Before Recall
+      body: Meet the greek and latin affixes words in context before using flash cards.
+      bullets:
+        - Use the passage and clue words.
+        - Choose the meaning that fits the sentence.
+        - Save typing from memory for later lessons.
+questions:
+  - type: passage-question
+    prompt: Read the study page and choose the meaning.
+    passageTitle: Greek And Latin Affixes Study Page
+    passage: 'Greek And Latin Affixes study page: The word "category" means a group of things that belong together. The word "attribute" means a quality or feature used to describe something. The word "synonym" means a word with a similar meaning. The word "antonym" means a word with the opposite meaning. The word "precise" means exact and carefully chosen. The word "compound" means a word made from two smaller words. The word "prefix" means a word part added to the beginning. The word "suffix" means a word part added to the end. Students read the page, talked about examples, and then practiced retrieval.'
+    question: In the passage, what does "category" mean?
+    choices:
+      - a group of things that belong together
+      - a quality or feature used to describe something
+      - a word with a similar meaning
+      - a word with the opposite meaning
+    correctAnswer: a group of things that belong together
+    explanation: The passage defines "category" as a group of things that belong together.
+  - type: passage-question
+    prompt: Read the study page and choose the meaning.
+    passageTitle: Greek And Latin Affixes Study Page
+    passage: 'Greek And Latin Affixes study page: The word "category" means a group of things that belong together. The word "attribute" means a quality or feature used to describe something. The word "synonym" means a word with a similar meaning. The word "antonym" means a word with the opposite meaning. The word "precise" means exact and carefully chosen. The word "compound" means a word made from two smaller words. The word "prefix" means a word part added to the beginning. The word "suffix" means a word part added to the end. Students read the page, talked about examples, and then practiced retrieval.'
+    question: In the passage, what does "attribute" mean?
+    choices:
+      - a quality or feature used to describe something
+      - a word with a similar meaning
+      - a word with the opposite meaning
+      - exact and carefully chosen
+    correctAnswer: a quality or feature used to describe something
+    explanation: The passage defines "attribute" as a quality or feature used to describe something.
+  - type: passage-question
+    prompt: Read the study page and choose the meaning.
+    passageTitle: Greek And Latin Affixes Study Page
+    passage: 'Greek And Latin Affixes study page: The word "category" means a group of things that belong together. The word "attribute" means a quality or feature used to describe something. The word "synonym" means a word with a similar meaning. The word "antonym" means a word with the opposite meaning. The word "precise" means exact and carefully chosen. The word "compound" means a word made from two smaller words. The word "prefix" means a word part added to the beginning. The word "suffix" means a word part added to the end. Students read the page, talked about examples, and then practiced retrieval.'
+    question: In the passage, what does "synonym" mean?
+    choices:
+      - a word with a similar meaning
+      - a word with the opposite meaning
+      - exact and carefully chosen
+      - a word made from two smaller words
+    correctAnswer: a word with a similar meaning
+    explanation: The passage defines "synonym" as a word with a similar meaning.
+  - type: passage-question
+    prompt: Read the study page and choose the meaning.
+    passageTitle: Greek And Latin Affixes Study Page
+    passage: 'Greek And Latin Affixes study page: The word "category" means a group of things that belong together. The word "attribute" means a quality or feature used to describe something. The word "synonym" means a word with a similar meaning. The word "antonym" means a word with the opposite meaning. The word "precise" means exact and carefully chosen. The word "compound" means a word made from two smaller words. The word "prefix" means a word part added to the beginning. The word "suffix" means a word part added to the end. Students read the page, talked about examples, and then practiced retrieval.'
+    question: In the passage, what does "antonym" mean?
+    choices:
+      - a word with the opposite meaning
+      - exact and carefully chosen
+      - a word made from two smaller words
+      - a word part added to the beginning
+    correctAnswer: a word with the opposite meaning
+    explanation: The passage defines "antonym" as a word with the opposite meaning.
+  - type: passage-question
+    prompt: Read the study page and choose the meaning.
+    passageTitle: Greek And Latin Affixes Study Page
+    passage: 'Greek And Latin Affixes study page: The word "category" means a group of things that belong together. The word "attribute" means a quality or feature used to describe something. The word "synonym" means a word with a similar meaning. The word "antonym" means a word with the opposite meaning. The word "precise" means exact and carefully chosen. The word "compound" means a word made from two smaller words. The word "prefix" means a word part added to the beginning. The word "suffix" means a word part added to the end. Students read the page, talked about examples, and then practiced retrieval.'
+    question: In the passage, what does "precise" mean?
+    choices:
+      - exact and carefully chosen
+      - a word made from two smaller words
+      - a word part added to the beginning
+      - a word part added to the end
+    correctAnswer: exact and carefully chosen
+    explanation: The passage defines "precise" as exact and carefully chosen.
+  - type: passage-question
+    prompt: Read the study page and choose the meaning.
+    passageTitle: Greek And Latin Affixes Study Page
+    passage: 'Greek And Latin Affixes study page: The word "category" means a group of things that belong together. The word "attribute" means a quality or feature used to describe something. The word "synonym" means a word with a similar meaning. The word "antonym" means a word with the opposite meaning. The word "precise" means exact and carefully chosen. The word "compound" means a word made from two smaller words. The word "prefix" means a word part added to the beginning. The word "suffix" means a word part added to the end. Students read the page, talked about examples, and then practiced retrieval.'
+    question: In the passage, what does "compound" mean?
+    choices:
+      - a word made from two smaller words
+      - a word part added to the beginning
+      - a word part added to the end
+      - a group of things that belong together
+    correctAnswer: a word made from two smaller words
+    explanation: The passage defines "compound" as a word made from two smaller words.
+  - type: passage-question
+    prompt: Read the study page and choose the meaning.
+    passageTitle: Greek And Latin Affixes Study Page
+    passage: 'Greek And Latin Affixes study page: The word "category" means a group of things that belong together. The word "attribute" means a quality or feature used to describe something. The word "synonym" means a word with a similar meaning. The word "antonym" means a word with the opposite meaning. The word "precise" means exact and carefully chosen. The word "compound" means a word made from two smaller words. The word "prefix" means a word part added to the beginning. The word "suffix" means a word part added to the end. Students read the page, talked about examples, and then practiced retrieval.'
+    question: In the passage, what does "prefix" mean?
+    choices:
+      - a word part added to the beginning
+      - a word part added to the end
+      - a group of things that belong together
+      - a quality or feature used to describe something
+    correctAnswer: a word part added to the beginning
+    explanation: The passage defines "prefix" as a word part added to the beginning.
+  - type: passage-question
+    prompt: Read the study page and choose the meaning.
+    passageTitle: Greek And Latin Affixes Study Page
+    passage: 'Greek And Latin Affixes study page: The word "category" means a group of things that belong together. The word "attribute" means a quality or feature used to describe something. The word "synonym" means a word with a similar meaning. The word "antonym" means a word with the opposite meaning. The word "precise" means exact and carefully chosen. The word "compound" means a word made from two smaller words. The word "prefix" means a word part added to the beginning. The word "suffix" means a word part added to the end. Students read the page, talked about examples, and then practiced retrieval.'
+    question: In the passage, what does "suffix" mean?
+    choices:
+      - a word part added to the end
+      - a group of things that belong together
+      - a quality or feature used to describe something
+      - a word with a similar meaning
+    correctAnswer: a word part added to the end
+    explanation: The passage defines "suffix" as a word part added to the end.
+---

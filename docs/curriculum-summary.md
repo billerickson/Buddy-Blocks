@@ -31,33 +31,33 @@ The curriculum sequences below are based on these references:
 
 ### Math
 
-- Grade 1 (`planned`): recommended folder `src/content/curriculum/grade-01/01-math`.
-- Grade 2 (`planned`): recommended folder `src/content/curriculum/grade-02/01-math`.
-- Grade 3 (`complete`): `src/content/curriculum/grade-03/01-math`, 13 units, 69 lessons.
-- Grade 4 (`planned`): recommended folder `src/content/curriculum/grade-04/01-math`.
-- Grade 5 (`planned`): recommended folder `src/content/curriculum/grade-05/01-math`.
-- Grade 6 (`complete`): `src/content/curriculum/grade-06/01-math`, 12 units, 67 lessons.
-- Grade 7 (`planned`): recommended folder `src/content/curriculum/grade-07/01-math`.
-- Grade 8 (`planned`): recommended folder `src/content/curriculum/grade-08/01-math`.
-- Grade 9 (`planned`): recommended folder `src/content/curriculum/grade-09/01-math`.
-- Grade 10 (`planned`): recommended folder `src/content/curriculum/grade-10/01-math`.
-- Grade 11 (`planned`): recommended folder `src/content/curriculum/grade-11/01-math`.
-- Grade 12 (`planned`): recommended folder `src/content/curriculum/grade-12/01-math`.
+- Grade 1 (`complete`): `src/content/curriculum/grade-01/01-math`, 10 units, 30 lessons, 240 questions.
+- Grade 2 (`complete`): `src/content/curriculum/grade-02/01-math`, 11 units, 33 lessons, 264 questions.
+- Grade 3 (`complete`): `src/content/curriculum/grade-03/01-math`, 13 units, 69 lessons, 456 questions.
+- Grade 4 (`complete`): `src/content/curriculum/grade-04/01-math`, 13 units, 48 lessons, 288 questions.
+- Grade 5 (`complete`): `src/content/curriculum/grade-05/01-math`, 13 units, 48 lessons, 288 questions.
+- Grade 6 (`complete`): `src/content/curriculum/grade-06/01-math`, 12 units, 67 lessons, 440 questions.
+- Grade 7 (`complete`): `src/content/curriculum/grade-07/01-math`, 13 units, 48 lessons, 288 questions.
+- Grade 8 (`complete`): `src/content/curriculum/grade-08/01-math`, 13 units, 48 lessons, 288 questions.
+- Grade 9 (`complete`): `src/content/curriculum/grade-09/01-math`, 12 units, 36 lessons, 288 questions.
+- Grade 10 (`complete`): `src/content/curriculum/grade-10/01-math`, 12 units, 36 lessons, 288 questions.
+- Grade 11 (`complete`): `src/content/curriculum/grade-11/01-math`, 12 units, 36 lessons, 288 questions.
+- Grade 12 (`complete`): `src/content/curriculum/grade-12/01-math`, 12 units, 36 lessons, 288 questions.
 
 ### Vocabulary
 
-- Grade 1 (`planned`): recommended folder `src/content/curriculum/grade-01/02-vocabulary`.
-- Grade 2 (`planned`): recommended folder `src/content/curriculum/grade-02/02-vocabulary`.
-- Grade 3 (`complete`): `src/content/curriculum/grade-03/02-vocabulary`, 12 units, 55 lessons.
-- Grade 4 (`planned`): recommended folder `src/content/curriculum/grade-04/02-vocabulary`.
-- Grade 5 (`planned`): recommended folder `src/content/curriculum/grade-05/02-vocabulary`.
-- Grade 6 (`complete`): `src/content/curriculum/grade-06/02-vocabulary`, 12 units, 61 lessons.
-- Grade 7 (`planned`): recommended folder `src/content/curriculum/grade-07/02-vocabulary`.
-- Grade 8 (`planned`): recommended folder `src/content/curriculum/grade-08/02-vocabulary`.
-- Grade 9 (`planned`): recommended folder `src/content/curriculum/grade-09/02-vocabulary`.
-- Grade 10 (`planned`): recommended folder `src/content/curriculum/grade-10/02-vocabulary`.
-- Grade 11 (`planned`): recommended folder `src/content/curriculum/grade-11/02-vocabulary`.
-- Grade 12 (`planned`): recommended folder `src/content/curriculum/grade-12/02-vocabulary`.
+- Grade 1 (`complete`): `src/content/curriculum/grade-01/02-vocabulary`, 11 units, 42 lessons, 336 questions.
+- Grade 2 (`complete`): `src/content/curriculum/grade-02/02-vocabulary`, 12 units, 46 lessons, 368 questions.
+- Grade 3 (`complete`): `src/content/curriculum/grade-03/02-vocabulary`, 12 units, 55 lessons, 440 questions.
+- Grade 4 (`complete`): `src/content/curriculum/grade-04/02-vocabulary`, 11 units, 42 lessons, 336 questions.
+- Grade 5 (`complete`): `src/content/curriculum/grade-05/02-vocabulary`, 12 units, 46 lessons, 368 questions.
+- Grade 6 (`complete`): `src/content/curriculum/grade-06/02-vocabulary`, 12 units, 61 lessons, 558 questions.
+- Grade 7 (`complete`): `src/content/curriculum/grade-07/02-vocabulary`, 11 units, 42 lessons, 336 questions.
+- Grade 8 (`complete`): `src/content/curriculum/grade-08/02-vocabulary`, 12 units, 46 lessons, 368 questions.
+- Grade 9 (`complete`): `src/content/curriculum/grade-09/02-vocabulary`, 10 units, 38 lessons, 304 questions.
+- Grade 10 (`complete`): `src/content/curriculum/grade-10/02-vocabulary`, 10 units, 38 lessons, 304 questions.
+- Grade 11 (`complete`): `src/content/curriculum/grade-11/02-vocabulary`, 10 units, 38 lessons, 304 questions.
+- Grade 12 (`complete`): `src/content/curriculum/grade-12/02-vocabulary`, 10 units, 36 lessons, 288 questions.
 
 ## Scholastic Strategy
 
@@ -71,18 +71,18 @@ High school mapping note:
 
 Grade strategy:
 
-- Grade 1 (`planned`): Build number sense, counting fluency, and concrete addition/subtraction. Cover counting, comparing, composing and decomposing numbers, place value through 120, addition and subtraction within 20, word problems with unknowns in all positions, equal shares, time to the hour and half hour, coins by name and value, measurement by length, picture/bar graphs, defining attributes of shapes, and math language for explaining strategies.
-- Grade 2 (`planned`): Consolidate fluency and prepare for Grade 3 multiplication, fractions, and measurement. Cover addition/subtraction within 100 and up to 1,000 with models, place value to 1,200, skip counting, arrays and equal groups as multiplication readiness, odd/even, mental math, multi-step word problems, money, time to five minutes, standard measurement, line plots, graphs, 2D/3D shapes, partitioning shapes into halves/thirds/fourths, and early personal-finance choices.
+- Grade 1 (`complete`): Build number sense, counting fluency, and concrete addition/subtraction. Cover counting, comparing, composing and decomposing numbers, place value through 120, addition and subtraction within 20, word problems with unknowns in all positions, equal shares, time to the hour and half hour, coins by name and value, measurement by length, picture/bar graphs, defining attributes of shapes, and math language for explaining strategies.
+- Grade 2 (`complete`): Consolidate fluency and prepare for Grade 3 multiplication, fractions, and measurement. Cover addition/subtraction within 100 and up to 1,000 with models, place value to 1,200, skip counting, arrays and equal groups as multiplication readiness, odd/even, mental math, multi-step word problems, money, time to five minutes, standard measurement, line plots, graphs, 2D/3D shapes, partitioning shapes into halves/thirds/fourths, and early personal-finance choices.
 - Grade 3 (`complete`): Build the arithmetic foundation. Cover addition and subtraction fluency, multi-digit addition/subtraction with regrouping, place value and rounding, multiplication and division concepts, one-step and two-step word problems, fractions as equal parts and number-line quantities, fraction decomposition, measurement, elapsed time, money, personal financial literacy, data displays, geometry, area, perimeter, patterns/tables, mixed problem solving, and multiplication fact fluency.
-- Grade 4 (`planned`): Extend whole-number operations and fraction sense. Cover multi-digit addition/subtraction review, multi-digit multiplication, division with remainders, factors and multiples, prime/composite numbers, equivalent fractions, comparing and ordering fractions, adding/subtracting fractions with like denominators, mixed numbers, decimals to hundredths, measurement conversions, angle measurement, lines and symmetry, area/perimeter, data displays, and financial-literacy situations.
-- Grade 5 (`planned`): Prepare for middle-school rational-number work. Cover place value through decimals, powers of ten patterns, multi-digit decimal operations, fraction addition/subtraction with unlike denominators, multiplying fractions, dividing unit fractions and whole numbers in scaffolded contexts, volume, coordinate planes, numerical expressions, input-output patterns, data interpretation, conversions, and multi-step problem solving.
+- Grade 4 (`complete`): Extend whole-number operations and fraction sense. Cover multi-digit addition/subtraction review, multi-digit multiplication, division with remainders, factors and multiples, prime/composite numbers, equivalent fractions, comparing and ordering fractions, adding/subtracting fractions with like denominators, mixed numbers, decimals to hundredths, measurement conversions, angle measurement, lines and symmetry, area/perimeter, data displays, and financial-literacy situations.
+- Grade 5 (`complete`): Prepare for middle-school rational-number work. Cover place value through decimals, powers of ten patterns, multi-digit decimal operations, fraction addition/subtraction with unlike denominators, multiplying fractions, dividing unit fractions and whole numbers in scaffolded contexts, volume, coordinate planes, numerical expressions, input-output patterns, data interpretation, conversions, and multi-step problem solving.
 - Grade 6 (`complete`): Formalize ratios and rational numbers. Cover ratios, rates, unit rates, rational-number operations, fractions/decimals/percents, integers and the rational number system, expressions, variables, one-step equations, inequalities, dependent and independent relationships, coordinate plane, area/surface area/volume, statistics, distributions, personal financial literacy, ratio/data modeling, and cumulative mixed problem solving.
-- Grade 7 (`planned`): Connect proportional reasoning to algebra and geometry. Cover integer and rational-number operations, proportional relationships, unit rates with fractions, percent increase/decrease, tax, tip, markup, discount, simple interest, scale drawings, circles, area and composite area, surface area and volume, multi-step equations and inequalities, probability, random samples, comparative inferences, and financial applications.
-- Grade 8 (`planned`): Build the Algebra I bridge. Cover real numbers and irrational numbers, exponents, scientific notation, linear relationships, slope, y-intercept, functions, systems of linear equations, transformations, congruence, similarity, Pythagorean theorem, angle relationships, volume of cylinders/cones/spheres, scatter plots, trend lines, bivariate data, and modeling with equations.
-- Grade 9 (`planned`): Algebra I. Cover linear, quadratic, and exponential functions; function notation; domain and range; equations and inequalities; systems; polynomials; factoring; rational expressions at an introductory level; radicals; arithmetic and geometric sequences; scatter plots; regression; residuals; and modeling real situations with functions.
-- Grade 10 (`planned`): Geometry. Cover logical reasoning, definitions, postulates, proof, constructions, transformations, congruence, similarity, triangle relationships, right-triangle trigonometry, circles, coordinate geometry, area, volume, density, geometric probability, conditional probability exposure, and modeling with diagrams and formulas.
-- Grade 11 (`planned`): Algebra II. Cover advanced function families: linear, quadratic, polynomial, rational, radical, exponential, logarithmic, absolute value, piecewise, and introductory trigonometric functions. Include complex numbers, transformations, inverses, compositions, systems, matrices as a tool where useful, conic sections, sequences and series, probability/statistics, and real-world modeling.
-- Grade 12 (`planned`): Precalculus and quantitative reasoning capstone. Cover advanced functions, trigonometry, identities, inverse trig, vectors, polar and parametric representations, conics, limits as a calculus preview, discrete math, data analysis, probability, normal distributions, financial mathematics, optimization/modeling, and a capstone project that compares multiple mathematical models for one real question.
+- Grade 7 (`complete`): Connect proportional reasoning to algebra and geometry. Cover integer and rational-number operations, proportional relationships, unit rates with fractions, percent increase/decrease, tax, tip, markup, discount, simple interest, scale drawings, circles, area and composite area, surface area and volume, multi-step equations and inequalities, probability, random samples, comparative inferences, and financial applications.
+- Grade 8 (`complete`): Build the Algebra I bridge. Cover real numbers and irrational numbers, exponents, scientific notation, linear relationships, slope, y-intercept, functions, systems of linear equations, transformations, congruence, similarity, Pythagorean theorem, angle relationships, volume of cylinders/cones/spheres, scatter plots, trend lines, bivariate data, and modeling with equations.
+- Grade 9 (`complete`): Algebra I. Cover linear, quadratic, and exponential functions; function notation; domain and range; equations and inequalities; systems; polynomials; factoring; rational expressions at an introductory level; radicals; arithmetic and geometric sequences; scatter plots; regression; residuals; and modeling real situations with functions.
+- Grade 10 (`complete`): Geometry. Cover logical reasoning, definitions, postulates, proof, constructions, transformations, congruence, similarity, triangle relationships, right-triangle trigonometry, circles, coordinate geometry, area, volume, density, geometric probability, conditional probability exposure, and modeling with diagrams and formulas.
+- Grade 11 (`complete`): Algebra II. Cover advanced function families: linear, quadratic, polynomial, rational, radical, exponential, logarithmic, absolute value, piecewise, and introductory trigonometric functions. Include complex numbers, transformations, inverses, compositions, systems, matrices as a tool where useful, conic sections, sequences and series, probability/statistics, and real-world modeling.
+- Grade 12 (`complete`): Precalculus and quantitative reasoning capstone. Cover advanced functions, trigonometry, identities, inverse trig, vectors, polar and parametric representations, conics, limits as a calculus preview, discrete math, data analysis, probability, normal distributions, financial mathematics, optimization/modeling, and a capstone project that compares multiple mathematical models for one real question.
 
 Grade 1 planned content details:
 
@@ -130,18 +130,18 @@ Scope note:
 
 Grade strategy:
 
-- Grade 1 (`planned`): Build oral word knowledge and early word-solving habits. Cover naming and describing, categories, attributes, synonyms and antonyms, shades of meaning for common verbs/adjectives, multiple-meaning words in familiar contexts, compound words, inflectional endings, simple prefixes/suffixes by meaning, context clues in sentences, picture/glossary support, everyday academic words, story words, content-area words, and oral sentence stems for explaining answers.
-- Grade 2 (`planned`): Strengthen independent vocabulary solving and prepare for Grade 3 morphology. Cover context clues across sentences, compound words, prefixes, suffixes, base words, simple roots and word families, synonyms/antonyms, shades of meaning, multiple-meaning words, homophones, idioms, reference tools, glossary/dictionary habits, academic verbs, informational-text words, character/story vocabulary, math/science/social studies vocabulary, and precise word choice in speaking and writing.
+- Grade 1 (`complete`): Build oral word knowledge and early word-solving habits. Cover naming and describing, categories, attributes, synonyms and antonyms, shades of meaning for common verbs/adjectives, multiple-meaning words in familiar contexts, compound words, inflectional endings, simple prefixes/suffixes by meaning, context clues in sentences, picture/glossary support, everyday academic words, story words, content-area words, and oral sentence stems for explaining answers.
+- Grade 2 (`complete`): Strengthen independent vocabulary solving and prepare for Grade 3 morphology. Cover context clues across sentences, compound words, prefixes, suffixes, base words, simple roots and word families, synonyms/antonyms, shades of meaning, multiple-meaning words, homophones, idioms, reference tools, glossary/dictionary habits, academic verbs, informational-text words, character/story vocabulary, math/science/social studies vocabulary, and precise word choice in speaking and writing.
 - Grade 3 (`complete`): Build core word-learning habits. Cover word meanings, context clues, synonyms, antonyms, shades of meaning, multiple-meaning words, prefixes, suffixes, roots, word families, reference skills, figurative language, adages and proverbs, content-area vocabulary, academic reading words, oral academic sentence stems, writing and revision words, and cumulative review.
-- Grade 4 (`planned`): Strengthen flexible word solving. Cover context clues across sentences and paragraphs, common Greek and Latin affixes, base words and inflectional endings, homophones and homographs, idioms, adages, proverbs, similes, metaphors, dictionary/thesaurus use, glossary skills, content-area words, precise verbs/adjectives, and discussion words for explaining evidence.
-- Grade 5 (`planned`): Move from common vocabulary to academic morphology. Cover Greek and Latin roots, prefixes and suffixes, word families, analogies, connotation and denotation, figurative language, domain-specific vocabulary, literary terms, informational text signal words, reference tools, academic verbs for prompts, and revision words for clarity, precision, and transitions.
+- Grade 4 (`complete`): Strengthen flexible word solving. Cover context clues across sentences and paragraphs, common Greek and Latin affixes, base words and inflectional endings, homophones and homographs, idioms, adages, proverbs, similes, metaphors, dictionary/thesaurus use, glossary skills, content-area words, precise verbs/adjectives, and discussion words for explaining evidence.
+- Grade 5 (`complete`): Move from common vocabulary to academic morphology. Cover Greek and Latin roots, prefixes and suffixes, word families, analogies, connotation and denotation, figurative language, domain-specific vocabulary, literary terms, informational text signal words, reference tools, academic verbs for prompts, and revision words for clarity, precision, and transitions.
 - Grade 6 (`complete`): Expand middle-school academic language. Cover context and reference skills, roots such as `mis`, `mit`, `scrib`, `script`, `jur`, `jus`, `bene`, `man`, and `vac`, morphology, academic reading words, disciplinary vocabulary, genre and structure terms, author's craft, argument and media vocabulary, discussion/seminar language, writing/revision language, research/inquiry vocabulary, word-learning portfolio habits, and cumulative mastery.
-- Grade 7 (`planned`): Deepen morphology and analysis language. Cover advanced context clues, Greek/Latin root families by meaning, affix shifts, word origins, connotation, denotation, tone, mood, figurative language, literary and informational text structures, argument terms, credibility, bias, audience, source vocabulary, transition language, and discipline-specific words from history, science, and math.
-- Grade 8 (`planned`): Prepare for high-school reading and argument. Cover abstract academic words, morphology for unfamiliar technical terms, rhetorical verbs, author's craft, theme and central idea language, claim/evidence/reasoning vocabulary, counterclaim and rebuttal terms, media literacy, source evaluation, test-ready context analysis, and precision in summaries and analytical responses.
-- Grade 9 (`planned`): English I academic vocabulary. Cover literary genre and craft terms, informational and argumentative text vocabulary, rhetoric basics, diction, syntax, tone, imagery, symbolism, etymology, roots and cognates, research and citation terms, grammar/style vocabulary for revision, and words for comparing theme, character, structure, and evidence.
-- Grade 10 (`planned`): English II and world-literature vocabulary. Cover global and historical context words, complex morphology, satire, allegory, irony, archetype, motif, allusion, rhetoric and persuasion terms, technical/domain-specific vocabulary, media framing, bias, synthesis language, and academic words for cross-cultural comparison and literary analysis.
-- Grade 11 (`planned`): English III, American literature, and civic rhetoric vocabulary. Cover founding-era, civic, legal, political, and historical terms; American literary movement vocabulary; rhetorical analysis terms; argument structure; nuanced connotation; etymology; advanced roots; research synthesis; source credibility; and words for evaluating claims, evidence, and style in primary sources and speeches.
-- Grade 12 (`planned`): English IV and college-readiness vocabulary. Cover advanced abstract and disciplinary vocabulary, British/world literature terms, philosophy and ethics terms for seminar discussion, rhetoric and style vocabulary, scholarly research language, discipline-specific words for college/career pathways, synthesis and critique verbs, independent word-learning strategies, and a final vocabulary/commonplace portfolio.
+- Grade 7 (`complete`): Deepen morphology and analysis language. Cover advanced context clues, Greek/Latin root families by meaning, affix shifts, word origins, connotation, denotation, tone, mood, figurative language, literary and informational text structures, argument terms, credibility, bias, audience, source vocabulary, transition language, and discipline-specific words from history, science, and math.
+- Grade 8 (`complete`): Prepare for high-school reading and argument. Cover abstract academic words, morphology for unfamiliar technical terms, rhetorical verbs, author's craft, theme and central idea language, claim/evidence/reasoning vocabulary, counterclaim and rebuttal terms, media literacy, source evaluation, test-ready context analysis, and precision in summaries and analytical responses.
+- Grade 9 (`complete`): English I academic vocabulary. Cover literary genre and craft terms, informational and argumentative text vocabulary, rhetoric basics, diction, syntax, tone, imagery, symbolism, etymology, roots and cognates, research and citation terms, grammar/style vocabulary for revision, and words for comparing theme, character, structure, and evidence.
+- Grade 10 (`complete`): English II and world-literature vocabulary. Cover global and historical context words, complex morphology, satire, allegory, irony, archetype, motif, allusion, rhetoric and persuasion terms, technical/domain-specific vocabulary, media framing, bias, synthesis language, and academic words for cross-cultural comparison and literary analysis.
+- Grade 11 (`complete`): English III, American literature, and civic rhetoric vocabulary. Cover founding-era, civic, legal, political, and historical terms; American literary movement vocabulary; rhetorical analysis terms; argument structure; nuanced connotation; etymology; advanced roots; research synthesis; source credibility; and words for evaluating claims, evidence, and style in primary sources and speeches.
+- Grade 12 (`complete`): English IV and college-readiness vocabulary. Cover advanced abstract and disciplinary vocabulary, British/world literature terms, philosophy and ethics terms for seminar discussion, rhetoric and style vocabulary, scholarly research language, discipline-specific words for college/career pathways, synthesis and critique verbs, independent word-learning strategies, and a final vocabulary/commonplace portfolio.
 
 Grade 1 planned content details:
 
@@ -258,11 +258,11 @@ Recommended total: 5 levels.
 
 Inventory:
 
-- Level 1 (`complete`): Spanish 1, `src/content/curriculum/grade-03/03-spanish`, 10 units, 50 lessons.
-- Level 2 (`complete`): Spanish 2, `src/content/curriculum/grade-04/03-spanish`, 11 units, 71 lessons.
-- Level 3 (`planned`): Spanish 3, recommended folder `src/content/curriculum/grade-05/03-spanish`.
-- Level 4 (`planned`): Spanish 4, recommended folder `src/content/curriculum/grade-06/03-spanish`.
-- Level 5 (`planned`): Spanish 5, recommended folder `src/content/curriculum/grade-07/03-spanish`.
+- Level 1 (`complete`): Spanish 1, `src/content/curriculum/grade-03/03-spanish`, 10 units, 58 lessons, 464 questions.
+- Level 2 (`complete`): Spanish 2, `src/content/curriculum/grade-04/03-spanish`, 11 units, 78 lessons, 624 questions.
+- Level 3 (`complete`): Spanish 3, `src/content/curriculum/grade-05/03-spanish`, 10 units, 50 lessons, 400 questions.
+- Level 4 (`complete`): Spanish 4, `src/content/curriculum/grade-06/03-spanish`, 10 units, 50 lessons, 400 questions.
+- Level 5 (`complete`): Spanish 5, `src/content/curriculum/grade-07/03-spanish`, 10 units, 50 lessons, 400 questions.
 
 Level strategy:
 
@@ -284,11 +284,11 @@ Recommended total: 5 levels.
 
 Inventory:
 
-- Level 1 (`complete`): French 1, `src/content/curriculum/grade-03/04-french`, 10 units, 50 lessons.
-- Level 2 (`complete`): French 2, `src/content/curriculum/grade-04/04-french`, 11 units, 71 lessons.
-- Level 3 (`planned`): French 3, recommended folder `src/content/curriculum/grade-05/04-french`.
-- Level 4 (`planned`): French 4, recommended folder `src/content/curriculum/grade-06/04-french`.
-- Level 5 (`planned`): French 5, recommended folder `src/content/curriculum/grade-07/04-french`.
+- Level 1 (`complete`): French 1, `src/content/curriculum/grade-03/04-french`, 10 units, 57 lessons, 456 questions.
+- Level 2 (`complete`): French 2, `src/content/curriculum/grade-04/04-french`, 11 units, 78 lessons, 624 questions.
+- Level 3 (`complete`): French 3, `src/content/curriculum/grade-05/04-french`, 10 units, 50 lessons, 400 questions.
+- Level 4 (`complete`): French 4, `src/content/curriculum/grade-06/04-french`, 10 units, 50 lessons, 400 questions.
+- Level 5 (`complete`): French 5, `src/content/curriculum/grade-07/04-french`, 10 units, 50 lessons, 400 questions.
 
 Level strategy:
 
@@ -310,11 +310,11 @@ Recommended total: 5 levels.
 
 Inventory:
 
-- Level 1 (`complete`): Latin 1, `src/content/curriculum/grade-03/05-latin`, 10 units, 50 lessons.
-- Level 2 (`complete`): Latin 2, `src/content/curriculum/grade-04/05-latin`, 10 units, 71 lessons.
-- Level 3 (`planned`): Latin 3, recommended folder `src/content/curriculum/grade-05/05-latin`.
-- Level 4 (`planned`): Latin 4, recommended folder `src/content/curriculum/grade-06/05-latin`.
-- Level 5 (`planned`): Latin 5, recommended folder `src/content/curriculum/grade-07/05-latin`.
+- Level 1 (`complete`): Latin 1, `src/content/curriculum/grade-03/05-latin`, 10 units, 58 lessons, 464 questions.
+- Level 2 (`complete`): Latin 2, `src/content/curriculum/grade-04/05-latin`, 10 units, 78 lessons, 624 questions.
+- Level 3 (`complete`): Latin 3, `src/content/curriculum/grade-05/05-latin`, 10 units, 50 lessons, 400 questions.
+- Level 4 (`complete`): Latin 4, `src/content/curriculum/grade-06/05-latin`, 10 units, 50 lessons, 400 questions.
+- Level 5 (`complete`): Latin 5, `src/content/curriculum/grade-07/05-latin`, 10 units, 50 lessons, 400 questions.
 
 Level strategy:
 
@@ -336,10 +336,10 @@ Recommended total: 4 levels.
 
 Inventory:
 
-- Level 1 (`complete`): Grammar I, `src/content/curriculum/grade-03/06-grammar`, 11 units, 11 lessons.
-- Level 2 (`planned`): Grammar II, recommended folder `src/content/curriculum/grade-04/06-grammar`.
-- Level 3 (`planned`): Grammar III, recommended folder `src/content/curriculum/grade-05/06-grammar`.
-- Level 4 (`planned`): Grammar IV, recommended folder `src/content/curriculum/grade-06/06-grammar`.
+- Level 1 (`complete`): Grammar I, `src/content/curriculum/grade-03/06-grammar`, 11 units, 11 lessons, 88 questions.
+- Level 2 (`complete`): Grammar II, `src/content/curriculum/grade-04/06-grammar`, 11 units, 11 lessons, 88 questions.
+- Level 3 (`complete`): Grammar III, `src/content/curriculum/grade-05/06-grammar`, 11 units, 11 lessons, 88 questions.
+- Level 4 (`complete`): Grammar IV, `src/content/curriculum/grade-06/06-grammar`, 11 units, 11 lessons, 88 questions.
 
 Level strategy:
 
@@ -360,10 +360,10 @@ Recommended total: 4 levels.
 
 Inventory:
 
-- Level 1 (`complete`): Logic I, `src/content/curriculum/grade-03/07-logic`, 11 units, 11 lessons.
-- Level 2 (`planned`): Logic II, recommended folder `src/content/curriculum/grade-04/07-logic`.
-- Level 3 (`planned`): Logic III, recommended folder `src/content/curriculum/grade-05/07-logic`.
-- Level 4 (`planned`): Logic IV, recommended folder `src/content/curriculum/grade-06/07-logic`.
+- Level 1 (`complete`): Logic I, `src/content/curriculum/grade-03/07-logic`, 11 units, 11 lessons, 88 questions.
+- Level 2 (`complete`): Logic II, `src/content/curriculum/grade-04/07-logic`, 11 units, 11 lessons, 88 questions.
+- Level 3 (`complete`): Logic III, `src/content/curriculum/grade-05/07-logic`, 11 units, 11 lessons, 88 questions.
+- Level 4 (`complete`): Logic IV, `src/content/curriculum/grade-06/07-logic`, 11 units, 11 lessons, 88 questions.
 
 Level strategy:
 
@@ -384,11 +384,11 @@ Recommended total: 5 levels.
 
 Inventory:
 
-- Level 1 (`complete`): Rhetoric I, `src/content/curriculum/grade-03/08-rhetoric`, 11 units, 11 lessons.
-- Level 2 (`planned`): Rhetoric II, recommended folder `src/content/curriculum/grade-04/08-rhetoric`.
-- Level 3 (`planned`): Rhetoric III, recommended folder `src/content/curriculum/grade-05/08-rhetoric`.
-- Level 4 (`planned`): Rhetoric IV, recommended folder `src/content/curriculum/grade-06/08-rhetoric`.
-- Level 5 (`planned`): Rhetoric V, recommended folder `src/content/curriculum/grade-07/08-rhetoric`.
+- Level 1 (`complete`): Rhetoric I, `src/content/curriculum/grade-03/08-rhetoric`, 11 units, 11 lessons, 88 questions.
+- Level 2 (`complete`): Rhetoric II, `src/content/curriculum/grade-04/08-rhetoric`, 11 units, 11 lessons, 88 questions.
+- Level 3 (`complete`): Rhetoric III, `src/content/curriculum/grade-05/08-rhetoric`, 11 units, 11 lessons, 88 questions.
+- Level 4 (`complete`): Rhetoric IV, `src/content/curriculum/grade-06/08-rhetoric`, 11 units, 11 lessons, 88 questions.
+- Level 5 (`complete`): Rhetoric V, `src/content/curriculum/grade-07/08-rhetoric`, 11 units, 11 lessons, 88 questions.
 
 Level strategy:
 
@@ -410,11 +410,11 @@ Recommended total: 5 levels.
 
 Inventory:
 
-- Level 1 (`complete`): Classical Literature I, `src/content/curriculum/grade-03/09-literature`, 10 units, 10 lessons.
-- Level 2 (`planned`): Classical Literature II, recommended folder `src/content/curriculum/grade-04/09-literature`.
-- Level 3 (`planned`): Classical Literature III, recommended folder `src/content/curriculum/grade-05/09-literature`.
-- Level 4 (`planned`): Classical Literature IV, recommended folder `src/content/curriculum/grade-06/09-literature`.
-- Level 5 (`planned`): Classical Literature V, recommended folder `src/content/curriculum/grade-07/09-literature`.
+- Level 1 (`complete`): Classical Literature I, `src/content/curriculum/grade-03/09-literature`, 10 units, 10 lessons, 80 questions.
+- Level 2 (`complete`): Classical Literature II, `src/content/curriculum/grade-04/09-literature`, 10 units, 10 lessons, 80 questions.
+- Level 3 (`complete`): Classical Literature III, `src/content/curriculum/grade-05/09-literature`, 10 units, 10 lessons, 80 questions.
+- Level 4 (`complete`): Classical Literature IV, `src/content/curriculum/grade-06/09-literature`, 10 units, 10 lessons, 80 questions.
+- Level 5 (`complete`): Classical Literature V, `src/content/curriculum/grade-07/09-literature`, 10 units, 10 lessons, 80 questions.
 
 Level strategy:
 
@@ -436,11 +436,11 @@ Recommended total: 5 levels.
 
 Inventory:
 
-- Level 1 (`complete`): History And Civics I, `src/content/curriculum/grade-03/10-history-civics`, 10 units, 10 lessons.
-- Level 2 (`planned`): History And Civics II, recommended folder `src/content/curriculum/grade-04/10-history-civics`.
-- Level 3 (`planned`): History And Civics III, recommended folder `src/content/curriculum/grade-05/10-history-civics`.
-- Level 4 (`planned`): History And Civics IV, recommended folder `src/content/curriculum/grade-06/10-history-civics`.
-- Level 5 (`planned`): History And Civics V, recommended folder `src/content/curriculum/grade-07/10-history-civics`.
+- Level 1 (`complete`): History And Civics I, `src/content/curriculum/grade-03/10-history-civics`, 10 units, 10 lessons, 80 questions.
+- Level 2 (`complete`): History And Civics II, `src/content/curriculum/grade-04/10-history-civics`, 12 units, 12 lessons, 96 questions.
+- Level 3 (`complete`): History And Civics III, `src/content/curriculum/grade-05/10-history-civics`, 12 units, 12 lessons, 96 questions.
+- Level 4 (`complete`): History And Civics IV, `src/content/curriculum/grade-06/10-history-civics`, 12 units, 12 lessons, 96 questions.
+- Level 5 (`complete`): History And Civics V, `src/content/curriculum/grade-07/10-history-civics`, 12 units, 12 lessons, 96 questions.
 
 Level strategy:
 
@@ -462,10 +462,10 @@ Recommended total: 4 levels.
 
 Inventory:
 
-- Level 1 (`complete`): Memory Work I, `src/content/curriculum/grade-03/11-memory-work`, 8 units, 8 lessons.
-- Level 2 (`planned`): Memory Work II, recommended folder `src/content/curriculum/grade-04/11-memory-work`.
-- Level 3 (`planned`): Memory Work III, recommended folder `src/content/curriculum/grade-05/11-memory-work`.
-- Level 4 (`planned`): Memory Work IV, recommended folder `src/content/curriculum/grade-06/11-memory-work`.
+- Level 1 (`complete`): Memory Work I, `src/content/curriculum/grade-03/11-memory-work`, 8 units, 8 lessons, 64 questions.
+- Level 2 (`complete`): Memory Work II, `src/content/curriculum/grade-04/11-memory-work`, 8 units, 8 lessons, 64 questions.
+- Level 3 (`complete`): Memory Work III, `src/content/curriculum/grade-05/11-memory-work`, 8 units, 8 lessons, 64 questions.
+- Level 4 (`complete`): Memory Work IV, `src/content/curriculum/grade-06/11-memory-work`, 8 units, 8 lessons, 64 questions.
 
 Level strategy:
 
