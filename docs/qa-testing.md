@@ -22,6 +22,10 @@
 
 4. On French 1, the second question of the first lesson asked "how do you write 'goodbye' in French" when that word had not been shown/taught yet. It should start with flashcards before asking them to use the words. Can you review all lessons in Spanish 1, French 1, Latin 1, Spanish 2, French 2, and Latin 2 to ensure flash cards appear before the questions that ask how to use/spell those words?
 
+   - Root cause: language lessons are loaded by filename order, and several Spanish/French/Latin units had practice lessons numbered before their flash-card ladders.
+   - Fix: Spanish, French, and Latin units now load flash-card lessons first when a unit includes them, preserving existing lesson IDs while changing the in-app lesson sequence.
+   - Verified: `npm test -- tests/curriculum.test.ts`, `npm test`, `npm run check`, `npm run content:validate`, and a language-unit audit showing 0 units with practice lessons before available flash cards.
+
 5. On the main kid dashbaord (ex: /kid/ada) show the cards in 3 columns instead of 4 columns on desktop.
 
 6. We need to divide the current tracks into two groups: scholastic (ex: math, vocabulary) and foundation (ex: Spanish, French, latin). Scholastic tracks are based on your actual grade level, while foundation tracks start you from the beginning regardless of your grade level. This will replace the "grade override" functionality we currently have in place. Grade 3 Spanish becomes Spanish 1, and they can only progress to Spanish 2 once completing all lessons in Spanish 1. This likely requires refactoring lots of code while also maintaining the existing data for completed tasks, since the students have used Grade 3 Spanish already. Instead of "Grade 3 Spanish" we will have "Spanish 1"

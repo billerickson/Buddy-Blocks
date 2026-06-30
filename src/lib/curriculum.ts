@@ -81,6 +81,7 @@ type LessonWithContext = LessonFixture & {
 };
 
 const curriculumRoot = join(process.cwd(), 'src/content/curriculum');
+const languageTrackSubjects = new Set(['spanish', 'french', 'latin']);
 
 const slugSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$/);
 const stringListSchema = z.array(z.coerce.string()).min(1);
@@ -398,16 +399,31 @@ function loadTrack(trackDir: string, gradeLevel: number): TrackFixture {
   return {
     ...track,
     gradeLevel,
-    units: childDirectories(trackDir).map((unitDir) => loadUnit(unitDir.path)),
+    units: childDirectories(trackDir).map((unitDir) => loadUnit(unitDir.path, track.subject)),
   };
 }
 
-function loadUnit(unitDir: string): UnitFixture {
+function loadUnit(unitDir: string, subject: string): UnitFixture {
   const unit = readYaml(unitFileSchema, join(unitDir, 'unit.yaml'));
+  const lessons = markdownFiles(unitDir).map((lessonPath) => loadLesson(lessonPath));
   return {
     ...unit,
-    lessons: markdownFiles(unitDir).map((lessonPath) => loadLesson(lessonPath)),
+    lessons: orderLessonsForSubject(lessons, subject),
   };
+}
+
+function orderLessonsForSubject(lessons: LessonFixture[], subject: string) {
+  if (!languageTrackSubjects.has(subject)) return lessons;
+
+  const flashCardLessons = lessons.filter(isFlashCardLesson);
+  if (flashCardLessons.length === 0) return lessons;
+
+  const practiceLessons = lessons.filter((lesson) => !isFlashCardLesson(lesson));
+  return [...flashCardLessons, ...practiceLessons];
+}
+
+function isFlashCardLesson(lesson: LessonFixture) {
+  return lesson.questions.length > 0 && lesson.questions.every((question) => question.type === 'flash-card');
 }
 
 function loadLesson(lessonPath: string): LessonFixture {

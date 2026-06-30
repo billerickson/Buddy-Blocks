@@ -270,6 +270,24 @@ describe('curriculum content', () => {
     }
   });
 
+  it('starts language units with flash cards before practice when flash cards exist', () => {
+    const languageTracks = TRACKS.filter((track) => ['spanish', 'french', 'latin'].includes(track.subject));
+
+    for (const track of languageTracks) {
+      for (const unit of track.units) {
+        const flashCardCount = unit.lessons.filter(isFlashCardLesson).length;
+        if (flashCardCount === 0) continue;
+
+        expect(unit.lessons.slice(0, flashCardCount).every(isFlashCardLesson)).toBe(true);
+      }
+    }
+
+    const frenchGreetings = getTracksForGrade(3)
+      .find((track) => track.subject === 'french')
+      ?.units.find((unit) => unit.slug === 'greetings-polite-phrases');
+    expect(frenchGreetings?.lessons[0]?.slug).toBe('greetings-polite-phrases-flash-cards-easy');
+  });
+
   it('loads grade folders dynamically and preserves numeric folder order', () => {
     const root = createTempCurriculumRoot();
     writeTrack(root, 'grade-07', '02-vocabulary', {
@@ -424,6 +442,10 @@ describe('curriculum content', () => {
 
 function createTempCurriculumRoot() {
   return mkdtempSync(join(tmpdir(), 'buddy-blocks-curriculum-'));
+}
+
+function isFlashCardLesson(lesson: { questions: Array<{ type: string }> }) {
+  return lesson.questions.length > 0 && lesson.questions.every((question) => question.type === 'flash-card');
 }
 
 function writeTrack(
