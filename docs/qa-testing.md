@@ -45,3 +45,7 @@
    - Verified: reviewed `docs/v2-curriculum-plan.md` and searched it for stale override/placement language.
 
 8. Create docs/curriculum-summary.md file summarizing the tracks. Break it down by "scholastic" and "foundation". Each track should have a bulleted list showing all expected grades/levels and their current status. Ex: Math would have "Grade 3 (complete), Grade 4 (empty), Grade 5 (empty), Grade 6 (complete)... We'll use this as reference for future runs to build out more course work. It should also include the v2-curriculum-plan tracks. 
+
+   - Root cause: there was no single reference that combined authored v1 tracks, scholastic/foundation grouping, empty grade or level slots, and planned v2 classical tracks.
+   - Fix: added `docs/curriculum-summary.md` with separate Scholastic and Foundation sections, status definitions, current authored lesson counts, empty future slots, and v2 planned foundation tracks.
+   - Verified: audited `src/content/curriculum` track folders and `docs/v2-curriculum-plan.md`, then ran `npm run check` and `npm run content:validate`.
