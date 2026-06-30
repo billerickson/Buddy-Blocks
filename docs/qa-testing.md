@@ -40,4 +40,8 @@
 
 7. Review the v2-curriculum-plan and update it with regard to the new 'foundation' track functionality. 
 
+   - Root cause: the v2 plan still referenced the old Spanish override approach and Grade 3 subject-level overrides, which no longer matches the foundation track model.
+   - Fix: updated the v2 classical subjects to be planned as foundation tracks, with Level I stored under `grade-03`, sequential unlocks for later levels, and required `FOUNDATION_SUBJECTS` registration instead of overrides.
+   - Verified: reviewed `docs/v2-curriculum-plan.md` and searched it for stale override/placement language.
+
 8. Create docs/curriculum-summary.md file summarizing the tracks. Break it down by "scholastic" and "foundation". Each track should have a bulleted list showing all expected grades/levels and their current status. Ex: Math would have "Grade 3 (complete), Grade 4 (empty), Grade 5 (empty), Grade 6 (complete)... We'll use this as reference for future runs to build out more course work. It should also include the v2-curriculum-plan tracks. 

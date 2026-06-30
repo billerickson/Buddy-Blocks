@@ -4,18 +4,19 @@ This document defines the recommended v2 curriculum expansion after the v1 core 
 
 The goal is not simply to add more subjects. The goal is to give Buddy Blocks a clearer classical school shape while keeping lessons compact, playful, and practice-heavy.
 
-## Placement Rule
+## Foundation Placement Rule
 
-All new v2 classical tracks should start every student at Grade 3, following the current Spanish model.
+All new v2 classical tracks should be foundation tracks, matching the Spanish/French/Latin model introduced in v1. They should not use the student's global scholastic grade for placement.
 
 This matters for Reagan and any older student. A globally Grade 6 student should not be dropped into Grade 6 Grammar, Logic, Rhetoric, Literature, History, or Memory Work with no foundation. These tracks should behave like level sequences:
 
-- Grade 3 means Level I / beginner entry.
-- Grade 4 means Level II / next sequential course.
-- Later grades can represent later levels once the lower-level tracks exist.
-- The first visible v2 classical track for every student should be the Grade 3 track.
+- `grade-03` stores Level I / beginner entry.
+- `grade-04` stores Level II / next sequential course.
+- Later grade folders can represent later foundation levels once the lower levels exist.
+- The first visible v2 classical track for every student should be the Level I track.
+- Level II should unlock only after that child completes Level I for the same subject.
 
-For v2 launch, seed or assign subject-level overrides so all existing students begin these new subjects at Grade 3:
+For v2 launch, treat these new subjects as foundation subjects:
 
 - `grammar`
 - `logic`
@@ -24,7 +25,7 @@ For v2 launch, seed or assign subject-level overrides so all existing students b
 - `history-civics`
 - `memory-work`
 
-The product should eventually generalize the Spanish handoff behavior so these level-based subjects can unlock their next level after completion. Until that exists, keep the authored v2 launch scope to Grade 3 entry tracks.
+Do not seed or assign subject-level overrides for these subjects. The old override model has been removed from the app surface, and foundation track visibility now comes from the subject's track group plus completion of prior levels.
 
 ## Recommended Build Order
 
@@ -45,7 +46,7 @@ Launch track:
 
 - Folder: `grade-03/06-grammar`
 - Track title: `Grammar I`
-- Placement: every student starts here
+- Placement: foundation level 1 for every student
 
 Purpose:
 
@@ -83,7 +84,7 @@ Launch track:
 
 - Folder: `grade-03/07-logic`
 - Track title: `Logic I`
-- Placement: every student starts here
+- Placement: foundation level 1 for every student
 
 Purpose:
 
@@ -121,7 +122,7 @@ Launch track:
 
 - Folder: `grade-03/08-rhetoric`
 - Track title: `Rhetoric I`
-- Placement: every student starts here
+- Placement: foundation level 1 for every student
 
 Purpose:
 
@@ -171,7 +172,7 @@ Launch track:
 
 - Folder: `grade-03/09-literature`
 - Track title: `Classical Literature I`
-- Placement: every student starts here
+- Placement: foundation level 1 for every student
 
 Purpose:
 
@@ -206,7 +207,7 @@ Launch track:
 
 - Folder: `grade-03/10-history-civics`
 - Track title: `History And Civics I`
-- Placement: every student starts here
+- Placement: foundation level 1 for every student
 
 Purpose:
 
@@ -243,7 +244,7 @@ Launch track:
 
 - Folder: `grade-03/11-memory-work`
 - Track title: `Memory Work I`
-- Placement: every student starts here
+- Placement: foundation level 1 for every student
 
 Purpose:
 
@@ -294,7 +295,7 @@ The existing question types already support most v2 needs:
 
 ## Product And Code Notes
 
-Before authoring v2 tracks, add subject metadata for the new subject keys in `src/lib/subjects.ts` so they sort intentionally and receive starter badges.
+Before authoring v2 tracks, add subject metadata for the new subject keys in `src/lib/subjects.ts` so they sort intentionally and receive starter badges. Also add the six subject keys to `FOUNDATION_SUBJECTS`; otherwise they will default to scholastic placement and use each child's global grade.
 
 Suggested order after existing subjects:
 
@@ -305,24 +306,20 @@ Suggested order after existing subjects:
 5. History And Civics
 6. Memory Work
 
-For enrollment, do not rely on each child's global grade level for these subjects. V2 should either:
-
-- seed Grade 3 subject-level overrides for every new classical subject, or
-- introduce a generalized level-sequence assignment model that starts every student at the first available level.
-
-The second option is cleaner long-term. The first option is sufficient for a v2 launch if the goal is to keep the current enrollment model small.
+For enrollment, do not rely on each child's global grade level for these subjects. Once the subject keys are marked as foundation subjects, the existing foundation visibility rule should start every child at Level I and unlock the next authored level after the previous level is complete.
 
 ## V2 Launch Scope
 
 Recommended full v2 launch:
 
-- Grade 3 Grammar I
-- Grade 3 Logic I
-- Grade 3 Rhetoric I
-- Grade 3 Classical Literature I
-- Grade 3 History And Civics I
-- Grade 3 Memory Work I
+- Grammar I, stored in `grade-03/06-grammar`
+- Logic I, stored in `grade-03/07-logic`
+- Rhetoric I, stored in `grade-03/08-rhetoric`
+- Classical Literature I, stored in `grade-03/09-literature`
+- History And Civics I, stored in `grade-03/10-history-civics`
+- Memory Work I, stored in `grade-03/11-memory-work`
 - Subject metadata and starter badges for all six
-- Grade 3 default placement for every student in all six subjects
+- Foundation-subject registration for all six
+- Level I default placement for every student in all six subjects
 
-Do not build Grade 6 versions of these subjects first. For classical tracks, the beginner level is the important entry point, regardless of the student's global academic grade.
+Do not build scholastic Grade 6 versions of these subjects first. For classical foundation tracks, the beginner level is the important entry point, regardless of the student's global academic grade. Later levels should be authored in sequence so each one unlocks from the completed prior level.
