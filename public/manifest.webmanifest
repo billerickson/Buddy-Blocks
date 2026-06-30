@@ -10,11 +10,10 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icons/moxie.svg",
+      "src": "/icons/buddy-blocks-bb.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ]
 }
-

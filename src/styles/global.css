@@ -117,18 +117,11 @@
     text-decoration: none;
   }
 
-  .brand-cube {
-    display: inline-grid;
+  .brand-icon {
+    display: block;
     width: 42px;
     height: 42px;
-    place-items: center;
-    border: 3px solid var(--ink);
-    border-radius: 8px;
-    background: var(--secondary);
-    box-shadow: 3px 3px 0 var(--ink);
-    color: var(--ink);
-    font-size: 0.86rem;
-    line-height: 1;
+    flex: 0 0 auto;
   }
 
   .mobile-menu-toggle {
@@ -414,12 +407,9 @@
     font-size: 1rem;
   }
 
-  .brand-cube {
+  .brand-icon {
     width: 36px;
     height: 36px;
-    border-width: 2px;
-    box-shadow: 2px 2px 0 var(--ink);
-    font-size: 0.76rem;
   }
 
   .mobile-menu-toggle {
