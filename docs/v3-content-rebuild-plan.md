@@ -82,12 +82,15 @@ choices:
   - Add 8 + 8
 correctAnswer: Break 5 into 2 and 3
 explanation: 8 needs 2 more to make 10, so split 5 into 2 and 3.
+hint: Ask yourself, "How many more does 8 need to reach 10?"
 questionGoal: Check whether the student can choose a split that completes a ten.
 misconception: Treating make-ten as ordinary counting instead of decomposing an addend.
 ```
 ````
 
 Question blocks should remain structured YAML so Codex can validate and seed them, but the lesson should read like authored curriculum.
+
+Hints are optional but recommended for questions where a common wrong answer reveals a fixable misconception. A hint should not appear on the first attempt. It should appear only when the student sees the same question again after answering it incorrectly once already. The hint should guide the next attempt without giving away the answer.
 
 ## Content Artifacts
 
@@ -179,6 +182,7 @@ Required contents:
 - varied question types chosen by learning job,
 - clear answer keys,
 - useful explanations,
+- optional second-attempt hints,
 - plausible distractors,
 - at least one application, explanation, transfer, or synthesis item when appropriate,
 - metadata for `questionGoal` and `misconception` during authoring.
@@ -395,14 +399,17 @@ Write [6-10] questions. For each question, include:
 3. prompt
 4. all required answer data for that type
 5. explanation
-6. questionGoal
-7. misconception, if applicable
+6. hint, when a second-attempt clue would help
+7. questionGoal
+8. misconception, if applicable
 
 Requirements:
 - Start with exposure, recognition, or guided reasoning if the concept is new.
 - Move toward application, explanation, transfer, or production when appropriate.
 - Use varied question types only when the type fits the learning job.
 - Make distractors plausible and diagnostic.
+- Write hints that appear only on a second attempt after the student has already missed that question once.
+- Hints should point to a strategy, clue, model, rule, or next step without revealing the answer.
 - Do not use duplicate right-side answers in match-pairs.
 - Keep language appropriate for the student level.
 - Do not include generic filler questions.
@@ -433,9 +440,10 @@ Check:
 5. Are question types varied for a reason?
 6. Does the sequence move from support toward mastery?
 7. Are explanations useful for learning?
-8. Is the reading/cognitive load appropriate?
-9. Does anything feel generic or template-driven?
-10. What should be revised before implementation?
+8. Are hints useful second-attempt supports without giving away the answer?
+9. Is the reading/cognitive load appropriate?
+10. Does anything feel generic or template-driven?
+11. What should be revised before implementation?
 
 Return:
 - findings ordered by severity,
@@ -465,6 +473,7 @@ Requirements:
 - Put teaching goal, student outcome, key ideas, misconceptions, and questions in the Markdown body.
 - Use one `question` fenced YAML block per question.
 - Preserve valid YAML inside question blocks.
+- Include `hint` only when it would help after one incorrect attempt; do not use hints as first-attempt instruction.
 - Do not generate extra lessons or questions.
 - Do not modify unrelated files.
 - Run available content validation after implementation.
@@ -488,8 +497,9 @@ Review the implemented lesson files and summarize:
 4. Whether question types are used appropriately.
 5. Whether question difficulty progresses well.
 6. Whether explanations teach, not just confirm.
-7. Whether any lessons should be split, combined, reordered, or rewritten.
-8. Whether the source format is working for authors and QA.
+7. Whether hints are well targeted for second attempts.
+8. Whether any lessons should be split, combined, reordered, or rewritten.
+9. Whether the source format is working for authors and QA.
 
 Return a concise pilot report with recommended changes before scaling the rebuild.
 ```
@@ -559,6 +569,7 @@ A V3 lesson is done when:
 - Each question has a clear learning job.
 - Correct answers are accurate and unambiguous.
 - Explanations help the student understand the reasoning.
+- Hints, when present, support a second attempt without revealing the answer.
 - The lesson avoids generic repeated patterns.
 - Content validates and renders in the app.
 - QA log records the lesson goal, outcome, question count, question types, and acceptance decision.
