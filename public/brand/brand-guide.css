@@ -547,6 +547,136 @@ p {
   text-decoration: none;
 }
 
+.offline-option {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+}
+
+.offline-option-head {
+  display: grid;
+  gap: 8px;
+}
+
+.offline-state-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.offline-state {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  min-width: 0;
+  padding: 14px 10px 16px;
+  border: 2px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--paper-soft) 76%, white);
+}
+
+.offline-state > span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.offline-icon-button {
+  --button-bg: #ebe8ef;
+  --button-fg: #7d768c;
+  --button-shadow: #c9c3d4;
+  position: relative;
+  display: inline-grid;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  place-items: center;
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  background: var(--button-bg);
+  box-shadow: 0 5px 0 var(--button-shadow);
+  color: var(--button-fg);
+  cursor: default;
+}
+
+.offline-icon-button svg {
+  width: 31px;
+  height: 31px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.8;
+}
+
+.offline-icon-button.is-saved {
+  --button-bg: var(--accent);
+  --button-fg: white;
+  --button-shadow: #0f8c7b;
+}
+
+.offline-round {
+  width: 66px;
+  height: 66px;
+  border-radius: 999px;
+}
+
+.offline-round.is-saved {
+  --button-bg: var(--secondary);
+  --button-fg: var(--ink);
+  --button-shadow: #d6aa1c;
+}
+
+.offline-tab {
+  --tab-bg: var(--button-bg);
+  width: 68px;
+  height: 58px;
+  margin-top: 10px;
+  border-radius: 11px;
+}
+
+.offline-tab::before {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  width: 28px;
+  height: 18px;
+  border: 3px solid var(--ink);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  background: var(--tab-bg);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.offline-tab.is-saved {
+  --button-bg: var(--accent-two);
+  --button-fg: white;
+  --button-shadow: #334fcf;
+  --tab-bg: var(--accent-two);
+}
+
+.status-check {
+  position: absolute;
+  right: -9px;
+  bottom: -9px;
+  display: inline-grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.status-check svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 3.4;
+}
+
 .pill {
   display: inline-flex;
   align-items: center;
