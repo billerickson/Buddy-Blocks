@@ -547,6 +547,10 @@ p {
   text-decoration: none;
 }
 
+.offline-options {
+  max-width: 560px;
+}
+
 .offline-option {
   display: grid;
   gap: 18px;
@@ -614,47 +618,6 @@ p {
   --button-bg: var(--accent);
   --button-fg: white;
   --button-shadow: #0f8c7b;
-}
-
-.offline-round {
-  width: 66px;
-  height: 66px;
-  border-radius: 999px;
-}
-
-.offline-round.is-saved {
-  --button-bg: var(--secondary);
-  --button-fg: var(--ink);
-  --button-shadow: #d6aa1c;
-}
-
-.offline-tab {
-  --tab-bg: var(--button-bg);
-  width: 68px;
-  height: 58px;
-  margin-top: 10px;
-  border-radius: 11px;
-}
-
-.offline-tab::before {
-  position: absolute;
-  top: -16px;
-  left: 50%;
-  width: 28px;
-  height: 18px;
-  border: 3px solid var(--ink);
-  border-bottom: 0;
-  border-radius: 10px 10px 0 0;
-  background: var(--tab-bg);
-  content: "";
-  transform: translateX(-50%);
-}
-
-.offline-tab.is-saved {
-  --button-bg: var(--accent-two);
-  --button-fg: white;
-  --button-shadow: #334fcf;
-  --tab-bg: var(--accent-two);
 }
 
 .status-check {
