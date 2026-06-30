@@ -1,5 +1,10 @@
 # Buddy Blocks Lesson Authoring Guide
 
+> [!WARNING]
+> This is legacy V1/V2 authoring documentation. It describes the current runtime content format and the existing `src/content/curriculum` tree, including frontmatter question arrays that enabled too much generated, repeated content. Do not use this file as the primary context for V3 curriculum research or authoring.
+>
+> For V3, use [docs/v3-lesson-authoring.md](v3-lesson-authoring.md) and [docs/v3-content-rebuild-plan.md](v3-content-rebuild-plan.md). V3 starts from blank-slate research, level blueprints, unit design briefs, lesson briefs, and hand-authored question blocks.
+
 ## Where Lessons Live
 
 The editable curriculum source is [src/content/curriculum](/Users/billerickson/Downloads/learn.billplustara.com/src/content/curriculum).
