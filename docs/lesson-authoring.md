@@ -60,6 +60,26 @@ Kid app pages are generic static shells. The Worker maps authenticated dynamic U
 
 Temporary school vocabulary belongs in child-specific practice sets, not canonical curriculum Markdown. See [docs/practice-sets.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/practice-sets.md) for the parent API workflow, archive behavior, and generated context/card lesson shape.
 
+## Curriculum Strategy And Scope
+
+[docs/curriculum-summary.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/curriculum-summary.md) is the planning source for what each canonical track should cover. Use it before adding a new grade, level, unit, or major lesson sequence. This guide explains how to author content; the summary explains what content belongs in each grade or foundation level.
+
+Scholastic Math and Vocabulary are now planned as Grade 1-12 tracks:
+
+- Math uses `grade-01/01-math` through `grade-12/01-math`.
+- Vocabulary uses `grade-01/02-vocabulary` through `grade-12/02-vocabulary`.
+- Grade 3 Math, Grade 3 Vocabulary, Grade 6 Math, and Grade 6 Vocabulary are already authored. Grades 1-2 and the remaining grades are planned until their folders exist with `track.yaml`, units, and lessons.
+
+Foundation subjects use level placement rather than the student's academic grade. The current storage convention is Level 1 in `grade-03`, Level 2 in `grade-04`, Level 3 in `grade-05`, Level 4 in `grade-06`, and Level 5 in `grade-07` when a subject needs a fifth level. Use the level counts and strategies in the curriculum summary for Spanish, French, Latin, Grammar, Logic, Rhetoric, Classical Literature, History And Civics, and Memory Work.
+
+When building a planned track:
+
+1. Start from the grade or level strategy in the curriculum summary.
+2. Convert each major strand into an ordered unit.
+3. Convert each unit into compact lessons with one primary skill each.
+4. Add cumulative review lessons that deliberately spiral older units.
+5. Update curriculum tests when the expected inventory, unit order, or lesson totals change.
+
 ## Track Files
 
 Each track folder needs a `track.yaml`:
@@ -168,6 +188,30 @@ Research sources:
 - [Roediger and Karpicke, 2006: Test-Enhanced Learning](https://doi.org/10.1111/j.1467-9280.2006.01693.x)
 - [Dunlosky et al., 2013: Improving Students' Learning With Effective Learning Techniques](https://doi.org/10.1177/1529100612453266)
 
+### Math Track Authoring
+
+Math tracks should follow the grade strategy in [docs/curriculum-summary.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/curriculum-summary.md), not just isolated standards. Each grade should include computation fluency, conceptual models, visual reasoning, math vocabulary, word problems, data literacy, financial literacy, and cumulative review.
+
+For Grade 1-2 Math:
+
+- Keep concrete and pictorial reasoning central: manipulatives, ten frames, number bonds, open number lines, arrays, simple drawings, clocks, coins, rulers, shape partitions, picture graphs, and bar graphs.
+- Use short prompts and friendly contexts. Ask students to choose a model, complete a model, or explain a strategy before asking for unsupported computation.
+- Treat word problems as a core strand. Include result-unknown, change-unknown, start-unknown, comparison, put-together/take-apart, one-step, and early two-step stories.
+- Build fluency gently through frequent short practice, not long timed drills. Save full Mad Minute style multiplication fact practice for Grade 3 and later unless the curriculum summary says otherwise.
+- Spiral money, time, measurement, data, shapes, and personal-finance choices throughout the year so they do not become single-use units.
+
+For Grade 3-8 Math:
+
+- Keep `Mad Minute` or equivalent fluency practice, but pair it with concept lessons, models, explanations, and mixed application.
+- Spiral fractions, decimals, percents, equations, measurement, data, and financial literacy across grades.
+- Use consistent problem-solving routines: understand the question, choose a model, compute or reason, check units, and explain whether the answer makes sense.
+
+For Grade 9-12 Math:
+
+- Keep graphing, tables, equations, verbal interpretation, and modeling together.
+- Shift fluency practice toward algebraic transformations, equation solving, function analysis, graph interpretation, and estimation.
+- Include capstone or modeling tasks that ask students to compare representations and justify choices.
+
 ### Vocabulary Lesson Ladder
 
 For canonical Vocabulary units, use this order unless the unit is purely cumulative review:
@@ -192,6 +236,30 @@ Design the practice mix this way:
 - Explanations should point to the clue, word part, or example that reveals the answer.
 
 For world-language and classical-language units, keep the same principle: students should see and hear the target words in a preview, intro, or contextual lesson before being asked to produce them. The language ladder can still use Preview, Easy, Medium, and Hard flash cards, but production should come after exposure and recognition.
+
+### Vocabulary Track Authoring
+
+Vocabulary is not a full ELA replacement. It should build transferable word knowledge: context clues, morphology, reference skills, general academic language, domain-specific words, author-craft vocabulary, argument/media terms, research language, and writing/revision vocabulary.
+
+For Grade 1-2 Vocabulary:
+
+- Make oral language, pictures, read-aloud snippets, word sorting, and sentence frames central.
+- Teach categories, attributes, synonyms, antonyms, shades of meaning, multiple-meaning words, compound words, inflectional endings, simple prefixes/suffixes, homophones, idioms, and early reference skills in concrete contexts.
+- Include content-area words from Math, Science, Social Studies, Literature, and classroom discussion so vocabulary supports the rest of the curriculum.
+- Use question types that do not overload decoding: picture-supported multiple choice, match pairs, fill blanks with strong clues, short passage questions, and occasional text input only after recognition practice.
+- Ask students to explain the clue or word part that helped them, using sentence stems such as `My clue is ___` or `I think ___ because ___`.
+
+For Grade 3-8 Vocabulary:
+
+- Keep the exposure-first ladder: context/preview, easy recognition, varied practice, hard production, and later mixed review.
+- Use morphology deliberately. Prefixes, suffixes, roots, word families, cognates, and etymology should help students infer meaning, not become isolated trivia.
+- Keep words tethered to short passages, diagrams, arguments, source excerpts, writing samples, or content-area scenarios.
+
+For Grade 9-12 Vocabulary:
+
+- Use more abstract, disciplinary, rhetorical, literary, civic, research, and college-readiness language.
+- Ask students to track words in a small portfolio: word, source context, morphology or etymology, definition, connotation, example, non-example, and original sentence.
+- Include synthesis and critique verbs so vocabulary supports literary analysis, argument writing, research, and seminar discussion.
 
 ## Mad Minute Files
 
@@ -500,7 +568,7 @@ Use this for verb transformation practice. Each row supplies one answer per colu
 
 ## Adding Content
 
-Use TEKS (Texas Essential Knowledge and Skills) as a guide for what should be covered in each subject level. The lessons can stay playful and compact, but the topic progression should map back to the expectations for that level.
+Use [docs/curriculum-summary.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/curriculum-summary.md) as the first guide for what should be covered in each subject level. It already synthesizes TEKS, Common Core, and subject-specific sources into Buddy Blocks grade/level strategy. The lessons can stay playful and compact, but the topic progression should map back to the expectations for that grade or foundation level.
 
 To add a lesson:
 
@@ -512,11 +580,12 @@ To add a lesson:
 
 To add a new track:
 
-1. Add the next numbered track folder under the grade, such as `04-science`.
-2. Add `track.yaml`.
-3. Add at least one unit folder with `unit.yaml`.
-4. Add at least one available lesson so the child has a starting point.
-5. Update tests if the expected v1 shape changes.
+1. Confirm the track is listed as `planned` or intentionally add it to [docs/curriculum-summary.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/curriculum-summary.md).
+2. Add the next numbered track folder under the grade, such as `04-science`.
+3. Add `track.yaml`.
+4. Add ordered unit folders with `unit.yaml` based on the summary strategy.
+5. Add at least one available lesson so the child has a starting point.
+6. Update tests if the expected v1 shape changes.
 
 ## Seeding And Testing Locally
 
@@ -552,13 +621,15 @@ The seed script upserts authored tracks, units, lessons, and questions. It inser
 
 When turning school curriculum into Buddy Blocks content:
 
-1. Convert each broad subject into a track.
-2. Convert each topic or standard cluster into a unit.
-3. Convert each weekly skill into one or more lessons.
-4. Keep each lesson focused on one skill and 8-12 questions.
-5. Mix question types so lessons do not feel repetitive.
-6. Use explanations where a wrong answer is likely to teach a misconception.
-7. Prefer kid-facing wording over standard/teacher wording in prompts.
+1. Compare the school curriculum to the relevant grade or level plan in [docs/curriculum-summary.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/curriculum-summary.md).
+2. Convert each broad subject into a track when it belongs in canonical curriculum.
+3. Convert each topic or standard cluster into a unit.
+4. Convert each weekly skill into one or more lessons.
+5. Keep each lesson focused on one skill and 8-12 questions.
+6. Mix question types so lessons do not feel repetitive.
+7. Use explanations where a wrong answer is likely to teach a misconception.
+8. Prefer kid-facing wording over standard/teacher wording in prompts.
+9. Put temporary school-only vocabulary in practice sets instead of canonical curriculum Markdown.
 
 ## Authoring Checklist
 

@@ -16,7 +16,7 @@ The curriculum sequences below are based on these references:
 
 - ACTFL [World-Readiness Standards for Learning Languages](https://www.actfl.org/educator-resources/world-readiness-standards-for-learning-languages) and [NCSSFL-ACTFL Can-Do Statements](https://www.actfl.org/educator-resources/ncssfl-actfl-can-do-statements) for modern language proficiency, communication modes, culture, comparisons, and community use.
 - Texas Education Agency [Chapter 114 Languages Other Than English TEKS](https://tea.texas.gov/laws-and-rules/texas-administrative-code/19-tac-chapter-114), including modern and classical language proficiency ranges.
-- Texas Education Agency [Chapter 111 Mathematics TEKS](https://tea.texas.gov/laws-and-rules/texas-administrative-code/19-tac-chapter-111), [Mathematics TEKS supporting information](https://texasgateway.org/resource/mathematics-teks-supporting-information), and [mathematics course prerequisites](https://tea.texas.gov/educators/subject-areas/mathematics/mathematics-frequently-asked-questions) for Grade 3-8 math and high school course sequencing.
+- Texas Education Agency [Chapter 111 Mathematics TEKS](https://tea.texas.gov/laws-and-rules/texas-administrative-code/19-tac-chapter-111), [Mathematics TEKS supporting information](https://texasgateway.org/resource/mathematics-teks-supporting-information), and [mathematics course prerequisites](https://tea.texas.gov/educators/subject-areas/mathematics/mathematics-frequently-asked-questions) for Grade 1-8 math and high school course sequencing.
 - Common Core [Mathematics Standards](https://thecorestandards.org/Math/) and NCTM [Principles to Actions](https://www.nctm.org/PtA/) for grade-level coherence, mathematical practices, modeling, and problem-solving emphasis.
 - Texas Education Agency [Chapter 110 English Language Arts And Reading TEKS](https://tea.texas.gov/laws-and-rules/texas-administrative-code/19-tac-chapter-110) for vocabulary, comprehension, author craft, inquiry, composition, and academic language progression.
 - Common Core [English Language Arts Standards](https://thecorestandards.org/ELA-Literacy/) for grammar, reading literature, writing, speaking, and listening progression.
@@ -31,6 +31,8 @@ The curriculum sequences below are based on these references:
 
 ### Math
 
+- Grade 1 (`planned`): recommended folder `src/content/curriculum/grade-01/01-math`.
+- Grade 2 (`planned`): recommended folder `src/content/curriculum/grade-02/01-math`.
 - Grade 3 (`complete`): `src/content/curriculum/grade-03/01-math`, 13 units, 69 lessons.
 - Grade 4 (`planned`): recommended folder `src/content/curriculum/grade-04/01-math`.
 - Grade 5 (`planned`): recommended folder `src/content/curriculum/grade-05/01-math`.
@@ -44,6 +46,8 @@ The curriculum sequences below are based on these references:
 
 ### Vocabulary
 
+- Grade 1 (`planned`): recommended folder `src/content/curriculum/grade-01/02-vocabulary`.
+- Grade 2 (`planned`): recommended folder `src/content/curriculum/grade-02/02-vocabulary`.
 - Grade 3 (`complete`): `src/content/curriculum/grade-03/02-vocabulary`, 12 units, 55 lessons.
 - Grade 4 (`planned`): recommended folder `src/content/curriculum/grade-04/02-vocabulary`.
 - Grade 5 (`planned`): recommended folder `src/content/curriculum/grade-05/02-vocabulary`.
@@ -59,7 +63,7 @@ The curriculum sequences below are based on these references:
 
 ### Math
 
-Recommended total: 10 grade-level tracks, Grades 3-12.
+Recommended total: 12 grade-level tracks, Grades 1-12.
 
 High school mapping note:
 
@@ -67,6 +71,8 @@ High school mapping note:
 
 Grade strategy:
 
+- Grade 1 (`planned`): Build number sense, counting fluency, and concrete addition/subtraction. Cover counting, comparing, composing and decomposing numbers, place value through 120, addition and subtraction within 20, word problems with unknowns in all positions, equal shares, time to the hour and half hour, coins by name and value, measurement by length, picture/bar graphs, defining attributes of shapes, and math language for explaining strategies.
+- Grade 2 (`planned`): Consolidate fluency and prepare for Grade 3 multiplication, fractions, and measurement. Cover addition/subtraction within 100 and up to 1,000 with models, place value to 1,200, skip counting, arrays and equal groups as multiplication readiness, odd/even, mental math, multi-step word problems, money, time to five minutes, standard measurement, line plots, graphs, 2D/3D shapes, partitioning shapes into halves/thirds/fourths, and early personal-finance choices.
 - Grade 3 (`complete`): Build the arithmetic foundation. Cover addition and subtraction fluency, multi-digit addition/subtraction with regrouping, place value and rounding, multiplication and division concepts, one-step and two-step word problems, fractions as equal parts and number-line quantities, fraction decomposition, measurement, elapsed time, money, personal financial literacy, data displays, geometry, area, perimeter, patterns/tables, mixed problem solving, and multiplication fact fluency.
 - Grade 4 (`planned`): Extend whole-number operations and fraction sense. Cover multi-digit addition/subtraction review, multi-digit multiplication, division with remainders, factors and multiples, prime/composite numbers, equivalent fractions, comparing and ordering fractions, adding/subtracting fractions with like denominators, mixed numbers, decimals to hundredths, measurement conversions, angle measurement, lines and symmetry, area/perimeter, data displays, and financial-literacy situations.
 - Grade 5 (`planned`): Prepare for middle-school rational-number work. Cover place value through decimals, powers of ten patterns, multi-digit decimal operations, fraction addition/subtraction with unlike denominators, multiplying fractions, dividing unit fractions and whole numbers in scaffolded contexts, volume, coordinate planes, numerical expressions, input-output patterns, data interpretation, conversions, and multi-step problem solving.
@@ -78,9 +84,36 @@ Grade strategy:
 - Grade 11 (`planned`): Algebra II. Cover advanced function families: linear, quadratic, polynomial, rational, radical, exponential, logarithmic, absolute value, piecewise, and introductory trigonometric functions. Include complex numbers, transformations, inverses, compositions, systems, matrices as a tool where useful, conic sections, sequences and series, probability/statistics, and real-world modeling.
 - Grade 12 (`planned`): Precalculus and quantitative reasoning capstone. Cover advanced functions, trigonometry, identities, inverse trig, vectors, polar and parametric representations, conics, limits as a calculus preview, discrete math, data analysis, probability, normal distributions, financial mathematics, optimization/modeling, and a capstone project that compares multiple mathematical models for one real question.
 
+Grade 1 planned content details:
+
+- `Counting And Number Sense`: count forward/backward by ones, count from any number, read/write numerals, match numerals to sets, use ten frames and number paths, compare sets, use `more`, `less`, `fewer`, `same`, and build quick recognition of small quantities.
+- `Addition Within 20`: model joining with objects, fingers, drawings, ten frames, number bonds, and number lines; use counting on, doubles, near doubles, make-ten strategies, and fact families; explain why a strategy works.
+- `Subtraction Within 20`: model take-apart, take-away, and compare situations; connect subtraction to addition; find missing parts; use number bonds, count-back, count-up, and make-ten reasoning.
+- `Word Problems And Math Stories`: solve one-step addition/subtraction stories with result unknown, change unknown, start unknown, put-together/take-apart, and comparison situations; draw a model; write or choose an equation; answer in a complete phrase.
+- `Place Value To 120`: group tens and ones, compose/decompose two-digit numbers, compare two-digit numbers with place-value language, order numbers on a number line, count by tens, and understand that teen numbers are one ten and some ones.
+- `Measurement And Data`: compare lengths directly, use nonstandard units before inch/centimeter exposure, order objects by length, collect class data, read picture graphs and bar graphs, ask/answer `how many more` and `how many fewer` questions.
+- `Time, Money, And Financial Habits`: tell time to the hour and half hour, name pennies/nickels/dimes/quarters, compare coin values at a recognition level, distinguish needs and wants, practice saving/spending/giving choices through simple scenarios.
+- `Geometry And Equal Shares`: identify defining/non-defining attributes, compose and decompose 2D shapes, identify cubes/cones/cylinders/spheres informally, partition circles and rectangles into two or four equal shares, and use `halves`, `fourths`, and `quarters`.
+- `Patterns, Mental Math, And Fluency`: build repeating/growing patterns, use skip-count readiness with twos/fives/tens, practice addition/subtraction facts in short bursts, explain patterns in words, and review mixed skills cumulatively.
+- `Grade 1 Capstone Review`: mix number sense, operations, word problems, time, money, measurement, data, and geometry in short applied tasks. Students should choose a model, compute, check the answer, and explain their thinking orally or with a sentence frame.
+
+Grade 2 planned content details:
+
+- `Place Value To 1,200`: read/write numbers in standard, word, and expanded form; compose/decompose hundreds, tens, and ones; compare/order three-digit numbers; locate numbers on open number lines; count by ones, twos, fives, tens, and hundreds.
+- `Addition And Subtraction Within 100`: develop fluency with sums/differences to 20 and efficient strategies within 100; use place-value drawings, open number lines, compensation, making tens, and inverse-operation checks.
+- `Addition And Subtraction To 1,000`: add/subtract three-digit numbers with concrete and pictorial models before algorithms; regroup tens and hundreds; estimate reasonableness; explain how place value supports the method.
+- `Word Problems And Equations`: solve one-step and two-step addition/subtraction problems, including money and measurement contexts; use strip diagrams, comparison bars, equations with unknowns, and answer-checking routines.
+- `Arrays, Equal Groups, And Skip Counting`: use arrays, repeated addition, row/column language, doubles, even/odd pairs, and skip counting as multiplication readiness without requiring formal multiplication facts yet.
+- `Fractions And Equal Shares`: partition circles, rectangles, and sets into halves, thirds, and fourths; describe equal shares of the same whole; recognize that equal shares must be the same size; connect fraction language to future Grade 3 fraction work.
+- `Measurement, Time, And Money`: measure length with rulers, inches, feet, centimeters, and meters; compare and estimate length; tell time to five minutes; count mixed coin sets and solve change/readiness problems in small amounts.
+- `Data And Graphs`: create/read picture graphs, bar graphs, and line plots; ask and answer comparison questions; interpret data with `more than`, `fewer than`, `total`, `difference`, and simple evidence statements.
+- `Geometry`: classify 2D and 3D shapes by attributes; identify sides, vertices, faces, edges, and angles informally; compose/decompose shapes; connect arrays, area-readiness, and partitioning.
+- `Personal Financial Literacy`: identify saving, spending, borrowing, lending, income, gifts, donations, and responsible choices; compare prices; decide whether a purchase fits a simple goal or budget.
+- `Grade 2 Capstone Review`: mix place value, operations, money, time, measurement, graphing, geometry, equal groups, and fraction language. Students should select a strategy, show work with a model or equation, and explain why the answer makes sense.
+
 Authoring notes:
 
-- Each grade should include computation fluency, conceptual models, visual reasoning, vocabulary, multi-step word problems, and cumulative review.
+- Each grade should include computation fluency, conceptual models, visual reasoning, vocabulary, multi-step word problems, and cumulative review. In Grades 1-2, keep manipulatives, drawings, ten frames, number bonds, open number lines, and oral explanations central.
 - Keep `Mad Minute` or equivalent fluency practice in Grades 3-8; in high school, shift fluency practice toward algebraic transformations, equation solving, graph interpretation, and mental estimation.
 - Use consistent problem-solving routines: understand the question, choose a model, compute or reason, check units, and explain whether the answer makes sense.
 - Spiral prior skills inside new units, especially fractions/decimals/percents, equations, measurement, and data.
@@ -89,7 +122,7 @@ Authoring notes:
 
 ### Vocabulary
 
-Recommended total: 10 grade-level tracks, Grades 3-12.
+Recommended total: 12 grade-level tracks, Grades 1-12.
 
 Scope note:
 
@@ -97,6 +130,8 @@ Scope note:
 
 Grade strategy:
 
+- Grade 1 (`planned`): Build oral word knowledge and early word-solving habits. Cover naming and describing, categories, attributes, synonyms and antonyms, shades of meaning for common verbs/adjectives, multiple-meaning words in familiar contexts, compound words, inflectional endings, simple prefixes/suffixes by meaning, context clues in sentences, picture/glossary support, everyday academic words, story words, content-area words, and oral sentence stems for explaining answers.
+- Grade 2 (`planned`): Strengthen independent vocabulary solving and prepare for Grade 3 morphology. Cover context clues across sentences, compound words, prefixes, suffixes, base words, simple roots and word families, synonyms/antonyms, shades of meaning, multiple-meaning words, homophones, idioms, reference tools, glossary/dictionary habits, academic verbs, informational-text words, character/story vocabulary, math/science/social studies vocabulary, and precise word choice in speaking and writing.
 - Grade 3 (`complete`): Build core word-learning habits. Cover word meanings, context clues, synonyms, antonyms, shades of meaning, multiple-meaning words, prefixes, suffixes, roots, word families, reference skills, figurative language, adages and proverbs, content-area vocabulary, academic reading words, oral academic sentence stems, writing and revision words, and cumulative review.
 - Grade 4 (`planned`): Strengthen flexible word solving. Cover context clues across sentences and paragraphs, common Greek and Latin affixes, base words and inflectional endings, homophones and homographs, idioms, adages, proverbs, similes, metaphors, dictionary/thesaurus use, glossary skills, content-area words, precise verbs/adjectives, and discussion words for explaining evidence.
 - Grade 5 (`planned`): Move from common vocabulary to academic morphology. Cover Greek and Latin roots, prefixes and suffixes, word families, analogies, connotation and denotation, figurative language, domain-specific vocabulary, literary terms, informational text signal words, reference tools, academic verbs for prompts, and revision words for clarity, precision, and transitions.
@@ -108,9 +143,38 @@ Grade strategy:
 - Grade 11 (`planned`): English III, American literature, and civic rhetoric vocabulary. Cover founding-era, civic, legal, political, and historical terms; American literary movement vocabulary; rhetorical analysis terms; argument structure; nuanced connotation; etymology; advanced roots; research synthesis; source credibility; and words for evaluating claims, evidence, and style in primary sources and speeches.
 - Grade 12 (`planned`): English IV and college-readiness vocabulary. Cover advanced abstract and disciplinary vocabulary, British/world literature terms, philosophy and ethics terms for seminar discussion, rhetoric and style vocabulary, scholarly research language, discipline-specific words for college/career pathways, synthesis and critique verbs, independent word-learning strategies, and a final vocabulary/commonplace portfolio.
 
+Grade 1 planned content details:
+
+- `Oral Vocabulary And Naming`: expand everyday nouns, verbs, adjectives, and prepositions; sort words by people, places, things, actions, feelings, sizes, colors, textures, positions, and time words; practice precise naming in complete spoken sentences.
+- `Categories And Attributes`: group words by category, identify the word that does not belong, describe shared attributes, compare two objects or ideas, and use category labels such as animal, tool, place, food, weather, family, and school.
+- `Synonyms, Antonyms, And Shades`: match common synonyms and antonyms; order simple adjectives and verbs by intensity such as warm/hot or walk/march; choose precise words for pictures and sentences.
+- `Multiple-Meaning And Compound Words`: recognize common multiple-meaning words such as bat, bark, light, and play; build and break compound words such as sunshine, backpack, and playground; use picture and sentence clues to choose meaning.
+- `Word Parts Readiness`: notice endings such as `-s`, `-ed`, and `-ing`; introduce meaning-based prefixes and suffixes such as `un-`, `re-`, `-ful`, and `-less` with concrete words; connect changed word parts to changed meaning.
+- `Context Clues In Sentences`: use pictures, restatement, examples, and nearby words to infer a simple unknown word; answer `What clue helped?`; distinguish a good guess from a random guess.
+- `Story And Character Words`: teach vocabulary for character, setting, problem, solution, beginning, middle, end, feeling, choice, lesson, and describe; connect words to short fables, poems, and read-aloud passages.
+- `Content-Area Words`: introduce math words such as add, subtract, equal, compare, more, fewer, length, graph, shape; science words such as observe, change, plant, animal, weather; and social studies words such as map, rule, community, past, present.
+- `Academic Talk And Sentence Stems`: practice answer, question, explain, reason, evidence, same, different, because, first, next, last; use oral frames such as `I think ___ because ___`, `My clue is ___`, and `I agree because ___`.
+- `Reference And Print Tools`: use picture dictionaries, classroom word walls, labels, captions, glossaries, alphabet order readiness, and digital/audio supports when appropriate.
+- `Writing And Review Words`: use word choice, revise, add, fix, detail, describe, and sentence; choose stronger words in short dictated or copied sentences; complete cumulative review with pictures, oral responses, and short written answers.
+
+Grade 2 planned content details:
+
+- `Context Clues Across Sentences`: infer word meaning from a sentence pair or short paragraph; use definition, example, contrast, picture, and cause/effect clues; cite the clue in a sentence frame.
+- `Compound Words, Base Words, And Endings`: build/break compound words; identify base words with `-s`, `-es`, `-ed`, `-ing`, `-er`, and `-est`; explain how endings affect number, time, comparison, or action.
+- `Prefixes, Suffixes, And Word Families`: teach common prefixes such as `un-`, `re-`, `pre-`, `mis-` and suffixes such as `-ful`, `-less`, `-ly`, `-ness`; group related words by base and meaning; prepare for Grade 3 roots without overformalizing etymology.
+- `Synonyms, Antonyms, Shades, And Precision`: compare near-synonyms, choose precise verbs/adjectives, rank intensity, and revise sentences from general words such as good, bad, big, small, said, and went to more exact words.
+- `Multiple-Meaning Words And Homophones`: use context to distinguish meanings of words such as fly, kind, watch, ring, and right; introduce common homophones such as to/two/too, there/their, sea/see, and hear/here in sentence context.
+- `Idioms And Figurative Readiness`: introduce common idioms and sayings through pictures and short stories; distinguish literal and nonliteral meanings; prepare for Grade 3 figurative language, adages, and proverbs.
+- `Reference Skills`: use alphabet order, guide-word readiness, dictionary entries at a simplified level, glossaries, captions, labels, diagrams, and thesaurus-style synonym lists; choose the best source for a word question.
+- `Story, Poetry, And Author-Craft Words`: teach plot, character trait, setting, problem, solution, lesson, narrator, poem, rhythm, rhyme, stanza, image, dialogue, and compare/contrast language.
+- `Informational And Content-Area Vocabulary`: teach text feature words such as heading, caption, diagram, table, map, timeline, glossary, index; math/science/social studies words such as estimate, measure, data, observe, predict, habitat, citizen, symbol, and tradition.
+- `Academic Verbs And Discussion Language`: teach identify, describe, explain, compare, contrast, infer, prove, support, summarize, and conclude; practice frames such as `The text says ___`, `Another example is ___`, and `I changed my thinking because ___`.
+- `Writing And Revision Vocabulary`: use audience, topic, detail, order, transition, revise, edit, precise, complete sentence, and paragraph; apply vocabulary in short written responses, sentence revision, and oral retelling.
+- `Cumulative Word-Learning Review`: spiral context clues, morphology, multiple meanings, figurative readiness, reference tools, academic talk, and content-area words. Students should explain a word's meaning, the clue or word part that helped, and an original sentence.
+
 Authoring notes:
 
-- Vocabulary lessons should mix direct teaching, morphology, context clues, multiple exposures, speaking/listening use, writing use, and cumulative retrieval.
+- Vocabulary lessons should mix direct teaching, morphology, context clues, multiple exposures, speaking/listening use, writing use, and cumulative retrieval. In Grades 1-2, keep oral language, pictures, read-aloud snippets, word sorting, and sentence frames central.
 - Keep the exposure-first pattern: preview or flash cards before production questions, then use the same words in short reading, sentence revision, and applied response tasks.
 - Every grade should include general academic words, domain-specific words, morphology, figurative language, author craft, argument/media terms, research terms, and revision vocabulary.
 - Middle and high school vocabulary should be text-tethered. Whenever possible, words should appear in short passages, source excerpts, diagrams, arguments, or writing samples.
