@@ -198,7 +198,48 @@ describe('seed SQL helpers', () => {
     });
   });
 
-  it('keeps a valid current lesson when repairing child track progress', () => {
+  it('promotes an earlier locked lesson ahead of a stale available intro lesson', () => {
+    const db = createTestDatabase();
+    seedCanonicalFixture(db);
+    db.prepare(
+      `INSERT INTO lessons (id, unit_id, slug, title, sort_order, xp_base, kind, config_json)
+       VALUES ('lesson_intro', 'unit_canonical', 'intro', 'Intro', 4, 10, 'standard', NULL)`,
+    ).run();
+    db.prepare(
+      `INSERT INTO child_lesson_progress
+       (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+       VALUES ('progress_flash_cards', 'child_1', 'lesson_canonical', 'locked', NULL, 0, 0)`,
+    ).run();
+    db.prepare(
+      `INSERT INTO child_lesson_progress
+       (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+       VALUES ('progress_intro', 'child_1', 'lesson_intro', 'available', NULL, 0, 0)`,
+    ).run();
+    db.prepare(
+      `INSERT INTO child_track_progress
+       (id, child_profile_id, track_id, current_unit_id, current_lesson_id, lessons_completed, xp_total, updated_at)
+       VALUES ('track_progress_child_1_science', 'child_1', 'track_grade7_science', 'unit_canonical', 'lesson_intro', 0, 0, '2026-06-29T12:00:00.000Z')`,
+    ).run();
+
+    execStatements(db, buildChildTrackRepairStatements('child_1', 'track_grade7_science', '2026-06-29T13:00:00.000Z'));
+
+    expect(
+      db.prepare('SELECT status FROM child_lesson_progress WHERE id = ?').get('progress_flash_cards'),
+    ).toEqual({ status: 'available' });
+    expect(
+      db.prepare('SELECT status FROM child_lesson_progress WHERE id = ?').get('progress_intro'),
+    ).toEqual({ status: 'locked' });
+    expect(
+      db.prepare('SELECT current_unit_id, current_lesson_id FROM child_track_progress WHERE id = ?').get(
+        'track_progress_child_1_science',
+      ),
+    ).toEqual({
+      current_unit_id: 'unit_canonical',
+      current_lesson_id: 'lesson_canonical',
+    });
+  });
+
+  it('repairs stale available current lessons to the canonical first incomplete lesson', () => {
     const db = createTestDatabase();
     seedCanonicalFixture(db);
     db.prepare(
@@ -234,6 +275,9 @@ describe('seed SQL helpers', () => {
 
     expect(
       db.prepare('SELECT status FROM child_lesson_progress WHERE id = ?').get('progress_next'),
+    ).toEqual({ status: 'available' });
+    expect(
+      db.prepare('SELECT status FROM child_lesson_progress WHERE id = ?').get('progress_current'),
     ).toEqual({ status: 'locked' });
     expect(
       db.prepare('SELECT current_unit_id, current_lesson_id FROM child_track_progress WHERE id = ?').get(
@@ -241,11 +285,11 @@ describe('seed SQL helpers', () => {
       ),
     ).toEqual({
       current_unit_id: 'unit_canonical',
-      current_lesson_id: 'lesson_current',
+      current_lesson_id: 'lesson_next',
     });
   });
 
-  it('keeps a completed current lesson if it still belongs to the track', () => {
+  it('advances a completed current lesson to the canonical first incomplete lesson', () => {
     const db = createTestDatabase();
     seedCanonicalFixture(db);
     db.prepare(
@@ -272,14 +316,14 @@ describe('seed SQL helpers', () => {
 
     expect(
       db.prepare('SELECT status FROM child_lesson_progress WHERE id = ?').get('progress_next'),
-    ).toEqual({ status: 'locked' });
+    ).toEqual({ status: 'available' });
     expect(
       db.prepare('SELECT current_unit_id, current_lesson_id FROM child_track_progress WHERE id = ?').get(
         'track_progress_child_1_science',
       ),
     ).toEqual({
       current_unit_id: 'unit_canonical',
-      current_lesson_id: 'lesson_canonical',
+      current_lesson_id: 'lesson_next',
     });
   });
 });

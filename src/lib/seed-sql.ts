@@ -96,25 +96,6 @@ export function buildChildTrackRepairStatements(childId: string, trackId: string
          AND child_lesson_progress.status <> 'completed'
        ORDER BY units.sort_order, lessons.sort_order
        LIMIT 1`;
-  const availableLessons = `SELECT child_lesson_progress.lesson_id
-       FROM lessons
-       JOIN units ON units.id = lessons.unit_id
-       JOIN child_lesson_progress
-         ON child_lesson_progress.lesson_id = lessons.id
-        AND child_lesson_progress.child_profile_id = ${child}
-       WHERE units.track_id = ${track}
-         AND child_lesson_progress.status = 'available'
-         AND child_lesson_progress.completed_at IS NULL
-       ORDER BY units.sort_order, lessons.sort_order`;
-  const currentProgressLessonInTrack = `SELECT 1
-       FROM lessons
-       JOIN units ON units.id = lessons.unit_id
-       JOIN child_track_progress
-         ON child_track_progress.current_lesson_id = lessons.id
-       WHERE units.track_id = ${track}
-         AND child_track_progress.child_profile_id = ${child}
-         AND child_track_progress.track_id = ${track}
-       LIMIT 1`;
   const firstAvailableLesson = `SELECT lessons.id
        FROM lessons
        JOIN units ON units.id = lessons.unit_id
@@ -130,7 +111,6 @@ export function buildChildTrackRepairStatements(childId: string, trackId: string
     `UPDATE child_lesson_progress
 SET status = CASE
   WHEN status = 'completed' THEN 'completed'
-  WHEN status = 'available' THEN 'available'
   WHEN lesson_id IN (
     SELECT lessons.id
     FROM lessons
@@ -149,14 +129,15 @@ WHERE id = (
   FROM child_lesson_progress
   WHERE child_profile_id = ${child}
     AND lesson_id = (${firstIncompleteLesson})
-)
-  AND NOT EXISTS (${availableLessons})
-  AND NOT EXISTS (${currentProgressLessonInTrack});`,
+);`,
     `UPDATE child_track_progress
-SET current_lesson_id = CASE
-      WHEN current_lesson_id IN (${trackLessons}) THEN current_lesson_id
-      ELSE (${firstAvailableLesson})
-    END
+SET current_lesson_id = coalesce(
+      (${firstIncompleteLesson}),
+      CASE
+        WHEN current_lesson_id IN (${trackLessons}) THEN current_lesson_id
+        ELSE (${firstAvailableLesson})
+      END
+    )
 WHERE child_profile_id = ${child}
   AND track_id = ${track};`,
     `UPDATE child_track_progress
