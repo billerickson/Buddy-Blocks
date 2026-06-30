@@ -67,6 +67,8 @@ const courseOrder = [
   'memory-work',
 ];
 
+const gradeBasedSubjects = new Set(['math', 'vocabulary']);
+
 const courseCopy: Record<string, CourseCopy> = {
   math: {
     slug: 'math',
@@ -303,7 +305,7 @@ function buildCourseFamily(copy: CourseCopy): CourseFamily | null {
     ...copy,
     tracks,
     stats: statsForTracks(tracks),
-    levelRange: levelRange(tracks),
+    levelRange: levelRange(copy.subject, tracks),
     mockups: sampleFamilyMockups(tracks, 3),
   };
 }
@@ -324,27 +326,44 @@ function statsForTracks(tracks: TrackFixture[]): CourseStats {
   );
 }
 
-function levelRange(tracks: TrackFixture[]) {
-  const grades = tracks.map((track) => track.gradeLevel);
-  const min = Math.min(...grades);
-  const max = Math.max(...grades);
-  if (min === max) return `Grade ${min}`;
-  return `Grades ${min}-${max}`;
+function levelRange(subject: string, tracks: TrackFixture[]) {
+  if (gradeBasedSubjects.has(subject)) {
+    const grades = tracks.map((track) => track.gradeLevel);
+    const min = Math.min(...grades);
+    const max = Math.max(...grades);
+    if (min === max) return `Grade ${min}`;
+    return `Grades ${min}-${max}`;
+  }
+
+  const levels = tracks.map(foundationLevelNumber);
+  const min = Math.min(...levels);
+  const max = Math.max(...levels);
+  if (min === max) return `Level ${min}`;
+  return `Levels ${min}-${max}`;
 }
 
 function levelLabel(track: TrackFixture) {
-  if (track.subject === 'math' || track.subject === 'vocabulary') return `Grade ${track.gradeLevel}`;
-  return `${track.title} - Grade ${track.gradeLevel}`;
+  if (gradeBasedSubjects.has(track.subject)) return `Grade ${track.gradeLevel}`;
+  return `${track.title} - Level ${foundationLevelNumber(track)}`;
 }
 
 function levelParagraphs(family: CourseFamily, track: TrackFixture, stats: CourseStats, unitTitles: string[]) {
   const sampleUnits = toSentenceList(unitTitles.slice(0, 4));
   const laterUnits = unitTitles.length > 4 ? ` Later work includes ${toSentenceList(unitTitles.slice(4, 7))}.` : '';
   return [
-    `${track.title} is the ${levelLabel(track).toLowerCase()} level in the ${family.title} track. ${track.description}`,
+    `${track.title} is ${levelPositionLabel(track)} in the ${family.title} track. ${track.description}`,
     `Students move through ${sampleUnits}.${laterUnits} Lessons are ordered so students meet new ideas, practice with support, and return to older material as review.`,
     `By completion, this level includes ${stats.units} units, ${stats.lessons} lessons, and ${stats.questions} questions. Students learn ${toSentenceList(family.learn)}, master ${toSentenceList(family.master)}, and complete a full path of ${toSentenceList(family.complete)}.`,
   ];
+}
+
+function foundationLevelNumber(track: TrackFixture) {
+  return Math.max(1, track.gradeLevel - 2);
+}
+
+function levelPositionLabel(track: TrackFixture) {
+  if (gradeBasedSubjects.has(track.subject)) return `the Grade ${track.gradeLevel} level`;
+  return `Level ${foundationLevelNumber(track)}`;
 }
 
 function sampleFamilyMockups(tracks: TrackFixture[], limit: number) {

@@ -41,7 +41,7 @@ const totals = families.reduce(
           <span>{families.length} tracks</span>
         </div>
         <div class="course-dashboard-body">
-          {families.slice(0, 5).map((family) => (
+          {families.map((family) => (
             <a class="course-dashboard-row" href={`/courses/${family.slug}/`} style={`--course-color: ${family.color};`}>
               <span>
                 <strong>{family.title}</strong>
@@ -180,6 +180,7 @@ const totals = families.reduce(
 
     .course-dashboard-body {
       display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
       padding: 18px;
       background:
@@ -335,6 +336,12 @@ const totals = families.reduce(
 
       .course-dashboard {
         transform: none;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .course-dashboard-body {
+        grid-template-columns: 1fr;
       }
     }
 
