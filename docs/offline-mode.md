@@ -110,6 +110,16 @@ Do not cache parent APIs by default.
 
 Add an explicit "Save offline" control on kid pages.
 
+Current track-pack behavior:
+
+- From the kid dashboard, each track card has its own icon-only "Save Offline" action.
+- Saving a track calls `/api/children/:child/tracks/:track/offline-pack`.
+- That intentional API path returns every lesson payload in the selected track, including lessons that are currently locked in the normal lesson flow.
+- The client stores each lesson under its normal `/api/children/:child/lessons/:lesson` cache key so the existing lesson page can open it offline.
+- The dashboard icon switches to the completed state only after all lesson payloads in that track are cached.
+- Offline completions update cached home, track, and lesson progress locally so the next cached lesson unlocks on-device.
+- Pending completions sync in creation order when connectivity returns. If one completion cannot sync, later completions wait for the next sync pass so server unlock order is preserved.
+
 First-pass behavior:
 
 - From the child dashboard, cache:

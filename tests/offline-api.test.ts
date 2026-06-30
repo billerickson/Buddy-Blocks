@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { selectOfflineLessonIds, type HomeLike, type TrackDataLike } from '../src/components/islands/offline/api';
+import {
+  selectOfflineLessonIds,
+  selectTrackLessonIds,
+  type HomeLike,
+  type TrackDataLike,
+  type TrackOfflinePack,
+} from '../src/components/islands/offline/api';
 
 describe('offline lesson pack selection', () => {
   it('prioritizes recommended and practice lessons before available track lessons without duplicates', () => {
@@ -57,5 +63,34 @@ describe('offline lesson pack selection', () => {
         2,
       ),
     ).toEqual(['lesson_1', 'lesson_2']);
+  });
+
+  it('selects every lesson from a saved track pack in pack order', () => {
+    const pack: TrackOfflinePack = {
+      child: { slug: 'reagan' },
+      track: { slug: 'spanish-1', title: 'Spanish 1' },
+      progress: { lessonsCompleted: 0, xpTotal: 0, currentLesson: null },
+      units: [],
+      lessons: [
+        {
+          lesson: {
+            id: 'lesson_1',
+            title: 'One',
+            unit: { title: 'Unit' },
+            track: { slug: 'spanish-1', title: 'Spanish 1' },
+          },
+        },
+        {
+          lesson: {
+            id: 'lesson_2',
+            title: 'Two',
+            unit: { title: 'Unit' },
+            track: { slug: 'spanish-1', title: 'Spanish 1' },
+          },
+        },
+      ],
+    };
+
+    expect(selectTrackLessonIds(pack)).toEqual(['lesson_1', 'lesson_2']);
   });
 });

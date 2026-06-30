@@ -233,11 +233,11 @@ export default function LessonPlayer({
               )}
             </div>
 
-            {completion.nextLesson && !queued && (
+            {completion.nextLesson && (
               <div className="mx-auto mt-6 flex max-w-2xl flex-col items-center gap-3 rounded-lg border-[3px] border-ink bg-[#f0fff9] p-4 shadow-[4px_4px_0_var(--block-shadow)] sm:flex-row sm:text-left">
                 <RewardIcon type="unlock" />
                 <div>
-                  <p className="font-black uppercase text-muted">Next block unlocked</p>
+                  <p className="font-black uppercase text-muted">{queued ? 'Next block ready offline' : 'Next block unlocked'}</p>
                   <h2 className="text-3xl">{completion.nextLesson.title}</h2>
                   <p className="font-extrabold text-muted">
                     {completion.nextLesson.trackTitle} · {completion.nextLesson.unitTitle}
@@ -253,7 +253,7 @@ export default function LessonPlayer({
             )}
 
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-              {completion.nextLesson && !queued && (
+              {completion.nextLesson && (
                 <a className="primary-button" href={`/kid/${data.child.slug}/lesson/${completion.nextLesson.id}/`}>
                   Next Lesson
                 </a>

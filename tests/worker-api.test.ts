@@ -357,6 +357,50 @@ describe('worker track APIs', () => {
     });
   });
 
+  it('returns a whole-track offline pack including locked lesson payloads', async () => {
+    const { env } = createEnv();
+
+    const { response, body } = await getJson('/api/children/reagan/tracks/grade-3-spanish/offline-pack', env);
+
+    expect(response.status).toBe(200);
+    expect(body).toMatchObject({
+      child: { slug: 'reagan' },
+      track: { slug: 'grade-3-spanish', title: 'Spanish 1' },
+      progress: {
+        lessonsCompleted: 1,
+        currentLesson: { id: 'lesson_2' },
+      },
+    });
+    expect(body.units[0].lessons.map((lesson: { id: string; status: string }) => [lesson.id, lesson.status])).toEqual([
+      ['lesson_1', 'completed'],
+      ['lesson_2', 'available'],
+      ['lesson_3', 'locked'],
+    ]);
+    expect(body.lessons.map((lessonData: { lesson: { id: string } }) => lessonData.lesson.id)).toEqual([
+      'lesson_1',
+      'lesson_2',
+      'lesson_3',
+      'lesson_4',
+      'lesson_5',
+    ]);
+    expect(body.lessons.find((lessonData: { lesson: { id: string } }) => lessonData.lesson.id === 'lesson_3')).toMatchObject({
+      progress: {
+        status: 'locked',
+        bestScoreCorrect: 0,
+        bestScoreTotal: 0,
+      },
+      lesson: {
+        title: 'Locked A',
+        track: { slug: 'grade-3-spanish' },
+      },
+    });
+    expect(body.lessons.find((lessonData: { lesson: { id: string } }) => lessonData.lesson.id === 'lesson_5').lesson.questions).toHaveLength(1);
+
+    const normalLockedLesson = await getJson('/api/children/reagan/lessons/lesson_3', env);
+    expect(normalLockedLesson.response.status).toBe(403);
+    expect(normalLockedLesson.body).toEqual({ error: 'lesson_locked' });
+  });
+
   it('uses child grade for scholastic tracks and starts foundation tracks at level 1', async () => {
     const { env } = createEnv();
 

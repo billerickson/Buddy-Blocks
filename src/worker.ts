@@ -443,6 +443,17 @@ async function apiRouter(request: Request, env: Env) {
   const childHomeMatch = pathname.match(/^\/api\/children\/([^/]+)\/home$/);
   if (childHomeMatch) return apiChildHome(parent, env, decodeURIComponent(childHomeMatch[1]), childModeSlug);
 
+  const trackOfflinePackMatch = pathname.match(/^\/api\/children\/([^/]+)\/tracks\/([^/]+)\/offline-pack$/);
+  if (trackOfflinePackMatch) {
+    return apiChildTrackOfflinePack(
+      parent,
+      env,
+      decodeURIComponent(trackOfflinePackMatch[1]),
+      decodeURIComponent(trackOfflinePackMatch[2]),
+      childModeSlug,
+    );
+  }
+
   const trackMatch = pathname.match(/^\/api\/children\/([^/]+)\/tracks\/([^/]+)$/);
   if (trackMatch) {
     return apiChildTrack(parent, env, decodeURIComponent(trackMatch[1]), decodeURIComponent(trackMatch[2]), childModeSlug);
@@ -569,6 +580,47 @@ async function apiChildTrack(
   });
 }
 
+async function apiChildTrackOfflinePack(
+  parent: SessionParent,
+  env: Env,
+  childKey: string,
+  trackSlug: string,
+  childModeSlug: string | null,
+) {
+  const child = await getChildForParent(parent, env, childKey);
+  if (!child) return json({ error: 'child_not_found' }, 404);
+  if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
+
+  const track = await getTrackForChild(env, child, trackSlug);
+  if (!track) return json({ error: 'track_not_found' }, 404);
+
+  const [progress, unitResponses, lessons] = await Promise.all([
+    getTrackProgress(env, child.id, track.id),
+    getTrackUnitResponses(env, child.id, track.id),
+    getLessonDetailsForTrack(env, track.id),
+  ]);
+  const questionsByLessonId = await getLessonQuestionsByLessonIds(
+    env,
+    lessons.map((lesson) => lesson.id),
+  );
+  const progressByLessonId = lessonProgressByIdFromUnits(unitResponses);
+  const currentLesson = progress?.current_lesson_id ? await getLessonDetail(env, progress.current_lesson_id) : null;
+
+  return json({
+    child: childResponse(child),
+    track: trackResponse(track),
+    progress: {
+      lessonsCompleted: progress?.lessons_completed ?? 0,
+      xpTotal: progress?.xp_total ?? 0,
+      currentLesson: currentLesson ? lessonLinkResponse(currentLesson) : null,
+    },
+    units: unitResponses,
+    lessons: lessons.map((lesson) =>
+      lessonResponse(child, lesson, progressByLessonId.get(lesson.id), questionsByLessonId.get(lesson.id) ?? []),
+    ),
+  });
+}
+
 async function apiLesson(
   parent: SessionParent,
   env: Env,
@@ -592,34 +644,7 @@ async function apiLesson(
 
   const questions = await getLessonQuestions(env, lesson.id);
 
-  return json({
-    child: childResponse(child),
-    heartsStart: 5,
-    progress: lessonProgressResponse(progress),
-    lesson: {
-      id: lesson.id,
-      slug: lesson.slug,
-      title: lesson.title,
-      kind: lesson.kind,
-      config: lesson.kind === 'mad-minute' ? parseMadMinuteConfig(lesson.config_json) : parseStandardLessonConfig(lesson.config_json),
-      xpBase: lesson.xp_base,
-      unit: {
-        id: lesson.unit_id,
-        slug: lesson.unit_slug,
-        title: lesson.unit_title,
-      },
-      track: {
-        id: lesson.track_id,
-        slug: lesson.track_slug,
-        subject: lesson.track_subject,
-        gradeLevel: lesson.track_grade_level,
-        title: lesson.track_title,
-        color: lesson.track_color,
-        accent: lesson.track_accent,
-      },
-      questions,
-    },
-  });
+  return json(lessonResponse(child, lesson, progress, questions));
 }
 
 async function apiSubmitLesson(
@@ -1703,6 +1728,21 @@ async function getTrackUnitResponses(env: Env, childId: string, trackId: string)
   return Array.from(units.values());
 }
 
+function lessonProgressByIdFromUnits(units: Awaited<ReturnType<typeof getTrackUnitResponses>>) {
+  const progressByLessonId = new Map<string, LessonProgressRow>();
+  for (const unit of units) {
+    for (const lesson of unit.lessons) {
+      progressByLessonId.set(lesson.id, {
+        status: lesson.status,
+        completed_at: lesson.completedAt ?? null,
+        best_score_correct: lesson.bestScoreCorrect,
+        best_score_total: lesson.bestScoreTotal,
+      });
+    }
+  }
+  return progressByLessonId;
+}
+
 async function getLessonProgress(env: Env, childId: string, lessonId: string) {
   return env.DB.prepare('SELECT * FROM child_lesson_progress WHERE child_profile_id = ? AND lesson_id = ? LIMIT 1')
     .bind(childId, lessonId)
@@ -1742,6 +1782,22 @@ async function getLessonDetailsByIds(env: Env, lessonIds: string[]) {
   );
 }
 
+async function getLessonDetailsForTrack(env: Env, trackId: string) {
+  return all<LessonDetailRow>(
+    env.DB.prepare(
+      `SELECT lessons.*, units.title as unit_title, units.slug as unit_slug,
+              tracks.id as track_id, tracks.slug as track_slug, tracks.subject as track_subject,
+              tracks.grade_level as track_grade_level, tracks.title as track_title,
+              tracks.color as track_color, tracks.accent as track_accent
+       FROM lessons
+       JOIN units ON units.id = lessons.unit_id
+       JOIN tracks ON tracks.id = units.track_id
+       WHERE tracks.id = ?
+       ORDER BY units.sort_order, lessons.sort_order`,
+    ).bind(trackId),
+  );
+}
+
 async function getLessonQuestions(env: Env, lessonId: string): Promise<LessonQuestion[]> {
   const rows = await all<QuestionRow>(
     env.DB.prepare('SELECT * FROM questions WHERE lesson_id = ? ORDER BY sort_order').bind(lessonId),
@@ -1753,6 +1809,35 @@ async function getLessonQuestions(env: Env, lessonId: string): Promise<LessonQue
     payload: JSON.parse(row.payload_json) as QuestionPayload,
     explanation: row.explanation,
   }));
+}
+
+async function getLessonQuestionsByLessonIds(env: Env, lessonIds: string[]) {
+  const questionsByLessonId = new Map<string, LessonQuestion[]>();
+  if (lessonIds.length === 0) return questionsByLessonId;
+
+  const rows = await all<QuestionRow>(
+    env.DB.prepare(
+      `SELECT *
+       FROM questions
+       WHERE lesson_id IN (${placeholders(lessonIds)})
+       ORDER BY lesson_id, sort_order`,
+    ).bind(...lessonIds),
+  );
+
+  for (const row of rows) {
+    const question = {
+      id: row.id,
+      type: row.type,
+      prompt: row.prompt,
+      payload: JSON.parse(row.payload_json) as QuestionPayload,
+      explanation: row.explanation,
+    };
+    const questions = questionsByLessonId.get(row.lesson_id) ?? [];
+    questions.push(question);
+    questionsByLessonId.set(row.lesson_id, questions);
+  }
+
+  return questionsByLessonId;
 }
 
 async function getActivityDates(env: Env, childId: string) {
@@ -1833,12 +1918,48 @@ function trackResponse(track: TrackRow) {
   };
 }
 
-function lessonProgressResponse(progress: LessonProgressRow) {
+function offlineLessonProgressResponse(progress: LessonProgressRow | null | undefined) {
   return {
-    status: progress.status,
-    completedAt: progress.completed_at,
-    bestScoreCorrect: progress.best_score_correct,
-    bestScoreTotal: progress.best_score_total,
+    status: progress?.status ?? 'locked',
+    completedAt: progress?.completed_at ?? null,
+    bestScoreCorrect: progress?.best_score_correct ?? 0,
+    bestScoreTotal: progress?.best_score_total ?? 0,
+  };
+}
+
+function lessonResponse(
+  child: ChildRow,
+  lesson: LessonDetailRow,
+  progress: LessonProgressRow | null | undefined,
+  questions: LessonQuestion[],
+) {
+  return {
+    child: childResponse(child),
+    heartsStart: 5,
+    progress: offlineLessonProgressResponse(progress),
+    lesson: {
+      id: lesson.id,
+      slug: lesson.slug,
+      title: lesson.title,
+      kind: lesson.kind,
+      config: lesson.kind === 'mad-minute' ? parseMadMinuteConfig(lesson.config_json) : parseStandardLessonConfig(lesson.config_json),
+      xpBase: lesson.xp_base,
+      unit: {
+        id: lesson.unit_id,
+        slug: lesson.unit_slug,
+        title: lesson.unit_title,
+      },
+      track: {
+        id: lesson.track_id,
+        slug: lesson.track_slug,
+        subject: lesson.track_subject,
+        gradeLevel: lesson.track_grade_level,
+        title: lesson.track_title,
+        color: lesson.track_color,
+        accent: lesson.track_accent,
+      },
+      questions,
+    },
   };
 }
 

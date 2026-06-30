@@ -126,6 +126,7 @@ function isChildSafeApi(pathname) {
   return (
     pathname === '/api/children' ||
     /^\/api\/children\/[^/]+\/home$/.test(pathname) ||
+    /^\/api\/children\/[^/]+\/tracks\/[^/]+\/offline-pack$/.test(pathname) ||
     /^\/api\/children\/[^/]+\/tracks\/[^/]+$/.test(pathname) ||
     /^\/api\/children\/[^/]+\/lessons\/[^/]+$/.test(pathname)
   );

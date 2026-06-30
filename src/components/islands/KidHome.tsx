@@ -2,7 +2,7 @@ import { useEffect, useState } from 'preact/hooks';
 import { getSubjectMetadata } from '../../lib/subjects';
 import { percent } from './api';
 import { BlockAvatar, TrackIcon } from './BlockAvatar';
-import { fetchKidHome, saveLessonPack, type OfflineSource } from './offline/api';
+import { fetchKidHome, getSavedTrackPack, saveTrackLessonPack, type OfflineSource } from './offline/api';
 import { OfflineStatusPill } from './offline/OfflineStatusPill';
 import { childSlugFromLocation } from './route-params';
 
@@ -54,13 +54,17 @@ type HomeData = {
   badges: Array<{ key: string; label: string }>;
 };
 
+type TrackPackUiState = {
+  state: 'idle' | 'saving' | 'saved' | 'error';
+  lessonsCached?: number;
+};
+
 export default function KidHome({ childSlug: childSlugProp }: { childSlug?: string }) {
   const childSlug = childSlugFromLocation(childSlugProp);
   const [data, setData] = useState<HomeData | null>(null);
   const [dataSource, setDataSource] = useState<OfflineSource>('network');
   const [error, setError] = useState('');
-  const [packStatus, setPackStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
-  const [packMessage, setPackMessage] = useState('');
+  const [trackPackStates, setTrackPackStates] = useState<Record<string, TrackPackUiState>>({});
 
   useEffect(() => {
     if (!childSlug) {
@@ -75,6 +79,36 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
       })
       .catch((reason) => setError(reason.message));
   }, [childSlug]);
+
+  useEffect(() => {
+    if (!childSlug || !data) return undefined;
+
+    let cancelled = false;
+    const refreshSavedTrackPacks = async () => {
+      const entries = await Promise.all(
+        data.tracks.map(async (track) => {
+          const pack = await getSavedTrackPack(childSlug, track.slug);
+          return [track.slug, pack] as const;
+        }),
+      );
+      if (cancelled) return;
+      setTrackPackStates((current) => {
+        const next = { ...current };
+        for (const [trackSlug, pack] of entries) {
+          if (!pack || next[trackSlug]?.state === 'saving') continue;
+          next[trackSlug] = { state: 'saved', lessonsCached: pack.lessonsCached };
+        }
+        return next;
+      });
+    };
+
+    void refreshSavedTrackPacks();
+    window.addEventListener('buddy-blocks-offline-updated', refreshSavedTrackPacks);
+    return () => {
+      cancelled = true;
+      window.removeEventListener('buddy-blocks-offline-updated', refreshSavedTrackPacks);
+    };
+  }, [childSlug, data]);
 
   if (error) return <p className="block-card p-5 font-black text-berryDark">{error}</p>;
   if (!data) return <p className="text-xl font-black text-muted">Stacking your lesson blocks...</p>;
@@ -130,30 +164,6 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
               Continue Lesson
             </a>
           )}
-          <button
-            className="secondary-button mt-3"
-            type="button"
-            disabled={packStatus === 'saving'}
-            onClick={async () => {
-              setPackStatus('saving');
-              setPackMessage('');
-              try {
-                const pack = await saveLessonPack(data.child.slug);
-                setPackStatus('saved');
-                setPackMessage(`${pack.lessonsCached} lessons cached`);
-              } catch {
-                setPackStatus('error');
-                setPackMessage('Could not save lessons offline.');
-              }
-            }}
-          >
-            {packStatus === 'saving' ? 'Saving...' : 'Save offline'}
-          </button>
-          {packMessage && (
-            <p className={`mt-3 font-black ${packStatus === 'error' ? 'text-berryDark' : 'text-muted'}`}>
-              {packMessage}
-            </p>
-          )}
         </div>
       </div>
 
@@ -200,23 +210,52 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
             <div className="track-grid">
               {group.tracks.map((track) => {
                 const progress = percent(track.lessonsCompleted, track.totalLessons);
+                const packState = trackPackStates[track.slug] ?? { state: 'idle' };
                 return (
-                  <a key={track.id} href={`/kid/${data.child.slug}/track/${track.slug}/`} className="block-card p-5 no-underline">
+                  <article key={track.id} className="block-card p-5">
                     <div className="flex items-start gap-4">
-                      <TrackIcon iconKey={getSubjectMetadata(track.subject).iconKey} color={track.color} />
-                      <div className="min-w-0 flex-1">
-                        <h3 className="text-3xl">{track.title}</h3>
-                        <p className="mt-2 font-bold text-muted">{track.description}</p>
+                      <a href={`/kid/${data.child.slug}/track/${track.slug}/`} className="flex min-w-0 flex-1 items-start gap-4 no-underline">
+                        <TrackIcon iconKey={getSubjectMetadata(track.subject).iconKey} color={track.color} />
+                        <div className="min-w-0 flex-1">
+                          <h3 className="text-3xl">{track.title}</h3>
+                          <p className="mt-2 font-bold text-muted">{track.description}</p>
+                        </div>
+                      </a>
+                      <TrackOfflineButton
+                        state={packState.state}
+                        trackTitle={track.title}
+                        onClick={async () => {
+                          if (packState.state === 'saving') return;
+                          setTrackPackStates((current) => ({
+                            ...current,
+                            [track.slug]: { ...current[track.slug], state: 'saving' },
+                          }));
+                          try {
+                            const pack = await saveTrackLessonPack(data.child.slug, track.slug);
+                            setTrackPackStates((current) => ({
+                              ...current,
+                              [track.slug]: { state: 'saved', lessonsCached: pack.lessonsCached },
+                            }));
+                          } catch {
+                            setTrackPackStates((current) => ({
+                              ...current,
+                              [track.slug]: { ...current[track.slug], state: 'error' },
+                            }));
+                          }
+                        }}
+                      />
+                    </div>
+                    <a href={`/kid/${data.child.slug}/track/${track.slug}/`} className="mt-5 block no-underline">
+                      <div className="progress-rail" aria-label={`${track.title} progress`}>
+                        <span className="progress-fill" style={{ width: `${progress}%` }} />
                       </div>
-                    </div>
-                    <div className="mt-5 progress-rail" aria-label={`${track.title} progress`}>
-                      <span className="progress-fill" style={{ width: `${progress}%` }} />
-                    </div>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      <span className="stat-chip">{track.lessonsCompleted}/{track.totalLessons} lessons</span>
-                      <span className="stat-chip">{track.xpTotal} XP</span>
-                    </div>
-                  </a>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <span className="stat-chip">{track.lessonsCompleted}/{track.totalLessons} lessons</span>
+                        <span className="stat-chip">{track.xpTotal} XP</span>
+                        {packState.state === 'error' && <span className="stat-chip bg-[#ffe1ea]">Offline save failed</span>}
+                      </div>
+                    </a>
+                  </article>
                 );
               })}
             </div>
@@ -239,5 +278,51 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
         </div>
       </section>
     </section>
+  );
+}
+
+function TrackOfflineButton({
+  state,
+  trackTitle,
+  onClick,
+}: {
+  state: TrackPackUiState['state'];
+  trackTitle: string;
+  onClick: () => void | Promise<void>;
+}) {
+  const saved = state === 'saved';
+  const saving = state === 'saving';
+  const errored = state === 'error';
+  const label = saving
+    ? `Saving ${trackTitle} offline`
+    : saved
+      ? `${trackTitle} saved offline`
+      : errored
+        ? `Retry saving ${trackTitle} offline`
+        : `Save ${trackTitle} offline`;
+
+  return (
+    <button
+      className={`offline-icon-button offline-block ${saved ? 'is-saved' : ''} ${saving ? 'is-saving' : ''} ${errored ? 'is-error' : ''}`}
+      type="button"
+      aria-label={label}
+      aria-pressed={saved}
+      title={label}
+      disabled={saving}
+      onClick={() => void onClick()}
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3v11" />
+        <path d="M7 9l5 5 5-5" />
+        <path d="M5 19h14" />
+      </svg>
+      {saved && (
+        <span className="status-check" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 12.5l4.5 4.5L19 7" />
+          </svg>
+        </span>
+      )}
+    </button>
   );
 }

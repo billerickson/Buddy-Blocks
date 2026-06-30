@@ -20,6 +20,15 @@ export type LessonPackRecord = {
   trackSlugs: string[];
   savedAt: string;
   version: number;
+  completedTrackPacks?: TrackLessonPackRecord[];
+};
+
+export type TrackLessonPackRecord = {
+  trackSlug: string;
+  lessonIds: string[];
+  lessonsCached: number;
+  savedAt: string;
+  version: number;
 };
 
 export type PendingCompletionStatus = 'pending' | 'syncing' | 'synced' | 'blocked';
@@ -81,6 +90,11 @@ export async function putLessonPack(record: LessonPackRecord) {
 
 export async function getLessonPack(childSlug: string) {
   return getRecord<LessonPackRecord>(LESSON_PACKS, childSlug);
+}
+
+export async function getSavedTrackPack(childSlug: string, trackSlug: string) {
+  const pack = await getLessonPack(childSlug);
+  return pack?.completedTrackPacks?.find((trackPack) => trackPack.trackSlug === trackSlug) ?? null;
 }
 
 export async function queuePendingCompletion<TBody, TResult>(

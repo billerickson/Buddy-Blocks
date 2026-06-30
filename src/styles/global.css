@@ -257,6 +257,81 @@
     background: linear-gradient(90deg, var(--accent), var(--secondary));
   }
 
+  .offline-icon-button {
+    --button-bg: #ebe8ef;
+    --button-fg: #7d768c;
+    --button-shadow: #c9c3d4;
+    position: relative;
+    display: inline-grid;
+    width: 64px;
+    height: 64px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    background: var(--button-bg);
+    box-shadow: 0 5px 0 var(--button-shadow);
+    color: var(--button-fg);
+    transition:
+      transform 120ms ease,
+      box-shadow 120ms ease;
+  }
+
+  .offline-icon-button:hover:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 var(--button-shadow);
+  }
+
+  .offline-icon-button:disabled {
+    cursor: wait;
+  }
+
+  .offline-icon-button svg {
+    width: 31px;
+    height: 31px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.8;
+  }
+
+  .offline-icon-button.is-saved {
+    --button-bg: var(--accent);
+    --button-fg: white;
+    --button-shadow: #0f8c7b;
+  }
+
+  .offline-icon-button.is-saving svg {
+    animation: offlineSavePulse 900ms ease-in-out infinite;
+  }
+
+  .offline-icon-button.is-error {
+    --button-bg: #ffe1ea;
+    --button-fg: var(--ink);
+    --button-shadow: #e4a0b5;
+  }
+
+  .status-check {
+    position: absolute;
+    right: -9px;
+    bottom: -9px;
+    display: inline-grid;
+    width: 27px;
+    height: 27px;
+    place-items: center;
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .status-check svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 3.4;
+  }
+
   .kid-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -291,6 +366,19 @@
 
   .touch-choice[data-incorrect="true"] {
     background: #ffd9df;
+  }
+
+  @keyframes offlineSavePulse {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: translateY(-1px);
+    }
+
+    50% {
+      opacity: 1;
+      transform: translateY(1px);
+    }
   }
 }
 
