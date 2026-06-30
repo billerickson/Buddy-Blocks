@@ -72,7 +72,7 @@ Scholastic tracks use academic grade placement. Foundation tracks start every st
 
 ### Classical Literature
 
-- Level 1 (`planned`): Classical Literature I, planned for `src/content/curriculum/grade-03/09-literature`.
+- Level 1 (`complete`): Classical Literature I, `src/content/curriculum/grade-03/09-literature`, 10 units, 10 lessons.
 - Level 2 (`empty`)
 - Level 3 (`empty`)
 - Level 4 (`empty`)

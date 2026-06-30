@@ -26,6 +26,7 @@ describe('fixed v1 seed family', () => {
       'grade-3-grammar',
       'grade-3-logic',
       'grade-3-rhetoric',
+      'grade-3-literature',
     ]);
     expect(getTracksForChild(CHILDREN[1]).map((track) => track.slug)).toEqual([
       'grade-3-math',
@@ -36,6 +37,7 @@ describe('fixed v1 seed family', () => {
       'grade-3-grammar',
       'grade-3-logic',
       'grade-3-rhetoric',
+      'grade-3-literature',
     ]);
   });
 
@@ -49,6 +51,7 @@ describe('fixed v1 seed family', () => {
       { childSlug: 'reagan', trackSlug: 'grade-3-grammar' },
       { childSlug: 'reagan', trackSlug: 'grade-3-logic' },
       { childSlug: 'reagan', trackSlug: 'grade-3-rhetoric' },
+      { childSlug: 'reagan', trackSlug: 'grade-3-literature' },
       { childSlug: 'ada', trackSlug: 'grade-3-math' },
       { childSlug: 'ada', trackSlug: 'grade-3-vocabulary' },
       { childSlug: 'ada', trackSlug: 'grade-3-spanish' },
@@ -57,6 +60,7 @@ describe('fixed v1 seed family', () => {
       { childSlug: 'ada', trackSlug: 'grade-3-grammar' },
       { childSlug: 'ada', trackSlug: 'grade-3-logic' },
       { childSlug: 'ada', trackSlug: 'grade-3-rhetoric' },
+      { childSlug: 'ada', trackSlug: 'grade-3-literature' },
     ]);
   });
 });
