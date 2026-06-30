@@ -10,7 +10,7 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icons/buddy-blocks-bb.svg",
+      "src": "/icons/buddy-blocks-bb-large.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

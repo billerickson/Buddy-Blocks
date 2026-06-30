@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
-  <title id="title">Buddy Blocks BB icon</title>
-  <desc id="desc">A yellow Buddy Blocks tile with the letters BB.</desc>
-  <rect x="14" y="14" width="42" height="42" rx="8" fill="#242134"/>
-  <rect x="8" y="8" width="42" height="42" rx="8" fill="#ffd84d" stroke="#242134" stroke-width="4"/>
-  <text x="29" y="35" fill="#242134" font-family="Arial Rounded MT Bold, Fredoka, Arial, sans-serif" font-size="15" font-weight="800" text-anchor="middle" dominant-baseline="central">BB</text>
-</svg>

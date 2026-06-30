@@ -1,8 +1,8 @@
-const STATIC_CACHE = 'buddy-blocks-static-v4';
+const STATIC_CACHE = 'buddy-blocks-static-v5';
 const PAGE_CACHE = 'buddy-blocks-pages-v1';
 const API_CACHE = 'buddy-blocks-api-v1';
 const OFFLINE_DB_NAME = 'buddy-blocks-offline';
-const STATIC_ASSETS = ['/manifest.webmanifest', '/icons/buddy-blocks-bb.svg', '/icons/moxie.svg'];
+const STATIC_ASSETS = ['/manifest.webmanifest', '/icons/buddy-blocks-bb-large.svg', '/icons/moxie.svg'];
 const CURRENT_CACHES = new Set([STATIC_CACHE, PAGE_CACHE, API_CACHE]);
 
 self.addEventListener('install', (event) => {
