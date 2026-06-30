@@ -3,6 +3,14 @@ id: lesson_grade4_spanish_question_and_answer_practice
 slug: question-and-answer-practice
 title: Question And Answer Practice
 xpBase: 10
+config:
+  intro:
+    - title: Meet The Words In Use
+      body: This lesson gives Question And Answer Practice practice after the preview cards. Use context, familiar patterns, and the answer choices before typing from memory.
+      bullets:
+        - Read the whole phrase or sentence first.
+        - Connect new words to the preview deck.
+        - Use feedback to notice the pattern.
 questions:
   - type: multiple-choice
     prompt: What does "porque" mean?
@@ -18,6 +26,7 @@ questions:
     acceptedAnswers:
       - quieres
     answerType: text
+    explanation: The expected answer is "quieres"; the prompt gives the meaning or pattern to recall.
   - type: fill-blank
     prompt: '"prefieres" means ___.'
     sentenceBefore: '"prefieres" means'
@@ -28,6 +37,7 @@ questions:
       - what do you like
       - where are you going
     correctAnswer: do you prefer
+    explanation: The sentence clue points to "do you prefer" as the word that best completes the blank.
   - type: match-pairs
     prompt: Match the question and answer practice words.
     pairs:
@@ -37,6 +47,7 @@ questions:
         right: do you want
       - left: prefieres
         right: do you prefer
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Build "porque me gusta".
     items:
@@ -47,6 +58,7 @@ questions:
       - porque
       - me
       - gusta
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: dialogue-builder
     prompt: Choose the best response in the conversation.
     turns:
@@ -57,11 +69,11 @@ questions:
       - Tengo una regla.
       - Son las ocho.
     correctAnswer: Porque me gusta.
+    explanation: The correct response best fits what the speakers have already said.
   - type: passage-question
     prompt: Read the short Spanish resource.
     passageTitle: Question And Answer Practice
-    passage: En una conversacion corta, una persona pregunta "porque". Otra persona
-      responde "quieres" y explica "prefieres".
+    passage: En una conversacion corta, una persona pregunta "porque". Otra persona responde "quieres" y explica "prefieres".
     question: Which word or phrase from the resource means "do you want"?
     choices:
       - quieres
@@ -69,6 +81,7 @@ questions:
       - que te gusta
       - adonde vas
     correctAnswer: quieres
+    explanation: The passage gives the clue needed to choose the answer.
   - type: speaking-prompt
     prompt: 'Say the model sentence: "porque me gusta".'
     minSeconds: 5

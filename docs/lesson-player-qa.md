@@ -33,4 +33,4 @@ Open the local Worker URL and sign in with the seeded parent account.
 - Complete one conjugation-grid prompt.
 - Finish a standard lesson and verify XP, score, hearts, streak, and next-lesson unlock display.
 - Finish a Mad Minute lesson and verify timer, record, XP, and completion display.
-- Open a weekly practice set and verify generated easy/hard flash-card prompts complete normally.
+- Open a weekly practice set and verify generated context, easy flash-card, and hard flash-card prompts complete normally.

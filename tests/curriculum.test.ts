@@ -241,8 +241,8 @@ describe('curriculum content', () => {
       'research-inquiry-vocabulary',
       'cumulative-review',
     ]);
-    expect(getAllLessons()).toHaveLength(674);
-    expect(getAllQuestions()).toHaveLength(5278);
+    expect(getAllLessons()).toHaveLength(683);
+    expect(getAllQuestions()).toHaveLength(5350);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -361,17 +361,20 @@ describe('curriculum content', () => {
     }
   });
 
-  it('starts language units with preview before flash cards and practice when flash cards exist', () => {
+  it('starts language units with preview and recognition before practice, then ends with hard cards', () => {
     const languageTracks = TRACKS.filter((track) => ['spanish', 'french', 'latin'].includes(track.subject));
 
     for (const track of languageTracks) {
       for (const unit of track.units) {
-        const flashCardCount = unit.lessons.filter(isFlashCardLesson).length;
-        if (flashCardCount === 0) continue;
+        const flashLessons = unit.lessons.filter(isFlashCardLesson);
+        if (flashLessons.length === 0) continue;
 
         expect(unit.lessons[0]?.slug).toBe(`${unit.slug}-preview`);
         expect(unit.lessons[0]?.questions.every((question) => flashCardPayload(question, 'preview'))).toBe(true);
-        expect(unit.lessons.slice(0, flashCardCount).every(isFlashCardLesson)).toBe(true);
+        expect(unit.lessons[1]?.questions.every((question) => flashCardPayload(question, 'easy'))).toBe(true);
+        expect(unit.lessons[2]?.questions.every((question) => flashCardPayload(question, 'medium'))).toBe(true);
+        expect(unit.lessons.at(-1)?.questions.every((question) => flashCardPayload(question, 'hard'))).toBe(true);
+        expect(unit.lessons.slice(3, -1).some((lesson) => !isFlashCardLesson(lesson))).toBe(true);
       }
     }
 
@@ -380,6 +383,19 @@ describe('curriculum content', () => {
       ?.units.find((unit) => unit.slug === 'greetings-polite-phrases');
     expect(frenchGreetings?.lessons[0]?.slug).toBe('greetings-polite-phrases-preview');
     expect(frenchGreetings?.lessons[1]?.slug).toBe('greetings-polite-phrases-flash-cards-easy');
+  });
+
+  it('starts Grade 6 Vocabulary units with context before cards and ends with hard cards', () => {
+    const vocabulary = getTracksForGrade(6).find((track) => track.subject === 'vocabulary');
+    expect(vocabulary).toBeDefined();
+
+    for (const unit of vocabulary?.units.filter((unit) => unit.slug !== 'cumulative-review') ?? []) {
+      expect(unit.lessons[0]?.slug).toBe(`${unit.slug}-preview`);
+      expect(unit.lessons[0]?.questions.every((question) => question.type === 'passage-question')).toBe(true);
+      expect(unit.lessons[1]?.questions.every((question) => flashCardPayload(question, 'easy'))).toBe(true);
+      expect(unit.lessons.at(-1)?.questions.every((question) => flashCardPayload(question, 'hard'))).toBe(true);
+      expect(unit.lessons.slice(2, -1).every((lesson) => !isFlashCardLesson(lesson))).toBe(true);
+    }
   });
 
   it('loads grade folders dynamically and preserves numeric folder order', () => {
@@ -467,8 +483,8 @@ describe('curriculum content', () => {
     expect(summary.totals).toEqual({
       tracks: 16,
       units: 166,
-      lessons: 674,
-      questions: 5278,
+      lessons: 683,
+      questions: 5350,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
       tracks: 1,
@@ -563,8 +579,8 @@ describe('curriculum content', () => {
     expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'vocabulary')).toMatchObject({
       tracks: 1,
       units: 10,
-      lessons: 40,
-      questions: 398,
+      lessons: 49,
+      questions: 470,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 6 && row.subject === 'spanish')).toBeUndefined();
   });

@@ -3,6 +3,14 @@ id: lesson_grade3_french_food_words
 slug: food-words
 title: Food Words
 xpBase: 10
+config:
+  intro:
+    - title: Meet The Words In Use
+      body: This lesson gives Food Words practice after the preview cards. Use context, familiar patterns, and the answer choices before typing from memory.
+      bullets:
+        - Read the whole phrase or sentence first.
+        - Connect new words to the preview deck.
+        - Use feedback to notice the pattern.
 questions:
   - type: multiple-choice
     prompt: What does "j'aime" mean?
@@ -19,6 +27,7 @@ questions:
       - je n'aime pas
       - je n aime pas
     answerType: text
+    explanation: The expected answer is "je n'aime pas"; the prompt gives the meaning or pattern to recall.
   - type: fill-blank
     prompt: '"je veux" means ___.'
     sentenceBefore: '"je veux" means'
@@ -29,6 +38,7 @@ questions:
       - I do not like
       - I need
     correctAnswer: I want
+    explanation: The sentence clue points to "I want" as the word that best completes the blank.
   - type: match-pairs
     prompt: Match the food words words.
     pairs:
@@ -38,6 +48,7 @@ questions:
         right: I do not like
       - left: je veux
         right: I want
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Build "j'aime la pomme".
     items:
@@ -48,6 +59,7 @@ questions:
       - j'aime
       - la
       - pomme
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: dialogue-builder
     prompt: Choose the best response in the conversation.
     turns:
@@ -58,11 +70,11 @@ questions:
       - Je suis professeur.
       - Le crayon est vert.
     correctAnswer: J'aime la pomme.
+    explanation: The correct response best fits what the speakers have already said.
   - type: passage-question
     prompt: Read the short French resource.
     passageTitle: Food Words
-    passage: En francais, on voit "j'aime" et "je n'aime pas". On pratique aussi "je
-      veux" dans une phrase courte.
+    passage: En francais, on voit "j'aime" et "je n'aime pas". On pratique aussi "je veux" dans une phrase courte.
     question: Which word or phrase from the resource means "I do not like"?
     choices:
       - je n'aime pas
@@ -70,6 +82,7 @@ questions:
       - je veux
       - j'ai besoin de
     correctAnswer: je n'aime pas
+    explanation: The passage gives the clue needed to choose the answer.
   - type: speaking-prompt
     prompt: "Say the model sentence: \"j'aime la pomme\"."
     minSeconds: 5

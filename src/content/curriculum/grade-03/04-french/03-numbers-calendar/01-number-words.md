@@ -3,6 +3,14 @@ id: lesson_grade3_french_number_words
 slug: number-words
 title: Number Words
 xpBase: 10
+config:
+  intro:
+    - title: Meet The Words In Use
+      body: This lesson gives Number Words practice after the preview cards. Use context, familiar patterns, and the answer choices before typing from memory.
+      bullets:
+        - Read the whole phrase or sentence first.
+        - Connect new words to the preview deck.
+        - Use feedback to notice the pattern.
 questions:
   - type: multiple-choice
     prompt: What does "trois" mean?
@@ -18,6 +26,7 @@ questions:
     acceptedAnswers:
       - dix
     answerType: text
+    explanation: The expected answer is "dix"; the prompt gives the meaning or pattern to recall.
   - type: fill-blank
     prompt: '"lundi" means ___.'
     sentenceBefore: '"lundi" means'
@@ -28,6 +37,7 @@ questions:
       - two
       - three
     correctAnswer: Monday
+    explanation: The sentence clue points to "Monday" as the word that best completes the blank.
   - type: match-pairs
     prompt: Match the number words words.
     pairs:
@@ -37,6 +47,7 @@ questions:
         right: ten
       - left: lundi
         right: Monday
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Build "aujourd'hui est lundi".
     items:
@@ -47,6 +58,7 @@ questions:
       - aujourd'hui
       - est
       - lundi
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: dialogue-builder
     prompt: Choose the best response in the conversation.
     turns:
@@ -57,11 +69,11 @@ questions:
       - Je suis content.
       - Le livre est rouge.
     correctAnswer: Aujourd'hui est lundi.
+    explanation: The correct response best fits what the speakers have already said.
   - type: passage-question
     prompt: Read the short French resource.
     passageTitle: Number Words
-    passage: En francais, on voit "trois" et "dix". On pratique aussi "lundi" dans
-      une phrase courte.
+    passage: En francais, on voit "trois" et "dix". On pratique aussi "lundi" dans une phrase courte.
     question: Which word or phrase from the resource means "ten"?
     choices:
       - dix
@@ -69,6 +81,7 @@ questions:
       - deux
       - trois
     correctAnswer: dix
+    explanation: The passage gives the clue needed to choose the answer.
   - type: speaking-prompt
     prompt: "Say the model sentence: \"aujourd'hui est lundi\"."
     minSeconds: 5

@@ -241,7 +241,7 @@ Use `unorderedGroupsOf` when each group can be internally unordered but the grou
 
 Use for word learning in Spanish, Vocabulary, or any subject that needs term practice.
 
-Child-specific weekly practice sets also generate `flash-card` questions at runtime. Each practice card becomes one easy recognition card and one hard typed-answer card; see [docs/practice-sets.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/practice-sets.md).
+Child-specific weekly practice sets generate a context `passage-question`, then one easy recognition card and one hard typed-answer card for each practice card; see [docs/practice-sets.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/practice-sets.md).
 
 Easy flash cards show a large card and multiple-choice answers:
 

@@ -3,6 +3,14 @@ id: lesson_grade4_spanish_school_day_conversation
 slug: school-day-conversation
 title: School Day Conversation
 xpBase: 10
+config:
+  intro:
+    - title: Meet The Words In Use
+      body: This lesson gives School Day Conversation practice after the preview cards. Use context, familiar patterns, and the answer choices before typing from memory.
+      bullets:
+        - Read the whole phrase or sentence first.
+        - Connect new words to the preview deck.
+        - Use feedback to notice the pattern.
 questions:
   - type: multiple-choice
     prompt: What does "quiero ir" mean?
@@ -18,6 +26,7 @@ questions:
     acceptedAnswers:
       - porque me gusta
     answerType: text
+    explanation: The expected answer is "porque me gusta"; the prompt gives the meaning or pattern to recall.
   - type: fill-blank
     prompt: '"necesito ayuda" means ___.'
     sentenceBefore: '"necesito ayuda" means'
@@ -28,6 +37,7 @@ questions:
       - my schedule
       - I want to go
     correctAnswer: I need help
+    explanation: The sentence clue points to "I need help" as the word that best completes the blank.
   - type: match-pairs
     prompt: Match the school day conversation words.
     pairs:
@@ -37,6 +47,7 @@ questions:
         right: because I like it
       - left: necesito ayuda
         right: I need help
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Build "quiero ir al parque".
     items:
@@ -49,6 +60,7 @@ questions:
       - ir
       - al
       - parque
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: dialogue-builder
     prompt: Choose the best response in the conversation.
     turns:
@@ -59,11 +71,11 @@ questions:
       - El horario dice treinta.
       - La carpeta es roja.
     correctAnswer: Quiero ir al parque.
+    explanation: The correct response best fits what the speakers have already said.
   - type: passage-question
     prompt: Read the short Spanish resource.
     passageTitle: School Day Conversation
-    passage: En el repaso, digo "quiero ir". Despues explico "porque me gusta" y
-      pido "necesito ayuda" si lo necesito.
+    passage: En el repaso, digo "quiero ir". Despues explico "porque me gusta" y pido "necesito ayuda" si lo necesito.
     question: Which word or phrase from the resource means "because I like it"?
     choices:
       - porque me gusta
@@ -71,6 +83,7 @@ questions:
       - mi horario
       - quiero ir
     correctAnswer: porque me gusta
+    explanation: The passage gives the clue needed to choose the answer.
   - type: speaking-prompt
     prompt: 'Say the model sentence: "quiero ir al parque".'
     minSeconds: 5

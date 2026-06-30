@@ -3,16 +3,24 @@ id: lesson_grade6_vocabulary_context_precision
 slug: context-clues
 title: Context Clues
 xpBase: 10
+config:
+  intro:
+    - title: Meet The Words In Context
+      body: Before answering, read for clues about Context Clues. Meanings stick better when the word is connected to a sentence or example.
+      bullets:
+        - Look for nearby definitions, examples, contrasts, and word parts.
+        - Use recognition questions before typed recall.
+        - Check the explanation to see which clue mattered.
 questions:
   - type: multiple-choice
-    prompt: "Which word best completes: The ___ around a difficult word can help
-      reveal its meaning."
+    prompt: "Which word best completes: The ___ around a difficult word can help reveal its meaning."
     choices:
       - context
       - definition
       - precise
       - origin
     correctAnswer: context
+    explanation: The best answer is "context" because it matches the context or definition in the prompt.
   - type: fill-blank
     prompt: A nearby synonym can be a ___ that helps readers understand.
     sentenceBefore: A nearby synonym can be a
@@ -23,11 +31,13 @@ questions:
       - pronunciation
       - part of speech
     correctAnswer: clue
+    explanation: The sentence clue points to "clue" as the word that best completes the blank.
   - type: text-input
     prompt: Type the word that means the meaning of a word.
     acceptedAnswers:
       - definition
     answerType: text
+    explanation: The expected answer is "definition"; the prompt gives the meaning or pattern to recall.
   - type: multiple-choice
     prompt: Which word means a specific item that shows an idea?
     choices:
@@ -36,6 +46,7 @@ questions:
       - origin
       - entry
     correctAnswer: example
+    explanation: The best answer is "example" because it matches the context or definition in the prompt.
   - type: match-pairs
     prompt: Match each word to its meaning.
     pairs:
@@ -47,6 +58,7 @@ questions:
         right: the meaning of a word
       - left: example
         right: a specific item that shows an idea
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: multiple-choice
     prompt: Which sentence uses analogy correctly?
     choices:
@@ -55,6 +67,7 @@ questions:
       - The dictionary showed the analogy so I knew how to say the word.
       - The word vacant has two analogy parts.
     correctAnswer: The comparison seed is to plant as egg is to bird is an analogy.
+    explanation: The best answer is "The comparison seed is to plant as egg is to bird is an analogy." because it matches the context or definition in the prompt.
   - type: fill-blank
     prompt: The dictionary showed the ___ so I knew how to say the word.
     sentenceBefore: The dictionary showed the
@@ -65,6 +78,7 @@ questions:
       - entry
       - definition
     correctAnswer: pronunciation
+    explanation: The sentence clue points to "pronunciation" as the word that best completes the blank.
   - type: match-pairs
     prompt: Match each word to its sentence.
     pairs:
@@ -76,4 +90,5 @@ questions:
         right: The dictionary showed the ___ so I knew how to say the word.
       - left: syllable
         right: The word vacant has two ___ parts.
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
 ---

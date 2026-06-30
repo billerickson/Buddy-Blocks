@@ -82,6 +82,7 @@ type LessonWithContext = LessonFixture & {
 
 const curriculumRoot = join(process.cwd(), 'src/content/curriculum');
 const languageTrackSubjects = new Set(['spanish', 'french', 'latin']);
+const exposureFirstSubjects = new Set(['vocabulary', ...languageTrackSubjects]);
 
 const slugSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$/);
 const stringListSchema = z.array(z.coerce.string()).min(1);
@@ -413,17 +414,42 @@ function loadUnit(unitDir: string, subject: string): UnitFixture {
 }
 
 function orderLessonsForSubject(lessons: LessonFixture[], subject: string) {
-  if (!languageTrackSubjects.has(subject)) return lessons;
+  if (!exposureFirstSubjects.has(subject)) return lessons;
 
   const flashCardLessons = lessons.filter(isFlashCardLesson);
   if (flashCardLessons.length === 0) return lessons;
 
-  const practiceLessons = lessons.filter((lesson) => !isFlashCardLesson(lesson));
-  return [...flashCardLessons, ...practiceLessons];
+  const previewLessons = lessons.filter(isPreviewLesson);
+  const studyLessons = flashCardLessons.filter(
+    (lesson) => !isPreviewLesson(lesson) && !isFlashCardLessonWithMode('hard')(lesson),
+  );
+  const practiceLessons = lessons.filter(
+    (lesson) => !isPreviewLesson(lesson) && !isFlashCardLesson(lesson),
+  );
+  const hardLessons = flashCardLessons.filter(isFlashCardLessonWithMode('hard'));
+
+  return [...previewLessons, ...studyLessons, ...practiceLessons, ...hardLessons];
+}
+
+function isPreviewLesson(lesson: LessonFixture) {
+  return lesson.slug.endsWith('-preview') || isFlashCardLessonWithMode('preview')(lesson);
 }
 
 function isFlashCardLesson(lesson: LessonFixture) {
   return lesson.questions.length > 0 && lesson.questions.every((question) => question.type === 'flash-card');
+}
+
+function isFlashCardLessonWithMode(mode: 'preview' | 'easy' | 'medium' | 'hard') {
+  return (lesson: LessonFixture) =>
+    isFlashCardLesson(lesson) &&
+    lesson.questions.every(
+      (question) =>
+        question.type === 'flash-card' &&
+        typeof question.payload === 'object' &&
+        question.payload !== null &&
+        'mode' in question.payload &&
+        question.payload.mode === mode,
+    );
 }
 
 function loadLesson(lessonPath: string): LessonFixture {

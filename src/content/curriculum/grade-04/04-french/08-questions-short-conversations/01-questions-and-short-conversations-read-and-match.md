@@ -3,6 +3,14 @@ id: lesson_grade4_french_questions_and_short_conversations_read_and_match
 slug: questions-and-short-conversations-read-and-match
 title: Read And Match
 xpBase: 10
+config:
+  intro:
+    - title: Meet The Words In Use
+      body: This lesson gives Read And Match practice after the preview cards. Use context, familiar patterns, and the answer choices before typing from memory.
+      bullets:
+        - Read the whole phrase or sentence first.
+        - Connect new words to the preview deck.
+        - Use feedback to notice the pattern.
 questions:
   - type: multiple-choice
     prompt: What does "je peux" mean?
@@ -19,6 +27,7 @@ questions:
       - comment tu t'appelles
       - comment tu t appelles
     answerType: text
+    explanation: The expected answer is "comment tu t'appelles"; the prompt gives the meaning or pattern to recall.
   - type: fill-blank
     prompt: "\"qu'est-ce que tu aimes\" means ___."
     sentenceBefore: "\"qu'est-ce que tu aimes\" means"
@@ -29,6 +38,7 @@ questions:
       - where are you going
       - why
     correctAnswer: what do you like
+    explanation: The sentence clue points to "what do you like" as the word that best completes the blank.
   - type: match-pairs
     prompt: Match the read and match words.
     pairs:
@@ -38,6 +48,7 @@ questions:
         right: what is your name
       - left: qu'est-ce que tu aimes
         right: what do you like
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Build "parce que j aime".
     items:
@@ -48,6 +59,7 @@ questions:
       - parce
       - que
       - j aime
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: dialogue-builder
     prompt: Choose the best response in the conversation.
     turns:
@@ -58,11 +70,11 @@ questions:
       - Il est quarante.
       - La regle est bleue.
     correctAnswer: Parce que j'aime lire.
+    explanation: The correct response best fits what the speakers have already said.
   - type: passage-question
     prompt: Read the short French resource.
     passageTitle: Read And Match
-    passage: En francais, on voit "je peux" et "comment tu t'appelles". On pratique
-      aussi "qu'est-ce que tu aimes" dans une phrase courte.
+    passage: En francais, on voit "je peux" et "comment tu t'appelles". On pratique aussi "qu'est-ce que tu aimes" dans une phrase courte.
     question: Which word or phrase from the resource means "what is your name"?
     choices:
       - comment tu t'appelles
@@ -70,6 +82,7 @@ questions:
       - ou vas-tu
       - pourquoi
     correctAnswer: comment tu t'appelles
+    explanation: The passage gives the clue needed to choose the answer.
   - type: constructed-response
     prompt: Write one short English note explaining when you could use "je peux".
     minWords: 4

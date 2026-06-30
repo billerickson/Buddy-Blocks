@@ -1,78 +1,85 @@
 ---
-id: "lesson_grade3_logic_cause_and_effect"
-slug: "cause-and-effect"
-title: "Cause And Effect"
+id: lesson_grade3_logic_cause_and_effect
+slug: cause-and-effect
+title: Cause And Effect
 xpBase: 10
 config:
   intro:
-    - title: "Why It Happened"
-      body: "A cause is why something happened. An effect is what happened because of the cause."
+    - title: Why It Happened
+      body: A cause is why something happened. An effect is what happened because of the cause.
       bullets:
-        - "Because often points to a cause."
-        - "So often points to an effect."
+        - Because often points to a cause.
+        - So often points to an effect.
 questions:
   - type: multiple-choice
-    prompt: "The floor got wet because the cup spilled. What is the cause?"
+    prompt: The floor got wet because the cup spilled. What is the cause?
     choices:
-      - "the floor got wet"
-      - "the cup spilled"
-      - "the floor was clean"
-      - "the cup was blue"
-    correctAnswer: "the cup spilled"
+      - the floor got wet
+      - the cup spilled
+      - the floor was clean
+      - the cup was blue
+    correctAnswer: the cup spilled
+    explanation: The best answer is "the cup spilled" because it matches the context or definition in the prompt.
   - type: multiple-choice
-    prompt: "The wind blew, so the kite rose. What is the effect?"
+    prompt: The wind blew, so the kite rose. What is the effect?
     choices:
-      - "the wind blew"
-      - "the kite rose"
-      - "the string was long"
-      - "the field was open"
-    correctAnswer: "the kite rose"
+      - the wind blew
+      - the kite rose
+      - the string was long
+      - the field was open
+    correctAnswer: the kite rose
+    explanation: The best answer is "the kite rose" because it matches the context or definition in the prompt.
   - type: fill-blank
-    prompt: "A ___ tells why something happened."
-    sentenceBefore: "A"
-    sentenceAfter: "tells why something happened."
+    prompt: A ___ tells why something happened.
+    sentenceBefore: A
+    sentenceAfter: tells why something happened.
     choices:
-      - "cause"
-      - "category"
-      - "question"
-      - "shape"
-    correctAnswer: "cause"
+      - cause
+      - category
+      - question
+      - shape
+    correctAnswer: cause
+    explanation: The sentence clue points to "cause" as the word that best completes the blank.
   - type: match-pairs
-    prompt: "Match cause to likely effect."
+    prompt: Match cause to likely effect.
     pairs:
-      - left: "Rain fell"
-        right: "The ground got wet"
-      - left: "The bell rang"
-        right: "Class began"
-      - left: "The oven was hot"
-        right: "The bread baked"
-      - left: "The lamp turned on"
-        right: "The room got brighter"
+      - left: Rain fell
+        right: The ground got wet
+      - left: The bell rang
+        right: Class began
+      - left: The oven was hot
+        right: The bread baked
+      - left: The lamp turned on
+        right: The room got brighter
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
-    prompt: "Put the cause before the effect."
+    prompt: Put the cause before the effect.
     items:
-      - "The plant wilted."
-      - "No one watered the plant."
+      - The plant wilted.
+      - No one watered the plant.
     correctOrder:
-      - "No one watered the plant."
-      - "The plant wilted."
+      - No one watered the plant.
+      - The plant wilted.
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: text-input
-    prompt: "Type the signal word in \"I wore a coat because it was cold.\""
+    prompt: Type the signal word in "I wore a coat because it was cold."
     acceptedAnswers:
-      - "because"
-    answerType: "text"
+      - because
+    answerType: text
+    explanation: The expected answer is "because"; the prompt gives the meaning or pattern to recall.
   - type: passage-question
-    prompt: "Read the passage and answer."
-    passageTitle: "Cause Clue"
-    passage: "Sam forgot his lunch, so he called home."
-    question: "Why did Sam call home?"
+    prompt: Read the passage and answer.
+    passageTitle: Cause Clue
+    passage: Sam forgot his lunch, so he called home.
+    question: Why did Sam call home?
     choices:
-      - "He forgot his lunch."
-      - "He wanted a book."
-      - "It was raining."
-      - "He finished math."
-    correctAnswer: "He forgot his lunch."
+      - He forgot his lunch.
+      - He wanted a book.
+      - It was raining.
+      - He finished math.
+    correctAnswer: He forgot his lunch.
+    explanation: The passage gives the clue needed to choose the answer.
   - type: constructed-response
-    prompt: "Write one possible effect of leaving ice in the sun."
-    sampleAnswer: "The ice will melt."
+    prompt: Write one possible effect of leaving ice in the sun.
+    sampleAnswer: The ice will melt.
 ---

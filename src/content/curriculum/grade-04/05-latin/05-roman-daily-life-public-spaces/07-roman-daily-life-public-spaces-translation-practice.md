@@ -3,6 +3,14 @@ id: lesson_grade4_latin_roman_daily_life_public_spaces_translation_practice
 slug: roman-daily-life-public-spaces-translation-practice
 title: Roman Daily Life And Public Spaces Translation Practice
 xpBase: 10
+config:
+  intro:
+    - title: Meet The Words In Use
+      body: This lesson gives Roman Daily Life And Public Spaces Translation Practice practice after the preview cards. Use context, familiar patterns, and the answer choices before typing from memory.
+      bullets:
+        - Read the whole phrase or sentence first.
+        - Connect new words to the preview deck.
+        - Use feedback to notice the pattern.
 questions:
   - type: multiple-choice
     prompt: What does "taberna" mean?
@@ -18,6 +26,7 @@ questions:
     acceptedAnswers:
       - toga
     answerType: text
+    explanation: The expected answer is "toga"; the prompt gives the meaning or pattern to recall.
   - type: fill-blank
     prompt: '"villa" means ___.'
     sentenceBefore: '"villa" means'
@@ -28,9 +37,9 @@ questions:
       - baths
       - shop
     correctAnswer: house
+    explanation: The sentence clue points to "house" as the word that best completes the blank.
   - type: match-pairs
-    prompt: Match the roman daily life and public spaces translation practice Latin
-      meanings.
+    prompt: Match the roman daily life and public spaces translation practice Latin meanings.
     pairs:
       - left: taberna
         right: shop
@@ -38,6 +47,7 @@ questions:
         right: toga
       - left: villa
         right: house
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Build the Latin sentence "civis in foro ambulat".
     items:
@@ -50,11 +60,11 @@ questions:
       - in
       - foro
       - ambulat
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: passage-question
     prompt: Read the adapted Latin passage.
     passageTitle: Roman Daily Life And Public Spaces Translation Practice
-    passage: civis in foro ambulat. In hac lectione, "taberna", "toga", et "villa"
-      sunt verba magna.
+    passage: civis in foro ambulat. In hac lectione, "taberna", "toga", et "villa" sunt verba magna.
     question: Which Latin word or phrase from the passage means "toga"?
     choices:
       - toga
@@ -62,11 +72,13 @@ questions:
       - thermae
       - taberna
     correctAnswer: toga
+    explanation: The passage gives the clue needed to choose the answer.
   - type: error-correction
     prompt: Fix the Latin sentence order.
     sentence: ambulat foro in civis
     acceptedAnswers:
       - civis in foro ambulat
+    explanation: The corrected sentence should follow the lesson pattern.
   - type: constructed-response
     prompt: Translate or explain the main idea of "civis in foro ambulat" in English.
     minWords: 3

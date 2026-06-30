@@ -3,6 +3,14 @@ id: lesson_grade4_latin_cases_sentence_roles_reading_practice
 slug: cases-sentence-roles-reading-practice
 title: Cases And Sentence Roles Reading Practice
 xpBase: 10
+config:
+  intro:
+    - title: Meet The Words In Use
+      body: This lesson gives Cases And Sentence Roles Reading Practice practice after the preview cards. Use context, familiar patterns, and the answer choices before typing from memory.
+      bullets:
+        - Read the whole phrase or sentence first.
+        - Connect new words to the preview deck.
+        - Use feedback to notice the pattern.
 questions:
   - type: multiple-choice
     prompt: What does "mensa" mean?
@@ -18,6 +26,7 @@ questions:
     acceptedAnswers:
       - in villa
     answerType: text
+    explanation: The expected answer is "in villa"; the prompt gives the meaning or pattern to recall.
   - type: fill-blank
     prompt: '"cum amico" means ___.'
     sentenceBefore: '"cum amico" means'
@@ -28,6 +37,7 @@ questions:
       - girl as object
       - to the girl
     correctAnswer: with a friend
+    explanation: The sentence clue points to "with a friend" as the word that best completes the blank.
   - type: match-pairs
     prompt: Match the cases and sentence roles reading practice Latin meanings.
     pairs:
@@ -37,6 +47,7 @@ questions:
         right: in the house
       - left: cum amico
         right: with a friend
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Build the Latin sentence "puella puellam videt".
     items:
@@ -47,11 +58,11 @@ questions:
       - puella
       - puellam
       - videt
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: passage-question
     prompt: Read the adapted Latin passage.
     passageTitle: Cases And Sentence Roles Reading Practice
-    passage: puella puellam videt. In hac lectione, "mensa", "in villa", et "cum
-      amico" sunt verba magna.
+    passage: puella puellam videt. In hac lectione, "mensa", "in villa", et "cum amico" sunt verba magna.
     question: Which Latin word or phrase from the passage means "in the house"?
     choices:
       - in villa
@@ -59,11 +70,13 @@ questions:
       - puellam
       - puellae
     correctAnswer: in villa
+    explanation: The passage gives the clue needed to choose the answer.
   - type: error-correction
     prompt: Fix the Latin sentence order.
     sentence: videt puellam puella
     acceptedAnswers:
       - puella puellam videt
+    explanation: The corrected sentence should follow the lesson pattern.
   - type: constructed-response
     prompt: Translate or explain the main idea of "puella puellam videt" in English.
     minWords: 3

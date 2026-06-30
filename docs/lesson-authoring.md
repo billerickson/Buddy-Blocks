@@ -42,7 +42,9 @@ src/content/curriculum/
     02-vocabulary/
 ```
 
-The numeric prefixes control display order. The app uses the `slug` values inside YAML for URLs, not the folder/file prefix.
+The numeric prefixes control display order for most units. The app uses the `slug` values inside YAML for URLs, not the folder/file prefix.
+
+Vocabulary, Spanish, French, and Latin units with flash-card ladders get one extra ordering rule at load time: Preview/context lessons come first, Easy and Medium cards come before practice, and Hard cards come after the practice lessons. This preserves old lesson IDs and filenames while keeping the in-app sequence aligned to the exposure-first learning pattern.
 
 Current v1 profiles:
 
@@ -56,7 +58,7 @@ The v1 enrollment model is documented in [docs/enrollment-model.md](/Users/bille
 
 Kid app pages are generic static shells. The Worker maps authenticated dynamic URLs such as `/kid/:childSlug/`, `/kid/:childSlug/track/:trackSlug/`, and `/kid/:childSlug/lesson/:lessonId/` to fixed shell assets, then the browser fetches child/track/lesson data from the API using the URL path. Adding children or temporary lessons should not increase the number of generated Astro pages.
 
-Temporary school vocabulary belongs in child-specific practice sets, not canonical curriculum Markdown. See [docs/practice-sets.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/practice-sets.md) for the parent API workflow, archive behavior, and generated flash-card lesson shape.
+Temporary school vocabulary belongs in child-specific practice sets, not canonical curriculum Markdown. See [docs/practice-sets.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/practice-sets.md) for the parent API workflow, archive behavior, and generated context/card lesson shape.
 
 ## Track Files
 
@@ -135,6 +137,61 @@ config:
 ```
 
 `intro` cards appear before the scored questions. `review.shuffleQuestions: true` turns the lesson into deck-style practice by shuffling the authored question order.
+
+## Learning Science And Lesson Sequence
+
+Author lessons so students encounter meaning before they are asked to recall it. Flash cards are useful retrieval practice, but they should not be the first substantial exposure to unfamiliar words, facts, or forms.
+
+Use this general sequence for new material:
+
+1. Introduce the concept with a short `config.intro` card or a brief contextual prompt.
+2. Let students meet the target material in context through a passage, example, model, or worked item.
+3. Ask guided recognition questions that help students notice the clue, pattern, or definition.
+4. Move into varied retrieval practice with multiple question types.
+5. Finish with harder production only after students have seen and used the material several times.
+6. Bring the material back later in mixed review so practice is spaced and interleaved.
+
+This pattern is based on these research-backed practices:
+
+- Explicit instruction: name the target idea, give a student-friendly meaning, and show an example before independent recall. IES recommends explicit vocabulary instruction for adolescent literacy.
+- Contextual exposure: anchor vocabulary in brief, engaging text so students can infer meaning from surrounding ideas, not only memorize isolated pairs.
+- Multiple exposures: repeat important words across oral, written, recognition, and production tasks instead of treating one card as enough.
+- Retrieval practice: ask students to recall or choose answers, because low-stakes testing improves long-term retention when it follows meaningful study.
+- Spacing and interleaving: revisit older words and skills in later lessons and cumulative reviews instead of clustering all practice in one sitting.
+- Feedback: include concise `explanation` text when a wrong answer would reveal a misconception, and explain the clue or reasoning rather than only naming the answer.
+
+Research sources:
+
+- [IES: Improving Adolescent Literacy](https://ies.ed.gov/ncee/wwc/practiceguide/8)
+- [IES: Teaching Academic Content and Literacy to English Learners](https://ies.ed.gov/ncee/wwc/practiceguide/19)
+- [IES: Organizing Instruction and Study to Improve Student Learning](https://ies.ed.gov/ncee/wwc/Docs/PracticeGuide/20072004.pdf)
+- [Roediger and Karpicke, 2006: Test-Enhanced Learning](https://doi.org/10.1111/j.1467-9280.2006.01693.x)
+- [Dunlosky et al., 2013: Improving Students' Learning With Effective Learning Techniques](https://doi.org/10.1177/1529100612453266)
+
+### Vocabulary Lesson Ladder
+
+For canonical Vocabulary units, use this order unless the unit is purely cumulative review:
+
+1. `00-...-preview.md` or `01-...-context.md`: a short reading or scenario with 5-8 target words. Use `passage-question`, `multiple-choice`, and explanations to help students infer each meaning from context. Include direct definitions when inference alone would be unfair.
+2. Easy flash cards: term on the card, student chooses the meaning. This is recognition practice after exposure, not the first lesson.
+3. Varied practice: use `multiple-choice`, `fill-blank`, `match-pairs`, `order-items`, `passage-question`, and occasional `text-input` to use the same words in new contexts.
+4. Hard flash cards: definition, clue, or context sentence on the card; student types the word. This is production practice and should come after varied practice.
+5. Later mixed review: pull selected words into cumulative lessons with older vocabulary so retrieval is spaced.
+
+Good Vocabulary passages are short enough to read comfortably in the lesson player, contain several target words naturally, and include enough surrounding detail for students to reason toward meaning. Avoid passage text that simply lists "word means definition"; use a real classroom, reading, science, history, or writing situation where the word does useful work.
+
+Use a small word set for each ladder. Five to eight words is ideal for deep instruction; up to twelve can work when the words are tightly related roots or review terms. If a unit currently has twelve words, split the initial context work into two passages or two context lessons so each word gets a real encounter.
+
+Design the practice mix this way:
+
+- Multiple choice should ask about meaning in context, not only "What does X mean?"
+- Fill blanks should use sentence clues that make the correct word meaningful.
+- Match pairs should be limited to 4-6 pairs at a time so it stays readable.
+- Text input should appear after recognition practice unless the answer is strongly cued.
+- Hard flash cards should accept common variants, plurals, or phrases when they are truly equivalent.
+- Explanations should point to the clue, word part, or example that reveals the answer.
+
+For world-language and classical-language units, keep the same principle: students should see and hear the target words in a preview, intro, or contextual lesson before being asked to produce them. The language ladder can still use Preview, Easy, Medium, and Hard flash cards, but production should come after exposure and recognition.
 
 ## Mad Minute Files
 

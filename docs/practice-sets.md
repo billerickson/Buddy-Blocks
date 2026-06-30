@@ -73,9 +73,10 @@ Each visible set exposes a virtual standard lesson ID:
 practice_set_<practiceSetId>
 ```
 
-The Worker serves that virtual lesson through the normal lesson API. Each card generates two `flash-card` questions:
+The Worker serves that virtual lesson through the normal lesson API. Each card generates three questions in the same exposure-first order used by canonical Vocabulary lessons:
 
-- Easy: term on the card, definition choices.
-- Hard: definition/example on the card, typed accepted answers.
+- Context: a `passage-question` using the example sentence when provided, or a short definition sentence when no example exists.
+- Easy: a `flash-card` with the term on the card and definition choices.
+- Hard: a `flash-card` with the definition/example on the card and typed accepted answers.
 
 Practice completion writes to practice attempt tables and daily activity, but it does not write canonical `lesson_attempts`, `child_lesson_progress`, or `child_track_progress`.

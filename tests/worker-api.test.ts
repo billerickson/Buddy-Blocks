@@ -603,7 +603,7 @@ describe('worker practice set APIs', () => {
     });
   });
 
-  it('renders and completes a practice set as generated flashcard questions', async () => {
+  it('renders and completes a practice set as context, easy card, and hard card questions', async () => {
     const { env, sqlite } = createEnv();
     const created = await requestJson('/api/parent/children/reagan/practice-sets', env, {
       method: 'POST',
@@ -628,8 +628,19 @@ describe('worker practice set APIs', () => {
       unit: { title: 'Weekly Practice' },
       track: { subject: 'vocabulary', title: 'Vocabulary' },
     });
-    expect(lesson.body.lesson.questions).toHaveLength(4);
+    expect(lesson.body.lesson.questions).toHaveLength(6);
     expect(lesson.body.lesson.questions[0]).toMatchObject({
+      type: 'passage-question',
+      prompt: 'Read the context before the flash cards.',
+      payload: {
+        passageTitle: 'vast',
+        passage: 'The canyon is vast.',
+        question: 'What does "vast" mean here?',
+        correctAnswer: 'very big',
+        choices: expect.arrayContaining(['very big', 'quick and light']),
+      },
+    });
+    expect(lesson.body.lesson.questions[2]).toMatchObject({
       type: 'flash-card',
       prompt: 'Choose the best meaning.',
       payload: {
@@ -639,7 +650,7 @@ describe('worker practice set APIs', () => {
         choices: expect.arrayContaining(['very big', 'quick and light']),
       },
     });
-    expect(lesson.body.lesson.questions[1]).toMatchObject({
+    expect(lesson.body.lesson.questions[4]).toMatchObject({
       type: 'flash-card',
       prompt: 'Type the vocabulary word.',
       payload: {
@@ -655,20 +666,23 @@ describe('worker practice set APIs', () => {
         startedAt: '2026-06-29T12:05:00.000Z',
         attempts: lesson.body.lesson.questions.map((question: any) => ({
           questionId: question.id,
-          answer: question.payload.mode === 'easy' ? question.payload.correctAnswer : question.payload.acceptedAnswers[0],
+          answer:
+            question.type === 'passage-question' || question.payload.mode === 'easy'
+              ? question.payload.correctAnswer
+              : question.payload.acceptedAnswers[0],
         })),
       },
     });
 
     expect(completion.response.status).toBe(200);
     expect(completion.body.result).toMatchObject({
-      scoreCorrect: 4,
-      scoreTotal: 4,
+      scoreCorrect: 6,
+      scoreTotal: 6,
       heartsRemaining: 5,
       nextLesson: null,
     });
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_set_attempts')).toBe(1);
-    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(4);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(6);
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM lesson_attempts')).toBe(0);
 
     await requestJson(`/api/parent/children/reagan/practice-sets/${created.body.practiceSet.id}`, env, {

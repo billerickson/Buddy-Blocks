@@ -3,6 +3,14 @@ id: lesson_grade3_vocabulary_writing_fix_repeated_words
 slug: fix-repeated-words
 title: Fix Repeated Words
 xpBase: 10
+config:
+  intro:
+    - title: Meet The Words In Context
+      body: Before answering, read for clues about Fix Repeated Words. Meanings stick better when the word is connected to a sentence or example.
+      bullets:
+        - Look for nearby definitions, examples, contrasts, and word parts.
+        - Use recognition questions before typed recall.
+        - Check the explanation to see which clue mattered.
 questions:
   - type: multiple-choice
     prompt: Which revision avoids repeating "big"? "The big dog had big paws."
@@ -12,6 +20,7 @@ questions:
       - Big big dog paws.
       - The dog had paws.
     correctAnswer: The huge dog had enormous paws.
+    explanation: The best answer is "The huge dog had enormous paws." because it matches the context or definition in the prompt.
   - type: fill-blank
     prompt: Repeated words can make writing sound ___.
     sentenceBefore: Repeated words can make writing sound
@@ -22,6 +31,7 @@ questions:
       - fresh
       - revised
     correctAnswer: dull
+    explanation: The sentence clue points to "dull" as the word that best completes the blank.
   - type: text-input
     prompt: Type a synonym for "said".
     acceptedAnswers:
@@ -30,6 +40,7 @@ questions:
       - shouted
       - replied
     answerType: text
+    explanation: The expected answer is "asked"; the prompt gives the meaning or pattern to recall.
   - type: match-pairs
     prompt: Match repeated word to a replacement.
     pairs:
@@ -39,6 +50,7 @@ questions:
         right: hurried
       - left: looked
         right: gazed
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Order the revision steps.
     items:
@@ -49,6 +61,7 @@ questions:
       - Find repeated words
       - Choose a stronger replacement
       - Reread the sentence
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: passage-question
     prompt: Revise repetition.
     passageTitle: Draft
@@ -60,6 +73,7 @@ questions:
       - Good cake good party.
       - The cake and party were things.
     correctAnswer: The cake was delicious and the party was exciting.
+    explanation: The passage gives the clue needed to choose the answer.
   - type: multiple-choice
     prompt: Which tool can help find replacement words?
     choices:
@@ -68,6 +82,7 @@ questions:
       - ruler
       - calculator
     correctAnswer: thesaurus
+    explanation: The best answer is "thesaurus" because it matches the context or definition in the prompt.
   - type: fill-blank
     prompt: When replacing repeated words, choose words that fit the sentence ___.
     sentenceBefore: When replacing repeated words, choose words that fit the sentence
@@ -78,4 +93,5 @@ questions:
       - cover art
       - font size
     correctAnswer: meaning
+    explanation: The sentence clue points to "meaning" as the word that best completes the blank.
 ---

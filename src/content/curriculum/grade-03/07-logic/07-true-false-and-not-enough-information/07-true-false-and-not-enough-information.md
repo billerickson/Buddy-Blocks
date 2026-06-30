@@ -1,78 +1,85 @@
 ---
-id: "lesson_grade3_logic_true_false_and_not_enough_information"
-slug: "true-false-and-not-enough-information"
-title: "True, False, And Not Enough Information"
+id: lesson_grade3_logic_true_false_and_not_enough_information
+slug: true-false-and-not-enough-information
+title: True, False, And Not Enough Information
 xpBase: 10
 config:
   intro:
-    - title: "Use The Evidence"
-      body: "A statement is true if the evidence proves it, false if the evidence disproves it, and unknown if the evidence does not say."
+    - title: Use The Evidence
+      body: A statement is true if the evidence proves it, false if the evidence disproves it, and unknown if the evidence does not say.
       bullets:
-        - "Do not guess beyond the evidence."
-        - "Unknown means not enough information."
+        - Do not guess beyond the evidence.
+        - Unknown means not enough information.
 questions:
   - type: multiple-choice
-    prompt: "Evidence: \"The box is empty.\" Statement: \"The box has no toys.\" Best answer?"
+    prompt: 'Evidence: "The box is empty." Statement: "The box has no toys." Best answer?'
     choices:
       - "true"
       - "false"
-      - "not enough information"
-      - "opposite"
+      - not enough information
+      - opposite
     correctAnswer: "true"
+    explanation: The best answer is "true" because it matches the context or definition in the prompt.
   - type: multiple-choice
-    prompt: "Evidence: \"Nina has a red hat.\" Statement: \"Nina has a blue hat.\" Best answer?"
+    prompt: 'Evidence: "Nina has a red hat." Statement: "Nina has a blue hat." Best answer?'
     choices:
       - "true"
       - "false"
-      - "not enough information"
-      - "same"
+      - not enough information
+      - same
     correctAnswer: "false"
+    explanation: The best answer is "false" because it matches the context or definition in the prompt.
   - type: fill-blank
-    prompt: "When evidence does not prove or disprove a claim, choose ___."
-    sentenceBefore: "When evidence does not prove or disprove a claim, choose"
-    sentenceAfter: "."
+    prompt: When evidence does not prove or disprove a claim, choose ___.
+    sentenceBefore: When evidence does not prove or disprove a claim, choose
+    sentenceAfter: .
     choices:
       - "true"
       - "false"
-      - "not enough information"
-      - "always"
-    correctAnswer: "not enough information"
+      - not enough information
+      - always
+    correctAnswer: not enough information
+    explanation: The sentence clue points to "not enough information" as the word that best completes the blank.
   - type: match-pairs
-    prompt: "Match each evidence judgment."
+    prompt: Match each evidence judgment.
     pairs:
-      - left: "Proved by evidence"
+      - left: Proved by evidence
         right: "true"
-      - left: "Disproved by evidence"
+      - left: Disproved by evidence
         right: "false"
-      - left: "Not stated"
-        right: "not enough information"
-      - left: "A guess"
-        right: "not evidence"
+      - left: Not stated
+        right: not enough information
+      - left: A guess
+        right: not evidence
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
-    prompt: "Read evidence before judgment."
+    prompt: Read evidence before judgment.
     items:
-      - "decide true, false, or unknown"
-      - "read the evidence"
+      - decide true, false, or unknown
+      - read the evidence
     correctOrder:
-      - "read the evidence"
-      - "decide true, false, or unknown"
+      - read the evidence
+      - decide true, false, or unknown
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: text-input
-    prompt: "Type the judgment: Evidence says \"The dog barked.\" Statement: \"The dog made noise.\""
+    prompt: 'Type the judgment: Evidence says "The dog barked." Statement: "The dog made noise."'
     acceptedAnswers:
       - "true"
-    answerType: "text"
+    answerType: text
+    explanation: The expected answer is "true"; the prompt gives the meaning or pattern to recall.
   - type: passage-question
-    prompt: "Read the passage and answer."
-    passageTitle: "Evidence Box"
-    passage: "Three apples are on the table. Two are green."
+    prompt: Read the passage and answer.
+    passageTitle: Evidence Box
+    passage: Three apples are on the table. Two are green.
     question: "Statement: One apple is red."
     choices:
       - "true"
       - "false"
-      - "not enough information"
-      - "cause"
-    correctAnswer: "not enough information"
+      - not enough information
+      - cause
+    correctAnswer: not enough information
+    explanation: The passage gives the clue needed to choose the answer.
   - type: constructed-response
-    prompt: "Why should you avoid guessing when the evidence is missing?"
-    sampleAnswer: "A guess may be wrong because the evidence does not prove it."
+    prompt: Why should you avoid guessing when the evidence is missing?
+    sampleAnswer: A guess may be wrong because the evidence does not prove it.
 ---

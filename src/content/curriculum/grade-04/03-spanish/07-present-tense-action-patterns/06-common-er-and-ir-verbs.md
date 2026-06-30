@@ -3,6 +3,14 @@ id: lesson_grade4_spanish_common_er_and_ir_verbs
 slug: common-er-and-ir-verbs
 title: Common ER And IR Verbs
 xpBase: 10
+config:
+  intro:
+    - title: Meet The Words In Use
+      body: This lesson gives Common ER And IR Verbs practice after the preview cards. Use context, familiar patterns, and the answer choices before typing from memory.
+      bullets:
+        - Read the whole phrase or sentence first.
+        - Connect new words to the preview deck.
+        - Use feedback to notice the pattern.
 questions:
   - type: multiple-choice
     prompt: What does "leo" mean?
@@ -18,6 +26,7 @@ questions:
     acceptedAnswers:
       - escribo
     answerType: text
+    explanation: The expected answer is "escribo"; the prompt gives the meaning or pattern to recall.
   - type: fill-blank
     prompt: '"comemos" means ___.'
     sentenceBefore: '"comemos" means'
@@ -28,6 +37,7 @@ questions:
       - I study
       - I need
     correctAnswer: we eat
+    explanation: The sentence clue points to "we eat" as the word that best completes the blank.
   - type: match-pairs
     prompt: Match the common er and ir verbs words.
     pairs:
@@ -37,6 +47,7 @@ questions:
         right: I write
       - left: comemos
         right: we eat
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Build "yo estudio en clase".
     items:
@@ -49,6 +60,7 @@ questions:
       - estudio
       - en
       - clase
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: dialogue-builder
     prompt: Choose the best response in the conversation.
     turns:
@@ -59,11 +71,11 @@ questions:
       - Quisiera frijoles.
       - La tienda esta a la derecha.
     correctAnswer: Yo estudio en clase.
+    explanation: The correct response best fits what the speakers have already said.
   - type: passage-question
     prompt: Read the short Spanish resource.
     passageTitle: Common ER And IR Verbs
-    passage: Durante la clase yo digo "leo". Mi companero dice "escribo". Juntos
-      practicamos "comemos".
+    passage: Durante la clase yo digo "leo". Mi companero dice "escribo". Juntos practicamos "comemos".
     question: Which word or phrase from the resource means "I write"?
     choices:
       - escribo
@@ -71,6 +83,7 @@ questions:
       - estudio
       - necesito
     correctAnswer: escribo
+    explanation: The passage gives the clue needed to choose the answer.
   - type: constructed-response
     prompt: Write one short English note explaining when you could use "leo".
     minWords: 4

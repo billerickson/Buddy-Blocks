@@ -1281,45 +1281,70 @@ function practiceSetIdFromLessonId(lessonId: string) {
 }
 
 function practiceCardIdFromQuestionId(questionId: string) {
-  return questionId.replace(/^practice_question_(.+)_(easy|hard)$/, '$1');
+  return questionId.replace(/^practice_question_(.+)_(context|easy|hard)$/, '$1');
 }
 
 function practiceQuestionsFromCards(cards: PracticeSetCardRow[]): LessonQuestion[] {
   const definitions = uniqueStrings(cards.map((card) => card.definition ?? card.term));
 
-  return cards.flatMap((card) => {
+  const contextQuestions: LessonQuestion[] = cards.map((card) => {
     const answer = card.definition ?? card.term;
     const choices = uniqueStrings([answer, ...definitions.filter((definition) => definition !== answer)]).slice(0, 4);
+
+    return {
+      id: `practice_question_${card.id}_context`,
+      type: 'passage-question' as const,
+      prompt: 'Read the context before the flash cards.',
+      payload: {
+        passageTitle: card.term,
+        passage: card.example ?? `The word "${card.term}" means ${answer}.`,
+        question: `What does "${card.term}" mean here?`,
+        choices,
+        correctAnswer: answer,
+      },
+      explanation: card.example
+        ? `The context sentence supports this meaning: ${answer}.`
+        : `The word "${card.term}" means ${answer}.`,
+    };
+  });
+
+  const easyQuestions: LessonQuestion[] = cards.map((card) => {
+    const answer = card.definition ?? card.term;
+    const choices = uniqueStrings([answer, ...definitions.filter((definition) => definition !== answer)]).slice(0, 4);
+
+    return {
+      id: `practice_question_${card.id}_easy`,
+      type: 'flash-card' as const,
+      prompt: 'Choose the best meaning.',
+      payload: {
+        mode: 'easy' as const,
+        front: card.term,
+        choices,
+        correctAnswer: answer,
+      },
+      explanation: card.example ?? card.definition,
+    };
+  });
+
+  const hardQuestions: LessonQuestion[] = cards.map((card) => {
     const acceptedAnswers = acceptedAnswersFromCard(card);
     const frontForHard = card.definition ?? card.example ?? card.term;
 
-    return [
-      {
-        id: `practice_question_${card.id}_easy`,
-        type: 'flash-card',
-        prompt: 'Choose the best meaning.',
-        payload: {
-          mode: 'easy',
-          front: card.term,
-          choices,
-          correctAnswer: answer,
-        },
-        explanation: card.example ?? card.definition,
+    return {
+      id: `practice_question_${card.id}_hard`,
+      type: 'flash-card' as const,
+      prompt: 'Type the vocabulary word.',
+      payload: {
+        mode: 'hard' as const,
+        front: frontForHard,
+        acceptedAnswers,
+        answerType: 'text' as const,
       },
-      {
-        id: `practice_question_${card.id}_hard`,
-        type: 'flash-card',
-        prompt: 'Type the vocabulary word.',
-        payload: {
-          mode: 'hard',
-          front: frontForHard,
-          acceptedAnswers,
-          answerType: 'text',
-        },
-        explanation: card.example ?? card.definition,
-      },
-    ];
+      explanation: card.example ?? card.definition,
+    };
   });
+
+  return [...contextQuestions, ...easyQuestions, ...hardQuestions];
 }
 
 function acceptedAnswersFromCard(card: PracticeSetCardRow) {

@@ -1,83 +1,90 @@
 ---
-id: "lesson_grade3_literature_folk_tales_and_legends"
-slug: "folk-tales-and-legends"
-title: "Folk Tales And Legends"
+id: lesson_grade3_literature_folk_tales_and_legends
+slug: folk-tales-and-legends
+title: Folk Tales And Legends
 xpBase: 10
 config:
   intro:
-    - title: "Stories Passed Down"
-      body: "Folk tales and legends are stories passed from person to person over time."
+    - title: Stories Passed Down
+      body: Folk tales and legends are stories passed from person to person over time.
       bullets:
-        - "They may include repeated events."
-        - "They often explain a custom or place."
-        - "They can teach what a community values."
+        - They may include repeated events.
+        - They often explain a custom or place.
+        - They can teach what a community values.
 questions:
   - type: passage-question
-    prompt: "Read the passage and answer."
-    passageTitle: "The Three Lanterns"
-    passage: "Long ago, a town lit one lantern for welcome, one for courage, and one for thanks. A traveler who shared his bread was invited to light the third lantern, and the custom remained each winter."
-    question: "What does the tale explain?"
+    prompt: Read the passage and answer.
+    passageTitle: The Three Lanterns
+    passage: Long ago, a town lit one lantern for welcome, one for courage, and one for thanks. A traveler who shared his bread was invited to light the third lantern, and the custom remained each winter.
+    question: What does the tale explain?
     choices:
-      - "a town custom"
-      - "a math rule"
-      - "a weather report"
-      - "a recipe"
-    correctAnswer: "a town custom"
+      - a town custom
+      - a math rule
+      - a weather report
+      - a recipe
+    correctAnswer: a town custom
+    explanation: The passage gives the clue needed to choose the answer.
   - type: multiple-choice
-    prompt: "Which feature often appears in folk tales?"
+    prompt: Which feature often appears in folk tales?
     choices:
-      - "repeated events"
-      - "only numbers"
-      - "no characters"
-      - "silent pages"
-    correctAnswer: "repeated events"
+      - repeated events
+      - only numbers
+      - no characters
+      - silent pages
+    correctAnswer: repeated events
+    explanation: The best answer is "repeated events" because it matches the context or definition in the prompt.
   - type: fill-blank
-    prompt: "A legend may explain a place, hero, or ___."
-    sentenceBefore: "A legend may explain a place, hero, or"
-    sentenceAfter: "."
+    prompt: A legend may explain a place, hero, or ___.
+    sentenceBefore: A legend may explain a place, hero, or
+    sentenceAfter: .
     choices:
-      - "custom"
-      - "comma"
-      - "fraction"
-      - "clock"
-    correctAnswer: "custom"
+      - custom
+      - comma
+      - fraction
+      - clock
+    correctAnswer: custom
+    explanation: The sentence clue points to "custom" as the word that best completes the blank.
   - type: match-pairs
-    prompt: "Match each lantern."
+    prompt: Match each lantern.
     pairs:
-      - left: "welcome"
-        right: "first lantern"
-      - left: "courage"
-        right: "second lantern"
-      - left: "thanks"
-        right: "third lantern"
-      - left: "traveler"
-        right: "shared bread"
+      - left: welcome
+        right: first lantern
+      - left: courage
+        right: second lantern
+      - left: thanks
+        right: third lantern
+      - left: traveler
+        right: shared bread
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
-    prompt: "Put the tale events in order."
+    prompt: Put the tale events in order.
     items:
-      - "The traveler shared bread."
-      - "The custom remained."
-      - "The town lit three lanterns."
+      - The traveler shared bread.
+      - The custom remained.
+      - The town lit three lanterns.
     correctOrder:
-      - "The town lit three lanterns."
-      - "The traveler shared bread."
-      - "The custom remained."
+      - The town lit three lanterns.
+      - The traveler shared bread.
+      - The custom remained.
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: text-input
-    prompt: "Type the story kind passed down over time."
+    prompt: Type the story kind passed down over time.
     acceptedAnswers:
-      - "folk tale"
-      - "folktale"
-      - "legend"
-    answerType: "text"
+      - folk tale
+      - folktale
+      - legend
+    answerType: text
+    explanation: The expected answer is "folk tale"; the prompt gives the meaning or pattern to recall.
   - type: constructed-response
-    prompt: "What value does the lantern tale praise?"
-    sampleAnswer: "It praises thankfulness and generosity."
+    prompt: What value does the lantern tale praise?
+    sampleAnswer: It praises thankfulness and generosity.
   - type: multiple-choice
-    prompt: "Which detail shows a community value?"
+    prompt: Which detail shows a community value?
     choices:
-      - "shared his bread"
-      - "one lantern was third"
-      - "winter is a season"
-      - "the town was old"
-    correctAnswer: "shared his bread"
+      - shared his bread
+      - one lantern was third
+      - winter is a season
+      - the town was old
+    correctAnswer: shared his bread
+    explanation: The best answer is "shared his bread" because it matches the context or definition in the prompt.
 ---

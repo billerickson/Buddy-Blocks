@@ -3,6 +3,14 @@ id: lesson_grade4_french_questions_and_short_conversations_short_resource_practi
 slug: questions-and-short-conversations-short-resource-practice
 title: Short Resource Practice
 xpBase: 10
+config:
+  intro:
+    - title: Meet The Words In Use
+      body: This lesson gives Short Resource Practice practice after the preview cards. Use context, familiar patterns, and the answer choices before typing from memory.
+      bullets:
+        - Read the whole phrase or sentence first.
+        - Connect new words to the preview deck.
+        - Use feedback to notice the pattern.
 questions:
   - type: multiple-choice
     prompt: What does "comment tu t'appelles" mean?
@@ -19,6 +27,7 @@ questions:
       - qu'est-ce que tu aimes
       - qu est ce que tu aimes
     answerType: text
+    explanation: The expected answer is "qu'est-ce que tu aimes"; the prompt gives the meaning or pattern to recall.
   - type: fill-blank
     prompt: '"ou vas-tu" means ___.'
     sentenceBefore: '"ou vas-tu" means'
@@ -29,6 +38,7 @@ questions:
       - what do you like
       - why
     correctAnswer: where are you going
+    explanation: The sentence clue points to "where are you going" as the word that best completes the blank.
   - type: match-pairs
     prompt: Match the short resource practice words.
     pairs:
@@ -38,6 +48,7 @@ questions:
         right: what do you like
       - left: ou vas-tu
         right: where are you going
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Build "parce que j aime".
     items:
@@ -48,6 +59,7 @@ questions:
       - parce
       - que
       - j aime
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: dialogue-builder
     prompt: Choose the best response in the conversation.
     turns:
@@ -58,11 +70,11 @@ questions:
       - Il est quarante.
       - La regle est bleue.
     correctAnswer: Parce que j'aime lire.
+    explanation: The correct response best fits what the speakers have already said.
   - type: passage-question
     prompt: Read the short French resource.
     passageTitle: Short Resource Practice
-    passage: En francais, on voit "comment tu t'appelles" et "qu'est-ce que tu
-      aimes". On pratique aussi "ou vas-tu" dans une phrase courte.
+    passage: En francais, on voit "comment tu t'appelles" et "qu'est-ce que tu aimes". On pratique aussi "ou vas-tu" dans une phrase courte.
     question: Which word or phrase from the resource means "what do you like"?
     choices:
       - qu'est-ce que tu aimes
@@ -70,6 +82,7 @@ questions:
       - ou vas-tu
       - pourquoi
     correctAnswer: qu'est-ce que tu aimes
+    explanation: The passage gives the clue needed to choose the answer.
   - type: speaking-prompt
     prompt: 'Say the model sentence: "parce que j aime".'
     minSeconds: 5

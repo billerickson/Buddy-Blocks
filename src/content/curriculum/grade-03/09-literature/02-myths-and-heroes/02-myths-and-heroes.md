@@ -1,84 +1,91 @@
 ---
-id: "lesson_grade3_literature_myths_and_heroes"
-slug: "myths-and-heroes"
-title: "Myths And Heroes"
+id: lesson_grade3_literature_myths_and_heroes
+slug: myths-and-heroes
+title: Myths And Heroes
 xpBase: 10
 config:
   intro:
-    - title: "Old Hero Stories"
-      body: "Myths often tell about heroes, great choices, and wonders people used to explain the world."
+    - title: Old Hero Stories
+      body: Myths often tell about heroes, great choices, and wonders people used to explain the world.
       bullets:
-        - "A hero may be brave or wise."
-        - "A challenge tests the hero."
-        - "Myths often include larger-than-life events."
+        - A hero may be brave or wise.
+        - A challenge tests the hero.
+        - Myths often include larger-than-life events.
 questions:
   - type: passage-question
-    prompt: "Read the passage and answer."
-    passageTitle: "The Hill Of Echoes"
-    passage: "A young runner carried news over a steep hill. Each time fear whispered, \"Turn back,\" she answered, \"The village must know.\" By sunset, the message was safe, and the hill seemed to repeat her brave words."
-    question: "Which trait makes the runner heroic?"
+    prompt: Read the passage and answer.
+    passageTitle: The Hill Of Echoes
+    passage: A young runner carried news over a steep hill. Each time fear whispered, "Turn back," she answered, "The village must know." By sunset, the message was safe, and the hill seemed to repeat her brave words.
+    question: Which trait makes the runner heroic?
     choices:
-      - "courage"
-      - "sleepiness"
-      - "forgetfulness"
-      - "greed"
-    correctAnswer: "courage"
+      - courage
+      - sleepiness
+      - forgetfulness
+      - greed
+    correctAnswer: courage
+    explanation: The passage gives the clue needed to choose the answer.
   - type: multiple-choice
-    prompt: "What often tests a hero in a myth?"
+    prompt: What often tests a hero in a myth?
     choices:
-      - "a challenge"
-      - "a comma"
-      - "a shopping list"
-      - "a page number"
-    correctAnswer: "a challenge"
+      - a challenge
+      - a comma
+      - a shopping list
+      - a page number
+    correctAnswer: a challenge
+    explanation: The best answer is "a challenge" because it matches the context or definition in the prompt.
   - type: fill-blank
-    prompt: "A hero is often remembered for brave or wise ___."
-    sentenceBefore: "A hero is often remembered for brave or wise"
-    sentenceAfter: "."
+    prompt: A hero is often remembered for brave or wise ___.
+    sentenceBefore: A hero is often remembered for brave or wise
+    sentenceAfter: .
     choices:
-      - "choices"
-      - "colors"
-      - "tables"
-      - "riddles only"
-    correctAnswer: "choices"
+      - choices
+      - colors
+      - tables
+      - riddles only
+    correctAnswer: choices
+    explanation: The sentence clue points to "choices" as the word that best completes the blank.
   - type: match-pairs
-    prompt: "Match each myth element."
+    prompt: Match each myth element.
     pairs:
-      - left: "hero"
-        right: "runner"
-      - left: "challenge"
-        right: "steep hill"
-      - left: "goal"
-        right: "carry news"
-      - left: "result"
-        right: "message was safe"
+      - left: hero
+        right: runner
+      - left: challenge
+        right: steep hill
+      - left: goal
+        right: carry news
+      - left: result
+        right: message was safe
+    explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
-    prompt: "Order the hero pattern."
+    prompt: Order the hero pattern.
     items:
-      - "faces a challenge"
-      - "returns with help or news"
-      - "sets out"
+      - faces a challenge
+      - returns with help or news
+      - sets out
     correctOrder:
-      - "sets out"
-      - "faces a challenge"
-      - "returns with help or news"
+      - sets out
+      - faces a challenge
+      - returns with help or news
+    explanation: The correct order follows the sequence, sentence pattern, or ranking described in the prompt.
   - type: text-input
-    prompt: "Type one heroic trait."
+    prompt: Type one heroic trait.
     acceptedAnswers:
-      - "courage"
-      - "bravery"
-      - "wisdom"
-      - "kindness"
-    answerType: "text"
+      - courage
+      - bravery
+      - wisdom
+      - kindness
+    answerType: text
+    explanation: The expected answer is "courage"; the prompt gives the meaning or pattern to recall.
   - type: constructed-response
-    prompt: "Why might people remember the runner in a story?"
-    sampleAnswer: "She carried important news even when she was afraid."
+    prompt: Why might people remember the runner in a story?
+    sampleAnswer: She carried important news even when she was afraid.
   - type: multiple-choice
-    prompt: "Which detail is larger-than-life?"
+    prompt: Which detail is larger-than-life?
     choices:
-      - "the hill seemed to repeat her words"
-      - "the runner carried news"
-      - "the village needed to know"
-      - "sunset came"
-    correctAnswer: "the hill seemed to repeat her words"
+      - the hill seemed to repeat her words
+      - the runner carried news
+      - the village needed to know
+      - sunset came
+    correctAnswer: the hill seemed to repeat her words
+    explanation: The best answer is "the hill seemed to repeat her words" because it matches the context or definition in the prompt.
 ---
