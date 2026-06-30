@@ -1,0 +1,361 @@
+---
+import CourseQuestionMockup from '../../components/CourseQuestionMockup.astro';
+import PublicTopbar from '../../components/PublicTopbar.astro';
+import AppLayout from '../../layouts/AppLayout.astro';
+import { getCourseFamilies } from '../../lib/public-courses';
+
+const families = getCourseFamilies();
+const totals = families.reduce(
+  (summary, family) => ({
+    levels: summary.levels + family.stats.levels,
+    units: summary.units + family.stats.units,
+    lessons: summary.lessons + family.stats.lessons,
+    questions: summary.questions + family.stats.questions,
+  }),
+  { levels: 0, units: 0, lessons: 0, questions: 0 },
+);
+---
+
+<AppLayout title="Courses | Buddy Blocks" showNav={false}>
+  <PublicTopbar active="courses" />
+
+  <main>
+    <section class="app-shell course-hero">
+      <div class="course-hero-copy">
+        <p class="font-black uppercase text-berryDark">Current Courses</p>
+        <h1>Every track has a clear path from exposure to mastery.</h1>
+        <p class="mt-5 max-w-3xl text-xl font-extrabold text-muted">
+          Buddy Blocks courses are built as ordered tracks. Students meet ideas first, practice with support, return to older material, and complete short lessons that stack into visible progress.
+        </p>
+        <div class="course-stat-row mt-7" aria-label="Curriculum totals">
+          <span><strong>{totals.levels}</strong> levels</span>
+          <span><strong>{totals.units}</strong> units</span>
+          <span><strong>{totals.lessons}</strong> lessons</span>
+          <span><strong>{totals.questions.toLocaleString()}</strong> questions</span>
+        </div>
+      </div>
+
+      <div class="course-dashboard" aria-label="Sample course dashboard mockup">
+        <div class="course-dashboard-top">
+          <span>Course Library</span>
+          <span>{families.length} tracks</span>
+        </div>
+        <div class="course-dashboard-body">
+          {families.slice(0, 5).map((family) => (
+            <a class="course-dashboard-row" href={`/courses/${family.slug}/`} style={`--course-color: ${family.color};`}>
+              <span>
+                <strong>{family.title}</strong>
+                <small>{family.levelRange} &middot; {family.stats.lessons} lessons</small>
+              </span>
+              <b>{family.stats.levels}</b>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="course-overview-band">
+      <div class="app-shell course-overview">
+        <div>
+          <p class="font-black uppercase text-berryDark">What Students Do</p>
+          <h2 class="mt-3 text-4xl">Learn it, practice it, complete it</h2>
+        </div>
+        <p class="text-lg font-bold text-muted">
+          Each course family below shows what students will learn, what they are expected to master, and what they complete at each level. The question mockups are drawn from the same lesson payloads used by the learner app.
+        </p>
+      </div>
+    </section>
+
+    {families.map((family) => (
+      <section class="course-family-band" id={family.slug} style={`--course-color: ${family.color}; --course-accent: ${family.accent};`}>
+        <div class="app-shell course-family-layout">
+          <div class="course-family-copy">
+            <p class="course-eyebrow">{family.eyebrow}</p>
+            <h2>{family.title}</h2>
+            <p class="course-summary">{family.summary}</p>
+            <div class="course-paragraphs">
+              {family.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+
+            <div class="course-outcomes" aria-label={`${family.title} outcomes`}>
+              <div>
+                <h3>Learn</h3>
+                <ul>
+                  {family.learn.map((item) => <li>{item}</li>)}
+                </ul>
+              </div>
+              <div>
+                <h3>Master</h3>
+                <ul>
+                  {family.master.map((item) => <li>{item}</li>)}
+                </ul>
+              </div>
+              <div>
+                <h3>Complete</h3>
+                <ul>
+                  {family.complete.map((item) => <li>{item}</li>)}
+                </ul>
+              </div>
+            </div>
+
+            <div class="course-footer">
+              <div class="course-mini-stats">
+                <span>{family.levelRange}</span>
+                <span>{family.stats.units} units</span>
+                <span>{family.stats.lessons} lessons</span>
+                <span>{family.stats.questions.toLocaleString()} questions</span>
+              </div>
+              <a class="primary-button" href={`/courses/${family.slug}/`}>More Information</a>
+            </div>
+          </div>
+
+          <div class="course-mockup-stack" aria-label={`${family.title} example questions`}>
+            {family.mockups.map((mockup) => <CourseQuestionMockup mockup={mockup} compact />)}
+          </div>
+        </div>
+      </section>
+    ))}
+  </main>
+
+  <style>
+    .course-hero {
+      display: grid;
+      min-height: calc(100vh - 72px);
+      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+      gap: 36px;
+      align-items: center;
+      padding-block: 42px;
+    }
+
+    .course-hero h1 {
+      max-width: 830px;
+      font-size: clamp(3rem, 7vw, 6.4rem);
+      line-height: 0.94;
+    }
+
+    .course-stat-row,
+    .course-mini-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .course-stat-row span,
+    .course-mini-stats span {
+      display: inline-flex;
+      min-height: 40px;
+      align-items: center;
+      gap: 6px;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: var(--paper);
+      padding: 8px 11px;
+      font-weight: 950;
+    }
+
+    .course-stat-row strong {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+    }
+
+    .course-dashboard {
+      overflow: hidden;
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 6px 6px 0 var(--block-shadow);
+      transform: rotate(1deg);
+    }
+
+    .course-dashboard-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 3px solid var(--ink);
+      background: var(--secondary);
+      padding: 14px 16px;
+      font-weight: 1000;
+    }
+
+    .course-dashboard-body {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
+      background:
+        linear-gradient(135deg, rgba(91, 121, 255, 0.13) 0 18%, transparent 18% 100%),
+        linear-gradient(225deg, rgba(230, 62, 128, 0.1) 0 18%, transparent 18% 100%),
+        #fffaf0;
+    }
+
+    .course-dashboard-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border: 2px solid var(--ink);
+      border-left: 12px solid var(--course-color);
+      border-radius: 8px;
+      background: white;
+      padding: 13px 14px;
+      font-weight: 950;
+      text-decoration: none;
+    }
+
+    .course-dashboard-row small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-weight: 850;
+    }
+
+    .course-dashboard-row b {
+      display: inline-grid;
+      min-width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: var(--secondary);
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+    }
+
+    .course-overview-band,
+    .course-family-band {
+      border-top: 2px solid color-mix(in srgb, var(--line) 70%, transparent);
+    }
+
+    .course-overview {
+      display: grid;
+      grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+      gap: 28px;
+      align-items: end;
+      padding-block: 44px;
+    }
+
+    .course-family-band {
+      padding-block: 56px;
+      background:
+        linear-gradient(90deg, color-mix(in srgb, var(--course-color) 12%, transparent), transparent 42%),
+        color-mix(in srgb, var(--paper) 72%, transparent);
+    }
+
+    .course-family-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(310px, 0.88fr);
+      gap: 32px;
+      align-items: start;
+    }
+
+    .course-eyebrow {
+      color: color-mix(in srgb, var(--course-color) 70%, var(--ink));
+      font-weight: 1000;
+      text-transform: uppercase;
+    }
+
+    .course-family-copy h2 {
+      margin-top: 10px;
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
+    }
+
+    .course-summary {
+      margin-top: 14px;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    .course-paragraphs {
+      display: grid;
+      max-width: 820px;
+      gap: 12px;
+      margin-top: 20px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .course-outcomes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .course-outcomes div {
+      border-top: 8px solid var(--course-color);
+      background: rgba(255, 255, 255, 0.62);
+      padding-top: 12px;
+    }
+
+    .course-outcomes h3 {
+      font-size: 1.4rem;
+    }
+
+    .course-outcomes ul {
+      display: grid;
+      gap: 7px;
+      margin: 10px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      font-weight: 850;
+    }
+
+    .course-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 26px;
+    }
+
+    .course-mini-stats span {
+      min-height: 34px;
+      border-color: color-mix(in srgb, var(--ink) 70%, var(--course-color));
+      font-size: 0.9rem;
+    }
+
+    .course-mockup-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .course-hero,
+      .course-family-layout,
+      .course-overview {
+        grid-template-columns: 1fr;
+      }
+
+      .course-hero {
+        min-height: auto;
+      }
+
+      .course-dashboard {
+        transform: none;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .course-hero {
+        padding-block: 28px;
+      }
+
+      .course-overview,
+      .course-family-band {
+        padding-block: 32px;
+      }
+
+      .course-outcomes {
+        grid-template-columns: 1fr;
+      }
+
+      .course-footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</AppLayout>

@@ -1,6 +1,7 @@
 ---
-import BrandMark from '../components/BrandMark.astro';
+import PublicTopbar from '../components/PublicTopbar.astro';
 import AppLayout from '../layouts/AppLayout.astro';
+import { getCourseFamilies } from '../lib/public-courses';
 
 const screenshotCards = [
   {
@@ -57,17 +58,12 @@ const benefitCards = [
   ['More independent practice', 'Kids can move through familiar screens with clear goals, rewards, and recovery when they miss.'],
   ['Better parent visibility', 'Parents get a calm view of progress, weak spots, streaks, and recent activity.'],
 ];
+
+const courseFamilies = getCourseFamilies();
 ---
 
 <AppLayout title="Buddy Blocks" showNav={false}>
-  <header class="topbar">
-    <div class="app-shell topbar-inner">
-      <BrandMark href="/" />
-      <nav aria-label="Main">
-        <a class="nav-link border-ink bg-white text-ink" href="/login/">Log In</a>
-      </nav>
-    </div>
-  </header>
+  <PublicTopbar active="home" />
 
   <main>
     <section class="app-shell grid min-h-[calc(100vh-72px)] items-center gap-10 py-10 lg:grid-cols-[0.94fr_1.06fr] lg:py-12">
@@ -79,6 +75,7 @@ const benefitCards = [
         </p>
         <div class="mt-7 flex flex-wrap gap-3">
           <a class="primary-button" href="#screenshots">See the App</a>
+          <a class="secondary-button" href="/courses/">Browse Courses</a>
           <a class="secondary-button" href="#features">Explore Features</a>
         </div>
       </div>
@@ -193,6 +190,40 @@ const benefitCards = [
               </article>
             ))}
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="courses" class="homepage-band bg-white py-14">
+      <div class="app-shell">
+        <div class="courses-heading">
+          <div>
+            <p class="font-black uppercase text-berryDark">Current Tracks</p>
+            <h2 class="mt-3 text-4xl">Courses that stack like the kid dashboard</h2>
+          </div>
+          <p class="text-lg font-bold text-muted">
+            Each card represents a public course family. Open the course library to see what students learn, master, and complete at every available level.
+          </p>
+        </div>
+
+        <div class="course-card-grid mt-8">
+          {courseFamilies.map((family) => (
+            <a class="home-course-card" href={`/courses/${family.slug}/`} style={`--course-color: ${family.color}; --course-accent: ${family.accent};`}>
+              <div>
+                <p>{family.levelRange}</p>
+                <h3>{family.title}</h3>
+              </div>
+              <p class="home-course-summary">{family.summary}</p>
+              <div class="home-course-progress" aria-label={`${family.title} course size`}>
+                <span class="progress-rail"><span class="progress-fill" style={`width: ${Math.max(38, Math.min(96, family.stats.levels * 8))}%`}></span></span>
+                <span>{family.stats.levels} levels &middot; {family.stats.lessons} lessons</span>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div class="mt-8">
+          <a class="primary-button" href="/courses/">More About Courses</a>
         </div>
       </div>
     </section>
@@ -451,6 +482,81 @@ const benefitCards = [
       padding: 18px;
     }
 
+    .courses-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      gap: 28px;
+      align-items: end;
+    }
+
+    .course-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 285px), 1fr));
+      gap: 18px;
+    }
+
+    .home-course-card {
+      display: grid;
+      min-height: 250px;
+      gap: 14px;
+      align-content: space-between;
+      border: 3px solid var(--ink);
+      border-left: 12px solid var(--course-color);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--course-color) 11%, transparent) 0 26%, transparent 26% 100%),
+        var(--paper);
+      box-shadow: 6px 6px 0 var(--block-shadow);
+      padding: 18px;
+      text-decoration: none;
+      transition:
+        transform 120ms ease,
+        box-shadow 120ms ease;
+    }
+
+    .home-course-card:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 3px 3px 0 var(--block-shadow);
+    }
+
+    .home-course-card > div:first-child {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .home-course-card > div:first-child p {
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: var(--secondary);
+      padding: 5px 8px;
+      font-size: 0.82rem;
+      font-weight: 1000;
+      white-space: nowrap;
+    }
+
+    .home-course-card h3 {
+      max-width: 190px;
+      font-size: 2rem;
+    }
+
+    .home-course-summary {
+      color: var(--muted);
+      font-weight: 850;
+    }
+
+    .home-course-progress {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-weight: 950;
+    }
+
+    .home-course-progress .progress-fill {
+      background: linear-gradient(90deg, var(--course-color), var(--course-accent));
+    }
+
     @media (max-width: 767px) {
       .hero-screenshot {
         transform: none;
@@ -470,6 +576,11 @@ const benefitCards = [
       .benefit-row {
         grid-template-columns: 1fr;
         gap: 8px;
+      }
+
+      .courses-heading {
+        grid-template-columns: 1fr;
+        gap: 12px;
       }
 
       .screenshot-row,

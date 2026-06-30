@@ -1,0 +1,37 @@
+---
+import BrandMark from './BrandMark.astro';
+
+interface Props {
+  active?: 'home' | 'courses';
+}
+
+const { active } = Astro.props;
+---
+
+<header class="topbar">
+  <div class="app-shell topbar-inner">
+    <BrandMark href="/" />
+    <nav class="public-nav" aria-label="Main">
+      <a class="nav-link" href="/" aria-current={active === 'home' ? 'page' : undefined}>Home</a>
+      <a class="nav-link" href="/courses/" aria-current={active === 'courses' ? 'page' : undefined}>Courses</a>
+      <a class="nav-link border-ink bg-white text-ink" href="/login/">Log In</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .public-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  @media (max-width: 520px) {
+    .public-nav {
+      width: 100%;
+      justify-content: flex-start;
+      grid-column: 1 / -1;
+    }
+  }
+</style>

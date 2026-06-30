@@ -1,0 +1,288 @@
+---
+import type { QuestionMockup } from '../lib/public-courses';
+
+interface Props {
+  mockup: QuestionMockup;
+  compact?: boolean;
+}
+
+const { mockup, compact = false } = Astro.props;
+const choices = mockup.choices?.slice(0, compact ? 3 : 4) ?? [];
+const pairs = mockup.pairs?.slice(0, compact ? 2 : 3) ?? [];
+const order = mockup.order?.slice(0, compact ? 4 : 5) ?? [];
+const cloze = mockup.cloze?.slice(0, compact ? 2 : 3) ?? [];
+const rows = mockup.rows?.slice(0, compact ? 2 : 3) ?? [];
+const hasStructuredAnswer = Boolean(choices.length || mockup.inputAnswer || pairs.length || order.length || cloze.length || rows.length);
+---
+
+<figure class:list={['question-mockup', compact && 'question-mockup-compact']}>
+  <div class="mockup-bar">
+    <span>{mockup.label}</span>
+    <span>{compact ? 'Practice' : 'Example question'}</span>
+  </div>
+  <div class="mockup-body">
+    <h3>{mockup.prompt}</h3>
+    {mockup.detail && hasStructuredAnswer && <p class="mockup-detail">{mockup.detail}</p>}
+    {mockup.passage && <p class="mockup-passage">{mockup.passage}</p>}
+
+    {choices.length > 0 && (
+      <div class="mockup-choices">
+        {choices.map((choice) => (
+          <span class:list={['mockup-choice', choice === mockup.correctAnswer && 'is-correct']}>{choice}</span>
+        ))}
+      </div>
+    )}
+
+    {mockup.inputAnswer && (
+      <div class="mockup-input">
+        <span>Type your answer</span>
+        <strong>{mockup.inputAnswer}</strong>
+      </div>
+    )}
+
+    {pairs.length > 0 && (
+      <div class="mockup-pairs">
+        {pairs.map((pair) => (
+          <div>
+            <span>{pair.left}</span>
+            <strong>{pair.right}</strong>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {order.length > 0 && (
+      <div class="mockup-order">
+        {order.map((item, index) => (
+          <span><strong>{index + 1}</strong>{item}</span>
+        ))}
+      </div>
+    )}
+
+    {cloze.length > 0 && (
+      <div class="mockup-pairs">
+        {cloze.map((blank) => (
+          <div>
+            <span>{blank.label}</span>
+            <strong>{blank.answer}</strong>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {rows.length > 0 && (
+      <div class="mockup-grid">
+        {rows.map((row) => (
+          <div>
+            <span>{row.label}</span>
+            <strong>{row.answers.join(', ')}</strong>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {!hasStructuredAnswer && (
+      <div class="mockup-input mockup-response">
+        <span>Sample response</span>
+        <strong>{mockup.detail ?? 'A complete answer with evidence from the lesson.'}</strong>
+      </div>
+    )}
+
+    {!compact && mockup.feedback && (
+      <div class="mockup-feedback">
+        <strong>Feedback</strong>
+        <span>{mockup.feedback}</span>
+      </div>
+    )}
+  </div>
+</figure>
+
+<style>
+  .question-mockup {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    background: var(--paper);
+    box-shadow: 6px 6px 0 var(--block-shadow);
+  }
+
+  .mockup-bar {
+    display: flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 3px solid var(--ink);
+    background: var(--secondary);
+    padding: 10px 14px;
+    color: var(--ink);
+    font-size: 0.82rem;
+    font-weight: 1000;
+    text-transform: uppercase;
+  }
+
+  .mockup-body {
+    display: grid;
+    gap: 12px;
+    padding: 16px;
+    background:
+      linear-gradient(135deg, rgba(24, 188, 164, 0.12) 0 22%, transparent 22% 100%),
+      #fffaf0;
+  }
+
+  .mockup-body h3 {
+    font-size: clamp(1.15rem, 3vw, 1.55rem);
+    line-height: 1.1;
+  }
+
+  .mockup-detail,
+  .mockup-passage {
+    border: 2px solid var(--line);
+    border-radius: 8px;
+    background: white;
+    padding: 11px 12px;
+    color: var(--muted);
+    font-weight: 850;
+  }
+
+  .mockup-passage {
+    max-height: 112px;
+    overflow: hidden;
+  }
+
+  .mockup-choices,
+  .mockup-pairs,
+  .mockup-order,
+  .mockup-grid {
+    display: grid;
+    gap: 8px;
+  }
+
+  .mockup-choice,
+  .mockup-input,
+  .mockup-pairs div,
+  .mockup-order span,
+  .mockup-grid div,
+  .mockup-feedback {
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    background: white;
+    padding: 10px 12px;
+    font-weight: 950;
+  }
+
+  .mockup-choice {
+    display: block;
+  }
+
+  .mockup-choice.is-correct {
+    background: #c9fff1;
+  }
+
+  .mockup-input,
+  .mockup-pairs div,
+  .mockup-order span,
+  .mockup-grid div,
+  .mockup-feedback {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .mockup-input span,
+  .mockup-pairs span,
+  .mockup-grid span,
+  .mockup-feedback span {
+    color: var(--muted);
+    font-weight: 850;
+  }
+
+  .mockup-input strong,
+  .mockup-pairs strong,
+  .mockup-grid strong {
+    text-align: right;
+  }
+
+  .mockup-response {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .mockup-response strong {
+    text-align: left;
+  }
+
+  .mockup-order span {
+    justify-content: flex-start;
+  }
+
+  .mockup-order strong {
+    display: inline-grid;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    background: var(--accent);
+    color: white;
+  }
+
+  .mockup-feedback {
+    background: #f0fff9;
+  }
+
+  .question-mockup-compact .mockup-body {
+    gap: 9px;
+    padding: 13px;
+  }
+
+  .question-mockup-compact .mockup-body h3 {
+    font-size: 1.05rem;
+    line-height: 1.15;
+  }
+
+  .question-mockup-compact .mockup-bar {
+    min-height: 40px;
+    padding: 8px 12px;
+  }
+
+  .question-mockup-compact .mockup-choice,
+  .question-mockup-compact .mockup-input,
+  .question-mockup-compact .mockup-pairs div,
+  .question-mockup-compact .mockup-order span,
+  .question-mockup-compact .mockup-grid div {
+    padding: 8px 10px;
+  }
+
+  @media (max-width: 767px) {
+    .question-mockup {
+      box-shadow: 4px 4px 0 var(--block-shadow);
+    }
+
+    .mockup-bar {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 2px;
+      border-bottom-width: 2px;
+    }
+
+    .mockup-input,
+    .mockup-pairs div,
+    .mockup-grid div,
+    .mockup-feedback {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .mockup-input strong,
+    .mockup-pairs strong,
+    .mockup-grid strong {
+      text-align: left;
+    }
+  }
+</style>
