@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "describe" correctly?
     choices:
-      - The describe helped the reader understand the idea.
-      - She poured the describe into a cup.
-      - The describe barked loudly.
-      - We measured the describe with a ruler.
-    correctAnswer: The describe helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - Please describe the animal in the picture.
+      - The writer added a describe to the paragraph.
+      - Her describe had three details.
+      - The describe sentence came first.
+    correctAnswer: Please describe the animal in the picture.
+    explanation: The correct sentence uses "describe" as an action word meaning to tell details.
   - type: fill-blank
     prompt: tell how or why is called ___.
     sentenceBefore: tell how or why is called
@@ -87,7 +87,7 @@ questions:
   - type: constructed-response
     prompt: Write one sentence using "describe" in a reading, writing, or discussion situation.
     minWords: 4
-    sampleAnswer: The context helped me understand the word in the paragraph.
+    sampleAnswer: I can describe the character by telling what she did.
     checklist:
       - Use the word accurately
       - Show its meaning through the sentence

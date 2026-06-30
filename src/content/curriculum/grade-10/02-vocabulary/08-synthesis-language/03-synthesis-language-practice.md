@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "precise" correctly?
     choices:
-      - The precise helped the reader understand the idea.
-      - She poured the precise into a cup.
-      - The precise barked loudly.
-      - We measured the precise with a ruler.
-    correctAnswer: The precise helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - The precise directions helped us find the classroom.
+      - The precise of the directions helped us.
+      - She precise the directions before reading them.
+      - The directions were precise carefully.
+    correctAnswer: The precise directions helped us find the classroom.
+    explanation: The correct sentence uses "precise" as a describing word meaning exact and carefully chosen.
   - type: fill-blank
     prompt: a word made from two smaller words is called ___.
     sentenceBefore: a word made from two smaller words is called
@@ -87,7 +87,7 @@ questions:
   - type: constructed-response
     prompt: Write one sentence using "precise" in a reading, writing, or discussion situation.
     minWords: 6
-    sampleAnswer: The context helped me understand the word in the paragraph.
+    sampleAnswer: The precise word made my sentence clearer.
     checklist:
       - Use the word accurately
       - Show its meaning through the sentence

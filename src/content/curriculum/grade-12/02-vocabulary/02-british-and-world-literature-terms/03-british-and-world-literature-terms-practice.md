@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "scholarly" correctly?
     choices:
-      - The scholarly helped the reader understand the idea.
-      - She poured the scholarly into a cup.
-      - The scholarly barked loudly.
-      - We measured the scholarly with a ruler.
-    correctAnswer: The scholarly helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - The scholarly article used evidence from several sources.
+      - The scholarly of the article was hard to follow.
+      - She scholarly the source before quoting it.
+      - The article was scholarly quickly.
+    correctAnswer: The scholarly article used evidence from several sources.
+    explanation: The correct sentence uses "scholarly" as a describing word for careful academic work.
   - type: fill-blank
     prompt: the words and ideas around an unfamiliar word is called ___.
     sentenceBefore: the words and ideas around an unfamiliar word is called
@@ -87,7 +87,7 @@ questions:
   - type: constructed-response
     prompt: Write one sentence using "scholarly" in a reading, writing, or discussion situation.
     minWords: 6
-    sampleAnswer: The context helped me understand the word in the paragraph.
+    sampleAnswer: The scholarly article cited its sources clearly.
     checklist:
       - Use the word accurately
       - Show its meaning through the sentence

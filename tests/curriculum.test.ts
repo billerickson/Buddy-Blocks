@@ -611,6 +611,23 @@ describe('curriculum content', () => {
     }
   });
 
+  it('does not use malformed sentence-use correct answers for vocabulary verbs and adjectives', () => {
+    const malformedCorrectAnswers = getAllQuestions()
+      .filter((question) =>
+        /^Which sentence uses "(describe|explain|precise|scholarly)" correctly\?$/.test(question.prompt),
+      )
+      .filter((question) => {
+        const answer = 'correctAnswer' in question.payload ? question.payload.correctAnswer : undefined;
+        return (
+          typeof answer === 'string' &&
+          /^The (describe|explain|precise|scholarly) helped the reader understand the idea\.$/.test(answer)
+        );
+      })
+      .map((question) => `${question.id}: ${question.prompt}`);
+
+    expect(malformedCorrectAnswers).toEqual([]);
+  });
+
   it('loads grade folders dynamically and preserves numeric folder order', () => {
     const root = createTempCurriculumRoot();
     writeTrack(root, 'grade-07', '02-vocabulary', {
