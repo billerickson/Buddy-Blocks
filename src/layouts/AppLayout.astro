@@ -36,7 +36,12 @@ const shouldResolveKidHomeLink = active === 'kid' && !brandHref;
       <header class="topbar">
         <div class="app-shell topbar-inner">
           <BrandMark href={resolvedBrandHref} kidHome={shouldResolveKidHomeLink} />
-          <nav class="nav-links" aria-label="Main">
+          <button class="mobile-menu-toggle" type="button" aria-label="Open menu" aria-controls="site-menu" aria-expanded="false" data-mobile-menu-toggle>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </button>
+          <nav class="nav-links" id="site-menu" aria-label="Main" data-mobile-menu>
             <a class="nav-link" href="/profiles/" aria-current={active === 'profiles' ? 'page' : undefined}>Profiles</a>
             <a class="nav-link" href="/parent/" aria-current={active === 'parent' ? 'page' : undefined}>Parent</a>
             <a class="nav-link" href="/logout/">Log out</a>
@@ -56,6 +61,30 @@ const shouldResolveKidHomeLink = active === 'kid' && !brandHref;
       </script>
     )}
     <script is:inline>
+      const mobileMenuToggle = document.querySelector('[data-mobile-menu-toggle]');
+      const mobileMenu = document.querySelector('[data-mobile-menu]');
+
+      if (mobileMenuToggle && mobileMenu) {
+        const setMobileMenuOpen = (open) => {
+          mobileMenuToggle.setAttribute('aria-expanded', String(open));
+          mobileMenuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+          document.body.toggleAttribute('data-mobile-menu-open', open);
+        };
+
+        mobileMenuToggle.addEventListener('click', () => {
+          setMobileMenuOpen(mobileMenuToggle.getAttribute('aria-expanded') !== 'true');
+        });
+
+        mobileMenu.addEventListener('click', (event) => {
+          const target = event.target;
+          if (target instanceof Element && target.closest('a')) setMobileMenuOpen(false);
+        });
+
+        window.addEventListener('resize', () => {
+          if (window.innerWidth >= 768) setMobileMenuOpen(false);
+        });
+      }
+
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/service-worker.js').catch(() => {});
