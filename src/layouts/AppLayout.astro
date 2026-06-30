@@ -1,5 +1,6 @@
 ---
 import BrandMark from '../components/BrandMark.astro';
+import OfflineSyncBoot from '../components/islands/offline/OfflineSyncBoot';
 import '../styles/global.css';
 
 interface Props {
@@ -50,6 +51,7 @@ const shouldResolveKidHomeLink = active === 'kid' && !brandHref;
       </header>
     )}
     <slot />
+    <OfflineSyncBoot client:load />
     {shouldResolveKidHomeLink && (
       <script is:inline>
         const kidHomeLink = document.querySelector('[data-kid-home-link]');
