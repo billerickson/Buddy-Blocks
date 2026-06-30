@@ -10,6 +10,10 @@
 
 2. Can you check all lessons and make sure the answers are mixed up? On the Grade 6 Vocabulary > Context And Reference Skills > Easy Context Cards, the answer to every question was (A) the first choice. I think there was also a lesson in Grade 3 that had the same issue.
 
+   - Root cause: many authored lessons store choice answers in source order with the correct answer first, and the lesson player displayed that source order directly.
+   - Fix: the lesson queue now deterministically shuffles choice arrays per question and rebalances any lesson that would still show every correct answer in the same position.
+   - Verified: `npm test -- tests/lesson-flow.test.ts`, `npm test`, `npm run check`, `npm run content:validate`, and a full curriculum scan through `prepareLessonQueue` showing 0 lessons with all correct answers in slot A.
+
 3. On the "Match each word to an example" question type, if you press the wrong word and match it to something else, there's no way to undo your selection and select the correct word. They should be able to undo the selection without submitting the wrong answer.
 
 4. On French 1, the second question of the first lesson asked "how do you write 'goodbye' in French" when that word had not been shown/taught yet. It should start with flashcards before asking them to use the words. Can you review all lessons in Spanish 1, French 1, Latin 1, Spanish 2, French 2, and Latin 2 to ensure flash cards appear before the questions that ask how to use/spell those words?
