@@ -86,7 +86,7 @@ Scholastic tracks use academic grade placement. Foundation tracks start every st
 
 ### Memory Work
 
-- Level 1 (`planned`): Memory Work I, planned for `src/content/curriculum/grade-03/11-memory-work`.
+- Level 1 (`complete`): Memory Work I, `src/content/curriculum/grade-03/11-memory-work`, 8 units, 8 lessons.
 - Level 2 (`empty`)
 - Level 3 (`empty`)
 - Level 4 (`empty`)
