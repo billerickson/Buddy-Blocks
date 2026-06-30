@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "context" correctly?
     choices:
-      - The context helped the reader understand the idea.
-      - She poured the context into a cup.
-      - The context barked loudly.
-      - We measured the context with a ruler.
-    correctAnswer: The context helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - The context around the sentence helped me understand the unfamiliar word.
+      - A context is a word part added to the beginning of a word.
+      - A context means the opposite of another word.
+      - A context joins two small words into one word.
+    correctAnswer: The context around the sentence helped me understand the unfamiliar word.
+    explanation: The correct sentence uses "context" to mean the words and ideas around an unfamiliar word.
   - type: fill-blank
     prompt: a group of things that belong together is called ___.
     sentenceBefore: a group of things that belong together is called
@@ -87,7 +87,7 @@ questions:
   - type: constructed-response
     prompt: Write one sentence using "context" in a reading, writing, or discussion situation.
     minWords: 4
-    sampleAnswer: The context helped me understand the word in the paragraph.
+    sampleAnswer: Context helped me figure out the unfamiliar word.
     checklist:
       - Use the word accurately
       - Show its meaning through the sentence

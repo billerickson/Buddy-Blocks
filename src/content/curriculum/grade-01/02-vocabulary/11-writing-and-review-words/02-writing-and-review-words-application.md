@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "suffix" correctly?
     choices:
-      - The suffix helped the reader understand the idea.
-      - She poured the suffix into a cup.
-      - The suffix barked loudly.
-      - We measured the suffix with a ruler.
-    correctAnswer: The suffix helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - The suffix -ful can mean full of.
+      - A suffix comes at the beginning of a word.
+      - A suffix means the opposite of another word.
+      - A suffix is the whole sentence around a word.
+    correctAnswer: The suffix -ful can mean full of.
+    explanation: The correct sentence uses "suffix" to mean a word part added to the end.
   - type: fill-blank
     prompt: the main word that can take prefixes or suffixes is called ___.
     sentenceBefore: the main word that can take prefixes or suffixes is called

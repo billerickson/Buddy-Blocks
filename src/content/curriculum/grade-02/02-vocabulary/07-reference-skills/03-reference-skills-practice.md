@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "antonym" correctly?
     choices:
-      - The antonym helped the reader understand the idea.
-      - She poured the antonym into a cup.
-      - The antonym barked loudly.
-      - We measured the antonym with a ruler.
-    correctAnswer: The antonym helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - Hot is an antonym for cold.
+      - An antonym is a word part at the beginning of a word.
+      - An antonym joins two small words into one word.
+      - An antonym means the same thing as another word.
+    correctAnswer: Hot is an antonym for cold.
+    explanation: The correct sentence uses "antonym" to mean a word with the opposite meaning.
   - type: fill-blank
     prompt: exact and carefully chosen is called ___.
     sentenceBefore: exact and carefully chosen is called
@@ -87,7 +87,7 @@ questions:
   - type: constructed-response
     prompt: Write one sentence using "antonym" in a reading, writing, or discussion situation.
     minWords: 4
-    sampleAnswer: The context helped me understand the word in the paragraph.
+    sampleAnswer: An antonym has the opposite meaning of another word.
     checklist:
       - Use the word accurately
       - Show its meaning through the sentence

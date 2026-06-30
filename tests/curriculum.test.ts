@@ -611,21 +611,22 @@ describe('curriculum content', () => {
     }
   });
 
-  it('does not use malformed sentence-use correct answers for vocabulary verbs and adjectives', () => {
-    const malformedCorrectAnswers = getAllQuestions()
-      .filter((question) =>
-        /^Which sentence uses "(describe|explain|precise|scholarly)" correctly\?$/.test(question.prompt),
-      )
+  it('does not use the malformed generated sentence-use template in vocabulary questions', () => {
+    const malformedSentenceUseQuestions = getAllQuestions()
+      .filter((question) => /^Which sentence uses ".+" correctly\?$/.test(question.prompt))
       .filter((question) => {
-        const answer = 'correctAnswer' in question.payload ? question.payload.correctAnswer : undefined;
+        const choices = 'choices' in question.payload ? question.payload.choices : undefined;
+        if (!Array.isArray(choices)) return false;
+        const choiceText = choices.join('\n');
         return (
-          typeof answer === 'string' &&
-          /^The (describe|explain|precise|scholarly) helped the reader understand the idea\.$/.test(answer)
+          /She poured the .+ into a cup\./.test(choiceText) &&
+          /The .+ barked loudly\./.test(choiceText) &&
+          /We measured the .+ with a ruler\./.test(choiceText)
         );
       })
       .map((question) => `${question.id}: ${question.prompt}`);
 
-    expect(malformedCorrectAnswers).toEqual([]);
+    expect(malformedSentenceUseQuestions).toEqual([]);
   });
 
   it('loads grade folders dynamically and preserves numeric folder order', () => {

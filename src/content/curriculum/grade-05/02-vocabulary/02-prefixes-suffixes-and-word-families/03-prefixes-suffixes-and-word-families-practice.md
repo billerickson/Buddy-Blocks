@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "category" correctly?
     choices:
-      - The category helped the reader understand the idea.
-      - She poured the category into a cup.
-      - The category barked loudly.
-      - We measured the category with a ruler.
-    correctAnswer: The category helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - Fruits are a category that can include apples, grapes, and peaches.
+      - A category is a word part added to the end of a word.
+      - A category means the opposite of another word.
+      - A category is one exact letter sound.
+    correctAnswer: Fruits are a category that can include apples, grapes, and peaches.
+    explanation: The correct sentence uses "category" to mean a group of things that belong together.
   - type: fill-blank
     prompt: a quality or feature used to describe something is called ___.
     sentenceBefore: a quality or feature used to describe something is called
@@ -87,7 +87,7 @@ questions:
   - type: constructed-response
     prompt: Write one sentence using "category" in a reading, writing, or discussion situation.
     minWords: 6
-    sampleAnswer: The context helped me understand the word in the paragraph.
+    sampleAnswer: A robin belongs in the bird category.
     checklist:
       - Use the word accurately
       - Show its meaning through the sentence

@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "synonym" correctly?
     choices:
-      - The synonym helped the reader understand the idea.
-      - She poured the synonym into a cup.
-      - The synonym barked loudly.
-      - We measured the synonym with a ruler.
-    correctAnswer: The synonym helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - Happy is a synonym for glad.
+      - A synonym is a word part added to the beginning of a word.
+      - A synonym joins two small words into one word.
+      - A synonym means the opposite of another word.
+    correctAnswer: Happy is a synonym for glad.
+    explanation: The correct sentence uses "synonym" to mean a word with a similar meaning.
   - type: fill-blank
     prompt: a word with the opposite meaning is called ___.
     sentenceBefore: a word with the opposite meaning is called
@@ -87,7 +87,7 @@ questions:
   - type: constructed-response
     prompt: Write one sentence using "synonym" in a reading, writing, or discussion situation.
     minWords: 4
-    sampleAnswer: The context helped me understand the word in the paragraph.
+    sampleAnswer: A synonym has nearly the same meaning as another word.
     checklist:
       - Use the word accurately
       - Show its meaning through the sentence

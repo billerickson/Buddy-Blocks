@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "attribute" correctly?
     choices:
-      - The attribute helped the reader understand the idea.
-      - She poured the attribute into a cup.
-      - The attribute barked loudly.
-      - We measured the attribute with a ruler.
-    correctAnswer: The attribute helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - Color is an attribute you can use to describe an object.
+      - An attribute is a word part added to the beginning of a word.
+      - An attribute means the opposite of another word.
+      - An attribute joins two small words into one word.
+    correctAnswer: Color is an attribute you can use to describe an object.
+    explanation: The correct sentence uses "attribute" to mean a quality or feature.
   - type: fill-blank
     prompt: a word with a similar meaning is called ___.
     sentenceBefore: a word with a similar meaning is called
@@ -87,7 +87,7 @@ questions:
   - type: constructed-response
     prompt: Write one sentence using "attribute" in a reading, writing, or discussion situation.
     minWords: 6
-    sampleAnswer: The context helped me understand the word in the paragraph.
+    sampleAnswer: Color is one attribute I can use to describe a leaf.
     checklist:
       - Use the word accurately
       - Show its meaning through the sentence

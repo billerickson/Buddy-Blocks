@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "prefix" correctly?
     choices:
-      - The prefix helped the reader understand the idea.
-      - She poured the prefix into a cup.
-      - The prefix barked loudly.
-      - We measured the prefix with a ruler.
-    correctAnswer: The prefix helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - The prefix re- can mean again.
+      - A prefix comes at the end of a word.
+      - A prefix means the opposite of another word.
+      - A prefix is the whole sentence around a word.
+    correctAnswer: The prefix re- can mean again.
+    explanation: The correct sentence uses "prefix" to mean a word part added to the beginning.
   - type: fill-blank
     prompt: a word part added to the end is called ___.
     sentenceBefore: a word part added to the end is called

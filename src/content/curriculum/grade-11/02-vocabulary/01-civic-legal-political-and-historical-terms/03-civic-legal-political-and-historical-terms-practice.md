@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "rhetoric" correctly?
     choices:
-      - The rhetoric helped the reader understand the idea.
-      - She poured the rhetoric into a cup.
-      - The rhetoric barked loudly.
-      - We measured the rhetoric with a ruler.
-    correctAnswer: The rhetoric helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - The speech's rhetoric used repetition and evidence to persuade listeners.
+      - Rhetoric is a word part added to the beginning of a word.
+      - Rhetoric means the opposite of another word.
+      - Rhetoric is the spelling of a word in a dictionary.
+    correctAnswer: The speech's rhetoric used repetition and evidence to persuade listeners.
+    explanation: The correct sentence uses "rhetoric" to mean language choices used to communicate or persuade.
   - type: fill-blank
     prompt: careful, academic, and source-based is called ___.
     sentenceBefore: careful, academic, and source-based is called
@@ -87,7 +87,7 @@ questions:
   - type: constructed-response
     prompt: Write one sentence using "rhetoric" in a reading, writing, or discussion situation.
     minWords: 6
-    sampleAnswer: The context helped me understand the word in the paragraph.
+    sampleAnswer: The speaker's rhetoric made the argument stronger.
     checklist:
       - Use the word accurately
       - Show its meaning through the sentence

@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "base word" correctly?
     choices:
-      - The base word helped the reader understand the idea.
-      - She poured the base word into a cup.
-      - The base word barked loudly.
-      - We measured the base word with a ruler.
-    correctAnswer: The base word helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - In repaint, paint is the base word.
+      - A base word is a word part added to the end of a word.
+      - A base word means the opposite of another word.
+      - A base word is the whole sentence around a word.
+    correctAnswer: In repaint, paint is the base word.
+    explanation: The correct sentence uses "base word" to mean the main word that can take prefixes or suffixes.
   - type: fill-blank
     prompt: a word part that carries core meaning is called ___.
     sentenceBefore: a word part that carries core meaning is called
@@ -87,7 +87,7 @@ questions:
   - type: constructed-response
     prompt: Write one sentence using "base word" in a reading, writing, or discussion situation.
     minWords: 4
-    sampleAnswer: The context helped me understand the word in the paragraph.
+    sampleAnswer: The base word in helpful is help.
     checklist:
       - Use the word accurately
       - Show its meaning through the sentence

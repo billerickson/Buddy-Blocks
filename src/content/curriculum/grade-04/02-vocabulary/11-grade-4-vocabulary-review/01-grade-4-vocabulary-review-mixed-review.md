@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "root" correctly?
     choices:
-      - The root helped the reader understand the idea.
-      - She poured the root into a cup.
-      - The root barked loudly.
-      - We measured the root with a ruler.
-    correctAnswer: The root helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - The root graph means write.
+      - A root is always a complete sentence.
+      - A root means the opposite of another word.
+      - A root is the punctuation at the end of a sentence.
+    correctAnswer: The root graph means write.
+    explanation: The correct sentence uses "root" to mean a word part that carries meaning.
   - type: fill-blank
     prompt: a word that sounds like another word but has a different meaning is called ___.
     sentenceBefore: a word that sounds like another word but has a different meaning is called
@@ -87,7 +87,7 @@ questions:
   - type: constructed-response
     prompt: Write one sentence using "root" in a reading, writing, or discussion situation.
     minWords: 6
-    sampleAnswer: The context helped me understand the word in the paragraph.
+    sampleAnswer: The root gives a clue to a word meaning.
     checklist:
       - Use the word accurately
       - Show its meaning through the sentence

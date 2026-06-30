@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "compound" correctly?
     choices:
-      - The compound helped the reader understand the idea.
-      - She poured the compound into a cup.
-      - The compound barked loudly.
-      - We measured the compound with a ruler.
-    correctAnswer: The compound helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - A compound word joins two smaller words, like sun and flower in sunflower.
+      - A compound is a word part added to the beginning of a word.
+      - A compound means the opposite of another word.
+      - A compound is the sentence around an unfamiliar word.
+    correctAnswer: A compound word joins two smaller words, like sun and flower in sunflower.
+    explanation: The correct sentence uses "compound" to describe a word made from two smaller words.
   - type: fill-blank
     prompt: a word part added to the beginning is called ___.
     sentenceBefore: a word part added to the beginning is called
@@ -87,7 +87,7 @@ questions:
   - type: constructed-response
     prompt: Write one sentence using "compound" in a reading, writing, or discussion situation.
     minWords: 6
-    sampleAnswer: The context helped me understand the word in the paragraph.
+    sampleAnswer: A compound word combines two smaller words.
     checklist:
       - Use the word accurately
       - Show its meaning through the sentence

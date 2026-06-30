@@ -15,12 +15,12 @@ questions:
   - type: multiple-choice
     prompt: Which sentence uses "homophone" correctly?
     choices:
-      - The homophone helped the reader understand the idea.
-      - She poured the homophone into a cup.
-      - The homophone barked loudly.
-      - We measured the homophone with a ruler.
-    correctAnswer: The homophone helped the reader understand the idea.
-    explanation: The correct sentence uses the word in a vocabulary or reading situation.
+      - Flour and flower are homophones because they sound the same.
+      - A homophone is a word part added to the beginning of a word.
+      - A homophone means the opposite of another word.
+      - A homophone is the whole sentence around a word.
+    correctAnswer: Flour and flower are homophones because they sound the same.
+    explanation: The correct sentence uses "homophone" to mean a word that sounds like another word.
   - type: fill-blank
     prompt: a word spelled the same as another word but with a different meaning is called ___.
     sentenceBefore: a word spelled the same as another word but with a different meaning is called
