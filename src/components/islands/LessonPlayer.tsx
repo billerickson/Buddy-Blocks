@@ -56,6 +56,7 @@ type LessonData = {
     unit: { title: string };
     track: {
       slug: string;
+      subject: string;
       title: string;
       color: string;
       accent: string;
@@ -110,6 +111,34 @@ type SpeakingAnswer = {
   transcript?: string;
 };
 
+type SpeechLanguage = {
+  code: string;
+  label: 'Spanish' | 'French' | 'Latin';
+  voiceHints: string[];
+  rate?: number;
+};
+
+const SPEECH_LANGUAGES: Record<string, SpeechLanguage> = {
+  spanish: {
+    code: 'es-ES',
+    label: 'Spanish',
+    voiceHints: ['es-ES', 'es-MX', 'es-US', 'es'],
+    rate: 0.86,
+  },
+  french: {
+    code: 'fr-FR',
+    label: 'French',
+    voiceHints: ['fr-FR', 'fr-CA', 'fr'],
+    rate: 0.84,
+  },
+  latin: {
+    code: 'la',
+    label: 'Latin',
+    voiceHints: ['la', 'it-IT', 'it'],
+    rate: 0.82,
+  },
+};
+
 export default function LessonPlayer({
   childSlug: childSlugProp,
   lessonId: lessonIdProp,
@@ -162,6 +191,7 @@ export default function LessonPlayer({
   const progress = queue.length ? Math.round(((position + (feedback ? 1 : 0)) / queue.length) * 100) : 0;
   const firstAttemptIds = useMemo(() => new Set(firstAttempts.map((attempt) => attempt.questionId)), [firstAttempts]);
   const standardConfig = getStandardLessonConfig(data?.lesson.config ?? null);
+  const speechLanguage = speechLanguageForSubject(data?.lesson.track.subject);
 
   if (error) {
     return (
@@ -321,7 +351,9 @@ export default function LessonPlayer({
 
       <article className="block-card p-5 sm:p-7">
         {current.review && <p className="stat-chip mb-4 w-fit bg-reward">Review block</p>}
-        <h2 className="text-[clamp(2rem,5vw,3.4rem)] leading-tight">{current.question.prompt}</h2>
+        <h2 className="text-[clamp(2rem,5vw,3.4rem)] leading-tight">
+          <PromptWithSpeech question={current.question} speechLanguage={speechLanguage} />
+        </h2>
         <QuestionMediaDisplay media={mediaFromQuestion(current.question)} />
 
         <div className="mt-6">
@@ -344,6 +376,7 @@ export default function LessonPlayer({
             setGridAnswer={setGridAnswer}
             speakingAnswer={speakingAnswer}
             setSpeakingAnswer={setSpeakingAnswer}
+            speechLanguage={speechLanguage}
           />
         </div>
 
@@ -351,7 +384,20 @@ export default function LessonPlayer({
           <div className={`mt-6 rounded-lg border-[3px] border-ink p-4 ${feedback.correct ? 'bg-[#d9fff5]' : 'bg-[#ffe1ea]'}`}>
             <h3 className="text-3xl">{feedback.correct ? (isPreviewFlashCard(current.question) ? 'Studied' : 'Correct') : 'Try this one again'}</h3>
             <p className="mt-2 font-extrabold text-muted">
-              {feedback.correct ? (isPreviewFlashCard(current.question) ? feedback.answerLabel : 'That block snapped in.') : `Answer: ${feedback.answerLabel}`}
+              {feedback.correct ? (
+                isPreviewFlashCard(current.question) ? (
+                  feedback.answerLabel
+                ) : (
+                  'That block snapped in.'
+                )
+              ) : (
+                <>
+                  Answer: {feedback.answerLabel}
+                  {shouldSpeakCorrectAnswer(current.question, speechLanguage) && (
+                    <SpeakButton className="ml-2 align-middle" language={speechLanguage} text={feedback.answerLabel} />
+                  )}
+                </>
+              )}
             </p>
             {feedback.explanation && <p className="mt-2 font-bold">{feedback.explanation}</p>}
             {feedback.correct && feedback.accentFeedback && <p className="mt-2 font-bold">{feedback.accentFeedback}</p>}
@@ -541,6 +587,186 @@ export default function LessonPlayer({
 function getStandardLessonConfig(config: LessonConfig | null): StandardLessonConfig | null {
   if (!config || isMadMinuteConfig(config)) return null;
   return config;
+}
+
+function speechLanguageForSubject(subject?: string): SpeechLanguage | null {
+  if (!subject) return null;
+  return SPEECH_LANGUAGES[subject] ?? null;
+}
+
+function PromptWithSpeech({ question, speechLanguage }: { question: LessonQuestion; speechLanguage: SpeechLanguage | null }) {
+  const speechText = promptSpeechText(question.prompt, speechLanguage);
+  return (
+    <>
+      {question.prompt}
+      {speechText && <SpeakButton className="ml-2 align-middle" language={speechLanguage} text={speechText} />}
+    </>
+  );
+}
+
+function SpeakButton({ text, language, className = '' }: { text: string; language: SpeechLanguage | null; className?: string }) {
+  const [available, setAvailable] = useState(false);
+  const speechText = cleanSpeechText(text);
+
+  useEffect(() => {
+    setAvailable(typeof window !== 'undefined' && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window);
+  }, []);
+
+  if (!language || !speechText) return null;
+
+  const disabled = !available;
+
+  return (
+    <button
+      type="button"
+      className={`inline-grid h-9 w-9 flex-none place-items-center rounded-lg border-2 border-ink bg-white text-ink shadow-[2px_2px_0_var(--block-shadow)] transition hover:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+      disabled={disabled}
+      title={disabled ? 'Speech is not available in this browser.' : `Play ${language.label} pronunciation`}
+      aria-label={`Play ${language.label} pronunciation for ${speechText}`}
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        speakText(speechText, language);
+      }}
+    >
+      <SpeakerIcon />
+    </button>
+  );
+}
+
+function SpeakerIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.4" />
+      <path d="M16 9.5a4 4 0 0 1 0 5" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2.4" />
+      <path d="M18.5 7a7 7 0 0 1 0 10" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2.4" />
+    </svg>
+  );
+}
+
+function speakText(text: string, language: SpeechLanguage) {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) return;
+
+  const synth = window.speechSynthesis;
+  const utterance = new SpeechSynthesisUtterance(text);
+  const voice = chooseSpeechVoice(synth.getVoices(), language);
+
+  if (voice) {
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+  } else {
+    utterance.lang = language.code;
+  }
+
+  utterance.rate = language.rate ?? 0.86;
+  synth.cancel();
+  synth.speak(utterance);
+}
+
+function chooseSpeechVoice(voices: SpeechSynthesisVoice[], language: SpeechLanguage) {
+  for (const hint of language.voiceHints) {
+    const exactMatch = voices.find((voice) => voice.lang.toLowerCase() === hint.toLowerCase());
+    if (exactMatch) return exactMatch;
+  }
+
+  for (const hint of language.voiceHints) {
+    const broadMatch = voices.find((voice) => voice.lang.toLowerCase().startsWith(hint.toLowerCase().split('-')[0] ?? hint.toLowerCase()));
+    if (broadMatch) return broadMatch;
+  }
+
+  return null;
+}
+
+function promptSpeechText(prompt: string, language: SpeechLanguage | null) {
+  if (!language) return null;
+
+  const phrase = firstQuotedPhrase(prompt);
+  if (!phrase) return null;
+
+  const lowerPrompt = prompt.toLowerCase();
+  const languageName = language.label.toLowerCase();
+
+  if (lowerPrompt.startsWith('translate or explain')) return phrase;
+  if (lowerPrompt.startsWith(`type the ${languageName}`) || lowerPrompt.includes(` in english`)) return null;
+  if (lowerPrompt.includes('which word or phrase from') && lowerPrompt.includes(' means ')) return null;
+  if (lowerPrompt.startsWith('write one short english note')) return null;
+
+  if (lowerPrompt.startsWith('what does ') || lowerPrompt.startsWith('build ') || lowerPrompt.startsWith('which color is ')) return phrase;
+  if (quotedPhraseComesBeforeMeans(prompt, phrase)) return phrase;
+
+  return null;
+}
+
+function firstQuotedPhrase(value: string) {
+  const match = value.match(/"([^"]+)"/) ?? value.match(/'([^']+)'/);
+  return cleanSpeechText(match?.[1] ?? '');
+}
+
+function quotedPhraseComesBeforeMeans(prompt: string, phrase: string) {
+  const phraseIndex = prompt.indexOf(phrase);
+  const meansIndex = prompt.toLowerCase().indexOf(' means');
+  return phraseIndex >= 0 && meansIndex > phraseIndex;
+}
+
+function shouldSpeakChoicesForQuestion(question: LessonQuestion, language: SpeechLanguage | null) {
+  if (!language) return false;
+
+  if (question.type === 'fill-blank' || question.type === 'passage-question' || question.type === 'dialogue-builder') return true;
+
+  if (question.type !== 'multiple-choice') return false;
+
+  const prompt = question.prompt.toLowerCase();
+  const languageName = language.label.toLowerCase();
+  return (
+    prompt.includes(`type the ${languageName}`) ||
+    prompt.includes(`the ${languageName} word`) ||
+    prompt.includes(`the ${languageName} phrase`) ||
+    /^which (word|phrase|sentence) means\b/.test(prompt) ||
+    prompt.startsWith('say ___') ||
+    prompt.startsWith('to say ') ||
+    prompt.startsWith('complete the ') ||
+    prompt.includes('choose the sentence that') ||
+    prompt.includes('choose the answer to ')
+  );
+}
+
+function shouldSpeakCorrectAnswer(question: LessonQuestion, language: SpeechLanguage | null) {
+  if (!language) return false;
+
+  if (question.type === 'flash-card') return (question.payload as FlashCardPayload).mode === 'hard';
+  if (question.type === 'text-input') return asksForTargetLanguage(question.prompt, language);
+  if (question.type === 'multiple-choice') return shouldSpeakChoicesForQuestion(question, language);
+  if (
+    question.type === 'fill-blank' ||
+    question.type === 'passage-question' ||
+    question.type === 'dialogue-builder' ||
+    question.type === 'order-items' ||
+    question.type === 'multi-blank-cloze' ||
+    question.type === 'error-correction'
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+function asksForTargetLanguage(prompt: string, language: SpeechLanguage) {
+  const lowerPrompt = prompt.toLowerCase();
+  const languageName = language.label.toLowerCase();
+  return (
+    lowerPrompt.includes(`type the ${languageName}`) ||
+    lowerPrompt.includes(`${languageName} word`) ||
+    lowerPrompt.includes(`${languageName} phrase`) ||
+    lowerPrompt.includes(`${languageName} translation`)
+  );
+}
+
+function cleanSpeechText(value: string) {
+  return value
+    .replace(/[\u201c\u201d]/g, '"')
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/^["'\s]+|["'\s.]+$/g, '')
+    .trim();
 }
 
 function MadMinuteLesson({
@@ -1021,6 +1247,7 @@ type QuestionControlProps = {
   setGridAnswer: (value: Record<string, string[]>) => void;
   speakingAnswer: SpeakingAnswer;
   setSpeakingAnswer: (value: SpeakingAnswer) => void;
+  speechLanguage: SpeechLanguage | null;
 };
 
 function isPreviewFlashCard(question: LessonQuestion) {
@@ -1046,11 +1273,19 @@ function QuestionControl({
   setGridAnswer,
   speakingAnswer,
   setSpeakingAnswer,
+  speechLanguage,
 }: QuestionControlProps) {
   if (question.type === 'multiple-choice') {
     const payload = question.payload as MultipleChoicePayload;
     return (
-      <ChoiceGrid choices={payload.choices} value={choiceAnswer} disabled={disabled} onChange={setChoiceAnswer} />
+      <ChoiceGrid
+        choices={payload.choices}
+        value={choiceAnswer}
+        disabled={disabled}
+        onChange={setChoiceAnswer}
+        speechLanguage={speechLanguage}
+        speakChoices={shouldSpeakChoicesForQuestion(question, speechLanguage)}
+      />
     );
   }
 
@@ -1061,7 +1296,14 @@ function QuestionControl({
         <p className="mb-4 text-2xl font-black">
           {payload.sentenceBefore} <span className="rounded-lg border-2 border-ink bg-reward px-3 py-1">?</span> {payload.sentenceAfter}
         </p>
-        <ChoiceGrid choices={payload.choices} value={choiceAnswer} disabled={disabled} onChange={setChoiceAnswer} />
+        <ChoiceGrid
+          choices={payload.choices}
+          value={choiceAnswer}
+          disabled={disabled}
+          onChange={setChoiceAnswer}
+          speechLanguage={speechLanguage}
+          speakChoices={Boolean(speechLanguage)}
+        />
       </div>
     );
   }
@@ -1075,6 +1317,7 @@ function QuestionControl({
         setChoiceAnswer={setChoiceAnswer}
         textAnswer={textAnswer}
         setTextAnswer={setTextAnswer}
+        speechLanguage={speechLanguage}
       />
     );
   }
@@ -1105,26 +1348,28 @@ function QuestionControl({
             const isMatched = Boolean(matchedRight);
 
             return (
-              <button
-                key={pair.left}
-                type="button"
-                disabled={disabled}
-                data-selected={selectedLeft === pair.left}
-                className={`touch-choice w-full ${isMatched ? 'bg-[#d9fff5]' : ''}`}
-                onClick={() => {
-                  if (isMatched) {
-                    setMatchAnswer(clearMatchForLeft(matchAnswer, pair.left));
-                    setSelectedLeft(pair.left);
-                    return;
-                  }
-                  setSelectedLeft(selectedLeft === pair.left ? '' : pair.left);
-                }}
-              >
-                <span className="flex flex-col gap-1">
-                  <span>{pair.left}</span>
-                  {isMatched && <span className="text-sm font-black text-muted">Matched to {matchedRight}</span>}
-                </span>
-              </button>
+              <div key={pair.left} className="flex items-stretch gap-2">
+                <button
+                  type="button"
+                  disabled={disabled}
+                  data-selected={selectedLeft === pair.left}
+                  className={`touch-choice w-full flex-1 ${isMatched ? 'bg-[#d9fff5]' : ''}`}
+                  onClick={() => {
+                    if (isMatched) {
+                      setMatchAnswer(clearMatchForLeft(matchAnswer, pair.left));
+                      setSelectedLeft(pair.left);
+                      return;
+                    }
+                    setSelectedLeft(selectedLeft === pair.left ? '' : pair.left);
+                  }}
+                >
+                  <span className="flex flex-col gap-1">
+                    <span>{pair.left}</span>
+                    {isMatched && <span className="text-sm font-black text-muted">Matched to {matchedRight}</span>}
+                  </span>
+                </button>
+                <SpeakButton className="min-h-[62px]" language={speechLanguage} text={pair.left} />
+              </div>
             );
           })}
         </div>
@@ -1181,15 +1426,17 @@ function QuestionControl({
           {payload.items.map((item) => {
             const used = orderAnswer.includes(item);
             return (
-              <button
-                key={item}
-                type="button"
-                disabled={disabled || used}
-                className="touch-choice min-w-[110px]"
-                onClick={() => setOrderAnswer([...orderAnswer, item])}
-              >
-                {item}
-              </button>
+              <div key={item} className="flex items-stretch gap-2">
+                <button
+                  type="button"
+                  disabled={disabled || used}
+                  className="touch-choice min-w-[110px]"
+                  onClick={() => setOrderAnswer([...orderAnswer, item])}
+                >
+                  {item}
+                </button>
+                <SpeakButton className="min-h-[62px]" language={speechLanguage} text={item} />
+              </div>
             );
           })}
         </div>
@@ -1204,9 +1451,16 @@ function QuestionControl({
     const payload = question.payload as PassageQuestionPayload;
     return (
       <div className="space-y-5">
-        <PassageBlock title={payload.passageTitle} passage={payload.passage} />
+        <PassageBlock title={payload.passageTitle} passage={payload.passage} speechLanguage={speechLanguage} />
         <p className="text-2xl font-black">{payload.question}</p>
-        <ChoiceGrid choices={payload.choices} value={choiceAnswer} disabled={disabled} onChange={setChoiceAnswer} />
+        <ChoiceGrid
+          choices={payload.choices}
+          value={choiceAnswer}
+          disabled={disabled}
+          onChange={setChoiceAnswer}
+          speechLanguage={speechLanguage}
+          speakChoices={Boolean(speechLanguage)}
+        />
       </div>
     );
   }
@@ -1254,8 +1508,15 @@ function QuestionControl({
     const payload = question.payload as DialogueBuilderPayload;
     return (
       <div className="space-y-5">
-        <DialogueBlock turns={payload.turns} />
-        <ChoiceGrid choices={payload.choices} value={choiceAnswer} disabled={disabled} onChange={setChoiceAnswer} />
+        <DialogueBlock turns={payload.turns} speechLanguage={speechLanguage} />
+        <ChoiceGrid
+          choices={payload.choices}
+          value={choiceAnswer}
+          disabled={disabled}
+          onChange={setChoiceAnswer}
+          speechLanguage={speechLanguage}
+          speakChoices={Boolean(speechLanguage)}
+        />
       </div>
     );
   }
@@ -1278,7 +1539,10 @@ function QuestionControl({
     const payload = question.payload as ErrorCorrectionPayload;
     return (
       <div>
-        <p className="rounded-lg border-[3px] border-ink bg-white p-4 text-2xl font-black">{payload.sentence}</p>
+        <p className="rounded-lg border-[3px] border-ink bg-white p-4 text-2xl font-black">
+          <span>{payload.sentence}</span>
+          <SpeakButton className="ml-2 align-middle" language={speechLanguage} text={payload.sentence} />
+        </p>
         <input
           className="mt-4 min-h-[62px] w-full rounded-lg border-[3px] border-ink bg-white px-4 text-2xl font-black outline-none focus:ring-4 focus:ring-reward"
           value={textAnswer}
@@ -1337,6 +1601,7 @@ function FlashCardControl({
   setChoiceAnswer,
   textAnswer,
   setTextAnswer,
+  speechLanguage,
 }: {
   payload: FlashCardPayload;
   disabled: boolean;
@@ -1344,12 +1609,16 @@ function FlashCardControl({
   setChoiceAnswer: (value: string) => void;
   textAnswer: string;
   setTextAnswer: (value: string) => void;
+  speechLanguage: SpeechLanguage | null;
 }) {
   if (payload.mode === 'preview') {
     return (
       <div>
         <div className="flex min-h-[180px] flex-col items-center justify-center rounded-lg border-[4px] border-ink bg-[#f0fff9] p-6 text-center shadow-[5px_5px_0_var(--block-shadow)]">
-          <p className="text-[clamp(2.5rem,8vw,5rem)] font-black leading-tight">{payload.front}</p>
+          <p className="text-[clamp(2.5rem,8vw,5rem)] font-black leading-tight">
+            {payload.front}
+            <SpeakButton className="ml-2 align-middle" language={speechLanguage} text={payload.front} />
+          </p>
           <p className="mt-5 rounded-lg border-[3px] border-ink bg-white px-5 py-3 text-[clamp(1.6rem,5vw,2.6rem)] font-black leading-tight">
             {payload.correctAnswer ?? ''}
           </p>
@@ -1361,7 +1630,10 @@ function FlashCardControl({
   return (
     <div>
       <div className="flex min-h-[180px] items-center justify-center rounded-lg border-[4px] border-ink bg-[#f0fff9] p-6 text-center shadow-[5px_5px_0_var(--block-shadow)]">
-        <p className="text-[clamp(2.5rem,8vw,5rem)] font-black leading-tight">{payload.front}</p>
+        <p className="text-[clamp(2.5rem,8vw,5rem)] font-black leading-tight">
+          {payload.front}
+          {payload.mode !== 'hard' && <SpeakButton className="ml-2 align-middle" language={speechLanguage} text={payload.front} />}
+        </p>
       </div>
       <div className="mt-5">
         {payload.mode === 'easy' ? (
@@ -1381,11 +1653,14 @@ function FlashCardControl({
   );
 }
 
-function PassageBlock({ title, passage }: { title?: string; passage: string }) {
+function PassageBlock({ title, passage, speechLanguage }: { title?: string; passage: string; speechLanguage: SpeechLanguage | null }) {
   return (
     <section className="rounded-lg border-[3px] border-ink bg-white p-4">
       {title && <h3 className="text-2xl font-black">{title}</h3>}
-      <p className={`${title ? 'mt-3' : ''} whitespace-pre-line text-lg font-bold leading-relaxed text-muted`}>{passage}</p>
+      <p className={`${title ? 'mt-3' : ''} whitespace-pre-line text-lg font-bold leading-relaxed text-muted`}>
+        {passage}
+        <SpeakButton className="ml-2 align-middle" language={speechLanguage} text={passage} />
+      </p>
     </section>
   );
 }
@@ -1444,13 +1719,16 @@ function Checklist({ items }: { items: string[] }) {
   );
 }
 
-function DialogueBlock({ turns }: { turns: DialogueBuilderPayload['turns'] }) {
+function DialogueBlock({ turns, speechLanguage }: { turns: DialogueBuilderPayload['turns']; speechLanguage: SpeechLanguage | null }) {
   return (
     <section className="space-y-3 rounded-lg border-[3px] border-ink bg-white p-4">
       {turns.map((turn, index) => (
         <div key={`${turn.speaker}-${index}`} className="flex flex-col gap-1 sm:flex-row sm:gap-3">
           <span className="min-w-[100px] font-black text-muted">{turn.speaker}</span>
-          <span className="text-lg font-black">{turn.line}</span>
+          <span className="text-lg font-black">
+            {turn.line}
+            <SpeakButton className="ml-2 align-middle" language={speechLanguage} text={turn.line} />
+          </span>
         </div>
       ))}
     </section>
@@ -1588,26 +1866,40 @@ function ChoiceGrid({
   value,
   disabled,
   onChange,
+  speechLanguage,
+  speakChoices = false,
 }: {
   choices: string[];
   value: string;
   disabled: boolean;
   onChange: (value: string) => void;
+  speechLanguage?: SpeechLanguage | null;
+  speakChoices?: boolean;
 }) {
   return (
     <div className="grid gap-3 sm:grid-cols-2">
-      {choices.map((choice) => (
-        <button
-          key={choice}
-          type="button"
-          disabled={disabled}
-          data-selected={value === choice}
-          className="touch-choice"
-          onClick={() => onChange(choice)}
-        >
-          {choice}
-        </button>
-      ))}
+      {choices.map((choice, index) => {
+        const choiceButton = (
+          <button
+            type="button"
+            disabled={disabled}
+            data-selected={value === choice}
+            className="touch-choice w-full"
+            onClick={() => onChange(choice)}
+          >
+            {choice}
+          </button>
+        );
+
+        if (!speakChoices) return <div key={`${choice}-${index}`}>{choiceButton}</div>;
+
+        return (
+          <div key={`${choice}-${index}`} className="flex items-stretch gap-2">
+            <div className="min-w-0 flex-1">{choiceButton}</div>
+            <SpeakButton className="min-h-[62px]" language={speechLanguage ?? null} text={choice} />
+          </div>
+        );
+      })}
     </div>
   );
 }
