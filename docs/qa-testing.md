@@ -4,6 +4,10 @@
 
 1. Previously, when inside a kid profile, clicking the "Buddy Blocks" logo at the top took you to their dashboard (ex: /kid/Reagan), but now it takes me to the parent dashboard. Can you restore the previous functionality so it goes to the kid's dashboard?
 
+   - Root cause: kid pages are served from generated static shell routes like `/kid/shell/`, so the Astro layout could not know the real child slug when rendering the logo link.
+   - Fix: kid shells now mark the brand link and rewrite it in the browser to the current `/kid/:slug/` dashboard URL while keeping a safe static fallback.
+   - Verified: ran `npm run check` and `npm run build`; inspected the generated kid shell HTML for the rewrite hook.
+
 2. Can you check all lessons and make sure the answers are mixed up? On the Grade 6 Vocabulary > Context And Reference Skills > Easy Context Cards, the answer to every question was (A) the first choice. I think there was also a lesson in Grade 3 that had the same issue.
 
 3. On the "Match each word to an example" question type, if you press the wrong word and match it to something else, there's no way to undo your selection and select the correct word. They should be able to undo the selection without submitting the wrong answer.

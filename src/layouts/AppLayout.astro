@@ -11,7 +11,11 @@ interface Props {
 
 const { title, showNav = true, active, brandHref } = Astro.props;
 const kidPathMatch = Astro.url.pathname.match(/^\/kid\/([^/]+)/);
-const resolvedBrandHref = brandHref ?? (active === 'kid' && kidPathMatch ? `/kid/${kidPathMatch[1]}/` : '/profiles/');
+const generatedKidShellSlugs = new Set(['shell', 'track-shell', 'lesson-shell']);
+const isGeneratedKidShell = active === 'kid' && kidPathMatch ? generatedKidShellSlugs.has(kidPathMatch[1]) : false;
+const resolvedBrandHref =
+  brandHref ?? (active === 'kid' && kidPathMatch && !isGeneratedKidShell ? `/kid/${kidPathMatch[1]}/` : '/profiles/');
+const shouldResolveKidHomeLink = active === 'kid' && !brandHref;
 ---
 
 <!doctype html>
@@ -31,7 +35,7 @@ const resolvedBrandHref = brandHref ?? (active === 'kid' && kidPathMatch ? `/kid
     {showNav && (
       <header class="topbar">
         <div class="app-shell topbar-inner">
-          <BrandMark href={resolvedBrandHref} />
+          <BrandMark href={resolvedBrandHref} kidHome={shouldResolveKidHomeLink} />
           <nav class="nav-links" aria-label="Main">
             <a class="nav-link" href="/profiles/" aria-current={active === 'profiles' ? 'page' : undefined}>Profiles</a>
             <a class="nav-link" href="/parent/" aria-current={active === 'parent' ? 'page' : undefined}>Parent</a>
@@ -41,6 +45,16 @@ const resolvedBrandHref = brandHref ?? (active === 'kid' && kidPathMatch ? `/kid
       </header>
     )}
     <slot />
+    {shouldResolveKidHomeLink && (
+      <script is:inline>
+        const kidHomeLink = document.querySelector('[data-kid-home-link]');
+        const kidPathMatch = window.location.pathname.match(/^\/kid\/([^/]+)(?:\/|$)/);
+        const generatedKidShellSlugs = new Set(['shell', 'track-shell', 'lesson-shell']);
+        if (kidHomeLink && kidPathMatch && !generatedKidShellSlugs.has(kidPathMatch[1])) {
+          kidHomeLink.setAttribute('href', `/kid/${kidPathMatch[1]}/`);
+        }
+      </script>
+    )}
     <script is:inline>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
