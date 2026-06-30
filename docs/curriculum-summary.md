@@ -65,7 +65,7 @@ Scholastic tracks use academic grade placement. Foundation tracks start every st
 
 ### Rhetoric
 
-- Level 1 (`planned`): Rhetoric I, planned for `src/content/curriculum/grade-03/08-rhetoric`.
+- Level 1 (`complete`): Rhetoric I, `src/content/curriculum/grade-03/08-rhetoric`, 11 units, 11 lessons.
 - Level 2 (`empty`)
 - Level 3 (`empty`)
 - Level 4 (`empty`)

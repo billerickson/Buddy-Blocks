@@ -32,13 +32,14 @@ describe('curriculum content', () => {
       'latin',
       'grammar',
       'logic',
+      'rhetoric',
     ]);
     expect(getTracksForGrade(4).map((track) => track.subject)).toEqual(['spanish', 'french', 'latin']);
     expect(getTracksForGrade(6).map((track) => track.subject)).toEqual(['math', 'vocabulary']);
   });
 
   it('provides the current curriculum shape', () => {
-    expect(TRACKS).toHaveLength(12);
+    expect(TRACKS).toHaveLength(13);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'addition-basics',
       'subtraction-basics',
@@ -128,6 +129,19 @@ describe('curriculum content', () => {
       'common-reasoning-mistakes',
       'cumulative-logic-review',
     ]);
+    expect(GRADE_3_TRACKS.find((track) => track.subject === 'rhetoric')?.units.map((unit) => unit.slug)).toEqual([
+      'narration',
+      'main-idea-and-summary',
+      'strong-sentences',
+      'paragraph-shape',
+      'description',
+      'explanation',
+      'opinion-with-reasons',
+      'compare-and-contrast',
+      'short-speeches',
+      'revision-for-clarity',
+      'cumulative-rhetoric-review',
+    ]);
     expect(getTracksForGrade(4).find((track) => track.subject === 'spanish')?.units.map((unit) => unit.slug)).toEqual([
       'grade-3-review-classroom-routines',
       'numbers-dates-time',
@@ -190,8 +204,8 @@ describe('curriculum content', () => {
       'research-inquiry-vocabulary',
       'cumulative-review',
     ]);
-    expect(getAllLessons()).toHaveLength(591);
-    expect(getAllQuestions()).toHaveLength(4614);
+    expect(getAllLessons()).toHaveLength(602);
+    expect(getAllQuestions()).toHaveLength(4702);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -405,10 +419,10 @@ describe('curriculum content', () => {
     const summary = summarizeCurriculum(TRACKS);
 
     expect(summary.totals).toEqual({
-      tracks: 12,
-      units: 127,
-      lessons: 591,
-      questions: 4614,
+      tracks: 13,
+      units: 138,
+      lessons: 602,
+      questions: 4702,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
       tracks: 1,
@@ -447,6 +461,12 @@ describe('curriculum content', () => {
       questions: 88,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'logic')).toMatchObject({
+      tracks: 1,
+      units: 11,
+      lessons: 11,
+      questions: 88,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'rhetoric')).toMatchObject({
       tracks: 1,
       units: 11,
       lessons: 11,
