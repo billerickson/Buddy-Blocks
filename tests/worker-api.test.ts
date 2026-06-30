@@ -450,6 +450,107 @@ describe('worker track APIs', () => {
     });
   });
 
+  it('deduplicates standard lesson retries by client attempt id', async () => {
+    const { env, sqlite } = createEnv();
+    sqlite.db
+      .prepare(
+        `INSERT INTO child_lesson_progress
+         (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+         VALUES (?, ?, ?, 'available', NULL, 0, 0)`,
+      )
+      .run('lesson_progress_child_reagan_lesson_5', 'child_reagan', 'lesson_5');
+
+    const payload = {
+      clientAttemptId: 'offline_standard_attempt_1',
+      startedAt: '2026-06-29T12:05:00.000Z',
+      attempts: [{ questionId: 'question_lesson_5', answer: 'si' }],
+    };
+
+    const first = await requestJson('/api/children/reagan/lessons/lesson_5', env, {
+      method: 'POST',
+      body: payload,
+    });
+    const retry = await requestJson('/api/children/reagan/lessons/lesson_5', env, {
+      method: 'POST',
+      body: payload,
+    });
+
+    expect(first.response.status).toBe(200);
+    expect(retry.response.status).toBe(200);
+    expect(retry.body.result).toMatchObject({
+      lessonAttemptId: first.body.result.lessonAttemptId,
+      scoreCorrect: first.body.result.scoreCorrect,
+      scoreTotal: first.body.result.scoreTotal,
+      xpAwarded: first.body.result.xpAwarded,
+      heartsRemaining: first.body.result.heartsRemaining,
+    });
+    expect(
+      countRows(
+        sqlite.db,
+        'SELECT count(*) as total FROM lesson_attempts WHERE child_profile_id = ? AND client_attempt_id = ?',
+        'child_reagan',
+        payload.clientAttemptId,
+      ),
+    ).toBe(1);
+    expect(
+      countRows(
+        sqlite.db,
+        `SELECT count(*) as total
+         FROM question_attempts
+         JOIN lesson_attempts ON lesson_attempts.id = question_attempts.lesson_attempt_id
+         WHERE lesson_attempts.client_attempt_id = ?`,
+        payload.clientAttemptId,
+      ),
+    ).toBe(1);
+    expect(
+      countRows(
+        sqlite.db,
+        'SELECT lessons_completed as total FROM child_daily_activity WHERE child_profile_id = ?',
+        'child_reagan',
+      ),
+    ).toBe(1);
+  });
+
+  it('deduplicates Mad Minute retries by client attempt id', async () => {
+    const { env, sqlite } = createEnv();
+    const payload = {
+      clientAttemptId: 'offline_mad_minute_attempt_1',
+      startedAt: '2026-06-29T12:05:00.000Z',
+      attempts: [
+        { factor: 3, multiplier: 4, answer: 12 },
+        { factor: 3, multiplier: 5, answer: 15 },
+      ],
+    };
+
+    const first = await requestJson('/api/children/reagan/lessons/lesson_2', env, {
+      method: 'POST',
+      body: payload,
+    });
+    const retry = await requestJson('/api/children/reagan/lessons/lesson_2', env, {
+      method: 'POST',
+      body: payload,
+    });
+
+    expect(first.response.status).toBe(200);
+    expect(retry.response.status).toBe(200);
+    expect(retry.body.result).toMatchObject({
+      lessonAttemptId: first.body.result.lessonAttemptId,
+      scoreCorrect: first.body.result.scoreCorrect,
+      scoreTotal: first.body.result.scoreTotal,
+      bestScoreCorrect: first.body.result.bestScoreCorrect,
+      goalCorrect: first.body.result.goalCorrect,
+    });
+    expect(
+      countRows(
+        sqlite.db,
+        'SELECT count(*) as total FROM lesson_attempts WHERE child_profile_id = ? AND client_attempt_id = ?',
+        'child_reagan',
+        payload.clientAttemptId,
+      ),
+    ).toBe(1);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM child_daily_activity WHERE child_profile_id = ?', 'child_reagan')).toBe(1);
+  });
+
   it('returns 410 for the removed subject-level override endpoint', async () => {
     const { env } = createEnv();
 
@@ -663,6 +764,7 @@ describe('worker practice set APIs', () => {
     const completion = await requestJson(`/api/children/reagan/lessons/${lessonId}`, env, {
       method: 'POST',
       body: {
+        clientAttemptId: 'offline_practice_attempt_1',
         startedAt: '2026-06-29T12:05:00.000Z',
         attempts: lesson.body.lesson.questions.map((question: any) => ({
           questionId: question.id,
@@ -684,6 +786,25 @@ describe('worker practice set APIs', () => {
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_set_attempts')).toBe(1);
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(6);
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM lesson_attempts')).toBe(0);
+
+    const retry = await requestJson(`/api/children/reagan/lessons/${lessonId}`, env, {
+      method: 'POST',
+      body: {
+        clientAttemptId: 'offline_practice_attempt_1',
+        startedAt: '2026-06-29T12:05:00.000Z',
+        attempts: [],
+      },
+    });
+
+    expect(retry.response.status).toBe(200);
+    expect(retry.body.result).toMatchObject({
+      lessonAttemptId: completion.body.result.lessonAttemptId,
+      scoreCorrect: completion.body.result.scoreCorrect,
+      scoreTotal: completion.body.result.scoreTotal,
+      xpAwarded: completion.body.result.xpAwarded,
+    });
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_set_attempts')).toBe(1);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(6);
 
     await requestJson(`/api/parent/children/reagan/practice-sets/${created.body.practiceSet.id}`, env, {
       method: 'PATCH',
@@ -857,5 +978,7 @@ describe('performance index migration', () => {
     expect(indexesFor('practice_sets').has('idx_practice_sets_child_status')).toBe(true);
     expect(indexesFor('practice_set_cards').has('idx_practice_set_cards_set_sort')).toBe(true);
     expect(indexesFor('practice_set_attempts').has('idx_practice_set_attempts_child_set')).toBe(true);
+    expect(indexesFor('lesson_attempts').has('idx_lesson_attempts_child_client_attempt')).toBe(true);
+    expect(indexesFor('practice_set_attempts').has('idx_practice_set_attempts_child_client_attempt')).toBe(true);
   });
 });

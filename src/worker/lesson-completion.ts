@@ -42,6 +42,7 @@ export type CompleteLessonOptions = {
   env: CompletionEnv;
   child: CompletionChild;
   lesson: CompletionLesson;
+  clientAttemptId?: string | null;
   startedAt: string;
   scoreCorrect: number;
   scoreTotal: number;
@@ -55,6 +56,7 @@ export async function completeLesson({
   env,
   child,
   lesson,
+  clientAttemptId = null,
   startedAt,
   scoreCorrect,
   scoreTotal,
@@ -70,9 +72,20 @@ export async function completeLesson({
   const inserts = [
     env.DB.prepare(
       `INSERT INTO lesson_attempts
-       (id, child_profile_id, lesson_id, started_at, completed_at, score_correct, score_total, xp_awarded, hearts_remaining)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    ).bind(lessonAttemptId, child.id, lesson.id, startedAt || completedIso, completedIso, scoreCorrect, scoreTotal, xpAwarded, heartsRemaining),
+       (id, child_profile_id, lesson_id, client_attempt_id, started_at, completed_at, score_correct, score_total, xp_awarded, hearts_remaining)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ).bind(
+      lessonAttemptId,
+      child.id,
+      lesson.id,
+      clientAttemptId,
+      startedAt || completedIso,
+      completedIso,
+      scoreCorrect,
+      scoreTotal,
+      xpAwarded,
+      heartsRemaining,
+    ),
     ...questionAttempts.map((attempt) =>
       env.DB.prepare(
         `INSERT INTO question_attempts

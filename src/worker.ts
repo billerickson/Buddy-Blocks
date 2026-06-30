@@ -102,6 +102,19 @@ type LessonProgressRow = {
   best_score_total: number;
 };
 
+type LessonAttemptRow = {
+  id: string;
+  child_profile_id: string;
+  lesson_id: string;
+  client_attempt_id: string | null;
+  started_at: string;
+  completed_at: string;
+  score_correct: number;
+  score_total: number;
+  xp_awarded: number;
+  hearts_remaining: number;
+};
+
 type TrackProgressRow = {
   id: string;
   child_profile_id: string;
@@ -167,6 +180,19 @@ type PracticeSetCardRow = {
   sort_order: number;
 };
 
+type PracticeSetAttemptRow = {
+  id: string;
+  child_profile_id: string;
+  practice_set_id: string;
+  client_attempt_id: string | null;
+  started_at: string;
+  completed_at: string;
+  score_correct: number;
+  score_total: number;
+  xp_awarded: number;
+  hearts_remaining: number;
+};
+
 type Env = {
   ASSETS: { fetch(request: Request): Promise<Response> };
   DB: D1Database;
@@ -179,7 +205,9 @@ const PUBLIC_FILE_PREFIXES = ['/icons/', '/assets/', '/_astro/'];
 const PARENT_GATE_PATH = '/parent-gate/';
 const PRACTICE_LESSON_PREFIX = 'practice_set_';
 const PRACTICE_SET_XP_BASE = 8;
+const ClientAttemptIdSchema = z.string().trim().min(1).max(128).optional();
 const AttemptSubmissionSchema = z.object({
+  clientAttemptId: ClientAttemptIdSchema,
   startedAt: z.string().optional(),
   attempts: z.array(
     z.object({
@@ -190,6 +218,7 @@ const AttemptSubmissionSchema = z.object({
 });
 
 const MadMinuteSubmissionSchema = z.object({
+  clientAttemptId: ClientAttemptIdSchema,
   startedAt: z.string().optional(),
   attempts: z
     .array(
@@ -624,6 +653,16 @@ async function apiSubmitLesson(
     return json({ error: 'invalid_attempt_payload' }, 400);
   }
 
+  const existingAttempt = body.clientAttemptId
+    ? await getLessonAttemptByClientAttemptId(env, child.id, body.clientAttemptId)
+    : null;
+  if (existingAttempt) {
+    if (existingAttempt.lesson_id !== lesson.id) return json({ error: 'client_attempt_conflict' }, 409);
+    return json({
+      result: await existingLessonAttemptResult(env, child, lesson, existingAttempt),
+    });
+  }
+
   const questions = await getLessonQuestions(env, lesson.id);
   const attemptsByQuestion = new Map(body.attempts.map((attempt) => [attempt.questionId, attempt.answer]));
   const scored = questions.map((question) => {
@@ -642,6 +681,7 @@ async function apiSubmitLesson(
     env,
     child,
     lesson,
+    clientAttemptId: body.clientAttemptId ?? null,
     startedAt: body.startedAt || '',
     scoreCorrect,
     scoreTotal,
@@ -677,6 +717,21 @@ async function apiSubmitMadMinuteLesson(env: Env, request: Request, child: Child
     return json({ error: 'invalid_mad_minute_payload' }, 400);
   }
 
+  const existingAttempt = body.clientAttemptId
+    ? await getLessonAttemptByClientAttemptId(env, child.id, body.clientAttemptId)
+    : null;
+  if (existingAttempt) {
+    if (existingAttempt.lesson_id !== lesson.id) return json({ error: 'client_attempt_conflict' }, 409);
+    const progress = await getLessonProgress(env, child.id, lesson.id);
+    return json({
+      result: {
+        ...(await existingLessonAttemptResult(env, child, lesson, existingAttempt)),
+        bestScoreCorrect: progress?.best_score_correct ?? existingAttempt.score_correct,
+        goalCorrect: config.goalCorrect,
+      },
+    });
+  }
+
   const { scoreCorrect, scoreTotal } = scoreMadMinuteAttempts(config, body.attempts);
   const heartsRemaining = 5;
   const xpAwarded = calculateMadMinuteXp(lesson.xp_base, scoreCorrect, scoreTotal, config.goalCorrect);
@@ -684,6 +739,7 @@ async function apiSubmitMadMinuteLesson(env: Env, request: Request, child: Child
     env,
     child,
     lesson,
+    clientAttemptId: body.clientAttemptId ?? null,
     startedAt: body.startedAt || '',
     scoreCorrect,
     scoreTotal,
@@ -940,6 +996,16 @@ async function apiSubmitPracticeLesson(env: Env, request: Request, child: ChildR
     return json({ error: 'invalid_attempt_payload' }, 400);
   }
 
+  const existingAttempt = body.clientAttemptId
+    ? await getPracticeSetAttemptByClientAttemptId(env, child.id, body.clientAttemptId)
+    : null;
+  if (existingAttempt) {
+    if (existingAttempt.practice_set_id !== practiceSet.id) return json({ error: 'client_attempt_conflict' }, 409);
+    return json({
+      result: await existingPracticeSetAttemptResult(env, child, existingAttempt),
+    });
+  }
+
   const cards = await getPracticeSetCards(env, practiceSet.id);
   const questions = practiceQuestionsFromCards(cards);
   const cardIdByQuestionId = new Map(questions.map((question) => [question.id, practiceCardIdFromQuestionId(question.id)]));
@@ -963,12 +1029,13 @@ async function apiSubmitPracticeLesson(env: Env, request: Request, child: ChildR
   const inserts = [
     env.DB.prepare(
       `INSERT INTO practice_set_attempts
-       (id, child_profile_id, practice_set_id, started_at, completed_at, score_correct, score_total, xp_awarded, hearts_remaining)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       (id, child_profile_id, practice_set_id, client_attempt_id, started_at, completed_at, score_correct, score_total, xp_awarded, hearts_remaining)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     ).bind(
       practiceAttemptId,
       child.id,
       practiceSet.id,
+      body.clientAttemptId ?? null,
       body.startedAt || completedIso,
       completedIso,
       scoreCorrect,
@@ -1013,6 +1080,80 @@ async function apiSubmitPracticeLesson(env: Env, request: Request, child: ChildR
       nextLesson: null,
     },
   });
+}
+
+async function getLessonAttemptByClientAttemptId(env: Env, childId: string, clientAttemptId: string) {
+  return env.DB.prepare(
+    `SELECT *
+     FROM lesson_attempts
+     WHERE child_profile_id = ?
+       AND client_attempt_id = ?
+     LIMIT 1`,
+  )
+    .bind(childId, clientAttemptId)
+    .first<LessonAttemptRow>();
+}
+
+async function getPracticeSetAttemptByClientAttemptId(env: Env, childId: string, clientAttemptId: string) {
+  return env.DB.prepare(
+    `SELECT *
+     FROM practice_set_attempts
+     WHERE child_profile_id = ?
+       AND client_attempt_id = ?
+     LIMIT 1`,
+  )
+    .bind(childId, clientAttemptId)
+    .first<PracticeSetAttemptRow>();
+}
+
+async function existingLessonAttemptResult(
+  env: Env,
+  child: ChildRow,
+  lesson: CompletionLesson,
+  attempt: LessonAttemptRow,
+) {
+  const streak = await streakAtCompletedAt(env, child.id, attempt.completed_at);
+  const nextLesson = await getCurrentLessonAfterDuplicate(env, child.id, lesson, attempt);
+
+  return {
+    lessonAttemptId: attempt.id,
+    scoreCorrect: attempt.score_correct,
+    scoreTotal: attempt.score_total,
+    xpAwarded: attempt.xp_awarded,
+    heartsRemaining: attempt.hearts_remaining,
+    streak,
+    nextLesson: nextLesson ? lessonLinkResponse(nextLesson) : null,
+  };
+}
+
+async function existingPracticeSetAttemptResult(env: Env, child: ChildRow, attempt: PracticeSetAttemptRow) {
+  return {
+    lessonAttemptId: attempt.id,
+    scoreCorrect: attempt.score_correct,
+    scoreTotal: attempt.score_total,
+    xpAwarded: attempt.xp_awarded,
+    heartsRemaining: attempt.hearts_remaining,
+    streak: await streakAtCompletedAt(env, child.id, attempt.completed_at),
+    nextLesson: null,
+  };
+}
+
+async function getCurrentLessonAfterDuplicate(
+  env: Env,
+  childId: string,
+  lesson: CompletionLesson,
+  attempt: LessonAttemptRow,
+) {
+  const progress = await getTrackProgress(env, childId, lesson.track_id);
+  if (!progress?.current_lesson_id || progress.current_lesson_id === attempt.lesson_id) return null;
+  return getLessonDetail(env, progress.current_lesson_id);
+}
+
+async function streakAtCompletedAt(env: Env, childId: string, completedAt: string) {
+  const completedDate = new Date(completedAt);
+  const today = Number.isNaN(completedDate.getTime()) ? localDate(new Date(), env.TIME_ZONE) : localDate(completedDate, env.TIME_ZONE);
+  const activityDates = await getActivityDates(env, childId);
+  return calculateCurrentStreak(activityDates, today);
 }
 
 async function getParentFromRequest(request: Request, env: Env): Promise<SessionParent | null> {
