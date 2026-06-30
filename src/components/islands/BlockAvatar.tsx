@@ -9,6 +9,7 @@ type Props = {
 const AVATAR_COLORS: Record<string, { block: string; tab: string; base: string }> = {
   'berry-builder': { block: '#e63e80', tab: '#18bca4', base: '#fff1f7' },
   'teal-tinkerer': { block: '#18bca4', tab: '#ffd84d', base: '#f0fff9' },
+  'gold-builder': { block: '#ffd84d', tab: '#5b79ff', base: '#fff9dd' },
 };
 
 export function BlockAvatar({ avatarKey = 'berry-builder', label, size = 'lg' }: Props) {

@@ -60,7 +60,7 @@ export default function ParentDashboard() {
         <p className="stat-chip w-fit">Parent account: {data.parent.username}</p>
         <h1 className="mt-4 text-[clamp(3rem,8vw,5.5rem)]">Progress Dashboard</h1>
         <p className="mt-4 max-w-3xl text-lg font-extrabold text-muted">
-          Reagan and Ada are fixed v1 profiles. This dashboard focuses on progress, streaks, hearts, and recent lesson activity.
+          Reagan, Ada, and Bill are fixed profiles. This dashboard focuses on progress, streaks, hearts, and recent lesson activity.
         </p>
       </div>
 

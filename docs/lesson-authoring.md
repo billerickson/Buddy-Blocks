@@ -6,7 +6,7 @@ The editable curriculum source is [src/content/curriculum](/Users/billerickson/D
 
 [src/lib/curriculum.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/curriculum.ts) is the typed curriculum loader. It reads the file tree, validates YAML frontmatter, and exports normalized `TRACKS`, `getTracksForGrade()`, `getAllLessons()`, and `getAllQuestions()` helpers used by seeding.
 
-[src/lib/seed-family.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/seed-family.ts) owns the fixed v1 parent/child fixtures and child-specific route helpers for Reagan and Ada. [src/lib/content.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/content.ts) remains as a compatibility barrel only.
+[src/lib/seed-family.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/seed-family.ts) owns the fixed parent/child fixtures and child-specific route helpers for Reagan, Ada, and Bill. [src/lib/content.ts](/Users/billerickson/Downloads/learn.billplustara.com/src/lib/content.ts) remains as a compatibility barrel only.
 
 At runtime, lessons still live in D1 after seeding:
 
@@ -47,6 +47,7 @@ The numeric prefixes control display order. The app uses the `slug` values insid
 Current v1 profiles:
 
 - Ada is Grade 3 and sees Grade 3 scholastic tracks plus foundation level 1 tracks.
+- Bill is a Grade 6 test profile and sees Grade 6 scholastic tracks plus foundation level 1 tracks.
 - Reagan is Grade 6 overall and sees Grade 6 scholastic tracks plus foundation level 1 tracks.
 
 Scholastic subjects use the student's global grade level. Foundation subjects, such as Spanish, French, Latin, Grammar, Logic, Rhetoric, Literature, History And Civics, and Memory Work, start every student at level 1 and unlock the next level after the previous one is complete.

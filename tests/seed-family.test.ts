@@ -9,10 +9,11 @@ import {
 describe('fixed v1 seed family', () => {
   it('keeps v1 identity fixed', () => {
     expect(PARENT_USERNAME).toBe('bill');
-    expect(CHILDREN.map((child) => child.slug)).toEqual(['reagan', 'ada']);
+    expect(CHILDREN.map((child) => child.slug)).toEqual(['reagan', 'ada', 'bill']);
     expect(CHILDREN.map((child) => [child.slug, child.gradeLevel])).toEqual([
       ['reagan', 6],
       ['ada', 3],
+      ['bill', 6],
     ]);
   });
 
@@ -33,6 +34,19 @@ describe('fixed v1 seed family', () => {
     expect(getTracksForChild(CHILDREN[1]).map((track) => track.slug)).toEqual([
       'grade-3-math',
       'grade-3-vocabulary',
+      'grade-3-spanish',
+      'grade-3-french',
+      'grade-3-latin',
+      'grade-3-grammar',
+      'grade-3-logic',
+      'grade-3-rhetoric',
+      'grade-3-literature',
+      'grade-3-history-civics',
+      'grade-3-memory-work',
+    ]);
+    expect(getTracksForChild(CHILDREN[2]).map((track) => track.slug)).toEqual([
+      'grade-6-math',
+      'grade-6-vocabulary',
       'grade-3-spanish',
       'grade-3-french',
       'grade-3-latin',
@@ -69,6 +83,17 @@ describe('fixed v1 seed family', () => {
       { childSlug: 'ada', trackSlug: 'grade-3-literature' },
       { childSlug: 'ada', trackSlug: 'grade-3-history-civics' },
       { childSlug: 'ada', trackSlug: 'grade-3-memory-work' },
+      { childSlug: 'bill', trackSlug: 'grade-6-math' },
+      { childSlug: 'bill', trackSlug: 'grade-6-vocabulary' },
+      { childSlug: 'bill', trackSlug: 'grade-3-spanish' },
+      { childSlug: 'bill', trackSlug: 'grade-3-french' },
+      { childSlug: 'bill', trackSlug: 'grade-3-latin' },
+      { childSlug: 'bill', trackSlug: 'grade-3-grammar' },
+      { childSlug: 'bill', trackSlug: 'grade-3-logic' },
+      { childSlug: 'bill', trackSlug: 'grade-3-rhetoric' },
+      { childSlug: 'bill', trackSlug: 'grade-3-literature' },
+      { childSlug: 'bill', trackSlug: 'grade-3-history-civics' },
+      { childSlug: 'bill', trackSlug: 'grade-3-memory-work' },
     ]);
   });
 });

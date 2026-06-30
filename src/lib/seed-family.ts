@@ -3,7 +3,7 @@ import { compareSubjectKeys, isFoundationSubject } from './subjects';
 
 export type ChildFixture = {
   id: string;
-  slug: 'reagan' | 'ada';
+  slug: 'reagan' | 'ada' | 'bill';
   displayName: string;
   avatarKey: string;
   levelBand: string;
@@ -30,6 +30,14 @@ export const CHILDREN: ChildFixture[] = [
     avatarKey: 'teal-tinkerer',
     levelBand: 'Grade 3',
     gradeLevel: 3,
+  },
+  {
+    id: 'child_bill',
+    slug: 'bill',
+    displayName: 'Bill',
+    avatarKey: 'gold-builder',
+    levelBand: 'Grade 6',
+    gradeLevel: 6,
   },
 ];
 

@@ -9,6 +9,7 @@ For the current family setup, this means:
 
 - Reagan is globally Grade 6 and sees Grade 6 scholastic tracks plus available level 1 foundation tracks.
 - Ada is globally Grade 3 and sees Grade 3 scholastic tracks plus available level 1 foundation tracks.
+- Bill is a Grade 6 test profile and sees Grade 6 scholastic tracks plus available level 1 foundation tracks.
 
 The old per-subject grade override API has been removed from the app surface. Existing `child_subject_levels` rows can remain in the database for historical compatibility, but track access no longer reads them.
 
