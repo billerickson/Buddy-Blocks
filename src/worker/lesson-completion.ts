@@ -99,7 +99,7 @@ export async function completeLesson({
     bestScoreTotalStrategy,
   });
 
-  const nextLesson = await getNextLesson(env, lesson);
+  const nextLesson = await getNextLesson(env, child.id, lesson);
   if (nextLesson) await unlockNextLesson(env, child.id, nextLesson.id);
 
   const lessonsCompleted = await countCompletedTrackLessons(env, child.id, lesson.track_id);
@@ -263,21 +263,29 @@ async function getLessonProgress(env: CompletionEnv, childId: string, lessonId: 
     .first<CompletionProgress>();
 }
 
-async function getNextLesson(env: CompletionEnv, lesson: CompletionLesson) {
-  const lessons = await all<CompletionLesson>(
+type CompletionLessonWithProgress = CompletionLesson & {
+  progress_status: CompletionProgress['status'] | null;
+};
+
+async function getNextLesson(env: CompletionEnv, childId: string, lesson: CompletionLesson) {
+  const lessons = await all<CompletionLessonWithProgress>(
     env.DB.prepare(
       `SELECT lessons.*, units.title as unit_title, units.slug as unit_slug,
               tracks.id as track_id, tracks.slug as track_slug, tracks.subject as track_subject,
-              tracks.grade_level as track_grade_level, tracks.title as track_title
+              tracks.grade_level as track_grade_level, tracks.title as track_title,
+              child_lesson_progress.status as progress_status
        FROM lessons
        JOIN units ON units.id = lessons.unit_id
        JOIN tracks ON tracks.id = units.track_id
+       LEFT JOIN child_lesson_progress
+         ON child_lesson_progress.child_profile_id = ?
+        AND child_lesson_progress.lesson_id = lessons.id
        WHERE tracks.id = ?
        ORDER BY units.sort_order, lessons.sort_order`,
-    ).bind(lesson.track_id),
+    ).bind(childId, lesson.track_id),
   );
   const index = lessons.findIndex((item) => item.id === lesson.id);
-  return index >= 0 ? (lessons[index + 1] ?? null) : null;
+  return index >= 0 ? (lessons.slice(index + 1).find((item) => item.progress_status !== 'completed') ?? null) : null;
 }
 
 async function unlockNextFoundationTrack(

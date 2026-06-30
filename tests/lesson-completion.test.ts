@@ -230,6 +230,68 @@ describe('completeLesson', () => {
     expect(row<{ hearts_remaining: number }>(sqlite.db, 'SELECT hearts_remaining FROM child_profiles WHERE id = ?', child.id).hearts_remaining).toBe(4);
   });
 
+  it('skips completed lessons when choosing the next lesson after completion', async () => {
+    const { sqlite, env, child, lesson } = createFixture();
+    sqlite.db
+      .prepare(
+        `INSERT INTO lessons
+         (id, unit_id, slug, title, sort_order, xp_base, kind, config_json)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      )
+      .run('lesson_3', 'unit_1', 'lesson-three', 'Lesson Three', 3, 10, 'standard', null);
+    sqlite.db
+      .prepare(
+        `INSERT INTO child_lesson_progress
+         (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+         VALUES (?, ?, ?, 'completed', ?, ?, ?)`,
+      )
+      .run('lesson_progress_child_1_lesson_2', child.id, 'lesson_2', '2026-06-28T10:00:00.000Z', 5, 5);
+    sqlite.db
+      .prepare(
+        `INSERT INTO child_lesson_progress
+         (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+         VALUES (?, ?, ?, 'locked', NULL, 0, 0)`,
+      )
+      .run('lesson_progress_child_1_lesson_3', child.id, 'lesson_3');
+    sqlite.db
+      .prepare(
+        `INSERT INTO child_track_progress
+         (id, child_profile_id, track_id, current_unit_id, current_lesson_id, lessons_completed, xp_total, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      )
+      .run('track_progress_child_1_track_math', child.id, lesson.track_id, lesson.unit_id, lesson.id, 1, 20, '2026-06-28T10:00:00.000Z');
+
+    const result = await completeLesson({
+      env,
+      child,
+      lesson,
+      startedAt: '2026-06-29T12:01:00.000Z',
+      scoreCorrect: 5,
+      scoreTotal: 5,
+      xpAwarded: 10,
+      heartsRemaining: 5,
+      bestScoreTotalStrategy: 'latest',
+    });
+
+    expect(result.nextLesson?.id).toBe('lesson_3');
+    expect(
+      row<{ current_lesson_id: string }>(
+        sqlite.db,
+        'SELECT current_lesson_id FROM child_track_progress WHERE child_profile_id = ? AND track_id = ?',
+        child.id,
+        lesson.track_id,
+      ),
+    ).toEqual({ current_lesson_id: 'lesson_3' });
+    expect(
+      row<{ status: string }>(
+        sqlite.db,
+        'SELECT status FROM child_lesson_progress WHERE child_profile_id = ? AND lesson_id = ?',
+        child.id,
+        'lesson_3',
+      ),
+    ).toEqual({ status: 'available' });
+  });
+
   it('uses the Mad Minute best-attempt score total behavior through the shared service', async () => {
     const { sqlite, env, child, lesson } = createFixture();
     sqlite.db

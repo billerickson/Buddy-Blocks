@@ -118,7 +118,7 @@ The schemas and runtime parsers for standard lesson config and Mad Minute config
 | `fill-blank` | One blank with choices | string | selected choice equals `correctAnswer` |
 | `match-pairs` | Vocabulary pairs, equivalent facts | object map | every left item matched to correct right item |
 | `order-items` | Word order, sequencing, ranking | string array | exact order, or grouped order when configured |
-| `flash-card` | Word learning, easy/medium/hard card practice | string | easy uses choices; medium and hard use typed accepted answers |
+| `flash-card` | Word learning, preview/easy/medium/hard card practice | string | preview is study-only; easy uses choices; medium and hard use typed accepted answers |
 | `passage-question` | Reading comprehension | string | selected choice equals `correctAnswer` |
 | `multi-blank-cloze` | Multi-blank grammar and paragraph completion | string array | every blank matches |
 | `constructed-response` | Short written production | string | non-empty and meets optional length gates |
@@ -478,6 +478,7 @@ The number of `answers` in each row should match the number of `columns`.
 
 Use this quick guide when authoring lessons:
 
+- Vocabulary preview: `flash-card` preview.
 - Vocabulary recognition: `flash-card` easy, `multiple-choice`, `match-pairs`.
 - Vocabulary typed recognition: `flash-card` medium, `text-input`.
 - Vocabulary production: `flash-card` hard, `text-input`.

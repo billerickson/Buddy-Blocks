@@ -212,7 +212,15 @@ Use `answerType: number` for numeric answers. Quote numeric answers, such as `"1
 
 ### Flash Card
 
-Use Easy flash cards for recognition with multiple-choice answers below the card. Use Hard flash cards for production with a typed answer.
+Use Preview flash cards for study-only word exposure before recall. Use Easy flash cards for recognition with multiple-choice answers below the card. Use Hard flash cards for production with a typed answer.
+
+```yaml
+- type: flash-card
+  mode: preview
+  prompt: Study this word and meaning.
+  front: contexto
+  correctAnswer: context
+```
 
 ```yaml
 - type: flash-card
@@ -249,7 +257,7 @@ For world-language and classical-language vocabulary ladders, place Medium betwe
   answerType: text
 ```
 
-Use Easy for target-language-to-English multiple choice, Medium for target-language-to-English typed meaning, and Hard for English-to-target-language typed production.
+Use Preview for target-language-to-English exposure, Easy for target-language-to-English multiple choice, Medium for target-language-to-English typed meaning, and Hard for English-to-target-language typed production.
 
 ### Fill Blank
 

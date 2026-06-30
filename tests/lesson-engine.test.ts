@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { calculateXp, evaluateAnswer, getAccentFeedback, type LessonQuestion } from '../src/lib/lesson-engine';
+import { calculateXp, evaluateAnswer, getAccentFeedback, getCorrectAnswerLabel, type LessonQuestion } from '../src/lib/lesson-engine';
 
 const question = (overrides: Partial<LessonQuestion>): LessonQuestion => ({
   id: 'q1',
@@ -146,7 +146,20 @@ describe('lesson engine', () => {
     ).toBe(true);
   });
 
-  it('scores easy, medium, and hard flash cards', () => {
+  it('scores preview, easy, medium, and hard flash cards', () => {
+    const previewQuestion = question({
+      type: 'flash-card',
+      payload: {
+        mode: 'preview',
+        front: 'contexto',
+        correctAnswer: 'context',
+      },
+    });
+
+    expect(evaluateAnswer(previewQuestion, 'studied')).toBe(true);
+    expect(evaluateAnswer(previewQuestion, '')).toBe(true);
+    expect(getCorrectAnswerLabel(previewQuestion)).toBe('contexto = context');
+
     expect(
       evaluateAnswer(
         question({

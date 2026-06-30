@@ -124,7 +124,7 @@ export type ConjugationGridPayload = MediaPayload & {
 };
 
 export type FlashCardPayload = MediaPayload & {
-  mode: 'easy' | 'medium' | 'hard';
+  mode: 'preview' | 'easy' | 'medium' | 'hard';
   front: string;
   choices?: string[];
   correctAnswer?: string;
@@ -251,6 +251,7 @@ export function evaluateAnswer(question: LessonQuestion, answer: unknown) {
     }
     case 'flash-card': {
       const payload = question.payload as FlashCardPayload;
+      if (payload.mode === 'preview') return true;
       if (payload.mode === 'easy') return normalizeText(answer) === normalizeText(payload.correctAnswer);
       return textAnswerMatches(answer, flashCardAcceptedAnswers(payload), payload.answerType ?? 'text');
     }
@@ -354,6 +355,7 @@ export function getCorrectAnswerLabel(question: LessonQuestion) {
     }
     case 'flash-card': {
       const payload = question.payload as FlashCardPayload;
+      if (payload.mode === 'preview') return `${payload.front} = ${payload.correctAnswer ?? flashCardAcceptedAnswers(payload)[0] ?? ''}`;
       return payload.mode === 'easy' ? (payload.correctAnswer ?? '') : (flashCardAcceptedAnswers(payload)[0] ?? '');
     }
     default:
@@ -397,7 +399,7 @@ export function getAccentFeedback(question: LessonQuestion, answer: unknown) {
 
   if (question.type === 'flash-card') {
     const payload = question.payload as FlashCardPayload;
-    if (payload.mode === 'easy') return null;
+    if (payload.mode === 'preview' || payload.mode === 'easy') return null;
     return accentFeedbackForAnswer(answer, flashCardAcceptedAnswers(payload), payload.answerType ?? 'text');
   }
 

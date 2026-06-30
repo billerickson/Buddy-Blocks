@@ -327,9 +327,9 @@ export default function LessonPlayer({
 
         {feedback ? (
           <div className={`mt-6 rounded-lg border-[3px] border-ink p-4 ${feedback.correct ? 'bg-[#d9fff5]' : 'bg-[#ffe1ea]'}`}>
-            <h3 className="text-3xl">{feedback.correct ? 'Correct' : 'Try this one again'}</h3>
+            <h3 className="text-3xl">{feedback.correct ? (isPreviewFlashCard(current.question) ? 'Studied' : 'Correct') : 'Try this one again'}</h3>
             <p className="mt-2 font-extrabold text-muted">
-              {feedback.correct ? 'That block snapped in.' : `Answer: ${feedback.answerLabel}`}
+              {feedback.correct ? (isPreviewFlashCard(current.question) ? feedback.answerLabel : 'That block snapped in.') : `Answer: ${feedback.answerLabel}`}
             </p>
             {feedback.explanation && <p className="mt-2 font-bold">{feedback.explanation}</p>}
             {feedback.correct && feedback.accentFeedback && <p className="mt-2 font-bold">{feedback.accentFeedback}</p>}
@@ -339,7 +339,7 @@ export default function LessonPlayer({
           </div>
         ) : (
           <button className="primary-button mt-6 w-full sm:w-auto" type="button" onClick={submitCurrent} disabled={!hasAnswer(current.question) || submitting}>
-            Check
+            {isPreviewFlashCard(current.question) ? 'I studied this' : 'Check'}
           </button>
         )}
       </article>
@@ -347,6 +347,8 @@ export default function LessonPlayer({
   );
 
   function hasAnswer(question: LessonQuestion) {
+    if (isPreviewFlashCard(question)) return true;
+
     if (
       question.type === 'multiple-choice' ||
       question.type === 'fill-blank' ||
@@ -391,6 +393,8 @@ export default function LessonPlayer({
   }
 
   function currentAnswer(question: LessonQuestion) {
+    if (isPreviewFlashCard(question)) return 'studied';
+
     if (
       question.type === 'multiple-choice' ||
       question.type === 'fill-blank' ||
@@ -942,6 +946,10 @@ type QuestionControlProps = {
   setSpeakingAnswer: (value: SpeakingAnswer) => void;
 };
 
+function isPreviewFlashCard(question: LessonQuestion) {
+  return question.type === 'flash-card' && (question.payload as FlashCardPayload).mode === 'preview';
+}
+
 function QuestionControl({
   question,
   disabled,
@@ -1260,6 +1268,19 @@ function FlashCardControl({
   textAnswer: string;
   setTextAnswer: (value: string) => void;
 }) {
+  if (payload.mode === 'preview') {
+    return (
+      <div>
+        <div className="flex min-h-[180px] flex-col items-center justify-center rounded-lg border-[4px] border-ink bg-[#f0fff9] p-6 text-center shadow-[5px_5px_0_var(--block-shadow)]">
+          <p className="text-[clamp(2.5rem,8vw,5rem)] font-black leading-tight">{payload.front}</p>
+          <p className="mt-5 rounded-lg border-[3px] border-ink bg-white px-5 py-3 text-[clamp(1.6rem,5vw,2.6rem)] font-black leading-tight">
+            {payload.correctAnswer ?? ''}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="flex min-h-[180px] items-center justify-center rounded-lg border-[4px] border-ink bg-[#f0fff9] p-6 text-center shadow-[5px_5px_0_var(--block-shadow)]">

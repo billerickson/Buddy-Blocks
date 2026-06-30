@@ -222,7 +222,7 @@ const conjugationGridQuestionSchema = baseQuestionSchema.extend({
 
 const flashCardQuestionSchema = baseQuestionSchema.extend({
   type: z.literal('flash-card'),
-  mode: z.enum(['easy', 'medium', 'hard']),
+  mode: z.enum(['preview', 'easy', 'medium', 'hard']),
   front: z.coerce.string(),
   choices: stringListSchema.optional(),
   correctAnswer: z.coerce.string().optional(),
