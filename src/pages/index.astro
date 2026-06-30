@@ -1,16 +1,491 @@
 ---
+import BrandMark from '../components/BrandMark.astro';
 import AppLayout from '../layouts/AppLayout.astro';
+
+const screenshotCards = [
+  {
+    image: '/screenshots/kid-dashboard.jpg',
+    alt: 'Buddy Blocks kid dashboard showing subject tracks and progress cards',
+    eyebrow: 'Kid dashboard',
+    title: 'Each learner sees a clear path',
+    description:
+      'Profiles open into colorful subject tracks with progress, hearts, streaks, and the next best lesson ready to tap.',
+  },
+  {
+    image: '/screenshots/lesson-player.jpg',
+    alt: 'Buddy Blocks lesson player with a multiple choice vocabulary question',
+    eyebrow: 'Lesson player',
+    title: 'Short practice that feels hands-on',
+    description:
+      'Questions use big touch targets, immediate feedback, XP rewards, and review prompts that help kids recover quickly.',
+  },
+  {
+    image: '/screenshots/parent-dashboard.jpg',
+    alt: 'Buddy Blocks parent dashboard showing progress across subjects',
+    eyebrow: 'Parent dashboard',
+    title: 'Progress without digging',
+    description:
+      'Parents can scan recent work, see where help is needed, and create targeted practice sets from current school work.',
+  },
+];
+
+const workflowSteps = [
+  ['1', 'Parent signs in', 'A single parent login keeps profiles, progress, and parent controls in one private space.'],
+  ['2', 'Kids pick a profile', 'Each child gets a friendly home screen with lessons matched to their grade and foundation levels.'],
+  ['3', 'Lessons stack into progress', 'Quick sessions award XP, protect streaks, track mistakes, and unlock the next block of work.'],
+  ['4', 'Parents adjust the focus', 'The dashboard shows momentum and lets parents add practice for spelling, vocabulary, or review.'],
+];
+
+const featureCards = [
+  ['Multi-subject tracks', 'Math, vocabulary, grammar, logic, language, and classical foundations can live side by side.'],
+  ['Kid-sized sessions', 'Lessons are compact, tappable, and built for the kind of focus kids can actually sustain.'],
+  ['Progress that is visible', 'XP, hearts, streaks, badges, and completion rails make effort easy to see.'],
+  ['Parent-created practice', 'Turn a spelling list, vocabulary set, or review topic into a practice track without changing the core curriculum.'],
+  ['Mistake review loop', 'Missed work becomes part of the learning path instead of disappearing after one attempt.'],
+  ['PWA-friendly interface', 'The app is designed for tablets, home screens, and repeat daily use.'],
+];
+
+const scienceCards = [
+  ['Meaning before memory', 'New words, facts, and patterns start with short teaching cards, examples, passages, or worked models before kids are asked to recall them.'],
+  ['Guided recognition', 'Early questions help students notice the clue, definition, or pattern so practice begins with understanding instead of guessing.'],
+  ['Varied retrieval', 'Multiple question types ask kids to choose, match, order, type, and explain, which strengthens long-term retention after meaningful study.'],
+  ['Spaced mixed review', 'Older material returns in later cumulative lessons so practice is spaced and interleaved, not crammed into one sitting.'],
+];
+
+const benefitCards = [
+  ['Less planning overhead', 'Buddy Blocks keeps the next lesson visible so school practice does not start with a scavenger hunt.'],
+  ['More independent practice', 'Kids can move through familiar screens with clear goals, rewards, and recovery when they miss.'],
+  ['Better parent visibility', 'Parents get a calm view of progress, weak spots, streaks, and recent activity.'],
+];
 ---
 
 <AppLayout title="Buddy Blocks" showNav={false}>
-  <main class="app-shell page-band">
-    <section class="block-card p-8">
-      <h1 class="text-5xl">Buddy Blocks</h1>
-      <p class="mt-4 text-lg font-extrabold text-muted">Opening your learning path...</p>
-      <p class="mt-6">
-        <a class="primary-button" href="/profiles/">Continue</a>
-      </p>
+  <header class="topbar">
+    <div class="app-shell topbar-inner">
+      <BrandMark href="/" />
+      <nav aria-label="Main">
+        <a class="nav-link border-ink bg-white text-ink" href="/login/">Log In</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="app-shell grid min-h-[calc(100vh-72px)] items-center gap-10 py-10 lg:grid-cols-[0.94fr_1.06fr] lg:py-12">
+      <div>
+        <img class="hero-moxie" src="/icons/moxie.svg" alt="" />
+        <h1 class="mt-7 text-[clamp(3.4rem,8vw,7rem)] leading-none">Buddy Blocks</h1>
+        <p class="mt-5 max-w-2xl text-xl font-extrabold text-muted">
+          A colorful learning app where kids build progress one small lesson at a time, and parents can see what is working without turning practice into a project.
+        </p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a class="primary-button" href="#screenshots">See the App</a>
+          <a class="secondary-button" href="#features">Explore Features</a>
+        </div>
+      </div>
+
+      <div class="hero-screenshot" aria-label="Buddy Blocks sample dashboard screenshot">
+        <div class="screen-top">
+          <span>Maya's Blocks</span>
+          <span>7 day streak</span>
+        </div>
+        <div class="screen-body">
+          <div class="screen-profile">
+            <span class="screen-avatar">M</span>
+            <div>
+              <strong>Ready for today?</strong>
+              <p>3 lessons planned &middot; 420 XP</p>
+            </div>
+          </div>
+          <div class="screen-track screen-track-teal">
+            <div>
+              <strong>Math Foundations</strong>
+              <p>Next: mixed facts</p>
+            </div>
+            <span>72%</span>
+          </div>
+          <div class="screen-track screen-track-blue">
+            <div>
+              <strong>Spanish 1</strong>
+              <p>Next: color words</p>
+            </div>
+            <span>45%</span>
+          </div>
+          <div class="screen-track screen-track-orange">
+            <div>
+              <strong>Logic</strong>
+              <p>Next: patterns</p>
+            </div>
+            <span>30%</span>
+          </div>
+          <div class="screen-footer">
+            <span>5 hearts</span>
+            <span>2 badges earned</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screenshots" class="homepage-band bg-white py-14">
+      <div class="app-shell">
+        <div class="max-w-3xl">
+          <p class="font-black uppercase text-berryDark">Product Screenshots</p>
+          <h2 class="mt-3 text-4xl">What Buddy Blocks looks like</h2>
+        </div>
+
+        <div class="screenshot-sections mt-8">
+          {screenshotCards.map((card, index) => (
+            <article class={`screenshot-row ${index % 2 === 1 ? 'screenshot-row-reversed' : ''}`}>
+              <figure class="screenshot-frame">
+                <img src={card.image} alt={card.alt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+              </figure>
+              <div class="screenshot-copy">
+                <p class="font-black uppercase text-berryDark">{card.eyebrow}</p>
+                <h3 class="mt-2 text-3xl">{card.title}</h3>
+                <p class="mt-4 text-lg font-bold text-muted">{card.description}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="homepage-band py-14">
+      <div class="app-shell">
+        <div class="grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
+          <div>
+            <p class="font-black uppercase text-berryDark">How It Works</p>
+            <h2 class="mt-3 text-4xl">A simple loop for daily learning</h2>
+            <p class="mt-4 text-lg font-bold text-muted">
+              Buddy Blocks keeps the grown-up setup separate from the kid practice loop, so each session can start quickly and end with visible progress.
+            </p>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            {workflowSteps.map(([number, title, description]) => (
+              <article class="step-card">
+                <span>{number}</span>
+                <h3 class="mt-4 text-2xl">{title}</h3>
+                <p class="mt-3 font-bold text-muted">{description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="learning-science" class="homepage-band py-14">
+      <div class="app-shell">
+        <div class="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
+          <div>
+            <p class="font-black uppercase text-berryDark">Research-Based Learning</p>
+            <h2 class="mt-3 text-4xl">Lessons are sequenced for retention</h2>
+            <p class="mt-4 text-lg font-bold text-muted">
+              Buddy Blocks uses research-backed practices from explicit instruction, contextual exposure, retrieval practice, spacing, interleaving, and feedback. Kids meet ideas first, practice with support, then build toward harder recall.
+            </p>
+          </div>
+          <div class="science-sequence">
+            {scienceCards.map(([title, description], index) => (
+              <article class="science-card">
+                <span>{index + 1}</span>
+                <div>
+                  <h3 class="text-2xl">{title}</h3>
+                  <p class="mt-2 font-bold text-muted">{description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="homepage-band bg-white py-14">
+      <div class="app-shell">
+        <div class="max-w-3xl">
+          <p class="font-black uppercase text-berryDark">Features</p>
+          <h2 class="mt-3 text-4xl">Built around the learning loop</h2>
+        </div>
+        <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {featureCards.map(([title, description]) => (
+            <article class="feature-card">
+              <h3 class="text-2xl">{title}</h3>
+              <p class="mt-3 font-bold text-muted">{description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="homepage-band py-14">
+      <div class="app-shell">
+        <div class="grid gap-8 lg:grid-cols-[0.82fr_1.18fr]">
+          <div>
+            <p class="font-black uppercase text-berryDark">Benefits</p>
+            <h2 class="mt-3 text-4xl">Practice that is easier to keep going</h2>
+          </div>
+          <div class="grid gap-4">
+            {benefitCards.map(([title, description]) => (
+              <article class="benefit-row">
+                <h3 class="text-2xl">{title}</h3>
+                <p class="font-bold text-muted">{description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   </main>
-</AppLayout>
 
+  <style>
+    .homepage-band {
+      border-top: 2px solid color-mix(in srgb, var(--line) 70%, transparent);
+    }
+
+    .hero-screenshot,
+    .step-card,
+    .feature-card,
+    .science-card,
+    .benefit-row {
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 6px 6px 0 var(--block-shadow);
+    }
+
+    .hero-screenshot {
+      overflow: hidden;
+      transform: rotate(1deg);
+    }
+
+    .hero-moxie {
+      display: block;
+      width: clamp(88px, 12vw, 132px);
+      height: auto;
+    }
+
+    .screen-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 3px solid var(--ink);
+      background: var(--secondary);
+      padding: 14px 16px;
+      font-weight: 1000;
+    }
+
+    .screen-body {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+      background:
+        linear-gradient(135deg, rgba(24, 188, 164, 0.14) 0 18%, transparent 18% 100%),
+        linear-gradient(225deg, rgba(91, 121, 255, 0.13) 0 16%, transparent 16% 100%),
+        #fffaf0;
+    }
+
+    .screen-profile,
+    .screen-track,
+    .screen-footer {
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .screen-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+    }
+
+    .screen-avatar {
+      display: inline-grid;
+      width: 52px;
+      height: 52px;
+      place-items: center;
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      background: var(--primary);
+      color: white;
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .screen-track,
+    .screen-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      font-weight: 900;
+    }
+
+    .screen-track p,
+    .screen-profile p {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .screen-track-teal {
+      border-left: 12px solid var(--accent);
+    }
+
+    .screen-track-blue {
+      border-left: 12px solid var(--accent-two);
+    }
+
+    .screen-track-orange {
+      border-left: 12px solid var(--accent-three);
+    }
+
+    .screen-footer {
+      background: #f0fff9;
+    }
+
+    .step-card,
+    .feature-card {
+      padding: 18px;
+    }
+
+    .screenshot-sections {
+      display: grid;
+      gap: 28px;
+    }
+
+    .screenshot-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    .screenshot-row-reversed {
+      grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+    }
+
+    .screenshot-row-reversed .screenshot-frame {
+      order: 2;
+    }
+
+    .screenshot-row-reversed .screenshot-copy {
+      order: 1;
+    }
+
+    .screenshot-frame {
+      margin: 0;
+      overflow: hidden;
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 6px 6px 0 var(--block-shadow);
+    }
+
+    .screenshot-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .screenshot-copy {
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      background: #fffaf0;
+      box-shadow: 6px 6px 0 var(--block-shadow);
+      padding: 24px;
+    }
+
+    .step-card span {
+      display: inline-grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      background: var(--accent);
+      color: white;
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+
+    .feature-card:nth-child(2n) {
+      background: #fffaf0;
+    }
+
+    .feature-card:nth-child(3n) {
+      background: #f0fff9;
+    }
+
+    .science-sequence {
+      display: grid;
+      gap: 14px;
+    }
+
+    .science-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+      padding: 18px;
+    }
+
+    .science-card span {
+      display: inline-grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      background: var(--secondary);
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+
+    .benefit-row {
+      display: grid;
+      grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+      gap: 18px;
+      align-items: center;
+      padding: 18px;
+    }
+
+    @media (max-width: 767px) {
+      .hero-screenshot {
+        transform: none;
+      }
+
+      .hero-moxie {
+        width: 84px;
+      }
+
+      .screen-top,
+      .screen-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .benefit-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .screenshot-row,
+      .screenshot-row-reversed {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .screenshot-row-reversed .screenshot-frame,
+      .screenshot-row-reversed .screenshot-copy {
+        order: initial;
+      }
+
+      .screenshot-copy {
+        padding: 16px;
+      }
+    }
+  </style>
+</AppLayout>

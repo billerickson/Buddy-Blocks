@@ -288,7 +288,7 @@ export default {
 
 async function rootRedirect(request: Request, env: Env) {
   const parent = await getParentFromRequest(request, env);
-  if (!parent) return redirect(new URL('/login/', request.url));
+  if (!parent) return serveAsset(request, env, '/');
 
   const childSlug = getChildModeSlug(request);
   return redirect(new URL(childSlug ? `/kid/${encodeURIComponent(childSlug)}/` : '/profiles/', request.url));

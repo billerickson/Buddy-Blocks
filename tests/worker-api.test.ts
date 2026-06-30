@@ -942,6 +942,32 @@ describe('worker protected page shells', () => {
 });
 
 describe('worker access control', () => {
+  it('serves the public homepage for logged-out root requests', async () => {
+    const { env } = createEnv();
+
+    const response = await worker.fetch(
+      new Request('https://learn.example.test/'),
+      env as unknown as Parameters<typeof worker.fetch>[1],
+    );
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('asset:/');
+  });
+
+  it('redirects signed-in root requests into the app', async () => {
+    const { env } = createEnv();
+
+    const response = await worker.fetch(
+      new Request('https://learn.example.test/', {
+        headers: { Cookie: `${SESSION_COOKIE}=session_1` },
+      }),
+      env as unknown as Parameters<typeof worker.fetch>[1],
+    );
+
+    expect(response.status).toBe(302);
+    expect(response.headers.get('Location')).toBe('https://learn.example.test/profiles/');
+  });
+
   it('does not force HTTPS redirects for local Wrangler hosts', async () => {
     const { env } = createEnv();
 
