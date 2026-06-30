@@ -11,7 +11,12 @@ const { active } = Astro.props;
 <header class="topbar">
   <div class="app-shell topbar-inner">
     <BrandMark href="/" />
-    <nav class="public-nav" aria-label="Main">
+    <button class="mobile-menu-toggle" type="button" aria-label="Open menu" aria-controls="public-site-menu" aria-expanded="false" data-mobile-menu-toggle>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <nav class="nav-links public-nav" id="public-site-menu" aria-label="Main" data-mobile-menu>
       <a class="nav-link" href="/" aria-current={active === 'home' ? 'page' : undefined}>Home</a>
       <a class="nav-link" href="/courses/" aria-current={active === 'courses' ? 'page' : undefined}>Courses</a>
       <a class="nav-link border-ink bg-white text-ink" href="/login/">Log In</a>
@@ -21,17 +26,13 @@ const { active } = Astro.props;
 
 <style>
   .public-nav {
-    display: flex;
-    flex-wrap: wrap;
     justify-content: flex-end;
-    gap: 8px;
   }
 
   @media (max-width: 520px) {
     .public-nav {
       width: 100%;
       justify-content: flex-start;
-      grid-column: 1 / -1;
     }
   }
 </style>
