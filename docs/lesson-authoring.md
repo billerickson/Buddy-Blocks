@@ -46,12 +46,12 @@ The numeric prefixes control display order. The app uses the `slug` values insid
 
 Current v1 profiles:
 
-- Ada is Grade 3 and sees `grade-03` unless a parent overrides one subject.
-- Reagan is Grade 6 overall, with Spanish overridden to Grade 3.
+- Ada is Grade 3 and sees Grade 3 scholastic tracks plus foundation level 1 tracks.
+- Reagan is Grade 6 overall and sees Grade 6 scholastic tracks plus foundation level 1 tracks.
 
-Parents can adjust a student's grade level per subject from the parent dashboard. If a subject is left on the default option, the app uses the student's global grade level.
+Scholastic subjects use the student's global grade level. Foundation subjects, such as Spanish, French, and Latin, start every student at level 1 and unlock the next level after the previous one is complete.
 
-The v1 enrollment model is documented in [docs/enrollment-model.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/enrollment-model.md). It intentionally uses global grade plus subject overrides instead of explicit track assignment tables.
+The v1 enrollment model is documented in [docs/enrollment-model.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/enrollment-model.md). It intentionally uses track groups instead of explicit track assignment tables.
 
 Kid app pages are generic static shells. The Worker maps authenticated dynamic URLs such as `/kid/:childSlug/`, `/kid/:childSlug/track/:trackSlug/`, and `/kid/:childSlug/lesson/:lessonId/` to fixed shell assets, then the browser fetches child/track/lesson data from the API using the URL path. Adding children or temporary lessons should not increase the number of generated Astro pages.
 

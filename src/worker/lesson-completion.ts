@@ -1,5 +1,6 @@
 import { randomId } from '../lib/auth';
 import { calculateCurrentStreak } from '../lib/streak';
+import { isFoundationSubject } from '../lib/subjects';
 
 export type CompletionEnv = {
   DB: D1Database;
@@ -49,8 +50,6 @@ export type CompleteLessonOptions = {
   questionAttempts?: CompletionQuestionAttempt[];
   bestScoreTotalStrategy: 'latest' | 'best-score-attempt';
 };
-
-const SEQUENTIAL_SUBJECTS = new Set(['spanish']);
 
 export async function completeLesson({
   env,
@@ -104,7 +103,7 @@ export async function completeLesson({
   if (nextLesson) await unlockNextLesson(env, child.id, nextLesson.id);
 
   const lessonsCompleted = await countCompletedTrackLessons(env, child.id, lesson.track_id);
-  const nextSequentialLesson = nextLesson ? null : await unlockNextSequentialTrack(env, child.id, lesson, lessonsCompleted, completedIso);
+  const nextFoundationLesson = nextLesson ? null : await unlockNextFoundationTrack(env, child.id, lesson, lessonsCompleted, completedIso);
   await updateTrackProgress(env, {
     childId: child.id,
     lesson,
@@ -131,7 +130,7 @@ export async function completeLesson({
     xpAwarded,
     heartsRemaining,
     streak,
-    nextLesson: nextLesson ?? nextSequentialLesson,
+    nextLesson: nextLesson ?? nextFoundationLesson,
     lessonProgress,
   };
 }
@@ -281,14 +280,14 @@ async function getNextLesson(env: CompletionEnv, lesson: CompletionLesson) {
   return index >= 0 ? (lessons[index + 1] ?? null) : null;
 }
 
-async function unlockNextSequentialTrack(
+async function unlockNextFoundationTrack(
   env: CompletionEnv,
   childId: string,
   lesson: CompletionLesson,
   lessonsCompleted: number,
   completedIso: string,
 ) {
-  if (!SEQUENTIAL_SUBJECTS.has(lesson.track_subject)) return null;
+  if (!isFoundationSubject(lesson.track_subject)) return null;
 
   const totalLessons = await countTrackLessons(env, lesson.track_id);
   if (totalLessons === 0 || lessonsCompleted < totalLessons) return null;
@@ -297,10 +296,11 @@ async function unlockNextSequentialTrack(
     `SELECT *
      FROM tracks
      WHERE subject = ?
-       AND grade_level = ?
+       AND grade_level > ?
+     ORDER BY grade_level
      LIMIT 1`,
   )
-    .bind(lesson.track_subject, lesson.track_grade_level + 1)
+    .bind(lesson.track_subject, lesson.track_grade_level)
     .first<{ id: string }>();
   if (!nextTrack) return null;
 

@@ -1,5 +1,5 @@
 import { TRACKS, type TrackFixture } from './curriculum';
-import { compareSubjectKeys } from './subjects';
+import { compareSubjectKeys, isFoundationSubject } from './subjects';
 
 export type ChildFixture = {
   id: string;
@@ -8,7 +8,6 @@ export type ChildFixture = {
   avatarKey: string;
   levelBand: string;
   gradeLevel: number;
-  subjectGradeLevels?: Record<string, number>;
 };
 
 export const PARENT_ID = 'parent_bill';
@@ -23,9 +22,6 @@ export const CHILDREN: ChildFixture[] = [
     avatarKey: 'berry-builder',
     levelBand: 'Grade 6',
     gradeLevel: 6,
-    subjectGradeLevels: {
-      spanish: 3,
-    },
   },
   {
     id: 'child_ada',
@@ -38,11 +34,10 @@ export const CHILDREN: ChildFixture[] = [
 ];
 
 export function getTracksForChild(child: ChildFixture) {
-  return TRACKS.filter((track) => track.gradeLevel === getSubjectGradeLevel(child, track.subject)).sort(compareBySubjectOrder);
-}
-
-export function getSubjectGradeLevel(child: ChildFixture, subject: string) {
-  return child.subjectGradeLevels?.[subject] ?? child.gradeLevel;
+  return TRACKS.filter((track) => {
+    if (!isFoundationSubject(track.subject)) return track.gradeLevel === child.gradeLevel;
+    return track.gradeLevel === firstFoundationGradeLevel(track.subject);
+  }).sort(compareBySubjectOrder);
 }
 
 export function getChildBySlug(slug: string) {
@@ -75,4 +70,8 @@ function compareBySubjectOrder(a: TrackFixture, b: TrackFixture) {
   const subjectOrder = compareSubjectKeys(a.subject, b.subject);
   if (subjectOrder !== 0) return subjectOrder;
   return a.gradeLevel - b.gradeLevel;
+}
+
+function firstFoundationGradeLevel(subject: string) {
+  return Math.min(...TRACKS.filter((track) => track.subject === subject).map((track) => track.gradeLevel));
 }

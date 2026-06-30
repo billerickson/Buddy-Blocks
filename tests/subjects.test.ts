@@ -5,6 +5,8 @@ import {
   compareSubjectKeys,
   getStarterBadgeForSubject,
   getSubjectMetadata,
+  getTrackGroup,
+  isFoundationSubject,
 } from '../src/lib/subjects';
 
 describe('subject metadata', () => {
@@ -58,5 +60,14 @@ describe('subject metadata', () => {
     expect(getStarterBadgeForSubject('french')).toEqual({ key: 'french-starter', label: 'French Starter' });
     expect(getStarterBadgeForSubject('latin')).toEqual({ key: 'latin-starter', label: 'Latin Starter' });
     expect(getStarterBadgeForSubject('science')).toBeNull();
+  });
+
+  it('groups scholastic and foundation subjects', () => {
+    expect(getTrackGroup('math')).toBe('scholastic');
+    expect(getTrackGroup('vocabulary')).toBe('scholastic');
+    expect(getTrackGroup('spanish')).toBe('foundation');
+    expect(getTrackGroup('french')).toBe('foundation');
+    expect(getTrackGroup('latin')).toBe('foundation');
+    expect(isFoundationSubject('science')).toBe(false);
   });
 });

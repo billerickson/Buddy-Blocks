@@ -36,6 +36,7 @@ type HomeData = {
     id: string;
     slug: string;
     subject: string;
+    trackGroup: 'scholastic' | 'foundation';
     gradeLevel: number;
     title: string;
     description: string;
@@ -67,6 +68,11 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
 
   if (error) return <p className="block-card p-5 font-black text-berryDark">{error}</p>;
   if (!data) return <p className="text-xl font-black text-muted">Stacking your lesson blocks...</p>;
+
+  const trackGroups = [
+    { key: 'scholastic', title: 'Scholastic', tracks: data.tracks.filter((track) => track.trackGroup === 'scholastic') },
+    { key: 'foundation', title: 'Foundation', tracks: data.tracks.filter((track) => track.trackGroup === 'foundation') },
+  ];
 
   return (
     <section className="space-y-8">
@@ -138,29 +144,38 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
         </section>
       )}
 
-      <div className="track-grid">
-        {data.tracks.map((track) => {
-          const progress = percent(track.lessonsCompleted, track.totalLessons);
-          return (
-            <a key={track.id} href={`/kid/${data.child.slug}/track/${track.slug}/`} className="block-card p-5 no-underline">
-              <div className="flex items-start gap-4">
-                <TrackIcon iconKey={getSubjectMetadata(track.subject).iconKey} color={track.color} />
-                <div className="min-w-0 flex-1">
-                  <h2 className="text-3xl">{track.title}</h2>
-                  <p className="mt-2 font-bold text-muted">{track.description}</p>
-                </div>
-              </div>
-              <div className="mt-5 progress-rail" aria-label={`${track.title} progress`}>
-                <span className="progress-fill" style={{ width: `${progress}%` }} />
-              </div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <span className="stat-chip">{track.lessonsCompleted}/{track.totalLessons} lessons</span>
-                <span className="stat-chip">{track.xpTotal} XP</span>
-              </div>
-            </a>
-          );
-        })}
-      </div>
+      {trackGroups.map((group) => {
+        if (group.tracks.length === 0) return null;
+
+        return (
+          <section key={group.key} className="space-y-4">
+            <h2 className="text-4xl">{group.title}</h2>
+            <div className="track-grid">
+              {group.tracks.map((track) => {
+                const progress = percent(track.lessonsCompleted, track.totalLessons);
+                return (
+                  <a key={track.id} href={`/kid/${data.child.slug}/track/${track.slug}/`} className="block-card p-5 no-underline">
+                    <div className="flex items-start gap-4">
+                      <TrackIcon iconKey={getSubjectMetadata(track.subject).iconKey} color={track.color} />
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-3xl">{track.title}</h3>
+                        <p className="mt-2 font-bold text-muted">{track.description}</p>
+                      </div>
+                    </div>
+                    <div className="mt-5 progress-rail" aria-label={`${track.title} progress`}>
+                      <span className="progress-fill" style={{ width: `${progress}%` }} />
+                    </div>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      <span className="stat-chip">{track.lessonsCompleted}/{track.totalLessons} lessons</span>
+                      <span className="stat-chip">{track.xpTotal} XP</span>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          </section>
+        );
+      })}
 
       <section className="soft-panel p-5">
         <h2 className="text-3xl">Badges</h2>

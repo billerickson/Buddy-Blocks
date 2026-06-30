@@ -86,10 +86,6 @@ function seedTrackFixture(db: DatabaseSync) {
      (id, parent_id, slug, display_name, avatar_key, level_band, grade_level, hearts_remaining, created_at, updated_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   ).run('child_reagan', 'parent_1', 'reagan', 'Reagan', 'berry-builder', 'Grade 6', 6, 5, now, now);
-  db.prepare(
-    'INSERT INTO child_subject_levels (id, child_profile_id, subject, grade_level, updated_at) VALUES (?, ?, ?, ?, ?)',
-  ).run('subject_level_child_reagan_spanish', 'child_reagan', 'spanish', 3, now);
-
   insertTrack(db, {
     id: 'track_g6_math',
     slug: 'grade-6-math',
@@ -103,7 +99,7 @@ function seedTrackFixture(db: DatabaseSync) {
     slug: 'grade-3-spanish',
     subject: 'spanish',
     gradeLevel: 3,
-    title: 'Grade 3 Spanish',
+    title: 'Spanish 1',
     sortOrder: 2,
   });
   insertTrack(db, {
@@ -111,7 +107,7 @@ function seedTrackFixture(db: DatabaseSync) {
     slug: 'grade-4-spanish',
     subject: 'spanish',
     gradeLevel: 4,
-    title: 'Grade 4 Spanish',
+    title: 'Spanish 2',
     sortOrder: 3,
   });
   insertUnit(db, 'unit_2', 'track_g3_spanish', 'unit-two', 'Unit Two', 2);
@@ -315,6 +311,7 @@ describe('worker track APIs', () => {
         id: 'track_g3_spanish',
         slug: 'grade-3-spanish',
         subject: 'spanish',
+        trackGroup: 'foundation',
         gradeLevel: 3,
       },
       progress: {
@@ -354,9 +351,13 @@ describe('worker track APIs', () => {
     expect(sqlite.queryLog.filter((sql) => sql.includes('LEFT JOIN child_lesson_progress'))).toHaveLength(1);
     expect(sqlite.queryLog.some((sql) => sql.includes('SELECT * FROM lessons WHERE unit_id = ?'))).toBe(false);
     expect(sqlite.queryLog.some((sql) => sql.includes('SELECT * FROM child_lesson_progress WHERE child_profile_id = ? AND lesson_id = ?'))).toBe(false);
+
+    await expect(getJson('/api/children/reagan/tracks/grade-4-spanish', env)).resolves.toMatchObject({
+      response: expect.objectContaining({ status: 404 }),
+    });
   });
 
-  it('honors subject overrides when resolving child tracks', async () => {
+  it('uses child grade for scholastic tracks and starts foundation tracks at level 1', async () => {
     const { env } = createEnv();
 
     const visible = await getJson('/api/children/reagan/tracks/grade-3-spanish', env);
@@ -370,7 +371,7 @@ describe('worker track APIs', () => {
     expect(hidden.body).toEqual({ error: 'track_not_found' });
   });
 
-  it('unlocks Grade 4 Spanish after completing Grade 3 Spanish', async () => {
+  it('unlocks Spanish 2 after completing Spanish 1', async () => {
     const { env, sqlite } = createEnv();
 
     expect((await getJson('/api/children/reagan/tracks/grade-4-spanish', env)).response.status).toBe(404);
@@ -449,39 +450,19 @@ describe('worker track APIs', () => {
     });
   });
 
-  it('clears subject overrides when the parent resets a subject to the global grade', async () => {
+  it('returns 410 for the removed subject-level override endpoint', async () => {
     const { env } = createEnv();
 
-    const cleared = await requestJson('/api/parent/children/reagan/subject-levels', env, {
-      method: 'PATCH',
-      body: { subject: 'spanish', gradeLevel: 6 },
-    });
-    expect(cleared.response.status).toBe(200);
-    expect(cleared.body.subjectLevels.find((level: { subject: string }) => level.subject === 'spanish')).toMatchObject({
-      defaultGradeLevel: 6,
-      overrideGradeLevel: null,
-      effectiveGradeLevel: 6,
-    });
-    await expect(getJson('/api/children/reagan/tracks/grade-3-spanish', env)).resolves.toMatchObject({
-      response: expect.objectContaining({ status: 404 }),
-    });
-    await expect(getJson('/api/children/reagan/tracks/grade-6-spanish', env)).resolves.toMatchObject({
-      response: expect.objectContaining({ status: 404 }),
-    });
-
-    const restored = await requestJson('/api/parent/children/reagan/subject-levels', env, {
+    const { response, body } = await requestJson('/api/parent/children/reagan/subject-levels', env, {
       method: 'PATCH',
       body: { subject: 'spanish', gradeLevel: 3 },
     });
-    expect(restored.response.status).toBe(200);
-    expect(restored.body.subjectLevels.find((level: { subject: string }) => level.subject === 'spanish')).toMatchObject({
-      defaultGradeLevel: 6,
-      overrideGradeLevel: 3,
-      effectiveGradeLevel: 3,
-    });
+
+    expect(response.status).toBe(410);
+    expect(body).toEqual({ error: 'subject_levels_removed' });
   });
 
-  it('keeps historical activity visible after a subject override no longer exposes the old track', async () => {
+  it('keeps historical foundation activity visible without subject overrides', async () => {
     const { env, sqlite } = createEnv();
     sqlite.db
       .prepare(
@@ -501,16 +482,10 @@ describe('worker track APIs', () => {
         5,
       );
 
-    await requestJson('/api/parent/children/reagan/subject-levels', env, {
-      method: 'PATCH',
-      body: { subject: 'spanish', gradeLevel: 6 },
-    });
-
     const dashboard = await getJson('/api/parent/dashboard', env);
 
     expect(dashboard.response.status).toBe(200);
-    expect(dashboard.body.children[0].tracks.map((track: { slug: string }) => track.slug)).toEqual(['grade-6-math']);
-    expect(dashboard.body.children[0].tracks.map((track: { slug: string }) => track.slug)).not.toContain('grade-3-spanish');
+    expect(dashboard.body.children[0].tracks.map((track: { slug: string }) => track.slug)).toContain('grade-3-spanish');
     expect(dashboard.body.children[0].recentActivity).toEqual([
       expect.objectContaining({
         lesson_title: 'Completed Lesson',
@@ -832,10 +807,10 @@ describe('worker access control', () => {
   it('rejects mutating APIs from a different origin', async () => {
     const { env } = createEnv();
 
-    const { response, body } = await requestJson('/api/parent/children/reagan/subject-levels', env, {
+    const { response, body } = await requestJson('/api/parent/children/reagan/practice-sets', env, {
       method: 'PATCH',
       origin: 'https://evil.example.test',
-      body: { subject: 'spanish', gradeLevel: 3 },
+      body: { title: 'Blocked', cards: [{ term: 'blocked', definition: 'not allowed' }] },
     });
 
     expect(response.status).toBe(403);

@@ -34,6 +34,10 @@
 
 6. We need to divide the current tracks into two groups: scholastic (ex: math, vocabulary) and foundation (ex: Spanish, French, latin). Scholastic tracks are based on your actual grade level, while foundation tracks start you from the beginning regardless of your grade level. This will replace the "grade override" functionality we currently have in place. Grade 3 Spanish becomes Spanish 1, and they can only progress to Spanish 2 once completing all lessons in Spanish 1. This likely requires refactoring lots of code while also maintaining the existing data for completed tasks, since the students have used Grade 3 Spanish already. Instead of "Grade 3 Spanish" we will have "Spanish 1"
 
+   - Root cause: track visibility was driven by per-subject grade overrides, with Spanish as a one-off sequential exception, so a Grade 6 student needed an override to see beginner language content.
+   - Fix: added scholastic/foundation subject grouping, made foundation subjects start at level 1 and unlock the next level only after the previous level is complete, removed the parent override UI/API path, grouped kid/parent track cards, and renamed language track titles to Spanish/French/Latin 1 and 2 while preserving existing IDs/slugs/progress rows.
+   - Verified: `npm test -- tests/subjects.test.ts tests/seed-family.test.ts tests/worker-api.test.ts`, `npm test`, `npm run check`, `npm run content:validate`, and `npm run build`.
+
 7. Review the v2-curriculum-plan and update it with regard to the new 'foundation' track functionality. 
 
 8. Create docs/curriculum-summary.md file summarizing the tracks. Break it down by "scholastic" and "foundation". Each track should have a bulleted list showing all expected grades/levels and their current status. Ex: Math would have "Grade 3 (complete), Grade 4 (empty), Grade 5 (empty), Grade 6 (complete)... We'll use this as reference for future runs to build out more course work. It should also include the v2-curriculum-plan tracks. 

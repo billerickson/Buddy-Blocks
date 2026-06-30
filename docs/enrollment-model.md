@@ -1,46 +1,28 @@
 # Grade And Enrollment Model
 
-Buddy Blocks v1 uses a deliberately small enrollment model:
+Buddy Blocks uses two track groups:
 
-- Each child has one global `grade_level`.
-- A parent can set per-subject grade overrides in `child_subject_levels`.
-- Track visibility is resolved by subject: the app shows tracks whose `grade_level` matches the override for that subject, or the child's global grade when no override exists.
-- Spanish also supports a narrow sequential handoff: when a child completes the currently visible Spanish track, the next Spanish grade-level track becomes visible and accessible.
+- Scholastic tracks use the child's global `grade_level`. Math and Vocabulary are scholastic.
+- Foundation tracks start every child at the first available level regardless of global grade. Spanish, French, and Latin are foundation.
 
 For the current family setup, this means:
 
-- Reagan is globally Grade 6.
-- Reagan's Spanish subject is overridden to Grade 3.
-- Ada is globally Grade 3 with no subject overrides.
+- Reagan is globally Grade 6 and sees Grade 6 scholastic tracks plus Spanish 1, French 1, and Latin 1.
+- Ada is globally Grade 3 and sees Grade 3 scholastic tracks plus Spanish 1, French 1, and Latin 1.
 
-## Parent Override Behavior
+The old per-subject grade override API has been removed from the app surface. Existing `child_subject_levels` rows can remain in the database for historical compatibility, but track access no longer reads them.
 
-The parent subject-level API accepts:
+## Foundation Sequence Behavior
 
-```http
-PATCH /api/parent/children/:childSlug/subject-levels
-Content-Type: application/json
+Foundation tracks still use the existing `grade_level` column as their stored level order:
 
-{
-  "subject": "spanish",
-  "gradeLevel": 3
-}
-```
+- Grade 3 language tracks are level 1 courses, titled Spanish 1, French 1, and Latin 1.
+- Grade 4 language tracks are level 2 courses, titled Spanish 2, French 2, and Latin 2.
+- A level 2 foundation track becomes visible only after the same child completes every lesson in level 1 for that subject.
+- Existing lesson, track, and progress IDs are preserved, so completed Grade 3 Spanish work continues to count toward Spanish 1.
 
-Setting `gradeLevel` to `null`, or to the child's global grade, removes the override. Historical attempts are not deleted when a track is no longer currently visible through the effective-grade filter.
-
-## Spanish Sequence Behavior
-
-Spanish tracks represent language levels, not a one-to-one academic grade path. For v1:
-
-- Reagan is globally Grade 6 but starts Spanish at Grade 3 through a subject override.
-- Grade 3 Spanish is the beginner Spanish I / Level I course.
-- Grade 4 Spanish is the Spanish II / Level II follow-up course.
-- When the final Grade 3 Spanish lesson is completed, the Worker starts the Grade 4 Spanish track for that child and unlocks its first lesson.
-- Kid Home skips completed tracks when choosing the regular recommendation, so Grade 4 Spanish can become the recommended lesson after Grade 3 Spanish is complete.
-
-This sequence is intentionally scoped to Spanish. Math and Vocabulary remain controlled only by the effective grade level.
+Kid Home groups visible tracks into Scholastic and Foundation sections. Completed foundation tracks remain accessible, and the next foundation level can become the recommended lesson after it unlocks.
 
 ## Future Assignment Layer
 
-Do not add assignment tables for v1 unless the product requirements change. A future `child_track_assignments` layer could support pinned review tracks, multiple active tracks in one subject, or custom special courses. Until then, use subject-level overrides for grade mismatches and practice sets for temporary school vocabulary.
+Do not add assignment tables unless product requirements change. A future `child_track_assignments` layer could support pinned review tracks, multiple active tracks in one subject, or custom special courses. Until then, use the scholastic/foundation model for track visibility and practice sets for temporary school vocabulary.

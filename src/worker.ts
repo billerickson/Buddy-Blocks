@@ -21,7 +21,7 @@ import {
 import { parseMadMinuteConfig, parseStandardLessonConfig, type LessonKind } from './lib/lesson-config';
 import { calculateMadMinuteXp, scoreMadMinuteAttempts } from './lib/mad-minute';
 import { calculateCurrentStreak } from './lib/streak';
-import { compareSubjectKeys, getSubjectLabel } from './lib/subjects';
+import { compareSubjectKeys, getSubjectLabel, getTrackGroup, isFoundationSubject } from './lib/subjects';
 import { completeLesson, type CompletionLesson } from './worker/lesson-completion';
 
 type ParentRow = {
@@ -60,14 +60,6 @@ type TrackRow = {
   color: string;
   accent: string;
   sort_order: number;
-};
-
-type ChildSubjectLevelRow = {
-  id: string;
-  child_profile_id: string;
-  subject: string;
-  grade_level: number;
-  updated_at: string;
 };
 
 type LessonRow = {
@@ -187,8 +179,6 @@ const PUBLIC_FILE_PREFIXES = ['/icons/', '/assets/', '/_astro/'];
 const PARENT_GATE_PATH = '/parent-gate/';
 const PRACTICE_LESSON_PREFIX = 'practice_set_';
 const PRACTICE_SET_XP_BASE = 8;
-const SEQUENTIAL_SUBJECTS = new Set(['spanish']);
-
 const AttemptSubmissionSchema = z.object({
   startedAt: z.string().optional(),
   attempts: z.array(
@@ -239,11 +229,6 @@ const PracticeSetUpdateSchema = z.object({
   startsAt: z.string().trim().min(1).optional().nullable(),
   expiresAt: z.string().trim().min(1).optional().nullable(),
   cards: z.array(PracticeSetCardInputSchema).min(1).optional(),
-});
-
-const SubjectLevelUpdateSchema = z.object({
-  subject: z.string().trim().toLowerCase().min(1).regex(/^[a-z][a-z0-9-]*$/),
-  gradeLevel: z.number().int().min(1).max(12).nullable(),
 });
 
 export default {
@@ -413,9 +398,7 @@ async function apiRouter(request: Request, env: Env) {
   const subjectLevelMatch = pathname.match(/^\/api\/parent\/children\/([^/]+)\/subject-levels$/);
   if (subjectLevelMatch) {
     if (childModeSlug) return parentReauthResponse();
-    if (request.method === 'PATCH') {
-      return apiUpdateChildSubjectLevel(parent, env, request, decodeURIComponent(subjectLevelMatch[1]));
-    }
+    return json({ error: 'subject_levels_removed' }, 410);
   }
 
   const parentPracticeSetMatch = pathname.match(/^\/api\/parent\/children\/([^/]+)\/practice-sets(?:\/([^/]+))?$/);
@@ -491,6 +474,7 @@ async function apiChildHome(parent: SessionParent, env: Env, childKey: string, c
       id: track.id,
       slug: track.slug,
       subject: track.subject,
+      trackGroup: getTrackGroup(track.subject),
       gradeLevel: track.grade_level,
       title: track.title,
       description: track.description,
@@ -745,6 +729,7 @@ async function apiParentDashboard(parent: SessionParent, env: Env) {
         id: track.id,
         slug: track.slug,
         subject: track.subject,
+        trackGroup: getTrackGroup(track.subject),
         gradeLevel: track.grade_level,
         title: track.title,
         color: track.color,
@@ -778,7 +763,6 @@ async function apiParentDashboard(parent: SessionParent, env: Env) {
 
     childSummaries.push({
       child: childResponse(child),
-      subjectLevels: await getSubjectLevelResponses(env, child),
       stats: {
         xpTotal: trackSummaries.reduce((sum, track) => sum + track.xpTotal, 0),
         streak,
@@ -795,39 +779,6 @@ async function apiParentDashboard(parent: SessionParent, env: Env) {
     fixedV1Profiles: true,
     children: childSummaries,
   });
-}
-
-async function apiUpdateChildSubjectLevel(parent: SessionParent, env: Env, request: Request, childKey: string) {
-  const child = await getChildForParent(parent, env, childKey);
-  if (!child) return json({ error: 'child_not_found' }, 404);
-
-  let body: z.infer<typeof SubjectLevelUpdateSchema>;
-  try {
-    body = SubjectLevelUpdateSchema.parse(await request.json());
-  } catch {
-    return json({ error: 'invalid_subject_level_payload' }, 400);
-  }
-
-  if (!(await subjectExists(env, body.subject))) return json({ error: 'subject_not_found' }, 404);
-
-  const now = new Date().toISOString();
-  if (body.gradeLevel === null || body.gradeLevel === child.grade_level) {
-    await env.DB.prepare('DELETE FROM child_subject_levels WHERE child_profile_id = ? AND subject = ?')
-      .bind(child.id, body.subject)
-      .run();
-  } else {
-    await env.DB.prepare(
-      `INSERT INTO child_subject_levels (id, child_profile_id, subject, grade_level, updated_at)
-       VALUES (?, ?, ?, ?, ?)
-       ON CONFLICT(child_profile_id, subject) DO UPDATE SET
-         grade_level = excluded.grade_level,
-         updated_at = excluded.updated_at`,
-    )
-      .bind(`subject_level_${child.id}_${body.subject}`, child.id, body.subject, body.gradeLevel, now)
-      .run();
-  }
-
-  return json({ subjectLevels: await getSubjectLevelResponses(env, child) });
 }
 
 async function apiParentPracticeSets(parent: SessionParent, env: Env, childKey: string) {
@@ -1096,18 +1047,13 @@ async function getChildForParent(parent: SessionParent, env: Env, childKey: stri
 
 async function getTracksForChild(env: Env, child: ChildRow) {
   const tracks = await all<TrackRow>(
-    env.DB.prepare(
-      `SELECT tracks.*
-       FROM tracks
-       LEFT JOIN child_subject_levels
-         ON child_subject_levels.child_profile_id = ?
-        AND child_subject_levels.subject = tracks.subject
-       WHERE tracks.grade_level = COALESCE(child_subject_levels.grade_level, ?)
-       ORDER BY tracks.sort_order`,
-    ).bind(child.id, child.grade_level),
+    env.DB.prepare('SELECT * FROM tracks ORDER BY sort_order'),
   );
-  const sequentialTracks = await getSequentialTracksForChild(env, child);
-  return uniqueTracks([...tracks, ...sequentialTracks]).sort(compareTracksBySubjectMetadata);
+  const accessibleTracks = [];
+  for (const track of tracks) {
+    if (await canAccessTrack(env, child, track.subject, track.grade_level)) accessibleTracks.push(track);
+  }
+  return uniqueTracks(accessibleTracks).sort(compareTracksBySubjectMetadata);
 }
 
 async function getTrackForChild(env: Env, child: ChildRow, trackSlug: string) {
@@ -1123,27 +1069,31 @@ async function canAccessLessonTrack(env: Env, child: ChildRow, lesson: Pick<Less
 }
 
 async function canAccessTrack(env: Env, child: ChildRow, subject: string, gradeLevel: number) {
-  const effectiveGradeLevel = await getEffectiveGradeLevelForSubject(env, child, subject);
-  if (gradeLevel === effectiveGradeLevel) return true;
-  if (!SEQUENTIAL_SUBJECTS.has(subject) || gradeLevel !== effectiveGradeLevel + 1) return false;
-
-  const currentTrack = await getTrackBySubjectGrade(env, subject, effectiveGradeLevel);
-  return currentTrack ? isTrackCompleteForChild(env, child.id, currentTrack.id) : false;
+  if (!isFoundationSubject(subject)) return gradeLevel === child.grade_level;
+  return canAccessFoundationTrack(env, child, subject, gradeLevel);
 }
 
-async function getSequentialTracksForChild(env: Env, child: ChildRow) {
-  const tracks: TrackRow[] = [];
+async function canAccessFoundationTrack(env: Env, child: ChildRow, subject: string, gradeLevel: number) {
+  const levels = await getFoundationLevelsForSubject(env, subject);
+  const levelIndex = levels.indexOf(gradeLevel);
+  if (levelIndex < 0) return false;
+  if (levelIndex === 0) return true;
 
-  for (const subject of SEQUENTIAL_SUBJECTS) {
-    const effectiveGradeLevel = await getEffectiveGradeLevelForSubject(env, child, subject);
-    const currentTrack = await getTrackBySubjectGrade(env, subject, effectiveGradeLevel);
-    if (!currentTrack || !(await isTrackCompleteForChild(env, child.id, currentTrack.id))) continue;
+  const previousTrack = await getTrackBySubjectGrade(env, subject, levels[levelIndex - 1]);
+  return previousTrack ? isTrackCompleteForChild(env, child.id, previousTrack.id) : false;
+}
 
-    const nextTrack = await getTrackBySubjectGrade(env, subject, effectiveGradeLevel + 1);
-    if (nextTrack) tracks.push(nextTrack);
-  }
-
-  return tracks;
+async function getFoundationLevelsForSubject(env: Env, subject: string) {
+  const rows = await all<{ grade_level: number }>(
+    env.DB.prepare(
+      `SELECT grade_level
+       FROM tracks
+       WHERE subject = ?
+       GROUP BY grade_level
+       ORDER BY grade_level`,
+    ).bind(subject),
+  );
+  return rows.map((row) => row.grade_level);
 }
 
 async function getTrackBySubjectGrade(env: Env, subject: string, gradeLevel: number) {
@@ -1180,48 +1130,6 @@ function uniqueTracks(tracks: TrackRow[]) {
   const byId = new Map<string, TrackRow>();
   for (const track of tracks) byId.set(track.id, track);
   return Array.from(byId.values());
-}
-
-async function getEffectiveGradeLevelForSubject(env: Env, child: ChildRow, subject: string) {
-  const level = await getChildSubjectLevel(env, child.id, subject);
-  return level?.grade_level ?? child.grade_level;
-}
-
-async function getChildSubjectLevel(env: Env, childId: string, subject: string) {
-  return env.DB.prepare('SELECT * FROM child_subject_levels WHERE child_profile_id = ? AND subject = ? LIMIT 1')
-    .bind(childId, subject)
-    .first<ChildSubjectLevelRow>();
-}
-
-async function subjectExists(env: Env, subject: string) {
-  const row = await env.DB.prepare('SELECT subject FROM tracks WHERE subject = ? LIMIT 1').bind(subject).first<{ subject: string }>();
-  return Boolean(row);
-}
-
-async function getSubjectLevelResponses(env: Env, child: ChildRow) {
-  const subjects = await all<{ subject: string }>(
-    env.DB.prepare(
-      `SELECT subject
-       FROM tracks
-       GROUP BY subject
-       ORDER BY subject`,
-    ),
-  );
-  const overrides = await all<ChildSubjectLevelRow>(
-    env.DB.prepare('SELECT * FROM child_subject_levels WHERE child_profile_id = ?').bind(child.id),
-  );
-  const overrideBySubject = new Map(overrides.map((level) => [level.subject, level]));
-
-  return subjects.sort((a, b) => compareSubjectKeys(a.subject, b.subject)).map(({ subject }) => {
-    const override = overrideBySubject.get(subject);
-    return {
-      subject,
-      label: getSubjectLabel(subject),
-      defaultGradeLevel: child.grade_level,
-      overrideGradeLevel: override?.grade_level ?? null,
-      effectiveGradeLevel: override?.grade_level ?? child.grade_level,
-    };
-  });
 }
 
 async function getPracticeSetsForChild(env: Env, childId: string) {
@@ -1750,6 +1658,7 @@ function trackResponse(track: TrackRow) {
     id: track.id,
     slug: track.slug,
     subject: track.subject,
+    trackGroup: getTrackGroup(track.subject),
     gradeLevel: track.grade_level,
     title: track.title,
     description: track.description,

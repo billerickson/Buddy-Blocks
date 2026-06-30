@@ -16,11 +16,13 @@ describe('fixed v1 seed family', () => {
     ]);
   });
 
-  it('applies subject overrides to child track selection', () => {
+  it('uses child grade for scholastic tracks and level 1 for foundation tracks', () => {
     expect(getTracksForChild(CHILDREN[0]).map((track) => track.slug)).toEqual([
       'grade-6-math',
       'grade-6-vocabulary',
       'grade-3-spanish',
+      'grade-3-french',
+      'grade-3-latin',
     ]);
     expect(getTracksForChild(CHILDREN[1]).map((track) => track.slug)).toEqual([
       'grade-3-math',
@@ -36,6 +38,8 @@ describe('fixed v1 seed family', () => {
       { childSlug: 'reagan', trackSlug: 'grade-6-math' },
       { childSlug: 'reagan', trackSlug: 'grade-6-vocabulary' },
       { childSlug: 'reagan', trackSlug: 'grade-3-spanish' },
+      { childSlug: 'reagan', trackSlug: 'grade-3-french' },
+      { childSlug: 'reagan', trackSlug: 'grade-3-latin' },
       { childSlug: 'ada', trackSlug: 'grade-3-math' },
       { childSlug: 'ada', trackSlug: 'grade-3-vocabulary' },
       { childSlug: 'ada', trackSlug: 'grade-3-spanish' },

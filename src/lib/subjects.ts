@@ -11,8 +11,11 @@ export type SubjectMetadata = {
   starterBadge?: SubjectStarterBadge;
 };
 
+export type TrackGroup = 'scholastic' | 'foundation';
+
 export const UNKNOWN_SUBJECT_SORT_ORDER = 1000;
 export const UNKNOWN_SUBJECT_ICON_KEY: SubjectMetadata['iconKey'] = 'generic-block';
+export const FOUNDATION_SUBJECTS = new Set(['spanish', 'french', 'latin']);
 
 export const SUBJECTS: SubjectMetadata[] = [
   {
@@ -84,6 +87,14 @@ export function getSubjectLabel(subject: string) {
 
 export function getStarterBadgeForSubject(subject: string) {
   return getSubjectMetadata(subject).starterBadge ?? null;
+}
+
+export function getTrackGroup(subject: string): TrackGroup {
+  return isFoundationSubject(subject) ? 'foundation' : 'scholastic';
+}
+
+export function isFoundationSubject(subject: string) {
+  return FOUNDATION_SUBJECTS.has(subject);
 }
 
 export function compareSubjectKeys(a: string, b: string) {

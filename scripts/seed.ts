@@ -74,21 +74,6 @@ for (const child of CHILDREN) {
     ),
   );
 
-  for (const [subject, gradeLevel] of Object.entries(child.subjectGradeLevels ?? {})) {
-    statements.push(
-      insertWithUpdateStatement(
-        'child_subject_levels',
-        {
-          id: `subject_level_${child.id}_${subject}`,
-          child_profile_id: child.id,
-          subject,
-          grade_level: gradeLevel,
-          updated_at: now,
-        },
-        ['grade_level', 'updated_at'],
-      ),
-    );
-  }
 }
 
 for (const child of CHILDREN) {
