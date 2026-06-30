@@ -4,6 +4,8 @@ import { fetchApi, percent } from './api';
 import { BlockAvatar, TrackIcon } from './BlockAvatar';
 import { childSlugFromLocation } from './route-params';
 
+const LANGUAGE_SUBJECTS = new Set(['spanish', 'french', 'latin']);
+
 type HomeData = {
   child: {
     slug: string;
@@ -71,7 +73,16 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
 
   const trackGroups = [
     { key: 'scholastic', title: 'Scholastic', tracks: data.tracks.filter((track) => track.trackGroup === 'scholastic') },
-    { key: 'foundation', title: 'Foundation', tracks: data.tracks.filter((track) => track.trackGroup === 'foundation') },
+    {
+      key: 'foundation',
+      title: 'Foundation',
+      tracks: data.tracks.filter((track) => track.trackGroup === 'foundation' && !LANGUAGE_SUBJECTS.has(track.subject)),
+    },
+    {
+      key: 'language',
+      title: 'Language',
+      tracks: data.tracks.filter((track) => LANGUAGE_SUBJECTS.has(track.subject)),
+    },
   ];
 
   return (
