@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'preact/hooks';
-import { fetchApi } from './api';
 import { BlockAvatar } from './BlockAvatar';
+import { fetchCachedApi } from './offline/api';
 
 type Child = {
   id: string;
@@ -15,8 +15,8 @@ export default function ProfileSelector() {
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
 
   useEffect(() => {
-    fetchApi<{ children: Child[] }>('/api/children')
-      .then((data) => {
+    fetchCachedApi<{ children: Child[] }>('/api/children', { type: 'children' })
+      .then(({ data }) => {
         setChildren(data.children);
         setStatus('ready');
       })
@@ -57,4 +57,3 @@ export default function ProfileSelector() {
     </section>
   );
 }
-

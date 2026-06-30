@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'preact/hooks';
 import { getSubjectMetadata } from '../../lib/subjects';
-import { fetchApi, percent } from './api';
+import { percent } from './api';
 import { BlockAvatar, TrackIcon } from './BlockAvatar';
+import { fetchKidHome, saveLessonPack, type OfflineSource } from './offline/api';
+import { OfflineStatusPill } from './offline/OfflineStatusPill';
 import { childSlugFromLocation } from './route-params';
 
 const LANGUAGE_SUBJECTS = new Set(['spanish', 'french', 'latin']);
@@ -55,7 +57,10 @@ type HomeData = {
 export default function KidHome({ childSlug: childSlugProp }: { childSlug?: string }) {
   const childSlug = childSlugFromLocation(childSlugProp);
   const [data, setData] = useState<HomeData | null>(null);
+  const [dataSource, setDataSource] = useState<OfflineSource>('network');
   const [error, setError] = useState('');
+  const [packStatus, setPackStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [packMessage, setPackMessage] = useState('');
 
   useEffect(() => {
     if (!childSlug) {
@@ -63,8 +68,11 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
       return;
     }
 
-    fetchApi<HomeData>(`/api/children/${childSlug}/home`)
-      .then(setData)
+    fetchKidHome<HomeData>(childSlug)
+      .then((result) => {
+        setData(result.data);
+        setDataSource(result.source);
+      })
       .catch((reason) => setError(reason.message));
   }, [childSlug]);
 
@@ -87,6 +95,7 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
 
   return (
     <section className="space-y-8">
+      <OfflineStatusPill />
       <div className="grid gap-5 lg:grid-cols-[1fr_0.72fr]">
         <div className="block-card p-6 sm:p-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
@@ -105,7 +114,10 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
 
         <div className="block-card flex flex-col justify-between p-6 sm:p-8">
           <div>
-            <p className="stat-chip w-fit">Next block</p>
+            <div className="flex flex-wrap gap-2">
+              <p className="stat-chip w-fit">Next block</p>
+              {dataSource === 'cache' && <p className="stat-chip w-fit bg-[#fff3eb]">Cached</p>}
+            </div>
             <h2 className="mt-4 text-3xl">{data.recommendedLesson?.title || 'All caught up'}</h2>
             <p className="mt-3 font-extrabold text-muted">
               {data.recommendedLesson
@@ -117,6 +129,30 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
             <a className="primary-button mt-6" href={`/kid/${data.child.slug}/lesson/${data.recommendedLesson.id}/`}>
               Continue Lesson
             </a>
+          )}
+          <button
+            className="secondary-button mt-3"
+            type="button"
+            disabled={packStatus === 'saving'}
+            onClick={async () => {
+              setPackStatus('saving');
+              setPackMessage('');
+              try {
+                const pack = await saveLessonPack(data.child.slug);
+                setPackStatus('saved');
+                setPackMessage(`${pack.lessonsCached} lessons cached`);
+              } catch {
+                setPackStatus('error');
+                setPackMessage('Could not save lessons offline.');
+              }
+            }}
+          >
+            {packStatus === 'saving' ? 'Saving...' : 'Save offline'}
+          </button>
+          {packMessage && (
+            <p className={`mt-3 font-black ${packStatus === 'error' ? 'text-berryDark' : 'text-muted'}`}>
+              {packMessage}
+            </p>
           )}
         </div>
       </div>

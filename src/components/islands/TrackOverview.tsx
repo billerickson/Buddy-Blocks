@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'preact/hooks';
 import { getSubjectMetadata } from '../../lib/subjects';
-import { fetchApi, percent } from './api';
+import { percent } from './api';
 import { TrackIcon } from './BlockAvatar';
+import { fetchKidTrack, type OfflineSource } from './offline/api';
+import { OfflineStatusPill } from './offline/OfflineStatusPill';
 import { trackRouteParams } from './route-params';
 
 type TrackData = {
@@ -45,6 +47,7 @@ export default function TrackOverview({
 }) {
   const { childSlug, trackSlug } = trackRouteParams(childSlugProp, trackSlugProp);
   const [data, setData] = useState<TrackData | null>(null);
+  const [dataSource, setDataSource] = useState<OfflineSource>('network');
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -53,8 +56,11 @@ export default function TrackOverview({
       return;
     }
 
-    fetchApi<TrackData>(`/api/children/${childSlug}/tracks/${trackSlug}`)
-      .then(setData)
+    fetchKidTrack<TrackData>(childSlug, trackSlug)
+      .then((result) => {
+        setData(result.data);
+        setDataSource(result.source);
+      })
       .catch((reason) => setError(reason.message));
   }, [childSlug, trackSlug]);
 
@@ -66,12 +72,16 @@ export default function TrackOverview({
 
   return (
     <section className="space-y-7">
+      <OfflineStatusPill />
       <div className="block-card p-6 sm:p-8">
         <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
           <div className="flex items-start gap-4">
             <TrackIcon iconKey={getSubjectMetadata(data.track.subject).iconKey} color={data.track.color} />
             <div>
-              <p className="stat-chip w-fit">{data.child.displayName}'s path</p>
+              <div className="flex flex-wrap gap-2">
+                <p className="stat-chip w-fit">{data.child.displayName}'s path</p>
+                {dataSource === 'cache' && <p className="stat-chip w-fit bg-[#fff3eb]">Cached</p>}
+              </div>
               <h1 className="mt-4 text-[clamp(3rem,8vw,5.5rem)]">{data.track.title}</h1>
               <p className="mt-3 max-w-2xl text-lg font-extrabold text-muted">{data.track.description}</p>
             </div>

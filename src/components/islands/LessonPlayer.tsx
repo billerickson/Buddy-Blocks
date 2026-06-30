@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import {
+  calculateXp,
   evaluateAnswer,
   getAccentFeedback,
   getCorrectAnswerLabel,
@@ -27,12 +28,13 @@ import {
   type MadMinuteConfig,
   type StandardLessonConfig,
 } from '../../lib/lesson-config-core';
-import { generateMadMinuteFact } from '../../lib/mad-minute';
+import { calculateMadMinuteXp, generateMadMinuteFact, scoreMadMinuteAttempts } from '../../lib/mad-minute';
 import { LessonIntro } from '../lesson/LessonIntro';
 import { prepareLessonQueue, hashString, nextSeed, type QueueItem } from '../lesson/lesson-flow';
 import { clearMatchForLeft } from '../lesson/match-pairs';
 import { AudioBlock, QuestionMediaDisplay, mediaFromQuestion } from '../lesson/media';
-import { fetchApi } from './api';
+import { fetchKidLesson, submitLessonCompletion, type OfflineSource } from './offline/api';
+import { OfflineStatusPill } from './offline/OfflineStatusPill';
 import { lessonRouteParams } from './route-params';
 
 type LessonData = {
@@ -83,6 +85,8 @@ type CompletionResult = {
     streak: number;
     bestScoreCorrect?: number;
     goalCorrect?: number;
+    syncStatus?: 'queued' | 'synced';
+    clientAttemptId?: string;
     nextLesson: null | {
       id: string;
       title: string;
@@ -115,6 +119,7 @@ export default function LessonPlayer({
 }) {
   const { childSlug, lessonId } = lessonRouteParams(childSlugProp, lessonIdProp);
   const [data, setData] = useState<LessonData | null>(null);
+  const [dataSource, setDataSource] = useState<OfflineSource>('network');
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const [position, setPosition] = useState(0);
   const [firstAttempts, setFirstAttempts] = useState<FirstAttempt[]>([]);
@@ -141,10 +146,11 @@ export default function LessonPlayer({
       return;
     }
 
-    fetchApi<LessonData>(`/api/children/${childSlug}/lessons/${lessonId}`)
-      .then((lessonData) => {
+    fetchKidLesson<LessonData>(childSlug, lessonId)
+      .then(({ data: lessonData, source }) => {
         const standardConfig = getStandardLessonConfig(lessonData.lesson.config);
         setData(lessonData);
+        setDataSource(source);
         setHearts(lessonData.heartsStart);
         setIntroComplete(!standardConfig?.intro?.length);
         setQueue(prepareLessonQueue(lessonData.lesson.questions, standardConfig, lessonData.lesson.id));
@@ -173,6 +179,7 @@ export default function LessonPlayer({
 
   if (completion) {
     const isMadMinute = data.lesson.kind === 'mad-minute';
+    const queued = completion.syncStatus === 'queued';
     const perfectLesson = !isMadMinute && completion.scoreCorrect === completion.scoreTotal;
     const goalCorrect =
       completion.goalCorrect ??
@@ -182,6 +189,7 @@ export default function LessonPlayer({
 
     return (
       <section className="completion-stage relative mx-auto max-w-5xl overflow-hidden rounded-lg px-1 py-2">
+        <OfflineStatusPill />
         <CompletionFireworks />
         <div className="block-card relative overflow-hidden p-6 text-center sm:p-8">
           <div className="completion-ribbon" aria-hidden="true" />
@@ -189,16 +197,21 @@ export default function LessonPlayer({
             <div className="mx-auto w-fit">
               <MoxieCelebration perfect={perfectLesson} />
             </div>
-            <p className="stat-chip mx-auto mt-4 w-fit bg-reward">Lesson complete</p>
+            <div className="mx-auto mt-4 flex w-fit flex-wrap justify-center gap-2">
+              <p className="stat-chip w-fit bg-reward">Lesson complete</p>
+              {queued && <p className="stat-chip w-fit bg-[#fff3eb]">Saved offline</p>}
+            </div>
             <h1 className="mt-4 text-[clamp(3.4rem,9vw,6.8rem)]">
               {isMadMinute ? 'Mad Minute done!' : perfectLesson ? 'Perfect stack!' : 'Nice build!'}
             </h1>
             <p className="mx-auto mt-3 max-w-2xl text-lg font-black text-muted">
-              {isMadMinute
-                ? `You solved ${completion.scoreCorrect} multiplication ${factLabel} before the clock ran out.`
-                : perfectLesson
-                  ? 'Every answer snapped into place. Moxie added a shiny bonus block.'
-                  : 'You stacked another skill block and saved your progress.'}
+              {queued
+                ? 'Your score is saved on this device and will sync when internet is back.'
+                : isMadMinute
+                  ? `You solved ${completion.scoreCorrect} multiplication ${factLabel} before the clock ran out.`
+                  : perfectLesson
+                    ? 'Every answer snapped into place. Moxie added a shiny bonus block.'
+                    : 'You stacked another skill block and saved your progress.'}
             </p>
 
             <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -208,7 +221,11 @@ export default function LessonPlayer({
                 label={isMadMinute ? 'Correct facts' : 'Correct blocks'}
                 value={`${completion.scoreCorrect}/${completion.scoreTotal}`}
               />
-              <CompletionStat icon="streak" label="Streak stack" value={`${completion.streak} day${completion.streak === 1 ? '' : 's'}`} />
+              <CompletionStat
+                icon="streak"
+                label="Streak stack"
+                value={queued ? 'Pending sync' : `${completion.streak} day${completion.streak === 1 ? '' : 's'}`}
+              />
               {isMadMinute ? (
                 <CompletionStat icon="record" label="Best record" value={`${bestScoreCorrect}/${goalCorrect}`} />
               ) : (
@@ -216,7 +233,7 @@ export default function LessonPlayer({
               )}
             </div>
 
-            {completion.nextLesson && (
+            {completion.nextLesson && !queued && (
               <div className="mx-auto mt-6 flex max-w-2xl flex-col items-center gap-3 rounded-lg border-[3px] border-ink bg-[#f0fff9] p-4 shadow-[4px_4px_0_var(--block-shadow)] sm:flex-row sm:text-left">
                 <RewardIcon type="unlock" />
                 <div>
@@ -236,7 +253,7 @@ export default function LessonPlayer({
             )}
 
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-              {completion.nextLesson && (
+              {completion.nextLesson && !queued && (
                 <a className="primary-button" href={`/kid/${data.child.slug}/lesson/${completion.nextLesson.id}/`}>
                   Next Lesson
                 </a>
@@ -258,6 +275,7 @@ export default function LessonPlayer({
         data={data}
         childSlug={childSlug}
         lessonId={lessonId}
+        dataSource={dataSource}
         onComplete={setCompletion}
         onError={setError}
       />
@@ -272,12 +290,16 @@ export default function LessonPlayer({
 
   return (
     <section className="mx-auto max-w-4xl space-y-5">
+      <OfflineStatusPill compact />
       <header className="block-card p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="stat-chip w-fit">
-              {data.lesson.track.title} · {data.lesson.unit.title}
-            </p>
+            <div className="flex flex-wrap gap-2">
+              <p className="stat-chip w-fit">
+                {data.lesson.track.title} · {data.lesson.unit.title}
+              </p>
+              {dataSource === 'cache' && <p className="stat-chip w-fit bg-[#fff3eb]">Cached</p>}
+            </div>
             <h1 className="mt-3 text-[clamp(2.3rem,6vw,4.2rem)]">{data.lesson.title}</h1>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -452,14 +474,19 @@ export default function LessonPlayer({
   }
 
   async function submitLesson() {
+    if (!data) return;
+    const lessonData = data;
     setSubmitting(true);
     try {
       const payloadAttempts = ensureAllFirstAttempts();
-      const response = await fetchApi<CompletionResult>(`/api/children/${childSlug}/lessons/${lessonId}`, {
-        method: 'POST',
-        body: JSON.stringify({ startedAt, attempts: payloadAttempts }),
+      const response = await submitLessonCompletion<CompletionResult>({
+        childSlug,
+        lessonId,
+        body: { startedAt, attempts: payloadAttempts },
+        localResult: buildLocalStandardCompletion(lessonData, payloadAttempts),
+        trackSlug: lessonData.lesson.track.slug,
       });
-      setCompletion(response.result);
+      setCompletion(response.data.result);
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'Could not save the lesson.');
     } finally {
@@ -474,6 +501,28 @@ export default function LessonPlayer({
       if (!seen.has(question.id)) attempts.push({ questionId: question.id, answer: null });
     }
     return attempts;
+  }
+
+  function buildLocalStandardCompletion(lessonData: LessonData, payloadAttempts: FirstAttempt[]): CompletionResult {
+    const attemptsByQuestion = new Map(payloadAttempts.map((attempt) => [attempt.questionId, attempt.answer]));
+    const scoreCorrect = lessonData.lesson.questions.filter((question) => {
+      return attemptsByQuestion.has(question.id) ? evaluateAnswer(question, attemptsByQuestion.get(question.id)) : false;
+    }).length;
+    const scoreTotal = lessonData.lesson.questions.length;
+    const heartsRemaining = Math.max(0, 5 - (scoreTotal - scoreCorrect));
+
+    return {
+      result: {
+        lessonAttemptId: `pending_${Date.now()}`,
+        scoreCorrect,
+        scoreTotal,
+        xpAwarded: calculateXp(lessonData.lesson.xpBase, scoreCorrect, scoreTotal, heartsRemaining),
+        heartsRemaining,
+        streak: 0,
+        nextLesson: null,
+        syncStatus: 'queued',
+      },
+    };
   }
 
   function resetControls() {
@@ -498,12 +547,14 @@ function MadMinuteLesson({
   data,
   childSlug,
   lessonId,
+  dataSource,
   onComplete,
   onError,
 }: {
   data: LessonData;
   childSlug: string;
   lessonId: string;
+  dataSource: OfflineSource;
   onComplete: (result: CompletionResult['result']) => void;
   onError: (message: string) => void;
 }) {
@@ -552,12 +603,16 @@ function MadMinuteLesson({
 
   return (
     <section className="mx-auto max-w-4xl space-y-5">
+      <OfflineStatusPill compact />
       <header className="block-card p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="stat-chip w-fit">
-              {data.lesson.track.title} · {data.lesson.unit.title}
-            </p>
+            <div className="flex flex-wrap gap-2">
+              <p className="stat-chip w-fit">
+                {data.lesson.track.title} · {data.lesson.unit.title}
+              </p>
+              {dataSource === 'cache' && <p className="stat-chip w-fit bg-[#fff3eb]">Cached</p>}
+            </div>
             <h1 className="mt-3 text-[clamp(2.6rem,7vw,4.8rem)]">{data.lesson.title}</h1>
             <p className="mt-3 max-w-2xl text-lg font-extrabold text-muted">
               Type each multiplication answer. Keep going until the 60-second clock runs out.
@@ -682,16 +737,38 @@ function MadMinuteLesson({
     setSubmitting(true);
 
     try {
-      const response = await fetchApi<CompletionResult>(`/api/children/${childSlug}/lessons/${lessonId}`, {
-        method: 'POST',
-        body: JSON.stringify({ startedAt: startedAt || new Date().toISOString(), attempts }),
+      const submittedAt = startedAt || new Date().toISOString();
+      const response = await submitLessonCompletion<CompletionResult>({
+        childSlug,
+        lessonId,
+        body: { startedAt: submittedAt, attempts },
+        localResult: buildLocalMadMinuteCompletion(attempts),
+        trackSlug: data.lesson.track.slug,
       });
-      onComplete(response.result);
+      onComplete(response.data.result);
     } catch (reason) {
       onError(reason instanceof Error ? reason.message : 'Could not save the mad minute.');
     } finally {
       setSubmitting(false);
     }
+  }
+
+  function buildLocalMadMinuteCompletion(submittedAttempts: MadMinuteAttempt[]): CompletionResult {
+    const { scoreCorrect, scoreTotal } = scoreMadMinuteAttempts(config, submittedAttempts);
+    return {
+      result: {
+        lessonAttemptId: `pending_${Date.now()}`,
+        scoreCorrect,
+        scoreTotal,
+        xpAwarded: calculateMadMinuteXp(data.lesson.xpBase, scoreCorrect, scoreTotal, config.goalCorrect),
+        heartsRemaining: 5,
+        streak: 0,
+        bestScoreCorrect: Math.max(data.progress.bestScoreCorrect, scoreCorrect),
+        goalCorrect: config.goalCorrect,
+        nextLesson: null,
+        syncStatus: 'queued',
+      },
+    };
   }
 
   function focusAnswerInput() {
