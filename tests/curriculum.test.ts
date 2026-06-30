@@ -24,13 +24,20 @@ describe('curriculum content', () => {
   });
 
   it('provides grade-specific curriculum tracks', () => {
-    expect(getTracksForGrade(3).map((track) => track.subject)).toEqual(['math', 'vocabulary', 'spanish', 'french', 'latin']);
+    expect(getTracksForGrade(3).map((track) => track.subject)).toEqual([
+      'math',
+      'vocabulary',
+      'spanish',
+      'french',
+      'latin',
+      'grammar',
+    ]);
     expect(getTracksForGrade(4).map((track) => track.subject)).toEqual(['spanish', 'french', 'latin']);
     expect(getTracksForGrade(6).map((track) => track.subject)).toEqual(['math', 'vocabulary']);
   });
 
   it('provides the current curriculum shape', () => {
-    expect(TRACKS).toHaveLength(10);
+    expect(TRACKS).toHaveLength(11);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'addition-basics',
       'subtraction-basics',
@@ -94,6 +101,19 @@ describe('curriculum content', () => {
       'reading-short-latin',
       'cumulative-latin-i-review',
     ]);
+    expect(GRADE_3_TRACKS.find((track) => track.subject === 'grammar')?.units.map((unit) => unit.slug)).toEqual([
+      'parts-of-speech',
+      'nouns-pronouns-and-verbs',
+      'adjectives-adverbs-and-prepositions',
+      'subjects-and-predicates',
+      'four-sentence-types',
+      'capitalization-and-punctuation',
+      'phrases-clauses-and-fragments',
+      'sentence-combining',
+      'copywork-and-dictation',
+      'introduction-to-sentence-diagramming',
+      'cumulative-grammar-review',
+    ]);
     expect(getTracksForGrade(4).find((track) => track.subject === 'spanish')?.units.map((unit) => unit.slug)).toEqual([
       'grade-3-review-classroom-routines',
       'numbers-dates-time',
@@ -156,8 +176,8 @@ describe('curriculum content', () => {
       'research-inquiry-vocabulary',
       'cumulative-review',
     ]);
-    expect(getAllLessons()).toHaveLength(569);
-    expect(getAllQuestions()).toHaveLength(4438);
+    expect(getAllLessons()).toHaveLength(580);
+    expect(getAllQuestions()).toHaveLength(4526);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
@@ -371,10 +391,10 @@ describe('curriculum content', () => {
     const summary = summarizeCurriculum(TRACKS);
 
     expect(summary.totals).toEqual({
-      tracks: 10,
-      units: 105,
-      lessons: 569,
-      questions: 4438,
+      tracks: 11,
+      units: 116,
+      lessons: 580,
+      questions: 4526,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'math')).toMatchObject({
       tracks: 1,
@@ -405,6 +425,12 @@ describe('curriculum content', () => {
       units: 10,
       lessons: 50,
       questions: 400,
+    });
+    expect(summary.rows.find((row) => row.gradeLevel === 3 && row.subject === 'grammar')).toMatchObject({
+      tracks: 1,
+      units: 11,
+      lessons: 11,
+      questions: 88,
     });
     expect(summary.rows.find((row) => row.gradeLevel === 4 && row.subject === 'spanish')).toMatchObject({
       tracks: 1,

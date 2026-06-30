@@ -51,7 +51,7 @@ Scholastic tracks use academic grade placement. Foundation tracks start every st
 
 ### Grammar
 
-- Level 1 (`planned`): Grammar I, planned for `src/content/curriculum/grade-03/06-grammar`.
+- Level 1 (`complete`): Grammar I, `src/content/curriculum/grade-03/06-grammar`, 11 units, 11 lessons.
 - Level 2 (`empty`)
 - Level 3 (`empty`)
 - Level 4 (`empty`)
