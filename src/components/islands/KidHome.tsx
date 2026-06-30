@@ -221,6 +221,15 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
                           <p className="mt-2 font-bold text-muted">{track.description}</p>
                         </div>
                       </a>
+                    </div>
+                    <a href={`/kid/${data.child.slug}/track/${track.slug}/`} className="mt-5 block no-underline">
+                      <div className="progress-rail" aria-label={`${track.title} progress`}>
+                        <span className="progress-fill" style={{ width: `${progress}%` }} />
+                      </div>
+                    </a>
+                    <div className="mt-4 flex flex-wrap items-center gap-2">
+                      <span className="stat-chip">{track.lessonsCompleted}/{track.totalLessons} lessons</span>
+                      <span className="stat-chip">{track.xpTotal} XP</span>
                       <TrackOfflineButton
                         state={packState.state}
                         trackTitle={track.title}
@@ -244,17 +253,8 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
                           }
                         }}
                       />
+                      {packState.state === 'error' && <span className="stat-chip bg-[#ffe1ea]">Offline save failed</span>}
                     </div>
-                    <a href={`/kid/${data.child.slug}/track/${track.slug}/`} className="mt-5 block no-underline">
-                      <div className="progress-rail" aria-label={`${track.title} progress`}>
-                        <span className="progress-fill" style={{ width: `${progress}%` }} />
-                      </div>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        <span className="stat-chip">{track.lessonsCompleted}/{track.totalLessons} lessons</span>
-                        <span className="stat-chip">{track.xpTotal} XP</span>
-                        {packState.state === 'error' && <span className="stat-chip bg-[#ffe1ea]">Offline save failed</span>}
-                      </div>
-                    </a>
                   </article>
                 );
               })}
