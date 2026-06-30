@@ -12,11 +12,15 @@ Scholastic tracks use academic grade placement. Foundation tracks start every st
 
 ## Research Basis
 
-The foundation sequence below is based on these references:
+The curriculum sequences below are based on these references:
 
 - ACTFL [World-Readiness Standards for Learning Languages](https://www.actfl.org/educator-resources/world-readiness-standards-for-learning-languages) and [NCSSFL-ACTFL Can-Do Statements](https://www.actfl.org/educator-resources/ncssfl-actfl-can-do-statements) for modern language proficiency, communication modes, culture, comparisons, and community use.
 - Texas Education Agency [Chapter 114 Languages Other Than English TEKS](https://tea.texas.gov/laws-and-rules/texas-administrative-code/19-tac-chapter-114), including modern and classical language proficiency ranges.
+- Texas Education Agency [Chapter 111 Mathematics TEKS](https://tea.texas.gov/laws-and-rules/texas-administrative-code/19-tac-chapter-111), [Mathematics TEKS supporting information](https://texasgateway.org/resource/mathematics-teks-supporting-information), and [mathematics course prerequisites](https://tea.texas.gov/educators/subject-areas/mathematics/mathematics-frequently-asked-questions) for Grade 3-8 math and high school course sequencing.
+- Common Core [Mathematics Standards](https://thecorestandards.org/Math/) and NCTM [Principles to Actions](https://www.nctm.org/PtA/) for grade-level coherence, mathematical practices, modeling, and problem-solving emphasis.
+- Texas Education Agency [Chapter 110 English Language Arts And Reading TEKS](https://tea.texas.gov/laws-and-rules/texas-administrative-code/19-tac-chapter-110) for vocabulary, comprehension, author craft, inquiry, composition, and academic language progression.
 - Common Core [English Language Arts Standards](https://thecorestandards.org/ELA-Literacy/) for grammar, reading literature, writing, speaking, and listening progression.
+- IES What Works Clearinghouse [Improving Adolescent Literacy](https://ies.ed.gov/ncee/wwc/practiceguide/8) and [Teaching Academic Content And Literacy To English Learners](https://ies.ed.gov/ncee/wwc/practiceguide/19) for explicit vocabulary instruction, academic language, discussion, and content-area literacy.
 - Core Knowledge [K-8 Sequence](https://www.coreknowledge.org/core-knowledge-sequence/) for cumulative literature, history, geography, and cultural knowledge.
 - NCSS [C3 Framework](https://www.socialstudies.org/system/files/2022/c3-framework-for-social-studies-rev0617.2.pdf) and [National Curriculum Standards for Social Studies](https://www.socialstudies.org/standards/national-curriculum-standards-social-studies-introduction) for inquiry, source use, history, geography, civics, and social studies themes.
 - BYU Silva Rhetoricae [Progymnasmata](https://rhetoric.byu.edu/Pedagogy/Progymnasmata/Progymnasmata.htm) and [Rhetorical Exercises](https://rhetoric.byu.edu/Pedagogy/Rhetorical%20Exercises.htm) for the rhetoric sequence.
@@ -27,17 +31,138 @@ The foundation sequence below is based on these references:
 
 ### Math
 
-- Grade 3 (`complete`): `src/content/curriculum/grade-03/01-math`, 12 units, 60 lessons.
-- Grade 4 (`empty`)
-- Grade 5 (`empty`)
-- Grade 6 (`complete`): `src/content/curriculum/grade-06/01-math`, 10 units, 57 lessons.
+- Grade 3 (`complete`): `src/content/curriculum/grade-03/01-math`, 13 units, 69 lessons.
+- Grade 4 (`planned`): recommended folder `src/content/curriculum/grade-04/01-math`.
+- Grade 5 (`planned`): recommended folder `src/content/curriculum/grade-05/01-math`.
+- Grade 6 (`complete`): `src/content/curriculum/grade-06/01-math`, 12 units, 67 lessons.
+- Grade 7 (`planned`): recommended folder `src/content/curriculum/grade-07/01-math`.
+- Grade 8 (`planned`): recommended folder `src/content/curriculum/grade-08/01-math`.
+- Grade 9 (`planned`): recommended folder `src/content/curriculum/grade-09/01-math`.
+- Grade 10 (`planned`): recommended folder `src/content/curriculum/grade-10/01-math`.
+- Grade 11 (`planned`): recommended folder `src/content/curriculum/grade-11/01-math`.
+- Grade 12 (`planned`): recommended folder `src/content/curriculum/grade-12/01-math`.
 
 ### Vocabulary
 
-- Grade 3 (`complete`): `src/content/curriculum/grade-03/02-vocabulary`, 11 units, 49 lessons.
-- Grade 4 (`empty`)
-- Grade 5 (`empty`)
-- Grade 6 (`complete`): `src/content/curriculum/grade-06/02-vocabulary`, 10 units, 40 lessons.
+- Grade 3 (`complete`): `src/content/curriculum/grade-03/02-vocabulary`, 12 units, 55 lessons.
+- Grade 4 (`planned`): recommended folder `src/content/curriculum/grade-04/02-vocabulary`.
+- Grade 5 (`planned`): recommended folder `src/content/curriculum/grade-05/02-vocabulary`.
+- Grade 6 (`complete`): `src/content/curriculum/grade-06/02-vocabulary`, 12 units, 61 lessons.
+- Grade 7 (`planned`): recommended folder `src/content/curriculum/grade-07/02-vocabulary`.
+- Grade 8 (`planned`): recommended folder `src/content/curriculum/grade-08/02-vocabulary`.
+- Grade 9 (`planned`): recommended folder `src/content/curriculum/grade-09/02-vocabulary`.
+- Grade 10 (`planned`): recommended folder `src/content/curriculum/grade-10/02-vocabulary`.
+- Grade 11 (`planned`): recommended folder `src/content/curriculum/grade-11/02-vocabulary`.
+- Grade 12 (`planned`): recommended folder `src/content/curriculum/grade-12/02-vocabulary`.
+
+## Scholastic Strategy
+
+### Math
+
+Recommended total: 10 grade-level tracks, Grades 3-12.
+
+High school mapping note:
+
+- Texas high school mathematics standards are course-based rather than strictly grade-based. For Buddy Blocks, map the default sequence as Grade 9 Algebra I, Grade 10 Geometry, Grade 11 Algebra II, and Grade 12 Precalculus plus quantitative/statistical reasoning. If a family uses a different high school sequence, the content can still live in the same grade folders for app placement.
+
+Grade strategy:
+
+- Grade 3 (`complete`): Build the arithmetic foundation. Cover addition and subtraction fluency, multi-digit addition/subtraction with regrouping, place value and rounding, multiplication and division concepts, one-step and two-step word problems, fractions as equal parts and number-line quantities, fraction decomposition, measurement, elapsed time, money, personal financial literacy, data displays, geometry, area, perimeter, patterns/tables, mixed problem solving, and multiplication fact fluency.
+- Grade 4 (`planned`): Extend whole-number operations and fraction sense. Cover multi-digit addition/subtraction review, multi-digit multiplication, division with remainders, factors and multiples, prime/composite numbers, equivalent fractions, comparing and ordering fractions, adding/subtracting fractions with like denominators, mixed numbers, decimals to hundredths, measurement conversions, angle measurement, lines and symmetry, area/perimeter, data displays, and financial-literacy situations.
+- Grade 5 (`planned`): Prepare for middle-school rational-number work. Cover place value through decimals, powers of ten patterns, multi-digit decimal operations, fraction addition/subtraction with unlike denominators, multiplying fractions, dividing unit fractions and whole numbers in scaffolded contexts, volume, coordinate planes, numerical expressions, input-output patterns, data interpretation, conversions, and multi-step problem solving.
+- Grade 6 (`complete`): Formalize ratios and rational numbers. Cover ratios, rates, unit rates, rational-number operations, fractions/decimals/percents, integers and the rational number system, expressions, variables, one-step equations, inequalities, dependent and independent relationships, coordinate plane, area/surface area/volume, statistics, distributions, personal financial literacy, ratio/data modeling, and cumulative mixed problem solving.
+- Grade 7 (`planned`): Connect proportional reasoning to algebra and geometry. Cover integer and rational-number operations, proportional relationships, unit rates with fractions, percent increase/decrease, tax, tip, markup, discount, simple interest, scale drawings, circles, area and composite area, surface area and volume, multi-step equations and inequalities, probability, random samples, comparative inferences, and financial applications.
+- Grade 8 (`planned`): Build the Algebra I bridge. Cover real numbers and irrational numbers, exponents, scientific notation, linear relationships, slope, y-intercept, functions, systems of linear equations, transformations, congruence, similarity, Pythagorean theorem, angle relationships, volume of cylinders/cones/spheres, scatter plots, trend lines, bivariate data, and modeling with equations.
+- Grade 9 (`planned`): Algebra I. Cover linear, quadratic, and exponential functions; function notation; domain and range; equations and inequalities; systems; polynomials; factoring; rational expressions at an introductory level; radicals; arithmetic and geometric sequences; scatter plots; regression; residuals; and modeling real situations with functions.
+- Grade 10 (`planned`): Geometry. Cover logical reasoning, definitions, postulates, proof, constructions, transformations, congruence, similarity, triangle relationships, right-triangle trigonometry, circles, coordinate geometry, area, volume, density, geometric probability, conditional probability exposure, and modeling with diagrams and formulas.
+- Grade 11 (`planned`): Algebra II. Cover advanced function families: linear, quadratic, polynomial, rational, radical, exponential, logarithmic, absolute value, piecewise, and introductory trigonometric functions. Include complex numbers, transformations, inverses, compositions, systems, matrices as a tool where useful, conic sections, sequences and series, probability/statistics, and real-world modeling.
+- Grade 12 (`planned`): Precalculus and quantitative reasoning capstone. Cover advanced functions, trigonometry, identities, inverse trig, vectors, polar and parametric representations, conics, limits as a calculus preview, discrete math, data analysis, probability, normal distributions, financial mathematics, optimization/modeling, and a capstone project that compares multiple mathematical models for one real question.
+
+Authoring notes:
+
+- Each grade should include computation fluency, conceptual models, visual reasoning, vocabulary, multi-step word problems, and cumulative review.
+- Keep `Mad Minute` or equivalent fluency practice in Grades 3-8; in high school, shift fluency practice toward algebraic transformations, equation solving, graph interpretation, and mental estimation.
+- Use consistent problem-solving routines: understand the question, choose a model, compute or reason, check units, and explain whether the answer makes sense.
+- Spiral prior skills inside new units, especially fractions/decimals/percents, equations, measurement, and data.
+- Include financial literacy and data literacy every year, increasing realism and student choice as grades rise.
+- High school lessons should use graphing, tables, symbolic manipulation, and verbal interpretation together rather than isolating procedures.
+
+### Vocabulary
+
+Recommended total: 10 grade-level tracks, Grades 3-12.
+
+Scope note:
+
+- This track is not a full ELA course. It should build word knowledge, academic language, morphology, reference skills, reading vocabulary, author-craft vocabulary, argument/media vocabulary, research vocabulary, and writing/revision language that transfer into Literature, History, Science, Math, and Rhetoric.
+
+Grade strategy:
+
+- Grade 3 (`complete`): Build core word-learning habits. Cover word meanings, context clues, synonyms, antonyms, shades of meaning, multiple-meaning words, prefixes, suffixes, roots, word families, reference skills, figurative language, adages and proverbs, content-area vocabulary, academic reading words, oral academic sentence stems, writing and revision words, and cumulative review.
+- Grade 4 (`planned`): Strengthen flexible word solving. Cover context clues across sentences and paragraphs, common Greek and Latin affixes, base words and inflectional endings, homophones and homographs, idioms, adages, proverbs, similes, metaphors, dictionary/thesaurus use, glossary skills, content-area words, precise verbs/adjectives, and discussion words for explaining evidence.
+- Grade 5 (`planned`): Move from common vocabulary to academic morphology. Cover Greek and Latin roots, prefixes and suffixes, word families, analogies, connotation and denotation, figurative language, domain-specific vocabulary, literary terms, informational text signal words, reference tools, academic verbs for prompts, and revision words for clarity, precision, and transitions.
+- Grade 6 (`complete`): Expand middle-school academic language. Cover context and reference skills, roots such as `mis`, `mit`, `scrib`, `script`, `jur`, `jus`, `bene`, `man`, and `vac`, morphology, academic reading words, disciplinary vocabulary, genre and structure terms, author's craft, argument and media vocabulary, discussion/seminar language, writing/revision language, research/inquiry vocabulary, word-learning portfolio habits, and cumulative mastery.
+- Grade 7 (`planned`): Deepen morphology and analysis language. Cover advanced context clues, Greek/Latin root families by meaning, affix shifts, word origins, connotation, denotation, tone, mood, figurative language, literary and informational text structures, argument terms, credibility, bias, audience, source vocabulary, transition language, and discipline-specific words from history, science, and math.
+- Grade 8 (`planned`): Prepare for high-school reading and argument. Cover abstract academic words, morphology for unfamiliar technical terms, rhetorical verbs, author's craft, theme and central idea language, claim/evidence/reasoning vocabulary, counterclaim and rebuttal terms, media literacy, source evaluation, test-ready context analysis, and precision in summaries and analytical responses.
+- Grade 9 (`planned`): English I academic vocabulary. Cover literary genre and craft terms, informational and argumentative text vocabulary, rhetoric basics, diction, syntax, tone, imagery, symbolism, etymology, roots and cognates, research and citation terms, grammar/style vocabulary for revision, and words for comparing theme, character, structure, and evidence.
+- Grade 10 (`planned`): English II and world-literature vocabulary. Cover global and historical context words, complex morphology, satire, allegory, irony, archetype, motif, allusion, rhetoric and persuasion terms, technical/domain-specific vocabulary, media framing, bias, synthesis language, and academic words for cross-cultural comparison and literary analysis.
+- Grade 11 (`planned`): English III, American literature, and civic rhetoric vocabulary. Cover founding-era, civic, legal, political, and historical terms; American literary movement vocabulary; rhetorical analysis terms; argument structure; nuanced connotation; etymology; advanced roots; research synthesis; source credibility; and words for evaluating claims, evidence, and style in primary sources and speeches.
+- Grade 12 (`planned`): English IV and college-readiness vocabulary. Cover advanced abstract and disciplinary vocabulary, British/world literature terms, philosophy and ethics terms for seminar discussion, rhetoric and style vocabulary, scholarly research language, discipline-specific words for college/career pathways, synthesis and critique verbs, independent word-learning strategies, and a final vocabulary/commonplace portfolio.
+
+Authoring notes:
+
+- Vocabulary lessons should mix direct teaching, morphology, context clues, multiple exposures, speaking/listening use, writing use, and cumulative retrieval.
+- Keep the exposure-first pattern: preview or flash cards before production questions, then use the same words in short reading, sentence revision, and applied response tasks.
+- Every grade should include general academic words, domain-specific words, morphology, figurative language, author craft, argument/media terms, research terms, and revision vocabulary.
+- Middle and high school vocabulary should be text-tethered. Whenever possible, words should appear in short passages, source excerpts, diagrams, arguments, or writing samples.
+- Use cross-subject vocabulary intentionally: math precision words, science process words, historical/civic terms, literary terms, and rhetoric terms should reinforce the rest of the curriculum.
+- By Grades 9-12, ask students to maintain a small word-learning portfolio: word, source context, morphology/etymology, definition, connotation, example, non-example, and original sentence.
+
+### Audit Of Complete Scholastic Tracks
+
+The existing complete tracks were usable and coherent, but the expanded Grade 3-12 strategy revealed a few gaps. The revisions below have now been authored in the canonical content source so the complete tracks better match the adjacent planned grades.
+
+#### Grade 3 Math
+
+Current coverage is strong for multiplication/division concepts, fractions, measurement, data, geometry, area/perimeter, mixed review, and fact fluency. It is a good foundation for Grade 4, but it is lighter than the expanded strategy in a few areas.
+
+Authored additions:
+
+- Added `Multi-Digit Addition And Subtraction` as `grade-03/01-math/02a-multi-digit-addition-subtraction`, including regrouping, estimation, inverse-operation checks, and multi-step addition/subtraction stories.
+- Added personal financial literacy lessons inside `Measurement, Time, And Money`: needs/wants/saving/spending plus price comparison and making change.
+- Added `Patterns, Rules, And Tables` inside Mixed Problem Solving to prepare for Grade 4-5 input/output patterns and Grade 6 independent/dependent relationships.
+- Added fraction lessons for whole fractions and decomposition, including `3/3 = 1`, fractions that name one whole, decomposing into unit fractions, and explaining comparisons with models.
+
+#### Grade 6 Math
+
+Current coverage is strong for ratios/rates, decimal and fraction operations, percents, expressions/equations, inequalities, coordinate-plane work, geometry, statistics, mixed review, and fluency. It mostly fits between the planned Grade 5 and Grade 7 tracks, but it needs a few additions to be a durable bridge.
+
+Authored additions:
+
+- Added `Integers And The Rational Number System` as `grade-06/01-math/05a-integers-rational-number-system`, including positive/negative numbers, opposites, absolute value, ordering rational numbers, real-world contexts, and negative coordinates.
+- Added `Negative Rational Number Readiness` inside Rational Number Operations to build meaning before Grade 7 integer-operation fluency.
+- Added `Personal Financial Literacy` as `grade-06/01-math/08a-personal-financial-literacy`, including budgets, income, expenses, taxes/deductions, debit/credit, unit-price decisions, savings goals, and simple interest.
+- Added a `Ratio And Data Modeling Capstone` before Mixed Problem Solving so students choose tables, graphs, equations, or written explanations to model real situations.
+
+#### Grade 3 Vocabulary
+
+Current coverage is strong for word meanings, context clues, synonyms/antonyms, multiple-meaning words, affixes, base words, reference skills, figurative language, academic reading words, writing words, and cumulative review. It is sufficient as a Grade 3 course, but a few additions would make the Grade 4-5 progression smoother.
+
+Authored additions:
+
+- Added `Content-Area Vocabulary` as `grade-03/02-vocabulary/08a-content-area-vocabulary`, including math/science words, map/chart/table words, diagrams, captions, glossaries, and short informational passages.
+- Added `Academic Sentence Stems` inside Academic Reading Words, including `I infer`, `My evidence is`, `I agree because`, and `I would add`.
+- Added `Adages And Proverbs` after idioms so students recognize that some sayings have meanings beyond the literal words.
+
+#### Grade 6 Vocabulary
+
+Current coverage is strong for TEKS-aligned roots, context/reference skills, academic reading, genre/structure, author's craft, argument/media, revision, research, and cumulative review. It is close to the desired Grade 6 strategy, but it should be strengthened before Grade 7 adds deeper morphology and analysis language.
+
+Authored additions:
+
+- Added `Morphology Bridge` as `grade-06/02-vocabulary/03a-morphology-bridge`, including affix shifts, word families, etymology/word origin, cognates, and roots across academic words.
+- Added `Disciplinary Vocabulary` as `grade-06/02-vocabulary/04a-disciplinary-vocabulary`, including math precision words, science/data words, history/civics terms, and source-analysis words.
+- Added `Discussion And Seminar Vocabulary` inside Argument And Media, including clarify, elaborate, challenge, qualify, perspective, relevant, sufficient, and synthesize.
+- Added `Word-Learning Portfolio` inside Cumulative Review, covering word, context, morphology, definition, connotation, example, non-example, and original sentence.
 
 ## Foundation Level Counts
 
