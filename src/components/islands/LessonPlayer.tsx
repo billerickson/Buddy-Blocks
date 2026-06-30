@@ -101,6 +101,7 @@ type Feedback = {
   correct: boolean;
   review: boolean;
   answerLabel: string;
+  correctMessage?: string;
   explanation?: string | null;
   accentFeedback?: string | null;
 };
@@ -138,6 +139,30 @@ const SPEECH_LANGUAGES: Record<string, SpeechLanguage> = {
     rate: 0.82,
   },
 };
+
+const CORRECT_FEEDBACK_MESSAGES = [
+  'That block snapped in.',
+  'That fit just right.',
+  'Nice, locked into place.',
+  'Perfect placement.',
+  'That one clicked.',
+  'Clean fit.',
+  'Right where it belongs.',
+  'That block found its home.',
+  'Solid move.',
+  'Snapped in beautifully.',
+  'That lined up nicely.',
+  'Perfectly placed.',
+  'Good catch.',
+  'That one settled in.',
+  'Nice, that connected.',
+  'Smooth placement.',
+  'That piece belongs there.',
+  'Locked and loaded.',
+  'Crisp fit.',
+  'That worked.',
+  'Exactly right.',
+];
 
 export default function LessonPlayer({
   childSlug: childSlugProp,
@@ -388,7 +413,7 @@ export default function LessonPlayer({
                 isPreviewFlashCard(current.question) ? (
                   feedback.answerLabel
                 ) : (
-                  'That block snapped in.'
+                  feedback.correctMessage
                 )
               ) : (
                 <>
@@ -505,6 +530,7 @@ export default function LessonPlayer({
       correct,
       review: current.review,
       answerLabel: getCorrectAnswerLabel(current.question),
+      correctMessage: correct ? randomCorrectFeedbackMessage() : undefined,
       explanation: current.question.explanation,
       accentFeedback: correct ? getAccentFeedback(current.question, answer) : null,
     });
@@ -587,6 +613,10 @@ export default function LessonPlayer({
 function getStandardLessonConfig(config: LessonConfig | null): StandardLessonConfig | null {
   if (!config || isMadMinuteConfig(config)) return null;
   return config;
+}
+
+function randomCorrectFeedbackMessage() {
+  return CORRECT_FEEDBACK_MESSAGES[Math.floor(Math.random() * CORRECT_FEEDBACK_MESSAGES.length)] ?? CORRECT_FEEDBACK_MESSAGES[0];
 }
 
 function speechLanguageForSubject(subject?: string): SpeechLanguage | null {
