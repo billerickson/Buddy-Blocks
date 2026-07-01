@@ -4,8 +4,6 @@ This repository can be deployed as a single-family, self-hosted Buddy Blocks sit
 
 The recommended hostname for outside deployers is `buddyblocks.yoursite.com`, where `yoursite.com` is your own domain and its DNS is managed by Cloudflare.
 
-Do not deploy your copy to `buddyblocks.net` or `learn.billplustara.com`. Those hostnames belong to the project owner's public/legacy deployments.
-
 ## 1. Clone and Install
 
 Clone the repository, install dependencies, and sign in to the Cloudflare account that owns `yoursite.com`:
@@ -21,16 +19,20 @@ Confirm that `yoursite.com` is an active Cloudflare DNS zone before continuing. 
 
 ## 2. Configure Your Hostname
 
-Update `astro.config.mjs` so generated site URLs use your subdomain:
+Create local deployment files from the public templates:
 
-```js
-export default defineConfig({
-  integrations: [preact(), tailwind({ applyBaseStyles: false })],
-  site: 'https://buddyblocks.yoursite.com',
-});
+```bash
+cp .env.example .env
+cp wrangler.jsonc wrangler.deploy.jsonc
 ```
 
-Update the Custom Domain route in `wrangler.jsonc`:
+Update `.env` so generated site URLs use your subdomain:
+
+```bash
+ASTRO_SITE=https://buddyblocks.yoursite.com
+```
+
+Update the Custom Domain route in `wrangler.deploy.jsonc`:
 
 ```json
 {
@@ -43,9 +45,9 @@ Update the Custom Domain route in `wrangler.jsonc`:
 }
 ```
 
-Leave the static asset binding named `ASSETS` and the D1 binding named `DB`; `src/worker.ts` expects those binding names. If the Worker name `buddy-blocks` already exists in your Cloudflare account, choose another `name` in `wrangler.jsonc`.
+Leave the static asset binding named `ASSETS` and the D1 binding named `DB`; `src/worker.ts` expects those binding names. If the Worker name `buddy-blocks` already exists in your Cloudflare account, choose another `name` in `wrangler.deploy.jsonc`.
 
-Keep personal Cloudflare IDs and hostname changes in your own fork or deployment branch. Do not open an upstream pull request that replaces the project owner's deployment target with your private account values.
+`.env` and `wrangler.deploy.jsonc` are ignored by git. Keep real Cloudflare account values there, not in committed files.
 
 ## 3. Create a Fresh D1 Database
 
@@ -55,7 +57,7 @@ Create a new D1 database in your Cloudflare account:
 npx wrangler d1 create buddy_blocks
 ```
 
-Copy the returned database UUID into `wrangler.jsonc`:
+Copy the returned database UUID into `wrangler.deploy.jsonc`:
 
 ```json
 {
@@ -80,7 +82,7 @@ npm run content:validate
 npm test
 npm run check
 npm run build
-npx wrangler deploy --dry-run
+npm run deploy:dry-run
 ```
 
 The dry run verifies the Worker bundle, static asset binding, D1 binding, and custom-domain route without publishing the Worker.
@@ -94,7 +96,7 @@ npm run db:seed:local
 
 ## 5. Prepare the Remote Database
 
-After `wrangler.jsonc` points at your own fresh D1 database, apply migrations and seed the curriculum data:
+After `wrangler.deploy.jsonc` points at your own fresh D1 database, apply migrations and seed the curriculum data:
 
 ```bash
 npm run db:migrate:remote
@@ -104,16 +106,16 @@ npm run db:seed:remote
 Confirm that curriculum rows exist and no family-owned rows were created by the seed:
 
 ```bash
-npx wrangler d1 execute buddy_blocks --remote --command "SELECT COUNT(*) AS tracks FROM tracks;"
-npx wrangler d1 execute buddy_blocks --remote --command "SELECT COUNT(*) AS parents FROM parents;"
-npx wrangler d1 execute buddy_blocks --remote --command "SELECT COUNT(*) AS children FROM child_profiles;"
+npx wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS tracks FROM tracks;"
+npx wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS parents FROM parents;"
+npx wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS children FROM child_profiles;"
 ```
 
 The `parents` and `children` counts should both be `0` immediately after the curriculum seed.
 
 ## 6. Deploy
 
-Deploy only after `astro.config.mjs`, `wrangler.jsonc`, and the D1 database ID all point to your own Cloudflare account and `buddyblocks.yoursite.com` hostname:
+Deploy only after `.env`, `wrangler.deploy.jsonc`, and the D1 database ID all point to your own Cloudflare account and `buddyblocks.yoursite.com` hostname:
 
 ```bash
 npm run build

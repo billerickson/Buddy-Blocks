@@ -1,5 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+  // Public template only. Copy this file to wrangler.deploy.jsonc and put
+  // deployment-specific Cloudflare values there.
   "name": "buddy-blocks",
   "main": "src/worker.ts",
   "compatibility_date": "2026-06-01",
@@ -10,7 +12,7 @@
   },
   "routes": [
     {
-      "pattern": "buddyblocks.net",
+      "pattern": "buddyblocks.yoursite.com",
       "custom_domain": true
     }
   ],
@@ -18,7 +20,7 @@
     {
       "binding": "DB",
       "database_name": "buddy_blocks",
-      "database_id": "40b6ce07-3195-4b56-bb85-e0ae23337453"
+      "database_id": "00000000-0000-0000-0000-000000000000"
     }
   ],
   "vars": {

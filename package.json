@@ -6,19 +6,20 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev --host 0.0.0.0",
-    "dev:worker": "wrangler dev --local --port 8787",
+    "dev:worker": "wrangler dev --config wrangler.deploy.jsonc --local --port 8787",
     "check": "env ASTRO_TELEMETRY_DISABLED=1 astro check",
     "build": "env ASTRO_TELEMETRY_DISABLED=1 astro check && env ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "astro preview --host 0.0.0.0",
     "test": "vitest run",
     "content:validate": "tsx scripts/validate-content.ts",
     "content:promote": "tsx scripts/research-promotion.ts",
-    "deploy": "wrangler deploy",
-    "db:migrate:local": "wrangler d1 migrations apply buddy_blocks --local",
-    "db:migrate:remote": "wrangler d1 migrations apply buddy_blocks --remote",
-    "db:seed:local": "tsx scripts/seed.ts --local",
-    "db:seed:remote": "tsx scripts/seed.ts --remote",
-    "db:reset:local": "wrangler d1 execute buddy_blocks --local --file scripts/reset-local.sql && npm run db:seed:local"
+    "deploy:dry-run": "wrangler deploy --config wrangler.deploy.jsonc --dry-run",
+    "deploy": "wrangler deploy --config wrangler.deploy.jsonc",
+    "db:migrate:local": "wrangler d1 migrations apply buddy_blocks --config wrangler.deploy.jsonc --local",
+    "db:migrate:remote": "wrangler d1 migrations apply buddy_blocks --config wrangler.deploy.jsonc --remote",
+    "db:seed:local": "tsx scripts/seed.ts --config wrangler.deploy.jsonc --local",
+    "db:seed:remote": "tsx scripts/seed.ts --config wrangler.deploy.jsonc --remote",
+    "db:reset:local": "wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --local --file scripts/reset-local.sql && npm run db:seed:local"
   },
   "dependencies": {
     "@astrojs/check": "latest",

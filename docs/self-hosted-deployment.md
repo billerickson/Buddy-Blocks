@@ -24,11 +24,15 @@ Use Node.js and npm from this repository's normal development environment, and s
 ```bash
 npm install
 npx wrangler login
+cp .env.example .env
+cp wrangler.jsonc wrangler.deploy.jsonc
 ```
 
-Confirm that `buddyblocks.net` is available in the Cloudflare account. The `buddyblocks.net` zone has been added and currently has no DNS records. The V3 Worker uses a Custom Domain route in `wrangler.jsonc`, so keep the hostname free of conflicting DNS records and do not point this repo at `learn.billplustara.com`.
+Set `ASTRO_SITE=https://buddyblocks.net` in `.env`.
 
-Before any remote deploy, create or choose the fresh V3 D1 database and update `wrangler.jsonc` with its `database_id`. Do not reuse the old private MVP database unless it has intentionally been reset for V3.
+Confirm that `buddyblocks.net` is available in the Cloudflare account. The `buddyblocks.net` zone has been added and currently has no DNS records. The V3 Worker uses a Custom Domain route in `wrangler.deploy.jsonc`, so keep the hostname free of conflicting DNS records and do not point this repo at `learn.billplustara.com`.
+
+Before any remote deploy, create or choose the fresh V3 D1 database and update `wrangler.deploy.jsonc` with its `database_id`. Do not reuse the old private MVP database unless it has intentionally been reset for V3. Keep `.env` and `wrangler.deploy.jsonc` local; they are ignored by git because they contain deployment-specific values.
 
 ## Preflight Validation
 
@@ -39,7 +43,7 @@ npm run content:validate
 npm test
 npm run check
 npm run build
-npx wrangler deploy --dry-run
+npm run deploy:dry-run
 ```
 
 The dry run verifies the Worker bundle, asset binding, D1 binding, and custom-domain route shape without publishing the Worker.
@@ -52,7 +56,7 @@ Create a fresh V3 database:
 npx wrangler d1 create buddy_blocks
 ```
 
-Copy the returned database UUID into `wrangler.jsonc` under `d1_databases[0].database_id`. Keep the binding name as `DB`, because `src/worker.ts` expects `env.DB`.
+Copy the returned database UUID into `wrangler.deploy.jsonc` under `d1_databases[0].database_id`. Keep the binding name as `DB`, because `src/worker.ts` expects `env.DB`.
 
 Apply migrations locally when testing the setup on this machine:
 
@@ -71,16 +75,16 @@ npm run db:seed:remote
 After the remote seed, confirm that curriculum rows exist and family-owned rows are empty:
 
 ```bash
-npx wrangler d1 execute buddy_blocks --remote --command "SELECT COUNT(*) AS tracks FROM tracks;"
-npx wrangler d1 execute buddy_blocks --remote --command "SELECT COUNT(*) AS parents FROM parents;"
-npx wrangler d1 execute buddy_blocks --remote --command "SELECT COUNT(*) AS children FROM child_profiles;"
+npx wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS tracks FROM tracks;"
+npx wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS parents FROM parents;"
+npx wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS children FROM child_profiles;"
 ```
 
 The parent and child counts must both be `0` immediately after curriculum seed. First-run setup creates the first parent later through the app.
 
 ## Deploy
 
-The production route is configured in `wrangler.jsonc`:
+The production route is configured in the local `wrangler.deploy.jsonc`:
 
 ```json
 {

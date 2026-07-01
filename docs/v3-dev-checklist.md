@@ -436,7 +436,7 @@ Recommended `/goal` prompt:
 - [x] Remove docs and assets that describe `learn.billplustara.com` as the product destination.
   - Done when: public docs and brand assets use `buddyblocks.net` except when explicitly documenting the old private deployment.
   - Verify: `rg "learn\\.billplustara\\.com|buddyblocks\\.net" docs public src`.
-  - Notes: `astro.config.mjs`, `wrangler.jsonc`, and `public/brand/index.html` now use `buddyblocks.net`. `rg "learn\\.billplustara\\.com|buddyblocks\\.net" docs public src astro.config.mjs wrangler.jsonc` shows remaining `learn.billplustara.com` matches only in V3 spec/checklist old-deployment notes or local absolute paths in `docs/question-types.md`. `npm run check`, `npm run build`, and `npx wrangler deploy --dry-run` passed 2026-07-01.
+  - Notes: `public/brand/index.html` uses `buddyblocks.net`, while `astro.config.mjs` reads the deployment site from ignored `.env` and `wrangler.jsonc` is a public template copied to ignored `wrangler.deploy.jsonc` for account-specific Cloudflare values. `rg "learn\\.billplustara\\.com|buddyblocks\\.net" docs public src astro.config.mjs wrangler.jsonc` shows remaining `learn.billplustara.com` matches only in V3 spec/checklist old-deployment notes or local absolute paths in `docs/question-types.md`. `npm run check`, `npm run build`, and `npm run deploy:dry-run` passed 2026-07-01.
 
 - [x] Audit unsupported MVP features.
   - Done when: dead MVP code is deleted or explicitly documented as still supported.
@@ -463,7 +463,7 @@ Recommended `/goal` prompt:
 - [x] Configure deployment target for `buddyblocks.net`.
   - Done when: V3 docs/config use the new public deployment target.
   - Verify: deployment config/docs review.
-  - Notes: `astro.config.mjs` site and `wrangler.jsonc` custom-domain route point to `buddyblocks.net`; brand asset example also uses the new domain. The `buddyblocks.net` Cloudflare zone has been added and currently has no DNS records. `npx wrangler deploy --dry-run` passed 2026-07-01. The Cloudflare account still needs a fresh/reset V3 D1 database id before production deployment/smoke.
+  - Notes: Ignored local files `.env` and `wrangler.deploy.jsonc` hold the `buddyblocks.net` deployment target and Cloudflare D1 database id; tracked `wrangler.jsonc` remains a public template. Brand asset example also uses the new domain. The `buddyblocks.net` Cloudflare zone has been added and currently has no DNS records. `npm run deploy:dry-run` passed 2026-07-01. The Cloudflare account still needs a fresh/reset V3 D1 database id before production deployment/smoke.
 
 - [ ] Keep `learn.billplustara.com` live during V3 testing.
   - Done when: old MVP deployment is not retired until V3 production smoke testing passes.
@@ -564,4 +564,4 @@ Recommended `/goal` prompt:
 
 - V3 curriculum source repair is complete for the unsupported scored `constructed-response` and `speaking-prompt` blocker in `grade-03-math`, `grammar-1`, and `memory-works-1`.
 - Do not mark `research/track-status.json` tracks imported, remove the bridge catalog, seed the final V3 catalog, retire `learn.billplustara.com`, or check off final production smoke until an intentional V3 promotion/import run is completed and validated.
-- The Cloudflare account still needs the fresh/reset production V3 D1 database id recorded in `wrangler.jsonc` before deploying `buddyblocks.net`; the `buddyblocks.net` zone is already added and currently has no DNS records.
+- The Cloudflare account still needs the fresh/reset production V3 D1 database id recorded in ignored `wrangler.deploy.jsonc` before deploying `buddyblocks.net`; the `buddyblocks.net` zone is already added and currently has no DNS records.
