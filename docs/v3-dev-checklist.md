@@ -441,7 +441,7 @@ Recommended `/goal` prompt:
 - [x] Audit unsupported MVP features.
   - Done when: dead MVP code is deleted or explicitly documented as still supported.
   - Verify: audit notes captured here.
-  - Notes: Audit completed 2026-07-01. Removed fixed family seeding, `src/lib/seed-family.ts`, legacy curriculum generators, old fixed child route helpers, MVP test fixture names, the MVP-only migration chain, `child_subject_levels`, and the old subject-level override API path. Remaining MVP generated curriculum catalog is not considered production-ready V3 and stays explicitly blocked under Phase 8 until accepted research promotion can succeed. Old-domain references are limited to intentional spec/checklist/deployment-hold notes and local absolute doc paths.
+  - Notes: Audit completed 2026-07-01. Removed fixed family seeding, `src/lib/seed-family.ts`, legacy curriculum generators, old fixed child route helpers, MVP test fixture names, the MVP-only migration chain, `child_subject_levels`, and the old subject-level override API path. Remaining MVP generated curriculum catalog is not considered production-ready V3 and stays under Phase 8 until the intentional accepted-research promotion/import replaces it; the promotion dry run now succeeds. Old-domain references are limited to intentional spec/checklist/deployment-hold notes and local absolute doc paths.
 
 - [x] Keep future hosted SaaS compatibility visible.
   - Done when: shared curriculum remains global and family-owned table changes do not block future `family_id` or `tenant_id` scoping.
@@ -463,7 +463,7 @@ Recommended `/goal` prompt:
 - [x] Configure deployment target for `buddyblocks.net`.
   - Done when: V3 docs/config use the new public deployment target.
   - Verify: deployment config/docs review.
-  - Notes: Ignored local files `.env` and `wrangler.deploy.jsonc` hold the `buddyblocks.net` deployment target and Cloudflare D1 database name/id; tracked `wrangler.jsonc` remains a public template. Brand asset example also uses the new domain. The `buddyblocks.net` Cloudflare zone has been added and currently has no DNS records. `npm run deploy:dry-run` passed 2026-07-01. The Cloudflare account still needs a fresh/reset V3 D1 database id before production deployment/smoke.
+  - Notes: Ignored local files `.env` and `wrangler.deploy.jsonc` hold the `buddyblocks.net` deployment target and Cloudflare D1 database name/id; tracked `wrangler.jsonc` remains a public template. Brand asset example also uses the new domain. The `buddyblocks.net` Cloudflare zone has been added and currently has no DNS records. `docs/self-hosted-deployment.md` resolves the D1 decision: use a fresh V3 D1 database named `buddy_blocks_v3`, keep the binding named `DB`, and leave the old MVP database/site in place until the new-domain smoke passes. `npm run deploy:dry-run` passed 2026-07-01.
 
 - [ ] Keep `learn.billplustara.com` live during V3 testing.
   - Done when: old MVP deployment is not retired until V3 production smoke testing passes.
@@ -560,8 +560,14 @@ Recommended `/goal` prompt:
 - [x] Decide whether `questionGoal` and `misconception` should live in comments, QA artifacts, or a future non-runtime metadata path.
   - Notes: Keep them only in research/QA artifacts for V3. Do not promote them into runtime lesson files, D1 seed data, APIs, or offline packs.
 
-## Open Blockers And Decisions
+- [x] Decide the Cloudflare D1 database approach for the V3 self-hosted deployment.
+  - Notes: Resolved in `docs/self-hosted-deployment.md`. Use a fresh V3 D1 database named `buddy_blocks_v3` in the ignored `wrangler.deploy.jsonc`, keep the Worker binding as `DB`, do not reuse the old private MVP database, and keep `learn.billplustara.com` live until `buddyblocks.net` passes production smoke.
 
-- V3 curriculum source repair is complete for the unsupported scored `constructed-response` and `speaking-prompt` blocker in `grade-03-math`, `grammar-1`, and `memory-works-1`.
-- Do not mark `research/track-status.json` tracks imported, remove the bridge catalog, seed the final V3 catalog, retire `learn.billplustara.com`, or check off final production smoke until an intentional V3 promotion/import run is completed and validated.
-- The Cloudflare account still needs the fresh/reset production V3 D1 database name/id recorded in ignored `wrangler.deploy.jsonc` before deploying `buddyblocks.net`; the `buddyblocks.net` zone is already added and currently has no DNS records.
+- [x] Resolve unsupported scored V3 curriculum source items before promotion.
+  - Notes: Source repair is complete for the unsupported scored `constructed-response` and `speaking-prompt` items in `grade-03-math`, `grammar-1`, and `memory-works-1`. A full `npm run content:promote` dry run now completes without source blockers.
+
+## Current Restart State
+
+- No unresolved V3 blockers or decisions are known as of 2026-07-01.
+- Remaining unchecked items are execution gates for the restarted implementation goal: Phase 8 catalog cutover, the Phase 10 old-site hold, and the Phase 11 fresh-database smoke test.
+- The next catalog step is an intentional promotion/import run from the accepted research queue, followed by validation. Do not mark `research/track-status.json` tracks imported, remove the bridge catalog, seed the final V3 catalog, retire `learn.billplustara.com`, or check off final production smoke until that run and its validation complete.
