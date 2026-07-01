@@ -1371,6 +1371,72 @@ describe('worker access control', () => {
   });
 });
 
+describe('hosted interest API', () => {
+  it('stores hosted interest email submissions without authentication', async () => {
+    const { env, sqlite } = createEnv();
+
+    const { response, body } = await requestJson('/api/hosted-interest', env, {
+      method: 'POST',
+      cookie: '',
+      origin: 'https://learn.example.test',
+      body: { email: 'Tara@Example.TEST ', source: 'homepage' },
+    });
+
+    expect(response.status).toBe(200);
+    expect(body).toMatchObject({ ok: true });
+    expect(sqlite.db.prepare('SELECT email, source FROM hosted_interest_emails').get()).toEqual({
+      email: 'tara@example.test',
+      source: 'homepage',
+    });
+  });
+
+  it('dedupes hosted interest submissions by email', async () => {
+    const { env, sqlite } = createEnv();
+
+    await requestJson('/api/hosted-interest', env, {
+      method: 'POST',
+      cookie: '',
+      body: { email: 'tara@example.test' },
+    });
+    const { response } = await requestJson('/api/hosted-interest', env, {
+      method: 'POST',
+      cookie: '',
+      body: { email: 'TARA@example.test' },
+    });
+
+    expect(response.status).toBe(200);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM hosted_interest_emails')).toBe(1);
+  });
+
+  it('rejects invalid hosted interest submissions', async () => {
+    const { env, sqlite } = createEnv();
+
+    const { response, body } = await requestJson('/api/hosted-interest', env, {
+      method: 'POST',
+      cookie: '',
+      body: { email: 'not-an-email' },
+    });
+
+    expect(response.status).toBe(400);
+    expect(body).toEqual({ error: 'invalid_email' });
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM hosted_interest_emails')).toBe(0);
+  });
+
+  it('rejects hosted interest submissions from a different origin', async () => {
+    const { env } = createEnv();
+
+    const { response, body } = await requestJson('/api/hosted-interest', env, {
+      method: 'POST',
+      cookie: '',
+      origin: 'https://evil.example.test',
+      body: { email: 'tara@example.test' },
+    });
+
+    expect(response.status).toBe(403);
+    expect(body).toEqual({ error: 'invalid_origin' });
+  });
+});
+
 describe('child profile status migration', () => {
   it('adds active status as the default child profile state', () => {
     const db = createTestDatabase();
@@ -1404,11 +1470,13 @@ describe('performance index migration', () => {
     expect(tables.has('practice_set_cards')).toBe(true);
     expect(tables.has('practice_set_attempts')).toBe(true);
     expect(tables.has('practice_card_attempts')).toBe(true);
+    expect(tables.has('hosted_interest_emails')).toBe(true);
     expect(indexesFor('practice_sets').has('idx_practice_sets_child_status')).toBe(true);
     expect(indexesFor('practice_set_cards').has('idx_practice_set_cards_set_sort')).toBe(true);
     expect(indexesFor('practice_set_attempts').has('idx_practice_set_attempts_child_set')).toBe(true);
     expect(indexesFor('lesson_attempts').has('idx_lesson_attempts_child_client_attempt')).toBe(true);
     expect(indexesFor('practice_set_attempts').has('idx_practice_set_attempts_child_client_attempt')).toBe(true);
+    expect(indexesFor('hosted_interest_emails').has('idx_hosted_interest_emails_created_at')).toBe(true);
     expect(
       new Set(db.prepare('PRAGMA table_info(questions)').all().map((row) => String((row as { name: unknown }).name))).has('hint'),
     ).toBe(true);

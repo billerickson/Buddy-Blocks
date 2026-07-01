@@ -146,6 +146,48 @@ const courseFamilies = getCourseFamilies();
       </div>
     </section>
 
+    <section id="get-your-own-copy" class="homepage-band py-14">
+      <div class="app-shell">
+        <div class="get-copy-layout">
+          <div>
+            <p class="font-black uppercase text-berryDark">Self-Hosted Buddy Blocks</p>
+            <h2 class="mt-3 text-4xl">Get your own copy</h2>
+            <p class="mt-4 text-lg font-bold text-muted">
+              Point Claude, Codex, or another AI agent at the
+              <a class="copy-link" href="https://github.com/billerickson/Buddy-Blocks/blob/master/AGENTS.md">AGENTS.md</a>
+              setup file and it can set up Buddy Blocks for you. You just need a free Cloudflare account and a domain managed there. It will deploy your copy at
+              <a class="copy-link" href="https://buddyblocks.yoursite.com">https://buddyblocks.yoursite.com</a>.
+            </p>
+            <a class="secondary-button mt-5" href="https://github.com/billerickson/Buddy-Blocks/blob/master/AGENTS.md">Open AGENTS.md</a>
+          </div>
+
+          <form class="hosted-interest-form" data-hosted-interest-form action="/api/hosted-interest" method="post" novalidate>
+            <h3 class="text-3xl">Want a hosted version?</h3>
+            <p class="mt-3 font-bold text-muted">
+              Would you be interested in a paid, cloud-hosted version of Buddy Blocks so you do not have to set it up? Share your email and we will let you know if or when it is available.
+            </p>
+
+            <div class="hosted-interest-fields mt-5" data-hosted-interest-fields>
+              <label class="sr-only" for="hosted-interest-email">Email address</label>
+              <input
+                id="hosted-interest-email"
+                name="email"
+                type="email"
+                inputmode="email"
+                autocomplete="email"
+                placeholder="Email address"
+                required
+              />
+              <input type="hidden" name="source" value="homepage" />
+              <button class="primary-button" type="submit" data-hosted-interest-submit>Let me know</button>
+            </div>
+
+            <p class="hosted-interest-status" data-hosted-interest-status role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
     <section id="how-it-works" class="homepage-band py-14">
       <div class="app-shell">
         <div class="grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
@@ -268,6 +310,7 @@ const courseFamilies = getCourseFamilies();
   <style>
     .homepage-band {
       border-top: 2px solid color-mix(in srgb, var(--line) 70%, transparent);
+      scroll-margin-top: 86px;
     }
 
     .hero-screenshot,
@@ -284,6 +327,18 @@ const courseFamilies = getCourseFamilies();
     .hero-screenshot {
       overflow: hidden;
       transform: rotate(1deg);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     .hero-moxie {
@@ -557,6 +612,81 @@ const courseFamilies = getCourseFamilies();
       background: linear-gradient(90deg, var(--course-color), var(--course-accent));
     }
 
+    .get-copy-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .copy-link {
+      color: var(--primary-dark);
+      font-weight: 1000;
+      text-decoration-thickness: 3px;
+      text-underline-offset: 4px;
+    }
+
+    .hosted-interest-form {
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(255, 216, 77, 0.24) 0 28%, transparent 28% 100%),
+        var(--paper);
+      box-shadow: 6px 6px 0 var(--block-shadow);
+      padding: 24px;
+    }
+
+    .hosted-interest-fields {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .hosted-interest-fields input[type='email'] {
+      min-height: 50px;
+      width: 100%;
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px 14px;
+      color: var(--ink);
+      font-weight: 900;
+      outline: none;
+    }
+
+    .hosted-interest-fields input[type='email']:focus {
+      box-shadow: 0 0 0 4px var(--secondary);
+    }
+
+    .hosted-interest-fields input[type='email'][aria-invalid='true'] {
+      border-color: var(--primary-dark);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 22%, transparent);
+    }
+
+    .hosted-interest-form[data-success='true'] .hosted-interest-fields {
+      display: none;
+    }
+
+    .hosted-interest-status {
+      min-height: 1.55em;
+      margin-top: 12px;
+      font-weight: 1000;
+      color: var(--muted);
+    }
+
+    .hosted-interest-status:empty {
+      display: none;
+    }
+
+    .hosted-interest-status[data-state='success'] {
+      color: #0d7668;
+    }
+
+    .hosted-interest-status[data-state='error'] {
+      color: var(--primary-dark);
+    }
+
     @media (max-width: 767px) {
       .hero-screenshot {
         transform: none;
@@ -583,6 +713,15 @@ const courseFamilies = getCourseFamilies();
         gap: 12px;
       }
 
+      .get-copy-layout,
+      .hosted-interest-fields {
+        grid-template-columns: 1fr;
+      }
+
+      .hosted-interest-form {
+        padding: 18px;
+      }
+
       .screenshot-row,
       .screenshot-row-reversed {
         grid-template-columns: 1fr;
@@ -599,4 +738,76 @@ const courseFamilies = getCourseFamilies();
       }
     }
   </style>
+
+  <script is:inline>
+    (() => {
+      const form = document.querySelector('[data-hosted-interest-form]');
+      if (!(form instanceof HTMLFormElement)) return;
+
+      const emailInput = form.querySelector('input[name="email"]');
+      const sourceInput = form.querySelector('input[name="source"]');
+      const submit = form.querySelector('[data-hosted-interest-submit]');
+      const status = form.querySelector('[data-hosted-interest-status]');
+      if (!(emailInput instanceof HTMLInputElement) || !(sourceInput instanceof HTMLInputElement)) return;
+
+      const setStatus = (state, message) => {
+        if (!status) return;
+        status.dataset.state = state;
+        status.textContent = message;
+      };
+
+      const setSubmitting = (submitting) => {
+        if (submit instanceof HTMLButtonElement) {
+          submit.disabled = submitting;
+          submit.textContent = submitting ? 'Saving...' : 'Let me know';
+        }
+        emailInput.disabled = submitting;
+      };
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        form.dataset.success = 'false';
+        emailInput.setAttribute('aria-invalid', 'false');
+        setStatus('idle', '');
+
+        if (!emailInput.validity.valid) {
+          emailInput.setAttribute('aria-invalid', 'true');
+          setStatus('error', 'Enter a valid email address.');
+          emailInput.focus();
+          return;
+        }
+
+        setSubmitting(true);
+
+        try {
+          const response = await fetch('/api/hosted-interest', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+            body: JSON.stringify({
+              email: emailInput.value.trim(),
+              source: sourceInput.value,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error(response.status === 400 ? 'invalid_email' : 'save_failed');
+          }
+
+          form.reset();
+          form.dataset.success = 'true';
+          setStatus('success', 'Thanks. We will let you know if a hosted version becomes available.');
+        } catch (error) {
+          const invalidEmail = error instanceof Error && error.message === 'invalid_email';
+          if (invalidEmail) emailInput.setAttribute('aria-invalid', 'true');
+          setStatus('error', invalidEmail ? 'Enter a valid email address.' : 'Something went wrong. Please try again in a moment.');
+        } finally {
+          setSubmitting(false);
+        }
+      });
+    })();
+  </script>
 </AppLayout>

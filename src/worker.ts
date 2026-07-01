@@ -289,6 +289,11 @@ const ChildUpdateSchema = z.object({
   status: z.enum(['active', 'archived']).optional(),
 });
 
+const HostedInterestSchema = z.object({
+  email: z.string().trim().max(254).email().transform((value) => value.toLowerCase()),
+  source: z.string().trim().max(80).optional(),
+});
+
 const childAvatarKeys = ['berry-builder', 'teal-tinkerer', 'gold-builder'];
 
 export default {
@@ -312,6 +317,9 @@ export default {
     if (url.pathname === '/parent-gate' || url.pathname === '/parent-gate/') return parentGate(request, env);
     if (url.pathname === '/api/setup/status' || url.pathname === '/api/setup/status/') return apiSetupStatus(env);
     if (url.pathname === '/api/setup/parent' || url.pathname === '/api/setup/parent/') return apiSetupParent(request, env);
+    if (url.pathname === '/api/hosted-interest' || url.pathname === '/api/hosted-interest/') {
+      return apiHostedInterest(request, env);
+    }
     if (url.pathname.startsWith('/api/')) return apiRouter(request, env);
 
     if (PROTECTED_PAGE_PREFIXES.some((prefix) => url.pathname === prefix || url.pathname.startsWith(`${prefix}/`))) {
@@ -576,6 +584,31 @@ async function apiSetupParent(request: Request, env: Env) {
   response.headers.append('Set-Cookie', sessionCookie(sessionId, expires));
   response.headers.append('Set-Cookie', clearChildCookie());
   return response;
+}
+
+async function apiHostedInterest(request: Request, env: Env) {
+  if (request.method !== 'POST') return json({ error: 'method_not_allowed' }, 405);
+  if (!sameOrigin(request)) return json({ error: 'invalid_origin' }, 403);
+
+  let body: z.infer<typeof HostedInterestSchema>;
+  try {
+    body = HostedInterestSchema.parse(await readRequestPayload(request));
+  } catch {
+    return json({ error: 'invalid_email' }, 400);
+  }
+
+  const now = new Date().toISOString();
+  await env.DB.prepare(
+    `INSERT INTO hosted_interest_emails (email, source, created_at, updated_at)
+     VALUES (?, ?, ?, ?)
+     ON CONFLICT(email) DO UPDATE SET
+       source = COALESCE(excluded.source, hosted_interest_emails.source),
+       updated_at = excluded.updated_at`,
+  )
+    .bind(body.email, body.source ?? 'homepage', now, now)
+    .run();
+
+  return json({ ok: true, message: 'Thanks. We will let you know if a hosted version becomes available.' });
 }
 
 async function apiMe(parent: SessionParent, env: Env) {
@@ -2389,6 +2422,14 @@ function json(data: unknown, status = 200) {
       'Cache-Control': 'no-store',
     },
   });
+}
+
+async function readRequestPayload(request: Request) {
+  const contentType = request.headers.get('Content-Type')?.toLowerCase() ?? '';
+  if (contentType.includes('application/json')) return request.json();
+
+  const form = await request.formData();
+  return Object.fromEntries(form.entries());
 }
 
 function sameOrigin(request: Request) {
