@@ -3,6 +3,7 @@
 ## Summary
 
 - Convert Buddy Blocks from a personal seeded-family app into a single-family, self-hosted Cloudflare Workers + D1 template.
+- Deploy this new version to `buddyblocks.billerickson.net`; keep the existing `learn.billplustara.com` site live for now while building out the new Buddy Blocks app on the new subdomain.
 - First-run onboarding creates the only active parent account; public registration closes once that parent exists.
 - Parents can create, edit, archive, and unarchive child profiles, with grade level stored per child and progress preserved.
 - Keep the provisioning model compatible with a later hosted SaaS version that uses one multi-tenant install instead of one Cloudflare deployment per family.
