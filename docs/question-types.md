@@ -121,12 +121,25 @@ The schemas and runtime parsers for standard lesson config and Mad Minute config
 | `flash-card` | Word learning, preview/easy/medium/hard card practice | string | preview is study-only; easy uses choices; medium and hard use typed accepted answers |
 | `passage-question` | Reading comprehension | string | selected choice equals `correctAnswer` |
 | `multi-blank-cloze` | Multi-blank grammar and paragraph completion | string array | every blank matches |
-| `constructed-response` | Short written production | string | non-empty and meets optional length gates |
+| `constructed-response` | Unscored or externally reviewed written production | string | completion only: non-empty and meets optional length gates |
 | `dialogue-builder` | Conversation turns | string | selected line equals `correctAnswer` |
 | `listening-question` | Audio comprehension | string | selected choice equals `correctAnswer` |
-| `speaking-prompt` | Oral practice | object/string | recorded flag, note, or transcript present |
+| `speaking-prompt` | Unscored oral practice | object/string | completion only: recorded flag, note, or transcript present |
 | `error-correction` | Editing grammar/spelling | string | matches any `acceptedAnswers` |
 | `conjugation-grid` | Verb/form transformations | row-to-array object | every grid cell matches |
+
+## App-Scorable Policy
+
+Promoted curriculum should count only question types the app can evaluate for correctness. `constructed-response` and `speaking-prompt` are supported by the runtime, but their scoring is completion-based rather than quality-based. Do not use them as scored promoted curriculum items unless the lesson is explicitly unscored practice or has a real external evaluation workflow.
+
+When a lesson needs an explanation, strategy choice, oral/communication goal, or written-production-like check, prefer a constrained app-scorable replacement:
+
+- `multiple-choice` for choosing the best explanation, strategy, evidence, or misconception diagnosis.
+- `text-input`, `fill-blank`, or `multi-blank-cloze` for exact words, phrases, formulas, or numeric answers.
+- `order-items` for process steps, sentence order, ranking, or reasoning sequence.
+- `match-pairs` for distinct relationships.
+- `error-correction` for fixing one specific flawed step, expression, or sentence.
+- `passage-question` for source, scenario, or word-problem interpretation with selected answers.
 
 ## Multiple Choice
 
@@ -366,6 +379,8 @@ Use for short written production, summaries, explanations, or Spanish sentence w
 
 Scoring is automatic: the response must be non-empty and meet optional `minWords` and/or `minCharacters`. The sample answer is shown after submission. This is not teacher-reviewed.
 
+Because scoring is completion-based, do not count `constructed-response` toward the 6-question scored target for promoted curriculum. Convert the learning job to an app-scorable type when correctness matters: for example, use `multiple-choice` for the best explanation, `text-input` for an exact answer, `order-items` for reasoning steps, or `passage-question` for interpretation with choices.
+
 ## Dialogue Builder
 
 Use for conversation logic and choosing the most appropriate response.
@@ -419,6 +434,8 @@ Use for oral practice. The browser can record locally for playback, but Buddy Bl
 ```
 
 Scoring is automatic: the prompt is marked answered when the student records, types a note, or submits a transcript-like response.
+
+Because scoring is completion-based, do not count `speaking-prompt` toward the 6-question scored target for promoted curriculum. Use it only for explicit practice, or replace it with `dialogue-builder`, `listening-question`, `multiple-choice`, `order-items`, `multi-blank-cloze`, or `text-input` when the app must evaluate correctness.
 
 ## Error Correction
 
@@ -483,9 +500,9 @@ Use this quick guide when authoring lessons:
 - Vocabulary typed recognition: `flash-card` medium, `text-input`.
 - Vocabulary production: `flash-card` hard, `text-input`.
 - Spanish sentence building: `order-items`, `multi-blank-cloze`, `error-correction`.
-- Spanish communication: `dialogue-builder`, `constructed-response`, `speaking-prompt`.
+- Spanish communication: `dialogue-builder`, `listening-question`, `multiple-choice`, `order-items`, `multi-blank-cloze`, constrained `text-input`.
 - Grammar transformations: `conjugation-grid`, `multi-blank-cloze`, `error-correction`.
-- Reading comprehension: `passage-question`, `constructed-response`.
+- Reading comprehension: `passage-question`, `multiple-choice`.
 - Listening comprehension: `listening-question`.
 - Visual/audio support: add `media` to any question type.
 - Lesson teaching before practice: add `config.intro`.
@@ -494,10 +511,11 @@ Use this quick guide when authoring lessons:
 ## Authoring Notes
 
 - Keep lesson IDs stable after seeding. Changing an `id` creates a new lesson from the app's point of view.
-- Prefer 6-10 scored questions per compact standard lesson unless the lesson brief justifies a different count.
+- Prefer 6-10 app-scorable scored questions per compact standard lesson unless the lesson brief justifies a different count.
 - Quote numeric answers in YAML.
 - For Spanish, include unaccented variants only when the variant is truly acceptable; accent tolerance already handles missing accent marks for scoring.
-- For constructed response and speaking prompts, remember that scoring is completion-based, not quality-based.
+- For constructed response and speaking prompts, remember that scoring is completion-based, not quality-based; do not use them as scored promoted curriculum items.
+- If QA removes questions and the lesson falls below 6 accepted app-scorable items, add targeted replacements that serve the lesson brief instead of recreating removed questions or adding filler.
 - For listening and media questions, commit the asset under `public/` and reference it with a root-relative path.
 - For passage sets, repeat the passage in each `passage-question` until the app has a dedicated shared-passage grouping model.
 

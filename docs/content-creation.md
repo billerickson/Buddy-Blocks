@@ -24,6 +24,7 @@ The core principle: no lesson or question should exist just because a template p
 - Do not use random distractors. Distractors should usually represent real misconceptions.
 - Do not treat a technically correct answer key as sufficient QA.
 - Do not let the source format hide instructional intent inside large YAML arrays.
+- Do not fill QA-created question gaps by recreating rejected items or adding generic filler.
 
 ## Source Boundaries
 
@@ -287,6 +288,24 @@ Prefer app-scorable alternatives:
 - `error-correction` for fixing a specific flawed step or sentence.
 - `passage-question` for scenario, source, or word-problem interpretation with selected answers.
 
+## QA Gap Repair
+
+Compact promoted lessons should finish QA with at least 6 accepted app-scorable questions unless the lesson brief and QA report explicitly justify a smaller set.
+
+When QA removes questions and a lesson falls below the compact target:
+
+- add only the number of questions needed to restore the accepted target,
+- use the accepted lesson brief and the remaining accepted questions as the source of truth,
+- complement the remaining sequence instead of rewriting it,
+- do not recreate questions that QA removed,
+- do not add broad review, trivia, or template filler,
+- use the app-scorable type that best serves the missing learning job,
+- include `hint`, `questionGoal`, and `misconception`,
+- keep keys stable and consistent with the existing lesson key pattern,
+- preserve one valid fenced `question` YAML block per new question.
+
+The repair prompt and current gap inventory live in `docs/research-question-gaps.md`. Treat that file as a working tracker; treat this section and `docs/question-types.md` as the durable policy for future content creation runs.
+
 ## Stage Prompts
 
 Use Stage 1 first. After the research brief is accepted, use the combined Stage 2-6 `/goal` prompt when you want Codex to complete the remaining design and authoring artifacts for the whole level in one sustained run.
@@ -474,7 +493,7 @@ Preferred app-scorable Buddy Blocks question types for promoted curriculum:
 - conjugation-grid
 - flash-card
 
-Write 6-10 questions per lesson unless the lesson brief gives a stronger reason for a different compact count. For each question, include:
+Write 6-10 app-scorable questions per lesson unless the lesson brief gives a stronger reason for a different compact count. For each question, include:
 1. key
 2. type
 3. prompt
@@ -482,7 +501,7 @@ Write 6-10 questions per lesson unless the lesson brief gives a stronger reason 
 5. explanation
 6. hint, when a second-attempt clue would help
 7. questionGoal
-8. misconception, if applicable
+8. misconception
 
 Requirements:
 - Start with exposure, recognition, or guided reasoning if the concept is new.
@@ -491,6 +510,7 @@ Requirements:
 - Make distractors plausible and diagnostic.
 - Write hints that appear only on a second attempt after the student has already missed that question once.
 - Hints should point to a strategy, clue, model, rule, or next step without revealing the answer.
+- Do not use `constructed-response` or `speaking-prompt` as scored promoted curriculum items.
 - Do not use duplicate right-side answers in match-pairs.
 - Keep language appropriate for the student level.
 - Do not include generic filler questions.
@@ -518,7 +538,7 @@ prompt: [student-facing prompt]
 explanation: [useful feedback]
 hint: [optional second-attempt hint]
 questionGoal: [what this item checks]
-misconception: [misconception this item targets, if applicable]
+misconception: [misconception this item targets]
 ```
 
 Workflow requirements:
@@ -537,7 +557,8 @@ Before finishing, verify:
 - every course-map unit has one unit design brief file.
 - `05-lesson-briefs.md` covers every recommended lesson from every unit design brief.
 - `06-question-sets.md` covers every lesson brief in unit and lesson order.
-- every question set has 6-10 questions unless explicitly justified.
+- every question set has 6-10 app-scorable questions unless explicitly justified.
+- no scored promoted question uses `constructed-response` or `speaking-prompt`.
 - no question set uses generic random distractors or repeated template filler.
 - no files under `src/content/curriculum` were read or modified.
 
@@ -577,12 +598,15 @@ Check:
 8. Are hints useful second-attempt supports without giving away the answer?
 9. Is the reading/cognitive load appropriate?
 10. Does anything feel generic or template-driven?
-11. What should be revised before implementation?
+11. Does the set retain at least 6 accepted app-scorable questions unless explicitly justified?
+12. Are any `constructed-response` or `speaking-prompt` items being counted as scored promoted questions?
+13. What should be revised before implementation?
 
 Return:
 - findings ordered by severity,
 - exact question keys affected,
 - recommended edits,
+- if removals create a count gap, the number of targeted app-scorable replacements needed and where they should fit in the sequence,
 - accept/revise/reject decision.
 ```
 
@@ -700,10 +724,12 @@ A lesson is done when:
 - The lesson has explicit teaching goal and student outcome sections.
 - The lesson advances the accepted unit and level blueprint.
 - The question set was authored from the lesson brief.
+- The accepted question set has at least 6 app-scorable questions unless the QA report explicitly justifies fewer.
 - Each question has a clear learning job.
 - Correct answers are accurate and unambiguous.
 - Explanations help the student understand the reasoning.
 - Hints, when present, support a second attempt without revealing the answer.
+- Scored promoted questions do not use completion-scored `constructed-response` or `speaking-prompt` types.
 - The lesson avoids generic repeated patterns.
 - Content validates and renders in the app.
 - QA/content log records the lesson goal, outcome, question count, question types, and acceptance decision.
