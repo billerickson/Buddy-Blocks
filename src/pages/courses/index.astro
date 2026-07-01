@@ -22,13 +22,12 @@ const totals = families.reduce(
   <main>
     <section class="app-shell course-hero">
       <div class="course-hero-copy">
-        <p class="font-black uppercase text-berryDark">V3 Research-Ready Courses</p>
-        <h1>Every listed track is backed by accepted research artifacts.</h1>
+        <h1>Courses that build lasting skills, step by step.</h1>
         <p class="mt-5 max-w-3xl text-xl font-extrabold text-muted">
-          These pages only describe courses with accepted V3 research, course maps, lesson briefs, and question sets in <code>/research/</code>. Future levels stay off the page until their research is complete.
+          Buddy Blocks gives students a clear path through a classical education with short, engaging lessons that build lasting understanding. Each topic combines practice, examples, and review so families can easily see what students are learning, why it matters, and what they're ready to tackle next.
         </p>
         <div class="course-stat-row mt-7" aria-label="Curriculum totals">
-          <span><strong>{totals.levels}</strong> research levels</span>
+          <span><strong>{totals.levels}</strong> levels</span>
           <span><strong>{totals.units}</strong> units</span>
           <span><strong>{totals.lessons}</strong> lesson briefs</span>
           <span><strong>{totals.questions.toLocaleString()}</strong> question prompts</span>
@@ -45,7 +44,7 @@ const totals = families.reduce(
             <a class="course-dashboard-row" href={`/courses/${family.slug}/`} style={`--course-color: ${family.color};`}>
               <span>
                 <strong>{family.title}</strong>
-                <small>{family.levelRange} &middot; {family.stats.lessons} lesson briefs</small>
+                <small>{family.levelRange}<br />{family.stats.lessons} lesson briefs</small>
               </span>
               <b>{family.stats.levels}</b>
             </a>
@@ -54,54 +53,14 @@ const totals = families.reduce(
       </div>
     </section>
 
-    <section class="course-overview-band">
-      <div class="app-shell course-overview">
-        <div>
-          <p class="font-black uppercase text-berryDark">What Students Do</p>
-          <h2 class="mt-3 text-4xl">Learn it, practice it, complete it</h2>
-        </div>
-        <p class="text-lg font-bold text-muted">
-          Each course family below shows what students will learn, what they are expected to master, why the sequence is built that way, and what research-ready work exists now. The question mockups are drawn from each track's <code>06-question-sets.md</code>.
-        </p>
-      </div>
-    </section>
-
     {families.map((family) => (
       <section class="course-family-band" id={family.slug} style={`--course-color: ${family.color}; --course-accent: ${family.accent};`}>
         <div class="app-shell course-family-layout">
           <div class="course-family-copy">
-            <p class="course-eyebrow">{family.eyebrow}</p>
             <h2>{family.title}</h2>
             <p class="course-summary">{family.summary}</p>
             <div class="course-paragraphs">
               {family.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-            </div>
-
-            <div class="course-outcomes" aria-label={`${family.title} outcomes`}>
-              <div>
-                <h3>Learn</h3>
-                <ul>
-                  {family.learn.map((item) => <li>{item}</li>)}
-                </ul>
-              </div>
-              <div>
-                <h3>Master</h3>
-                <ul>
-                  {family.master.map((item) => <li>{item}</li>)}
-                </ul>
-              </div>
-              <div>
-                <h3>Complete</h3>
-                <ul>
-                  {family.complete.map((item) => <li>{item}</li>)}
-                </ul>
-              </div>
-              <div>
-                <h3>Why</h3>
-                <ul>
-                  {family.why.map((item) => <li>{item}</li>)}
-                </ul>
-              </div>
             </div>
 
             <div class="course-footer">
@@ -135,7 +94,7 @@ const totals = families.reduce(
 
     .course-hero h1 {
       max-width: 830px;
-      font-size: clamp(3rem, 7vw, 6.4rem);
+      font-size: clamp(2rem, 5vw, 4.4rem);
       line-height: 0.94;
     }
 
@@ -228,17 +187,8 @@ const totals = families.reduce(
       font-size: 1.15rem;
     }
 
-    .course-overview-band,
     .course-family-band {
       border-top: 2px solid color-mix(in srgb, var(--line) 70%, transparent);
-    }
-
-    .course-overview {
-      display: grid;
-      grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
-      gap: 28px;
-      align-items: end;
-      padding-block: 44px;
     }
 
     .course-family-band {
@@ -255,14 +205,7 @@ const totals = families.reduce(
       align-items: start;
     }
 
-    .course-eyebrow {
-      color: color-mix(in srgb, var(--course-color) 70%, var(--ink));
-      font-weight: 1000;
-      text-transform: uppercase;
-    }
-
     .course-family-copy h2 {
-      margin-top: 10px;
       font-size: clamp(2.4rem, 5vw, 4.4rem);
     }
 
@@ -281,32 +224,6 @@ const totals = families.reduce(
       margin-top: 20px;
       color: var(--muted);
       font-weight: 800;
-    }
-
-    .course-outcomes {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 24px;
-    }
-
-    .course-outcomes div {
-      border-top: 8px solid var(--course-color);
-      background: rgba(255, 255, 255, 0.62);
-      padding: 14px 16px 16px;
-    }
-
-    .course-outcomes h3 {
-      font-size: 1.4rem;
-    }
-
-    .course-outcomes ul {
-      display: grid;
-      gap: 7px;
-      margin: 10px 0 0;
-      padding-left: 20px;
-      color: var(--muted);
-      font-weight: 850;
     }
 
     .course-footer {
@@ -331,8 +248,7 @@ const totals = families.reduce(
 
     @media (max-width: 900px) {
       .course-hero,
-      .course-family-layout,
-      .course-overview {
+      .course-family-layout {
         grid-template-columns: 1fr;
       }
 
@@ -342,10 +258,6 @@ const totals = families.reduce(
 
       .course-dashboard {
         transform: none;
-      }
-
-      .course-outcomes {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -360,17 +272,8 @@ const totals = families.reduce(
         padding-block: 28px;
       }
 
-      .course-overview,
       .course-family-band {
         padding-block: 32px;
-      }
-
-      .course-outcomes {
-        grid-template-columns: 1fr;
-      }
-
-      .course-outcomes div {
-        padding: 12px 14px 14px;
       }
 
       .course-footer {

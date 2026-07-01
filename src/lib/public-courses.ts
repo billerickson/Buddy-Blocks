@@ -4,10 +4,6 @@ type CourseCopy = {
   eyebrow: string;
   summary: string;
   paragraphs: string[];
-  learn: string[];
-  master: string[];
-  complete: string[];
-  why: string[];
   color: string;
   accent: string;
   levelRange: string;
@@ -69,7 +65,7 @@ const grade3Math: ResearchTrack = {
   label: 'Grade 3',
   researchPath: 'research/grade-03-math',
   description:
-    'The accepted Grade 3 Math research moves from prerequisite number readiness into multiplication and division meaning, strategy-based fluency, whole-number operations, fractions as numbers, measurement and data, area, perimeter, geometry, and cumulative transfer.',
+    'Grade 3 Math moves from number readiness into multiplication and division meaning, strategy-based fluency, whole-number operations, fractions as numbers, measurement and data, area, perimeter, geometry, and cumulative transfer.',
   stats: { levels: 1, units: 12, lessons: 76, questions: 456 },
   unitTitles: [
     'Grade 3 Number Readiness',
@@ -88,7 +84,7 @@ const grade3Math: ResearchTrack = {
   paragraphs: [
     'Students represent multiplication and division with equal groups, arrays, area, sharing, grouping, and unknown-factor situations before fluency practice asks for speed.',
     'Fractions are treated as quantities on number lines and in equal partitions, so students compare size and equivalence by reasoning rather than memorized numerator and denominator tricks.',
-    'The research emphasizes representation choice, reasonableness checks, and misconception repair across word problems, measurement, graphing, area, perimeter, geometry, and cumulative modeling.',
+    'Students practice representation choice, reasonableness checks, and misconception repair across word problems, measurement, graphing, area, perimeter, geometry, and cumulative modeling.',
   ],
   mockups: [
     {
@@ -125,7 +121,7 @@ const grade6Math: ResearchTrack = {
   label: 'Grade 6',
   researchPath: 'research/grade-06-math',
   description:
-    'The accepted Grade 6 Math research orders number readiness, ratios, rates, fraction and decimal operations, rational numbers, algebra, geometry, statistics, and financial/application modeling into a compact middle-school path.',
+    'Grade 6 Math orders number readiness, ratios, rates, fraction and decimal operations, rational numbers, algebra, geometry, statistics, and financial/application modeling into a compact middle-school path.',
   stats: { levels: 1, units: 9, lessons: 54, questions: 324 },
   unitTitles: [
     'Operation Readiness And Number Sense',
@@ -171,7 +167,7 @@ const grade3Vocabulary: ResearchTrack = {
   label: 'Grade 3',
   researchPath: 'research/grade-03-vocabulary',
   description:
-    'The accepted Grade 3 Vocabulary research treats vocabulary as a word-learning and academic-language course, not a spelling list or broad ELA replacement.',
+    'Grade 3 Vocabulary treats vocabulary as a word-learning and academic-language course, not a spelling list or broad ELA replacement.',
   stats: { levels: 1, units: 8, lessons: 36, questions: 216 },
   unitTitles: [
     'Word-Learning Routine And Context Clues',
@@ -221,7 +217,7 @@ const grade6Vocabulary: ResearchTrack = {
   label: 'Grade 6',
   researchPath: 'research/grade-06-vocabulary',
   description:
-    'The accepted Grade 6 Vocabulary research builds a middle-school word-learning course around context, morphology, academic words, disciplinary language, word choice, figurative language, argument, media, research, and revision.',
+    'Grade 6 Vocabulary builds a middle-school word-learning course around context, morphology, academic words, disciplinary language, word choice, figurative language, argument, media, research, and revision.',
   stats: { levels: 1, units: 8, lessons: 32, questions: 192 },
   unitTitles: [
     'Strategic Word Learning In Context',
@@ -275,7 +271,7 @@ const spanish1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/spanish-1',
   description:
-    'The accepted Spanish 1 research is organized around novice communication functions instead of a grammar survey.',
+    'Spanish 1 is organized around novice communication functions instead of a grammar survey.',
   stats: { levels: 1, units: 6, lessons: 30, questions: 180 },
   unitTitles: [
     'First Spanish Moves',
@@ -320,7 +316,7 @@ const french1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/french-1',
   description:
-    'The accepted French 1 research moves from immediate classroom interaction into personal identity, family, descriptions, preferences, school, places, food, choices, and cumulative novice communication.',
+    'French 1 moves from immediate classroom interaction into personal identity, family, descriptions, preferences, school, places, food, choices, and cumulative novice communication.',
   stats: { levels: 1, units: 7, lessons: 28, questions: 168 },
   unitTitles: [
     'First French For Real Interaction',
@@ -364,7 +360,7 @@ const grammar1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/grammar-1',
   description:
-    'The accepted Grammar 1 research moves from sentence awareness into word jobs, word forms, mechanics, sentence expansion, and cumulative revision.',
+    'Grammar 1 moves from sentence awareness into word jobs, word forms, mechanics, sentence expansion, and cumulative revision.',
   stats: { levels: 1, units: 7, lessons: 26, questions: 156 },
   unitTitles: [
     'Sentences, Subjects, And Predicates',
@@ -411,7 +407,7 @@ const logic1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/logic-1',
   description:
-    'The accepted Logic 1 research builds careful-thinking habits before formal symbolic logic.',
+    'Logic 1 builds careful-thinking habits before formal symbolic logic.',
   stats: { levels: 1, units: 6, lessons: 30, questions: 180 },
   unitTitles: [
     'Claims, Reasons, And Tiny Arguments',
@@ -462,7 +458,7 @@ const rhetoric1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/rhetoric-1',
   description:
-    'The accepted Rhetoric 1 research moves from noticing purpose in communication to producing short, clear, supported responses.',
+    'Rhetoric 1 moves from noticing purpose in communication to producing short, clear, supported responses.',
   stats: { levels: 1, units: 7, lessons: 30, questions: 180 },
   unitTitles: [
     'Purposeful Communication',
@@ -516,7 +512,7 @@ const classicalLiterature1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/classical-literature-1',
   description:
-    'The accepted Classical Literature 1 research builds a compact shared story foundation through fables, folktales, myths, heroic journeys, poetry, dialogue, comparison, and transfer.',
+    'Classical Literature 1 builds a compact shared story foundation through fables, folktales, myths, heroic journeys, poetry, dialogue, comparison, and transfer.',
   stats: { levels: 1, units: 6, lessons: 24, questions: 144 },
   unitTitles: [
     'Fables, Morals, And Story Elements',
@@ -570,7 +566,7 @@ const historyAndCivics1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/history-and-civics-1',
   description:
-    'The accepted History And Civics 1 research begins with the tools students need before large historical claims: time, place, source, evidence, community, economics, culture, symbols, and civic responsibility.',
+    'History And Civics 1 begins with the tools students need before large historical claims: time, place, source, evidence, community, economics, culture, symbols, and civic responsibility.',
   stats: { levels: 1, units: 8, lessons: 24, questions: 144 },
   unitTitles: [
     'Time, Sequence, And Change',
@@ -618,7 +614,7 @@ const memoryWorks1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/memory-works-1',
   description:
-    'The accepted Memory Works 1 research teaches the memory routine directly, then applies it to sayings, poems, facts, forms, maps, timelines, and mixed review.',
+    'Memory Works 1 teaches the memory routine directly, then applies it to sayings, poems, facts, forms, maps, timelines, and mixed review.',
   stats: { levels: 1, units: 6, lessons: 22, questions: 132 },
   unitTitles: [
     'Memory Practice Habits',
@@ -665,18 +661,14 @@ const courseCatalog: CourseCopy[] = [
   {
     slug: 'math',
     title: 'Math',
-    eyebrow: 'Research-ready grades 3 and 6',
+    eyebrow: 'Number sense, models, and problem solving',
     summary:
-      'Students build mathematical meaning through models, representations, reasonableness checks, fluency, and cumulative problem solving in the Grade 3 and Grade 6 V3 research tracks.',
+      'Students learn math by building meaning first, then practicing until skills become flexible, accurate, and useful in real problems.',
     paragraphs: [
-      'Only the Grade 3 and Grade 6 math research folders are included here because those are the math tracks with accepted blueprints, course maps, lesson briefs, and question sets.',
-      'Grade 3 establishes multiplication, division, fractions, measurement, data, area, perimeter, and geometry with concrete and visual models. Grade 6 extends that representational habit into ratios, rates, fraction division, rational numbers, algebra, geometry, statistics, and applied modeling.',
-      'Across both grades, the research asks students to choose diagrams, equations, tables, number lines, and explanations that match the situation, then check whether the answer makes sense.',
+      'Buddy Blocks teaches math with models students can see and explain: arrays, number lines, tables, diagrams, equations, area models, graphs, and real-world situations.',
+      'Practice moves from understanding to fluency. Students learn what an operation, fraction, ratio, equation, or measurement means before they are asked to rely on shortcuts.',
+      'Review is mixed and cumulative, so students learn to choose the right tool, check whether an answer makes sense, and transfer old skills into new problems.',
     ],
-    learn: ['Grade 3 operations, fractions, measurement, area, perimeter, and geometry', 'Grade 6 ratios, rates, rational numbers, algebra, geometry, and statistics', 'how to connect stories, diagrams, equations, units, and reasonableness checks'],
-    master: ['meaning-based fluency', 'representation choice', 'transfer to unfamiliar word problems and modeling tasks'],
-    complete: ['2 research-ready grade tracks', '21 units', '130 lesson briefs', '780 research question prompts'],
-    why: ['models protect meaning before procedures', 'spaced mixed retrieval builds durable fluency', 'misconception-based distractors reveal the structure students are using'],
     color: '#5b79ff',
     accent: '#ffd84d',
     levelRange: 'Grades 3 and 6',
@@ -685,18 +677,14 @@ const courseCatalog: CourseCopy[] = [
   {
     slug: 'vocabulary',
     title: 'Vocabulary',
-    eyebrow: 'Research-ready grades 3 and 6',
+    eyebrow: 'Word solving for every subject',
     summary:
-      'Students learn transferable word-solving routines through context, morphology, reference tools, semantic precision, figurative language, academic vocabulary, source language, argument terms, and revision language.',
+      'Students learn how words work, how meanings shift in context, and how to use vocabulary with precision across reading, writing, and discussion.',
     paragraphs: [
-      'Only Grade 3 and Grade 6 Vocabulary are included because those are the vocabulary research folders with accepted course maps, lesson briefs, and question sets.',
-      'Grade 3 builds the flexible routine: pause, reread, find clues, try a meaning, check the fit, and verify with a reference when needed. Grade 6 deepens that routine with Greek and Latin roots, connotation, disciplinary terms, argument, media, research, discussion, and revision vocabulary.',
-      'The research rejects definition-only practice. Students must use clues, word parts, context, reference entries, and precision tests in new reading and writing situations.',
+      'Buddy Blocks teaches vocabulary as a repeatable routine: pause, reread, look for clues, try a meaning, check the fit, and use word parts or references when they help.',
+      'Students practice context clues, roots and affixes, multiple meanings, precise word choice, figurative language, academic terms, and subject-area words in short, manageable tasks.',
+      'The goal is transfer. Students are not just memorizing definitions; they are learning how to figure out unfamiliar words and use better words of their own.',
     ],
-    learn: ['context and reference routines', 'morphology and word families', 'academic, disciplinary, argument, media, research, and revision language'],
-    master: ['meaning fit in new contexts', 'precise word choice', 'strategy selection rather than one-trick guessing'],
-    complete: ['2 research-ready grade tracks', '16 units', '68 lesson briefs', '408 research question prompts'],
-    why: ['unknown words require evidence, not guesses', 'word parts must be tested against context', 'academic vocabulary becomes useful when students apply it across subjects'],
     color: '#e63e80',
     accent: '#18bca4',
     levelRange: 'Grades 3 and 6',
@@ -705,18 +693,14 @@ const courseCatalog: CourseCopy[] = [
   {
     slug: 'spanish',
     title: 'Spanish',
-    eyebrow: 'Research-ready Level 1',
+    eyebrow: 'Useful language from the first lesson',
     summary:
-      'Students start Spanish through novice communication: greetings, classroom language, numbers, calendar, weather, classroom objects, identity, family, likes, school, food, places, routines, and a controlled novice capstone.',
+      'Students start Spanish with language they can understand and use right away: greetings, classroom phrases, questions, descriptions, preferences, food, places, and routines.',
     paragraphs: [
-      'Spanish currently includes only Level 1 because the Level 2 through Level 5 research folders do not yet have accepted question sets.',
-      'The Level 1 research is organized by what students can do with Spanish, not by a grammar checklist. Students hear, read, recognize, match, and choose language before they produce short answers.',
-      'Grammar and culture support communication: articles, gender, agreement, ser, estar, tener, hay, gustar-like chunks, ir, querer, sound-spelling patterns, cognates, names, places, foods, school practices, and everyday routines.',
+      'Buddy Blocks teaches Spanish through short communication moves. Students listen and read first, then choose, match, build, type, and speak familiar phrases with support.',
+      'Grammar is introduced as a tool for meaning: articles, agreement, question words, ser, estar, tener, hay, gustar-like patterns, and everyday verb chunks appear in context.',
+      'Culture stays connected to real language use through names, places, greetings, foods, school life, maps, music, art, and simple comparisons.',
     ],
-    learn: ['novice social and classroom exchanges', 'personal, school, family, food, place, and routine language', 'sound-spelling, cognate, article, agreement, and question-word clues'],
-    master: ['interpretive input before production', 'short familiar questions and answers', 'respectful culture comparisons tied to language tasks'],
-    complete: ['1 research-ready level', '6 units', '30 lesson briefs', '180 research question prompts'],
-    why: ['novice learners need comprehensible input first', 'short chunks make grammar meaningful', 'cumulative retrieval prevents one-unit cramming'],
     color: '#18bca4',
     accent: '#ffd84d',
     levelRange: 'Level 1',
@@ -725,18 +709,14 @@ const courseCatalog: CourseCopy[] = [
   {
     slug: 'french',
     title: 'French',
-    eyebrow: 'Research-ready Level 1',
+    eyebrow: 'Communication, sound, and culture',
     summary:
-      'Students start French through novice communication: greetings, politeness, classroom survival phrases, numbers, calendar, weather, colors, identity, family, likes, school, places, food, choices, and routines.',
+      'Students start French with practical language for greetings, classroom interactions, questions, identity, family, school, places, food, choices, and routines.',
     paragraphs: [
-      'French currently includes only Level 1 because the Level 2 through Level 5 research folders do not yet have accepted question sets.',
-      'The Level 1 research starts with real interaction and keeps interpretive listening and reading ahead of production. Students answer and build short exchanges after they have seen the useful language in context.',
-      'Pronunciation, grammar, and culture appear as supports for meaning: final silent consonants, nasal vowels, accents, c-cedilla, articles, agreement, il y a, etre, avoir, ne...pas, question words, Francophone places, and respectful comparison.',
+      'Buddy Blocks teaches French by giving students repeated contact with useful words and phrases before asking them to produce language independently.',
+      'Students notice sound-spelling patterns, articles, agreement, negation, question words, and high-frequency verb chunks as they help students understand and answer real prompts.',
+      'Francophone culture appears through everyday contexts, places, foods, school routines, polite language, and respectful comparisons.',
     ],
-    learn: ['novice greetings, classroom language, questions, and short exchanges', 'numbers, calendar, weather, family, likes, school, places, food, and routines', 'French sound-spelling, articles, agreement, and high-frequency verb chunks'],
-    master: ['recognition before production', 'short familiar conversation patterns', 'culture comparisons without stereotyping'],
-    complete: ['1 research-ready level', '7 units', '28 lesson briefs', '168 research question prompts'],
-    why: ['students need repeated input before recall', 'grammar is introduced when it clarifies meaning', 'feedback names the clue students should use next time'],
     color: '#5b79ff',
     accent: '#ff7f45',
     levelRange: 'Level 1',
@@ -745,18 +725,14 @@ const courseCatalog: CourseCopy[] = [
   {
     slug: 'grammar',
     title: 'Grammar',
-    eyebrow: 'Research-ready Level 1',
+    eyebrow: 'Clear sentences and better writing',
     summary:
-      'Students learn grammar as sentence meaning and writing control: complete thoughts, subjects, predicates, word jobs, punctuation, capitalization, word forms, sentence expansion, and focused editing.',
+      'Students learn grammar as a tool for clearer thinking and writing, not as a list of labels to memorize.',
     paragraphs: [
-      'Grammar currently includes only Level 1 because the Level 2 through Level 4 research folders do not yet have accepted question sets.',
-      'The Level 1 research starts with complete thoughts and sentence cores before asking students to label or fix conventions. Parts of speech are taught as jobs words do in sentences.',
-      'Students practice one clear editing target at a time, then transfer grammar into sentence combining, expansion, revision, and cumulative writing-focused editing.',
+      'Buddy Blocks starts with sentence sense: complete thoughts, subjects, predicates, and the jobs words do inside a sentence.',
+      'Students practice punctuation, capitalization, nouns, pronouns, verbs, adjectives, adverbs, prepositions, conjunctions, ownership, tense, and agreement in focused examples.',
+      'Grammar work leads back to writing through sentence expansion, combining, correction, and revision that makes meaning clearer for a reader.',
     ],
-    learn: ['complete sentences, subjects, predicates, and parts of speech as jobs', 'punctuation, capitalization, plurals, possession, pronouns, verbs, adjectives, and adverbs', 'sentence expansion, combining, and focused editing'],
-    master: ['grammar choices in meaningful sentences', 'targeted correction without losing meaning', 'clearer writing through revision'],
-    complete: ['1 research-ready level', '7 units', '26 lesson briefs', '156 research question prompts'],
-    why: ['sentence meaning comes before labels', 'focused editing lowers cognitive load', 'grammar transfers when students use it to improve writing'],
     color: '#ffd84d',
     accent: '#e63e80',
     levelRange: 'Level 1',
@@ -765,18 +741,14 @@ const courseCatalog: CourseCopy[] = [
   {
     slug: 'logic',
     title: 'Logic',
-    eyebrow: 'Research-ready Level 1',
+    eyebrow: 'Careful thinking made concrete',
     summary:
-      'Students build careful-thinking habits through sentence jobs, claims, reasons, evidence, relevance, conclusions, rules, causes, categories, weak reasoning, and cross-subject transfer.',
+      'Students learn to slow down, find the claim, check the support, and draw only the conclusions the evidence allows.',
     paragraphs: [
-      'Logic currently includes only Level 1 because the Level 2 through Level 4 research folders do not yet have accepted question sets.',
-      'The Level 1 research stays in familiar language before formal logic. Students learn to identify claims, reasons, examples, evidence, conclusions, and support in short everyday and academic contexts.',
-      'Rather than memorizing labels, students judge whether reasons are relevant, whether conclusions follow, and how a weak reasoning move can be repaired.',
+      'Buddy Blocks teaches logic in plain language before formal symbols. Students sort statements, questions, commands, opinions, claims, reasons, evidence, examples, and conclusions.',
+      'Practice asks students to decide whether a reason is relevant, whether a conclusion follows, and whether a cause or rule has enough support.',
+      'Weak reasoning becomes something students can notice and improve: unrelated reasons, too little evidence, either-or traps, personal attacks, and claims that are too broad.',
     ],
-    learn: ['statements, questions, commands, claims, reasons, evidence, and conclusions', 'relevance, if-then language, causes, categories, all/some/none, and supported conclusions', 'common weak reasoning patterns in student-friendly language'],
-    master: ['checking support before accepting a claim', 'drawing only what follows from the clues', 'repairing weak reasoning with better evidence or narrower claims'],
-    complete: ['1 research-ready level', '6 units', '30 lesson briefs', '180 research question prompts'],
-    why: ['plain-language reasoning should come before formal symbols', 'relevance is the first accessible quality check', 'transfer across subjects shows whether the habit is real'],
     color: '#18bca4',
     accent: '#5b79ff',
     levelRange: 'Level 1',
@@ -785,18 +757,14 @@ const courseCatalog: CourseCopy[] = [
   {
     slug: 'rhetoric',
     title: 'Rhetoric',
-    eyebrow: 'Research-ready Level 1',
+    eyebrow: 'Purposeful communication',
     summary:
-      'Students learn rhetoric as purposeful communication: audience, speaker, purpose, message, narration, description, claims, reasons, examples, comparison, fair evaluation, revision, and short delivery.',
+      'Students learn how to communicate with purpose: who they are speaking to, what they want to say, and what kind of support will make the message stronger.',
     paragraphs: [
-      'Rhetoric currently includes only Level 1 because the Level 2 through Level 5 research folders do not yet have accepted question sets.',
-      'The Level 1 research starts with who the message is for and what it is trying to do. Students then practice story order, useful details, claim-reason-example support, and comparison by criteria.',
-      'Revision and oral delivery stay short and purposeful: improve word choice, order, detail, reason, example, conclusion, voice, and audience fit.',
+      'Buddy Blocks starts rhetoric with audience and purpose, then builds toward short, clear responses that inform, explain, describe, persuade, compare, and evaluate.',
+      'Students practice story order, useful detail, precise examples, claim-reason-example support, fair comparison, and respectful feedback.',
+      'Revision is treated as a real communication skill: improving order, word choice, detail, reasons, examples, conclusions, voice, and audience fit.',
     ],
-    learn: ['speaker, audience, purpose, message, and effect', 'narration, fable retelling, description, amplification, claims, reasons, examples, and comparison', 'revision and short oral delivery for a real audience'],
-    master: ['supporting a point with relevant reasons and examples', 'evaluating fairly by a criterion', 'choosing a rhetorical move that fits the task'],
-    complete: ['1 research-ready level', '7 units', '30 lesson briefs', '180 research question prompts'],
-    why: ['communication begins with audience and purpose', 'models make short rhetorical moves imitable', 'revision is taught as improving meaning and effect'],
     color: '#e63e80',
     accent: '#ffd84d',
     levelRange: 'Level 1',
@@ -805,18 +773,14 @@ const courseCatalog: CourseCopy[] = [
   {
     slug: 'classical-literature',
     title: 'Classical Literature',
-    eyebrow: 'Research-ready Level 1',
+    eyebrow: 'Stories, poems, and inherited wisdom',
     summary:
-      'Students build a story foundation through fables, folktales, myths, heroic journeys, poetry, dialogue, drama excerpts, comparison, and evidence-based response.',
+      'Students read classic story forms with attention to plot, character, choice, consequence, language, genre, and evidence.',
     paragraphs: [
-      'Classical Literature currently includes only Level 1 because the Level 2 through Level 5 research folders do not yet have accepted question sets.',
-      'The Level 1 research starts with retelling and story elements, then broadens into genre, pattern, character choice, consequence, moral, mythic meaning, poetry, narrator, dialogue, and comparison.',
-      'The course is not a trivia survey of classical names. Students use inherited stories respectfully and support interpretations with events, details, language, and genre clues.',
+      'Buddy Blocks teaches literature through short works students can reread, retell, compare, and discuss with evidence.',
+      'Students meet fables, folktales, myths, heroic journeys, poems, dialogue, and drama excerpts while learning the reading habits that support later classics.',
+      'The emphasis is not trivia. Students learn to notice story structure, moral meaning, character choices, poetic language, genre patterns, and respectful cultural context.',
     ],
-    learn: ['retelling, character, setting, problem, action, outcome, moral, and evidence', 'fable, folktale, myth, hero journey, poem, dialogue, and drama excerpt patterns', 'poetic sound, image, speaker, comparison, and respectful cultural framing'],
-    master: ['evidence-based story comprehension', 'genre and pattern recognition', 'comparison using one clear criterion'],
-    complete: ['1 research-ready level', '6 units', '24 lesson briefs', '144 research question prompts'],
-    why: ['short texts build durable reading habits', 'evidence keeps interpretation grounded', 'genre knowledge prepares students for older classical works'],
     color: '#5b79ff',
     accent: '#18bca4',
     levelRange: 'Level 1',
@@ -825,18 +789,14 @@ const courseCatalog: CourseCopy[] = [
   {
     slug: 'history-and-civics',
     title: 'History And Civics',
-    eyebrow: 'Research-ready Level 1',
+    eyebrow: 'Time, place, sources, and citizenship',
     summary:
-      'Students learn the tools of history and civic reasoning: time, timelines, maps, globes, sources, evidence, community rules, rights, responsibilities, economics, culture, symbols, and inquiry.',
+      'Students learn how people, places, sources, communities, rules, responsibilities, and shared ideals fit into a meaningful civic and historical story.',
     paragraphs: [
-      'History And Civics currently includes only Level 1 because the Level 2 through Level 5 research folders do not yet have accepted question sets.',
-      'The Level 1 research teaches students to think with time and place, then use sources, maps, timelines, artifacts, images, and short texts as evidence.',
-      'Civics and economics are woven into concrete community contexts: needs, wants, goods, services, producers, consumers, rules, leaders, rights, responsibilities, symbols, documents, and shared ideals.',
+      'Buddy Blocks begins with the tools students need for history: time words, timelines, maps, globes, directions, symbols, sources, artifacts, images, and evidence.',
+      'Students connect those tools to community life, rules, leaders, rights, responsibilities, needs, wants, work, trade, culture, symbols, and documents.',
+      'The goal is thoughtful inquiry. Students learn to answer simple history and civics questions with clues from maps, timelines, texts, objects, and images.',
     ],
-    learn: ['time language, timelines, maps, globes, directions, symbols, and place relationships', 'primary and secondary sources, artifacts, photographs, maps, and evidence claims', 'community rules, leaders, rights, responsibilities, needs, wants, goods, services, and trade'],
-    master: ['source-based answers', 'chronology and spatial reasoning', 'simple claims supported by one piece of evidence'],
-    complete: ['1 research-ready level', '8 units', '24 lesson briefs', '144 research question prompts'],
-    why: ['students need tools before sweeping historical claims', 'sources make history evidential', 'civics connects rights with responsibilities'],
     color: '#ff7f45',
     accent: '#18bca4',
     levelRange: 'Level 1',
@@ -845,18 +805,14 @@ const courseCatalog: CourseCopy[] = [
   {
     slug: 'memory-works',
     title: 'Memory Works',
-    eyebrow: 'Research-ready Level 1',
+    eyebrow: 'Recall, recitation, and confidence',
     summary:
-      'Students learn how memory works through active retrieval, chunking, cues, spacing, exact wording, meaning, poems, facts, maps, timelines, and confident recitation.',
+      'Students learn how to memorize well by using meaning, chunks, cues, active recall, spacing, correction, and confident recitation.',
     paragraphs: [
-      'Memory Works currently includes only Level 1 because the Level 2 through Level 4 research folders do not yet have accepted question sets.',
-      'The Level 1 research explicitly teaches the practice routine before applying it to sayings, poems, fact families, measure equivalences, grammar definitions, geography categories, compass directions, and history pegs.',
-      'Students move from recognition and cued recall toward independent recall with fading cues, delayed review, error repair, meaning checks, and low-stakes cumulative performance.',
+      'Buddy Blocks treats memory as a learnable skill. Students practice looking, chunking, covering, recalling, checking, correcting, and returning after a delay.',
+      'Memory targets include sayings, poems, fact families, measure equivalences, grammar definitions, map knowledge, compass directions, and history pegs.',
+      'Students move from recognition to cued recall to independent recall, with review that helps knowledge last beyond the day it was introduced.',
     ],
-    learn: ['study, recognition, cued recall, independent recall, retrieval, spacing, chunking, and cues', 'sayings, poems, facts, forms, maps, compass directions, and timeline pegs', 'meaning checks and clear recitation'],
-    master: ['active recall instead of rereading', 'fading cues toward independent memory', 'repairing missed chunks after delayed review'],
-    complete: ['1 research-ready level', '6 units', '22 lesson briefs', '132 research question prompts'],
-    why: ['retrieval strengthens memory better than rereading', 'meaning and chunks make exact recall less fragile', 'spaced review protects long-term retention'],
     color: '#ffd84d',
     accent: '#5b79ff',
     levelRange: 'Level 1',
@@ -867,7 +823,7 @@ const courseCatalog: CourseCopy[] = [
 const courseFamilies: CourseFamily[] = courseCatalog.map((course) => ({
   ...course,
   stats: statsForTracks(course.tracks),
-  mockups: course.tracks.flatMap((track) => track.mockups).slice(0, 3),
+  mockups: course.tracks.flatMap((track) => track.mockups).slice(0, 2),
 }));
 
 export function getCourseFamilies() {
