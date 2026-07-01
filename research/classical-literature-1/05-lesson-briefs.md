@@ -36,7 +36,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Story elements, sequence, and basic cause/effect language.
 - **Likely misconceptions:** Treating the consequence as random; labeling a character only good or bad; skipping the choice and jumping straight to the moral.
 - **Evidence of mastery:** The student can match choices to consequences and explain one chain with a short because statement.
-- **Recommended question types:** `match-pairs` for choice-to-consequence; `passage-question` for evidence; `constructed-response` for a brief explanation.
+- **Recommended question types:** `match-pairs` for choice-to-consequence; `passage-question` for evidence; `multi-blank-cloze` or `multiple-choice` for a brief because/so explanation.
 - **Suggested intro/teaching note:** Model a chain such as "The character boasts, so the other characters stop trusting him."
 - **Reading-level and cognitive-load constraints:** Use clear cause/effect language; keep written explanations to one sentence or a short frame.
 
@@ -48,7 +48,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Retelling, story elements, and choice-consequence reasoning.
 - **Likely misconceptions:** Choosing a moral because it sounds kind; confusing topic with moral; citing an unrelated detail as evidence.
 - **Evidence of mastery:** The student can choose the best moral from plausible options and identify the event that supports it.
-- **Recommended question types:** `multiple-choice` for moral selection; `passage-question` for evidence; `constructed-response` for a one-sentence moral explanation.
+- **Recommended question types:** `multiple-choice` for moral selection; `passage-question` for evidence; `multiple-choice` for a supported moral explanation.
 - **Suggested intro/teaching note:** Contrast two morals: one true-sounding but unsupported, one supported by the fable's ending.
 - **Reading-level and cognitive-load constraints:** Use familiar moral language; limit answer choices to short statements; avoid abstract vocabulary such as "theme" until later.
 
@@ -86,7 +86,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Choice-consequence chains, folktale patterns, and respectful discussion language.
 - **Likely misconceptions:** Trickster means villain; cleverness always deserves praise; funny endings have no consequence.
 - **Evidence of mastery:** The student can explain whether a trickster's choice helps, harms, reveals, or corrects something in the tale.
-- **Recommended question types:** `passage-question` for trickster evidence; `multiple-choice` for consequence analysis; `constructed-response` for a short balanced explanation.
+- **Recommended question types:** `passage-question` for trickster evidence; `multiple-choice` for consequence analysis; `multiple-choice` for a short balanced explanation.
 - **Suggested intro/teaching note:** Present one trickster action and ask two questions: "What did the character want?" and "Who was changed by the trick?"
 - **Reading-level and cognitive-load constraints:** Use one trick at a time; avoid culturally loaded claims; keep judgment language careful.
 
@@ -98,7 +98,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Retelling, folktale features, repeated patterns, trickster choices, and evidence.
 - **Likely misconceptions:** Comparison means listing everything; one detail from only one story is enough; alike and different can be mixed without a criterion.
 - **Evidence of mastery:** The student can complete a comparison sentence using both/evidence/because language.
-- **Recommended question types:** `match-pairs` for criteria and evidence; `passage-question` for paired text details; `constructed-response` for a one-sentence comparison.
+- **Recommended question types:** `match-pairs` for criteria and evidence; `passage-question` for paired text details; `multiple-choice` for a one-sentence comparison.
 - **Suggested intro/teaching note:** Model a comparison with a tiny criterion: "Both tales use a warning, but the characters respond differently."
 - **Reading-level and cognitive-load constraints:** Use short paired passages; limit comparison to one feature at a time.
 
@@ -112,7 +112,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Genre-feature charts, folktale comparison, fable moral evidence, and respectful language.
 - **Likely misconceptions:** Myth means lie; myths are just fantasy stories; all myths teach in the same way fables do.
 - **Evidence of mastery:** The student can choose the best explanation of myth and reject a disrespectful or inaccurate definition.
-- **Recommended question types:** `multiple-choice` for definition; `match-pairs` for features and examples; `constructed-response` for respectful wording.
+- **Recommended question types:** `multiple-choice` for definition; `match-pairs` for features and examples; `multiple-choice` for respectful wording.
 - **Suggested intro/teaching note:** Begin with two uses of the word myth and explain that literature class uses the traditional-story meaning.
 - **Reading-level and cognitive-load constraints:** Keep examples brief; avoid theological debate; use "traditional story" consistently.
 
@@ -136,7 +136,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Myth features, sequence, cause and consequence, and pattern recognition.
 - **Likely misconceptions:** Transformation is only a special effect; origin stories are the same as scientific explanations; the reason for change does not matter.
 - **Evidence of mastery:** The student can identify the before state, cause or warning, transformation, and story meaning.
-- **Recommended question types:** `order-items` for transformation sequence; `passage-question` for cause evidence; `constructed-response` for what the change shows.
+- **Recommended question types:** `order-items` for transformation sequence; `passage-question` for cause evidence; `multiple-choice` for what the change shows.
 - **Suggested intro/teaching note:** Model one mythic change with the question "What was different at the end, and what caused it?"
 - **Reading-level and cognitive-load constraints:** Use age-appropriate myth episodes; avoid disturbing transformations; keep names limited.
 
@@ -186,7 +186,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Character traits, consequences, quest parts, and mythic story support.
 - **Likely misconceptions:** Heroes are perfect; a flaw makes someone not a hero; courage means never needing help.
 - **Evidence of mastery:** The student can identify a trait or flaw from evidence and explain its effect on one event.
-- **Recommended question types:** `multiple-choice` for trait evidence; `passage-question` for choices; `constructed-response` for balanced explanation.
+- **Recommended question types:** `multiple-choice` for trait evidence; `passage-question` for choices; `multiple-choice` for balanced explanation.
 - **Suggested intro/teaching note:** Use two columns, "admirable" and "risky," to show that one character can have both.
 - **Reading-level and cognitive-load constraints:** Use familiar trait words; avoid moral complexity beyond one clear choice and result.
 
@@ -198,7 +198,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Quest structure, obstacles, helpers, traits, flaws, and consequence reasoning.
 - **Likely misconceptions:** A happy ending has no cost; reward only means treasure; return is just the final location.
 - **Evidence of mastery:** The student can explain the reward and cost in a short heroic episode and connect them to the story's ending.
-- **Recommended question types:** `match-pairs` for cost/reward examples; `passage-question` for return evidence; `constructed-response` for a brief explanation.
+- **Recommended question types:** `match-pairs` for cost/reward examples; `passage-question` for return evidence; `multiple-choice` for a brief cost/reward explanation.
 - **Suggested intro/teaching note:** Ask three ending questions: What was gained? What was hard or lost? What changed after the journey?
 - **Reading-level and cognitive-load constraints:** Use gentle, age-appropriate costs; keep explanations short and concrete.
 
@@ -224,7 +224,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Lines and stanzas, folktale repetition, and oral listening.
 - **Likely misconceptions:** Rhyme is the only feature that makes poetry; repetition is filler; any two similar-looking words rhyme.
 - **Evidence of mastery:** The student can choose repeated words or rhyming words and state their effect in a simple way.
-- **Recommended question types:** `match-pairs` for rhyming words; `passage-question` for repeated language; `constructed-response` for one-sentence effect.
+- **Recommended question types:** `match-pairs` for rhyming words; `passage-question` for repeated language; `multiple-choice` for one-sentence effect.
 - **Suggested intro/teaching note:** Read a short repeated line twice and ask why the poet or speaker might want that phrase to stay in memory.
 - **Reading-level and cognitive-load constraints:** Use clear rhymes and repeated phrases; avoid technical stress terminology.
 
@@ -236,7 +236,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Story images from myths and heroes, poem lines, and evidence language.
 - **Likely misconceptions:** An image must be a printed picture; similes are literal facts; personification means the thing truly becomes human.
 - **Evidence of mastery:** The student can match a line to image, simile, or personification and explain the picture it creates.
-- **Recommended question types:** `match-pairs` for feature to example; `multiple-choice` for figurative meaning; `constructed-response` for a short image explanation.
+- **Recommended question types:** `match-pairs` for feature to example; `multiple-choice` for figurative meaning; `multiple-choice` for a short image explanation.
 - **Suggested intro/teaching note:** Use one line such as "The moon watched over the road" and ask what picture and feeling it creates.
 - **Reading-level and cognitive-load constraints:** Use concrete, gentle images; avoid dense metaphor; keep figurative terms few and tied to meaning.
 
@@ -248,7 +248,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Lines, repetition, image, and basic character voice from stories.
 - **Likely misconceptions:** The speaker is always the author; mood is the reader's private feeling only; recitation means saying words quickly from memory.
 - **Evidence of mastery:** The student can identify a likely speaker or mood and cite a word, phrase, or line as evidence.
-- **Recommended question types:** `passage-question` for speaker evidence; `multiple-choice` for mood; `constructed-response` for oral reading choice.
+- **Recommended question types:** `passage-question` for speaker evidence; `multiple-choice` for mood; `multiple-choice` for oral reading choice.
 - **Suggested intro/teaching note:** Read the same line in two voices and ask which voice fits the words better.
 - **Reading-level and cognitive-load constraints:** Use short, clear poems or speeches; no long memorization requirement; keep mood choices age-appropriate.
 
@@ -274,7 +274,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Narrator and dialogue labels, character traits, choice-consequence reasoning.
 - **Likely misconceptions:** Dialogue is filler; a character's words always tell the whole truth; tone can be guessed without evidence.
 - **Evidence of mastery:** The student can choose what a line reveals and support the inference with the words spoken.
-- **Recommended question types:** `dialogue-builder` for fitting next line; `passage-question` for speech evidence; `multiple-choice` for character inference.
+- **Recommended question types:** `passage-question` for fitting next line or speech evidence; `multiple-choice` for character inference.
 - **Suggested intro/teaching note:** Ask, "What did the character say? What does that show? What might happen next?"
 - **Reading-level and cognitive-load constraints:** Use short lines; keep inference close to text; avoid sarcasm or subtle irony.
 
@@ -286,7 +286,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Dialogue, speaker tracking, character conflict, and oral reading.
 - **Likely misconceptions:** Drama is only a story with quotation marks; stage directions do not matter; narrator and stage direction are the same as a character line.
 - **Evidence of mastery:** The student can label parts of a short scene and explain how a stage direction changes understanding.
-- **Recommended question types:** `match-pairs` for scene parts; `passage-question` for stage direction evidence; `dialogue-builder` for appropriate line choice.
+- **Recommended question types:** `match-pairs` for scene parts; `passage-question` for stage direction evidence or appropriate line choice.
 - **Suggested intro/teaching note:** Read a two-character scene aloud, first ignoring stage directions and then using them, and compare the meaning.
 - **Reading-level and cognitive-load constraints:** Use a tiny scene; keep stage directions simple; avoid performance pressure.
 
@@ -297,10 +297,10 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Key idea, model, text, representation, form, or procedure:** A final transfer checklist asks: retell, genre, pattern, character choice, evidence, and comparison when needed.
 - **Prerequisite knowledge:** All prior Level 1 skills.
 - **Likely misconceptions:** Comparison is two summaries; transfer means guessing which old lesson the question came from; evidence is optional once the answer feels right.
-- **Evidence of mastery:** The student can answer a mixed set of questions about a new passage and write one short evidence-based comparison or interpretation.
-- **Recommended question types:** `passage-question` for new text comprehension; `order-items` for retelling; `constructed-response` for transfer explanation; `multiple-choice` for genre and pattern.
+- **Evidence of mastery:** The student can answer a mixed set of questions about a new passage and choose a short evidence-based comparison or interpretation.
+- **Recommended question types:** `passage-question` for new text comprehension; `order-items` for retelling; `multiple-choice` for transfer explanation, genre, and pattern.
 - **Suggested intro/teaching note:** Tell students they now have a reader's toolkit and model choosing the tool that fits the question.
-- **Reading-level and cognitive-load constraints:** Use a short adapted passage; include only a few unfamiliar names; keep constructed responses brief and scaffolded.
+- **Reading-level and cognitive-load constraints:** Use a short adapted passage; include only a few unfamiliar names; keep explanation choices brief and scaffolded.
 
 ## Completion Checklist
 

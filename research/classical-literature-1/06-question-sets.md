@@ -105,17 +105,17 @@ misconception: "Using beginning, middle, and ending as empty labels."
 
 ```question
 key: u01_l01_q06_lion_mouse_retell
-type: constructed-response
-prompt: "Retell this fable in one or two sentences: A lion spared a mouse. Later the lion was caught in a net. The mouse chewed the ropes and freed the lion."
-minWords: 12
-sampleAnswer: "A lion let a mouse go, and later the mouse helped by chewing the net that trapped the lion."
-checklist:
-  - "Include the lion sparing the mouse"
-  - "Include the lion trapped in the net"
-  - "Include the mouse freeing the lion"
+type: multiple-choice
+prompt: "Which retell keeps the important events of this fable in order? A lion spared a mouse. Later the lion was caught in a net. The mouse chewed the ropes and freed the lion."
+choices:
+  - "A lion spared a mouse. Later, the mouse chewed the net and freed the trapped lion."
+  - "A mouse freed a lion, so later the lion decided to spare the mouse."
+  - "A lion was trapped because a mouse chewed a net and ran away."
+  - "A lion and a mouse searched together for a new net."
+correctAnswer: "A lion spared a mouse. Later, the mouse chewed the net and freed the trapped lion."
 explanation: "A good retell keeps the important events in order and leaves out extra invented details."
-hint: "Use first, later, and finally to keep the events in order."
-questionGoal: "Produce a brief ordered retell from given events."
+hint: "Look for sparing first, the trap next, and the mouse's help at the end."
+questionGoal: "Select a brief ordered retell from given events."
 misconception: "Leaving out the event that makes the ending make sense."
 ```
 
@@ -226,16 +226,17 @@ misconception: "Treating all story labels as interchangeable."
 
 ```question
 key: u01_l02_q06_story_elements_explain
-type: constructed-response
-prompt: "In one sentence, name the character and problem in this fable: A mouse chewed a rope to free a trapped lion."
-minWords: 8
-sampleAnswer: "The characters are the mouse and lion, and the problem is that the lion is trapped."
-checklist:
-  - "Name the mouse or lion as a character"
-  - "Say that the lion is trapped"
+type: multiple-choice
+prompt: "Which sentence correctly names the character and problem in this fable? A mouse chewed a rope to free a trapped lion."
+choices:
+  - "The characters are the mouse and lion, and the problem is that the lion is trapped."
+  - "The setting is the lion, and the problem is that the mouse is a character."
+  - "The character is the rope, and the problem is that the mouse is small."
+  - "The outcome is the mouse, and the problem is that the story has animals."
+correctAnswer: "The characters are the mouse and lion, and the problem is that the lion is trapped."
 explanation: "Characters are who is in the story; the problem is the trouble that must be solved."
 hint: "Ask who is in the fable and what trouble they face."
-questionGoal: "Produce a brief story-element identification."
+questionGoal: "Choose an accurate story-element identification."
 misconception: "Naming the helpful action as the problem instead of the trouble."
 ```
 
@@ -336,17 +337,26 @@ misconception: "Stating events without explaining their cause."
 
 ```question
 key: u01_l03_q06_choice_explain
-type: constructed-response
-prompt: "Explain the choice and consequence in one sentence: The fox praised the crow's singing, and the crow opened her beak and dropped the cheese."
-minWords: 10
-sampleAnswer: "The crow chose to sing after the fox praised her, so she dropped the cheese."
-checklist:
-  - "Name the crow's choice"
-  - "Name the consequence"
-  - "Use because or so"
+type: multi-blank-cloze
+prompt: "Complete the choice-consequence explanation."
+parts:
+  - "The crow chose to "
+  - " after the fox praised her, so she "
+  - "."
+blanks:
+  - correctAnswer: "open her beak"
+    choices:
+      - "open her beak"
+      - "hide the fox"
+      - "carry the pitcher"
+  - correctAnswer: "dropped the cheese"
+    choices:
+      - "dropped the cheese"
+      - "won a race"
+      - "found more pebbles"
 explanation: "The crow's choice leads directly to losing the cheese."
-hint: "Use this frame: The crow chose to ___, so ___."
-questionGoal: "Explain a fable cause-and-effect relationship."
+hint: "Look for the choice the crow makes and what happens because of it."
+questionGoal: "Complete a fable cause-and-effect relationship."
 misconception: "Blaming only the fox without noticing the crow's choice."
 ```
 
@@ -378,9 +388,9 @@ type: multiple-choice
 prompt: "Which event is the best evidence for the moral 'Do not let flattery make you careless'?"
 choices:
   - "The crow opens her beak after the fox praises her."
-  - "The fox has four legs."
-  - "The cheese is food."
-  - "The tree is tall."
+  - "The crow sits in a tree before the fox speaks."
+  - "The fox wants the cheese for himself."
+  - "The cheese falls after the crow opens her beak."
 correctAnswer: "The crow opens her beak after the fox praises her."
 explanation: "That event shows the crow becoming careless because of praise."
 hint: "Find the event that directly connects praise to the loss."
@@ -443,17 +453,17 @@ misconception: "Giving a moral without explaining why it fits."
 
 ```question
 key: u01_l04_q06_write_moral_evidence
-type: constructed-response
-prompt: "Write one sentence explaining the moral of this fable: A dog saw his reflection, snapped at the 'other' meat, and dropped the meat he already had."
-minWords: 12
-sampleAnswer: "The moral is that greed can make you lose what you have because the dog lost his own meat."
-checklist:
-  - "State a moral"
-  - "Use evidence from the fable"
-  - "Use because or another reason word"
+type: multiple-choice
+prompt: "Which sentence gives a supported moral for this fable? A dog saw his reflection, snapped at the 'other' meat, and dropped the meat he already had."
+choices:
+  - "Greed can make you lose what you have because the dog lost his own meat while trying to get more."
+  - "Always cross bridges quickly because the dog was on a bridge."
+  - "Reflections are helpful because the dog saw one in the water."
+  - "Meat is hard to carry because the dog had meat at the start."
+correctAnswer: "Greed can make you lose what you have because the dog lost his own meat while trying to get more."
 explanation: "The strongest answer connects the lesson to the dog's action and loss."
-hint: "Use this frame: The moral is ___ because ___."
-questionGoal: "Produce a supported moral explanation."
+hint: "Choose the sentence that includes both a lesson and evidence from the dog's action."
+questionGoal: "Choose a supported moral explanation."
 misconception: "Writing advice that is not tied to the story event."
 ```
 
@@ -540,9 +550,9 @@ type: multiple-choice
 prompt: "Why is it not enough to say, 'This story has an animal, so it must be a fable'?"
 choices:
   - "Animals can appear in fables, folktales, myths, and other stories."
-  - "Fables never include animals."
-  - "Only poems include animals."
-  - "Animal characters always mean the story is a myth."
+  - "Any story with an animal must have a one-sentence moral."
+  - "Animal stories cannot be retold through oral tradition."
+  - "A story's genre depends only on whether the characters are people."
 correctAnswer: "Animals can appear in fables, folktales, myths, and other stories."
 explanation: "A reader should look at how the story works, not only whether an animal appears."
 hint: "One feature by itself may not be enough to name a genre."
@@ -552,17 +562,17 @@ misconception: "Classifying genre from animals alone."
 
 ```question
 key: u02_l01_q06_respectful_genre_sentence
-type: constructed-response
-prompt: "Write one respectful sentence about a folktale from another tradition. Use the word 'story' or 'tradition.'"
-minWords: 8
-sampleAnswer: "This story comes from a tradition where people retold it aloud."
-checklist:
-  - "Use respectful language"
-  - "Avoid saying the story proves everything about a culture"
-  - "Use story or tradition"
+type: multiple-choice
+prompt: "Which sentence discusses a folktale from another tradition most respectfully?"
+choices:
+  - "This story comes from a tradition where people retold it aloud."
+  - "This story proves that everyone in that culture thinks the same way."
+  - "This old story is silly, so its details do not matter."
+  - "This tale can only be understood if we memorize every custom first."
+correctAnswer: "This story comes from a tradition where people retold it aloud."
 explanation: "Respectful language treats a tale as part of a tradition without flattening a whole culture."
-hint: "Try this start: This story comes from..."
-questionGoal: "Practice respectful discussion language for traditional stories."
+hint: "Choose the sentence that treats the tale as a story from a tradition without making a broad claim about everyone."
+questionGoal: "Identify respectful discussion language for traditional stories."
 misconception: "Using one story to make a broad claim about an entire culture."
 ```
 
@@ -663,17 +673,17 @@ misconception: "Noticing repetition without interpreting its purpose."
 
 ```question
 key: u02_l02_q06_predict_pattern
-type: constructed-response
-prompt: "A folktale says, 'At the first door, he heard a riddle. At the second door, he heard a riddle.' What might you expect at the third door? Answer in one sentence."
-minWords: 8
-sampleAnswer: "I would expect another riddle at the third door because the events are repeating."
-checklist:
-  - "Predict another patterned event"
-  - "Use because"
-  - "Mention the repeating pattern"
+type: multiple-choice
+prompt: "A folktale says, 'At the first door, he heard a riddle. At the second door, he heard a riddle.' Which prediction best uses the pattern?"
+choices:
+  - "At the third door, he will probably hear another riddle because the events are repeating."
+  - "At the third door, the story will probably become a poem because riddles use words."
+  - "At the third door, he will probably forget the first two doors because they are finished."
+  - "At the third door, the setting will probably disappear because the pattern repeats."
+correctAnswer: "At the third door, he will probably hear another riddle because the events are repeating."
 explanation: "A pattern can help a listener predict what may come next."
-hint: "Use this frame: I expect ___ because ___."
-questionGoal: "Use a repeated pattern to make a reasonable prediction."
+hint: "Look for the choice that predicts the same kind of event and explains why."
+questionGoal: "Choose a reasonable prediction from a repeated pattern."
 misconception: "Predicting without using the tale's pattern."
 ```
 
@@ -685,9 +695,9 @@ type: multiple-choice
 prompt: "Which description best fits a trickster in a tale?"
 choices:
   - "A clever character whose tricks change the story"
-  - "A perfect hero who never causes trouble"
-  - "A setting where a story happens"
-  - "A poem with two stanzas"
+  - "A clever character who only helps and never causes trouble"
+  - "A character who is tricky but whose choices do not affect anyone"
+  - "A character who appears only in the setting description"
 correctAnswer: "A clever character whose tricks change the story"
 explanation: "A trickster uses cleverness or tricks, and the results may help, harm, reveal, or correct something."
 hint: "Look for clever action that disrupts events."
@@ -752,18 +762,18 @@ misconception: "Reducing a trickster to a single moral label."
 
 ```question
 key: u02_l03_q05_trickster_next_line
-type: dialogue-builder
-prompt: "Choose the line that best fits Turtle after Turtle discovers Spider's unfair trick."
-turns:
-  - speaker: "Spider"
-    line: "The feast begins later. Come when the moon is high."
-  - speaker: "Turtle"
-    line: "But you told yourself to come now."
+type: passage-question
+prompt: "Read the trickster dialogue and answer."
+passageTitle: "Turtle Notices"
+passage: |
+  Spider said, "The feast begins later. Come when the moon is high."
+  Turtle answered, "But you told yourself to come now."
+question: "Which line best fits Turtle after Turtle discovers Spider's unfair trick?"
 choices:
   - "I will invite the others now so everyone has a fair share."
-  - "I forgot what food is."
-  - "I will come at the wrong time too."
-  - "Let us stop speaking forever."
+  - "I will keep Spider's secret so he can eat alone."
+  - "I will tell everyone to come even later."
+  - "I will ignore the trick because the feast time does not matter."
 correctAnswer: "I will invite the others now so everyone has a fair share."
 explanation: "This line responds to Spider's unfair trick and moves the tale toward a consequence."
 hint: "Choose the line that answers the problem in the scene."
@@ -773,17 +783,17 @@ misconception: "Choosing a random funny line instead of one tied to the story pr
 
 ```question
 key: u02_l03_q06_balanced_trickster_explain
-type: constructed-response
-prompt: "In one sentence, explain how Spider's trick is clever but unfair."
-minWords: 10
-sampleAnswer: "Spider is clever because he changes the feast time, but it is unfair because he wants all the stew."
-checklist:
-  - "Name what is clever"
-  - "Name why it is unfair"
-  - "Use evidence from the tale"
+type: multiple-choice
+prompt: "Which sentence gives the most balanced explanation of Spider's trick?"
+choices:
+  - "Spider is clever because he changes the feast time, but it is unfair because he wants all the stew."
+  - "Spider is only clever, so the trick cannot hurt anyone."
+  - "Spider is only bad, so his plan does not need to be understood."
+  - "Spider is careful because he makes sure every guest gets the same message."
+correctAnswer: "Spider is clever because he changes the feast time, but it is unfair because he wants all the stew."
 explanation: "A balanced answer notices both the clever action and its effect on others."
-hint: "Use this frame: Spider is clever because ___, but unfair because ___."
-questionGoal: "Produce a balanced explanation of a trickster choice."
+hint: "Look for the answer that explains both the clever plan and the harm to others."
+questionGoal: "Choose a balanced explanation of a trickster choice."
 misconception: "Praising cleverness without considering consequence."
 ```
 
@@ -899,17 +909,17 @@ misconception: "Starting with an opinion before selecting a comparison feature."
 
 ```question
 key: u02_l04_q06_write_comparison
-type: constructed-response
-prompt: "Write one comparison sentence about Tale A and Tale B using the warning criterion."
-minWords: 14
-sampleAnswer: "Both tales include a warning, but one character opens a forbidden door while the other takes too many pearls."
-checklist:
-  - "Use both or alike"
-  - "Use but, while, or different"
-  - "Include evidence from each tale"
+type: multiple-choice
+prompt: "Which sentence compares Tale A and Tale B using the warning criterion and evidence from both?"
+choices:
+  - "Both tales include a warning, but one character opens a forbidden door while the other takes too many pearls."
+  - "Tale A has a red door, and Tale B has pearls."
+  - "Tale B is better because it has a talking fish."
+  - "Both tales have warnings, so the characters respond in exactly the same way."
+correctAnswer: "Both tales include a warning, but one character opens a forbidden door while the other takes too many pearls."
 explanation: "A strong comparison uses the same criterion and details from both tales."
-hint: "Use this frame: Both tales include ___, but ___."
-questionGoal: "Produce a brief one-criterion comparison."
+hint: "Choose the sentence that names the shared feature and gives one detail from each tale."
+questionGoal: "Choose a brief one-criterion comparison."
 misconception: "Summarizing only one tale or giving an unsupported opinion."
 ```
 
@@ -1008,17 +1018,17 @@ misconception: "Reducing myths to errors or stereotypes."
 
 ```question
 key: u03_l01_q06_myth_explain
-type: constructed-response
-prompt: "In one sentence, explain why 'myth' does not simply mean 'false story' in literature class."
-minWords: 10
-sampleAnswer: "In literature, a myth is a traditional story with cultural meaning, not just a false statement."
-checklist:
-  - "Say myth is a traditional story"
-  - "Mention meaning, culture, or tradition"
-  - "Avoid mocking language"
+type: multiple-choice
+prompt: "Which explanation best shows why 'myth' does not simply mean 'false story' in literature class?"
+choices:
+  - "In literature, a myth is a traditional story with cultural meaning, not just a false statement."
+  - "In literature, a myth is any story that no one should read carefully."
+  - "In literature, a myth is a list of names with no story meaning."
+  - "In literature, a myth is always a short fable with one direct moral."
+correctAnswer: "In literature, a myth is a traditional story with cultural meaning, not just a false statement."
 explanation: "The literary meaning of myth is about tradition and meaning, not insult."
-hint: "Use the words traditional story in your answer."
-questionGoal: "Produce a respectful explanation of myth as a genre."
+hint: "Look for the answer that uses the literature meaning: traditional story."
+questionGoal: "Choose a respectful explanation of myth as a genre."
 misconception: "Using only the everyday meaning of myth as false."
 ```
 
@@ -1027,7 +1037,7 @@ misconception: "Using only the everyday meaning of myth as false."
 ```question
 key: u03_l02_q01_name_role_match
 type: match-pairs
-prompt: "Match each Greek or Roman name to its story role."
+prompt: "Use the role clues in this myth setup to match each name to its role: Zeus, king of the gods, sends Hermes, the swift messenger, to ask Athena, a goddess linked with wisdom, for advice near Poseidon's sea."
 pairs:
   - left: "Zeus"
     right: "King of the Greek gods in many myths"
@@ -1084,16 +1094,16 @@ misconception: "Guessing from unfamiliar names instead of reading the role clue.
 ```question
 key: u03_l02_q04_no_long_lists
 type: multiple-choice
-prompt: "Why should Level 1 myth lessons avoid long lists of gods and family trees?"
+prompt: "A myth says, 'Poseidon, the sea god, lifted the waves.' What should you use to follow the story?"
 choices:
-  - "Students need names as story clues, not detached memory lists."
-  - "Names never matter in myths."
-  - "A name list by itself explains every myth."
-  - "A long list is the same as understanding a story."
-correctAnswer: "Students need names as story clues, not detached memory lists."
-explanation: "Names matter when they help us understand the story, relationship, or choice."
-hint: "Think about using names inside the story."
-questionGoal: "Reinforce purposeful use of mythic names."
+  - "Use the role clue 'sea god' to understand why Poseidon is linked to the waves."
+  - "Ignore the role clue and memorize a long family tree first."
+  - "Assume Poseidon is the sailor because the sentence mentions waves."
+  - "Skip the name because unfamiliar names never matter."
+correctAnswer: "Use the role clue 'sea god' to understand why Poseidon is linked to the waves."
+explanation: "The role clue helps connect the unfamiliar name to the action in the story."
+hint: "Look for the words right after the name that explain the role."
+questionGoal: "Use a role clue to follow an unfamiliar mythic name."
 misconception: "Equating memorization of names with comprehension."
 ```
 
@@ -1110,12 +1120,12 @@ blanks:
     choices:
       - "Hermes"
       - "Poseidon"
-      - "Aesop"
+      - "Athena"
   - correctAnswer: "sailor"
     choices:
       - "sailor"
-      - "stanza"
-      - "tortoise"
+      - "Zeus"
+      - "Hermes"
 explanation: "The map shows who sends, who carries, and who receives the warning."
 hint: "Follow the action in the setup: sends, carries, receives."
 questionGoal: "Track relationships among a small myth cast."
@@ -1124,17 +1134,17 @@ misconception: "Losing the story action because of unfamiliar names."
 
 ```question
 key: u03_l02_q06_name_context_explain
-type: constructed-response
-prompt: "In one sentence, explain how a role clue can help you read a myth with unfamiliar names."
-minWords: 10
-sampleAnswer: "A role clue tells who the character is, such as messenger or sea god, so I can follow the story."
-checklist:
-  - "Mention a role clue"
-  - "Explain how it helps comprehension"
-  - "Use one example if possible"
+type: multiple-choice
+prompt: "Which sentence best explains how a role clue can help you read a myth with unfamiliar names?"
+choices:
+  - "A role clue tells who the character is, such as messenger or sea god, so I can follow the story."
+  - "A role clue means I should skip the sentence until the name is familiar."
+  - "A role clue proves that names are never important in myths."
+  - "A role clue is only useful if the story has no action."
+correctAnswer: "A role clue tells who the character is, such as messenger or sea god, so I can follow the story."
 explanation: "Role clues reduce memory load and keep attention on the story."
-hint: "Use this frame: A role clue helps because ___."
-questionGoal: "Explain a strategy for managing unfamiliar mythic names."
+hint: "Choose the answer that connects the clue to understanding the character's role."
+questionGoal: "Choose a strategy for managing unfamiliar mythic names."
 misconception: "Believing difficult names make the story impossible to understand."
 ```
 
@@ -1235,17 +1245,17 @@ misconception: "Confusing transformation with other story vocabulary."
 
 ```question
 key: u03_l03_q06_change_meaning
-type: constructed-response
-prompt: "In one sentence, explain what the weaver's transformation shows about the story."
-minWords: 10
-sampleAnswer: "The transformation shows the consequence of mocking a warning and being too proud."
-checklist:
-  - "Mention the transformation"
-  - "Connect it to pride or the ignored warning"
-  - "Use consequence or shows"
+type: multiple-choice
+prompt: "What does the weaver's transformation show about the story?"
+choices:
+  - "It shows the consequence of mocking a warning and being too proud."
+  - "It shows that every spider in every story is a goddess."
+  - "It shows that warnings are background details with no effect."
+  - "It shows that the weaver changed for no story reason."
+correctAnswer: "It shows the consequence of mocking a warning and being too proud."
 explanation: "The change matters because it is connected to the character's choice."
-hint: "Use this frame: The change shows ___."
-questionGoal: "Explain the meaning of a transformation in context."
+hint: "Connect the change to the warning and the weaver's choice before it."
+questionGoal: "Identify the meaning of a transformation in context."
 misconception: "Seeing transformation as only a surprising event."
 ```
 
@@ -1346,17 +1356,17 @@ misconception: "Disconnecting consequences from choices."
 
 ```question
 key: u03_l04_q06_warning_explain
-type: constructed-response
-prompt: "Explain in one sentence how the warning affects the sealed jar story."
-minWords: 10
-sampleAnswer: "The warning matters because opening the jar leads to the troubles rushing out."
-checklist:
-  - "Mention the warning"
-  - "Mention the choice to open the jar"
-  - "Mention the consequence"
+type: multiple-choice
+prompt: "Which sentence best explains how the warning affects the sealed jar story?"
+choices:
+  - "The warning matters because opening the jar leads to the troubles rushing out."
+  - "The warning matters because it tells the character to weave a cloak."
+  - "The warning does not matter because the jar opens before it is given."
+  - "The warning is only a setting detail because it does not shape a choice."
+correctAnswer: "The warning matters because opening the jar leads to the troubles rushing out."
 explanation: "The warning shapes the story because the character's response leads to the outcome."
-hint: "Use this frame: The warning matters because ___."
-questionGoal: "Explain how a warning shapes a mythic outcome."
+hint: "Choose the sentence that connects the warning, the choice, and the result."
+questionGoal: "Choose how a warning shapes a mythic outcome."
 misconception: "Treating the warning as a minor detail."
 ```
 
@@ -1410,9 +1420,9 @@ type: multiple-choice
 prompt: "Which sentence best explains why a quest is more than an ordinary trip?"
 choices:
   - "A quest has a goal, obstacles, and an outcome that matters."
-  - "A quest is any walk across a room."
-  - "A quest never has a problem."
-  - "A quest is only a trip with a famous character."
+  - "A quest is any long trip, even if nothing important is at stake."
+  - "A quest is mainly a path or setting, not a goal."
+  - "A quest is a journey that matters only when the traveler finds treasure."
 correctAnswer: "A quest has a goal, obstacles, and an outcome that matters."
 explanation: "A journey becomes a quest when the trip is tied to a meaningful goal and challenge."
 hint: "Look for goal and obstacle."
@@ -1459,17 +1469,17 @@ misconception: "Focusing on movement while ignoring purpose."
 
 ```question
 key: u04_l01_q06_quest_explain
-type: constructed-response
-prompt: "In one sentence, explain why Maia's trip to the hill shrine is a quest."
-minWords: 12
-sampleAnswer: "Maia's trip is a quest because she has the goal of bringing back the laurel branch."
-checklist:
-  - "Mention the goal"
-  - "Mention the journey or shrine"
-  - "Use because"
+type: multiple-choice
+prompt: "Which sentence best explains why Maia's trip to the hill shrine is a quest?"
+choices:
+  - "Maia's trip is a quest because she has the goal of bringing back the laurel branch."
+  - "Maia's trip is a quest because every walk on a hill is a quest."
+  - "Maia's trip is a quest because she carries a lamp, even if there is no goal."
+  - "Maia's trip is a quest because the city gates are mentioned, not because she acts."
+correctAnswer: "Maia's trip is a quest because she has the goal of bringing back the laurel branch."
 explanation: "The trip is a quest because it has a goal that matters to the city."
-hint: "Use this frame: It is a quest because ___."
-questionGoal: "Explain quest structure using evidence."
+hint: "Choose the answer that names the goal that gives the journey purpose."
+questionGoal: "Choose an explanation of quest structure using evidence."
 misconception: "Calling it a quest only because someone travels."
 ```
 
@@ -1532,18 +1542,18 @@ misconception: "Labeling every story detail as helper or reward."
 
 ```question
 key: u04_l02_q04_test_choice
-type: dialogue-builder
-prompt: "Choose the line that best shows Maia passing the test of the fog."
-turns:
-  - speaker: "Shepherd"
-    line: "Ring this bell when you cannot see."
-  - speaker: "Maia"
-    line: "The fog is thick, and the path is gone."
+type: passage-question
+prompt: "Read the quest dialogue and answer."
+passageTitle: "The Fog Test"
+passage: |
+  Shepherd: Ring this bell when you cannot see.
+  Maia: The fog is thick, and the path is gone.
+question: "Which line best shows Maia passing the test of the fog?"
 choices:
   - "I will use the bell and keep listening for the path."
   - "I will throw the bell into the fog."
-  - "I will pretend the city never needed help."
-  - "I will wait here and never try the bell."
+  - "I will wait for the fog to clear and leave the bell unused."
+  - "I will turn back because the helper's advice cannot matter."
 correctAnswer: "I will use the bell and keep listening for the path."
 explanation: "This line shows Maia using the helper's tool wisely when tested."
 hint: "Choose the line that uses the help to face the obstacle."
@@ -1571,17 +1581,17 @@ misconception: "Thinking help removes the hero's responsibility."
 
 ```question
 key: u04_l02_q06_obstacle_helper_explain
-type: constructed-response
-prompt: "Explain in one sentence how the fog and the bell work differently in Maia's quest."
-minWords: 12
-sampleAnswer: "The fog is an obstacle because it blocks Maia, but the bell is a helper because it guides her."
-checklist:
-  - "Identify fog as obstacle"
-  - "Identify bell as helper"
-  - "Explain how each affects Maia"
+type: multiple-choice
+prompt: "Which sentence best explains how the fog and the bell work differently in Maia's quest?"
+choices:
+  - "The fog is an obstacle because it blocks Maia, but the bell is a helper because it guides her."
+  - "The fog and the bell are both rewards because Maia reaches the shrine."
+  - "The fog is a helper because it hides the path, and the bell is an obstacle because it makes sound."
+  - "The fog and the bell are both settings because neither affects Maia's task."
+correctAnswer: "The fog is an obstacle because it blocks Maia, but the bell is a helper because it guides her."
 explanation: "The obstacle blocks the path, while the helper's tool helps Maia continue."
-hint: "Use this frame: The fog ___, but the bell ___."
-questionGoal: "Compare obstacle and helper functions."
+hint: "Ask which detail blocks Maia and which detail helps her continue."
+questionGoal: "Choose a comparison of obstacle and helper functions."
 misconception: "Not distinguishing blocking details from aiding details."
 ```
 
@@ -1678,17 +1688,17 @@ misconception: "Confusing character vocabulary with form vocabulary."
 
 ```question
 key: u04_l03_q06_balanced_hero_response
-type: constructed-response
-prompt: "Write one sentence explaining how Dorian is both strong and flawed."
-minWords: 12
-sampleAnswer: "Dorian is strong because he can lift the gate, but he is flawed because he proudly ignores the warning."
-checklist:
-  - "Mention his strength"
-  - "Mention his flaw"
-  - "Use evidence from the episode"
+type: multiple-choice
+prompt: "Which sentence best explains how Dorian is both strong and flawed?"
+choices:
+  - "Dorian is strong because he can lift the gate, but he is flawed because he proudly ignores the warning."
+  - "Dorian is strong, so his choice to ignore the warning cannot be a flaw."
+  - "Dorian is flawed, so the story gives no evidence that he has strength."
+  - "Dorian is both strong and flawed because the bronze gate is heavy."
+correctAnswer: "Dorian is strong because he can lift the gate, but he is flawed because he proudly ignores the warning."
 explanation: "A balanced answer uses evidence for both the admirable trait and the flaw."
-hint: "Use this frame: Dorian is ___ because ___, but ___."
-questionGoal: "Produce a balanced character explanation."
+hint: "Look for one strength and one flaw, each supported by an action."
+questionGoal: "Choose a balanced character explanation."
 misconception: "Letting one trait erase the rest of the character."
 ```
 
@@ -1789,17 +1799,17 @@ misconception: "Assuming a successful quest has no cost."
 
 ```question
 key: u04_l04_q06_cost_reward_explain
-type: constructed-response
-prompt: "Explain in one sentence one reward and one cost in Maia's journey."
-minWords: 12
-sampleAnswer: "The reward is that the city gates open, and the cost is Maia's cracked lamp and scratched hands."
-checklist:
-  - "Name one reward"
-  - "Name one cost"
-  - "Use evidence from the passage"
+type: multiple-choice
+prompt: "Which sentence correctly names one reward and one cost in Maia's journey?"
+choices:
+  - "The reward is that the city gates open, and the cost is Maia's cracked lamp and scratched hands."
+  - "The reward is Maia's scratched hands, and the cost is that the people leave safely."
+  - "The reward is the rocky path, and the cost is that Maia brings back the laurel branch."
+  - "The reward and cost are the same because every ending is only happy."
+correctAnswer: "The reward is that the city gates open, and the cost is Maia's cracked lamp and scratched hands."
 explanation: "A strong ending explanation notices both what is gained and what is difficult."
-hint: "Use this frame: The reward is ___, and the cost is ___."
-questionGoal: "Produce a cost-and-reward explanation."
+hint: "Look for what is gained and what is damaged or difficult."
+questionGoal: "Choose a cost-and-reward explanation."
 misconception: "Naming only the happy result or only the hardship."
 ```
 
@@ -1901,17 +1911,17 @@ misconception: "Thinking poetry is only page decoration."
 
 ```question
 key: u05_l01_q06_poem_shape_explain
-type: constructed-response
-prompt: "Explain in one sentence how lines help a reader notice a poem."
-minWords: 10
-sampleAnswer: "Lines help a reader slow down and hear the poem's words and sounds."
-checklist:
-  - "Mention lines"
-  - "Mention seeing, hearing, or slowing down"
-  - "Connect to the poem"
+type: multiple-choice
+prompt: "Which sentence best explains how lines help a reader notice a poem?"
+choices:
+  - "Lines help a reader slow down and hear the poem's words and sounds."
+  - "Lines make every poem tell the same kind of story."
+  - "Lines are only decoration and do not affect reading."
+  - "Lines hide the sounds so the poem is only seen."
+correctAnswer: "Lines help a reader slow down and hear the poem's words and sounds."
 explanation: "Lines shape how a poem is seen and heard."
-hint: "Use this frame: Lines help readers ___."
-questionGoal: "Explain the purpose of poetic line arrangement."
+hint: "Choose the answer that connects line arrangement to seeing or hearing language."
+questionGoal: "Choose the purpose of poetic line arrangement."
 misconception: "Seeing lines as random breaks."
 ```
 
@@ -2004,9 +2014,9 @@ passage: |
 question: "What feeling does the repeated phrase most help create?"
 choices:
   - "Steady movement"
-  - "Sudden silence"
-  - "A broken jar"
-  - "A secret trick"
+  - "Sleepy quiet"
+  - "Sudden fear"
+  - "Lonely waiting"
 correctAnswer: "Steady movement"
 explanation: "Step by step repeats like feet moving along a road."
 hint: "Think about what the repeated words sound like."
@@ -2016,17 +2026,17 @@ misconception: "Identifying repetition without thinking about its effect."
 
 ```question
 key: u05_l02_q06_repetition_explain
-type: constructed-response
-prompt: "In one sentence, explain why 'Step by step' is repeated in the chant."
-minWords: 10
-sampleAnswer: "Step by step is repeated to make the chant feel steady and easy to remember."
-checklist:
-  - "Mention the repeated phrase"
-  - "Explain memory, rhythm, emphasis, or steady movement"
-  - "Use evidence from the chant"
+type: multiple-choice
+prompt: "Which sentence best explains why 'Step by step' is repeated in the chant?"
+choices:
+  - "It is repeated to make the chant feel steady and easy to remember."
+  - "It is repeated because the chant changes to a fable at the end."
+  - "It is repeated to show the road disappears from the chant."
+  - "It is repeated because repeated words cannot create meaning."
+correctAnswer: "It is repeated to make the chant feel steady and easy to remember."
 explanation: "The repeated phrase shapes how the chant sounds and feels."
-hint: "Use this frame: The phrase is repeated to ___."
-questionGoal: "Explain the effect of repeated words."
+hint: "Think about memory, rhythm, and the feeling of walking."
+questionGoal: "Choose the effect of repeated words."
 misconception: "Calling repetition decorative without meaning."
 ```
 
@@ -2037,7 +2047,7 @@ key: u05_l03_q01_feature_match
 type: match-pairs
 prompt: "Match each feature to an example."
 pairs:
-  - left: "Image"
+  - left: "Sensory image"
     right: "gold leaves shining in the sun"
   - left: "Simile"
     right: "quiet as a sleeping lake"
@@ -2045,9 +2055,9 @@ pairs:
     right: "the moon watched the road"
   - left: "Literal statement"
     right: "the road was made of stone"
-explanation: "Images help readers picture; similes compare with like or as; personification gives human action to something nonhuman."
-hint: "Look for picture words, like/as, and human action."
-questionGoal: "Distinguish image, simile, personification, and literal statement."
+explanation: "A sensory image helps readers picture or sense something; similes compare with like or as; personification gives human action to something nonhuman."
+hint: "Look for picture words, like/as, human action, and plain literal meaning."
+questionGoal: "Distinguish sensory image, simile, personification, and literal statement."
 misconception: "Reading every vivid line as the same kind of feature."
 ```
 
@@ -2074,7 +2084,7 @@ prompt: "Read the lines and answer."
 passageTitle: "Night Road"
 passage: |
   The moon watched over the road.
-  The wind whispered through the pine trees.
+  The wind moved through the pine trees.
 question: "Which line gives a human action to something nonhuman?"
 choices:
   - "The moon watched over the road."
@@ -2133,17 +2143,17 @@ misconception: "Spotting like without understanding the comparison."
 
 ```question
 key: u05_l03_q06_image_explain
-type: constructed-response
-prompt: "Explain the image in this line: 'Gold leaves flickered like little torches.'"
-minWords: 10
-sampleAnswer: "The line helps me picture bright yellow leaves moving like small flames."
-checklist:
-  - "Mention what you picture"
-  - "Explain the comparison to torches"
-  - "Avoid saying the leaves are literally fire"
+type: multiple-choice
+prompt: "Which sentence best explains the image in this line: 'Gold leaves flickered like little torches'?"
+choices:
+  - "The line helps me picture bright yellow leaves moving like small flames."
+  - "The line means the leaves are literally burning on the tree."
+  - "The line tells the reader that torches are made from leaves."
+  - "The line gives no picture because it uses a comparison."
+correctAnswer: "The line helps me picture bright yellow leaves moving like small flames."
 explanation: "The line uses image and simile to create a bright, moving picture."
-hint: "Use this frame: I picture ___ because ___."
-questionGoal: "Explain a vivid image and simile in age-appropriate language."
+hint: "Think about what the words gold, flickered, and torches help you picture."
+questionGoal: "Choose an explanation of a vivid image and simile."
 misconception: "Literalizing figurative language."
 ```
 
@@ -2243,17 +2253,17 @@ misconception: "Thinking recitation means speed rather than sense."
 
 ```question
 key: u05_l04_q06_speaker_mood_explain
-type: constructed-response
-prompt: "Explain in one sentence why 'brave and watchful' fits the speaker of 'At The Gate.'"
-minWords: 12
-sampleAnswer: "Brave and watchful fits because the speaker holds a lamp in the dark and will not let it fall."
-checklist:
-  - "Name the mood"
-  - "Use evidence from the poem"
-  - "Mention the speaker"
+type: multiple-choice
+prompt: "Which sentence best explains why 'brave and watchful' fits the speaker of 'At The Gate'?"
+choices:
+  - "Brave and watchful fits because the speaker holds a lamp in the dark and will not let it fall."
+  - "Brave and watchful fits because every poem has the same mood."
+  - "Brave and watchful fits because the author must be speaking as a teacher."
+  - "Brave and watchful fits because the poem says the speaker is laughing loudly."
+correctAnswer: "Brave and watchful fits because the speaker holds a lamp in the dark and will not let it fall."
 explanation: "A mood answer is strongest when it points to words from the poem."
-hint: "Use this frame: The mood fits because ___."
-questionGoal: "Produce an evidence-based mood explanation."
+hint: "Look for the answer that uses words or actions from the poem as evidence."
+questionGoal: "Choose an evidence-based mood explanation."
 misconception: "Explaining mood without citing a word or action."
 ```
 
@@ -2361,17 +2371,17 @@ misconception: "Labeling quoted and unquoted language the same way."
 
 ```question
 key: u06_l01_q06_voice_explain
-type: constructed-response
-prompt: "In one sentence, explain how quotation marks help you find dialogue."
-minWords: 10
-sampleAnswer: "Quotation marks often show the exact words a character says, which helps me find dialogue."
-checklist:
-  - "Mention quotation marks"
-  - "Mention character words or speech"
-  - "Use dialogue"
+type: multiple-choice
+prompt: "Which sentence best explains how quotation marks can help you find dialogue?"
+choices:
+  - "Quotation marks often show the exact words a character says, which helps me find dialogue."
+  - "Quotation marks always show the narrator's thoughts and never character speech."
+  - "Quotation marks mean every line is spoken by the same character."
+  - "Quotation marks tell the setting but never help with speaker clues."
+correctAnswer: "Quotation marks often show the exact words a character says, which helps me find dialogue."
 explanation: "Quotation marks are a clue, but readers still use speaker tags and context."
-hint: "Use this frame: Quotation marks help because ___."
-questionGoal: "Explain a strategy for finding dialogue."
+hint: "Choose the answer that connects quotation marks to the exact words someone says."
+questionGoal: "Choose a strategy for finding dialogue."
 misconception: "Using punctuation without checking who speaks."
 ```
 
@@ -2399,18 +2409,18 @@ misconception: "Treating dialogue as filler instead of evidence."
 
 ```question
 key: u06_l02_q02_best_next_line
-type: dialogue-builder
-prompt: "Choose the line that best fits Tomas after Livia gives him the lantern."
-turns:
-  - speaker: "Livia"
-    line: "Take it. The path is dark, and I know you are afraid."
-  - speaker: "Tomas"
-    line: "I will bring it back before dawn."
+type: passage-question
+prompt: "Read the dialogue and answer."
+passageTitle: "The Lantern"
+passage: |
+  Livia said, "Take it. The path is dark, and I know you are afraid."
+  Tomas answered, "I will bring it back before dawn."
+question: "Which line best fits Tomas after Livia gives him the lantern?"
 choices:
   - "Thank you. I will use it carefully."
   - "I will keep it and never bring it back."
-  - "Let us forget the path and count rhymes."
-  - "I never heard you speak."
+  - "I am not afraid, so your help is useless."
+  - "The path can stay dark; I will not go."
 correctAnswer: "Thank you. I will use it carefully."
 explanation: "This line fits Tomas's promise and shows a careful response to help."
 hint: "Choose the line that responds to the lantern and the promise."
@@ -2424,9 +2434,9 @@ type: multiple-choice
 prompt: "What can Tomas's words 'I will bring it back before dawn' suggest?"
 choices:
   - "He intends to be responsible with the lantern."
-  - "He thinks the lantern is a bird."
-  - "He does not know what dawn means."
-  - "He is telling a fable moral."
+  - "He is refusing Livia's help."
+  - "He plans to keep the lantern forever."
+  - "He is warning Livia about the weather."
 correctAnswer: "He intends to be responsible with the lantern."
 explanation: "Tomas promises to return the lantern, which suggests responsibility."
 hint: "Look at what he promises to do."
@@ -2473,17 +2483,17 @@ misconception: "Thinking dialogue only reports sound."
 
 ```question
 key: u06_l02_q06_dialogue_evidence_explain
-type: constructed-response
-prompt: "Explain in one sentence how Livia's words show she is helpful."
-minWords: 12
-sampleAnswer: "Livia is helpful because she offers Tomas the lantern when the path is dark."
-checklist:
-  - "Name Livia as helpful"
-  - "Use her dialogue as evidence"
-  - "Use because"
+type: multiple-choice
+prompt: "Which sentence best explains how Livia's words show she is helpful?"
+choices:
+  - "Livia is helpful because she offers Tomas the lantern when the path is dark."
+  - "Livia is helpful because Tomas promises to return before dawn."
+  - "Livia is helpful because the path is dark and no one speaks."
+  - "Livia is helpful because she tells Tomas to hide the lantern."
+correctAnswer: "Livia is helpful because she offers Tomas the lantern when the path is dark."
 explanation: "The spoken words are evidence because they show Livia choosing to help."
-hint: "Use this frame: Livia is helpful because she says ___."
-questionGoal: "Produce an evidence-based dialogue inference."
+hint: "Use Livia's own words as evidence for the trait."
+questionGoal: "Choose an evidence-based dialogue inference."
 misconception: "Stating a trait without evidence from the line."
 ```
 
@@ -2533,15 +2543,15 @@ misconception: "Treating every line in a scene as spoken dialogue."
 
 ```question
 key: u06_l03_q03_scene_next_line
-type: dialogue-builder
-prompt: "Choose the line that best continues the scene."
-turns:
-  - speaker: "MAIA"
-    line: "The fog is too thick."
-  - speaker: "SHEPHERD"
-    line: "Ring the bell and listen."
-  - speaker: "MAIA"
-    line: "I hear the path now."
+type: passage-question
+prompt: "Read the scene excerpt and answer."
+passageTitle: "At The Shrine"
+passage: |
+  MAIA: The fog is too thick.
+  SHEPHERD: Ring the bell and listen.
+  [Maia rings the bell. A clear note echoes.]
+  MAIA: I hear the path now.
+question: "Which line best continues the scene?"
 choices:
   - "Then I will follow the sound carefully."
   - "Then I will stand still and stop listening."
@@ -2590,17 +2600,17 @@ misconception: "Confusing drama structure with story lesson vocabulary."
 
 ```question
 key: u06_l03_q06_scene_explain
-type: constructed-response
-prompt: "Explain in one sentence how the stage direction changes your understanding of Maia's scene."
-minWords: 12
-sampleAnswer: "The stage direction shows Maia rings the bell, so I understand how she finds the path."
-checklist:
-  - "Mention the stage direction"
-  - "Explain the action"
-  - "Connect it to understanding the scene"
+type: multiple-choice
+prompt: "Which sentence best explains how the stage direction changes your understanding of Maia's scene?"
+choices:
+  - "The stage direction shows Maia rings the bell, so I understand how she finds the path."
+  - "The stage direction proves the shepherd speaks every line in the scene."
+  - "The stage direction is only a title, so it does not affect the action."
+  - "The stage direction shows Maia ignores the bell and leaves the path."
+correctAnswer: "The stage direction shows Maia rings the bell, so I understand how she finds the path."
 explanation: "Stage directions are part of the meaning because they show actions, sounds, and movement."
-hint: "Use this frame: The stage direction helps because ___."
-questionGoal: "Produce an explanation of stage-direction meaning."
+hint: "Choose the answer that explains what Maia does and what that action helps you understand."
+questionGoal: "Choose an explanation of stage-direction meaning."
 misconception: "Reading only spoken lines and missing action."
 ```
 
@@ -2691,7 +2701,7 @@ pairs:
     right: "The wind blows out the lamp"
   - left: "Find a helper"
     right: "The remembered river song guides Nera"
-  - left: "Notice repeated language"
+  - left: "Use quoted guidance"
     right: "Follow the water, steady and clear"
   - left: "Name the outcome"
     right: "Nera finds her way home"
@@ -2703,16 +2713,16 @@ misconception: "Using only one familiar skill for every final question."
 
 ```question
 key: u06_l04_q06_final_transfer_response
-type: constructed-response
-prompt: "Write two sentences: first compare Nera and Maia using the help-on-the-path criterion; then explain what Nera's passage shows about listening carefully."
-minWords: 22
-sampleAnswer: "Both Nera and Maia find help when the path is difficult: Maia uses a bell, and Nera follows a remembered song. Nera's passage shows that listening carefully can help someone choose the safe way."
-checklist:
-  - "Compare Nera and Maia with one criterion"
-  - "Include evidence from both passages"
-  - "Explain a lesson or idea from Nera's passage"
+type: multiple-choice
+prompt: "Which response best compares Nera and Maia using the help-on-the-path criterion and explains what Nera's passage shows about listening carefully?"
+choices:
+  - "Both Nera and Maia find help when the path is difficult: Maia uses a bell, and Nera follows a remembered song. Nera's passage shows that listening carefully can help someone choose the safe way."
+  - "Nera has a lamp and Maia has a lamp, so the passages are exactly the same. Nera's passage shows that lamps always solve the problem."
+  - "Maia goes to a shrine, and Nera goes to a bridge. I like Nera's passage because it has a song."
+  - "Both passages are about weather, but only Maia listens carefully. Nera does not use any help to get home."
+correctAnswer: "Both Nera and Maia find help when the path is difficult: Maia uses a bell, and Nera follows a remembered song. Nera's passage shows that listening carefully can help someone choose the safe way."
 explanation: "This response uses comparison, evidence, character choice, and lesson reasoning together."
-hint: "Use this frame: Both characters ___; Maia ___, while Nera ___. Nera's passage shows ___."
-questionGoal: "Demonstrate cumulative transfer with comparison and interpretation."
+hint: "Look for one criterion, evidence from both passages, and an idea about Nera listening."
+questionGoal: "Select a cumulative transfer response with comparison and interpretation."
 misconception: "Writing two summaries without a criterion or evidence."
 ```
