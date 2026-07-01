@@ -14,7 +14,7 @@ import {
   type TrackLessonPackRecord,
 } from './store';
 
-const CACHE_VERSION = 2;
+const CACHE_VERSION = 3;
 const DEFAULT_PACK_SIZE = 5;
 const SHELL_URLS = ['/profiles/', '/kid/shell/', '/kid/track-shell/', '/kid/lesson-shell/'];
 
@@ -608,7 +608,7 @@ async function cacheShellUrls(childSlug: string, trackSlugs: string[], lessonIds
 
   if (!('caches' in window)) return;
   try {
-    const cache = await caches.open('buddy-blocks-pages-v1');
+    const cache = await caches.open('buddy-blocks-pages-v2');
     await Promise.all(urls.map((url) => fetch(url, { credentials: 'same-origin' }).then((response) => cache.put(url, response))));
   } catch {
     // The IndexedDB lesson pack is the source of truth; page cache failures can be retried later.

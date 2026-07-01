@@ -91,7 +91,7 @@ const EXPECTED_SUMMARY_ROWS = [
   { gradeLevel: 3, subject: 'latin', tracks: 1, units: 10, lessons: 58, questions: 464 },
   { gradeLevel: 3, subject: 'literature', tracks: 1, units: 10, lessons: 10, questions: 80 },
   { gradeLevel: 3, subject: 'logic', tracks: 1, units: 11, lessons: 11, questions: 88 },
-  { gradeLevel: 3, subject: 'math', tracks: 1, units: 13, lessons: 69, questions: 456 },
+  { gradeLevel: 3, subject: 'math', tracks: 1, units: 12, lessons: 76, questions: 433 },
   { gradeLevel: 3, subject: 'memory-work', tracks: 1, units: 8, lessons: 8, questions: 64 },
   { gradeLevel: 3, subject: 'rhetoric', tracks: 1, units: 11, lessons: 11, questions: 88 },
   { gradeLevel: 3, subject: 'spanish', tracks: 1, units: 10, lessons: 58, questions: 464 },
@@ -205,19 +205,18 @@ describe('curriculum content', () => {
       'mad-minute',
     ]);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
-      'addition-basics',
-      'subtraction-basics',
-      'multi-digit-addition-subtraction',
-      'place-value-rounding',
-      'multiplication-concepts',
-      'division-concepts',
-      'multiplication-division-word-problems',
-      'fractions',
-      'measurement-time-money',
-      'data-graphs',
-      'geometry-area-perimeter',
-      'mixed-problem-solving',
-      'mad-minute',
+      'grade-3-number-readiness',
+      'multiplication-as-equal-groups-and-arrays',
+      'division-as-sharing-grouping-and-unknown-factors',
+      'multiplication-and-division-strategies',
+      'place-value-rounding-and-whole-number-operations',
+      'four-operation-word-problems-and-equations',
+      'fractions-as-equal-parts-and-numbers',
+      'equivalent-fractions-and-fraction-comparison',
+      'measurement-data-and-applied-quantitative-reasoning',
+      'area-arrays-and-multiplication',
+      'perimeter-geometry-and-shape-attributes',
+      'cumulative-modeling-and-grade-3-mastery',
     ]);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'vocabulary')?.units.map((unit) => unit.slug)).toEqual([
       'word-meanings',
@@ -447,12 +446,12 @@ describe('curriculum content', () => {
       'optimization-and-modeling',
       'quantitative-reasoning-capstone',
     ]);
-    expect(getAllLessons()).toHaveLength(2205);
-    expect(getAllQuestions()).toHaveLength(17134);
+    expect(getAllLessons()).toHaveLength(2212);
+    expect(getAllQuestions()).toHaveLength(17111);
   });
 
   it('adds mad minute multiplication fact practice per grade', () => {
-    for (const gradeLevel of [3, 4, 5, 6, 7, 8]) {
+    for (const gradeLevel of [4, 5, 6, 7, 8]) {
       const madMinute = getTracksForGrade(gradeLevel)
         .find((track) => track.subject === 'math')
         ?.units.find((unit) => unit.slug === 'mad-minute');
@@ -713,9 +712,9 @@ describe('curriculum content', () => {
 
     expect(summary.totals).toEqual({
       tracks: 66,
-      units: 714,
-      lessons: 2205,
-      questions: 17134,
+      units: 713,
+      lessons: 2212,
+      questions: 17111,
     });
     expect(summary.rows).toHaveLength(EXPECTED_SUMMARY_ROWS.length);
     for (const expected of EXPECTED_SUMMARY_ROWS) {

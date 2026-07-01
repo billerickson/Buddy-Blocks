@@ -1,4 +1,4 @@
-const DB_NAME = 'buddy-blocks-offline';
+const DB_NAME = 'buddy-blocks-offline-v3';
 const DB_VERSION = 1;
 
 const API_RESPONSES = 'apiResponses';

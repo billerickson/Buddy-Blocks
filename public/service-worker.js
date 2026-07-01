@@ -1,7 +1,8 @@
-const STATIC_CACHE = 'buddy-blocks-static-v5';
-const PAGE_CACHE = 'buddy-blocks-pages-v1';
-const API_CACHE = 'buddy-blocks-api-v1';
-const OFFLINE_DB_NAME = 'buddy-blocks-offline';
+const STATIC_CACHE = 'buddy-blocks-static-v6';
+const PAGE_CACHE = 'buddy-blocks-pages-v2';
+const API_CACHE = 'buddy-blocks-api-v2';
+const OFFLINE_DB_NAME = 'buddy-blocks-offline-v3';
+const STALE_OFFLINE_DB_NAMES = ['buddy-blocks-offline'];
 const STATIC_ASSETS = ['/manifest.webmanifest', '/icons/buddy-blocks-bb-large.svg', '/icons/moxie.svg'];
 const CURRENT_CACHES = new Set([STATIC_CACHE, PAGE_CACHE, API_CACHE]);
 
@@ -12,9 +13,12 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((key) => key.startsWith('buddy-blocks-') && !CURRENT_CACHES.has(key)).map((key) => caches.delete(key))),
-    ),
+    Promise.all([
+      caches.keys().then((keys) =>
+        Promise.all(keys.filter((key) => key.startsWith('buddy-blocks-') && !CURRENT_CACHES.has(key)).map((key) => caches.delete(key))),
+      ),
+      ...STALE_OFFLINE_DB_NAMES.map((name) => deleteOfflineDatabase(name)),
+    ]),
   );
   self.clients.claim();
 });
@@ -105,13 +109,13 @@ async function cacheUrls(urls) {
 async function clearOfflineData() {
   const keys = await caches.keys();
   await Promise.all(keys.filter((key) => key.startsWith('buddy-blocks-')).map((key) => caches.delete(key)));
-  await deleteOfflineDatabase();
+  await Promise.all([OFFLINE_DB_NAME, ...STALE_OFFLINE_DB_NAMES].map((name) => deleteOfflineDatabase(name)));
 }
 
-function deleteOfflineDatabase() {
+function deleteOfflineDatabase(name) {
   if (!('indexedDB' in self)) return Promise.resolve();
   return new Promise((resolve) => {
-    const request = indexedDB.deleteDatabase(OFFLINE_DB_NAME);
+    const request = indexedDB.deleteDatabase(name);
     request.onsuccess = () => resolve();
     request.onerror = () => resolve();
     request.onblocked = () => resolve();

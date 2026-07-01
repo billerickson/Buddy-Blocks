@@ -656,13 +656,31 @@ function withMedia<T extends QuestionPayload>(payload: T, question: { media?: Qu
 
 function readLesson(lessonPath: string): AuthoredLesson {
   const contents = readFileSync(lessonPath, 'utf8');
-  const match = contents.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n[\s\S]*)?$/);
+  const match = contents.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n([\s\S]*))?$/);
   if (!match) throw new Error(`Lesson is missing YAML frontmatter: ${displayPath(lessonPath)}`);
-  return parseWithSchema(lessonFileSchema, parseYaml(match[1]), lessonPath);
+
+  const lesson = parseWithSchema(lessonFileSchema, parseYaml(match[1]), lessonPath);
+  const bodyQuestions = parseQuestionBlocks(match[2] ?? '', lessonPath);
+  return {
+    ...lesson,
+    questions: bodyQuestions.length > 0 ? bodyQuestions : lesson.questions,
+  };
 }
 
 function readYaml<T extends z.ZodTypeAny>(schema: T, path: string): z.infer<T> {
   return parseWithSchema(schema, parseYaml(readFileSync(path, 'utf8')), path);
+}
+
+function parseQuestionBlocks(body: string, lessonPath: string): AuthoredQuestion[] {
+  const questions: AuthoredQuestion[] = [];
+  const questionBlockPattern = /```question\r?\n([\s\S]*?)\r?\n```/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = questionBlockPattern.exec(body))) {
+    questions.push(parseWithSchema(questionSchema, parseYaml(match[1]), lessonPath));
+  }
+
+  return questions;
 }
 
 function parseWithSchema<T extends z.ZodTypeAny>(schema: T, value: unknown, path: string): z.infer<T> {
