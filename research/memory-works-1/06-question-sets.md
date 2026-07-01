@@ -98,17 +98,18 @@ misconception: "Believing same-day speed or skipping checks is the point."
 
 ```question
 key: u01_l01_q06_explain_difference
-type: constructed-response
-prompt: "In one or two sentences, explain how recognition is different from recall."
-minWords: 8
-sampleAnswer: "Recognition is choosing what looks familiar. Recall is remembering the answer without seeing it."
-checklist:
-  - "Mention choosing or seeing for recognition"
-  - "Mention remembering without the model for recall"
+type: multiple-choice
+prompt: Which explanation correctly contrasts recognition and recall?
+choices:
+  - Recognition means choosing what looks familiar; recall means supplying the answer from memory.
+  - Recognition and recall both mean reading the answer while looking at it.
+  - Recognition is harder because it gives no choices, and recall is easier because it gives choices.
+  - Recall means copying the answer after you see it.
+correctAnswer: Recognition means choosing what looks familiar; recall means supplying the answer from memory.
 explanation: "A strong answer names the support level: recognition gives choices, but recall asks memory to supply the answer."
-hint: "Use the words choices and memory in your explanation."
-questionGoal: "Produce a student-friendly distinction between recognition and recall."
-misconception: "Using the terms as interchangeable labels."
+hint: Use the words choices and memory in your explanation.
+questionGoal: Produce a student-friendly distinction between recognition and recall.
+misconception: Using the terms as interchangeable labels.
 ```
 
 ### Lesson 2: Chunk The Target
@@ -190,17 +191,18 @@ misconception: "Treating all practice moves as simple repetition."
 
 ```question
 key: u01_l02_q05_chunk_saying
-type: constructed-response
-prompt: "Chunk this saying into two useful parts: 'Measure twice, cut once.'"
-minWords: 4
-sampleAnswer: "Measure twice / cut once."
-checklist:
-  - "Keep the two meaning parts separate"
-  - "Do not change the words"
-explanation: "The saying naturally splits into the careful checking part and the action part."
-hint: "Find the pause in the saying."
-questionGoal: "Apply chunking to a short saying."
-misconception: "Changing wording while trying to chunk."
+type: multiple-choice
+prompt: Which chunking plan best fits 'Measure twice, cut once'?
+choices:
+  - Measure twice / cut once
+  - Measure / twice cut / once
+  - Measure twice cut / once
+  - Measure / twice / cut / once / again
+correctAnswer: Measure twice / cut once
+explanation: The saying naturally splits into the careful checking part and the action part.
+hint: Find the pause in the saying.
+questionGoal: Apply chunking to a short saying.
+misconception: Changing wording while trying to chunk.
 ```
 
 ```question
@@ -301,17 +303,18 @@ misconception: "Stopping recall before the full target is complete."
 
 ```question
 key: u01_l03_q06_explain_check
-type: constructed-response
-prompt: "Why should you check after a recall attempt?"
-minWords: 6
-sampleAnswer: "Checking shows what matched and what still needs practice."
-checklist:
-  - "Mention comparing with the model"
-  - "Mention finding what to practice"
-explanation: "Checking turns the recall attempt into useful feedback."
-hint: "Think about what checking can tell you after you try."
-questionGoal: "Explain the purpose of checking after recall."
-misconception: "Checking is only for proving success, not finding next steps."
+type: multiple-choice
+prompt: Why should you check after a recall attempt?
+choices:
+  - Checking shows what matched and what still needs practice.
+  - Checking is only useful before you try to recall.
+  - Checking means you never need to practice the target again.
+  - Checking is the same as rereading without trying first.
+correctAnswer: Checking shows what matched and what still needs practice.
+explanation: Checking turns the recall attempt into useful feedback.
+hint: Think about what checking can tell you after you try.
+questionGoal: Explain the purpose of checking after recall.
+misconception: Checking is only for proving success, not finding next steps.
 ```
 
 ### Lesson 4: Correct The Missed Part
@@ -407,18 +410,18 @@ misconception: "Skipping from error to full review without focused repair."
 
 ```question
 key: u01_l04_q06_short_repair_plan
-type: constructed-response
-prompt: "You missed the word 'check' at the end of a routine. Write a short plan to fix it."
-minWords: 8
-sampleAnswer: "I will practice 'recall, check,' then say the whole routine again later."
-checklist:
-  - "Name the missed part"
-  - "Include focused practice"
-  - "Include checking or later review"
-explanation: "A good repair plan focuses on the weak part and then reconnects it to the whole routine."
-hint: "Do not practice only the easy beginning."
-questionGoal: "Produce a focused repair plan."
-misconception: "Thinking correction means repeating the whole target without attention to the miss."
+type: multiple-choice
+prompt: You missed the word 'check' at the end of a routine. Which repair plan is strongest?
+choices:
+  - Practice the missed part 'recall, check,' then say the whole routine again later.
+  - Ignore the missed word and practice only the beginning.
+  - Start a completely new target instead of correcting this one.
+  - Look at the whole routine once and count it as fixed.
+correctAnswer: Practice the missed part 'recall, check,' then say the whole routine again later.
+explanation: A good repair plan focuses on the weak part and then reconnects it to the whole routine.
+hint: Do not practice only the easy beginning.
+questionGoal: Produce a focused repair plan.
+misconception: Thinking correction means repeating the whole target without attention to the miss.
 ```
 
 ## Unit 2: Sayings, Meaning, And Exact Words
@@ -503,18 +506,18 @@ misconception: "Confusing paraphrase with exact recall."
 
 ```question
 key: u02_l01_q06_speak_saying
-type: speaking-prompt
-prompt: "Say one learned saying clearly: 'Well begun is half done' or 'Measure twice, cut once.'"
-minSeconds: 4
-sampleAnswer: "Well begun is half done."
-checklist:
-  - "Use the exact words"
-  - "Speak clearly"
-  - "Pause naturally between chunks"
-explanation: "Short sayings are good oral memory targets because they have clear chunks."
-hint: "Say the first chunk silently, then speak the full saying."
-questionGoal: "Practice oral recall of a short saying."
-misconception: "Rushing through a saying without checking exact wording."
+type: multiple-choice
+prompt: Which choice gives one learned saying with exact words?
+choices:
+  - Well begun is half done.
+  - Well started is almost finished.
+  - Measure once, cut twice.
+  - A stitch saves time in nine.
+correctAnswer: Well begun is half done.
+explanation: Short sayings are good oral memory targets because they have clear chunks.
+hint: Say the first chunk silently, then speak the full saying.
+questionGoal: Practice oral recall of a short saying.
+misconception: Rushing through a saying without checking exact wording.
 ```
 
 ### Lesson 2: Put The Meaning In Your Own Words
@@ -556,17 +559,18 @@ misconception: "Reading the saying literally without its broader meaning."
 
 ```question
 key: u02_l02_q03_paraphrase_stitch
-type: constructed-response
-prompt: "Put this saying in your own words: 'A stitch in time saves nine.'"
-minWords: 7
-sampleAnswer: "Fix a small problem now so it does not grow."
-checklist:
-  - "Use your own words"
-  - "Keep the idea of fixing a problem early"
-explanation: "The saying means that early correction can prevent bigger trouble later."
-hint: "Think of a tiny tear in cloth before it becomes a big tear."
-questionGoal: "Produce a meaningful paraphrase of a memorized saying."
-misconception: "Repeating the exact saying instead of explaining it."
+type: multiple-choice
+prompt: Which paraphrase best fits 'A stitch in time saves nine'?
+choices:
+  - Fix a small problem early so it does not become a bigger problem.
+  - Sewing is always faster when nine people help.
+  - Counting to nine helps you remember time.
+  - Do the final step first so you can skip checking.
+correctAnswer: Fix a small problem early so it does not become a bigger problem.
+explanation: The saying means that early correction can prevent bigger trouble later.
+hint: Think of a tiny tear in cloth before it becomes a big tear.
+questionGoal: Produce a meaningful paraphrase of a memorized saying.
+misconception: Repeating the exact saying instead of explaining it.
 ```
 
 ```question
@@ -710,17 +714,18 @@ misconception: "Depending on surface-word matches."
 
 ```question
 key: u02_l03_q05_explain_fit
-type: constructed-response
-prompt: "A student checks every answer before turning in a quiz. Which saying fits, and why?"
-minWords: 8
-sampleAnswer: "Measure twice, cut once fits because the student checks carefully before finishing."
-checklist:
-  - "Name a fitting saying"
-  - "Explain the clue in the situation"
-explanation: "The key idea is careful checking before a final action."
-hint: "Which saying is about checking first?"
-questionGoal: "Explain why a saying fits a situation."
-misconception: "Giving a saying without connecting it to evidence."
+type: multiple-choice
+prompt: A student checks every answer before turning in a quiz. Which saying and reason fit?
+choices:
+  - Measure twice, cut once, because the student checks carefully before finishing.
+  - Many hands make light work, because the student is working with a team.
+  - A stitch in time saves nine, because the quiz has a tear in it.
+  - Well begun is half done, because the student is starting a project.
+correctAnswer: Measure twice, cut once, because the student checks carefully before finishing.
+explanation: The key idea is careful checking before a final action.
+hint: Which saying is about checking first?
+questionGoal: Explain why a saying fits a situation.
+misconception: Giving a saying without connecting it to evidence.
 ```
 
 ```question
@@ -798,18 +803,18 @@ misconception: "Treating all poem features as the same thing."
 
 ```question
 key: u03_l01_q04_speak_sound_pattern
-type: speaking-prompt
-prompt: "Say this line aloud and listen for the repeated sound: 'Bright birds build by the bay.'"
-minSeconds: 4
-sampleAnswer: "Bright birds build by the bay."
-checklist:
-  - "Say every word"
-  - "Listen for the repeated beginning sound"
-  - "Speak clearly"
-explanation: "Saying the line aloud makes the repeated sound easier to notice."
-hint: "Let the first sound of each word be clear."
-questionGoal: "Use oral rehearsal to hear a sound pattern."
-misconception: "Trying to find poem clues silently when the clue is auditory."
+type: multiple-choice
+prompt: In 'Bright birds build by the bay,' which repeated beginning sound should you hear when saying it aloud?
+choices:
+  - b
+  - s
+  - t
+  - ay
+correctAnswer: b
+explanation: Saying the line aloud makes the repeated sound easier to notice.
+hint: Let the first sound of each word be clear.
+questionGoal: Use oral rehearsal to hear a sound pattern.
+misconception: Trying to find poem clues silently when the clue is auditory.
 ```
 
 ```question
@@ -835,17 +840,18 @@ misconception: "Classifying a poem clue as a content category."
 
 ```question
 key: u03_l01_q06_sound_help
-type: constructed-response
-prompt: "How can rhythm, rhyme, or repeated sound help you remember a poem line?"
-minWords: 8
-sampleAnswer: "The sound gives my ear a clue about what word may come next."
-checklist:
-  - "Mention a sound clue"
-  - "Explain how it helps recall"
-explanation: "Sound patterns give memory extra cues beyond meaning alone."
-hint: "Think about what your ear notices when you say a line aloud."
-questionGoal: "Explain why sound patterns support poem memory."
-misconception: "Thinking sound patterns are only decoration."
+type: multiple-choice
+prompt: How can rhythm, rhyme, or repeated sound help you remember a poem line?
+choices:
+  - The sound pattern gives your ear a clue about what word may come next.
+  - Sound patterns matter only for decoration, not memory.
+  - Sound patterns replace the need to know the words.
+  - A poem line is easier if you ignore how it sounds.
+correctAnswer: The sound pattern gives your ear a clue about what word may come next.
+explanation: Sound patterns give memory extra cues beyond meaning alone.
+hint: Think about what your ear notices when you say a line aloud.
+questionGoal: Explain why sound patterns support poem memory.
+misconception: Thinking sound patterns are only decoration.
 ```
 
 ### Lesson 2: Learn A Couplet By Chunks
@@ -923,34 +929,34 @@ misconception: "Choosing important words instead of first words."
 
 ```question
 key: u03_l02_q05_speak_couplet
-type: speaking-prompt
-prompt: "Recite the couplet: 'Small seeds sleep in winter ground; Spring wakes green where roots are found.'"
-minSeconds: 6
-sampleAnswer: "Small seeds sleep in winter ground; Spring wakes green where roots are found."
-checklist:
-  - "Say both lines"
-  - "Use the exact words"
-  - "Pause between the two chunks"
-explanation: "Speaking the couplet helps link sound, meaning, and exact words."
+type: multiple-choice
+prompt: Which choice gives the small-seeds couplet in exact order?
+choices:
+  - Small seeds sleep in winter ground; Spring wakes green where roots are found.
+  - Spring wakes green where roots are found; Small seeds sleep in winter ground.
+  - Small roots sleep in winter green; Spring wakes seeds where ground is found.
+  - Small seeds wake in winter ground; Spring sleeps green where roots are found.
+correctAnswer: Small seeds sleep in winter ground; Spring wakes green where roots are found.
+explanation: Speaking the couplet helps link sound, meaning, and exact words.
 hint: "Use the first-word cues: Small, Spring."
-questionGoal: "Practice oral recall of a chunked couplet."
-misconception: "Relying on silent recognition instead of oral retrieval."
+questionGoal: Practice oral recall of a chunked couplet.
+misconception: Relying on silent recognition instead of oral retrieval.
 ```
 
 ```question
 key: u03_l02_q06_chunk_plan
-type: constructed-response
-prompt: "Write a short chunk plan for memorizing the couplet."
-minWords: 10
-sampleAnswer: "I will practice 'Small seeds sleep' first, then 'in winter ground,' then the second line."
-checklist:
-  - "Break the couplet into smaller parts"
-  - "Mention practice or recall"
-  - "Keep the line order"
-explanation: "A useful plan makes the couplet smaller and keeps the lines connected."
-hint: "You can split each line into two phrase chunks."
-questionGoal: "Plan chunked practice for a two-line poem target."
-misconception: "Trying to memorize the whole couplet as one undivided piece."
+type: multiple-choice
+prompt: Which chunk plan would help memorize the small-seeds couplet?
+choices:
+  - Practice 'Small seeds sleep' and 'in winter ground,' then practice the second line in chunks.
+  - Practice only the last word of each line and skip the rest.
+  - Read both lines once, then move to a new poem.
+  - Change the wording to make it easier to say.
+correctAnswer: Practice 'Small seeds sleep' and 'in winter ground,' then practice the second line in chunks.
+explanation: A useful plan makes the couplet smaller and keeps the lines connected.
+hint: You can split each line into two phrase chunks.
+questionGoal: Plan chunked practice for a two-line poem target.
+misconception: Trying to memorize the whole couplet as one undivided piece.
 ```
 
 ### Lesson 3: Recite With Voice And Pacing
@@ -992,18 +998,18 @@ misconception: "Responding to every recitation problem by starting over."
 
 ```question
 key: u03_l03_q03_speak_with_pause
-type: speaking-prompt
-prompt: "Recite the couplet with a clear pause after the first line."
-minSeconds: 6
-sampleAnswer: "Small seeds sleep in winter ground. Spring wakes green where roots are found."
-checklist:
-  - "Use a clear voice"
-  - "Pause after the first line"
-  - "Keep a steady pace"
-explanation: "A pause between lines helps the listener hear the two parts of the image."
-hint: "Breathe after 'ground' before starting 'Spring.'"
-questionGoal: "Practice pacing and line breaks during oral recitation."
-misconception: "Reciting the line as one rushed string of words."
+type: multiple-choice
+prompt: Which delivery choice best shows the pause between the two couplet lines?
+choices:
+  - Small seeds sleep in winter ground. Spring wakes green where roots are found.
+  - Small seeds sleep in winter. Ground Spring wakes green where roots are found.
+  - Small seeds sleep in. Winter ground Spring wakes green where roots are found.
+  - Small seeds sleep in winter ground Spring wakes green where roots are found with no pause.
+correctAnswer: Small seeds sleep in winter ground. Spring wakes green where roots are found.
+explanation: A pause between lines helps the listener hear the two parts of the image.
+hint: Breathe after 'ground' before starting 'Spring.'
+questionGoal: Practice pacing and line breaks during oral recitation.
+misconception: Reciting the line as one rushed string of words.
 ```
 
 ```question
@@ -1028,17 +1034,18 @@ misconception: "Practicing performance before understanding or checking words."
 
 ```question
 key: u03_l03_q05_delivery_goal
-type: constructed-response
-prompt: "Write one delivery goal for reciting a poem clearly."
-minWords: 5
-sampleAnswer: "I will slow down and pause after each line."
-checklist:
-  - "Name a clear delivery action"
-  - "Connect it to recitation"
-explanation: "A delivery goal should help the words and meaning reach the listener."
-hint: "Think about voice, pace, pauses, or expression."
-questionGoal: "Set a concrete oral-delivery goal."
-misconception: "Making vague goals such as 'be perfect.'"
+type: multiple-choice
+prompt: Which is a concrete delivery goal for reciting a poem clearly?
+choices:
+  - I will slow down and pause after each line.
+  - I will be perfect.
+  - I will say it somehow.
+  - I will think about lunch while I recite.
+correctAnswer: I will slow down and pause after each line.
+explanation: A delivery goal should help the words and meaning reach the listener.
+hint: Think about voice, pace, pauses, or expression.
+questionGoal: Set a concrete oral-delivery goal.
+misconception: Making vague goals such as 'be perfect.'
 ```
 
 ```question
@@ -1129,34 +1136,34 @@ misconception: "Repeating the whole poem without identifying the weak chunk."
 
 ```question
 key: u03_l04_q05_poem_repair_plan
-type: constructed-response
-prompt: "Write a short plan to review the couplet tomorrow."
-minWords: 10
-sampleAnswer: "I will try both lines without looking, check them, then practice any missed chunk."
-checklist:
-  - "Include recall without looking"
-  - "Include checking"
-  - "Include a repair step if needed"
-explanation: "A good delayed-review plan includes recall, checking, and targeted correction."
-hint: "Use the cover-recall-check routine."
-questionGoal: "Plan spaced review for a learned poem target."
-misconception: "Planning only to reread the poem."
+type: multiple-choice
+prompt: Which plan is strongest for reviewing the couplet tomorrow?
+choices:
+  - Try both lines without looking, check them, then practice any missed chunk.
+  - Only reread the couplet once.
+  - Practice a new saying instead of the couplet.
+  - Skip checking so review feels faster.
+correctAnswer: Try both lines without looking, check them, then practice any missed chunk.
+explanation: A good delayed-review plan includes recall, checking, and targeted correction.
+hint: Use the cover-recall-check routine.
+questionGoal: Plan spaced review for a learned poem target.
+misconception: Planning only to reread the poem.
 ```
 
 ```question
 key: u03_l04_q06_delayed_speaking
-type: speaking-prompt
-prompt: "Try a delayed recitation of the couplet. If you miss a word, say the missed chunk again."
-minSeconds: 6
-sampleAnswer: "Small seeds sleep in winter ground; Spring wakes green where roots are found."
-checklist:
-  - "Attempt both lines"
-  - "Notice any missed word"
-  - "Repeat the missed chunk if needed"
-explanation: "Delayed oral recall helps you find which parts are strong and which need review."
-hint: "Use the cues Small and Spring if you need a light start."
-questionGoal: "Practice delayed oral recall with self-correction."
-misconception: "Stopping after one mistake instead of repairing it."
+type: multiple-choice
+prompt: During delayed recitation, what should you do if you miss a word in the couplet?
+choices:
+  - Practice the missed chunk again, then reconnect it to the whole couplet.
+  - Stop review because one mistake means the target is lost.
+  - Change the poem wording to the word you remembered.
+  - Only practice the part you already know well.
+correctAnswer: Practice the missed chunk again, then reconnect it to the whole couplet.
+explanation: Delayed oral recall helps you find which parts are strong and which need review.
+hint: Use the cues Small and Spring if you need a light start.
+questionGoal: Practice delayed oral recall with self-correction.
+misconception: Stopping after one mistake instead of repairing it.
 ```
 
 ## Unit 4: Facts, Forms, And Patterns
@@ -1249,17 +1256,18 @@ misconception: "Reversing the divisor and quotient."
 
 ```question
 key: u04_l01_q06_fact_family_explain
-type: constructed-response
-prompt: "How can 3 x 4 = 12 help you remember 12 / 3 = 4?"
-minWords: 8
-sampleAnswer: "Division asks for a missing factor, and 3 times 4 equals 12."
-checklist:
-  - "Mention the same numbers"
-  - "Connect multiplication to division"
-explanation: "A related multiplication fact can cue the division fact."
+type: multiple-choice
+prompt: How can 3 x 4 = 12 help you remember 12 / 3 = 4?
+choices:
+  - "It shows the missing factor: 3 times 4 equals 12."
+  - It shows that 12 / 3 should be 3.
+  - It shows division facts are unrelated to multiplication.
+  - It shows that 12 + 3 = 4.
+correctAnswer: "It shows the missing factor: 3 times 4 equals 12."
+explanation: A related multiplication fact can cue the division fact.
 hint: "Use the question: 3 times what equals 12?"
-questionGoal: "Explain how a fact family supports memory."
-misconception: "Treating division facts as disconnected facts to memorize alone."
+questionGoal: Explain how a fact family supports memory.
+misconception: Treating division facts as disconnected facts to memorize alone.
 ```
 
 ### Lesson 2: Measures Worth Knowing
@@ -1453,17 +1461,18 @@ misconception: "Thinking a word must show action to be a verb."
 
 ```question
 key: u04_l03_q06_explain_playground
-type: constructed-response
-prompt: "Explain why 'playground' is a noun."
-minWords: 6
-sampleAnswer: "Playground is a noun because it names a place."
-checklist:
-  - "Name the word as a noun"
-  - "Use one part of the noun definition"
-explanation: "A playground names a place, so it fits the noun definition."
-hint: "Which part of person, place, thing, or idea fits playground?"
-questionGoal: "Use a memorized definition to explain an example."
-misconception: "Reciting the definition without connecting it to the word."
+type: multiple-choice
+prompt: Why is 'playground' a noun?
+choices:
+  - It names a place.
+  - It shows an action.
+  - It describes how someone plays.
+  - It joins two ideas.
+correctAnswer: It names a place.
+explanation: A playground names a place, so it fits the noun definition.
+hint: Which part of person, place, thing, or idea fits playground?
+questionGoal: Use a memorized definition to explain an example.
+misconception: Reciting the definition without connecting it to the word.
 ```
 
 ## Unit 5: Maps, Timelines, And Ordered Knowledge
@@ -1541,17 +1550,18 @@ misconception: "Calling every geography name a continent."
 
 ```question
 key: u05_l01_q05_category_strategy
-type: constructed-response
-prompt: "How can the words continent and ocean help you remember geography lists?"
-minWords: 8
-sampleAnswer: "They tell me which category I am recalling, so I do not mix land and water names."
-checklist:
-  - "Mention categories"
-  - "Mention avoiding a mix-up"
-explanation: "A category cue narrows the memory target before recall begins."
-hint: "Think about land names and water names."
-questionGoal: "Explain category cues as a memory strategy."
-misconception: "Trying to recall all geography names as one unorganized list."
+type: multiple-choice
+prompt: How can the words continent and ocean help you remember geography lists?
+choices:
+  - They name categories, so you do not mix land names and water names.
+  - They make every geography name belong in the same list.
+  - They tell you the exact order of every continent.
+  - They show that oceans are land areas.
+correctAnswer: They name categories, so you do not mix land names and water names.
+explanation: A category cue narrows the memory target before recall begins.
+hint: Think about land names and water names.
+questionGoal: Explain category cues as a memory strategy.
+misconception: Trying to recall all geography names as one unorganized list.
 ```
 
 ```question
@@ -1661,17 +1671,18 @@ misconception: "Answering with the next direction in the order instead of the op
 
 ```question
 key: u05_l02_q06_compass_cue_explain
-type: constructed-response
-prompt: "How can a compass rose help you remember north, east, south, and west?"
-minWords: 8
-sampleAnswer: "It gives the words a shape: top, right, bottom, and left."
-checklist:
-  - "Mention the compass rose or shape"
-  - "Mention direction order or position"
-explanation: "A visual cue can support an ordered list."
-hint: "Think about where the four letters sit on the compass."
-questionGoal: "Explain a visual cue for ordered recall."
-misconception: "Trying to remember direction words as an unsupported chant only."
+type: multiple-choice
+prompt: How can a compass rose help you remember north, east, south, and west?
+choices:
+  - "It gives the directions positions: north top, east right, south bottom, west left."
+  - It shows that east and west are the same direction.
+  - It makes the order alphabetical.
+  - It removes the need to remember south.
+correctAnswer: "It gives the directions positions: north top, east right, south bottom, west left."
+explanation: A visual cue can support an ordered list.
+hint: Think about where the four letters sit on the compass.
+questionGoal: Explain a visual cue for ordered recall.
+misconception: Trying to remember direction words as an unsupported chant only.
 ```
 
 ### Lesson 3: History Pegs In Order
@@ -1768,17 +1779,18 @@ misconception: "Swapping neighboring pegs."
 
 ```question
 key: u05_l03_q06_timeline_use
-type: constructed-response
-prompt: "Why is a history peg sequence useful for memory?"
-minWords: 8
-sampleAnswer: "It gives later history facts a simple order to attach to."
-checklist:
-  - "Mention order"
-  - "Mention using pegs for later learning"
-explanation: "Pegs are hooks. They help new history knowledge fit into a remembered order."
-hint: "Think about how a timeline helps you know before and after."
-questionGoal: "Explain the purpose of chronological pegs."
-misconception: "Thinking the peg list is a complete history course."
+type: multiple-choice
+prompt: Why is a history peg sequence useful for memory?
+choices:
+  - It gives new history facts an order to attach to.
+  - It replaces all later history learning.
+  - It works because order never matters in history.
+  - It is useful only if the pegs are alphabetical.
+correctAnswer: It gives new history facts an order to attach to.
+explanation: Pegs are hooks. They help new history knowledge fit into a remembered order.
+hint: Think about how a timeline helps you know before and after.
+questionGoal: Explain the purpose of chronological pegs.
+misconception: Thinking the peg list is a complete history course.
 ```
 
 ### Lesson 4: Keep Lists From Getting Mixed
@@ -1873,17 +1885,18 @@ misconception: "Starting recall before identifying the task."
 
 ```question
 key: u05_l04_q06_wrong_category_explain
-type: constructed-response
-prompt: "Why is 'Asia is an ocean' a wrong-category answer?"
-minWords: 7
-sampleAnswer: "Asia is a continent, so it belongs with land areas, not oceans."
-checklist:
-  - "Identify Asia as a continent"
-  - "Mention the category mix-up"
-explanation: "A wrong-category error uses a real memory item in the wrong list."
-hint: "Think land category versus water category."
-questionGoal: "Explain a wrong-category memory error."
-misconception: "Thinking any real geography name answers any geography prompt."
+type: multiple-choice
+prompt: Why is 'Asia is an ocean' a wrong-category answer?
+choices:
+  - Asia is a continent, so it belongs with land areas, not oceans.
+  - Asia is not a real geography name.
+  - Every geography name can be either a continent or an ocean.
+  - Ocean is another word for continent.
+correctAnswer: Asia is a continent, so it belongs with land areas, not oceans.
+explanation: A wrong-category error uses a real memory item in the wrong list.
+hint: Think land category versus water category.
+questionGoal: Explain a wrong-category memory error.
+misconception: Thinking any real geography name answers any geography prompt.
 ```
 
 ## Unit 6: Cumulative Recall And Confident Performance
@@ -1974,18 +1987,18 @@ misconception: "Thinking mixed review is random or unfair."
 
 ```question
 key: u06_l01_q06_strategy_choice_explain
-type: constructed-response
-prompt: "Choose one target from earlier in the level and name a strategy you would use to recall it."
-minWords: 10
-sampleAnswer: "For the compass directions, I would picture a compass rose and say north, east, south, west."
-checklist:
-  - "Name a specific target"
-  - "Name a fitting strategy"
-  - "Explain briefly"
-explanation: "A strong answer matches the strategy to the target type."
+type: multiple-choice
+prompt: Which target and strategy are well matched?
+choices:
+  - "Compass directions: picture a compass rose and say north, east, south, west."
+  - "A saying: ignore the words and only count syllables."
+  - "Measure facts: use a poem rhyme and never check units."
+  - "History pegs: sort them by the shortest name first."
+correctAnswer: "Compass directions: picture a compass rose and say north, east, south, west."
+explanation: A strong answer matches the strategy to the target type.
 hint: "Examples: saying and meaning cue, poem and first-word cue, measure and unit cue."
-questionGoal: "Transfer strategy selection to a remembered target."
-misconception: "Naming a target without a recall plan."
+questionGoal: Transfer strategy selection to a remembered target.
+misconception: Naming a target without a recall plan.
 ```
 
 ### Lesson 2: Fade Cues Toward Independent Recall
@@ -2046,18 +2059,18 @@ misconception: "Thinking cues should stay the same forever."
 
 ```question
 key: u06_l02_q04_cue_fading_plan
-type: constructed-response
-prompt: "Write a cue-fading plan for the saying 'Measure twice, cut once.'"
-minWords: 10
-sampleAnswer: "First I use the full saying, then 'Measure,' then 'M t c o,' then no cue."
-checklist:
-  - "Start with a strong cue or model"
-  - "Move to a lighter cue"
-  - "End with little or no cue"
-explanation: "A cue-fading plan should reduce support step by step."
-hint: "Use full words, then first words or letters, then no cue."
-questionGoal: "Apply cue fading to a known saying."
-misconception: "Jumping from full model to no support too quickly."
+type: multiple-choice
+prompt: Which cue-fading plan works for 'Measure twice, cut once'?
+choices:
+  - Full saying, then 'Measure,' then 'M t c o,' then no cue
+  - No cue, then full saying, then 'Measure,' then no cue
+  - Full saying forever with no lighter cue
+  - A different saying each time so the cue changes randomly
+correctAnswer: Full saying, then 'Measure,' then 'M t c o,' then no cue
+explanation: A cue-fading plan should reduce support step by step.
+hint: Use full words, then first words or letters, then no cue.
+questionGoal: Apply cue fading to a known saying.
+misconception: Jumping from full model to no support too quickly.
 ```
 
 ```question
@@ -2117,34 +2130,34 @@ misconception: "Starting performance practice before choosing and checking the t
 
 ```question
 key: u06_l03_q02_write_plan
-type: constructed-response
-prompt: "Write a short plan for reciting the couplet about small seeds."
-minWords: 12
-sampleAnswer: "I will practice each line, use Small and Spring as cues, check the words, and speak clearly."
-checklist:
-  - "Mention chunks or lines"
-  - "Mention a cue"
-  - "Mention checking or clear delivery"
-explanation: "A useful recitation plan includes memory practice and delivery practice."
+type: multiple-choice
+prompt: Which plan best prepares a short recitation of the small-seeds couplet?
+choices:
+  - Practice each line in chunks, use Small and Spring as cues, check exact words, and speak clearly.
+  - Read the couplet once and perform it as fast as possible.
+  - Choose a brand-new poem on recitation day.
+  - Practice only voice volume and ignore exact words.
+correctAnswer: Practice each line in chunks, use Small and Spring as cues, check exact words, and speak clearly.
+explanation: A useful recitation plan includes memory practice and delivery practice.
 hint: "Use the parts: target, chunks, cue, check, voice."
-questionGoal: "Create a practical recitation preparation plan."
-misconception: "Planning only to repeat the whole piece without checking or delivery goals."
+questionGoal: Create a practical recitation preparation plan.
+misconception: Planning only to repeat the whole piece without checking or delivery goals.
 ```
 
 ```question
 key: u06_l03_q03_final_practice_speaking
-type: speaking-prompt
-prompt: "Practice one short recitation from the level: a saying or the small-seeds couplet."
-minSeconds: 5
-sampleAnswer: "Measure twice, cut once."
-checklist:
-  - "Use exact words"
-  - "Speak clearly"
-  - "Use a steady pace"
-explanation: "A short prepared recitation shows recall and communication."
-hint: "Choose a target you can check after speaking."
-questionGoal: "Complete a low-stakes oral recitation practice."
-misconception: "Treating performance as speed instead of clear recall."
+type: multiple-choice
+prompt: Which checklist fits a short recitation practice?
+choices:
+  - Choose a short learned target, recall exact words, check them, and use clear pacing.
+  - Choose the longest new target and skip checking.
+  - Say any similar words as long as the meaning is close.
+  - Focus only on speed.
+correctAnswer: Choose a short learned target, recall exact words, check them, and use clear pacing.
+explanation: A short prepared recitation shows recall and communication.
+hint: Choose a target you can check after speaking.
+questionGoal: Complete a low-stakes oral recitation practice.
+misconception: Treating performance as speed instead of clear recall.
 ```
 
 ```question
@@ -2266,33 +2279,32 @@ misconception: "Swapping memorized noun and verb definitions."
 
 ```question
 key: u06_l04_q05_final_recitation
-type: speaking-prompt
-prompt: "Final recitation: say one short target from Memory Works 1 with exact words and clear pacing."
-minSeconds: 5
-sampleAnswer: "Well begun is half done."
-checklist:
-  - "Choose one learned target"
-  - "Use exact words"
-  - "Speak clearly and steadily"
-explanation: "A final short recitation shows accurate recall and prepared delivery."
-hint: "Choose a saying or couplet you can check afterward."
-questionGoal: "Demonstrate cumulative oral recall."
-misconception: "Thinking the final recitation must be long or perfect to count."
+type: multiple-choice
+prompt: Which goal fits the final Memory Works 1 recitation?
+choices:
+  - Say one short learned target with exact words and clear pacing.
+  - Recite every target from the level without checking.
+  - Make up a new version of a saying.
+  - Choose a long target even if it has not been learned.
+correctAnswer: Say one short learned target with exact words and clear pacing.
+explanation: A final short recitation shows accurate recall and prepared delivery.
+hint: Choose a saying or couplet you can check afterward.
+questionGoal: Demonstrate cumulative oral recall.
+misconception: Thinking the final recitation must be long or perfect to count.
 ```
 
 ```question
 key: u06_l04_q06_transfer_plan
-type: constructed-response
-prompt: "A new class asks you to memorize 'Observe carefully before you conclude.' Write a short practice plan."
-minWords: 14
-sampleAnswer: "I would understand the meaning, chunk it as 'Observe carefully / before you conclude,' cover it, recall it, check it, and review later."
-checklist:
-  - "Mention meaning or understanding"
-  - "Break the target into chunks"
-  - "Include recall and checking"
-  - "Include later review"
-explanation: "This plan transfers the Memory Works routine to a new short target."
+type: multiple-choice
+prompt: Which practice plan fits the new target 'Observe carefully before you conclude'?
+choices:
+  - Understand it, chunk it as 'Observe carefully / before you conclude,' cover it, recall it, check it, and review later.
+  - Read it once, then assume it is memorized.
+  - Change the words to a saying you already know.
+  - Practice only the first word and never reconnect the whole target.
+correctAnswer: Understand it, chunk it as 'Observe carefully / before you conclude,' cover it, recall it, check it, and review later.
+explanation: This plan transfers the Memory Works routine to a new short target.
 hint: "Use the routine: understand, chunk, cover, recall, check, correct, space."
-questionGoal: "Transfer the full memory routine to a new target."
-misconception: "Planning only to reread the target."
+questionGoal: Transfer the full memory routine to a new target.
+misconception: Planning only to reread the target.
 ```

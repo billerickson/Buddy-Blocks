@@ -25,31 +25,9 @@ Prefer app-scorable replacements:
 
 ## Question Sets Needing Additions
 
-All current gaps are in `research/grade-03-math/06-question-sets.md`.
+No current research question-set gaps are known.
 
-| Unit | Lesson | Current Count | Add | Start Line |
-| --- | --- | ---: | ---: | ---: |
-| Unit 1: Grade 3 Number Readiness | Equations, Boxes, And Balance | 5 | 1 | 312 |
-| Unit 3: Division As Sharing, Grouping, And Unknown Factors | Division As An Unknown Factor | 5 | 1 | 1440 |
-| Unit 4: Multiplication And Division Strategies | Doubles And Near Doubles | 5 | 1 | 1770 |
-| Unit 4: Multiplication And Division Strategies | Break Apart A Factor | 5 | 1 | 1928 |
-| Unit 4: Multiplication And Division Strategies | Nines And Neighbor Facts | 5 | 1 | 2004 |
-| Unit 4: Multiplication And Division Strategies | Division From Related Multiplication | 5 | 1 | 2080 |
-| Unit 4: Multiplication And Division Strategies | Choose The Most Useful Strategy | 5 | 1 | 2152 |
-| Unit 5: Place Value, Rounding, And Whole-Number Operations | Nearest Ten On A Number Line | 5 | 1 | 2306 |
-| Unit 5: Place Value, Rounding, And Whole-Number Operations | Multiply By Multiples Of 10 | 5 | 1 | 2718 |
-| Unit 5: Place Value, Rounding, And Whole-Number Operations | Estimate, Compute, Or Check? | 5 | 1 | 2790 |
-| Unit 6: Four-Operation Word Problems And Equations | Check Units And Reasonableness | 5 | 1 | 3364 |
-| Unit 7: Fractions As Equal Parts And Numbers | Explain The Same Whole | 5 | 1 | 4025 |
-| Unit 8: Equivalent Fractions And Fraction Comparison | Compare Same Denominators | 5 | 1 | 4181 |
-| Unit 8: Equivalent Fractions And Fraction Comparison | Compare Same Numerators | 5 | 1 | 4253 |
-| Unit 8: Equivalent Fractions And Fraction Comparison | Same Whole Or Not? | 5 | 1 | 4409 |
-| Unit 8: Equivalent Fractions And Fraction Comparison | Choose The Comparison Reason | 5 | 1 | 4481 |
-| Unit 9: Measurement, Data, And Applied Quantitative Reasoning | Mixed Measurement And Data Decisions | 5 | 1 | 5050 |
-| Unit 10: Area, Arrays, And Multiplication | Use Side Lengths For Area | 5 | 1 | 5209 |
-| Unit 11: Perimeter, Geometry, And Shape Attributes | Add Side Lengths Carefully | 5 | 1 | 5449 |
-| Unit 12: Cumulative Modeling And Grade 3 Mastery | Measurement And Data Review Cycle | 5 | 1 | 6024 |
-| Unit 12: Cumulative Modeling And Grade 3 Mastery | Find And Fix The Error | 3 | 3 | 6176 |
+Resolved 2026-07-01: filled the tracked Grade 3 Math gaps in `research/grade-03-math/06-question-sets.md` with targeted app-scorable items. A post-repair count check found all lessons in `grade-03-math`, `grammar-1`, and `memory-works-1` have 6-10 questions.
 
 ## Prompt For Filling A Single Lesson Gap
 

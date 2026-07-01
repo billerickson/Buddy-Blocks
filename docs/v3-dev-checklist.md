@@ -149,7 +149,7 @@ Recommended `/goal` prompt:
 - [ ] Maintain research track status manifest.
   - Done when: `research/track-status.json` lists all top-level research tracks, marks tracks with `06-question-sets.md` as `ready_for_import`, and changes tracks to `imported` after successful promotion and validation.
   - Verify: compare `find research -maxdepth 2 -name '06-question-sets.md'` with the manifest before each import, and confirm imported tracks have `readyForImport: false`, `imported: true`, `importBatch`, and `importedAt`.
-  - Notes: Manifest currently matches all 12 ready question-set directories. Do not mark the real manifest tracks `imported` yet: live promotion is blocked by unsupported scored source items in `research/grade-03-math/06-question-sets.md` (75 `constructed-response`), `research/grammar-1/06-question-sets.md` (26 `constructed-response`), and `research/memory-works-1/06-question-sets.md` (20 `constructed-response`, 7 `speaking-prompt`).
+  - Notes: Manifest currently matches all 12 ready question-set directories. Do not mark the real manifest tracks `imported` until a live `--write --mark-imported` promotion is intentionally run. The previous unsupported scored source-item blockers in `grade-03-math`, `grammar-1`, and `memory-works-1` were repaired on 2026-07-01; full `npm run content:promote` dry run now completes.
 
 - [x] Use `research/track-status.json` as the import queue.
   - Done when: the promotion/import tool imports tracks marked `ready_for_import` by default and skips `research_only` or already `imported` tracks unless an explicit override is provided.
@@ -164,7 +164,7 @@ Recommended `/goal` prompt:
 - [x] Record import batches in the manifest.
   - Done when: each successful import updates `research/track-status.json` with a stable `importBatch`, `importedAt`, `status: imported`, `readyForImport: false`, and `imported: true` for every promoted track.
   - Verify: manifest diff after import clearly shows which tracks moved from `ready_for_import` to `imported`.
-  - Notes: `scripts/research-promotion.ts --write --mark-imported` updates successful selected tracks with `status: imported`, `readyForImport: false`, `imported: true`, deterministic `importBatch`, and `importedAt`. `tests/research-promotion.test.ts` verifies this against a temp manifest. The real manifest was intentionally not updated because live promotion has source blockers. Full validation passed 2026-07-01.
+  - Notes: `scripts/research-promotion.ts --write --mark-imported` updates successful selected tracks with `status: imported`, `readyForImport: false`, `imported: true`, deterministic `importBatch`, and `importedAt`. `tests/research-promotion.test.ts` verifies this against a temp manifest. The real manifest was intentionally not updated during the 2026-07-01 source repair because only dry-run validation was performed. Full validation passed 2026-07-01.
 
 - [x] Follow `docs/content-creation.md` rules during promotion.
   - Done when: promoted output follows canonical authoring guidance.
@@ -204,12 +204,12 @@ Recommended `/goal` prompt:
 - [x] Enforce app-scorable question policy.
   - Done when: scored V3 curriculum does not include `constructed-response` or `speaking-prompt` unless explicitly converted to unscored practice or backed by an evaluation workflow.
   - Verify: validation test or promotion check rejects unsupported scored questions.
-  - Notes: `validateResearchTrack()` rejects `constructed-response` and `speaking-prompt` before promotion. `tests/research-promotion.test.ts` covers the blocker. Real dry run on 2026-07-01 correctly blocked `grade-03-math` (75 `constructed-response`), `grammar-1` (26 `constructed-response`), and `memory-works-1` (20 `constructed-response`, 7 `speaking-prompt`). Full validation passed 2026-07-01.
+  - Notes: `validateResearchTrack()` rejects `constructed-response` and `speaking-prompt` before promotion. `tests/research-promotion.test.ts` covers the blocker. Source repair on 2026-07-01 converted the blocked items in `grade-03-math`, `grammar-1`, and `memory-works-1` to app-scorable alternatives; full `npm run content:promote` dry run and `npm run content:validate` pass. Full validation passed 2026-07-01.
 
 - [x] Document temporary manual-copy bridge if used.
   - Done when: any manual copying is clearly labeled temporary and replaced by the deterministic workflow before production readiness.
   - Verify: checklist notes include owner/status for bridge removal.
-  - Notes: No new manual-copy bridge was added. V3 promotion now has deterministic tooling; actual source-track repair remains the blocker before production import. Full validation passed 2026-07-01.
+  - Notes: No new manual-copy bridge was added. V3 promotion now has deterministic tooling; actual production import remains pending an intentional cutover run. Full validation passed 2026-07-01.
 
 ## Phase 4: First-Run Setup And Parent Creation
 
@@ -379,17 +379,17 @@ Recommended `/goal` prompt:
 - [ ] Remove generated MVP curriculum from shipped catalog.
   - Done when: existing generated `src/content/curriculum/` track content is no longer shipped unless re-authored and accepted through V3 research.
   - Verify: content inventory confirms only accepted V3 curriculum remains.
-  - Notes: Blocked 2026-07-01. Do not remove the current shipped catalog until accepted V3 research can be promoted successfully; live `npm run content:promote -- --dry-run` still reports unsupported scored source items in `grade-03-math`, `grammar-1`, and `memory-works-1`.
+  - Notes: Pending 2026-07-01. Do not remove the current shipped catalog until accepted V3 research is promoted with `--write --mark-imported` and validated. The previous unsupported scored source-item blocker has been resolved; full `npm run content:promote` dry run completes.
 
 - [ ] Promote accepted V3 research into `src/content/curriculum/`.
   - Done when: V3 track, unit, lesson, and question files are generated from accepted research artifacts.
   - Verify: `npm run content:validate`.
-  - Notes: Blocked 2026-07-01 by promotion policy checks: `research/grade-03-math/06-question-sets.md` has 75 `constructed-response`, `research/grammar-1/06-question-sets.md` has 26 `constructed-response`, and `research/memory-works-1/06-question-sets.md` has 20 `constructed-response` plus 7 `speaking-prompt`. These must be converted to app-scorable items, unscored practice, or a real evaluation workflow before writing the V3 catalog.
+  - Notes: Ready for intentional promotion run as of 2026-07-01 source repair. The prior blockers in `research/grade-03-math/06-question-sets.md`, `research/grammar-1/06-question-sets.md`, and `research/memory-works-1/06-question-sets.md` were converted to app-scorable items, and full `npm run content:promote` dry run completes without blockers. No live catalog write was performed during the repair.
 
 - [ ] Avoid preserving legacy generated questions as evidence.
   - Done when: no legacy generated questions are migrated, summarized, copied, or used as curriculum evidence.
   - Verify: spot check promoted curriculum against accepted research sources.
-  - Notes: Pending actual V3 promotion. The promotion tool reads accepted research artifacts only; no real promoted catalog has been written because the source blockers above remain.
+  - Notes: Pending actual V3 promotion. The promotion tool reads accepted research artifacts only; no real promoted catalog was written during the 2026-07-01 source repair.
 
 - [x] Keep research files out of runtime reads.
   - Done when: app runtime reads only `src/content/curriculum/` and not arbitrary `research/` files.
@@ -562,6 +562,6 @@ Recommended `/goal` prompt:
 
 ## Open Blockers And Decisions
 
-- V3 curriculum cutover remains blocked by unsupported scored research items: `research/grade-03-math/06-question-sets.md` has 75 `constructed-response`, `research/grammar-1/06-question-sets.md` has 26 `constructed-response`, and `research/memory-works-1/06-question-sets.md` has 20 `constructed-response` plus 7 `speaking-prompt`.
-- Do not mark `research/track-status.json` tracks imported, remove the bridge catalog, seed the final V3 catalog, retire `learn.billplustara.com`, or check off final production smoke until those source items are converted to app-scorable questions, moved to unscored practice, or backed by a real evaluation workflow.
+- V3 curriculum source repair is complete for the unsupported scored `constructed-response` and `speaking-prompt` blocker in `grade-03-math`, `grammar-1`, and `memory-works-1`.
+- Do not mark `research/track-status.json` tracks imported, remove the bridge catalog, seed the final V3 catalog, retire `learn.billplustara.com`, or check off final production smoke until an intentional V3 promotion/import run is completed and validated.
 - The Cloudflare account still needs the fresh/reset production V3 D1 database id recorded in `wrangler.jsonc` before deploying `buddyblocks.billerickson.net`.

@@ -92,17 +92,18 @@ misconception: "Believing sentence length proves completeness."
 
 ```question
 key: u01_l01_q06_explain_fragment
-type: constructed-response
-prompt: "Explain why this is not a complete sentence: The red kite in the tree."
-minWords: 8
-sampleAnswer: "It names the kite, but it does not tell what the kite did or what is true about it."
-checklist:
-  - "Say that it names or describes something"
-  - "Say what complete idea is missing"
-explanation: "A fragment may have many words, but it still needs a complete thought."
-hint: "Ask what happened to the kite or what is true about it."
-questionGoal: "Explain sentence incompleteness using age-appropriate grammar language."
-misconception: "Thinking a detailed noun phrase is a sentence."
+type: multiple-choice
+prompt: "Why is this not a complete sentence: The red kite in the tree?"
+choices:
+  - It names the kite but does not tell what happened or what is true about it.
+  - It is not complete because it has too many describing words.
+  - It is not complete because kite is a noun.
+  - It would be complete if a period were added.
+correctAnswer: It names the kite but does not tell what happened or what is true about it.
+explanation: A fragment may have many words, but it still needs a complete thought.
+hint: Ask what happened to the kite or what is true about it.
+questionGoal: Explain sentence incompleteness using age-appropriate grammar language.
+misconception: Thinking a detailed noun phrase is a sentence.
 ```
 
 ### Lesson 2: Subjects And Predicates
@@ -196,17 +197,18 @@ misconception: "Adding only punctuation after a subject fragment."
 
 ```question
 key: u01_l02_q06_explain_parts
-type: constructed-response
-prompt: "In the sentence The candle flickered in the window, explain what the subject and predicate do."
-minWords: 10
-sampleAnswer: "The subject candle names what the sentence is about, and the predicate tells what it did."
-checklist:
-  - "Name the subject"
-  - "Tell what the predicate says"
-explanation: "The subject and predicate work together to make a complete sentence."
-hint: "Use the questions who or what and what happened."
-questionGoal: "Explain subject and predicate roles."
-misconception: "Using labels without connecting them to sentence meaning."
+type: multiple-choice
+prompt: In The candle flickered in the window, what do the subject and predicate do?
+choices:
+  - The subject candle names what the sentence is about, and the predicate tells what it did.
+  - The subject flickered names the action, and the predicate is The candle.
+  - The subject is the whole sentence, and the predicate is only the period.
+  - The subject and predicate are both describing words.
+correctAnswer: The subject candle names what the sentence is about, and the predicate tells what it did.
+explanation: The subject and predicate work together to make a complete sentence.
+hint: Use the questions who or what and what happened.
+questionGoal: Explain subject and predicate roles.
+misconception: Using labels without connecting them to sentence meaning.
 ```
 
 ### Lesson 3: Sentence Types And End Marks
@@ -297,17 +299,18 @@ misconception: "Assuming commands always need exclamation points."
 
 ```question
 key: u01_l03_q06_write_sentence_type
-type: constructed-response
-prompt: "Write one question about a book, then tell which end mark it needs."
-minWords: 5
-sampleAnswer: "Where is the book? It needs a question mark."
-checklist:
-  - "Write a question"
-  - "Name the question mark"
-explanation: "A question asks for information and ends with a question mark."
-hint: "Start with a question word such as who, what, where, when, why, or how."
-questionGoal: "Produce a question and identify its punctuation."
-misconception: "Naming punctuation without matching sentence purpose."
+type: multiple-choice
+prompt: Which question about a book is correctly punctuated?
+choices:
+  - Where is the book?
+  - Where is the book.
+  - The book is on the shelf?
+  - Read the book?
+correctAnswer: Where is the book?
+explanation: A question asks for information and ends with a question mark.
+hint: Start with a question word such as who, what, where, when, why, or how.
+questionGoal: Produce a question and identify its punctuation.
+misconception: Naming punctuation without matching sentence purpose.
 ```
 
 ### Lesson 4: Fragments And Run-Ons
@@ -395,17 +398,18 @@ misconception: "Editing by guessing punctuation without analyzing the sentence."
 
 ```question
 key: u01_l04_q06_comma_not_enough
-type: constructed-response
-prompt: "Why is this not a good fix? The bell rang, we lined up."
-minWords: 8
-sampleAnswer: "A comma by itself does not correctly join two complete thoughts."
-checklist:
-  - "Mention the two complete thoughts"
-  - "Explain that the comma alone is not enough"
-explanation: "Two complete thoughts need a period or a comma with a conjunction such as and."
-hint: "Ask what separates the two complete thoughts."
-questionGoal: "Explain why a comma alone does not repair a run-on."
-misconception: "Believing a comma can fix any run-on by itself."
+type: multiple-choice
+prompt: "Why is this not a good run-on fix: The bell rang, we lined up."
+choices:
+  - A comma by itself does not correctly join two complete thoughts.
+  - A comma can join any two complete thoughts by itself.
+  - The sentence is wrong because it has only one complete thought.
+  - The sentence needs no punctuation at all.
+correctAnswer: A comma by itself does not correctly join two complete thoughts.
+explanation: Two complete thoughts need a period or a comma with a conjunction such as and.
+hint: Ask what separates the two complete thoughts.
+questionGoal: Explain why a comma alone does not repair a run-on.
+misconception: Believing a comma can fix any run-on by itself.
 ```
 
 ## Unit 2: Nouns, Articles, Pronouns, And Ownership
@@ -499,17 +503,18 @@ misconception: "Labeling every noun in a sentence the same way."
 
 ```question
 key: u02_l01_q06_explain_noun_choice
-type: constructed-response
-prompt: "Explain why school is a common noun but Lincoln Elementary is a proper noun."
-minWords: 10
-sampleAnswer: "School names a general place, but Lincoln Elementary names one specific school."
-checklist:
-  - "Say that school is general"
-  - "Say that Lincoln Elementary is specific"
-explanation: "Proper nouns name specific people, places, things, or sometimes ideas."
-hint: "Use the words general and specific."
-questionGoal: "Explain the common/proper noun distinction."
-misconception: "Thinking capitalization alone defines proper nouns without meaning."
+type: multiple-choice
+prompt: Why is school a common noun but Lincoln Elementary a proper noun?
+choices:
+  - School names a general place, but Lincoln Elementary names one specific school.
+  - School is common because it is lowercase, and any capitalized word is proper.
+  - School is proper because it names a place, but Lincoln Elementary is common.
+  - Both are proper nouns because both name buildings.
+correctAnswer: School names a general place, but Lincoln Elementary names one specific school.
+explanation: Proper nouns name specific people, places, things, or sometimes ideas.
+hint: Use the words general and specific.
+questionGoal: Explain the common/proper noun distinction.
+misconception: Thinking capitalization alone defines proper nouns without meaning.
 ```
 
 ### Lesson 2: Articles, Determiners, And Noun Signals
@@ -608,17 +613,18 @@ misconception: "Treating pointing words as interchangeable."
 
 ```question
 key: u02_l02_q06_explain_small_words
-type: constructed-response
-prompt: "Explain how the word the helps in this sentence: The puppy slept."
-minWords: 8
-sampleAnswer: "The points to the noun puppy and helps the reader know which puppy."
-checklist:
-  - "Name the noun puppy"
-  - "Explain that the points to or signals the noun"
-explanation: "Articles and determiners may be small, but they help readers find and understand nouns."
-hint: "Ask what noun comes after the."
-questionGoal: "Explain the function of an article as a noun signal."
-misconception: "Ignoring articles because they are short function words."
+type: multiple-choice
+prompt: How does the word the help in The puppy slept?
+choices:
+  - It signals the noun puppy and helps the reader know which puppy.
+  - It is the action verb in the sentence.
+  - It makes puppy plural.
+  - It shows that the puppy owns something.
+correctAnswer: It signals the noun puppy and helps the reader know which puppy.
+explanation: Articles and determiners may be small, but they help readers find and understand nouns.
+hint: Ask what noun comes after the.
+questionGoal: Explain the function of an article as a noun signal.
+misconception: Ignoring articles because they are short function words.
 ```
 
 ### Lesson 3: Singular, Plural, And Irregular Nouns
@@ -704,17 +710,18 @@ misconception: "Writing storys or story's for the plural."
 
 ```question
 key: u02_l03_q06_explain_no_apostrophe
-type: constructed-response
-prompt: "Why does The dogs barked not need an apostrophe?"
-minWords: 8
-sampleAnswer: "Dogs only means more than one dog. It does not show ownership."
-checklist:
-  - "Say that dogs is plural"
-  - "Say that ownership is not shown"
-explanation: "Plural nouns usually do not use apostrophes. Apostrophes can show ownership."
-hint: "Ask whether anything belongs to the dogs."
-questionGoal: "Explain the difference between plural form and ownership."
-misconception: "Thinking all words ending in s need apostrophes."
+type: multiple-choice
+prompt: Why does The dogs barked not need an apostrophe?
+choices:
+  - Dogs means more than one dog; it does not show ownership.
+  - Every word ending in s needs an apostrophe.
+  - Dogs is a verb, so it cannot use punctuation.
+  - The sentence needs an apostrophe because the dogs own barked.
+correctAnswer: Dogs means more than one dog; it does not show ownership.
+explanation: Plural nouns usually do not use apostrophes. Apostrophes can show ownership.
+hint: Ask whether anything belongs to the dogs.
+questionGoal: Explain the difference between plural form and ownership.
+misconception: Thinking all words ending in s need apostrophes.
 ```
 
 ### Lesson 4: Possessives And Clear Pronouns
@@ -806,17 +813,18 @@ misconception: "Confusing plural s with possessive apostrophe-s."
 
 ```question
 key: u02_l04_q06_explain_pronoun
-type: constructed-response
-prompt: "Rewrite this sentence so the pronoun clearly refers to Eli: Noah showed Eli his drawing."
-minWords: 5
-sampleAnswer: "Noah showed Eli the drawing Eli made."
-checklist:
-  - "Replace his with Eli or a clear phrase about Eli"
-  - "Keep the sentence meaning possible"
-explanation: "When a pronoun could mean more than one person, naming the person makes the sentence clearer."
-hint: "Name Eli as the person connected to the drawing."
-questionGoal: "Produce a clear revision for an ambiguous pronoun."
-misconception: "Leaving ambiguous pronouns unchanged in revision."
+type: multiple-choice
+prompt: "Which revision makes the sentence clearly refer to Eli: Noah showed Eli his drawing?"
+choices:
+  - Noah showed Eli the drawing Eli made.
+  - Noah showed Eli his drawing.
+  - Noah showed Eli Noah's drawing.
+  - He showed Eli his drawing.
+correctAnswer: Noah showed Eli the drawing Eli made.
+explanation: When a pronoun could mean more than one person, naming the person makes the sentence clearer.
+hint: Name Eli as the person connected to the drawing.
+questionGoal: Produce a clear revision for an ambiguous pronoun.
+misconception: Leaving ambiguous pronouns unchanged in revision.
 ```
 
 ## Unit 3: Verbs, Time, And Agreement
@@ -908,17 +916,18 @@ misconception: "Thinking an adjective after a noun can complete the predicate wi
 
 ```question
 key: u03_l01_q06_explain_is
-type: constructed-response
-prompt: "Explain why is is the verb in this sentence: The sky is gray."
-minWords: 8
-sampleAnswer: "Is tells what is true about the sky, so it is a being verb."
-checklist:
-  - "Mention that is tells what is true"
-  - "Use the term being verb or verb"
-explanation: "A verb can show being as well as action."
-hint: "Ask what word connects the subject sky to gray."
-questionGoal: "Explain the job of a being verb."
-misconception: "Using the verb label only for action words."
+type: multiple-choice
+prompt: Why is is the verb in The sky is gray?
+choices:
+  - Is shows being by connecting sky to what is true about it.
+  - Is names the subject of the sentence.
+  - Is describes the noun sky like an adjective.
+  - Is is a verb only when it shows visible action.
+correctAnswer: Is shows being by connecting sky to what is true about it.
+explanation: A verb can show being as well as action.
+hint: Ask what word connects the subject sky to gray.
+questionGoal: Explain the job of a being verb.
+misconception: Using the verb label only for action words.
 ```
 
 ### Lesson 2: Past, Present, And Future Verbs
@@ -1022,17 +1031,18 @@ misconception: "Using one verb form for all times."
 
 ```question
 key: u03_l02_q06_explain_time_clue
-type: constructed-response
-prompt: "Explain why Yesterday, I bake cookies should be changed."
-minWords: 9
-sampleAnswer: "Yesterday is past time, so bake should change to baked."
-checklist:
-  - "Mention the time clue yesterday"
-  - "Use a past-tense verb"
-explanation: "The verb form should match the time clue in the sentence."
-hint: "What verb form shows that the baking already happened?"
-questionGoal: "Explain tense correction using a time clue."
-misconception: "Correcting by sound without naming the time relationship."
+type: multiple-choice
+prompt: Why should Yesterday, I bake cookies be changed?
+choices:
+  - Yesterday is past time, so bake should change to baked.
+  - Yesterday is future time, so bake should change to will bake.
+  - Bake should stay the same because time clues do not affect verbs.
+  - Cookies should change because it is the noun.
+correctAnswer: Yesterday is past time, so bake should change to baked.
+explanation: The verb form should match the time clue in the sentence.
+hint: What verb form shows that the baking already happened?
+questionGoal: Explain tense correction using a time clue.
+misconception: Correcting by sound without naming the time relationship.
 ```
 
 ### Lesson 3: Regular And Irregular Verb Forms
@@ -1118,17 +1128,18 @@ misconception: "Typing runned as a regularized form."
 
 ```question
 key: u03_l03_q06_explain_ed_rule_limit
-type: constructed-response
-prompt: "Explain why We goed home is not standard English."
-minWords: 8
-sampleAnswer: "Go is irregular, so its past tense is went, not goed."
-checklist:
-  - "Name go as irregular"
-  - "Give the correct form went"
-explanation: "Many verbs add -ed, but common irregular verbs have special past forms."
-hint: "Think of the yesterday form of go."
-questionGoal: "Explain why the -ed pattern does not fit every verb."
-misconception: "Believing all past-tense verbs are formed with -ed."
+type: multiple-choice
+prompt: Why is We goed home not standard English?
+choices:
+  - Go is irregular, so its past-tense form is went.
+  - Go always takes -ed in the past tense.
+  - Home should be changed to homes.
+  - The sentence is wrong only because it needs a question mark.
+correctAnswer: Go is irregular, so its past-tense form is went.
+explanation: Many verbs add -ed, but common irregular verbs have special past forms.
+hint: Think of the yesterday form of go.
+questionGoal: Explain why the -ed pattern does not fit every verb.
+misconception: Believing all past-tense verbs are formed with -ed.
 ```
 
 ### Lesson 4: Subject-Verb Agreement
@@ -1227,17 +1238,18 @@ misconception: "Matching the verb to the closest noun."
 
 ```question
 key: u03_l04_q06_explain_agreement
-type: constructed-response
-prompt: "Explain why The flowers bloom is correct but The flowers blooms is not."
-minWords: 9
-sampleAnswer: "Flowers is plural, so it agrees with bloom, not blooms."
-checklist:
-  - "Say flowers is plural"
-  - "Name bloom as the agreeing verb"
-explanation: "In present tense, plural subjects usually use the base verb form."
-hint: "Compare one flower blooms with many flowers bloom."
-questionGoal: "Explain agreement between plural subject and verb."
-misconception: "Thinking plural subjects and verbs both need s."
+type: multiple-choice
+prompt: Why is The flowers bloom correct but The flowers blooms is not?
+choices:
+  - Flowers is plural, so it agrees with the base verb bloom.
+  - Flowers is singular, so it needs blooms.
+  - Plural subjects always need verbs ending in s.
+  - Both are wrong because flowers cannot be a subject.
+correctAnswer: Flowers is plural, so it agrees with the base verb bloom.
+explanation: In present tense, plural subjects usually use the base verb form.
+hint: Compare one flower blooms with many flowers bloom.
+questionGoal: Explain agreement between plural subject and verb.
+misconception: Thinking plural subjects and verbs both need s.
 ```
 
 ## Unit 4: Adjectives, Adverbs, And Precise Description
@@ -1336,17 +1348,18 @@ misconception: "Defining adjectives only as nice describing words."
 
 ```question
 key: u04_l01_q06_explain_adjective
-type: constructed-response
-prompt: "In The icy path sparkled, explain why icy is an adjective."
-minWords: 8
-sampleAnswer: "Icy describes the noun path by telling what kind of path it is."
-checklist:
-  - "Name the noun path"
-  - "Explain what icy tells"
-explanation: "An adjective describes or limits a noun."
-hint: "Ask what word icy helps."
-questionGoal: "Explain adjective function in context."
-misconception: "Labeling adjectives without naming the noun modified."
+type: multiple-choice
+prompt: In The icy path sparkled, why is icy an adjective?
+choices:
+  - Icy describes the noun path by telling what kind of path it is.
+  - Icy names the action of the sentence.
+  - Icy is the subject because it comes before path.
+  - Icy joins two complete thoughts.
+correctAnswer: Icy describes the noun path by telling what kind of path it is.
+explanation: An adjective describes or limits a noun.
+hint: Ask what word icy helps.
+questionGoal: Explain adjective function in context.
+misconception: Labeling adjectives without naming the noun modified.
 ```
 
 ### Lesson 2: Comparatives And Superlatives
@@ -1437,17 +1450,18 @@ misconception: "Using best for a comparison of two."
 
 ```question
 key: u04_l02_q06_explain_superlative
-type: constructed-response
-prompt: "Explain why tallest fits in Mina is the tallest of the four students."
-minWords: 9
-sampleAnswer: "Tallest fits because Mina is being compared with three other students."
-checklist:
-  - "Mention four students or more than two"
-  - "Explain that tallest is a superlative form"
-explanation: "Use a superlative form when one is compared with a group of three or more."
-hint: "Count how many students are being compared."
-questionGoal: "Explain superlative use by number of items compared."
-misconception: "Choosing comparison forms without considering how many things are compared."
+type: multiple-choice
+prompt: Why does tallest fit in Mina is the tallest of the four students?
+choices:
+  - Tallest compares one student with a group of four students.
+  - Tallest is used only when comparing exactly two people.
+  - Tallest fits because Mina is a proper noun.
+  - Tallest should be changed to taller because there are four students.
+correctAnswer: Tallest compares one student with a group of four students.
+explanation: Use a superlative form when one is compared with a group of three or more.
+hint: Count how many students are being compared.
+questionGoal: Explain superlative use by number of items compared.
+misconception: Choosing comparison forms without considering how many things are compared.
 ```
 
 ### Lesson 3: Adverbs Describe Actions
@@ -1536,17 +1550,18 @@ misconception: "Assuming a word has the same job in every sentence."
 
 ```question
 key: u04_l03_q06_add_adverb
-type: constructed-response
-prompt: "Add an adverb to this sentence and explain what it tells: The dog barked."
-minWords: 8
-sampleAnswer: "The dog barked loudly. Loudly tells how the dog barked."
-checklist:
-  - "Add a fitting adverb"
-  - "Explain whether it tells how, when, or where"
-explanation: "A useful adverb adds action detail without changing the sentence core."
-hint: "Try asking how the dog barked."
-questionGoal: "Produce an adverb and explain its job."
-misconception: "Adding an adjective to a verb job."
+type: multiple-choice
+prompt: "Which sentence adds an adverb and tells what it adds: The dog barked."
+choices:
+  - The dog barked loudly. Loudly tells how the dog barked.
+  - The brown dog barked. Brownly tells how the dog barked.
+  - The dog barked at the gate. Gate tells how the dog barked.
+  - The dog barked. No detail was added.
+correctAnswer: The dog barked loudly. Loudly tells how the dog barked.
+explanation: A useful adverb adds action detail without changing the sentence core.
+hint: Try asking how the dog barked.
+questionGoal: Produce an adverb and explain its job.
+misconception: Adding an adjective to a verb job.
 ```
 
 ## Unit 5: Prepositions, Conjunctions, And Sentence Expansion
@@ -1643,17 +1658,18 @@ misconception: "Confusing phrase detail with the subject or verb."
 
 ```question
 key: u05_l01_q06_add_phrase
-type: constructed-response
-prompt: "Add a where phrase to this sentence: The backpack sat."
-minWords: 5
-sampleAnswer: "The backpack sat beside the door."
-checklist:
-  - "Keep a complete sentence"
-  - "Add a phrase that tells where"
-explanation: "A where phrase such as beside the door adds location to a complete sentence."
-hint: "Try a phrase that begins with on, under, beside, near, or in."
-questionGoal: "Produce a complete sentence with a prepositional phrase."
-misconception: "Writing only the phrase instead of a complete expanded sentence."
+type: multiple-choice
+prompt: Which sentence adds a where phrase to The backpack sat?
+choices:
+  - The backpack sat beside the door.
+  - Beside the door.
+  - The backpack beside the door.
+  - The backpack sat quietly.
+correctAnswer: The backpack sat beside the door.
+explanation: A where phrase such as beside the door adds location to a complete sentence.
+hint: Try a phrase that begins with on, under, beside, near, or in.
+questionGoal: Produce a complete sentence with a prepositional phrase.
+misconception: Writing only the phrase instead of a complete expanded sentence.
 ```
 
 ### Lesson 2: Conjunctions Connect Words And Ideas
@@ -1751,17 +1767,18 @@ misconception: "Using one connector for multiple relationship types."
 
 ```question
 key: u05_l02_q06_explain_connector
-type: constructed-response
-prompt: "Explain why but fits here: The box was small, but it was heavy."
-minWords: 8
-sampleAnswer: "But fits because small and heavy are contrasting ideas."
-checklist:
-  - "Mention contrast or surprise"
-  - "Refer to small and heavy"
-explanation: "But prepares the reader for a contrast."
-hint: "Ask how the second idea is different from what you might expect."
-questionGoal: "Explain a conjunction choice by meaning."
-misconception: "Naming conjunctions without understanding their relationship."
+type: multiple-choice
+prompt: Why does but fit in The box was small, but it was heavy?
+choices:
+  - But shows a contrast between small and heavy.
+  - But shows that the two ideas mean the same thing.
+  - But lists three items in a series.
+  - But shows that the box belongs to someone.
+correctAnswer: But shows a contrast between small and heavy.
+explanation: But prepares the reader for a contrast.
+hint: Ask how the second idea is different from what you might expect.
+questionGoal: Explain a conjunction choice by meaning.
+misconception: Naming conjunctions without understanding their relationship.
 ```
 
 ### Lesson 3: Expand Sentences With Useful Details
@@ -1802,17 +1819,18 @@ misconception: "Starting with a phrase and never completing the sentence core."
 
 ```question
 key: u05_l03_q03_add_how_detail
-type: constructed-response
-prompt: "Expand this sentence with one how detail: The girl opened the door."
-minWords: 7
-sampleAnswer: "The girl opened the door carefully."
-checklist:
-  - "Keep the original action"
-  - "Add one detail that tells how"
-explanation: "A how detail tells the reader more about the action."
-hint: "Ask how she opened the door."
-questionGoal: "Produce a focused sentence expansion with an action detail."
-misconception: "Adding unrelated or excessive details."
+type: multiple-choice
+prompt: "Which expansion adds one how detail: The girl opened the door."
+choices:
+  - The girl opened the door carefully.
+  - The girl opened the blue door.
+  - The girl opened the door near the hallway.
+  - The girl opened.
+correctAnswer: The girl opened the door carefully.
+explanation: A how detail tells the reader more about the action.
+hint: Ask how she opened the door.
+questionGoal: Produce a focused sentence expansion with an action detail.
+misconception: Adding unrelated or excessive details.
 ```
 
 ```question
@@ -1939,18 +1957,18 @@ misconception: "Using an addition connector when a reason is needed."
 
 ```question
 key: u05_l04_q05_combine_production
-type: constructed-response
-prompt: "Combine these sentences with because: The team practiced. The game was tomorrow."
-minWords: 8
-sampleAnswer: "The team practiced because the game was tomorrow."
-checklist:
-  - "Use because"
-  - "Keep both ideas"
-  - "Avoid a run-on"
-explanation: "Because connects the practice to its reason."
-hint: "Put because between the action and the reason."
-questionGoal: "Produce a combined sentence with a reason connector."
-misconception: "Dropping one idea or creating a run-on."
+type: multiple-choice
+prompt: Which sentence combines the ideas with because?
+choices:
+  - The team practiced because the game was tomorrow.
+  - The team practiced, the game was tomorrow.
+  - Because the team practiced. The game was tomorrow.
+  - The team practiced, but the game was tomorrow.
+correctAnswer: The team practiced because the game was tomorrow.
+explanation: Because connects the practice to its reason.
+hint: Put because between the action and the reason.
+questionGoal: Produce a combined sentence with a reason connector.
+misconception: Dropping one idea or creating a run-on.
 ```
 
 ```question
@@ -2066,17 +2084,18 @@ misconception: "Memorizing capitals without understanding why they are used."
 
 ```question
 key: u06_l01_q06_explain_capital
-type: constructed-response
-prompt: "Explain two reasons this sentence needs capitals: i visited dallas in april."
-minWords: 10
-sampleAnswer: "I is always capitalized, Dallas is a place name, and April is a month."
-checklist:
-  - "Mention I"
-  - "Mention Dallas or April as a proper noun/month"
-explanation: "Capitalization rules help readers see sentence starts and specific names."
-hint: "Look for the pronoun, the place, and the month."
-questionGoal: "Explain capitalization choices by rule."
-misconception: "Correcting capitals without being able to name the target."
+type: multiple-choice
+prompt: "Which correction and reasons fit: i visited dallas in april."
+choices:
+  - I visited Dallas in April. I is capitalized, and Dallas and April are specific names.
+  - i visited Dallas in april. Only place names need capitals.
+  - I visited dallas in april. Only the first word needs a capital.
+  - I Visited Dallas In April. Every word should be capitalized.
+correctAnswer: I visited Dallas in April. I is capitalized, and Dallas and April are specific names.
+explanation: Capitalization rules help readers see sentence starts and specific names.
+hint: Look for the pronoun, the place, and the month.
+questionGoal: Explain capitalization choices by rule.
+misconception: Correcting capitals without being able to name the target.
 ```
 
 ### Lesson 2: Commas In A Series
@@ -2169,17 +2188,18 @@ misconception: "Adding commas without first finding the list items."
 
 ```question
 key: u06_l02_q06_explain_series_comma
-type: constructed-response
-prompt: "Explain why this sentence needs commas: The smoothie had berries bananas and yogurt."
-minWords: 10
-sampleAnswer: "It lists three ingredients, so commas separate berries, bananas, and yogurt."
-checklist:
-  - "Mention three items"
-  - "Explain that commas separate list items"
-explanation: "Series commas help readers see where one list item ends and the next begins."
-hint: "Count the ingredients."
-questionGoal: "Explain the purpose of commas in a series."
-misconception: "Thinking commas are based only on pauses."
+type: multiple-choice
+prompt: "Why does this sentence need commas: The smoothie had berries bananas and yogurt."
+choices:
+  - It lists three ingredients, so commas separate berries, bananas, and yogurt.
+  - It lists only two ingredients, so no commas are needed.
+  - Commas are used only because the sentence is long.
+  - A comma should go after every word.
+correctAnswer: It lists three ingredients, so commas separate berries, bananas, and yogurt.
+explanation: Series commas help readers see where one list item ends and the next begins.
+hint: Count the ingredients.
+questionGoal: Explain the purpose of commas in a series.
+misconception: Thinking commas are based only on pauses.
 ```
 
 ### Lesson 3: Commas In Dates And Places
@@ -2273,17 +2293,18 @@ misconception: "Fixing only one comma target when two simple patterns are presen
 
 ```question
 key: u06_l03_q06_explain_place_comma
-type: constructed-response
-prompt: "Explain why Austin, Texas needs a comma."
-minWords: 8
-sampleAnswer: "The comma separates the city Austin from the state Texas."
-checklist:
-  - "Name Austin as the city"
-  - "Name Texas as the state"
-explanation: "Commas help group place information for the reader."
-hint: "Ask what two place parts are next to each other."
-questionGoal: "Explain comma use in a city/state phrase."
-misconception: "Thinking commas are only for pauses, not structure."
+type: multiple-choice
+prompt: Why does Austin, Texas need a comma?
+choices:
+  - The comma separates the city Austin from the state Texas.
+  - The comma shows that Austin owns Texas.
+  - The comma separates a subject from a verb.
+  - The comma is needed because every two-word place needs one.
+correctAnswer: The comma separates the city Austin from the state Texas.
+explanation: Commas help group place information for the reader.
+hint: Ask what two place parts are next to each other.
+questionGoal: Explain comma use in a city/state phrase.
+misconception: Thinking commas are only for pauses, not structure.
 ```
 
 ### Lesson 4: Dialogue Tags And Quotation Marks
@@ -2373,17 +2394,18 @@ misconception: "Separating the speaker from the quotation incorrectly."
 
 ```question
 key: u06_l04_q06_explain_quotes
-type: constructed-response
-prompt: "Explain where quotation marks belong in this sentence: Omar said, We are late."
-minWords: 9
-sampleAnswer: "Quotation marks go around We are late because those are Omar's exact words."
-checklist:
-  - "Name the exact words"
-  - "Say quotation marks go around them"
-explanation: "Quotation marks show exactly what someone said."
-hint: "Do not put quotation marks around Omar said."
-questionGoal: "Explain quotation mark placement by identifying exact words."
-misconception: "Marking the whole sentence as quoted instead of only the spoken words."
+type: multiple-choice
+prompt: Where do quotation marks belong in Omar said, We are late.
+choices:
+  - Around We are late because those are Omar's exact words
+  - Around Omar said because that is the speaker tag
+  - Around the whole sentence including Omar said
+  - No quotation marks are needed when a speaker is named
+correctAnswer: Around We are late because those are Omar's exact words
+explanation: Quotation marks show exactly what someone said.
+hint: Do not put quotation marks around Omar said.
+questionGoal: Explain quotation mark placement by identifying exact words.
+misconception: Marking the whole sentence as quoted instead of only the spoken words.
 ```
 
 ## Unit 7: Cumulative Editing And Grammar For Writing
@@ -2482,17 +2504,18 @@ misconception: "Adding apostrophes without understanding ownership."
 
 ```question
 key: u07_l01_q06_explain_edit
-type: constructed-response
-prompt: "Correct and explain one target in this sentence: i saw three mouse."
-minWords: 10
-sampleAnswer: "I saw three mice. I capitalized I and changed mouse to the plural mice."
-checklist:
-  - "Correct at least one real error"
-  - "Explain the target you fixed"
-explanation: "Focused editing means naming what you changed and why."
-hint: "You can fix capitalization, plural form, or both."
-questionGoal: "Make and explain a focused edit."
-misconception: "Correcting silently without connecting the edit to a grammar target."
+type: multiple-choice
+prompt: "Which correction and explanation fit: i saw three mouse."
+choices:
+  - I saw three mice. Capitalize I and use the plural mice.
+  - i saw three mice. Only the noun needs fixing.
+  - I saw three mouse's. Add an apostrophe because mouse ends with s.
+  - I saw three mouse. No change is needed.
+correctAnswer: I saw three mice. Capitalize I and use the plural mice.
+explanation: Focused editing means naming what you changed and why.
+hint: You can fix capitalization, plural form, or both.
+questionGoal: Make and explain a focused edit.
+misconception: Correcting silently without connecting the edit to a grammar target.
 ```
 
 ### Lesson 2: Revise For Clarity And Variety
@@ -2515,17 +2538,18 @@ misconception: "Combining by simply removing punctuation."
 
 ```question
 key: u07_l02_q02_write_revision
-type: constructed-response
-prompt: "Revise this sentence by adding one useful where detail: The children read quietly."
-minWords: 7
-sampleAnswer: "The children read quietly under the oak tree."
-checklist:
-  - "Keep the original meaning"
-  - "Add one where detail"
-explanation: "A useful where detail makes the sentence more specific without changing its meaning."
-hint: "Try a phrase beginning with in, under, near, beside, or at."
-questionGoal: "Produce a focused clarity revision."
-misconception: "Adding unrelated details or changing the action."
+type: multiple-choice
+prompt: "Which revision adds a useful where detail: The children read quietly."
+choices:
+  - The children read quietly under the oak tree.
+  - The children read very quietly.
+  - The children read quietly.
+  - The children read quietly and carefully.
+correctAnswer: The children read quietly under the oak tree.
+explanation: A useful where detail makes the sentence more specific without changing its meaning.
+hint: Try a phrase beginning with in, under, near, beside, or at.
+questionGoal: Produce a focused clarity revision.
+misconception: Adding unrelated details or changing the action.
 ```
 
 ```question
@@ -2677,18 +2701,18 @@ misconception: "Changing a correct sentence because mixed review feels like ever
 
 ```question
 key: u07_l03_q05_explain_capstone_edit
-type: constructed-response
-prompt: "Correct and explain this sentence, meaning one boy owns the lunch: the boys lunch spilled."
-minWords: 10
-sampleAnswer: "The boy's lunch spilled. The needs a capital, and boy's shows the lunch belongs to one boy."
-checklist:
-  - "Correct capitalization"
-  - "Use a singular possessive for one boy"
-  - "Explain at least one edit"
-explanation: "A capstone edit should fix the target and explain why the correction fits the meaning."
-hint: "Show that the lunch belongs to one boy."
-questionGoal: "Correct and explain capitalization and possessive ownership."
-misconception: "Adding plural s or apostrophes without checking meaning."
+type: multiple-choice
+prompt: "Which correction fits one boy owning the lunch: the boys lunch spilled."
+choices:
+  - The boy's lunch spilled.
+  - The boys' lunch spilled.
+  - The boys lunch spilled.
+  - the boy's lunch spilled.
+correctAnswer: The boy's lunch spilled.
+explanation: A capstone edit should fix the target and explain why the correction fits the meaning.
+hint: Show that the lunch belongs to one boy.
+questionGoal: Correct and explain capitalization and possessive ownership.
+misconception: Adding plural s or apostrophes without checking meaning.
 ```
 
 ```question

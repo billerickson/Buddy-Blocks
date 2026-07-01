@@ -97,17 +97,18 @@ misconception: "Assuming the same digit always has the same value."
 
 ```question
 key: u01_l01_q06_explain_zero
-type: constructed-response
-prompt: "Explain why 407 needs the 0 in the tens place."
-minWords: 6
-sampleAnswer: "The 0 shows there are no tens, so the 7 stays in the ones place."
-checklist:
-  - Mention that there are no tens
-  - Explain that the zero holds a place
-explanation: "The zero is a placeholder. Without it, 407 would look like 47."
-hint: "Think about what place the 7 would move to if the zero were missing."
-questionGoal: "Explain zero as a placeholder in a three-digit number."
-misconception: "Thinking zero can always be dropped without changing value."
+type: multiple-choice
+prompt: Why does 407 need the 0 in the tens place?
+choices:
+  - The 0 holds the tens place so the 7 stays in the ones place.
+  - The 0 shows that 407 has 7 tens.
+  - The 0 can be removed because it has no value.
+  - The 0 makes the 4 worth 40.
+correctAnswer: The 0 holds the tens place so the 7 stays in the ones place.
+explanation: The zero is a placeholder. Without it, 407 would look like 47.
+hint: Think about what place the 7 would move to if the zero were missing.
+questionGoal: Explain zero as a placeholder in a three-digit number.
+misconception: Thinking zero can always be dropped without changing value.
 ```
 
 ### Lesson 3: Addition Strategies That Still Work
@@ -197,17 +198,18 @@ misconception: "Changing one addend without balancing the other."
 
 ```question
 key: u01_l03_q06_explain_strategy
-type: constructed-response
-prompt: "Solve 64 + 29 and explain the strategy you used."
-minWords: 8
-sampleAnswer: "64 + 30 is 94, then subtract 1, so the answer is 93."
-checklist:
-  - Include the answer
-  - Name or describe a strategy
-explanation: "A valid strategy shows how the total was found, such as compensation or adding tens and ones."
-hint: "You might use 29 as 30 minus 1."
-questionGoal: "Produce and explain an efficient addition strategy."
-misconception: "Giving only an answer without showing mathematical reasoning."
+type: multiple-choice
+prompt: Which strategy correctly solves 64 + 29?
+choices:
+  - 64 + 30 = 94, then subtract 1, so the sum is 93.
+  - 64 + 30 = 94, so the sum is 94.
+  - 64 + 20 = 84, and the 9 can be ignored.
+  - Add 6 + 2 and 4 + 9 to make 813.
+correctAnswer: 64 + 30 = 94, then subtract 1, so the sum is 93.
+explanation: A valid strategy shows how the total was found, such as compensation or adding tens and ones.
+hint: You might use 29 as 30 minus 1.
+questionGoal: Produce and explain an efficient addition strategy.
+misconception: Giving only an answer without showing mathematical reasoning.
 ```
 
 ### Lesson 4: Subtraction As Difference And Take-Away
@@ -296,17 +298,18 @@ misconception: "Repeating or rearranging numbers without preserving the relation
 
 ```question
 key: u01_l04_q06_explain_takeaway_difference
-type: constructed-response
-prompt: "Explain two ways to think about 65 - 28."
-minWords: 10
-sampleAnswer: "It can mean 28 taken away from 65, or the difference between 65 and 28."
-checklist:
-  - Include take-away
-  - Include difference or comparison
-explanation: "Subtraction can answer both \"how many left?\" and \"how far apart?\""
-hint: "Think of one story where something leaves and one story comparing two amounts."
-questionGoal: "Articulate two meanings of subtraction."
-misconception: "Believing subtraction has only one interpretation."
+type: multiple-choice
+prompt: Which explanation gives two valid meanings for 65 - 28?
+choices:
+  - It can mean taking 28 from 65 or finding how far apart 65 and 28 are.
+  - It can mean adding 65 and 28 or multiplying the two numbers.
+  - It only means counting 28 more after 65.
+  - It only means finding 28 groups of 65.
+correctAnswer: It can mean taking 28 from 65 or finding how far apart 65 and 28 are.
+explanation: Subtraction can answer both "how many left?" and "how far apart?"
+hint: Think of one story where something leaves and one story comparing two amounts.
+questionGoal: Articulate two meanings of subtraction.
+misconception: Believing subtraction has only one interpretation.
 ```
 
 ### Lesson 5: Equations, Boxes, And Balance
@@ -391,6 +394,22 @@ explanation: "Each missing value makes the two sides of the equation equal."
 hint: "Use addition to check subtraction equations."
 questionGoal: "Solve unknowns in varied equation positions."
 misconception: "Using the same operation for every blank position."
+```
+
+```question
+key: u01_l05_q06_balance_missing_value
+type: multiple-choice
+prompt: "Which value makes this equation true: 14 + 9 = ___ + 10?"
+choices:
+  - "13"
+  - "23"
+  - "33"
+  - "9"
+correctAnswer: "13"
+explanation: 14 + 9 = 23, so the other side must also equal 23. 13 + 10 = 23.
+hint: Find the value of the left side first, then keep the equation balanced.
+questionGoal: Apply balance reasoning to an equation with an unknown on the right side.
+misconception: Treating the blank as the answer to the first expression instead of a value that balances both sides.
 ```
 
 ### Lesson 6: Skip Counting With Structure
@@ -482,17 +501,18 @@ misconception: "Making five jumps instead of six."
 
 ```question
 key: u01_l06_q06_explain_skip_count
-type: constructed-response
-prompt: "Explain how skip counting by 10s can help count 7 groups of 10."
-minWords: 8
-sampleAnswer: "Each group adds 10, so I count 10, 20, 30, 40, 50, 60, 70."
-checklist:
-  - Mention the jump size is 10
-  - Include the total 70
-explanation: "Skip counting uses one equal jump for each equal group."
-hint: "Say one total for each group of 10."
-questionGoal: "Explain skip counting as equal jumps connected to groups."
-misconception: "Treating skip counting as a memorized chant without group meaning."
+type: multiple-choice
+prompt: Why can skip counting by 10s help count 7 groups of 10?
+choices:
+  - Each skip is one equal group of 10, so seven skips lands on 70.
+  - Skip counting by 10s works because there are 10 groups.
+  - The answer is 17 because 7 and 10 are added.
+  - Skip counting changes the group size each time.
+correctAnswer: Each skip is one equal group of 10, so seven skips lands on 70.
+explanation: Skip counting uses one equal jump for each equal group.
+hint: Say one total for each group of 10.
+questionGoal: Explain skip counting as equal jumps connected to groups.
+misconception: Treating skip counting as a memorized chant without group meaning.
 ```
 
 ### Lesson 8: Choose A Model And Check
@@ -579,17 +599,18 @@ misconception: "Subtracting digits without regrouping or checking."
 
 ```question
 key: u01_l08_q06_explain_model_choice
-type: constructed-response
-prompt: "A problem asks for 4 rows of 7 chairs. Name a model you would use and explain why."
-minWords: 8
-sampleAnswer: "I would use an array because rows of chairs make equal rows."
-checklist:
-  - Name a useful model
-  - Explain why it fits the problem
-explanation: "An array fits because the chairs are arranged in equal rows."
-hint: "The words \"rows of\" are a clue about the structure."
-questionGoal: "Explain a representation choice for an array situation."
-misconception: "Choosing a model without connecting it to the problem structure."
+type: multiple-choice
+prompt: Which model and reason fit 4 rows of 7 chairs?
+choices:
+  - An array, because equal rows of chairs match rows and columns.
+  - A strip diagram, because the problem compares two amounts.
+  - A clock, because rows should be counted around a circle.
+  - A number line, because every chair is a different jump size.
+correctAnswer: An array, because equal rows of chairs match rows and columns.
+explanation: An array fits because the chairs are arranged in equal rows.
+hint: The words "rows of" are a clue about the structure.
+questionGoal: Explain a representation choice for an array situation.
+misconception: Choosing a model without connecting it to the problem structure.
 ```
 
 ## Unit 2: Multiplication As Equal Groups And Arrays
@@ -680,17 +701,18 @@ misconception: "Adding group count and group size, such as 3 + 6."
 
 ```question
 key: u02_l01_q06_explain_equal_groups
-type: constructed-response
-prompt: "Explain why 4 teams with 5 players on each team can be a multiplication situation."
-minWords: 8
-sampleAnswer: "It has 4 equal groups because each team has 5 players."
-checklist:
-  - Mention equal groups
-  - Mention 5 players in each group
-explanation: "Equal groups make multiplication possible because each group has the same size."
-hint: "Use the phrase \"each team\" in your explanation."
-questionGoal: "Explain the equal-groups condition for multiplication."
-misconception: "Stating only the total or number of groups without equality."
+type: multiple-choice
+prompt: Why can 4 teams with 5 players on each team be a multiplication situation?
+choices:
+  - There are 4 equal groups, and each group has 5 players.
+  - There are 4 teams, so the answer must be 4.
+  - The teams may have different numbers of players.
+  - Multiplication is used whenever a story has two numbers.
+correctAnswer: There are 4 equal groups, and each group has 5 players.
+explanation: Equal groups make multiplication possible because each group has the same size.
+hint: Use the phrase "each team" in your explanation.
+questionGoal: Explain the equal-groups condition for multiplication.
+misconception: Stating only the total or number of groups without equality.
 ```
 
 ### Lesson 2: Groups Of A Number
@@ -779,17 +801,18 @@ misconception: "Adding 8 + 3 instead of using equal groups."
 
 ```question
 key: u02_l02_q06_draw_description
-type: constructed-response
-prompt: "Describe a drawing that would show 3 groups of 4."
-minWords: 8
-sampleAnswer: "I would draw 3 circles with 4 dots inside each circle."
-checklist:
-  - Include 3 groups
-  - Include 4 in each group
-explanation: "A correct drawing shows the number of groups and the same size in each group."
-hint: "Say how many groups and how many are in each."
-questionGoal: "Produce a verbal model for groups-of language."
-misconception: "Describing a total without showing equal groups."
+type: multiple-choice
+prompt: Which drawing would show 3 groups of 4?
+choices:
+  - 3 circles with 4 dots in each circle
+  - 4 circles with 3 dots in each circle
+  - 1 circle with 12 dots and no groups shown
+  - 3 circles with 2, 4, and 6 dots
+correctAnswer: 3 circles with 4 dots in each circle
+explanation: A correct drawing shows the number of groups and the same size in each group.
+hint: Say how many groups and how many are in each.
+questionGoal: Produce a verbal model for groups-of language.
+misconception: Describing a total without showing equal groups.
 ```
 
 ### Lesson 4: From Repeated Addition To Multiplication
@@ -876,17 +899,18 @@ misconception: "Adding 6 + 7 instead of multiplying."
 
 ```question
 key: u02_l04_q06_explain_factors
-type: constructed-response
-prompt: "In 3 x 8 = 24, explain what the 3 and 8 can mean."
-minWords: 8
-sampleAnswer: "The 3 can mean 3 groups, and the 8 can mean 8 in each group."
-checklist:
-  - Explain the 3
-  - Explain the 8
-explanation: "Factors can name the number of groups and the size of each group."
-hint: "Use the words \"groups\" and \"in each group.\""
-questionGoal: "Interpret factors in a multiplication equation."
-misconception: "Saying factors are only numbers to calculate with."
+type: multiple-choice
+prompt: In 3 x 8 = 24, what can the 3 and 8 mean?
+choices:
+  - 3 can mean the number of groups, and 8 can mean the number in each group.
+  - 3 means the product, and 8 means the answer.
+  - 3 and 8 only mean that you should add to get 11.
+  - Both numbers mean the number of groups, so there is no group size.
+correctAnswer: 3 can mean the number of groups, and 8 can mean the number in each group.
+explanation: Factors can name the number of groups and the size of each group.
+hint: Use the words "groups" and "in each group."
+questionGoal: Interpret factors in a multiplication equation.
+misconception: Saying factors are only numbers to calculate with.
 ```
 
 ### Lesson 6: Match Stories, Arrays, And Equations
@@ -973,17 +997,18 @@ misconception: "Adding rows and seats per row."
 
 ```question
 key: u02_l06_q06_explain_match
-type: constructed-response
-prompt: "Explain why 5 x 6 matches 5 bags with 6 oranges in each bag."
-minWords: 8
-sampleAnswer: "There are 5 groups, and each group has 6 oranges."
-checklist:
-  - Mention 5 groups
-  - Mention 6 in each group
-explanation: "The equation matches because it shows 5 equal groups of 6."
-hint: "Use the words \"groups\" and \"each.\""
-questionGoal: "Explain representation matching between story and equation."
-misconception: "Matching by answer only without factor meaning."
+type: multiple-choice
+prompt: Why does 5 x 6 match 5 bags with 6 oranges in each bag?
+choices:
+  - It shows 5 equal groups with 6 in each group.
+  - It shows 6 bags with 5 oranges in each bag, so the story is different.
+  - It means add 5 + 6 because the story has two numbers.
+  - It matches only because the answer is less than 6.
+correctAnswer: It shows 5 equal groups with 6 in each group.
+explanation: The equation matches because it shows 5 equal groups of 6.
+hint: Use the words "groups" and "each."
+questionGoal: Explain representation matching between story and equation.
+misconception: Matching by answer only without factor meaning.
 ```
 
 ### Lesson 7: Explain The Factors
@@ -1072,17 +1097,18 @@ misconception: "Adding 9 + 3."
 
 ```question
 key: u02_l07_q06_explain_both_factors
-type: constructed-response
-prompt: "In 4 x 6 = 24 for 4 packs of 6 pencils, explain both factors."
-minWords: 10
-sampleAnswer: "The 4 means 4 packs, and the 6 means 6 pencils in each pack."
-checklist:
-  - Explain 4
-  - Explain 6
-explanation: "Each factor has a meaning in the context."
-hint: "Use the story words \"packs\" and \"pencils.\""
-questionGoal: "Explain both factor roles in context."
-misconception: "Describing only the product or answer."
+type: multiple-choice
+prompt: In 4 x 6 = 24 for 4 packs of 6 pencils, what do both factors mean?
+choices:
+  - 4 is the number of packs, and 6 is the number of pencils in each pack.
+  - 4 is the number of pencils, and 6 is the total number of packs.
+  - 4 and 6 are both products.
+  - 4 and 6 only tell you to add the numbers.
+correctAnswer: 4 is the number of packs, and 6 is the number of pencils in each pack.
+explanation: Each factor has a meaning in the context.
+hint: Use the story words "packs" and "pencils."
+questionGoal: Explain both factor roles in context.
+misconception: Describing only the product or answer.
 ```
 
 ### Lesson 8: Multiplication In New Contexts
@@ -1172,17 +1198,18 @@ misconception: "Choosing a model unrelated to the story structure."
 
 ```question
 key: u02_l08_q06_explain_new_context
-type: constructed-response
-prompt: "Explain why 6 pages each day for 7 days can be multiplication."
-minWords: 8
-sampleAnswer: "It is 7 equal groups because each day has 6 pages."
-checklist:
-  - Mention equal groups
-  - Mention 7 days and 6 pages each day
-explanation: "The same number of pages is read each day, so the groups are equal."
-hint: "Each day is one group."
-questionGoal: "Explain multiplication transfer to a time-based context."
-misconception: "Failing to identify equal groups outside arrays or objects."
+type: multiple-choice
+prompt: Why can 6 pages each day for 7 days be multiplication?
+choices:
+  - Each day is an equal group of 6 pages.
+  - The number of pages changes each day.
+  - The story asks how many pages are left.
+  - Any story with days must use addition only.
+correctAnswer: Each day is an equal group of 6 pages.
+explanation: The same number of pages is read each day, so the groups are equal.
+hint: Each day is one group.
+questionGoal: Explain multiplication transfer to a time-based context.
+misconception: Failing to identify equal groups outside arrays or objects.
 ```
 
 ## Unit 3: Division As Sharing, Grouping, And Unknown Factors
@@ -1258,15 +1285,18 @@ misconception: "Adding or subtracting the two numbers in the story."
 
 ```question
 key: u03_l01_q06_explain_share
-type: constructed-response
-prompt: "Explain what the answer means in 28 crayons shared equally among 4 boxes."
-minWords: 8
-sampleAnswer: "The answer is 7, which means 7 crayons go in each box."
-checklist: ["Name the quotient", "Say what one group gets"]
-explanation: "In sharing division, the quotient tells the size of each group."
-hint: "Use the words \"in each box.\""
-questionGoal: "Interpret the quotient in a sharing division situation."
-misconception: "Reporting a number without saying what it represents."
+type: multiple-choice
+prompt: In 28 crayons shared equally among 4 boxes, what does the answer mean?
+choices:
+  - How many crayons go in each box
+  - How many boxes there are before sharing
+  - How many crayons are left out
+  - How many crayons are in 4 more boxes
+correctAnswer: How many crayons go in each box
+explanation: In sharing division, the quotient tells the size of each group.
+hint: Use the words "in each box."
+questionGoal: Interpret the quotient in a sharing division situation.
+misconception: Reporting a number without saying what it represents.
 ```
 
 ### Lesson 2: Making Equal Groups
@@ -1342,15 +1372,18 @@ misconception: "Adding total and group size."
 
 ```question
 key: u03_l02_q06_explain_grouping
-type: constructed-response
-prompt: "Explain what 35 / 5 answers in this story: 35 books are packed 5 books per box."
-minWords: 8
-sampleAnswer: "It answers how many boxes are needed; 7 boxes are needed."
-checklist: ["Say it finds number of boxes", "Include 7"]
-explanation: "The group size is 5 books, so the quotient tells how many groups."
-hint: "The story says 5 books per box."
-questionGoal: "Interpret the quotient in a grouping situation."
-misconception: "Saying the quotient is books in each box."
+type: multiple-choice
+prompt: "What does 35 / 5 answer in this story: 35 books are packed 5 books per box?"
+choices:
+  - How many boxes are needed
+  - How many books are in all before packing
+  - How many books go in each box
+  - How many books are added to 35
+correctAnswer: How many boxes are needed
+explanation: The group size is 5 books, so the quotient tells how many groups.
+hint: The story says 5 books per box.
+questionGoal: Interpret the quotient in a grouping situation.
+misconception: Saying the quotient is books in each box.
 ```
 
 ### Lesson 3: What Does The Quotient Mean?
@@ -1426,15 +1459,18 @@ misconception: "Solving without tracking the quotient's meaning."
 
 ```question
 key: u03_l03_q06_explain_quotient
-type: constructed-response
-prompt: "In 32 / 4 = 8, explain why the 8 could mean groups in one story and items in each group in another."
-minWords: 12
-sampleAnswer: "If 4 is the group size, 8 means groups. If 4 is the number of groups, 8 means items in each group."
-checklist: ["Mention group size", "Mention number of groups"]
-explanation: "The story decides what the quotient represents."
-hint: "Compare sharing with grouping."
-questionGoal: "Explain context-dependent quotient meaning."
-misconception: "Believing the equation alone gives the answer label."
+type: multiple-choice
+prompt: Why can the 8 in 32 / 4 = 8 mean groups in one story and items in each group in another?
+choices:
+  - The story tells whether the unknown is the number of groups or the size of each group.
+  - The 8 always means leftover items.
+  - The 8 always means the number being divided.
+  - Division answers have the same meaning in every story.
+correctAnswer: The story tells whether the unknown is the number of groups or the size of each group.
+explanation: The story decides what the quotient represents.
+hint: Compare sharing with grouping.
+questionGoal: Explain context-dependent quotient meaning.
+misconception: Believing the equation alone gives the answer label.
 ```
 
 ### Lesson 5: Division As An Unknown Factor
@@ -1497,16 +1533,32 @@ misconception: "Dividing by repeated subtraction without tracking groups."
 ```
 
 ```question
+key: u03_l05_q05_missing_factor_input
+type: text-input
+prompt: "Type the missing factor: 7 x ___ = 42"
+acceptedAnswers:
+  - "6"
+answerType: number
+explanation: 7 x 6 = 42, so 42 / 7 = 6.
+hint: Ask, "7 times what equals 42?"
+questionGoal: Produce a missing factor before connecting it to division.
+misconception: Trying to subtract 7 from 42 instead of using a related multiplication fact.
+```
+
+```question
 key: u03_l05_q06_explain_unknown_factor
-type: constructed-response
-prompt: "Explain how to solve 48 / 6 using multiplication."
-minWords: 8
-sampleAnswer: "Ask 6 times what equals 48. Since 6 x 8 = 48, the answer is 8."
-checklist: ["Write or say the related multiplication fact", "Include the quotient"]
-explanation: "Division can be solved as a missing-factor problem."
-hint: "Start with \"6 times what...\""
-questionGoal: "Explain division through unknown-factor reasoning."
-misconception: "Giving quotient without explaining the multiplicative relationship."
+type: multiple-choice
+prompt: Which related multiplication fact solves 48 / 6?
+choices:
+  - 6 x 8 = 48
+  - 6 x 48 = 288
+  - 48 x 6 = 54
+  - 48 - 6 = 42
+correctAnswer: 6 x 8 = 48
+explanation: Division can be solved as a missing-factor problem.
+hint: Start with "6 times what..."
+questionGoal: Explain division through unknown-factor reasoning.
+misconception: Giving quotient without explaining the multiplicative relationship.
 ```
 
 ### Lesson 6: Fact Families For Multiplication And Division
@@ -1586,15 +1638,18 @@ misconception: "Confusing which factor is the quotient."
 
 ```question
 key: u03_l06_q06_explain_family
-type: constructed-response
-prompt: "Explain why 4 x 7 = 28 and 28 / 7 = 4 are related."
-minWords: 8
-sampleAnswer: "They use the same factors and product. Division undoes the multiplication."
-checklist: ["Mention same numbers", "Mention division undoes multiplication"]
-explanation: "Fact families show inverse relationships between multiplication and division."
-hint: "Use the words \"factors\" and \"product.\""
-questionGoal: "Explain the inverse relationship in a fact family."
-misconception: "Seeing multiplication and division as unrelated facts."
+type: multiple-choice
+prompt: Why are 4 x 7 = 28 and 28 / 7 = 4 related?
+choices:
+  - They use the same factors and product in inverse operations.
+  - They both add 4 and 7.
+  - They are related only because both include 28.
+  - They show two unrelated facts to memorize separately.
+correctAnswer: They use the same factors and product in inverse operations.
+explanation: Fact families show inverse relationships between multiplication and division.
+hint: Use the words "factors" and "product."
+questionGoal: Explain the inverse relationship in a fact family.
+misconception: Seeing multiplication and division as unrelated facts.
 ```
 
 ### Lesson 7: Choose Sharing Or Grouping
@@ -1670,15 +1725,18 @@ misconception: "Finding number of groups when group count is already known."
 
 ```question
 key: u03_l07_q06_explain_choice
-type: constructed-response
-prompt: "For 32 photos placed 8 on each page, explain whether this is sharing or grouping."
-minWords: 8
-sampleAnswer: "It is grouping because each page has 8 photos, and we need the number of pages."
-checklist: ["Say grouping", "Explain that 8 is the group size"]
-explanation: "The group size is known, so division finds the number of groups."
+type: multiple-choice
+prompt: For 32 photos placed 8 on each page, is the division sharing or grouping?
+choices:
+  - Grouping, because the group size is 8 photos per page and the number of pages is unknown.
+  - Sharing, because the number of pages is given and photos per page is unknown.
+  - Neither, because division cannot use pages.
+  - Sharing, because 32 and 8 should be added.
+correctAnswer: Grouping, because the group size is 8 photos per page and the number of pages is unknown.
+explanation: The group size is known, so division finds the number of groups.
 hint: "Ask what is unknown: photos per page or number of pages."
-questionGoal: "Explain why a division context is grouping."
-misconception: "Classifying by the division symbol instead of the story meaning."
+questionGoal: Explain why a division context is grouping.
+misconception: Classifying by the division symbol instead of the story meaning.
 ```
 
 ## Unit 4: Multiplication And Division Strategies
@@ -1756,15 +1814,18 @@ misconception: "Counting by the wrong factor."
 
 ```question
 key: u04_l01_q06_explain_tens
-type: constructed-response
-prompt: "Explain why 10 x 6 is easy to know."
-minWords: 6
-sampleAnswer: "Ten groups of 6 is 60, or 6 tens is 60."
-checklist: ["Include 60", "Mention tens or groups"]
-explanation: "Tens facts connect to place value and skip counting by 10."
-hint: "Think about 6 tens."
-questionGoal: "Explain an anchor tens fact using structure."
-misconception: "Seeing tens facts as memorized strings only."
+type: multiple-choice
+prompt: Why is 10 x 6 easy to know?
+choices:
+  - It means 6 tens, which is 60.
+  - It means 10 + 6, which is 16.
+  - It is easy because every tens fact has product 10.
+  - It means count by 6 one time.
+correctAnswer: It means 6 tens, which is 60.
+explanation: Tens facts connect to place value and skip counting by 10.
+hint: Think about 6 tens.
+questionGoal: Explain an anchor tens fact using structure.
+misconception: Seeing tens facts as memorized strings only.
 ```
 
 ### Lesson 2: Doubles And Near Doubles
@@ -1831,16 +1892,35 @@ misconception: "Doubling and stopping too soon."
 ```
 
 ```question
+key: u04_l02_q05_near_double_choice
+type: multiple-choice
+prompt: Which near-double strategy works for 5 x 6?
+choices:
+  - Use 4 x 6 = 24, then add one more group of 6.
+  - Use 5 + 6 because near doubles are addition only.
+  - Use 2 x 6 = 12 and stop there.
+  - Use 6 x 6 = 36, then add one more group of 6.
+correctAnswer: Use 4 x 6 = 24, then add one more group of 6.
+explanation: 5 groups of 6 is one more group than 4 groups of 6, so 24 + 6 = 30.
+hint: Choose a nearby fact that is easy, then adjust by one group.
+questionGoal: Choose a near-double strategy for a multiplication fact.
+misconception: Using a nearby fact without adjusting by the missing or extra group.
+```
+
+```question
 key: u04_l02_q06_explain_double
-type: constructed-response
-prompt: "Explain how doubles help solve 4 x 6."
-minWords: 8
-sampleAnswer: "I can double 6 to get 12, then double 12 to get 24."
-checklist: ["Use double", "Include 24"]
-explanation: "4 groups can be thought of as double a double."
-hint: "Think of 4 groups as 2 groups plus 2 groups."
-questionGoal: "Explain a double-based multiplication strategy."
-misconception: "Treating doubles as unrelated to multiplication groups."
+type: multiple-choice
+prompt: How can doubles help solve 4 x 6?
+choices:
+  - Double 6 to get 12, then double 12 to get 24.
+  - Double 4 to get 8, so the answer is 8.
+  - Add 4 + 6, then double 10 to get 20.
+  - Use 6 groups, then ignore 4.
+correctAnswer: Double 6 to get 12, then double 12 to get 24.
+explanation: 4 groups can be thought of as double a double.
+hint: Think of 4 groups as 2 groups plus 2 groups.
+questionGoal: Explain a double-based multiplication strategy.
+misconception: Treating doubles as unrelated to multiplication groups.
 ```
 
 ### Lesson 3: Turnaround Facts In Multiplication
@@ -1914,15 +1994,18 @@ misconception: "Thinking turnaround facts make contexts identical."
 
 ```question
 key: u04_l03_q06_explain_turnaround
-type: constructed-response
-prompt: "Explain why 5 x 6 and 6 x 5 have the same product."
-minWords: 8
-sampleAnswer: "They use the same factors. An array can be turned and still has 30 dots."
-checklist: ["Mention same factors or array", "Include product 30"]
-explanation: "Turning an array changes rows and columns, but not the total."
-hint: "Picture an array being turned sideways."
-questionGoal: "Explain multiplication commutativity with a model."
-misconception: "Memorizing a rule without understanding why it works."
+type: multiple-choice
+prompt: Why do 5 x 6 and 6 x 5 have the same product?
+choices:
+  - Turning the array swaps rows and columns but keeps the same total.
+  - The factors are the same only if they are written in one order.
+  - They have the same product because 5 + 6 equals 6 + 5.
+  - The product changes when the array is turned.
+correctAnswer: Turning the array swaps rows and columns but keeps the same total.
+explanation: Turning an array changes rows and columns, but not the total.
+hint: Picture an array being turned sideways.
+questionGoal: Explain multiplication commutativity with a model.
+misconception: Memorizing a rule without understanding why it works.
 ```
 
 ### Lesson 4: Break Apart A Factor
@@ -1989,16 +2072,39 @@ misconception: "Stopping after one partial product."
 ```
 
 ```question
+key: u04_l04_q05_break_apart_steps
+type: order-items
+prompt: Put the break-apart steps for 6 x 7 in order.
+items:
+  - Add 35 + 7 = 42
+  - Find 1 x 7 = 7
+  - Break 6 into 5 and 1
+  - Find 5 x 7 = 35
+correctOrder:
+  - Break 6 into 5 and 1
+  - Find 5 x 7 = 35
+  - Find 1 x 7 = 7
+  - Add 35 + 7 = 42
+explanation: Breaking 6 into 5 and 1 keeps the same total groups, then the partial products are added.
+hint: Start by breaking one factor into easier parts.
+questionGoal: Sequence distributive reasoning for a multiplication fact.
+misconception: Adding partial products before making a valid factor split.
+```
+
+```question
 key: u04_l04_q06_explain_split_array
-type: constructed-response
-prompt: "Explain how splitting an array can help solve 9 x 6."
-minWords: 10
-sampleAnswer: "I can split 9 rows into 5 rows and 4 rows, then add 30 and 24 to get 54."
-checklist: ["Split one factor", "Add partial products"]
-explanation: "A split array shows the same total as smaller, easier products."
-hint: "Try splitting 9 into 5 and 4."
-questionGoal: "Explain distributive reasoning with an array."
-misconception: "Treating break-apart as a symbol trick without model meaning."
+type: multiple-choice
+prompt: How can splitting an array help solve 9 x 6?
+choices:
+  - Split 9 into 5 and 4, then add 5 x 6 and 4 x 6.
+  - Split 6 into 3 and 3, then subtract both parts.
+  - Split the array into unequal rows and count only one part.
+  - Split 9 and 6 apart, then add 9 + 6.
+correctAnswer: Split 9 into 5 and 4, then add 5 x 6 and 4 x 6.
+explanation: A split array shows the same total as smaller, easier products.
+hint: Try splitting 9 into 5 and 4.
+questionGoal: Explain distributive reasoning with an array.
+misconception: Treating break-apart as a symbol trick without model meaning.
 ```
 
 ### Lesson 5: Nines And Neighbor Facts
@@ -2065,16 +2171,35 @@ misconception: "Removing the wrong amount."
 ```
 
 ```question
+key: u04_l05_q05_nines_equation
+type: multiple-choice
+prompt: Which equation uses a tens fact to solve 9 x 5?
+choices:
+  - 10 x 5 - 5 = 45
+  - 10 x 5 + 5 = 55
+  - 9 + 5 = 14
+  - 5 x 5 - 9 = 16
+correctAnswer: 10 x 5 - 5 = 45
+explanation: 9 groups of 5 is one group of 5 less than 10 groups of 5.
+hint: Start with 10 groups, then remove one group.
+questionGoal: Select an equation that represents a nines-from-tens strategy.
+misconception: Adding the extra group instead of subtracting one group from the tens fact.
+```
+
+```question
 key: u04_l05_q06_explain_neighbor
-type: constructed-response
-prompt: "Explain how to use a tens fact to find 9 x 8."
-minWords: 8
-sampleAnswer: "10 x 8 is 80. Subtract one group of 8 to get 72."
-checklist: ["Start with 10 x 8", "Subtract 8"]
-explanation: "9 groups of 8 is one group less than 10 groups of 8."
-hint: "Think 10 groups, then take away one group."
-questionGoal: "Explain a nines strategy."
-misconception: "Memorizing nines patterns without group reasoning."
+type: multiple-choice
+prompt: How can a tens fact help find 9 x 8?
+choices:
+  - Use 10 x 8 = 80, then subtract one group of 8 to get 72.
+  - Use 10 x 8 = 80, then add one group of 8 to get 88.
+  - Use 9 + 8 because the factors are neighbors.
+  - Use 8 x 8 because 9 is close to 8 and the answer stays the same.
+correctAnswer: Use 10 x 8 = 80, then subtract one group of 8 to get 72.
+explanation: 9 groups of 8 is one group less than 10 groups of 8.
+hint: Think 10 groups, then take away one group.
+questionGoal: Explain a nines strategy.
+misconception: Memorizing nines patterns without group reasoning.
 ```
 
 ### Lesson 6: Division From Related Multiplication
@@ -2137,16 +2262,37 @@ misconception: "Recalling an incorrect nearby fact."
 ```
 
 ```question
+key: u04_l06_q05_missing_factor_division
+type: fill-blank
+prompt: Complete the related fact for 64 / 8.
+sentenceBefore: 8 x
+sentenceAfter: = 64
+choices:
+  - "6"
+  - "7"
+  - "8"
+  - "9"
+correctAnswer: "8"
+explanation: 8 x 8 = 64, so 64 / 8 = 8.
+hint: Think of the multiplication fact with product 64.
+questionGoal: Use a related multiplication fact to solve division.
+misconception: Confusing the divisor with an unrelated nearby factor.
+```
+
+```question
 key: u04_l06_q06_explain_related
-type: constructed-response
-prompt: "Explain how multiplication helps solve 54 / 9."
-minWords: 8
-sampleAnswer: "Ask 9 times what equals 54. Since 9 x 6 = 54, the answer is 6."
-checklist: ["Use related multiplication", "Include quotient 6"]
-explanation: "Division can be solved by finding the missing factor."
-hint: "Start with \"9 times what...\""
-questionGoal: "Explain division through related multiplication."
-misconception: "Treating division as a separate memorized list."
+type: multiple-choice
+prompt: How does multiplication help solve 54 / 9?
+choices:
+  - Think 9 x ? = 54, so the quotient is 6.
+  - Think 54 x 9, so the quotient is 486.
+  - Think 54 - 9, so the quotient is 45.
+  - Think 9 + 54, so the quotient is 63.
+correctAnswer: Think 9 x ? = 54, so the quotient is 6.
+explanation: Division can be solved by finding the missing factor.
+hint: Start with "9 times what..."
+questionGoal: Explain division through related multiplication.
+misconception: Treating division as a separate memorized list.
 ```
 
 ### Lesson 7: Choose The Most Useful Strategy
@@ -2208,15 +2354,34 @@ misconception: "Guessing without a strategy or using addition only."
 
 ```question
 key: u04_l07_q05_strategy_reason
-type: constructed-response
-prompt: "Choose a strategy for 6 x 8 and explain the first step."
-minWords: 8
-sampleAnswer: "I can break 6 into 3 and 3. Then I find 3 x 8 twice."
-checklist: ["Name a strategy", "Explain the first step"]
-explanation: "A useful strategy should fit the numbers and preserve the same product."
-hint: "You might use doubles or break apart 6."
-questionGoal: "Justify a multiplication strategy choice."
-misconception: "Naming a strategy without showing how it starts."
+type: multiple-choice
+prompt: Which strategy and first step fit 6 x 8?
+choices:
+  - Break 6 into 5 and 1, then find 5 x 8 and 1 x 8.
+  - Add 6 + 8 because multiplication means add the factors once.
+  - Change 6 x 8 to 6 x 10 without adjusting.
+  - Subtract 6 from 8 because 8 is larger.
+correctAnswer: Break 6 into 5 and 1, then find 5 x 8 and 1 x 8.
+explanation: A useful strategy should fit the numbers and preserve the same product.
+hint: You might use doubles or break apart 6.
+questionGoal: Justify a multiplication strategy choice.
+misconception: Naming a strategy without showing how it starts.
+```
+
+```question
+key: u04_l07_q06_fives_strategy_reason
+type: multiple-choice
+prompt: Which strategy is most useful for 7 x 5?
+choices:
+  - "Use the fives fact: 7 groups of 5 is 35."
+  - Use a nines strategy because 7 is close to 9.
+  - Add 7 + 5 because there are two factors.
+  - Use 10 x 7 and add 5 more groups.
+correctAnswer: "Use the fives fact: 7 groups of 5 is 35."
+explanation: A fives fact fits because one factor is 5, and skip-counting by 5 gives 35.
+hint: Look for an anchor factor before choosing a strategy.
+questionGoal: Choose an efficient strategy based on the factors in a multiplication fact.
+misconception: Choosing a familiar strategy even when it does not fit the factors.
 ```
 
 ### Lesson 8: Mixed Fact Retrieval With Meaning
@@ -2290,15 +2455,18 @@ misconception: "Choosing a nearby nines or tens product."
 
 ```question
 key: u04_l08_q06_explain_fact
-type: constructed-response
-prompt: "Pick one way to solve 48 / 6 and explain it."
-minWords: 8
-sampleAnswer: "I know 6 x 8 = 48, so 48 divided by 6 is 8."
-checklist: ["Include the answer", "Use a strategy or related fact"]
-explanation: "Mixed fact fluency includes being able to reason when a fact is not automatic."
-hint: "Use a related multiplication fact."
-questionGoal: "Explain a mixed division fact strategy."
-misconception: "Giving answers without retained or explainable reasoning."
+type: multiple-choice
+prompt: Which reasoning can solve 48 / 6?
+choices:
+  - Use the related fact 6 x 8 = 48.
+  - Use 48 + 6 = 54.
+  - Use 48 x 6 because division means multiply the numbers.
+  - Use 6 - 48 because the smaller number comes first.
+correctAnswer: Use the related fact 6 x 8 = 48.
+explanation: Mixed fact fluency includes being able to reason when a fact is not automatic.
+hint: Use a related multiplication fact.
+questionGoal: Explain a mixed division fact strategy.
+misconception: Giving answers without retained or explainable reasoning.
 ```
 
 ## Unit 5: Place Value, Rounding, And Whole-Number Operations
@@ -2363,16 +2531,35 @@ misconception: "Rounding to 100 because it is a three-digit number."
 ```
 
 ```question
+key: u05_l01_q05_number_line_distance
+type: multiple-choice
+prompt: Which number-line fact shows why 52 rounds to 50?
+choices:
+  - 52 is 2 away from 50 and 8 away from 60.
+  - 52 is 8 away from 50 and 2 away from 60.
+  - 52 is exactly halfway between 50 and 60.
+  - 52 is closer to 40 than to 50.
+correctAnswer: 52 is 2 away from 50 and 8 away from 60.
+explanation: A number rounds to the nearer ten; 52 is nearer to 50 than to 60.
+hint: Count the jumps from 52 to each benchmark ten.
+questionGoal: Use distance to benchmarks to justify nearest-ten rounding.
+misconception: Rounding by the ones digit rule without understanding distance on the number line.
+```
+
+```question
 key: u05_l01_q06_explain_round_ten
-type: constructed-response
-prompt: "Explain why 38 rounds to 40."
-minWords: 8
-sampleAnswer: "38 is closer to 40 than to 30 because it is only 2 away from 40."
-checklist: ["Compare 30 and 40", "Mention closeness or distance"]
-explanation: "Rounding uses the nearest benchmark."
-hint: "Count how far 38 is from 30 and 40."
-questionGoal: "Explain nearest-ten rounding with distance."
-misconception: "Using a memorized digit rule without magnitude reasoning."
+type: multiple-choice
+prompt: Why does 38 round to 40?
+choices:
+  - 38 is 2 away from 40 and 8 away from 30, so 40 is nearer.
+  - 38 rounds to 40 because 30 is the larger ten.
+  - 38 rounds to 30 because 3 is the first digit.
+  - 38 cannot be rounded to a ten.
+correctAnswer: 38 is 2 away from 40 and 8 away from 30, so 40 is nearer.
+explanation: Rounding uses the nearest benchmark.
+hint: Count how far 38 is from 30 and 40.
+questionGoal: Explain nearest-ten rounding with distance.
+misconception: Using a memorized digit rule without magnitude reasoning.
 ```
 
 ### Lesson 2: Nearest Hundred And Reasonableness
@@ -2448,15 +2635,18 @@ misconception: "Rounding up because 49 feels large."
 
 ```question
 key: u05_l02_q06_explain_estimate
-type: constructed-response
-prompt: "Explain why 198 + 402 should be about 600."
-minWords: 8
-sampleAnswer: "198 is about 200 and 402 is about 400, so the sum is about 600."
-checklist: ["Round both numbers", "Include about 600"]
-explanation: "Rounding helps predict a reasonable size before exact computation."
-hint: "Round each number to the nearest hundred."
-questionGoal: "Explain estimation with rounded hundreds."
-misconception: "Treating estimation as random guessing."
+type: multiple-choice
+prompt: Why should 198 + 402 be about 600?
+choices:
+  - 198 is about 200 and 402 is about 400, and 200 + 400 = 600.
+  - 198 is about 100 and 402 is about 400, and 100 + 400 = 500.
+  - Add only the hundreds digits to get 5.
+  - The estimate is 1,000 because there are two three-digit numbers.
+correctAnswer: 198 is about 200 and 402 is about 400, and 200 + 400 = 600.
+explanation: Rounding helps predict a reasonable size before exact computation.
+hint: Round each number to the nearest hundred.
+questionGoal: Explain estimation with rounded hundreds.
+misconception: Treating estimation as random guessing.
 ```
 
 ### Lesson 3: Add Within 1,000 With Place Value
@@ -2536,15 +2726,18 @@ misconception: "Accepting an answer without checking magnitude."
 
 ```question
 key: u05_l03_q06_explain_add
-type: constructed-response
-prompt: "Explain one way to add 438 + 126."
-minWords: 8
-sampleAnswer: "Add 400 + 100, 30 + 20, and 8 + 6, then combine to get 564."
-checklist: ["Use place value", "Include the sum 564"]
-explanation: "Place-value addition keeps hundreds, tens, and ones organized."
-hint: "Break both numbers into hundreds, tens, and ones."
-questionGoal: "Explain a place-value addition method."
-misconception: "Reporting an answer without a method."
+type: multiple-choice
+prompt: Which place-value strategy correctly adds 438 + 126?
+choices:
+  - 400 + 100 = 500, 30 + 20 = 50, 8 + 6 = 14, so the sum is 564.
+  - 400 + 100 = 500, and the tens and ones do not matter.
+  - 438 + 100 = 538, so the answer is 538.
+  - 4 + 1, 3 + 2, and 8 + 6 make 5514.
+correctAnswer: 400 + 100 = 500, 30 + 20 = 50, 8 + 6 = 14, so the sum is 564.
+explanation: Place-value addition keeps hundreds, tens, and ones organized.
+hint: Break both numbers into hundreds, tens, and ones.
+questionGoal: Explain a place-value addition method.
+misconception: Reporting an answer without a method.
 ```
 
 ### Lesson 4: Subtract Within 1,000 With Regrouping
@@ -2620,15 +2813,18 @@ misconception: "Choosing a check that reuses numbers but is not equivalent."
 
 ```question
 key: u05_l04_q06_explain_subtract
-type: constructed-response
-prompt: "Explain why regrouping is needed for 402 - 175."
-minWords: 8
-sampleAnswer: "There are not enough ones or tens, so a hundred must be traded into tens and ones."
-checklist: ["Mention not enough ones or tens", "Mention trading or regrouping"]
-explanation: "Regrouping keeps the value the same while making subtraction possible."
-hint: "Look at the zeros in 402."
-questionGoal: "Explain regrouping across zero."
-misconception: "Borrowing mechanically without place-value meaning."
+type: multiple-choice
+prompt: Why is regrouping needed for 402 - 175?
+choices:
+  - 402 has 0 tens and 2 ones, so you must regroup before subtracting 7 tens and 5 ones.
+  - Regrouping is needed because 402 is smaller than 175.
+  - Regrouping changes 402 into a different total.
+  - Regrouping is only needed for addition.
+correctAnswer: 402 has 0 tens and 2 ones, so you must regroup before subtracting 7 tens and 5 ones.
+explanation: Regrouping keeps the value the same while making subtraction possible.
+hint: Look at the zeros in 402.
+questionGoal: Explain regrouping across zero.
+misconception: Borrowing mechanically without place-value meaning.
 ```
 
 ### Lesson 5: Use Inverse Operations To Check
@@ -2704,15 +2900,18 @@ misconception: "Confusing which addend should be subtracted."
 
 ```question
 key: u05_l05_q06_explain_inverse
-type: constructed-response
-prompt: "Explain why 241 + 359 can be checked with subtraction."
-minWords: 8
-sampleAnswer: "Addition and subtraction undo each other, so the sum minus one addend should give the other addend."
-checklist: ["Mention undo or inverse", "Mention subtracting one addend"]
-explanation: "Inverse operations help verify whether a result is correct."
-hint: "Think about how to get back from the sum to an addend."
-questionGoal: "Explain inverse-operation checking."
-misconception: "Treating checks as separate calculations without meaning."
+type: multiple-choice
+prompt: Why can 241 + 359 be checked with subtraction?
+choices:
+  - Subtraction is the inverse of addition, so the sum minus one addend should give the other addend.
+  - Subtraction is checked by adding the two addends again.
+  - Addition and subtraction are unrelated operations.
+  - Subtracting always gives a larger answer than adding.
+correctAnswer: Subtraction is the inverse of addition, so the sum minus one addend should give the other addend.
+explanation: Inverse operations help verify whether a result is correct.
+hint: Think about how to get back from the sum to an addend.
+questionGoal: Explain inverse-operation checking.
+misconception: Treating checks as separate calculations without meaning.
 ```
 
 ### Lesson 6: Multiply By Multiples Of 10
@@ -2775,16 +2974,37 @@ misconception: "Writing 5400 or 96 by mishandling place value."
 ```
 
 ```question
+key: u05_l06_q05_tens_partial
+type: fill-blank
+prompt: Complete the tens reasoning.
+sentenceBefore: 7 x 40 is 7 x 4 tens, which is
+sentenceAfter: tens.
+choices:
+  - "11"
+  - "28"
+  - "40"
+  - "280"
+correctAnswer: "28"
+explanation: 7 x 4 tens is 28 tens, which equals 280.
+hint: First multiply 7 x 4, then keep the tens unit.
+questionGoal: Connect multiplication facts to tens language before writing the full product.
+misconception: Appending a zero without tracking how many tens the product represents.
+```
+
+```question
 key: u05_l06_q06_explain_tens_product
-type: constructed-response
-prompt: "Explain why 8 x 50 = 400."
-minWords: 8
-sampleAnswer: "50 is 5 tens. 8 x 5 tens is 40 tens, which is 400."
-checklist: ["Mention 5 tens", "Include 400"]
-explanation: "Multiplying by multiples of 10 uses both multiplication facts and place value."
-hint: "Think of 50 as 5 tens."
-questionGoal: "Explain the place-value reasoning for multiples of 10."
-misconception: "Using a zero trick without understanding."
+type: multiple-choice
+prompt: Why is 8 x 50 = 400?
+choices:
+  - 50 is 5 tens, and 8 x 5 tens is 40 tens, or 400.
+  - 50 has a zero, so the answer must be 80.
+  - 8 x 50 means 8 + 50, which is 58.
+  - The zero in 50 can be ignored, so the answer is 40.
+correctAnswer: 50 is 5 tens, and 8 x 5 tens is 40 tens, or 400.
+explanation: Multiplying by multiples of 10 uses both multiplication facts and place value.
+hint: Think of 50 as 5 tens.
+questionGoal: Explain the place-value reasoning for multiples of 10.
+misconception: Using a zero trick without understanding.
 ```
 
 ### Lesson 7: Estimate, Compute, Or Check?
@@ -2845,16 +3065,35 @@ misconception: "Adding rounded numbers when the operation is subtraction."
 ```
 
 ```question
+key: u05_l07_q05_estimate_check
+type: multiple-choice
+prompt: A student says 612 - 289 = 423. Which estimate checks reasonableness?
+choices:
+  - 600 - 300 = 300, so 423 is too high.
+  - 600 + 300 = 900, so 423 is reasonable.
+  - 612 rounds to 700 and 289 rounds to 200, so 423 is too low.
+  - No estimate can help check subtraction.
+correctAnswer: 600 - 300 = 300, so 423 is too high.
+explanation: The exact difference should be near 300, not over 400.
+hint: Round both numbers to nearby hundreds before judging the answer.
+questionGoal: Use estimation to check whether a computed subtraction answer is reasonable.
+misconception: Accepting a computed answer without comparing it to an estimate.
+```
+
+```question
 key: u05_l07_q06_explain_tool_choice
-type: constructed-response
-prompt: "A student found 299 + 402 = 701. Explain one way to check if it is reasonable."
-minWords: 8
-sampleAnswer: "Round 299 to 300 and 402 to 400. The sum should be about 700, so 701 is reasonable."
-checklist: ["Use rounding or estimation", "Say whether 701 is reasonable"]
-explanation: "Estimation can check whether an exact answer is close to the expected size."
-hint: "Round both addends to hundreds."
-questionGoal: "Explain reasonableness checking after computation."
-misconception: "Checking only by redoing the exact same work."
+type: multiple-choice
+prompt: How can you check whether 299 + 402 = 701 is reasonable?
+choices:
+  - Round 299 to 300 and 402 to 400; the estimate is about 700.
+  - Round both numbers to 1,000, so the estimate is 2,000.
+  - Subtract 402 from 299 because checking addition always uses the smaller first.
+  - Ignore 299 because 402 is closer to a hundred.
+correctAnswer: Round 299 to 300 and 402 to 400; the estimate is about 700.
+explanation: Estimation can check whether an exact answer is close to the expected size.
+hint: Round both addends to hundreds.
+questionGoal: Explain reasonableness checking after computation.
+misconception: Checking only by redoing the exact same work.
 ```
 
 ## Unit 6: Four-Operation Word Problems And Equations
@@ -2930,15 +3169,18 @@ misconception: "Using multiplication because the story has equal groups but the 
 
 ```question
 key: u06_l01_q06_explain_no_key_words
-type: constructed-response
-prompt: "Explain why key words alone can be tricky in word problems."
-minWords: 10
-sampleAnswer: "The same word can appear in different structures, so I need to understand what is unknown."
-checklist: ["Mention structure or what is unknown", "Explain that words can be tricky"]
-explanation: "Operation choice depends on the relationship among quantities."
-hint: "Think about the word \"more\" in two different problems."
-questionGoal: "Explain why structure matters more than key words."
-misconception: "Believing a single word always determines the operation."
+type: multiple-choice
+prompt: Why can key words alone be tricky in word problems?
+choices:
+  - The operation depends on the relationship among the quantities, not just one word.
+  - The word more always means addition.
+  - The largest number always tells which operation to use.
+  - Key words are never useful for reading a problem.
+correctAnswer: The operation depends on the relationship among the quantities, not just one word.
+explanation: Operation choice depends on the relationship among quantities.
+hint: Think about the word "more" in two different problems.
+questionGoal: Explain why structure matters more than key words.
+misconception: Believing a single word always determines the operation.
 ```
 
 ### Lesson 2: One-Step Problems With All Four Operations
@@ -3024,15 +3266,18 @@ misconception: "Using surface words without meaning."
 
 ```question
 key: u06_l02_q06_explain_operation
-type: constructed-response
-prompt: "A box has 9 packs with 4 pencils in each pack. Explain the operation you would use."
-minWords: 8
-sampleAnswer: "I would multiply because there are 9 equal groups of 4 pencils."
-checklist: ["Name multiplication", "Mention equal groups"]
-explanation: "Multiplication finds the total in equal groups."
-hint: "Use the words \"each pack.\""
-questionGoal: "Explain operation choice for a one-step problem."
-misconception: "Solving without naming the structure."
+type: multiple-choice
+prompt: A box has 9 packs with 4 pencils in each pack. Which operation fits, and why?
+choices:
+  - Multiplication, because there are 9 equal groups of 4 pencils.
+  - Subtraction, because packs take pencils away.
+  - Division, because 9 and 4 are both factors.
+  - Addition only, because every word problem with packs uses addition.
+correctAnswer: Multiplication, because there are 9 equal groups of 4 pencils.
+explanation: Multiplication finds the total in equal groups.
+hint: Use the words "each pack."
+questionGoal: Explain operation choice for a one-step problem.
+misconception: Solving without naming the structure.
 ```
 
 ### Lesson 3: Unknowns In Different Places
@@ -3110,15 +3355,18 @@ misconception: "Applying one operation pattern to all blanks."
 
 ```question
 key: u06_l03_q06_explain_unknown
-type: constructed-response
-prompt: "Explain how to find the missing number in 63 / ___ = 7."
-minWords: 8
-sampleAnswer: "I ask what number times 7 equals 63. Since 9 x 7 = 63, the missing number is 9."
-checklist: ["Use related multiplication", "Include 9"]
-explanation: "Division equations can be solved with related multiplication facts."
-hint: "Think of the divisor as a missing factor."
-questionGoal: "Explain solving an unknown in a division equation."
-misconception: "Treating the blank as the quotient automatically."
+type: multiple-choice
+prompt: How can you find the missing number in 63 / ___ = 7?
+choices:
+  - Use ? x 7 = 63, so the missing number is 9.
+  - Use 63 + 7, so the missing number is 70.
+  - Use 63 - 7, so the missing number is 56.
+  - Use 63 x 7, so the missing number is 441.
+correctAnswer: Use ? x 7 = 63, so the missing number is 9.
+explanation: Division equations can be solved with related multiplication facts.
+hint: Think of the divisor as a missing factor.
+questionGoal: Explain solving an unknown in a division equation.
+misconception: Treating the blank as the quotient automatically.
 ```
 
 ### Lesson 4: Represent Compare Problems
@@ -3192,15 +3440,18 @@ misconception: "Adding 18 + 3."
 
 ```question
 key: u06_l04_q06_explain_strip
-type: constructed-response
-prompt: "Explain how a strip diagram could show 42 compared with 29."
-minWords: 8
-sampleAnswer: "It can show one bar for 42 and one shorter bar for 29, with the extra part as the difference."
-checklist: ["Mention two bars", "Mention the difference"]
-explanation: "Strip diagrams make comparison differences visible."
-hint: "Think of two bars lined up at the start."
-questionGoal: "Explain representation of additive comparison."
-misconception: "Drawing unrelated totals without showing the comparison."
+type: multiple-choice
+prompt: How could a strip diagram show 42 compared with 29?
+choices:
+  - Draw bars for 42 and 29 lined up at the start, then show the extra part as the difference.
+  - Draw one bar of 42 and one unrelated bar of 29 without comparing lengths.
+  - Draw 42 equal groups of 29.
+  - Draw a clock face because comparison uses time.
+correctAnswer: Draw bars for 42 and 29 lined up at the start, then show the extra part as the difference.
+explanation: Strip diagrams make comparison differences visible.
+hint: Think of two bars lined up at the start.
+questionGoal: Explain representation of additive comparison.
+misconception: Drawing unrelated totals without showing the comparison.
 ```
 
 ### Lesson 5: Find The Hidden First Step
@@ -3269,15 +3520,18 @@ misconception: "Combining unrelated numbers first."
 
 ```question
 key: u06_l05_q06_explain_first_step
-type: constructed-response
-prompt: "A student solves 6 rows of 7 chairs, then 10 chairs are removed. Explain the hidden first step."
-minWords: 8
-sampleAnswer: "First find the total chairs in the rows: 6 x 7 = 42."
-checklist: ["Mention 6 x 7", "Say it finds total chairs"]
-explanation: "The hidden first step finds the amount that will be used in the second step."
-hint: "Ask what number the 10 chairs are removed from."
-questionGoal: "Explain an intermediate quantity in a two-step problem."
-misconception: "Not naming the first result's meaning."
+type: multiple-choice
+prompt: A student solves 6 rows of 7 chairs, then 10 chairs are removed. What is the hidden first step?
+choices:
+  - "Find the total chairs first: 6 x 7."
+  - Subtract 10 from 6 before finding rows.
+  - Add 6 + 7 + 10 because all numbers are in the problem.
+  - Divide 10 by 7 first.
+correctAnswer: "Find the total chairs first: 6 x 7."
+explanation: The hidden first step finds the amount that will be used in the second step.
+hint: Ask what number the 10 chairs are removed from.
+questionGoal: Explain an intermediate quantity in a two-step problem.
+misconception: Not naming the first result's meaning.
 ```
 
 ### Lesson 6: Write Equations For Two-Step Problems
@@ -3350,15 +3604,18 @@ misconception: "Skipping one step."
 
 ```question
 key: u06_l06_q06_explain_equations
-type: constructed-response
-prompt: "Explain why a two-step word problem often needs two equations."
-minWords: 10
-sampleAnswer: "Each equation answers one part. The first answer is used in the second step."
-checklist: ["Mention one equation per step", "Mention first answer used later"]
-explanation: "Two-step problems have an intermediate quantity and a final answer."
-hint: "Think about the hidden first step."
-questionGoal: "Explain the role of equations in two-step modeling."
-misconception: "Trying to force all quantities into one equation."
+type: multiple-choice
+prompt: Why does a two-step word problem often need two equations?
+choices:
+  - One equation finds the hidden middle amount, and another finds the final answer.
+  - Two equations are needed only because the numbers are large.
+  - The same equation should be written twice.
+  - Two-step problems never need equations.
+correctAnswer: One equation finds the hidden middle amount, and another finds the final answer.
+explanation: Two-step problems have an intermediate quantity and a final answer.
+hint: Think about the hidden first step.
+questionGoal: Explain the role of equations in two-step modeling.
+misconception: Trying to force all quantities into one equation.
 ```
 
 ### Lesson 7: Check Units And Reasonableness
@@ -3407,6 +3664,22 @@ misconception: "Using the same check for every operation."
 ```
 
 ```question
+key: u06_l07_q04_reasonable_product
+type: multiple-choice
+prompt: A student says 8 bags with 6 apples in each bag is 14 apples. Which answer is reasonable?
+choices:
+  - 48 apples
+  - 14 apples
+  - 86 apples
+  - 2 apples
+correctAnswer: 48 apples
+explanation: 8 equal groups of 6 is 8 x 6 = 48 apples.
+hint: Equal groups should have a product greater than either factor.
+questionGoal: Use operation meaning and reasonableness to reject adding factors in an equal-groups problem.
+misconception: Adding the number of groups and group size instead of multiplying.
+```
+
+```question
 key: u06_l07_q05_type_reasonable
 type: text-input
 prompt: "A student says 312 + 209 = 421. Type a better estimate for the sum rounded to the nearest hundred."
@@ -3420,15 +3693,18 @@ misconception: "Accepting an exact-looking but too-small sum."
 
 ```question
 key: u06_l07_q06_explain_reasonable
-type: constructed-response
-prompt: "Explain why 48 / 6 = 80 is not reasonable."
-minWords: 8
-sampleAnswer: "80 is bigger than the total 48, but sharing 48 into groups should make a smaller number."
-checklist: ["Mention 80 is too large", "Use the total 48"]
-explanation: "A quotient for 48 divided into 6 equal groups should be 8, not 80."
-hint: "Compare the answer to the total being divided."
-questionGoal: "Explain reasonableness in division."
-misconception: "Ignoring magnitude of quotient relative to total."
+type: multiple-choice
+prompt: Why is 48 / 6 = 80 not reasonable?
+choices:
+  - 48 shared into 6 groups should make groups of 8, not a number larger than 48.
+  - 80 is reasonable because quotients are always larger than dividends.
+  - 48 / 6 should be 42 because 48 - 6 = 42.
+  - 80 is correct because 8 and 0 can be placed after 6.
+correctAnswer: 48 shared into 6 groups should make groups of 8, not a number larger than 48.
+explanation: A quotient for 48 divided into 6 equal groups should be 8, not 80.
+hint: Compare the answer to the total being divided.
+questionGoal: Explain reasonableness in division.
+misconception: Ignoring magnitude of quotient relative to total.
 ```
 
 ### Lesson 8: Mixed Modeling Practice
@@ -3505,15 +3781,18 @@ misconception: "Selecting models based on recent lessons rather than fit."
 
 ```question
 key: u06_l08_q06_explain_model
-type: constructed-response
-prompt: "Choose a model for this problem and explain why: 84 stickers are shared equally among 7 pages."
-minWords: 8
-sampleAnswer: "I would use division or equal groups because the stickers are shared equally among 7 pages."
-checklist: ["Name a model or operation", "Explain equal sharing"]
-explanation: "The problem asks how many stickers go on each page."
-hint: "Ask what is being shared and into how many groups."
-questionGoal: "Explain model choice in a division context."
-misconception: "Solving without recognizing sharing structure."
+type: multiple-choice
+prompt: Which model fits 84 stickers shared equally among 7 pages, and why?
+choices:
+  - Equal groups or a bar model, because 84 is shared into 7 equal pages.
+  - An array of 84 rows and 7 columns, because the answer must be huge.
+  - A clock, because pages turn in order.
+  - A comparison strip, because the problem asks how many more.
+correctAnswer: Equal groups or a bar model, because 84 is shared into 7 equal pages.
+explanation: The problem asks how many stickers go on each page.
+hint: Ask what is being shared and into how many groups.
+questionGoal: Explain model choice in a division context.
+misconception: Solving without recognizing sharing structure.
 ```
 
 ## Unit 7: Fractions As Equal Parts And Numbers
@@ -3591,15 +3870,18 @@ misconception: "Counting shaded parts instead of total equal parts."
 
 ```question
 key: u07_l01_q06_explain_equal_parts
-type: constructed-response
-prompt: "Explain why equal parts matter when naming fractions."
-minWords: 8
-sampleAnswer: "Equal parts matter because a fraction names same-size parts of one whole."
-checklist: ["Mention equal or same-size parts", "Mention the whole"]
-explanation: "Without equal parts, the fraction name does not tell a fair or exact amount."
-hint: "Think about fair shares."
-questionGoal: "Explain the equal-part condition."
-misconception: "Treating visual cuts as fractions regardless of size."
+type: multiple-choice
+prompt: Why do equal parts matter when naming fractions?
+choices:
+  - A fraction name only tells a fair amount when the whole is split into equal parts.
+  - Unequal parts are easier, so they make better fractions.
+  - The numerator tells whether parts are equal.
+  - Fractions are only for counting whole objects.
+correctAnswer: A fraction name only tells a fair amount when the whole is split into equal parts.
+explanation: Without equal parts, the fraction name does not tell a fair or exact amount.
+hint: Think about fair shares.
+questionGoal: Explain the equal-part condition.
+misconception: Treating visual cuts as fractions regardless of size.
 ```
 
 ### Lesson 2: Unit Fractions And The Denominator
@@ -3675,15 +3957,18 @@ misconception: "Counting only a selected part."
 
 ```question
 key: u07_l02_q06_explain_unit_fraction
-type: constructed-response
-prompt: "Explain what 1/5 means."
-minWords: 8
-sampleAnswer: "It means one equal part when the whole is split into 5 equal parts."
-checklist: ["Mention one part", "Mention 5 equal parts in the whole"]
-explanation: "A unit fraction names exactly one equal part of a whole."
-hint: "Use the words \"one\" and \"equal parts.\""
-questionGoal: "Explain unit fraction meaning."
-misconception: "Reading numerator and denominator as unrelated numbers."
+type: multiple-choice
+prompt: What does 1/5 mean?
+choices:
+  - One equal part when a whole is divided into 5 equal parts
+  - Five equal wholes added together
+  - One whole divided into unequal parts
+  - The same amount as 5/1
+correctAnswer: One equal part when a whole is divided into 5 equal parts
+explanation: A unit fraction names exactly one equal part of a whole.
+hint: Use the words "one" and "equal parts."
+questionGoal: Explain unit fraction meaning.
+misconception: Reading numerator and denominator as unrelated numbers.
 ```
 
 ### Lesson 3: Numerators Count Equal Parts
@@ -3759,15 +4044,18 @@ misconception: "Reversing numerator and denominator."
 
 ```question
 key: u07_l03_q06_explain_nonunit
-type: constructed-response
-prompt: "Explain what 3/7 means."
-minWords: 8
-sampleAnswer: "It means 3 equal parts when the whole is split into 7 equal parts."
-checklist: ["Mention 3 parts", "Mention 7 equal parts in the whole"]
-explanation: "The numerator counts parts; the denominator names the size of the parts."
-hint: "Use numerator and denominator meanings."
-questionGoal: "Explain non-unit fraction notation."
-misconception: "Reading the fraction as two unrelated whole numbers."
+type: multiple-choice
+prompt: What does 3/7 mean?
+choices:
+  - 3 equal parts of a whole that has 7 equal parts in all
+  - 7 equal parts of a whole that has 3 equal parts in all
+  - 3 wholes and 7 extra parts
+  - The same amount as 3 + 7
+correctAnswer: 3 equal parts of a whole that has 7 equal parts in all
+explanation: The numerator counts parts; the denominator names the size of the parts.
+hint: Use numerator and denominator meanings.
+questionGoal: Explain non-unit fraction notation.
+misconception: Reading the fraction as two unrelated whole numbers.
 ```
 
 ### Lesson 5: Fractions Greater Than One Whole
@@ -3843,15 +4131,18 @@ misconception: "Writing 1/5 for one fifth past 1."
 
 ```question
 key: u07_l05_q06_explain_greater_one
-type: constructed-response
-prompt: "Explain why 5/4 is greater than 1."
-minWords: 8
-sampleAnswer: "Four fourths make 1 whole, and 5/4 is one more fourth than that."
-checklist: ["Mention 4/4 is 1", "Mention one more fourth"]
-explanation: "A fraction can be greater than 1 when it counts more than all the parts in one whole."
-hint: "Compare 5/4 to 4/4."
-questionGoal: "Explain a fraction greater than one whole."
-misconception: "Thinking the fraction bar means the number must be less than 1."
+type: multiple-choice
+prompt: Why is 5/4 greater than 1?
+choices:
+  - One whole is 4/4, and 5/4 is one fourth more than that.
+  - 5/4 is less than 1 because 4 is smaller than 5.
+  - 5/4 equals 1 because every fraction with 4 is one whole.
+  - Fractions can never be greater than 1.
+correctAnswer: One whole is 4/4, and 5/4 is one fourth more than that.
+explanation: A fraction can be greater than 1 when it counts more than all the parts in one whole.
+hint: Compare 5/4 to 4/4.
+questionGoal: Explain a fraction greater than one whole.
+misconception: Thinking the fraction bar means the number must be less than 1.
 ```
 
 ### Lesson 6: Whole Numbers As Fractions
@@ -3927,15 +4218,18 @@ misconception: "Writing 1 as numerator for every whole."
 
 ```question
 key: u07_l06_q06_explain_whole_fraction
-type: constructed-response
-prompt: "Explain why 7/7 equals 1 whole."
-minWords: 8
-sampleAnswer: "The whole is split into 7 equal parts, and 7 of the 7 parts are counted."
-checklist: ["Mention 7 equal parts", "Mention all 7 are counted"]
-explanation: "A fraction names the whole when it counts every equal part in that whole."
-hint: "Think of shading all the parts."
-questionGoal: "Explain whole numbers as fractions."
-misconception: "Believing fractions and whole numbers cannot be equal."
+type: multiple-choice
+prompt: Why does 7/7 equal 1 whole?
+choices:
+  - It counts all 7 equal parts of the whole.
+  - It counts only 1 of the 7 parts.
+  - The denominator is 7, so the amount is 7 wholes.
+  - Fractions with the same top and bottom are always 0.
+correctAnswer: It counts all 7 equal parts of the whole.
+explanation: A fraction names the whole when it counts every equal part in that whole.
+hint: Think of shading all the parts.
+questionGoal: Explain whole numbers as fractions.
+misconception: Believing fractions and whole numbers cannot be equal.
 ```
 
 ### Lesson 7: Connect Shapes, Strips, And Lines
@@ -4011,15 +4305,18 @@ misconception: "Using the tick count as denominator."
 
 ```question
 key: u07_l07_q06_explain_models
-type: constructed-response
-prompt: "Explain how a strip and a number line can both show 2/3."
-minWords: 10
-sampleAnswer: "A strip can shade 2 of 3 equal parts, and a number line can mark 2 equal thirds from 0."
-checklist: ["Mention 2 of 3 equal parts", "Mention distance or intervals on a number line"]
-explanation: "Both representations use the same equal-part structure."
-hint: "Use the word \"thirds\" in both models."
-questionGoal: "Explain cross-representation fraction meaning."
-misconception: "Thinking number-line fractions are unrelated to area models."
+type: multiple-choice
+prompt: How can a strip and a number line both show 2/3?
+choices:
+  - Both split the same whole or interval into thirds and show 2 of those thirds.
+  - The strip shows thirds, but a number line cannot show fractions.
+  - Both show 2/3 by making 2 unequal parts.
+  - A number line shows only whole numbers, so it must show 2 and 3 separately.
+correctAnswer: Both split the same whole or interval into thirds and show 2 of those thirds.
+explanation: Both representations use the same equal-part structure.
+hint: Use the word "thirds" in both models.
+questionGoal: Explain cross-representation fraction meaning.
+misconception: Thinking number-line fractions are unrelated to area models.
 ```
 
 ### Lesson 8: Explain The Same Whole
@@ -4082,16 +4379,35 @@ misconception: "Ignoring the whole in fraction comparisons."
 ```
 
 ```question
+key: u07_l08_q05_needed_info
+type: multiple-choice
+prompt: Before comparing 3/4 of two ribbons, what do you need to know?
+choices:
+  - Whether the two whole ribbons are the same length
+  - Whether both fractions have a 3 on top
+  - Whether the ribbons are the same color
+  - Whether 4 is greater than 3
+correctAnswer: Whether the two whole ribbons are the same length
+explanation: Fractions can be compared fairly only when they refer to the same-size whole.
+hint: Ask what the fraction is part of.
+questionGoal: Identify the missing same-whole information needed for a fair fraction comparison.
+misconception: Comparing fractions from different wholes by numerator and denominator alone.
+```
+
+```question
 key: u07_l08_q06_explain_same_whole
-type: constructed-response
-prompt: "Explain why the whole matters when naming a fraction."
-minWords: 10
-sampleAnswer: "The whole matters because the same fraction can be different sizes if the wholes are different sizes."
-checklist: ["Mention whole size", "Mention fraction size"]
-explanation: "Fractions name parts relative to a whole."
-hint: "Think about half of a small object and half of a large object."
-questionGoal: "Explain same-whole reasoning."
-misconception: "Treating fraction size as independent from the whole."
+type: multiple-choice
+prompt: Why does the whole matter when naming a fraction?
+choices:
+  - A fraction names part of a particular whole, so changing the whole changes the amount.
+  - The whole does not matter if the numerator is the same.
+  - The denominator tells the size of the whole object.
+  - Fractions only compare pieces from different wholes.
+correctAnswer: A fraction names part of a particular whole, so changing the whole changes the amount.
+explanation: Fractions name parts relative to a whole.
+hint: Think about half of a small object and half of a large object.
+questionGoal: Explain same-whole reasoning.
+misconception: Treating fraction size as independent from the whole.
 ```
 
 ## Unit 8: Equivalent Fractions And Fraction Comparison
@@ -4167,15 +4483,18 @@ misconception: "Writing 1/4 because the denominator changed to fourths."
 
 ```question
 key: u08_l01_q06_explain_equivalent
-type: constructed-response
-prompt: "Explain why 1/2 and 2/4 are equivalent."
-minWords: 8
-sampleAnswer: "They cover the same amount of the same whole; 2 fourths make one half."
-checklist: ["Mention same amount", "Mention same whole or model"]
-explanation: "Equivalent fractions name the same quantity."
-hint: "Picture one rectangle split into halves, then into fourths."
-questionGoal: "Explain equivalence with a model idea."
-misconception: "Relying on symbols without quantity meaning."
+type: multiple-choice
+prompt: Why are 1/2 and 2/4 equivalent?
+choices:
+  - They name the same amount of the same whole.
+  - They are equivalent because 2 is bigger than 1.
+  - They are different because the numbers look different.
+  - They are equivalent only when the wholes are different sizes.
+correctAnswer: They name the same amount of the same whole.
+explanation: Equivalent fractions name the same quantity.
+hint: Picture one rectangle split into halves, then into fourths.
+questionGoal: Explain equivalence with a model idea.
+misconception: Relying on symbols without quantity meaning.
 ```
 
 ### Lesson 3: Compare Same Denominators
@@ -4238,16 +4557,37 @@ misconception: "Comparing fraction symbols as whole numbers incorrectly."
 ```
 
 ```question
+key: u08_l03_q05_fill_same_den_compare
+type: fill-blank
+prompt: Choose a fraction that makes the comparison true.
+sentenceBefore: 7/9 >
+sentenceAfter: ""
+choices:
+  - 5/9
+  - 7/9
+  - 8/9
+  - 5/8
+correctAnswer: 5/9
+explanation: With the same denominator, 7 ninths is greater than 5 ninths.
+hint: Keep the denominator the same and compare numerators.
+questionGoal: Apply same-denominator comparison in a constrained format.
+misconception: Choosing by denominator size instead of the number of same-size parts.
+```
+
+```question
 key: u08_l03_q06_explain_same_den
-type: constructed-response
-prompt: "Explain why 6/10 is greater than 4/10."
-minWords: 8
-sampleAnswer: "Both fractions count tenths, and 6 tenths is more than 4 tenths."
-checklist: ["Mention same-size tenths", "Compare 6 and 4"]
-explanation: "Same denominator means each part is the same size."
-hint: "Use the word \"tenths.\""
-questionGoal: "Explain same-denominator comparison."
-misconception: "Giving an answer without reasoning about same-size parts."
+type: multiple-choice
+prompt: Why is 6/10 greater than 4/10?
+choices:
+  - Both use tenths, and 6 tenths is more than 4 tenths.
+  - 6/10 is greater because tenths are larger than wholes.
+  - 4/10 is greater because 4 comes first when counting.
+  - They are equal because both have denominator 10.
+correctAnswer: Both use tenths, and 6 tenths is more than 4 tenths.
+explanation: Same denominator means each part is the same size.
+hint: Use the word "tenths."
+questionGoal: Explain same-denominator comparison.
+misconception: Giving an answer without reasoning about same-size parts.
 ```
 
 ### Lesson 4: Compare Same Numerators
@@ -4310,16 +4650,35 @@ misconception: "Larger denominator means larger amount."
 ```
 
 ```question
+key: u08_l04_q05_same_num_reason
+type: multiple-choice
+prompt: Why is 4/6 greater than 4/10 when the whole is the same size?
+choices:
+  - Both count 4 parts, and sixths are larger parts than tenths.
+  - Both count 4 parts, so the fractions are equal.
+  - Tenths are larger because 10 is greater than 6.
+  - The whole does not matter when numerators match.
+correctAnswer: Both count 4 parts, and sixths are larger parts than tenths.
+explanation: When numerators are the same, compare the size of each part.
+hint: Think about whether sixths or tenths are larger pieces of the same whole.
+questionGoal: Choose the correct reason for a same-numerator comparison.
+misconception: Assuming the larger denominator makes a larger fraction.
+```
+
+```question
 key: u08_l04_q06_explain_same_num
-type: constructed-response
-prompt: "Explain why 3/5 is greater than 3/10."
-minWords: 8
-sampleAnswer: "Both count 3 parts, but fifths are larger than tenths."
-checklist: ["Mention same numerator", "Compare fifths and tenths"]
-explanation: "Same numerator comparisons depend on unit fraction size."
-hint: "Think about cutting the same whole into 5 parts or 10 parts."
-questionGoal: "Explain same-numerator comparison."
-misconception: "Giving a rule without unit-size reasoning."
+type: multiple-choice
+prompt: Why is 3/5 greater than 3/10?
+choices:
+  - Both count 3 parts, and fifths are larger parts than tenths.
+  - 3/10 is greater because 10 is greater than 5.
+  - They are equal because both have numerator 3.
+  - 3/5 is greater because it has more parts counted.
+correctAnswer: Both count 3 parts, and fifths are larger parts than tenths.
+explanation: Same numerator comparisons depend on unit fraction size.
+hint: Think about cutting the same whole into 5 parts or 10 parts.
+questionGoal: Explain same-numerator comparison.
+misconception: Giving a rule without unit-size reasoning.
 ```
 
 ### Lesson 5: Use Benchmarks To Compare
@@ -4395,15 +4754,18 @@ misconception: "Writing 1/10 because numerator in 1/2 is 1."
 
 ```question
 key: u08_l05_q06_explain_benchmark
-type: constructed-response
-prompt: "Explain how you know 7/8 is close to 1."
-minWords: 8
-sampleAnswer: "One whole is 8/8, and 7/8 is only one eighth away from that."
-checklist: ["Mention 8/8 is 1", "Mention one eighth away"]
-explanation: "Benchmarks help judge how close a fraction is to a familiar amount."
-hint: "Compare 7/8 to 8/8."
-questionGoal: "Explain benchmark reasoning near 1."
-misconception: "Comparing only the numerator to 1."
+type: multiple-choice
+prompt: How do you know 7/8 is close to 1?
+choices:
+  - One whole is 8/8, and 7/8 is only 1 eighth away.
+  - 7/8 is close to 1 because 7 and 8 are both odd.
+  - 7/8 is close to 0 because the numerator is less than the denominator.
+  - 7/8 cannot be compared to 1.
+correctAnswer: One whole is 8/8, and 7/8 is only 1 eighth away.
+explanation: Benchmarks help judge how close a fraction is to a familiar amount.
+hint: Compare 7/8 to 8/8.
+questionGoal: Explain benchmark reasoning near 1.
+misconception: Comparing only the numerator to 1.
 ```
 
 ### Lesson 6: Same Whole Or Not?
@@ -4466,16 +4828,35 @@ misconception: "Thinking color or shape matters more than whole size."
 ```
 
 ```question
+key: u08_l06_q05_different_wholes_judgment
+type: multiple-choice
+prompt: Two pictures each show 3/4 shaded, but one whole is much larger. What can you say about the shaded amounts?
+choices:
+  - They may be different amounts because the wholes are different sizes.
+  - They must be equal because both are 3/4.
+  - The smaller picture must have more shaded area.
+  - The denominators prove the wholes are the same size.
+correctAnswer: They may be different amounts because the wholes are different sizes.
+explanation: The same fraction can represent different amounts when the wholes are different sizes.
+hint: Compare the whole pictures before comparing the shaded parts.
+questionGoal: Judge a fraction comparison when the wholes are not the same size.
+misconception: Treating equal fraction names as equal amounts even when wholes differ.
+```
+
+```question
 key: u08_l06_q06_explain_valid_compare
-type: constructed-response
-prompt: "Explain why 2/5 and 4/5 of the same strip can be compared."
-minWords: 8
-sampleAnswer: "They use the same whole and same-size fifths, so I can compare the numerators."
-checklist: ["Mention same whole", "Mention same-size fifths"]
-explanation: "Same whole and equal parts make the comparison meaningful."
-hint: "Use the words \"same strip.\""
-questionGoal: "Explain why a comparison is valid."
-misconception: "Comparing without naming same-whole support."
+type: multiple-choice
+prompt: Why can 2/5 and 4/5 of the same strip be compared?
+choices:
+  - They use the same whole and the same equal-size fifths.
+  - They can be compared because the numerators are different and the wholes do not matter.
+  - They cannot be compared because all fractions are different.
+  - They can be compared only if the strips are different sizes.
+correctAnswer: They use the same whole and the same equal-size fifths.
+explanation: Same whole and equal parts make the comparison meaningful.
+hint: Use the words "same strip."
+questionGoal: Explain why a comparison is valid.
+misconception: Comparing without naming same-whole support.
 ```
 
 ### Lesson 7: Choose The Comparison Reason
@@ -4538,16 +4919,35 @@ misconception: "Larger denominator means larger fraction."
 ```
 
 ```question
+key: u08_l07_q05_choose_reason_same_num
+type: multiple-choice
+prompt: Which reason should you use to compare 4/7 and 4/9?
+choices:
+  - "Same numerator: sevenths are larger parts than ninths."
+  - "Same denominator: compare 7 and 9 as numerators."
+  - "Benchmark: both fractions are exactly 1."
+  - Same whole is not needed for this comparison.
+correctAnswer: "Same numerator: sevenths are larger parts than ninths."
+explanation: The numerators match, so compare the size of the unit fractions.
+hint: The top numbers are the same; look at the part size.
+questionGoal: Select the appropriate fraction-comparison reason for a same-numerator pair.
+misconception: Using same-denominator reasoning when denominators differ.
+```
+
+```question
 key: u08_l07_q06_explain_reason_choice
-type: constructed-response
-prompt: "Compare 3/6 and 1/2, and explain what reason you used."
-minWords: 8
-sampleAnswer: "They are equal because 3/6 and 1/2 are equivalent fractions at the same point."
-checklist: ["State the comparison", "Name equivalence or same point"]
-explanation: "3/6 is equivalent to 1/2."
-hint: "Think about a number line split into sixths."
-questionGoal: "Choose and explain equivalence reasoning."
-misconception: "Comparing only visible numerators and denominators."
+type: multiple-choice
+prompt: Which comparison and reason are correct for 3/6 and 1/2?
+choices:
+  - 3/6 = 1/2 because 3 sixths is half of 6 sixths.
+  - 3/6 is greater because 6 is greater than 2.
+  - 1/2 is greater because 1 is less than 3.
+  - They cannot be compared because the denominators differ.
+correctAnswer: 3/6 = 1/2 because 3 sixths is half of 6 sixths.
+explanation: 3/6 is equivalent to 1/2.
+hint: Think about a number line split into sixths.
+questionGoal: Choose and explain equivalence reasoning.
+misconception: Comparing only visible numerators and denominators.
 ```
 
 ## Unit 9: Measurement, Data, And Applied Quantitative Reasoning
@@ -4625,15 +5025,18 @@ misconception: "Choosing a mass unit for a length measurement."
 
 ```question
 key: u09_l01_q06_explain_unit
-type: constructed-response
-prompt: "Explain why liters would not be used to measure how heavy a book is."
-minWords: 8
-sampleAnswer: "Liters measure liquid volume, but how heavy a book is needs a mass unit."
-checklist: ["Mention liters measure volume", "Mention mass or weight"]
-explanation: "The unit must match the attribute being measured."
-hint: "Ask what liters measure."
-questionGoal: "Explain attribute-unit matching."
-misconception: "Thinking any measurement unit can describe any object."
+type: multiple-choice
+prompt: Why would liters not be used to measure how heavy a book is?
+choices:
+  - Liters measure liquid volume, not mass or weight.
+  - Liters measure how long the book is.
+  - Liters are the best unit for any classroom object.
+  - A book is too small to measure with any unit.
+correctAnswer: Liters measure liquid volume, not mass or weight.
+explanation: The unit must match the attribute being measured.
+hint: Ask what liters measure.
+questionGoal: Explain attribute-unit matching.
+misconception: Thinking any measurement unit can describe any object.
 ```
 
 ### Lesson 2: Elapsed Time On A Timeline
@@ -4702,15 +5105,18 @@ misconception: "Adding 30 to the hour instead of minutes."
 
 ```question
 key: u09_l02_q06_explain_elapsed
-type: constructed-response
-prompt: "Explain how to find the time from 9:50 to 10:20."
-minWords: 8
-sampleAnswer: "Jump 10 minutes to 10:00, then 20 more minutes to 10:20, for 30 minutes."
-checklist: ["Jump to 10:00", "Include total 30 minutes"]
-explanation: "A timeline helps when elapsed time crosses an hour."
-hint: "Break the time at 10:00."
-questionGoal: "Explain elapsed-time reasoning across an hour."
-misconception: "Treating time like ordinary base-ten subtraction."
+type: multiple-choice
+prompt: How can you find the time from 9:50 to 10:20?
+choices:
+  - Count 10 minutes to 10:00, then 20 more minutes to 10:20, for 30 minutes.
+  - Subtract 50 - 20 to get 30 hours.
+  - Count 20 minutes to 10:00, then 50 more minutes.
+  - Add 9:50 and 10:20 as base-ten numbers.
+correctAnswer: Count 10 minutes to 10:00, then 20 more minutes to 10:20, for 30 minutes.
+explanation: A timeline helps when elapsed time crosses an hour.
+hint: Break the time at 10:00.
+questionGoal: Explain elapsed-time reasoning across an hour.
+misconception: Treating time like ordinary base-ten subtraction.
 ```
 
 ### Lesson 3: Measure And Estimate Length
@@ -4786,15 +5192,18 @@ misconception: "Dropping the unit or adding lengths."
 
 ```question
 key: u09_l03_q06_explain_estimate_length
-type: constructed-response
-prompt: "Explain why 2 centimeters is not reasonable for the length of a classroom door."
-minWords: 8
-sampleAnswer: "2 centimeters is very short, and a door is much taller than that."
-checklist: ["Mention centimeters are too small", "Mention door length or height"]
-explanation: "Estimation helps judge whether a measurement makes sense."
-hint: "Compare 2 centimeters to your finger width."
-questionGoal: "Explain reasonableness of length measurement."
-misconception: "Accepting any number-unit pair without real-world sense."
+type: multiple-choice
+prompt: Why is 2 centimeters not reasonable for the length of a classroom door?
+choices:
+  - 2 centimeters is only about the width of a small object, much shorter than a door.
+  - 2 centimeters is too long for any classroom object.
+  - Centimeters can measure only liquid.
+  - A door should always be measured in liters.
+correctAnswer: 2 centimeters is only about the width of a small object, much shorter than a door.
+explanation: Estimation helps judge whether a measurement makes sense.
+hint: Compare 2 centimeters to your finger width.
+questionGoal: Explain reasonableness of length measurement.
+misconception: Accepting any number-unit pair without real-world sense.
 ```
 
 ### Lesson 4: Mass And Liquid Volume Problems
@@ -4870,15 +5279,18 @@ misconception: "Subtracting because there are two quantities."
 
 ```question
 key: u09_l04_q06_explain_attribute
-type: constructed-response
-prompt: "Explain the difference between measuring mass and measuring liquid volume."
-minWords: 10
-sampleAnswer: "Mass tells how heavy something is, and liquid volume tells how much liquid a container holds."
-checklist: ["Define mass", "Define liquid volume"]
-explanation: "These are different attributes, so they use different units."
-hint: "Think \"heavy\" for mass and \"holds liquid\" for volume."
-questionGoal: "Explain distinction between mass and liquid volume."
-misconception: "Treating grams and liters as interchangeable."
+type: multiple-choice
+prompt: What is the difference between measuring mass and measuring liquid volume?
+choices:
+  - Mass tells how heavy something is; liquid volume tells how much liquid a container holds.
+  - Mass and liquid volume both tell distance around a shape.
+  - Mass tells time, and liquid volume tells temperature.
+  - They are the same attribute with different names.
+correctAnswer: Mass tells how heavy something is; liquid volume tells how much liquid a container holds.
+explanation: These are different attributes, so they use different units.
+hint: Think "heavy" for mass and "holds liquid" for volume.
+questionGoal: Explain distinction between mass and liquid volume.
+misconception: Treating grams and liters as interchangeable.
 ```
 
 ### Lesson 6: Scaled Bar Graphs And Tables
@@ -4954,15 +5366,18 @@ misconception: "Using uneven scale intervals."
 
 ```question
 key: u09_l06_q06_explain_bar_scale
-type: constructed-response
-prompt: "Explain how to read a bar graph with a scale that counts by 5."
-minWords: 8
-sampleAnswer: "I count each mark by 5, so the marks are 5, 10, 15, and so on."
-checklist: ["Mention count by 5", "Mention marks or intervals"]
-explanation: "The scale tells the value of each step on the graph."
-hint: "Do not count each line as 1."
-questionGoal: "Explain scaled bar graph reading."
-misconception: "Ignoring the scale."
+type: multiple-choice
+prompt: How do you read a bar graph with a scale that counts by 5?
+choices:
+  - Count each step on the scale as 5, not 1.
+  - Count each bar as 1 no matter what the scale says.
+  - Ignore the labels and use the tallest bar as the answer.
+  - Add all category names together.
+correctAnswer: Count each step on the scale as 5, not 1.
+explanation: The scale tells the value of each step on the graph.
+hint: Do not count each line as 1.
+questionGoal: Explain scaled bar graph reading.
+misconception: Ignoring the scale.
 ```
 
 ### Lesson 8: Money Choices With A Goal
@@ -5036,15 +5451,18 @@ misconception: "Subtracting prices when finding total."
 
 ```question
 key: u09_l08_q06_explain_money_choice
-type: constructed-response
-prompt: "Mia has $18 and wants to save $5. Can she buy a $12 art kit? Explain."
-minWords: 8
-sampleAnswer: "Yes. 18 - 12 = 6, so she still saves at least $5."
-checklist: ["Subtract 12 from 18", "Compare with $5 goal"]
-explanation: "A money choice should fit the goal, not just the price."
-hint: "Find how much money is left after buying."
-questionGoal: "Explain a financial decision with arithmetic and goal."
-misconception: "Checking affordability but ignoring the savings goal."
+type: multiple-choice
+prompt: Mia has $18 and wants to save $5. Can she buy a $12 art kit and meet her goal?
+choices:
+  - Yes. $18 - $12 = $6, so she still saves at least $5.
+  - No. $18 - $12 = $6, and $6 is less than $5.
+  - Yes, because $12 is less than $18, and the savings goal does not matter.
+  - No, because she must save all $18.
+correctAnswer: Yes. $18 - $12 = $6, so she still saves at least $5.
+explanation: A money choice should fit the goal, not just the price.
+hint: Find how much money is left after buying.
+questionGoal: Explain a financial decision with arithmetic and goal.
+misconception: Checking affordability but ignoring the savings goal.
 ```
 
 ### Lesson 9: Mixed Measurement And Data Decisions
@@ -5105,16 +5523,35 @@ misconception: "Subtracting hour labels or misreading minutes."
 ```
 
 ```question
+key: u09_l09_q05_scaled_graph_first_step
+type: multiple-choice
+prompt: A picture graph key says each picture = 3 books. A row has 5 pictures. What should you check first?
+choices:
+  - Use the key so each picture counts as 3 books.
+  - Count each picture as 1 book.
+  - Ignore the key and compare row lengths only.
+  - Measure the pictures with a ruler.
+correctAnswer: Use the key so each picture counts as 3 books.
+explanation: The key tells the value of each picture before you calculate.
+hint: A picture graph may not count by ones.
+questionGoal: Choose the first decision needed for a scaled graph task.
+misconception: Counting symbols by ones without reading the key.
+```
+
+```question
 key: u09_l09_q06_explain_mixed_decision
-type: constructed-response
-prompt: "Explain why you should read units and scales before solving a measurement or graph problem."
-minWords: 10
-sampleAnswer: "Units and scales tell what the numbers mean, so they help me choose the correct operation and label."
-checklist: ["Mention units or scale", "Mention meaning of numbers"]
-explanation: "In applied math, labels and scales are part of the quantity."
-hint: "Think about how one picture can mean 5, not 1."
-questionGoal: "Explain the decision routine for applied quantitative problems."
-misconception: "Treating numbers as enough without context."
+type: multiple-choice
+prompt: Why should you read units and scales before solving a measurement or graph problem?
+choices:
+  - Units and scales tell what the numbers mean, such as whether one mark counts as 1 or 5.
+  - Units and scales are decoration and do not affect the answer.
+  - They tell you to always multiply every number.
+  - They replace the need to read the question.
+correctAnswer: Units and scales tell what the numbers mean, such as whether one mark counts as 1 or 5.
+explanation: In applied math, labels and scales are part of the quantity.
+hint: Think about how one picture can mean 5, not 1.
+questionGoal: Explain the decision routine for applied quantitative problems.
+misconception: Treating numbers as enough without context.
 ```
 
 ## Unit 10: Area, Arrays, And Multiplication
@@ -5195,15 +5632,18 @@ misconception: "Adding rows and tiles per row."
 
 ```question
 key: u10_l03_q06_explain_array_area
-type: constructed-response
-prompt: "Explain why a tiled rectangle can be solved like an array."
-minWords: 8
-sampleAnswer: "The square units are in equal rows and columns, so rows times columns gives the area."
-checklist: ["Mention rows and columns", "Mention area or square units"]
-explanation: "Rectangular area uses the same structure as arrays."
-hint: "Think of each tile as one array item."
-questionGoal: "Explain array-area connection."
-misconception: "Treating area and arrays as separate ideas."
+type: multiple-choice
+prompt: Why can a tiled rectangle be solved like an array?
+choices:
+  - The tiles form equal rows and columns, just like an array.
+  - The tiles are all around the outside only.
+  - Area is found by adding only two side lengths.
+  - Arrays are only for numbers, not shapes.
+correctAnswer: The tiles form equal rows and columns, just like an array.
+explanation: Rectangular area uses the same structure as arrays.
+hint: Think of each tile as one array item.
+questionGoal: Explain array-area connection.
+misconception: Treating area and arrays as separate ideas.
 ```
 
 ### Lesson 4: Use Side Lengths For Area
@@ -5264,16 +5704,35 @@ misconception: "Adding 7 + 8."
 ```
 
 ```question
+key: u10_l04_q05_area_units_choice
+type: multiple-choice
+prompt: A 5 by 9 rectangle has area 45. Which unit label fits?
+choices:
+  - square units
+  - units around
+  - minutes
+  - groups
+correctAnswer: square units
+explanation: Area counts how many unit squares cover the rectangle.
+hint: Area measures covering, not distance around.
+questionGoal: Use correct units for rectangular area found from side lengths.
+misconception: Reporting area with length units or perimeter language.
+```
+
+```question
 key: u10_l04_q06_explain_side_area
-type: constructed-response
-prompt: "Explain why 4 by 8 gives an area of 32 square units."
-minWords: 8
-sampleAnswer: "A 4 by 8 rectangle has 4 rows of 8 unit squares, so 4 x 8 = 32."
-checklist: ["Mention rows or columns", "Include 32 square units"]
-explanation: "Side lengths describe the implied array of square units."
-hint: "Imagine filling the rectangle with unit squares."
-questionGoal: "Explain side-length area reasoning."
-misconception: "Treating side lengths as disconnected from square units."
+type: multiple-choice
+prompt: Why does a 4 by 8 rectangle have area 32 square units?
+choices:
+  - It has 4 rows of 8 unit squares, and 4 x 8 = 32.
+  - It has 4 + 8 = 12 square units.
+  - It has 4 sides and 8 corners.
+  - It has 32 length units around the edge.
+correctAnswer: It has 4 rows of 8 unit squares, and 4 x 8 = 32.
+explanation: Side lengths describe the implied array of square units.
+hint: Imagine filling the rectangle with unit squares.
+questionGoal: Explain side-length area reasoning.
+misconception: Treating side lengths as disconnected from square units.
 ```
 
 ### Lesson 5: Unknown Side Or Area In A Rectangle
@@ -5349,15 +5808,18 @@ misconception: "Choosing unrelated operations with same numbers."
 
 ```question
 key: u10_l05_q06_explain_unknown_area
-type: constructed-response
-prompt: "Explain how to find the missing side if a rectangle has area 30 and one side is 5."
-minWords: 8
-sampleAnswer: "I ask 5 times what equals 30. The missing side is 6."
-checklist: ["Use unknown factor", "Include 6"]
-explanation: "Area, side length, and the other side form a multiplication relationship."
-hint: "Use 30 divided by 5."
-questionGoal: "Explain missing-side area reasoning."
-misconception: "Not connecting area to multiplication."
+type: multiple-choice
+prompt: How do you find the missing side if a rectangle has area 30 and one side is 5?
+choices:
+  - Use 30 / 5 = 6, so the missing side is 6.
+  - Use 30 + 5 = 35, so the missing side is 35.
+  - Use 30 - 5 = 25, so the missing side is 25.
+  - Use 30 x 5 = 150, so the missing side is 150.
+correctAnswer: Use 30 / 5 = 6, so the missing side is 6.
+explanation: Area, side length, and the other side form a multiplication relationship.
+hint: Use 30 divided by 5.
+questionGoal: Explain missing-side area reasoning.
+misconception: Not connecting area to multiplication.
 ```
 
 ## Unit 11: Perimeter, Geometry, And Shape Attributes
@@ -5435,15 +5897,18 @@ misconception: "Reporting perimeter in square units."
 
 ```question
 key: u11_l01_q06_explain_perimeter
-type: constructed-response
-prompt: "Explain how to find the perimeter of a polygon with labeled sides."
-minWords: 8
-sampleAnswer: "Add all the side lengths around the outside of the polygon."
-checklist: ["Mention add side lengths", "Mention around or outside"]
-explanation: "Perimeter is the total boundary length."
-hint: "Trace the shape once around."
-questionGoal: "Explain perimeter procedure."
-misconception: "Counting inside squares or only two sides."
+type: multiple-choice
+prompt: How do you find the perimeter of a polygon with labeled sides?
+choices:
+  - Add every side length around the boundary once.
+  - Multiply two side lengths to find inside space.
+  - Count only the longest side.
+  - Count the square units inside the polygon.
+correctAnswer: Add every side length around the boundary once.
+explanation: Perimeter is the total boundary length.
+hint: Trace the shape once around.
+questionGoal: Explain perimeter procedure.
+misconception: Counting inside squares or only two sides.
 ```
 
 ### Lesson 2: Add Side Lengths Carefully
@@ -5506,16 +5971,35 @@ misconception: "Skipping repeated sides."
 ```
 
 ```question
+key: u11_l02_q05_expression_for_perimeter
+type: multiple-choice
+prompt: Which expression finds the perimeter of a pentagon with sides 4, 4, 3, 3, and 6 units?
+choices:
+  - 4 + 4 + 3 + 3 + 6
+  - 4 x 3
+  - 4 + 3 + 6
+  - 4 x 4 x 3 x 3 x 6
+correctAnswer: 4 + 4 + 3 + 3 + 6
+explanation: Perimeter is found by adding every side length around the shape.
+hint: Make sure every side appears exactly once.
+questionGoal: Choose an expression that includes all side lengths for perimeter.
+misconception: Skipping repeated side lengths or multiplying as if finding area.
+```
+
+```question
 key: u11_l02_q06_explain_side_tracking
-type: constructed-response
-prompt: "Explain why checking off each side can help find perimeter."
-minWords: 8
-sampleAnswer: "It helps me make sure I add every side once and do not skip any side."
-checklist: ["Mention every side", "Mention not skipping or double-counting"]
-explanation: "Perimeter requires the full boundary exactly once."
-hint: "Think of tracing around the shape."
-questionGoal: "Explain careful perimeter counting."
-misconception: "Omitting or double-counting sides."
+type: multiple-choice
+prompt: Why can checking off each side help find perimeter?
+choices:
+  - It helps make sure each boundary side is added exactly once.
+  - It helps you count only the inside squares.
+  - It changes perimeter into area.
+  - It means you can skip repeated side lengths.
+correctAnswer: It helps make sure each boundary side is added exactly once.
+explanation: Perimeter requires the full boundary exactly once.
+hint: Think of tracing around the shape.
+questionGoal: Explain careful perimeter counting.
+misconception: Omitting or double-counting sides.
 ```
 
 ### Lesson 3: Area Or Perimeter?
@@ -5591,15 +6075,18 @@ misconception: "Giving perimeter 22."
 
 ```question
 key: u11_l03_q06_explain_area_perim
-type: constructed-response
-prompt: "Explain the difference between area and perimeter."
-minWords: 10
-sampleAnswer: "Area measures the inside covering in square units, and perimeter measures the distance around in length units."
-checklist: ["Define area", "Define perimeter"]
-explanation: "They are different measurements of a shape."
-hint: "Use the words \"inside\" and \"around.\""
-questionGoal: "Explain area/perimeter distinction."
-misconception: "Thinking area and perimeter are the same kind of measure."
+type: multiple-choice
+prompt: Which statement correctly compares area and perimeter?
+choices:
+  - Area measures the inside covering; perimeter measures the distance around.
+  - Area and perimeter both measure only the distance around.
+  - Area uses length units, and perimeter uses square units.
+  - Area and perimeter are always the same number.
+correctAnswer: Area measures the inside covering; perimeter measures the distance around.
+explanation: They are different measurements of a shape.
+hint: Use the words "inside" and "around."
+questionGoal: Explain area/perimeter distinction.
+misconception: Thinking area and perimeter are the same kind of measure.
 ```
 
 ### Lesson 4: Attributes That Define Shapes
@@ -5675,15 +6162,18 @@ misconception: "Calling every four-sided shape a rectangle."
 
 ```question
 key: u11_l04_q06_explain_attribute
-type: constructed-response
-prompt: "Explain why a triangle is still a triangle if it is turned sideways."
-minWords: 8
-sampleAnswer: "Turning it does not change that it has 3 sides and 3 vertices."
-checklist: ["Mention 3 sides or vertices", "Say turning does not change them"]
-explanation: "Orientation is not a defining attribute."
-hint: "Count the sides after turning."
-questionGoal: "Explain shape classification by attributes."
-misconception: "Classifying by orientation."
+type: multiple-choice
+prompt: Why is a triangle still a triangle if it is turned sideways?
+choices:
+  - It still has 3 sides; orientation is not a defining attribute.
+  - It becomes a new shape because its point faces a new way.
+  - It is a triangle only when one side is flat on the bottom.
+  - Turning changes the number of sides.
+correctAnswer: It still has 3 sides; orientation is not a defining attribute.
+explanation: Orientation is not a defining attribute.
+hint: Count the sides after turning.
+questionGoal: Explain shape classification by attributes.
+misconception: Classifying by orientation.
 ```
 
 ### Lesson 5: Quadrilateral Categories
@@ -5759,15 +6249,18 @@ misconception: "Thinking specific names exclude broader categories."
 
 ```question
 key: u11_l05_q06_explain_square_rectangle
-type: constructed-response
-prompt: "Explain why a square can belong to more than one shape category."
-minWords: 10
-sampleAnswer: "A square has 4 sides, so it is a quadrilateral, and it has rectangle attributes too."
-checklist: ["Mention 4 sides", "Mention another category such as rectangle"]
-explanation: "Shapes can belong to broad and specific categories when they share attributes."
-hint: "Use attributes, not just shape names."
-questionGoal: "Explain subcategory reasoning."
-misconception: "Treating shape categories as mutually exclusive."
+type: multiple-choice
+prompt: Why can a square belong to more than one shape category?
+choices:
+  - It has attributes of broader categories, such as being a quadrilateral and a rectangle.
+  - A square changes shape depending on its color.
+  - A square cannot belong to more than one category.
+  - Shape categories are based only on the name we like best.
+correctAnswer: It has attributes of broader categories, such as being a quadrilateral and a rectangle.
+explanation: Shapes can belong to broad and specific categories when they share attributes.
+hint: Use attributes, not just shape names.
+questionGoal: Explain subcategory reasoning.
+misconception: Treating shape categories as mutually exclusive.
 ```
 
 ### Lesson 7: Geometry And Measurement Mix
@@ -5841,15 +6334,18 @@ misconception: "Requiring a shape to look like a rectangle to be a quadrilateral
 
 ```question
 key: u11_l07_q06_explain_concept_choice
-type: constructed-response
-prompt: "Explain how you decide whether a shape problem asks for area or perimeter."
-minWords: 10
-sampleAnswer: "If it asks to cover the inside, I use area. If it asks around the outside, I use perimeter."
-checklist: ["Mention inside or covering", "Mention around or boundary"]
-explanation: "The words and units in the question tell which measurement is needed."
-hint: "Use the clues \"cover\" and \"around.\""
-questionGoal: "Explain area/perimeter decision-making."
-misconception: "Choosing a method by shape type instead of question meaning."
+type: multiple-choice
+prompt: How can you decide whether a shape problem asks for area or perimeter?
+choices:
+  - Look for whether the question asks about covering inside or distance around.
+  - Use area for every rectangle and perimeter for every triangle.
+  - Choose the operation with the largest answer.
+  - Ignore units and solve with the most recent formula.
+correctAnswer: Look for whether the question asks about covering inside or distance around.
+explanation: The words and units in the question tell which measurement is needed.
+hint: Use the clues "cover" and "around."
+questionGoal: Explain area/perimeter decision-making.
+misconception: Choosing a method by shape type instead of question meaning.
 ```
 
 ## Unit 12: Cumulative Modeling And Grade 3 Mastery
@@ -5925,15 +6421,18 @@ misconception: "Naming an unrelated model."
 
 ```question
 key: u12_l01_q06_explain_representation
-type: constructed-response
-prompt: "Choose a representation for 3/4 and explain why it fits."
-minWords: 8
-sampleAnswer: "A number line fits because 3/4 is a number three fourths from 0."
-checklist: ["Name a representation", "Explain how it shows 3/4"]
-explanation: "Fractions can be represented as equal parts, strips, or number-line points."
-hint: "Think of shapes, strips, or number lines."
-questionGoal: "Explain model choice for a fraction."
-misconception: "Thinking only shaded shapes can show fractions."
+type: multiple-choice
+prompt: Which representation fits 3/4, and why?
+choices:
+  - A strip split into 4 equal parts with 3 parts shaded, because fourths are equal parts.
+  - A strip split into 3 equal parts with 4 parts shaded.
+  - A clock, because all fractions are time.
+  - Any drawing with 3 objects and 4 objects, even if they are not one whole.
+correctAnswer: A strip split into 4 equal parts with 3 parts shaded, because fourths are equal parts.
+explanation: Fractions can be represented as equal parts, strips, or number-line points.
+hint: Think of shapes, strips, or number lines.
+questionGoal: Explain model choice for a fraction.
+misconception: Thinking only shaded shapes can show fractions.
 ```
 
 ### Lesson 2: Mixed Operations With Reasonableness
@@ -6010,15 +6509,18 @@ misconception: "Stopping after the first step or adding all numbers."
 
 ```question
 key: u12_l02_q06_explain_reasonableness
-type: constructed-response
-prompt: "Explain why 7 x 6 = 76 is not reasonable."
-minWords: 8
-sampleAnswer: "7 x 6 should be near 7 x 5 = 35 or 7 x 10 = 70, and the exact answer is 42."
-checklist: ["Say 76 is too large", "Include or support 42"]
-explanation: "Estimation and known facts can catch unreasonable products."
-hint: "Compare with 7 x 10."
-questionGoal: "Explain reasonableness for multiplication facts."
-misconception: "Accepting a digit-combination error as a product."
+type: multiple-choice
+prompt: Why is 7 x 6 = 76 not reasonable?
+choices:
+  - 7 x 6 should be less than 7 x 10 = 70, so 76 is too large.
+  - 76 is reasonable because it starts with 7 and ends with 6.
+  - 7 x 6 should be more than 100.
+  - Products are never checked for reasonableness.
+correctAnswer: 7 x 6 should be less than 7 x 10 = 70, so 76 is too large.
+explanation: Estimation and known facts can catch unreasonable products.
+hint: Compare with 7 x 10.
+questionGoal: Explain reasonableness for multiplication facts.
+misconception: Accepting a digit-combination error as a product.
 ```
 
 ### Lesson 4: Measurement And Data Review Cycle
@@ -6079,16 +6581,35 @@ misconception: "Comparing measurement labels instead of frequencies."
 ```
 
 ```question
+key: u12_l04_q05_ignore_key_error
+type: multiple-choice
+prompt: A picture graph key says each symbol = 4. A student counts 6 symbols as 6. What did the student miss?
+choices:
+  - the graph key or scale
+  - the title only
+  - the unit of time
+  - the shape of the symbols
+correctAnswer: the graph key or scale
+explanation: The key says each symbol counts as 4, so 6 symbols represent 24.
+hint: Ask what each symbol is worth.
+questionGoal: Identify a common scaled-graph error during cumulative review.
+misconception: Counting symbols as ones in a scaled display.
+```
+
+```question
 key: u12_l04_q06_explain_data_check
-type: constructed-response
-prompt: "Explain what to check first when answering a graph question."
-minWords: 8
-sampleAnswer: "I should check the title, labels, and scale so I know what the numbers mean."
-checklist: ["Mention scale", "Mention labels or title"]
-explanation: "Graph features tell how to interpret the data."
-hint: "A bar or picture may not count by ones."
-questionGoal: "Explain data-display reading routine."
-misconception: "Calculating from a graph before reading scale and labels."
+type: multiple-choice
+prompt: What should you check first when answering a graph question?
+choices:
+  - Check the title, labels, and scale or key before calculating.
+  - Check only the tallest bar.
+  - Ignore the scale and count each mark as 1.
+  - Start by adding every number you see.
+correctAnswer: Check the title, labels, and scale or key before calculating.
+explanation: Graph features tell how to interpret the data.
+hint: A bar or picture may not count by ones.
+questionGoal: Explain data-display reading routine.
+misconception: Calculating from a graph before reading scale and labels.
 ```
 
 ### Lesson 5: Area, Perimeter, And Shape Decisions
@@ -6162,18 +6683,71 @@ misconception: "Classifying by appearance rather than attributes."
 
 ```question
 key: u12_l05_q06_explain_geo_decision
-type: constructed-response
-prompt: "Explain how units can help you tell area and perimeter apart."
-minWords: 8
-sampleAnswer: "Area uses square units for covering, while perimeter uses length units around the edge."
-checklist: ["Mention square units for area", "Mention length units for perimeter"]
-explanation: "The unit tells which attribute is being measured."
-hint: "Square units cover; length units go around."
-questionGoal: "Explain unit-based area/perimeter distinction."
-misconception: "Ignoring units in geometry answers."
+type: multiple-choice
+prompt: How can units help you tell area and perimeter apart?
+choices:
+  - Square units point to area; length units point to perimeter.
+  - Length units point to area; square units point to perimeter.
+  - Units do not give clues about the measure.
+  - Both area and perimeter must use square units.
+correctAnswer: Square units point to area; length units point to perimeter.
+explanation: The unit tells which attribute is being measured.
+hint: Square units cover; length units go around.
+questionGoal: Explain unit-based area/perimeter distinction.
+misconception: Ignoring units in geometry answers.
 ```
 
 ### Lesson 6: Find And Fix The Error
+
+```question
+key: u12_l06_q01_adding_factors_error
+type: multiple-choice
+prompt: A student says 6 x 7 = 13. What error did the student make?
+choices:
+  - added the factors instead of multiplying
+  - ignored a graph scale
+  - mixed up area and perimeter
+  - rounded to the nearest hundred
+correctAnswer: added the factors instead of multiplying
+explanation: 6 x 7 means 6 groups of 7, not 6 + 7.
+hint: Compare the operation shown with what the student did.
+questionGoal: Identify an adding-factors error in multiplication.
+misconception: Treating multiplication as ordinary addition of the two factors.
+```
+
+```question
+key: u12_l06_q02_area_perimeter_error
+type: multiple-choice
+prompt: A rectangle is 5 by 3. A student says its area is 16. What error did the student make?
+choices:
+  - found perimeter instead of area
+  - ignored a graph scale
+  - rounded both side lengths
+  - compared fractions with different wholes
+correctAnswer: found perimeter instead of area
+explanation: 5 + 3 + 5 + 3 = 16 is perimeter. Area is 5 x 3 = 15 square units.
+hint: Ask whether the student added sides or multiplied rows and columns.
+questionGoal: Identify an area/perimeter mix-up from a student answer.
+misconception: Using perimeter addition when the problem asks for area.
+```
+
+```question
+key: u12_l06_q03_scaled_graph_fix
+type: fill-blank
+prompt: Correct the scaled-graph count.
+sentenceBefore: If each picture = 5 books, then 4 pictures =
+sentenceAfter: books.
+choices:
+  - "4"
+  - "5"
+  - "9"
+  - "20"
+correctAnswer: "20"
+explanation: Each picture counts as 5, so 4 pictures show 4 x 5 = 20 books.
+hint: Use the key for each picture.
+questionGoal: Fix a scaled-graph counting error with a constrained calculation.
+misconception: Counting pictures as one each instead of using the scale.
+```
 
 ```question
 key: u12_l06_q04_identify_error_type
@@ -6208,15 +6782,18 @@ misconception: "Fixing arithmetic only without addressing the idea."
 
 ```question
 key: u12_l06_q06_explain_error_fix
-type: constructed-response
-prompt: "Pick one error: adding factors, ignoring scale, or mixing area and perimeter. Explain how to fix it."
-minWords: 10
-sampleAnswer: "To fix adding factors, I check for equal groups and multiply groups by the size of each group."
-checklist: ["Name the error", "Explain a mathematical fix"]
-explanation: "Good error correction names the mistaken idea and the correct structure."
-hint: "Choose one error and state the strategy that prevents it."
-questionGoal: "Explain a misconception-based correction."
-misconception: "Correcting only the final answer without reasoning."
+type: multiple-choice
+prompt: Which error-fix explanation is strongest?
+choices:
+  - If a graph key says each picture equals 5, multiply the pictures by 5 instead of counting by ones.
+  - If a graph has pictures, ignore the key and count each picture as 1.
+  - If a problem has factors, add them because multiplication is only for arrays.
+  - If a shape problem has units, use area and perimeter the same way.
+correctAnswer: If a graph key says each picture equals 5, multiply the pictures by 5 instead of counting by ones.
+explanation: Good error correction names the mistaken idea and the correct structure.
+hint: Choose one error and state the strategy that prevents it.
+questionGoal: Explain a misconception-based correction.
+misconception: Correcting only the final answer without reasoning.
 ```
 
 ### Lesson 7: Grade 3 Math Mastery Task
@@ -6293,13 +6870,16 @@ misconception: "Applying the most recent procedure to every problem."
 
 ```question
 key: u12_l07_q06_capstone_explain
-type: constructed-response
-prompt: "A student says 5 x 40 = 200. Explain why this answer makes sense."
-minWords: 10
-sampleAnswer: "40 is 4 tens. 5 x 4 tens is 20 tens, which equals 200."
-checklist: ["Mention 4 tens or 20 tens", "Explain place value"]
-explanation: "Multiplying by a multiple of 10 uses facts and place value."
-hint: "Think of 40 as 4 tens."
-questionGoal: "Assess explanation of whole-number place-value multiplication."
-misconception: "Using a zero trick without understanding."
+type: multiple-choice
+prompt: Why does 5 x 40 = 200 make sense?
+choices:
+  - 40 is 4 tens, and 5 x 4 tens is 20 tens, or 200.
+  - 40 has a zero, so 5 x 40 must be 50.
+  - 5 x 40 means 5 + 40, which is 45.
+  - The answer is 200 only because you add two zeros to 5.
+correctAnswer: 40 is 4 tens, and 5 x 4 tens is 20 tens, or 200.
+explanation: Multiplying by a multiple of 10 uses facts and place value.
+hint: Think of 40 as 4 tens.
+questionGoal: Assess explanation of whole-number place-value multiplication.
+misconception: Using a zero trick without understanding.
 ```
