@@ -94,13 +94,14 @@ misconception: "Misplacing the decimal point in a sum."
 
 ```question
 key: u01_l01_q06_explain_estimate_use
-type: constructed-response
-prompt: "Explain why estimating before computing 62 x 39 can help you catch a mistake."
-minWords: 8
-sampleAnswer: "62 x 39 is close to 60 x 40, or 2,400, so an answer like 240 would be too small."
-checklist:
-  - "Use a rounded estimate"
-  - "Explain how the estimate checks the exact answer"
+type: multiple-choice
+prompt: "Which explanation best shows how estimating before computing 62 x 39 can help catch a mistake?"
+choices:
+  - "62 x 39 is close to 60 x 40, or 2,400, so an answer like 240 would be too small."
+  - "62 x 39 is close to 60 + 40, so the answer should be about 100."
+  - "Estimating after multiplying is faster than checking before multiplying."
+  - "Because 62 and 39 are both two-digit numbers, any two-digit answer is reasonable."
+correctAnswer: "62 x 39 is close to 60 x 40, or 2,400, so an answer like 240 would be too small."
 explanation: "An estimate gives a reasonable range before you do exact work."
 hint: "Round 62 and 39 to nearby tens."
 questionGoal: "Explain estimation as a reasonableness check."
@@ -135,7 +136,7 @@ choices:
   - "decimal points"
   - "last digits"
   - "largest digits"
-  - "answer choices"
+  - "digits farthest right"
 correctAnswer: "decimal points"
 explanation: "Lining up decimal points lines up ones, tenths, and hundredths."
 hint: "You want tenths under tenths and hundredths under hundredths."
@@ -292,13 +293,14 @@ misconception: "Failing to connect common fractions and decimals."
 
 ```question
 key: u01_l03_q06_explain_fraction
-type: constructed-response
-prompt: "Explain why 5/12 is less than 1/2."
-minWords: 8
-sampleAnswer: "Half of 12 is 6, and 5 parts out of 12 is less than 6 parts out of 12."
-checklist:
-  - "Mention the half benchmark"
-  - "Compare 5/12 to 6/12"
+type: multiple-choice
+prompt: "Which explanation best shows why 5/12 is less than 1/2?"
+choices:
+  - "Half of 12 is 6, and 5 parts out of 12 is less than 6 parts out of 12."
+  - "5/12 is less than 1/2 because 12 is a larger number than 5."
+  - "5/12 is equal to 1/2 because 5 is close to 6."
+  - "5/12 is greater than 1/2 because 5 is greater than 1."
+correctAnswer: "Half of 12 is 6, and 5 parts out of 12 is less than 6 parts out of 12."
 explanation: "Because 1/2 is 6/12, 5/12 is slightly less than half."
 hint: "Rewrite 1/2 with denominator 12."
 questionGoal: "Explain a benchmark comparison using equivalent fractions."
@@ -361,15 +363,15 @@ misconception: "Dropping units and treating all quotients as the same kind of nu
 ```question
 key: u01_l04_q04_division_not_smaller
 type: multiple-choice
-prompt: "Which example shows that division does not always make a number smaller?"
+prompt: "Which example shows that division does not always make the answer smaller than the number being divided?"
 choices:
   - "12 divided by 4 = 3"
   - "12 divided by 2 = 6"
-  - "12 divided by 1/2 = 24"
+  - "12 divided by 1 = 12"
   - "12 divided by 6 = 2"
-correctAnswer: "12 divided by 1/2 = 24"
-explanation: "Dividing by 1/2 asks how many halves are in 12, which is 24."
-hint: "Think about how many half-size groups fit into 12."
+correctAnswer: "12 divided by 1 = 12"
+explanation: "Dividing by 1 gives the original number, so the quotient is not smaller."
+hint: "Look for a quotient that is equal to the starting number."
 questionGoal: "Prepare for fraction division by challenging the 'division makes smaller' misconception."
 misconception: "Assuming every division quotient must be smaller than the dividend."
 ```
@@ -394,13 +396,14 @@ misconception: "Recalling division as unrelated to multiplication."
 
 ```question
 key: u01_l04_q06_label_quotient
-type: constructed-response
-prompt: "A class reads 180 pages in 5 days. Explain what 180 divided by 5 means in this situation."
-minWords: 8
-sampleAnswer: "It means the class read 36 pages per day if the same number was read each day."
-checklist:
-  - "Name pages per day"
-  - "Connect the quotient to the situation"
+type: multiple-choice
+prompt: "A class reads 180 pages in 5 days. Which interpretation of 180 divided by 5 fits this situation?"
+choices:
+  - "It means the class read 36 pages per day if the same number was read each day."
+  - "It means the class read 36 days per page."
+  - "It means the class read 180 pages each day."
+  - "It means 5 pages were read in all."
+correctAnswer: "It means the class read 36 pages per day if the same number was read each day."
 explanation: "The quotient is a rate: 36 pages for each day."
 hint: "Ask what one day would have."
 questionGoal: "Interpret and label a quotient as a rate-like value."
@@ -452,9 +455,9 @@ passage: |
 question: "What kind of response is most useful first?"
 choices:
   - "Estimate 8 x 18 and compare it with 150"
-  - "Find the exact decimal quotient"
+  - "Compute 8 x 18 exactly before checking about 150"
   - "Write a percent"
-  - "Graph the boxes"
+  - "Make a graph of snack boxes over time"
 correctAnswer: "Estimate 8 x 18 and compare it with 150"
 explanation: "The question asks whether there are enough for about 150 students, so an estimate can answer quickly."
 hint: "The word 'about' is a clue."
@@ -478,13 +481,14 @@ misconception: "Estimating when an exact amount is needed."
 
 ```question
 key: u01_l05_q05_explain_reasonable
-type: constructed-response
-prompt: "A student says 31 x 19 = 589. Explain how you can tell this is reasonable without multiplying exactly."
-minWords: 8
-sampleAnswer: "31 is about 30 and 19 is about 20, so the product should be near 600."
-checklist:
-  - "Use rounded numbers"
-  - "Compare to 589"
+type: multiple-choice
+prompt: "A student says 31 x 19 = 589. Which explanation best checks whether this is reasonable without multiplying exactly?"
+choices:
+  - "31 is about 30 and 19 is about 20, so the product should be near 600."
+  - "31 + 19 is about 50, so 589 is too large."
+  - "The answer is reasonable because any three-digit number would work."
+  - "The answer is not reasonable because an estimate must equal the exact product."
+correctAnswer: "31 is about 30 and 19 is about 20, so the product should be near 600."
 explanation: "30 x 20 = 600, and 589 is close to 600."
 hint: "Round each factor to the nearest ten."
 questionGoal: "Use estimation to explain reasonableness."
@@ -599,14 +603,14 @@ misconception: "Reversing the order of the quantities."
 
 ```question
 key: u02_l01_q06_explain_ratio
-type: constructed-response
-prompt: "Explain what the ratio 2:5 means if it compares red markers to black markers."
-minWords: 8
-sampleAnswer: "It means there are 2 red markers for every 5 black markers."
-checklist:
-  - "Mention red markers"
-  - "Mention black markers"
-  - "Use for every language"
+type: multiple-choice
+prompt: "Which explanation matches the ratio 2:5 if it compares red markers to black markers?"
+choices:
+  - "It means there are 2 red markers for every 5 black markers."
+  - "It means there are 5 red markers for every 2 black markers."
+  - "It means there are 2 red markers and 5 markers total."
+  - "It means 2 markers are red out of every 5 markers."
+correctAnswer: "It means there are 2 red markers for every 5 black markers."
 explanation: "A ratio statement should name both quantities in order."
 hint: "Use the phrase 'for every.'"
 questionGoal: "Explain a ratio in contextual language."
@@ -650,16 +654,16 @@ misconception: "Assuming every ratio involving a group is part-to-whole."
 ```question
 key: u02_l02_q03_match_ratio_types
 type: match-pairs
-prompt: "Match each ratio to its comparison type."
+prompt: "Match each comparison to the ratio description it uses."
 pairs:
   - left: "boys to girls"
-    right: "part-to-part"
+    right: "two student parts compared"
   - left: "girls to all students"
-    right: "part-to-whole"
+    right: "one student part compared with the total"
   - left: "red tiles to total tiles"
-    right: "part-to-whole ratio"
+    right: "one tile part compared with all tiles"
   - left: "blue tiles to green tiles"
-    right: "part-to-part ratio"
+    right: "two tile parts compared"
 explanation: "A ratio to the total is part-to-whole; a ratio between two parts is part-to-part."
 hint: "Look for words like all, total, or whole."
 questionGoal: "Distinguish comparison types using language clues."
@@ -702,13 +706,14 @@ misconception: "Using the total when the comparison is part-to-part."
 
 ```question
 key: u02_l02_q06_explain_two_ratios
-type: constructed-response
-prompt: "A club has 8 runners and 2 walkers. Explain the difference between the ratio 8:2 and the ratio 8:10."
-minWords: 10
-sampleAnswer: "8:2 compares runners to walkers, while 8:10 compares runners to all club members."
-checklist:
-  - "Identify 8:2 as part-to-part"
-  - "Identify 8:10 as part-to-whole"
+type: multiple-choice
+prompt: "A club has 8 runners and 2 walkers. Which explanation correctly compares the ratios 8:2 and 8:10?"
+choices:
+  - "8:2 compares runners to walkers, while 8:10 compares runners to all club members."
+  - "8:2 and 8:10 both compare runners to walkers."
+  - "8:10 compares runners to walkers because 10 is the number of walkers."
+  - "8:2 compares all club members to runners."
+correctAnswer: "8:2 compares runners to walkers, while 8:10 compares runners to all club members."
 explanation: "The same situation can create different ratios depending on the comparison."
 hint: "Find what the second number means in each ratio."
 questionGoal: "Explain part-to-part versus part-to-whole ratios in one context."
@@ -772,8 +777,8 @@ prompt: "Match each ratio to the number of total tape units."
 pairs:
   - left: "1:4"
     right: "5 total units"
-  - left: "2:3"
-    right: "5 units total"
+  - left: "2:4"
+    right: "6 total units"
   - left: "3:5"
     right: "8 total units"
   - left: "4:6"
@@ -807,13 +812,14 @@ misconception: "Using total mixture amount when only one quantity is asked."
 
 ```question
 key: u02_l03_q06_explain_tape_unit
-type: constructed-response
-prompt: "In a 4:1 ratio, the 4 tape units represent 28 minutes. Explain how to find the value of one tape unit."
-minWords: 8
-sampleAnswer: "Divide 28 minutes by 4 tape units, so one unit is 7 minutes."
-checklist:
-  - "Divide 28 by 4"
-  - "Name one unit as 7 minutes"
+type: multiple-choice
+prompt: "In a 4:1 ratio, the 4 tape units represent 28 minutes. Which explanation correctly finds the value of one tape unit?"
+choices:
+  - "Divide 28 minutes by 4 tape units, so one unit is 7 minutes."
+  - "Divide 28 minutes by all 5 ratio units because 4 + 1 = 5."
+  - "Multiply 28 minutes by 4 because there are 4 tape units."
+  - "Use 1 minute for each unit because the second ratio number is 1."
+correctAnswer: "Divide 28 minutes by 4 tape units, so one unit is 7 minutes."
 explanation: "A tape unit is the equal amount represented by one segment."
 hint: "The 28 minutes are spread across 4 equal units."
 questionGoal: "Explain how to find one tape unit from a known ratio amount."
@@ -909,13 +915,14 @@ misconception: "Adding 3 to both quantities instead of multiplying both by 2."
 
 ```question
 key: u02_l04_q06_explain_scaling
-type: constructed-response
-prompt: "Explain why 12:18 is equivalent to 2:3."
-minWords: 8
-sampleAnswer: "Both numbers in 2:3 are multiplied by 6, so the comparison stays the same."
-checklist:
-  - "Mention multiplying both quantities"
-  - "Name the scale factor 6"
+type: multiple-choice
+prompt: "Which explanation best shows why 12:18 is equivalent to 2:3?"
+choices:
+  - "Both numbers in 2:3 are multiplied by 6, so the comparison stays the same."
+  - "Both ratios are equivalent because 12 and 18 are even numbers."
+  - "The ratios are equivalent because 12 + 18 and 2 + 3 are both totals."
+  - "The ratios are equivalent because the same number is added to 2 and 3."
+correctAnswer: "Both numbers in 2:3 are multiplied by 6, so the comparison stays the same."
 explanation: "Equivalent ratios preserve the same multiplicative relationship."
 hint: "Ask what number turns 2 into 12 and 3 into 18."
 questionGoal: "Explain equivalent ratios using a common scale factor."
@@ -1013,13 +1020,14 @@ misconception: "Adding the same amount to both quantities."
 
 ```question
 key: u02_l05_q06_explain_double_line
-type: constructed-response
-prompt: "Explain how a double number line helps show that 3:8 and 9:24 are equivalent."
-minWords: 10
-sampleAnswer: "The marks 3 and 8 align, and multiplying both by 3 gives aligned marks 9 and 24."
-checklist:
-  - "Mention aligned marks"
-  - "Mention multiplying both quantities by 3"
+type: multiple-choice
+prompt: "Which explanation best shows how a double number line can show that 3:8 and 9:24 are equivalent?"
+choices:
+  - "The marks 3 and 8 align, and multiplying both by 3 gives aligned marks 9 and 24."
+  - "Any two marks can align if they are placed close together."
+  - "3:8 and 9:24 are equivalent because 6 is added to 3 and 16 is added to 8."
+  - "They are equivalent because both ratios have two numbers."
+correctAnswer: "The marks 3 and 8 align, and multiplying both by 3 gives aligned marks 9 and 24."
 explanation: "Double number lines show equivalent ratios as pairs of aligned marks."
 hint: "Find the scale factor from 3 to 9 and from 8 to 24."
 questionGoal: "Explain equivalent ratios using double-number-line structure."
@@ -1094,13 +1102,14 @@ misconception: "Choosing a mix that adds the same amount to both ingredients."
 
 ```question
 key: u02_l06_q05_explain_not_equivalent
-type: constructed-response
-prompt: "Explain why 3:4 is not equivalent to 5:6."
-minWords: 8
-sampleAnswer: "The ratio 5:6 adds 2 to both numbers, but equivalent ratios need the same multiplier."
-checklist:
-  - "Mention adding 2"
-  - "Mention multiplying or scaling"
+type: multiple-choice
+prompt: "Which explanation best shows why 3:4 is not equivalent to 5:6?"
+choices:
+  - "The ratio 5:6 adds 2 to both numbers, but equivalent ratios need the same multiplier."
+  - "The ratios are equivalent because both numbers increased."
+  - "The ratios are equivalent because 5 - 3 and 6 - 4 are both 2."
+  - "The ratios are not equivalent because equivalent ratios can never use different numbers."
+correctAnswer: "The ratio 5:6 adds 2 to both numbers, but equivalent ratios need the same multiplier."
 explanation: "Adding the same amount changes the multiplicative comparison."
 hint: "Ask whether one multiplier turns 3 into 5 and 4 into 6."
 questionGoal: "Explain why additive changes do not preserve a ratio."
@@ -1118,9 +1127,9 @@ passage: |
 question: "What is wrong with the table if the starting ratio is 2 cups juice to 5 cups water?"
 choices:
   - "It adds 2 to each row instead of scaling both quantities."
-  - "It uses too many water cups in the first row."
-  - "It should subtract 2 from both rows."
-  - "It has no numbers."
+  - "It doubles the juice amounts but leaves the water amounts unchanged."
+  - "It scales the water amounts correctly but not the juice amounts."
+  - "It should keep the water amount at 5 cups in every row."
 correctAnswer: "It adds 2 to each row instead of scaling both quantities."
 explanation: "The row 4:7 is not equivalent to 2:5 because both quantities were increased additively."
 hint: "Check whether 2:5 and 4:7 use the same multiplier."
@@ -1223,13 +1232,14 @@ misconception: "Using total words or reversed units as the rate."
 
 ```question
 key: u03_l01_q06_explain_per
-type: constructed-response
-prompt: "Explain what '$2.50 per notebook' means."
-minWords: 6
-sampleAnswer: "It means one notebook costs 2 dollars and 50 cents."
-checklist:
-  - "Mention one notebook"
-  - "Mention $2.50 as the cost"
+type: multiple-choice
+prompt: "Which explanation matches '$2.50 per notebook'?"
+choices:
+  - "It means one notebook costs 2 dollars and 50 cents."
+  - "It means all notebooks together cost $2.50."
+  - "It means each dollar buys 2.50 notebooks."
+  - "It means 250 notebooks cost $1."
+correctAnswer: "It means one notebook costs 2 dollars and 50 cents."
 explanation: "Per notebook means for each 1 notebook."
 hint: "Use the words 'for one.'"
 questionGoal: "Explain rate language in a money context."
@@ -1325,13 +1335,14 @@ misconception: "Using total cost as unit cost."
 
 ```question
 key: u03_l02_q06_explain_unit_rate
-type: constructed-response
-prompt: "A printer makes 72 pages in 8 minutes. Explain how to find pages per minute."
-minWords: 8
-sampleAnswer: "Divide 72 pages by 8 minutes to get 9 pages per minute."
-checklist:
-  - "Divide pages by minutes"
-  - "Label pages per minute"
+type: multiple-choice
+prompt: "A printer makes 72 pages in 8 minutes. Which explanation correctly finds pages per minute?"
+choices:
+  - "Divide 72 pages by 8 minutes to get 9 pages per minute."
+  - "Divide 8 minutes by 72 pages to get minutes per page."
+  - "Add 72 and 8 because pages per minute uses both numbers."
+  - "Use 72 pages per minute because 72 is the total number of pages."
+correctAnswer: "Divide 72 pages by 8 minutes to get 9 pages per minute."
 explanation: "Pages per minute asks for how many pages are printed in one minute."
 hint: "The per-one unit is one minute."
 questionGoal: "Explain the setup and label for a unit rate."
@@ -1432,13 +1443,14 @@ misconception: "Dividing pounds by dollars instead of dollars by pounds."
 
 ```question
 key: u03_l03_q06_explain_better_buy
-type: constructed-response
-prompt: "Option A is 8 ounces for $3.20. Option B is 10 ounces for $4.50. Explain which is the better buy."
-minWords: 10
-sampleAnswer: "Option A is better because it costs $0.40 per ounce, while Option B costs $0.45 per ounce."
-checklist:
-  - "Find both unit prices"
-  - "Choose the lower cost per ounce"
+type: multiple-choice
+prompt: "Option A is 8 ounces for $3.20. Option B is 10 ounces for $4.50. Which explanation correctly identifies the better buy?"
+choices:
+  - "Option A is better because it costs $0.40 per ounce, while Option B costs $0.45 per ounce."
+  - "Option B is better because it has more ounces."
+  - "Option A is better because its total price is lower, so no unit prices are needed."
+  - "The options are the same because both prices are between $3 and $5."
+correctAnswer: "Option A is better because it costs $0.40 per ounce, while Option B costs $0.45 per ounce."
 explanation: "The better buy has the lower price for the same unit."
 hint: "Compare dollars per ounce for each option."
 questionGoal: "Justify a unit-price decision."
@@ -1535,13 +1547,14 @@ misconception: "Assuming percent is always an exact count out of a group of 100.
 
 ```question
 key: u03_l04_q06_explain_percent
-type: constructed-response
-prompt: "Explain why 0.3 is the same as 30%."
-minWords: 8
-sampleAnswer: "0.3 is 30 hundredths, so it is 30 out of 100, or 30%."
-checklist:
-  - "Mention hundredths"
-  - "Mention 30 per 100"
+type: multiple-choice
+prompt: "Which explanation best shows why 0.3 is the same as 30%?"
+choices:
+  - "0.3 is 30 hundredths, so it is 30 out of 100, or 30%."
+  - "0.3 is the same as 3% because it has the digit 3."
+  - "0.3 is the same as 300% because moving to percent always adds two zeros."
+  - "0.3 cannot be written as a percent because it is a decimal."
+correctAnswer: "0.3 is 30 hundredths, so it is 30 out of 100, or 30%."
 explanation: "Decimals in the hundredths system connect directly to percent."
 hint: "Rewrite 0.3 as 0.30."
 questionGoal: "Explain the decimal-percent connection."
@@ -1638,13 +1651,14 @@ misconception: "Trying to use an unsupported rule instead of benchmark decomposi
 
 ```question
 key: u03_l05_q06_explain_benchmark
-type: constructed-response
-prompt: "Explain how to find 25% of 120 without a calculator."
-minWords: 8
-sampleAnswer: "25% is one fourth, so divide 120 by 4 to get 30."
-checklist:
-  - "Say 25% is one fourth"
-  - "Divide 120 by 4"
+type: multiple-choice
+prompt: "Which explanation correctly finds 25% of 120 without a calculator?"
+choices:
+  - "25% is one fourth, so divide 120 by 4 to get 30."
+  - "25% means the answer is 25 because the percent number is 25."
+  - "25% means divide 120 by 25 to get 4.8."
+  - "25% means subtract 25 from 120 to get 95."
+correctAnswer: "25% is one fourth, so divide 120 by 4 to get 30."
 explanation: "Benchmark percents can be found with fraction reasoning."
 hint: "Use the fraction that matches 25%."
 questionGoal: "Explain a benchmark percent strategy."
@@ -1741,13 +1755,14 @@ misconception: "Leaving the cost as a total rather than per hour."
 
 ```question
 key: u03_l06_q06_explain_decision
-type: constructed-response
-prompt: "A student needs 25% of 80 survey responses. Explain how many responses that is and why."
-minWords: 8
-sampleAnswer: "25% is one fourth, and one fourth of 80 is 20 responses."
-checklist:
-  - "Use 25% as one fourth"
-  - "Give 20 responses"
+type: multiple-choice
+prompt: "A student needs 25% of 80 survey responses. Which explanation correctly finds the number of responses?"
+choices:
+  - "25% is one fourth, and one fourth of 80 is 20 responses."
+  - "25% means the student needs 25 responses."
+  - "25% of 80 means 80 divided by 25, or 3.2 responses."
+  - "25% of 80 means 25 divided by 80, so fewer than 1 response is needed."
+correctAnswer: "25% is one fourth, and one fourth of 80 is 20 responses."
 explanation: "Benchmark percent reasoning connects the percent to the total quantity."
 hint: "25% means one out of every four equal parts."
 questionGoal: "Explain a percent decision with a benchmark strategy."
@@ -1852,13 +1867,14 @@ misconception: "Reversing divisor and dividend."
 
 ```question
 key: u04_l01_q06_explain_fraction_division_story
-type: constructed-response
-prompt: "Explain what 1/2 divided by 4 could mean in a sharing story."
-minWords: 8
-sampleAnswer: "It could mean 1/2 of a pizza shared equally by 4 people."
-checklist:
-  - "Use a total of 1/2"
-  - "Use 4 equal groups or people"
+type: multiple-choice
+prompt: "Which sharing story could represent 1/2 divided by 4?"
+choices:
+  - "1/2 of a pizza is shared equally by 4 people."
+  - "4 pizzas are shared equally by 1/2 of a person."
+  - "1/2 of each of 4 pizzas is eaten."
+  - "4 groups are each given 1/2 of a pizza."
+correctAnswer: "1/2 of a pizza is shared equally by 4 people."
 explanation: "A sharing story knows the number of groups and asks for the size of each share."
 hint: "Make 4 the number of equal groups."
 questionGoal: "Create a valid sharing interpretation of fraction division."
@@ -1961,13 +1977,14 @@ misconception: "Treating the divisor denominator as the final answer in every ca
 
 ```question
 key: u04_l02_q06_explain_grouping
-type: constructed-response
-prompt: "Explain why 2 divided by 1/4 equals 8."
-minWords: 8
-sampleAnswer: "Each whole has four fourths, so two wholes have eight fourth-size groups."
-checklist:
-  - "Mention fourths in each whole"
-  - "Explain why there are 8 groups"
+type: multiple-choice
+prompt: "Which explanation best shows why 2 divided by 1/4 equals 8?"
+choices:
+  - "Each whole has four fourths, so two wholes have eight fourth-size groups."
+  - "Divide 2 by 4 because the denominator is 4, so the answer is 1/2."
+  - "There are only 2 groups because the dividend is 2."
+  - "There are 4 groups because the divisor has denominator 4."
+correctAnswer: "Each whole has four fourths, so two wholes have eight fourth-size groups."
 explanation: "The quotient counts how many 1/4 groups fit into 2."
 hint: "Draw or imagine two wholes split into fourths."
 questionGoal: "Explain a measurement fraction-division quotient."
@@ -2064,13 +2081,14 @@ misconception: "Dividing only the denominator or only the numerator without mean
 
 ```question
 key: u04_l03_q06_explain_share
-type: constructed-response
-prompt: "Explain why 4/5 shared equally by 4 people gives each person 1/5."
-minWords: 8
-sampleAnswer: "There are four fifth-size pieces, and sharing them among 4 people gives one fifth to each person."
-checklist:
-  - "Mention four fifths"
-  - "Mention one fifth per person"
+type: multiple-choice
+prompt: "Which explanation best shows why 4/5 shared equally by 4 people gives each person 1/5?"
+choices:
+  - "There are four fifth-size pieces, and sharing them among 4 people gives one fifth to each person."
+  - "Each person gets 4/5 because that is the amount being shared."
+  - "Each person gets 1/9 because 5 and 4 are added."
+  - "Each person gets 4/20 because only the denominator is multiplied by 4."
+correctAnswer: "There are four fifth-size pieces, and sharing them among 4 people gives one fifth to each person."
 explanation: "Sharing 4 equal unit fractions among 4 people gives one unit fraction to each person."
 hint: "Think of 4 separate fifths being handed out."
 questionGoal: "Explain a fraction sharing quotient with unit fractions."
@@ -2115,7 +2133,6 @@ prompt: "Correct the setup."
 sentence: "4/7 divided by 2/3 = 7/4 x 2/3"
 acceptedAnswers:
   - "4/7 divided by 2/3 = 4/7 x 3/2"
-  - "4/7 divided by 2/3 = 4/7 x 3/2"
 explanation: "Keep the dividend 4/7 and multiply by the reciprocal of the divisor, 3/2."
 hint: "Only the divisor is flipped."
 questionGoal: "Correct a reciprocal procedure error."
@@ -2159,13 +2176,14 @@ misconception: "Confusing reciprocal with opposite or negative."
 
 ```question
 key: u04_l04_q06_explain_model_procedure
-type: constructed-response
-prompt: "Explain why 1 divided by 1/4 equals 4."
-minWords: 8
-sampleAnswer: "One whole contains four fourth-size pieces, so four groups of 1/4 fit."
-checklist:
-  - "Mention one whole"
-  - "Mention four fourths or four groups"
+type: multiple-choice
+prompt: "Which explanation best connects a model to why 1 divided by 1/4 equals 4?"
+choices:
+  - "One whole contains four fourth-size pieces, so four groups of 1/4 fit."
+  - "One whole contains one fourth-size piece, so the quotient is 1."
+  - "Dividing by 1/4 means the answer must be smaller than 1."
+  - "The quotient is 1/4 because the divisor is 1/4."
+correctAnswer: "One whole contains four fourth-size pieces, so four groups of 1/4 fit."
 explanation: "The model and the reciprocal procedure both show four fourths in one whole."
 hint: "Imagine a whole divided into fourths."
 questionGoal: "Connect a simple model to a fraction-division result."
@@ -2244,7 +2262,6 @@ prompt: "Correct the quotient."
 sentence: "15.5 divided by 5 = 31"
 acceptedAnswers:
   - "15.5 divided by 5 = 3.1"
-  - "15.5 divided by 5 = 3.1"
 explanation: "15.5 is close to 15, and 15 divided by 5 is 3, so 3.1 is reasonable."
 hint: "Use an estimate to place the decimal."
 questionGoal: "Correct a decimal-point error in division."
@@ -2253,13 +2270,14 @@ misconception: "Dropping the decimal point in a quotient."
 
 ```question
 key: u04_l05_q06_explain_decimal_estimate
-type: constructed-response
-prompt: "Explain why 0.82 is not reasonable for 32.8 divided by 4."
-minWords: 8
-sampleAnswer: "32.8 is close to 32, and 32 divided by 4 is 8, so the answer should be near 8."
-checklist:
-  - "Use an estimate near 32 divided by 4"
-  - "Say why 0.82 is too small"
+type: multiple-choice
+prompt: "Which explanation best shows why 0.82 is not reasonable for 32.8 divided by 4?"
+choices:
+  - "32.8 is close to 32, and 32 divided by 4 is 8, so the answer should be near 8."
+  - "0.82 is reasonable because it uses the same digits as 32.8."
+  - "32.8 divided by 4 should be near 0.8 because the dividend has a decimal."
+  - "0.82 is not reasonable because any decimal quotient must be greater than 32.8."
+correctAnswer: "32.8 is close to 32, and 32 divided by 4 is 8, so the answer should be near 8."
 explanation: "Estimation can catch decimal placement errors."
 hint: "Round 32.8 to a nearby whole number."
 questionGoal: "Use estimation to reject an unreasonable decimal quotient."
@@ -2353,13 +2371,14 @@ misconception: "Omitting or reversing units after division."
 
 ```question
 key: u04_l06_q06_explain_check
-type: constructed-response
-prompt: "Explain one way to check whether 7.2 divided by 0.9 = 8 is reasonable."
-minWords: 8
-sampleAnswer: "Since 0.9 is close to 1, 7.2 divided by 0.9 should be a little more than 7.2, so 8 is reasonable."
-checklist:
-  - "Use an estimate or inverse check"
-  - "Explain why 8 makes sense"
+type: multiple-choice
+prompt: "Which explanation best checks whether 7.2 divided by 0.9 = 8 is reasonable?"
+choices:
+  - "Since 0.9 is close to 1, 7.2 divided by 0.9 should be a little more than 7.2, so 8 is reasonable."
+  - "Since 0.9 is less than 1, the quotient must be less than 7.2."
+  - "8 is reasonable because 7.2 + 0.9 is close to 8."
+  - "No estimate can check division by a decimal."
+correctAnswer: "Since 0.9 is close to 1, 7.2 divided by 0.9 should be a little more than 7.2, so 8 is reasonable."
 explanation: "Checking can use an estimate, an inverse operation, or both."
 hint: "Compare dividing by 0.9 with dividing by 1."
 questionGoal: "Explain a reasonableness check for decimal division."
@@ -2454,13 +2473,14 @@ misconception: "Using a positive number for a below-reference position."
 
 ```question
 key: u05_l01_q06_explain_reference
-type: constructed-response
-prompt: "Explain why +9 and -9 can both be 9 units from zero but mean different things."
-minWords: 10
-sampleAnswer: "+9 is 9 units in the positive direction, while -9 is 9 units in the negative direction."
-checklist:
-  - "Mention same distance from zero"
-  - "Mention different directions"
+type: multiple-choice
+prompt: "Which explanation best shows why +9 and -9 can both be 9 units from zero but mean different things?"
+choices:
+  - "+9 is 9 units in the positive direction, while -9 is 9 units in the negative direction."
+  - "+9 is farther from zero because positive numbers are larger."
+  - "-9 is farther from zero because negative numbers are lower."
+  - "The signs do not matter because both numbers have the digit 9."
+correctAnswer: "+9 is 9 units in the positive direction, while -9 is 9 units in the negative direction."
 explanation: "The sign gives direction; the distance from zero gives magnitude."
 hint: "Think about a number line with zero in the middle."
 questionGoal: "Explain sign as direction from a reference point."
@@ -2553,13 +2573,14 @@ misconception: "Changing decimal digits instead of the sign."
 
 ```question
 key: u05_l02_q06_explain_opposites
-type: constructed-response
-prompt: "Explain why -4 and 4 are opposites."
-minWords: 8
-sampleAnswer: "They are both 4 units from zero, but on different sides of zero."
-checklist:
-  - "Mention distance from zero"
-  - "Mention different sides"
+type: multiple-choice
+prompt: "Which explanation best shows why -4 and 4 are opposites?"
+choices:
+  - "They are both 4 units from zero, but on different sides of zero."
+  - "They are opposites because one number is smaller than the other."
+  - "They are opposites because -4 is four units from 4."
+  - "They are opposites because 4 is the reciprocal of -4."
+correctAnswer: "They are both 4 units from zero, but on different sides of zero."
 explanation: "Opposites are symmetric around zero on the number line."
 hint: "Use the number line idea."
 questionGoal: "Explain the definition of opposites."
@@ -2652,13 +2673,14 @@ misconception: "Comparing the signed numbers instead of their distances."
 
 ```question
 key: u05_l03_q06_explain_absolute_value
-type: constructed-response
-prompt: "Explain why absolute value cannot be negative."
-minWords: 8
-sampleAnswer: "Absolute value measures distance from zero, and distance is never negative."
-checklist:
-  - "Mention distance"
-  - "Mention distance is not negative"
+type: multiple-choice
+prompt: "Which explanation best shows why absolute value cannot be negative?"
+choices:
+  - "Absolute value measures distance from zero, and distance is never negative."
+  - "Absolute value cannot be negative because negative numbers do not exist on a number line."
+  - "Absolute value is always negative when the original number is negative."
+  - "Absolute value means changing every number to its opposite."
+correctAnswer: "Absolute value measures distance from zero, and distance is never negative."
 explanation: "Absolute value reports how far a number is from zero."
 hint: "Think about measuring length on a number line."
 questionGoal: "Explain the nonnegative nature of absolute value."
@@ -2758,13 +2780,14 @@ misconception: "Ignoring direction words when interpreting rational numbers."
 
 ```question
 key: u05_l04_q06_explain_order
-type: constructed-response
-prompt: "Explain why -0.4 is greater than -0.9."
-minWords: 8
-sampleAnswer: "-0.4 is closer to zero and farther right on the number line than -0.9."
-checklist:
-  - "Mention number-line position"
-  - "Mention closer to zero or farther right"
+type: multiple-choice
+prompt: "Which explanation best shows why -0.4 is greater than -0.9?"
+choices:
+  - "-0.4 is closer to zero and farther right on the number line than -0.9."
+  - "-0.9 is greater because 9 tenths is more than 4 tenths."
+  - "-0.4 is less because it is closer to zero."
+  - "Negative decimals cannot be compared unless they are whole numbers."
+correctAnswer: "-0.4 is closer to zero and farther right on the number line than -0.9."
 explanation: "For negative numbers, the number closer to zero is greater."
 hint: "Picture both numbers between -1 and 0."
 questionGoal: "Explain comparison of negative decimals."
@@ -2858,13 +2881,14 @@ misconception: "Reversing coordinate order."
 
 ```question
 key: u05_l05_q06_explain_ordered_pair
-type: constructed-response
-prompt: "Explain how to plot (-2, -5) from the origin."
-minWords: 8
-sampleAnswer: "Move 2 units left for x = -2, then 5 units down for y = -5."
-checklist:
-  - "Mention left 2"
-  - "Mention down 5"
+type: multiple-choice
+prompt: "Which explanation correctly plots (-2, -5) from the origin?"
+choices:
+  - "Move 2 units left for x = -2, then 5 units down for y = -5."
+  - "Move 2 units down first, then 5 units left."
+  - "Move 2 units right and 5 units up because distances are positive."
+  - "Move 5 units left for x = -5, then 2 units down for y = -2."
+correctAnswer: "Move 2 units left for x = -2, then 5 units down for y = -5."
 explanation: "The first coordinate is horizontal; the second coordinate is vertical."
 hint: "Use x first, then y."
 questionGoal: "Explain ordered-pair plotting with negative coordinates."
@@ -2962,13 +2986,14 @@ misconception: "Reporting a signed difference as a negative distance."
 
 ```question
 key: u05_l06_q06_explain_coordinate_distance
-type: constructed-response
-prompt: "Explain why the distance from (-6, 1) to (-2, 1) is 4 units."
-minWords: 8
-sampleAnswer: "The y-values are the same, so count horizontally from x = -6 to x = -2, which is 4 units."
-checklist:
-  - "Mention same y-value"
-  - "Count from -6 to -2"
+type: multiple-choice
+prompt: "Which explanation best shows why the distance from (-6, 1) to (-2, 1) is 4 units?"
+choices:
+  - "The y-values are the same, so count horizontally from x = -6 to x = -2, which is 4 units."
+  - "Add -6 and -2 because distance uses both x-values."
+  - "Use the y-values only, so the distance is 1 unit."
+  - "The distance is negative because both x-values are negative."
+correctAnswer: "The y-values are the same, so count horizontally from x = -6 to x = -2, which is 4 units."
 explanation: "Horizontal distance comes from the difference between x-values when y is the same."
 hint: "Count on the x-axis only."
 questionGoal: "Explain axis-aligned coordinate distance."
@@ -3050,13 +3075,14 @@ misconception: "Confusing addition with multiplication or subtraction language."
 
 ```question
 key: u06_l01_q05_type_meaning
-type: constructed-response
-prompt: "If p is the number of pages read each day, explain what 7p means."
-minWords: 8
-sampleAnswer: "It means the total pages read in 7 days if p pages are read each day."
-checklist:
-  - "Mention 7 groups or 7 days"
-  - "Mention p pages each day"
+type: multiple-choice
+prompt: "If p is the number of pages read each day, which interpretation of 7p is correct?"
+choices:
+  - "It means the total pages read in 7 days if p pages are read each day."
+  - "It means 7 pages read each day for p days."
+  - "It means 7 plus the number of pages read each day."
+  - "It means p pages split into 7 equal groups."
+correctAnswer: "It means the total pages read in 7 days if p pages are read each day."
 explanation: "7p means 7 times the quantity p."
 hint: "Use multiplication language."
 questionGoal: "Explain a coefficient-variable expression in context."
@@ -3169,13 +3195,14 @@ misconception: "Concatenating 6 and 4 or adding instead of multiplying."
 
 ```question
 key: u06_l02_q06_explain_substitution
-type: constructed-response
-prompt: "Explain how to evaluate 10 - 2r when r = 3."
-minWords: 8
-sampleAnswer: "Replace r with 3, then compute 10 - 2 times 3, which is 4."
-checklist:
-  - "Substitute 3 for r"
-  - "Use multiplication before subtraction"
+type: multiple-choice
+prompt: "Which explanation correctly evaluates 10 - 2r when r = 3?"
+choices:
+  - "Replace r with 3, then compute 10 - 2 times 3, which is 4."
+  - "Replace r with 3, then subtract left to right: 10 - 2 - 3 = 5."
+  - "Replace 2 with 3 to get 10 - 3r."
+  - "First compute 10 - 2, then multiply by 3 to get 24."
+correctAnswer: "Replace r with 3, then compute 10 - 2 times 3, which is 4."
 explanation: "Substitution creates a numerical expression that must still follow operation order."
 hint: "Write 10 - 2(3)."
 questionGoal: "Explain substitution and operation order."
@@ -3270,13 +3297,14 @@ misconception: "Ignoring grouping symbols."
 
 ```question
 key: u06_l03_q06_explain_exponent_error
-type: constructed-response
-prompt: "A student says 4^2 = 8. Explain the mistake."
-minWords: 8
-sampleAnswer: "The student multiplied 4 by 2, but 4^2 means 4 x 4, which is 16."
-checklist:
-  - "Say 4^2 means 4 x 4"
-  - "Identify 16 as the value"
+type: multiple-choice
+prompt: "A student says 4^2 = 8. Which explanation correctly identifies the mistake?"
+choices:
+  - "The student multiplied 4 by 2, but 4^2 means 4 x 4, which is 16."
+  - "The student added 4 and 2, but 4^2 means 4 + 4 + 4 + 4."
+  - "The student should have squared 2 instead, so the answer is 4."
+  - "The student is correct because an exponent means multiply the base by the exponent."
+correctAnswer: "The student multiplied 4 by 2, but 4^2 means 4 x 4, which is 16."
 explanation: "An exponent tells how many times to use the base as a factor."
 hint: "Expand 4^2 before finding its value."
 questionGoal: "Correct the common exponent-as-multiplication misconception."
@@ -3369,13 +3397,14 @@ misconception: "Writing subtraction in the phrase order."
 
 ```question
 key: u06_l04_q06_explain_expression
-type: constructed-response
-prompt: "Explain why c/5 represents 'c split into 5 equal groups.'"
-minWords: 8
-sampleAnswer: "Dividing c by 5 means separating the quantity c into 5 equal parts."
-checklist:
-  - "Mention dividing c"
-  - "Mention 5 equal groups or parts"
+type: multiple-choice
+prompt: "Which explanation best shows why c/5 represents 'c split into 5 equal groups'?"
+choices:
+  - "Dividing c by 5 means separating the quantity c into 5 equal parts."
+  - "Dividing c by 5 means making 5 groups with c items in each group."
+  - "c/5 means subtracting 5 from c."
+  - "c/5 means multiplying c by 5."
+correctAnswer: "Dividing c by 5 means separating the quantity c into 5 equal parts."
 explanation: "Division expressions can represent equal sharing."
 hint: "Use the meaning of division."
 questionGoal: "Explain a division expression from words."
@@ -3469,13 +3498,14 @@ misconception: "Multiplying only the variable term."
 
 ```question
 key: u06_l05_q06_explain_equivalent
-type: constructed-response
-prompt: "Explain why 6 + t and t + 6 are equivalent."
-minWords: 8
-sampleAnswer: "They add the same two quantities, and addition can change order without changing the sum."
-checklist:
-  - "Mention same two quantities"
-  - "Mention addition order or commutative property"
+type: multiple-choice
+prompt: "Which explanation best shows why 6 + t and t + 6 are equivalent?"
+choices:
+  - "They add the same two quantities, and addition can change order without changing the sum."
+  - "They are equivalent only when t equals 6."
+  - "They are not equivalent because the variable must come first."
+  - "They are equivalent because addition and multiplication are the same operation."
+correctAnswer: "They add the same two quantities, and addition can change order without changing the sum."
 explanation: "The commutative property of addition makes the two expressions equivalent."
 hint: "Try a value for t and compare."
 questionGoal: "Explain equivalence using an operation property."
@@ -3569,13 +3599,14 @@ misconception: "Putting the constant inside parentheses without dividing by the 
 
 ```question
 key: u06_l06_q06_explain_distribution
-type: constructed-response
-prompt: "Explain why 3(x + 5) equals 3x + 15."
-minWords: 8
-sampleAnswer: "There are 3 groups of x and 3 groups of 5, so the total is 3x + 15."
-checklist:
-  - "Mention 3 groups of x"
-  - "Mention 3 groups of 5 or 15"
+type: multiple-choice
+prompt: "Which explanation best shows why 3(x + 5) equals 3x + 15?"
+choices:
+  - "There are 3 groups of x and 3 groups of 5, so the total is 3x + 15."
+  - "The 3 only multiplies x, so the expression becomes 3x + 5."
+  - "Add 3 to each term inside the parentheses to get x + 8."
+  - "Combine 3 and 5 first to get 8x."
+correctAnswer: "There are 3 groups of x and 3 groups of 5, so the total is 3x + 15."
 explanation: "Distribution multiplies each part of the group by the outside factor."
 hint: "Think of 3 copies of the whole group x + 5."
 questionGoal: "Explain distribution conceptually."
@@ -3670,13 +3701,14 @@ misconception: "Combining visible numbers instead of finding the missing value."
 
 ```question
 key: u07_l01_q06_explain_balance
-type: constructed-response
-prompt: "Explain why 5 + 7 = 8 + 4 is true."
-minWords: 8
-sampleAnswer: "Both sides have the same value because 5 + 7 = 12 and 8 + 4 = 12."
-checklist:
-  - "Evaluate both sides"
-  - "Say the values are equal"
+type: multiple-choice
+prompt: "Which explanation best shows why 5 + 7 = 8 + 4 is true?"
+choices:
+  - "Both sides have the same value because 5 + 7 = 12 and 8 + 4 = 12."
+  - "The equation is true because 8 + 4 is on the right side."
+  - "The equation is true because both sides use addition."
+  - "The equation is false because the numbers on each side look different."
+correctAnswer: "Both sides have the same value because 5 + 7 = 12 and 8 + 4 = 12."
 explanation: "An equation is true when both sides have the same value."
 hint: "Find the value of each side."
 questionGoal: "Explain equality by comparing both sides."
@@ -3766,13 +3798,14 @@ misconception: "Using one inverse operation for all equation types."
 
 ```question
 key: u07_l02_q06_explain_solving
-type: constructed-response
-prompt: "Explain how to solve z - 12 = 30."
-minWords: 8
-sampleAnswer: "Add 12 to both sides to undo subtracting 12, so z = 42."
-checklist:
-  - "Mention adding 12 to both sides"
-  - "Give z = 42"
+type: multiple-choice
+prompt: "Which explanation correctly solves z - 12 = 30?"
+choices:
+  - "Add 12 to both sides to undo subtracting 12, so z = 42."
+  - "Subtract 12 from both sides because the equation already subtracts 12, so z = 18."
+  - "Add 12 only to the left side so the z is alone."
+  - "Divide both sides by 12 because 12 is next to z."
+correctAnswer: "Add 12 to both sides to undo subtracting 12, so z = 42."
 explanation: "Solving preserves equality by doing the same inverse operation to both sides."
 hint: "What operation undoes subtracting 12?"
 questionGoal: "Explain solving a one-step equation."
@@ -3867,13 +3900,14 @@ misconception: "Reading 5p as 5 + p."
 
 ```question
 key: u07_l03_q06_explain_context_check
-type: constructed-response
-prompt: "Explain why checking a solution in the original story can matter."
-minWords: 8
-sampleAnswer: "A value might make the equation true but still not make sense for the real quantity, like negative tickets."
-checklist:
-  - "Mention equation truth"
-  - "Mention context reasonableness"
+type: multiple-choice
+prompt: "Which explanation best shows why checking a solution in the original story can matter?"
+choices:
+  - "A value might make the equation true but still not make sense for the real quantity, like negative tickets."
+  - "The story does not matter once an equation has a solution."
+  - "Any negative solution is correct in every context."
+  - "Checking the story replaces the need to check the equation."
+correctAnswer: "A value might make the equation true but still not make sense for the real quantity, like negative tickets."
 explanation: "A complete check asks whether the value works mathematically and in context."
 hint: "Think about variables that count people, tickets, or objects."
 questionGoal: "Explain the purpose of context checks."
@@ -3973,13 +4007,14 @@ misconception: "Using > when the boundary is included."
 
 ```question
 key: u07_l04_q06_explain_many_solutions
-type: constructed-response
-prompt: "Explain why x < 10 has more than one solution."
-minWords: 8
-sampleAnswer: "Any number less than 10 works, such as 9, 0, or -4."
-checklist:
-  - "Mention many values less than 10"
-  - "Give at least two examples"
+type: multiple-choice
+prompt: "Which explanation best shows why x < 10 has more than one solution?"
+choices:
+  - "Any number less than 10 works, such as 9, 0, or -4."
+  - "Only 9 works because it is the closest whole number less than 10."
+  - "Only 10 works because it is the boundary value."
+  - "No negative numbers can be solutions to an inequality."
+correctAnswer: "Any number less than 10 works, such as 9, 0, or -4."
 explanation: "An inequality can describe a whole set of possible values."
 hint: "Try listing values that make the statement true."
 questionGoal: "Explain solution sets for inequalities."
@@ -4073,13 +4108,14 @@ misconception: "Using >= because the shading goes right."
 
 ```question
 key: u07_l05_q06_explain_graph
-type: constructed-response
-prompt: "Explain how to graph x < 2."
-minWords: 8
-sampleAnswer: "Put an open circle at 2 because 2 is not included, then shade left for numbers less than 2."
-checklist:
-  - "Open circle at 2"
-  - "Shade left"
+type: multiple-choice
+prompt: "Which explanation correctly graphs x < 2?"
+choices:
+  - "Put an open circle at 2 because 2 is not included, then shade left for numbers less than 2."
+  - "Put a closed circle at 2 because 2 is the boundary, then shade left."
+  - "Put an open circle at 2, then shade right for numbers greater than 2."
+  - "Put a point at 0 because all inequalities start at zero."
+correctAnswer: "Put an open circle at 2 because 2 is not included, then shade left for numbers less than 2."
 explanation: "The graph shows all values that make the inequality true."
 hint: "Ask whether 2 itself works and where smaller numbers are."
 questionGoal: "Explain number-line graphing for a strict inequality."
@@ -4182,13 +4218,14 @@ misconception: "Using addition instead of repeated equal amounts."
 
 ```question
 key: u07_l06_q06_explain_variables
-type: constructed-response
-prompt: "In d = 12h, where d is distance and h is hours, explain which variable is independent and why."
-minWords: 10
-sampleAnswer: "Hours h is independent because the distance depends on how many hours have passed."
-checklist:
-  - "Identify h as independent"
-  - "Explain d depends on h"
+type: multiple-choice
+prompt: "In d = 12h, where d is distance and h is hours, which explanation correctly identifies the independent variable?"
+choices:
+  - "Hours h is independent because the distance depends on how many hours have passed."
+  - "Distance d is independent because it appears first in the equation."
+  - "The number 12 is independent because it is not a variable."
+  - "Hours h depends on distance because h is written after d."
+correctAnswer: "Hours h is independent because the distance depends on how many hours have passed."
 explanation: "The input hours determines the output distance."
 hint: "Ask which quantity you choose first."
 questionGoal: "Explain dependent and independent variables in a rate relationship."
@@ -4254,9 +4291,9 @@ type: match-pairs
 prompt: "Match each shape to a Grade 6 area formula."
 pairs:
   - left: "rectangle"
-    right: "base x height"
+    right: "length x width"
   - left: "parallelogram"
-    right: "b x h"
+    right: "base x perpendicular height"
   - left: "triangle"
     right: "1/2 x b x h"
   - left: "square with side s"
@@ -4285,14 +4322,14 @@ misconception: "Multiplying base and height without halving for triangles."
 
 ```question
 key: u08_l01_q06_explain_triangle_area
-type: constructed-response
-prompt: "Explain how to find the area of a triangle with base 12 and height 3."
-minWords: 8
-sampleAnswer: "Multiply 12 by 3 to get 36, then take half, so the area is 18 square units."
-checklist:
-  - "Multiply base by height"
-  - "Take half"
-  - "Use square units"
+type: multiple-choice
+prompt: "Which explanation correctly finds the area of a triangle with base 12 and height 3?"
+choices:
+  - "Multiply 12 by 3 to get 36, then take half, so the area is 18 square units."
+  - "Add 12 and 3 to get 15 square units."
+  - "Multiply 12 by 3 and keep 36 because triangles use base times height."
+  - "Take half of 12 and add the height to get 9 square units."
+correctAnswer: "Multiply 12 by 3 to get 36, then take half, so the area is 18 square units."
 explanation: "Triangle area is half the area of a related parallelogram."
 hint: "Use 1/2 x base x height."
 questionGoal: "Explain a triangle-area calculation."
@@ -4389,13 +4426,14 @@ misconception: "Using rectangle area for triangular parts."
 
 ```question
 key: u08_l02_q06_explain_decomposition
-type: constructed-response
-prompt: "Explain why decomposing a polygon can make its area easier to find."
-minWords: 8
-sampleAnswer: "A complicated polygon can be split into shapes like rectangles and triangles with known area formulas."
-checklist:
-  - "Mention splitting into familiar shapes"
-  - "Mention adding areas"
+type: multiple-choice
+prompt: "Which explanation best shows why decomposing a polygon can make its area easier to find?"
+choices:
+  - "A complicated polygon can be split into shapes like rectangles and triangles with known area formulas."
+  - "A polygon's area is always found by adding all side lengths."
+  - "Decomposing means overlapping shapes and adding every area, even the overlap."
+  - "Decomposing avoids using area formulas."
+correctAnswer: "A complicated polygon can be split into shapes like rectangles and triangles with known area formulas."
 explanation: "Decomposition turns an unfamiliar area problem into familiar part areas."
 hint: "Think about shapes whose formulas you already know."
 questionGoal: "Explain the purpose of decomposition for area."
@@ -4493,13 +4531,14 @@ misconception: "Using area or perimeter units for a volume context."
 
 ```question
 key: u08_l03_q06_explain_cubic_units
-type: constructed-response
-prompt: "Explain why volume is labeled with cubic units."
-minWords: 8
-sampleAnswer: "Volume measures how much space fills a solid, using length, width, and height units together."
-checklist:
-  - "Mention filling space"
-  - "Mention three dimensions"
+type: multiple-choice
+prompt: "Which explanation best shows why volume is labeled with cubic units?"
+choices:
+  - "Volume measures how much space fills a solid, using length, width, and height units together."
+  - "Volume measures only the distance around a shape, so it uses cubic units."
+  - "Volume covers a flat surface, so cubic units and square units mean the same thing."
+  - "The unit label depends only on the largest edge length."
+correctAnswer: "Volume measures how much space fills a solid, using length, width, and height units together."
 explanation: "Cubic units count three-dimensional unit cubes."
 hint: "Think of unit cubes filling a box."
 questionGoal: "Explain cubic units as a volume label."
@@ -4566,17 +4605,17 @@ misconception: "Using all three dimensions for each face."
 ```question
 key: u08_l04_q04_match_faces
 type: match-pairs
-prompt: "For a 3 by 4 by 5 prism, match each face pair to the area of one face."
+prompt: "For a 3 by 4 by 5 prism, match each face description to its area fact."
 pairs:
-  - left: "3 by 4 faces"
+  - left: "one 3 by 4 face"
     right: "12 square units"
-  - left: "3 by 5 faces"
+  - left: "one 3 by 5 face"
     right: "15 square units"
-  - left: "4 by 5 faces"
+  - left: "one 4 by 5 face"
     right: "20 square units"
-  - left: "one full set of opposite faces"
-    right: "two equal rectangles"
-explanation: "Each pair of opposite faces has matching dimensions."
+  - left: "a pair of matching 3 by 4 faces"
+    right: "24 square units total"
+explanation: "A face area uses two dimensions, and matching opposite faces have the same area."
 hint: "A face area uses two dimensions."
 questionGoal: "Identify face dimensions and areas in a rectangular-prism net."
 misconception: "Counting only visible or front faces."
@@ -4600,13 +4639,14 @@ misconception: "Using volume when asked for wrapping or surface area."
 
 ```question
 key: u08_l04_q06_explain_net
-type: constructed-response
-prompt: "Explain how a net helps find surface area."
-minWords: 8
-sampleAnswer: "A net shows every face flat, so you can find each face area and add them."
-checklist:
-  - "Mention every face"
-  - "Mention adding face areas"
+type: multiple-choice
+prompt: "Which explanation best shows how a net helps find surface area?"
+choices:
+  - "A net shows every face flat, so you can find each face area and add them."
+  - "A net shows only the front face, so one face area is enough."
+  - "A net helps find volume by multiplying all edges shown."
+  - "A net changes the solid into a line, so add all edge lengths."
+correctAnswer: "A net shows every face flat, so you can find each face area and add them."
 explanation: "A net organizes all outside surfaces of a solid."
 hint: "Imagine unfolding a box."
 questionGoal: "Explain why nets support surface-area reasoning."
@@ -4694,14 +4734,14 @@ misconception: "Adding coordinate values instead of finding distance."
 
 ```question
 key: u08_l05_q06_explain_coordinate_area
-type: constructed-response
-prompt: "Explain how to find the area of an axis-aligned rectangle from its coordinates."
-minWords: 10
-sampleAnswer: "Find the horizontal distance for width and vertical distance for height, then multiply width by height."
-checklist:
-  - "Find width from x-values"
-  - "Find height from y-values"
-  - "Multiply for area"
+type: multiple-choice
+prompt: "Which explanation correctly finds the area of an axis-aligned rectangle from its coordinates?"
+choices:
+  - "Find the horizontal distance for width and vertical distance for height, then multiply width by height."
+  - "Multiply all coordinate numbers together to get the area."
+  - "Add the x- and y-values of one vertex to get the area."
+  - "Count the four vertices and use 4 as the area."
+correctAnswer: "Find the horizontal distance for width and vertical distance for height, then multiply width by height."
 explanation: "Coordinates provide side lengths when the sides are parallel to the axes."
 hint: "Use coordinate differences, not coordinate products."
 questionGoal: "Explain coordinate-plane area strategy."
@@ -4799,14 +4839,14 @@ misconception: "Choosing area whenever a rectangle appears."
 
 ```question
 key: u08_l06_q06_explain_measure_choice
-type: constructed-response
-prompt: "Explain the difference between area and volume."
-minWords: 10
-sampleAnswer: "Area measures how much surface is covered in square units; volume measures how much space is filled in cubic units."
-checklist:
-  - "Area covers surface"
-  - "Volume fills space"
-  - "Use square and cubic units"
+type: multiple-choice
+prompt: "Which explanation best describes the difference between area and volume?"
+choices:
+  - "Area measures how much surface is covered in square units; volume measures how much space is filled in cubic units."
+  - "Area and volume both measure the same thing, but volume uses larger numbers."
+  - "Area fills a solid with cubic units; volume covers a flat surface with square units."
+  - "Area uses linear units and volume uses square units."
+correctAnswer: "Area measures how much surface is covered in square units; volume measures how much space is filled in cubic units."
 explanation: "The measure and unit dimension must match the attribute being measured."
 hint: "Think cover versus fill."
 questionGoal: "Explain dimensional reasoning for common measures."
@@ -4857,13 +4897,13 @@ type: match-pairs
 prompt: "Match each question to its type."
 pairs:
   - left: "How tall are the plants in this garden?"
-    right: "statistical"
+    right: "statistical: many plant heights"
   - left: "How tall is this one plant?"
-    right: "not statistical"
+    right: "fixed answer: one plant"
   - left: "How many books did each student read?"
-    right: "statistical question"
+    right: "statistical: many student counts"
   - left: "How many pages are in this book?"
-    right: "fixed-answer question"
+    right: "fixed answer: one book"
 explanation: "Questions about a group usually expect variability; questions about one fixed object often do not."
 hint: "Ask whether you would collect several data values."
 questionGoal: "Classify statistical and nonstatistical questions."
@@ -4907,13 +4947,14 @@ misconception: "Missing the variability that makes a question statistical."
 
 ```question
 key: u09_l01_q06_explain_statistical
-type: constructed-response
-prompt: "Explain why 'How much water do sixth graders drink in a day?' is statistical."
-minWords: 8
-sampleAnswer: "It asks about many sixth graders, and their amounts of water will vary."
-checklist:
-  - "Mention many sixth graders"
-  - "Mention varying amounts"
+type: multiple-choice
+prompt: "Which explanation best shows why 'How much water do sixth graders drink in a day?' is statistical?"
+choices:
+  - "It asks about many sixth graders, and their amounts of water will vary."
+  - "It is statistical because it asks for one exact answer about one student."
+  - "It is not statistical because water amounts can never vary."
+  - "It is statistical because every question with a number is statistical."
+correctAnswer: "It asks about many sixth graders, and their amounts of water will vary."
 explanation: "A statistical question anticipates variability in collected data."
 hint: "Use the word vary or different."
 questionGoal: "Explain statistical-question status using variability."
@@ -5008,13 +5049,14 @@ misconception: "Reporting the value instead of its frequency."
 
 ```question
 key: u09_l02_q06_explain_shape
-type: constructed-response
-prompt: "The data are 2, 2, 3, 3, 3, 4, 9. Describe one cluster or outlier."
-minWords: 8
-sampleAnswer: "The values 2, 3, and 4 form a cluster, and 9 is far from the rest."
-checklist:
-  - "Mention the cluster near 2 to 4"
-  - "Mention 9 as far from the rest"
+type: multiple-choice
+prompt: "The data are 2, 2, 3, 3, 3, 4, 9. Which description correctly identifies a cluster or outlier?"
+choices:
+  - "The values 2, 3, and 4 form a cluster, and 9 is far from the rest."
+  - "The value 9 is part of the main cluster because it is the largest value."
+  - "There is no variability because several values repeat."
+  - "The value 3 is an outlier because it appears most often."
+correctAnswer: "The values 2, 3, and 4 form a cluster, and 9 is far from the rest."
 explanation: "A distribution can have both a cluster and a possible outlier."
 hint: "Look for values close together and values far away."
 questionGoal: "Describe distribution shape using vocabulary."
@@ -5115,14 +5157,14 @@ misconception: "Confusing mean and median procedures."
 
 ```question
 key: u09_l03_q06_explain_center_choice
-type: constructed-response
-prompt: "For the data 10, 11, 12, 13, 60, explain why the median may be a better typical value than the mean."
-minWords: 10
-sampleAnswer: "The value 60 is far from the rest and pulls the mean up, while the median 12 is near most values."
-checklist:
-  - "Mention 60 as an outlier"
-  - "Explain that it pulls the mean"
-  - "Mention median near the cluster"
+type: multiple-choice
+prompt: "For the data 10, 11, 12, 13, 60, which explanation best shows why the median may be a better typical value than the mean?"
+choices:
+  - "The value 60 is far from the rest and pulls the mean up, while the median 12 is near most values."
+  - "The mean is better because it always uses all the data values."
+  - "The median is better because 60 pulls the median upward more than the mean."
+  - "The value 60 should be ignored because outliers are never real data."
+correctAnswer: "The value 60 is far from the rest and pulls the mean up, while the median 12 is near most values."
 explanation: "Outliers can make the mean less representative of a typical value."
 hint: "Look at where most values are clustered."
 questionGoal: "Explain center choice in presence of an outlier."
@@ -5215,13 +5257,14 @@ misconception: "Assuming same center means same spread."
 
 ```question
 key: u09_l04_q06_explain_spread
-type: constructed-response
-prompt: "Explain why two datasets can have the same mean but different spread."
-minWords: 10
-sampleAnswer: "The values can balance to the same mean while one set is tightly grouped and the other is far apart."
-checklist:
-  - "Mention same center"
-  - "Mention values close together or far apart"
+type: multiple-choice
+prompt: "Which explanation best shows why two datasets can have the same mean but different spread?"
+choices:
+  - "The values can balance to the same mean while one set is tightly grouped and the other is far apart."
+  - "If two datasets have the same mean, their values must be spread out the same way."
+  - "Spread and mean both describe only the largest value."
+  - "Different spread means the means must be different."
+correctAnswer: "The values can balance to the same mean while one set is tightly grouped and the other is far apart."
 explanation: "Center and spread describe different features of a distribution."
 hint: "Think about 4, 5, 6 and 0, 5, 10."
 questionGoal: "Explain the distinction between center and variability."
@@ -5273,7 +5316,7 @@ choices:
   - "Option A"
   - "Option B"
   - "They are equal"
-  - "Cannot compare"
+  - "Cannot compare because the packages have different numbers of bars"
 correctAnswer: "Option A"
 explanation: "Option A costs $1.20 per bar. Option B costs $1.30 per bar."
 hint: "Divide cost by number of bars for each option."
@@ -5320,14 +5363,14 @@ misconception: "Using the percent number as the dollar amount."
 
 ```question
 key: u09_l05_q06_explain_budget_choice
-type: constructed-response
-prompt: "A student has $18. A book costs $11.50 and a notebook costs $6.25. Explain whether the student can buy both."
-minWords: 10
-sampleAnswer: "Yes. The total cost is $17.75, which is less than the $18 budget."
-checklist:
-  - "Add both costs"
-  - "Compare with $18"
-  - "State yes or no"
+type: multiple-choice
+prompt: "A student has $18. A book costs $11.50 and a notebook costs $6.25. Which explanation correctly decides whether the student can buy both?"
+choices:
+  - "Yes. The total cost is $17.75, which is less than the $18 budget."
+  - "No. The total cost is $18.25, which is more than the budget."
+  - "Yes. Each item costs less than $18, so the total does not matter."
+  - "No. The book alone uses more than half the budget."
+correctAnswer: "Yes. The total cost is $17.75, which is less than the $18 budget."
 explanation: "A budget decision compares total expenses with available money."
 hint: "Find the total cost first."
 questionGoal: "Justify a budget decision with decimal addition and comparison."
@@ -5423,14 +5466,14 @@ misconception: "Using total price or multiplication as unit price."
 
 ```question
 key: u09_l06_q06_explain_model_choice
-type: constructed-response
-prompt: "A question asks whether weekly savings will reach at least $75. Explain why an inequality could be useful."
-minWords: 10
-sampleAnswer: "An inequality can represent all savings amounts that meet or exceed the goal, such as s >= 75."
-checklist:
-  - "Mention at least"
-  - "Use or describe s >= 75"
-  - "Connect to the savings goal"
+type: multiple-choice
+prompt: "A question asks whether weekly savings will reach at least $75. Which explanation best shows why an inequality could be useful?"
+choices:
+  - "An inequality can represent all savings amounts that meet or exceed the goal, such as s >= 75."
+  - "An equation is better because exactly one savings amount can meet the goal."
+  - "An inequality should be s < 75 because at least means below the goal."
+  - "An inequality is useful only when no numbers are known."
+correctAnswer: "An inequality can represent all savings amounts that meet or exceed the goal, such as s >= 75."
 explanation: "Inequalities represent limits, minimums, maximums, and solution sets."
 hint: "At least means the goal amount is included."
 questionGoal: "Explain model choice for a financial constraint."
@@ -5522,14 +5565,14 @@ misconception: "Using additive reasoning for equivalent ratios."
 
 ```question
 key: u09_l07_q06_capstone_explain
-type: constructed-response
-prompt: "A data set is 12, 13, 14, 15, 80. Explain whether mean or median better represents a typical value."
-minWords: 10
-sampleAnswer: "The median is better because 80 is an outlier that pulls the mean above most values."
-checklist:
-  - "Choose median"
-  - "Mention 80 as an outlier"
-  - "Explain effect on mean"
+type: multiple-choice
+prompt: "A data set is 12, 13, 14, 15, 80. Which explanation best decides whether mean or median better represents a typical value?"
+choices:
+  - "The median is better because 80 is an outlier that pulls the mean above most values."
+  - "The mean is better because it is always the typical value."
+  - "The median is 80 because 80 is the largest value."
+  - "There is no outlier because all values belong to the data set."
+correctAnswer: "The median is better because 80 is an outlier that pulls the mean above most values."
 explanation: "A typical-value choice should account for outliers and distribution shape."
 hint: "Look at where most values are clustered."
 questionGoal: "Use data reasoning in a cumulative explanation item."

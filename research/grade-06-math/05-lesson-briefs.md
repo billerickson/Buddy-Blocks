@@ -12,7 +12,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Place value, rounding, multiplication/division meanings, and comparison language.
 - **Likely misconceptions:** Estimation is guessing; exact answers are always needed; estimates should be made only after calculating.
 - **Evidence of mastery:** Given a computation or short context, the student chooses a reasonable estimate and explains why an unreasonable answer is too large or too small.
-- **Recommended question types:** `multiple-choice` for reasonable estimate selection; `order-items` for estimation steps; `constructed-response` for a short reasonableness explanation.
+- **Recommended question types:** `multiple-choice` for reasonable estimate selection and best reasonableness explanation; `order-items` for estimation steps.
 - **Suggested intro/teaching note:** Compare an exact computation with a quick estimate and ask how the estimate can catch an impossible answer.
 - **Reading-level and cognitive-load constraints:** Keep contexts one sentence; use friendly numbers first and avoid exact multi-step arithmetic as the target.
 
@@ -36,7 +36,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Numerator, denominator, equivalent fractions, number lines, and common benchmark fractions.
 - **Likely misconceptions:** Larger denominator means larger fraction; compare only numerators; ignore whether a fraction is near 0, 1/2, or 1.
 - **Evidence of mastery:** The student correctly places or compares fractions using benchmark reasoning and explains the comparison.
-- **Recommended question types:** `multiple-choice` for benchmark choice; `order-items` for least-to-greatest; `constructed-response` for explanation of a comparison.
+- **Recommended question types:** `multiple-choice` for benchmark choice and best comparison explanation; `order-items` for least-to-greatest.
 - **Suggested intro/teaching note:** Sort fractions into "less than half," "equal to half," and "more than half" before computing common denominators.
 - **Reading-level and cognitive-load constraints:** Keep denominators familiar; use number-line language rather than long stories.
 
@@ -48,7 +48,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Equal groups, sharing division, grouping division, multiplication as comparison, and units.
 - **Likely misconceptions:** Division is one generic procedure; the quotient label does not matter; division always makes smaller.
 - **Evidence of mastery:** Given a division context, the student identifies what the quotient represents and selects or writes a correct label.
-- **Recommended question types:** `multiple-choice` for quotient meaning; `match-pairs` for contexts to labels; `constructed-response` for brief interpretation.
+- **Recommended question types:** `multiple-choice` for quotient meaning and best interpretation; `match-pairs` for contexts to labels.
 - **Suggested intro/teaching note:** Compare 24 cookies shared by 6 people with 24 cookies packed 6 per bag; both divide, but the quotient answers different questions.
 - **Reading-level and cognitive-load constraints:** Use short contexts with visible units; avoid fraction division until Unit 4.
 
@@ -60,7 +60,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Unit 1 estimation, decimal operations, fraction benchmarks, division meanings, and reasonableness language.
 - **Likely misconceptions:** Every math question expects a single exact number; explanations can ignore computation; estimates are acceptable when exactness is requested.
 - **Evidence of mastery:** The student classifies a task, solves or explains appropriately, and notes why that response type fits.
-- **Recommended question types:** `multiple-choice` for response-type classification; `passage-question` for compact contexts; `constructed-response` for explanation.
+- **Recommended question types:** `multiple-choice` for response-type classification and best explanation; `passage-question` for compact contexts.
 - **Suggested intro/teaching note:** Present three prompts that use similar numbers but ask "about how many," "exactly how many," and "how do you know?"
 - **Reading-level and cognitive-load constraints:** Use familiar contexts; keep explanations to one or two sentences.
 
@@ -86,7 +86,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Ratio language, total as sum of parts, and basic fraction language.
 - **Likely misconceptions:** Part-to-part and part-to-whole ratios are interchangeable; the total can be ignored; ratio order is flexible.
 - **Evidence of mastery:** The student identifies the comparison type and writes a correct ratio for a given question.
-- **Recommended question types:** `multiple-choice` for comparison type; `match-pairs` for ratio to description; `constructed-response` for a short explanation.
+- **Recommended question types:** `multiple-choice` for comparison type and best explanation; `match-pairs` for ratio to description.
 - **Suggested intro/teaching note:** With 4 dogs and 6 cats, contrast dogs to cats, cats to dogs, and dogs to total animals.
 - **Reading-level and cognitive-load constraints:** Keep all quantities visible; do not combine with percent yet.
 
@@ -110,7 +110,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Ratio meaning, multiplication/division facts, tables, and factors.
 - **Likely misconceptions:** Add the same number to both quantities; scale only one quantity; match rows by total rather than relationship.
 - **Evidence of mastery:** The student completes missing table entries and explains the scale factor.
-- **Recommended question types:** `multi-blank-cloze` for table entries; `multiple-choice` for valid equivalent ratio; `constructed-response` for scaling explanation.
+- **Recommended question types:** `multi-blank-cloze` for table entries; `multiple-choice` for valid equivalent ratio and scaling explanation.
 - **Suggested intro/teaching note:** Show a table row of 2 cups to 5 cups and ask what happens if the recipe doubles and triples.
 - **Reading-level and cognitive-load constraints:** Use small integer scale factors before fractional or decimal scale factors.
 
@@ -134,7 +134,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Equivalent ratios, ratio tables, scale factors, and multiplication/division.
 - **Likely misconceptions:** If both quantities increase by the same amount, the ratio stays the same; close numbers mean close ratios.
 - **Evidence of mastery:** The student identifies an additive error and corrects the ratio using scaling.
-- **Recommended question types:** `error-correction` for worked-example repair; `multiple-choice` for misconception checks; `constructed-response` for explanation.
+- **Recommended question types:** `error-correction` for worked-example repair; `multiple-choice` for misconception checks and best explanation.
 - **Suggested intro/teaching note:** Compare 2:3 to 4:5 and 4:6 with a tape diagram or table.
 - **Reading-level and cognitive-load constraints:** Use one error at a time; keep explanations focused on multiplying both quantities.
 
@@ -148,7 +148,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Ratio language, quotient meaning, and unit labels.
 - **Likely misconceptions:** Per language is decorative; unit order does not matter; a rate is the same as a total.
 - **Evidence of mastery:** The student identifies both units and describes the meaning of a rate in words.
-- **Recommended question types:** `multiple-choice` for rate meaning; `match-pairs` for rate to interpretation; `constructed-response` for unit explanation.
+- **Recommended question types:** `multiple-choice` for rate meaning and unit explanation; `match-pairs` for rate to interpretation.
 - **Suggested intro/teaching note:** Contrast "30 miles in 2 hours" with "15 miles per hour."
 - **Reading-level and cognitive-load constraints:** Use familiar contexts and avoid compound unit conversions.
 
@@ -172,7 +172,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Unit rate, decimal division, money notation, and comparison.
 - **Likely misconceptions:** Lowest total price is always best; largest package is always best; units can be ignored.
 - **Evidence of mastery:** The student compares two options using cost per unit and explains the choice.
-- **Recommended question types:** `passage-question` for compact price contexts; `text-input` for unit price; `constructed-response` for decision explanation.
+- **Recommended question types:** `passage-question` for compact price contexts; `text-input` for unit price; `multiple-choice` for decision explanation.
 - **Suggested intro/teaching note:** Compare two snack bags with different sizes and prices, then normalize both to one ounce.
 - **Reading-level and cognitive-load constraints:** Use no more than two options per item; avoid taxes or discounts here.
 
@@ -208,7 +208,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Unit rates, unit prices, percent per 100, benchmark percents, and estimation.
 - **Likely misconceptions:** Use the newest procedure for every situation; ignore units; choose an answer that is numerically correct but contextually wrong.
 - **Evidence of mastery:** The student selects a model, solves, and explains why the answer fits the decision.
-- **Recommended question types:** `passage-question` for applied scenarios; `multiple-choice` for model choice; `constructed-response` for decision explanation.
+- **Recommended question types:** `passage-question` for applied scenarios; `multiple-choice` for model choice and decision explanation.
 - **Suggested intro/teaching note:** Offer a "model menu" with unit rate, percent bar, ratio table, and estimate, then choose before solving.
 - **Reading-level and cognitive-load constraints:** Keep scenarios compact with no hidden assumptions; avoid multi-discount adult financial contexts.
 
@@ -222,7 +222,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Fraction magnitude, division meanings, unit labels, and simple fraction multiplication.
 - **Likely misconceptions:** Fraction division is only a symbol manipulation; the quotient has no unit; division always makes smaller.
 - **Evidence of mastery:** The student classifies a story and states what the quotient will represent.
-- **Recommended question types:** `multiple-choice` for story interpretation; `match-pairs` for context to quotient meaning; `constructed-response` for label explanation.
+- **Recommended question types:** `multiple-choice` for story interpretation and label explanation; `match-pairs` for context to quotient meaning.
 - **Suggested intro/teaching note:** Compare "3/4 cup shared into 3 servings" with "3/4 cup packed in 1/4-cup scoops."
 - **Reading-level and cognitive-load constraints:** Use familiar measurement contexts; do not ask for complex computation first.
 
@@ -246,7 +246,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Equal sharing, fraction partitioning, multiplication by unit fractions, and quotient labels.
 - **Likely misconceptions:** Dividing the denominator only; giving each group the divisor; losing the whole that is being shared.
 - **Evidence of mastery:** The student finds each share and labels it in context.
-- **Recommended question types:** `multiple-choice` for correct model; `fill-blank` for share amount; `constructed-response` for interpretation.
+- **Recommended question types:** `multiple-choice` for correct model and interpretation; `fill-blank` for share amount.
 - **Suggested intro/teaching note:** Partition a 3/4 strip into 3 equal shares and name one share.
 - **Reading-level and cognitive-load constraints:** Use visual language; keep denominators small and contexts concrete.
 
@@ -258,7 +258,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Fraction multiplication, measurement and sharing division, equivalent fractions, and area/tape models.
 - **Likely misconceptions:** Flip the wrong fraction; apply the procedure without checking meaning; think the procedure is unrelated to the model.
 - **Evidence of mastery:** The student selects the correct reciprocal setup and connects it to the quotient meaning.
-- **Recommended question types:** `multiple-choice` for setup; `error-correction` for wrong reciprocal use; `constructed-response` for model-to-equation reasoning.
+- **Recommended question types:** `multiple-choice` for setup and model-to-equation reasoning; `error-correction` for wrong reciprocal use.
 - **Suggested intro/teaching note:** Show `2/3 divided by 1/6` as "how many sixths fit in two thirds" before writing `2/3 x 6`.
 - **Reading-level and cognitive-load constraints:** Avoid compound fractions and mixed numbers; use one model per item.
 
@@ -282,7 +282,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Multi-digit operations, decimal place value, estimation, inverse relationships, and units.
 - **Likely misconceptions:** Repeating a procedure is always a check; close-looking answers are acceptable; units do not affect reasonableness.
 - **Evidence of mastery:** The student identifies an error in a worked computation or chooses a valid check equation.
-- **Recommended question types:** `error-correction` for computation or unit errors; `multiple-choice` for valid checks; `constructed-response` for reasonableness.
+- **Recommended question types:** `error-correction` for computation or unit errors; `multiple-choice` for valid checks and reasonableness.
 - **Suggested intro/teaching note:** Show one wrong decimal quotient and ask which estimate would have caught it.
 - **Reading-level and cognitive-load constraints:** Focus each item on one checking idea; avoid long calculations when the target is error analysis.
 
@@ -296,7 +296,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Number lines, comparison, context labels, and integer exposure.
 - **Likely misconceptions:** Negative means bad in every context; the sign can be dropped; zero is always "nothing" rather than a reference.
 - **Evidence of mastery:** The student writes or selects signed numbers for contextual statements and explains the reference point.
-- **Recommended question types:** `match-pairs` for context to signed number; `multiple-choice` for sign interpretation; `constructed-response` for reference explanation.
+- **Recommended question types:** `match-pairs` for context to signed number; `multiple-choice` for sign interpretation and reference explanation.
 - **Suggested intro/teaching note:** Compare 5 degrees above zero and 5 degrees below zero on a vertical number line.
 - **Reading-level and cognitive-load constraints:** Use concrete contexts; avoid operations with signed numbers.
 
@@ -320,7 +320,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Opposites, number-line distance, and positive/negative contexts.
 - **Likely misconceptions:** Absolute value means change the sign; `| -8 |` and `-8` mean the same thing; distance includes direction.
 - **Evidence of mastery:** The student finds absolute values and explains when distance alone answers the question.
-- **Recommended question types:** `multiple-choice` for meaning; `text-input` for numeric absolute values; `constructed-response` for context explanation.
+- **Recommended question types:** `multiple-choice` for meaning and context explanation; `text-input` for numeric absolute values.
 - **Suggested intro/teaching note:** Ask how far -6 and +6 are from zero, then compare that distance with their positions.
 - **Reading-level and cognitive-load constraints:** Use simple absolute value notation; avoid nested symbols.
 
@@ -332,7 +332,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Fraction/decimal magnitude, negative numbers, number lines, and comparison symbols.
 - **Likely misconceptions:** The negative number with the larger absolute value is greater; fractions and decimals cannot be compared together; ignore zero as a boundary.
 - **Evidence of mastery:** The student orders mixed rational numbers and explains at least one comparison.
-- **Recommended question types:** `order-items` for least-to-greatest; `multiple-choice` for comparison; `constructed-response` for reasoning.
+- **Recommended question types:** `order-items` for least-to-greatest; `multiple-choice` for comparison and reasoning.
 - **Suggested intro/teaching note:** Place -2, -1/2, 0, 0.75, and 1 on a line before using symbols.
 - **Reading-level and cognitive-load constraints:** Keep lists short; use familiar benchmark fractions and terminating decimals.
 
@@ -370,7 +370,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Multiplication as groups, unknowns in equations, and unit labels.
 - **Likely misconceptions:** A variable names an object; `5m` means five meters in all contexts; variables are always one fixed mystery number.
 - **Evidence of mastery:** The student explains what a variable represents and interprets a simple product with a variable.
-- **Recommended question types:** `multiple-choice` for variable meaning; `fill-blank` for expression language; `constructed-response` for context interpretation.
+- **Recommended question types:** `multiple-choice` for variable meaning and context interpretation; `fill-blank` for expression language.
 - **Suggested intro/teaching note:** Compare "5 meters" with `5m` where `m` is the number of minutes or muffins.
 - **Reading-level and cognitive-load constraints:** Avoid multiple variables at first; keep contexts concrete.
 
@@ -418,7 +418,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Variables, substitution, operation properties, and arithmetic equality.
 - **Likely misconceptions:** Same numbers mean same expression; checking one value proves equivalence in all cases; order can change for subtraction or division.
 - **Evidence of mastery:** The student identifies equivalent and non-equivalent expressions and justifies the choice.
-- **Recommended question types:** `multiple-choice` for equivalence; `match-pairs` for expression pairs; `constructed-response` for reasoning.
+- **Recommended question types:** `multiple-choice` for equivalence and reasoning; `match-pairs` for expression pairs.
 - **Suggested intro/teaching note:** Test expressions with a value, then connect to a property such as commutative or associative reasoning.
 - **Reading-level and cognitive-load constraints:** Keep expressions short; do not require formal proof.
 
@@ -430,7 +430,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Multiplication over addition, area models, variables, and equivalent expressions.
 - **Likely misconceptions:** Multiply only the first term; add the outside factor instead of multiplying; distribute over subtraction incorrectly.
 - **Evidence of mastery:** The student chooses or writes a correct distributed expression and identifies a common error.
-- **Recommended question types:** `multiple-choice` for correct expansion; `error-correction` for distribution errors; `constructed-response` for model explanation.
+- **Recommended question types:** `multiple-choice` for correct expansion and model explanation; `error-correction` for distribution errors.
 - **Suggested intro/teaching note:** Use an area model with width `x + 3` and height 4 to show two rectangles.
 - **Reading-level and cognitive-load constraints:** Use positive coefficients and simple binomials; avoid combining like terms as a separate goal.
 
@@ -444,7 +444,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Expression evaluation, variables, and arithmetic equality.
 - **Likely misconceptions:** The equals sign means "compute next"; the expression on the left is always the problem; balance is visual only.
 - **Evidence of mastery:** The student identifies true equations and explains how both sides compare.
-- **Recommended question types:** `multiple-choice` for true/false equality; `fill-blank` for balancing values; `constructed-response` for equality explanation.
+- **Recommended question types:** `multiple-choice` for true/false equality and equality explanation; `fill-blank` for balancing values.
 - **Suggested intro/teaching note:** Compare `8 + 5 = 13` with `13 = 8 + 5` and `8 + 5 = 6 + 7`.
 - **Reading-level and cognitive-load constraints:** Keep equations visually clean; use one variable or blank at a time.
 
@@ -468,7 +468,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Substitution, one-step solving, units, and context interpretation.
 - **Likely misconceptions:** A solved number is correct without checking; any number that makes arithmetic work fits the context; units are not part of checking.
 - **Evidence of mastery:** The student substitutes a proposed value, evaluates both sides, and accepts or rejects the solution with a reason.
-- **Recommended question types:** `multiple-choice` for valid solution; `error-correction` for wrong check; `constructed-response` for context fit.
+- **Recommended question types:** `multiple-choice` for valid solution and context fit; `error-correction` for wrong check.
 - **Suggested intro/teaching note:** Use a ticket-price equation and ask whether a fractional or negative solution would make sense.
 - **Reading-level and cognitive-load constraints:** Use compact contexts; keep substitution arithmetic simple.
 
@@ -480,7 +480,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Rational-number order, comparison symbols, variables, and context language.
 - **Likely misconceptions:** Inequalities have one exact answer; `>` and `<` can be read in either direction; "at least" and "at most" are the same.
 - **Evidence of mastery:** The student tests values and translates context phrases into inequalities.
-- **Recommended question types:** `multiple-choice` for solution values; `fill-blank` for inequality symbols; `constructed-response` for solution-set description.
+- **Recommended question types:** `multiple-choice` for solution values and solution-set description; `fill-blank` for inequality symbols.
 - **Suggested intro/teaching note:** Contrast "you need exactly 12 points" with "you need at least 12 points."
 - **Reading-level and cognitive-load constraints:** Use familiar constraints; avoid compound inequalities.
 
@@ -504,7 +504,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Variables, expressions, coordinate plotting, rate tables, and equations.
 - **Likely misconceptions:** Dependent and independent variables can be swapped without meaning change; graph points are just dots; table patterns do not connect to equations.
 - **Evidence of mastery:** The student matches a verbal rule to a table, graph description, and equation and identifies which variable depends on which.
-- **Recommended question types:** `match-pairs` for representation matching; `multi-blank-cloze` for table completion; `constructed-response` for variable explanation.
+- **Recommended question types:** `match-pairs` for representation matching; `multi-blank-cloze` for table completion; `multiple-choice` for variable explanation.
 - **Suggested intro/teaching note:** Use a simple rule such as `cost = 3 x number of notebooks` and show it in words, table, graph, and equation.
 - **Reading-level and cognitive-load constraints:** Use linear relationships with whole-number inputs; avoid slope terminology.
 
@@ -518,7 +518,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Rectangle area, multiplication, fractions as halves, and perpendicular height.
 - **Likely misconceptions:** Use any side as height; forget the one-half for triangles; confuse area with perimeter.
 - **Evidence of mastery:** The student identifies base and height, computes area, and chooses the correct unit.
-- **Recommended question types:** `multiple-choice` for base/height choice; `text-input` for area; `constructed-response` for formula reasoning.
+- **Recommended question types:** `multiple-choice` for base/height choice and formula reasoning; `text-input` for area.
 - **Suggested intro/teaching note:** Cut and move a triangle from a parallelogram to form a rectangle, then compare areas.
 - **Reading-level and cognitive-load constraints:** Use labeled diagrams in text; keep dimensions whole numbers first.
 
@@ -542,7 +542,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Grade 5 volume, fraction multiplication, rectangular prisms, and unit labels.
 - **Likely misconceptions:** Fractional dimensions cannot produce volume; use surface area instead of volume; omit cubic units.
 - **Evidence of mastery:** The student substitutes fractional or decimal dimensions into the volume formula and labels the result.
-- **Recommended question types:** `multiple-choice` for formula/unit choice; `text-input` for volume; `constructed-response` for unit interpretation.
+- **Recommended question types:** `multiple-choice` for formula/unit choice and unit interpretation; `text-input` for volume.
 - **Suggested intro/teaching note:** Use a prism with dimensions `1/2`, `4`, and `3` to show half-size layers.
 - **Reading-level and cognitive-load constraints:** Use simple fractions and rectangular prisms only.
 
@@ -566,7 +566,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Four-quadrant plotting, rational-number order, distance from zero, and area/perimeter.
 - **Likely misconceptions:** Add coordinate values instead of finding distance; treat distance as negative; reverse x and y.
 - **Evidence of mastery:** The student finds side lengths from coordinates and solves a polygon measurement task.
-- **Recommended question types:** `multiple-choice` for distance reasoning; `text-input` for side length or area; `constructed-response` for coordinate explanation.
+- **Recommended question types:** `multiple-choice` for distance reasoning and coordinate explanation; `text-input` for side length or area.
 - **Suggested intro/teaching note:** Compare points with the same y-coordinate and count horizontal units between x-values.
 - **Reading-level and cognitive-load constraints:** Use axis-aligned polygons; avoid diagonal distance formulas.
 
@@ -578,7 +578,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Area, perimeter, surface area, volume, coordinate distance, and unit labels.
 - **Likely misconceptions:** All geometry answers use square units; surface area and volume are interchangeable; formulas can be chosen by shape alone.
 - **Evidence of mastery:** The student selects the correct measure, solves or explains, and labels the answer correctly.
-- **Recommended question types:** `multiple-choice` for measure choice; `error-correction` for unit errors; `constructed-response` for reasoning.
+- **Recommended question types:** `multiple-choice` for measure choice and reasoning; `error-correction` for unit errors.
 - **Suggested intro/teaching note:** Sort prompts into "cover," "wrap," "fill," "edge," and "distance" categories.
 - **Reading-level and cognitive-load constraints:** Keep contexts clear and concrete; avoid multi-stage geometry calculations.
 
@@ -592,7 +592,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Data collection, question wording, and context interpretation.
 - **Likely misconceptions:** Any question with a number is statistical; one-person questions are always statistical; variability means error.
 - **Evidence of mastery:** The student classifies questions and explains where variability would come from.
-- **Recommended question types:** `multiple-choice` for classification; `error-correction` for revising a question; `constructed-response` for variability explanation.
+- **Recommended question types:** `multiple-choice` for classification and variability explanation; `error-correction` for revising a question.
 - **Suggested intro/teaching note:** Compare "How tall is Maya?" with "How tall are students in our class?"
 - **Reading-level and cognitive-load constraints:** Use short questions; avoid advanced sampling language.
 
@@ -604,7 +604,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Number lines, graph reading, frequency, and comparison language.
 - **Likely misconceptions:** Tallest bar is the mean; gaps do not matter; histograms and bar graphs are the same in meaning.
 - **Evidence of mastery:** The student reads a display and makes a correct statement about the distribution.
-- **Recommended question types:** `passage-question` for display descriptions; `multiple-choice` for interpretation; `constructed-response` for shape description.
+- **Recommended question types:** `passage-question` for display descriptions; `multiple-choice` for interpretation and shape description.
 - **Suggested intro/teaching note:** Use a small dot plot and ask what values are common, rare, or missing.
 - **Reading-level and cognitive-load constraints:** Use small datasets and text-described displays; avoid tedious counting.
 
@@ -616,7 +616,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Addition, division, ordering numbers, and distribution language.
 - **Likely misconceptions:** Mean is always the best typical value; median is found without ordering; outliers should always be removed.
 - **Evidence of mastery:** The student finds mean/median and explains how an outlier affects the choice of center.
-- **Recommended question types:** `order-items` for ordering data; `text-input` for mean/median; `constructed-response` for choice of center.
+- **Recommended question types:** `order-items` for ordering data; `text-input` for mean/median; `multiple-choice` for choice of center.
 - **Suggested intro/teaching note:** Compare two datasets with the same median but one very large outlier.
 - **Reading-level and cognitive-load constraints:** Use small whole-number datasets; keep arithmetic manageable.
 
@@ -628,7 +628,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Ordering data, median, subtraction, absolute distance, and mean.
 - **Likely misconceptions:** Center fully describes a dataset; larger center means larger spread; absolute deviations can be negative.
 - **Evidence of mastery:** The student chooses or computes a spread measure for a small dataset and interprets it in context.
-- **Recommended question types:** `multiple-choice` for interpretation; `fill-blank` for range/IQR; `constructed-response` for comparing spread.
+- **Recommended question types:** `multiple-choice` for interpretation and comparing spread; `fill-blank` for range/IQR.
 - **Suggested intro/teaching note:** Show two datasets with the same median but different spread and ask which is more consistent.
 - **Reading-level and cognitive-load constraints:** Keep datasets small; define IQR and MAD in prompt context when used.
 
@@ -640,7 +640,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Unit rates, percent benchmarks, decimal operations, inequalities, and reasonableness.
 - **Likely misconceptions:** Total price alone decides value; a budget can be exceeded if the item is important; debit and credit choices have no timing or constraint differences.
 - **Evidence of mastery:** The student solves a compact financial scenario and explains the decision using numbers and units.
-- **Recommended question types:** `passage-question` for scenarios; `text-input` for totals or unit prices; `constructed-response` for choice explanation.
+- **Recommended question types:** `passage-question` for scenarios; `text-input` for totals or unit prices; `multiple-choice` for choice explanation.
 - **Suggested intro/teaching note:** Use a weekly allowance or club budget with income, expenses, and one decision to make.
 - **Reading-level and cognitive-load constraints:** Keep contexts age-appropriate; avoid adult credit-score, loan, or compound-interest details.
 
@@ -652,7 +652,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Units 1-9 skills through budgets and data displays.
 - **Likely misconceptions:** Use one favorite model for every problem; skip units; compute before understanding what is being compared.
 - **Evidence of mastery:** The student selects a fitting model, solves accurately, and explains why the model fits.
-- **Recommended question types:** `multiple-choice` for model choice; `passage-question` for applied prompts; `constructed-response` for reasoning.
+- **Recommended question types:** `multiple-choice` for model choice and reasoning; `passage-question` for applied prompts.
 - **Suggested intro/teaching note:** Present a short scenario and ask students to choose a model before doing any arithmetic.
 - **Reading-level and cognitive-load constraints:** Use one or two-step tasks; keep numbers friendly enough that model choice is the focus.
 
@@ -664,6 +664,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Full Grade 6 level: operations, ratios, rates, percents, fraction division, rational numbers, expressions, equations, inequalities, geometry, statistics, and finance.
 - **Likely misconceptions:** A correct calculation is enough; the newest topic is always the right tool; explanations can ignore units or context.
 - **Evidence of mastery:** The student completes mixed tasks, justifies choices, checks reasonableness, and corrects at least one misconception.
-- **Recommended question types:** `passage-question` for compact capstone contexts; `multiple-choice` for model and misconception checks; `constructed-response` for explanation and transfer.
+- **Recommended question types:** `passage-question` for compact capstone contexts; `multiple-choice` for model, misconception checks, explanation, and transfer.
 - **Suggested intro/teaching note:** Frame the lesson as a "choose your tool" challenge: identify structure, choose a model, calculate, and check.
-- **Reading-level and cognitive-load constraints:** Use several compact items rather than one long project; keep each constructed response short.
+- **Reading-level and cognitive-load constraints:** Use several compact items rather than one long project; keep explanation-selection items short.
