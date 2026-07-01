@@ -560,11 +560,11 @@ You are a strict curriculum QA reviewer.
 
 Review this lesson brief and question set. Prioritize bugs, weak alignment, ambiguity, wrong answers, poor distractors, unsupported recall, cognitive overload, and generic content.
 
-Lesson brief:
-[PASTE LESSON BRIEF]
+Lesson brief: [PASTE LESSON BRIEF]
 
-Question set:
-[PASTE QUESTIONS]
+Question set: [PASTE QUESTIONS]
+
+Also read docs/research-question-gaps.md and use its guidance when doing QA.
 
 Check:
 1. Does every question align with the lesson teaching goal?
