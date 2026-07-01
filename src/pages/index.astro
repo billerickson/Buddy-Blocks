@@ -60,13 +60,22 @@ const benefitCards = [
 ];
 
 const courseFamilies = getCourseFamilies();
+const courseTotals = courseFamilies.reduce(
+  (summary, family) => ({
+    levels: summary.levels + family.stats.levels,
+    units: summary.units + family.stats.units,
+    lessons: summary.lessons + family.stats.lessons,
+    questions: summary.questions + family.stats.questions,
+  }),
+  { levels: 0, units: 0, lessons: 0, questions: 0 },
+);
 ---
 
 <AppLayout title="Buddy Blocks" showNav={false}>
   <PublicTopbar active="home" />
 
   <main>
-    <section class="app-shell grid min-h-[calc(100vh-72px)] items-center gap-10 py-10 lg:grid-cols-[0.94fr_1.06fr] lg:py-12">
+    <section class="app-shell grid items-center gap-10 py-10 lg:grid-cols-[0.94fr_1.06fr] lg:py-12">
       <div>
         <img class="hero-moxie" src="/icons/moxie.svg" alt="" />
         <h1 class="mt-7 text-[clamp(3.4rem,8vw,7rem)] leading-none">Buddy Blocks</h1>
@@ -122,36 +131,11 @@ const courseFamilies = getCourseFamilies();
       </div>
     </section>
 
-    <section id="screenshots" class="homepage-band bg-white py-14">
-      <div class="app-shell">
-        <div class="max-w-3xl">
-          <p class="font-black uppercase text-berryDark">Product Screenshots</p>
-          <h2 class="mt-3 text-4xl">What Buddy Blocks looks like</h2>
-        </div>
-
-        <div class="screenshot-sections mt-8">
-          {screenshotCards.map((card, index) => (
-            <article class={`screenshot-row ${index % 2 === 1 ? 'screenshot-row-reversed' : ''}`}>
-              <figure class="screenshot-frame">
-                <img src={card.image} alt={card.alt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
-              </figure>
-              <div class="screenshot-copy">
-                <p class="font-black uppercase text-berryDark">{card.eyebrow}</p>
-                <h3 class="mt-2 text-3xl">{card.title}</h3>
-                <p class="mt-4 text-lg font-bold text-muted">{card.description}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section id="get-your-own-copy" class="homepage-band py-14">
+    <section id="get-your-own-copy" class="homepage-band bg-white py-14">
       <div class="app-shell">
         <div class="get-copy-layout">
           <div>
-            <p class="font-black uppercase text-berryDark">Self-Hosted Buddy Blocks</p>
-            <h2 class="mt-3 text-4xl">Get your own copy</h2>
+            <h2 class="text-4xl">Get your own copy</h2>
             <p class="mt-4 text-lg font-bold text-muted">
               Point Claude, Codex, or another AI agent at the
               <a class="copy-link" href="https://github.com/billerickson/Buddy-Blocks/blob/master/AGENTS.md">AGENTS.md</a>
@@ -188,9 +172,9 @@ const courseFamilies = getCourseFamilies();
       </div>
     </section>
 
-    <section id="how-it-works" class="homepage-band bg-white py-14">
+    <section id="how-it-works" class="homepage-band py-14">
       <div class="app-shell">
-        <div class="grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
+        <div class="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
           <div>
             <p class="font-black uppercase text-berryDark">How It Works</p>
             <h2 class="mt-3 text-4xl">A simple loop for daily learning</h2>
@@ -211,9 +195,32 @@ const courseFamilies = getCourseFamilies();
       </div>
     </section>
 
+    <section id="screenshots" class="homepage-band bg-white py-14">
+      <div class="app-shell">
+        <div class="max-w-3xl">
+          <h2 class="text-4xl">What Buddy Blocks looks like</h2>
+        </div>
+
+        <div class="screenshot-sections mt-8">
+          {screenshotCards.map((card, index) => (
+            <article class={`screenshot-row ${index % 2 === 1 ? 'screenshot-row-reversed' : ''}`}>
+              <figure class="screenshot-frame">
+                <img src={card.image} alt={card.alt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+              </figure>
+              <div class="screenshot-copy">
+                <p class="font-black uppercase text-berryDark">{card.eyebrow}</p>
+                <h3 class="mt-2 text-3xl">{card.title}</h3>
+                <p class="mt-4 text-lg font-bold text-muted">{card.description}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <section id="learning-science" class="homepage-band py-14">
       <div class="app-shell">
-        <div class="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
+        <div class="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
           <div>
             <p class="font-black uppercase text-berryDark">Research-Based Learning</p>
             <h2 class="mt-3 text-4xl">Lessons are sequenced for retention</h2>
@@ -240,12 +247,20 @@ const courseFamilies = getCourseFamilies();
       <div class="app-shell">
         <div class="courses-heading">
           <div>
-            <p class="font-black uppercase text-berryDark">Course tracks</p>
-            <h2 class="mt-3 text-4xl">Classical subjects, bite-sized lessons</h2>
+            <p class="font-black uppercase text-berryDark">Course families</p>
+            <h2 class="mt-3 text-4xl">Courses that build lasting skills, step by step</h2>
           </div>
-          <p class="text-lg font-bold text-muted">
-            Each card introduces a subject area in Buddy Blocks. Open the course library to see how the lessons work and which grades or levels are available now.
-          </p>
+          <div>
+            <p class="text-lg font-bold text-muted">
+              Buddy Blocks gives students a clear path through a classical education with short, engaging lesson briefs that combine practice, examples, and review.
+            </p>
+            <div class="home-course-stats mt-5" aria-label="Curriculum totals">
+              <span><strong>{courseFamilies.length}</strong> course families</span>
+              <span><strong>{courseTotals.levels}</strong> levels</span>
+              <span><strong>{courseTotals.lessons}</strong> lesson briefs</span>
+              <span><strong>{courseTotals.questions.toLocaleString()}</strong> question prompts</span>
+            </div>
+          </div>
         </div>
 
         <div class="course-card-grid mt-8">
@@ -258,7 +273,7 @@ const courseFamilies = getCourseFamilies();
               <p class="home-course-summary">{family.summary}</p>
               <div class="home-course-progress" aria-label={`${family.title} course size`}>
                 <span class="progress-rail"><span class="progress-fill" style={`width: ${Math.max(38, Math.min(96, family.stats.levels * 8))}%`}></span></span>
-                <span>{family.stats.levels} {family.stats.levels === 1 ? 'level' : 'levels'} &middot; {family.stats.lessons} lesson briefs</span>
+                <span>{family.stats.levels} {family.stats.levels === 1 ? 'level' : 'levels'} &middot; {family.stats.lessons} lesson briefs &middot; {family.stats.questions.toLocaleString()} question prompts</span>
               </div>
             </a>
           ))}
@@ -541,7 +556,30 @@ const courseFamilies = getCourseFamilies();
       display: grid;
       grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
       gap: 28px;
-      align-items: end;
+      align-items: center;
+    }
+
+    .home-course-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .home-course-stats span {
+      display: inline-flex;
+      min-height: 40px;
+      align-items: center;
+      gap: 6px;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: var(--paper);
+      padding: 8px 11px;
+      font-weight: 950;
+    }
+
+    .home-course-stats strong {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
     }
 
     .course-card-grid {
