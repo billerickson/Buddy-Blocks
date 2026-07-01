@@ -14,7 +14,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [Texas Essential Knowledge and Skills, Chapter 114, Languages Other Than English](https://tea.texas.gov/laws-and-rules/texas-administrative-code/19-tac-chapter-114), especially Level I novice proficiency expectations for modern languages.
 - [Council of Europe CEFR resources](https://www.coe.int/en/web/common-european-framework-reference-languages), used only as a broad cross-check for beginner communication functions.
 - [IES What Works Clearinghouse: Organizing Instruction and Study to Improve Student Learning](https://ies.ed.gov/ncee/wwc/PracticeGuide/1), for spacing, retrieval, interleaving, and feedback.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 

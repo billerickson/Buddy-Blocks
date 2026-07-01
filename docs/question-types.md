@@ -2,11 +2,11 @@
 
 This document describes the question types supported by Buddy Blocks lessons, how they are scored, and the shared authoring features that apply across subjects.
 
-For the broader curriculum file structure, see [lesson-authoring.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/lesson-authoring.md).
+For the broader curriculum creation workflow and lesson source format, see [content-creation.md](/Users/billerickson/Downloads/learn.billplustara.com/docs/content-creation.md).
 
 ## How Questions Work
 
-Standard lesson files are Markdown files with YAML frontmatter. Each item in `questions` becomes a row in D1, with:
+Standard lesson files are Markdown files with YAML frontmatter and, for newly authored lessons, one fenced `question` YAML block per question in the Markdown body. Legacy frontmatter `questions` arrays are still parsed for existing content. Each authored question becomes a row in D1, with:
 
 - `type` saved as the question type.
 - `prompt` saved as the visible question prompt.
@@ -494,7 +494,7 @@ Use this quick guide when authoring lessons:
 ## Authoring Notes
 
 - Keep lesson IDs stable after seeding. Changing an `id` creates a new lesson from the app's point of view.
-- Prefer 8-12 scored questions per standard lesson.
+- Prefer 6-10 scored questions per compact standard lesson unless the lesson brief justifies a different count.
 - Quote numeric answers in YAML.
 - For Spanish, include unaccented variants only when the variant is truly acceptable; accent tolerance already handles missing accent marks for scoring.
 - For constructed response and speaking prompts, remember that scoring is completion-based, not quality-based.

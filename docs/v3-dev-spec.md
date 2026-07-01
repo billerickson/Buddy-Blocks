@@ -12,6 +12,7 @@ This spec combines the V3 curriculum direction with the public self-hosted relea
 - Make reviewed lesson Markdown under `src/content/curriculum/` the canonical app source for shippable curriculum.
 - Drop the existing generated track catalog during the V3 cutover.
 - Source all replacement V3 track, unit, lesson, and question content only from accepted artifacts in `research/`.
+- Use `docs/content-creation.md` as the single canonical content creation and authoring guide.
 - Remove manual question copying by adding a promotion/import workflow from accepted research artifacts into app-ready lesson files.
 - Preserve V3 question metadata that affects runtime behavior, starting with `hint`.
 - Show hints only on the retry pass after a student misses a question.
@@ -53,7 +54,7 @@ Cutover requirements:
 - Remove the current generated `src/content/curriculum/` track content from the shipped catalog.
 - Rebuild tracks only from accepted V3 research directories.
 - Do not migrate, summarize, copy, or preserve legacy generated questions as curriculum evidence.
-- Do not use `scripts/generate-planned-curriculum.ts` as a V3 source.
+- Do not recreate or use legacy curriculum generation scripts as a V3 source.
 - Keep only runtime infrastructure that V3 still needs: loaders, validators, question types, lesson player behavior, seeding, and progress/provisioning helpers.
 - Do not map old lesson IDs, attempts, progress, parents, or children into V3.
 - Seed the V3 catalog into a fresh database with no legacy curriculum rows to prune.
@@ -80,15 +81,31 @@ Accepted V3 research should be promoted into `src/content/curriculum/` with a de
 
 The promotion workflow should:
 
+- follow the source boundaries and quality rules in `docs/content-creation.md`,
 - read accepted artifacts such as `research/grammar-1/03-course-map.md`, `05-lesson-briefs.md`, and `06-question-sets.md`,
 - create or update matching track/unit/lesson files,
 - preserve instructional intent in Markdown body sections,
 - emit each runtime question as one fenced `question` YAML block,
+- validate stable authored question keys,
 - preserve `hint` when present,
 - preserve author-facing fields such as `questionGoal` and `misconception` either in body comments/QA artifacts or in a future non-runtime metadata path,
 - validate the result with `npm run content:validate`.
 
 Manual copying should be treated as a temporary bridge only.
+
+## Authored Question Metadata
+
+`docs/content-creation.md` asks authors to include `key`, `questionGoal`, and `misconception` in question blocks during authoring.
+
+Implementation requirements:
+
+- Add optional `key` support to the authored question schema, and require it for promoted content.
+- Validate that question keys are unique within a lesson and use a conservative slug-like format.
+- Use the authored question key, not the question index, as the stable basis for seeded question IDs for promoted content, or store an equivalent stable mapping.
+- Keep `hint` as runtime metadata stored in D1 and returned by lesson APIs.
+- Treat `questionGoal` and `misconception` as authoring/QA metadata unless a deliberate runtime metadata table is added.
+- Ensure author-only metadata is either preserved in Markdown comments/QA artifacts or intentionally stripped before D1/API output.
+- Make `npm run content:validate` fail on duplicate question keys, malformed fenced YAML, unsupported question types, duplicate match-pair right-side labels, and standard lessons with no questions.
 
 ## Lesson File Format
 
@@ -227,7 +244,7 @@ Cleanup targets:
 - MVP-only database migrations and schema upgrade paths.
 - Hardcoded family fixtures, route generation, and tests for fixed parents or children.
 - Generated curriculum files that are not promoted from accepted V3 research.
-- `scripts/generate-planned-curriculum.ts` and any other generator that can recreate legacy content.
+- Any remaining generator that can recreate legacy content.
 - Docs and brand assets that describe `learn.billplustara.com` as the product destination.
 - Tests that rely on MVP users, slugs, legacy curriculum shape, or migration history.
 - Unsupported features that are not part of the V3 product surface.
@@ -305,6 +322,9 @@ Automated tests should cover:
 - Fresh migrations plus curriculum seed leave the database with zero parents and zero children.
 - No tests require fixed MVP slugs or users such as `bill`, `reagan`, or `ada`.
 - Future V3 curriculum reseeding repairs dynamic child progress without overwriting completed work created on the new site.
+- Authored question keys parse, duplicate keys fail validation, and seeded question IDs remain stable when questions are reordered.
+- Author-only metadata such as `questionGoal` and `misconception` does not leak to lesson APIs unless a deliberate metadata endpoint is added.
+- Content validation fails on malformed fenced `question` YAML and duplicate match-pair right-side labels.
 
 Validation commands:
 
@@ -316,11 +336,12 @@ Validation commands:
 ## Implementation Order
 
 1. Add hint schema, storage, API, offline-pack, and retry UI support.
-2. Add V3 promotion/import tooling for accepted research artifacts.
-3. Add first-run setup status and parent creation APIs.
-4. Replace fixed family seed data with dynamic provisioning helpers.
-5. Add child management APIs and parent UI.
-6. Update login, parent gate, profile selector, and kid route guards.
-7. Replace the current generated curriculum catalog with V3 content promoted from `research/`.
-8. Remove obsolete MVP migrations, generator scripts, fixtures, docs, brand examples, tests, and unsupported features.
-9. Run fresh-database smoke test: initialize schema, seed curriculum, verify zero parents/children, setup parent, create children, complete lesson, archive/unarchive child.
+2. Add authored question metadata handling, stable question keys, and stricter content validation.
+3. Add V3 promotion/import tooling for accepted research artifacts.
+4. Add first-run setup status and parent creation APIs.
+5. Replace fixed family seed data with dynamic provisioning helpers.
+6. Add child management APIs and parent UI.
+7. Update login, parent gate, profile selector, and kid route guards.
+8. Replace the current generated curriculum catalog with V3 content promoted from `research/`.
+9. Remove obsolete MVP migrations, generator scripts, fixtures, docs, brand examples, tests, and unsupported features.
+10. Run fresh-database smoke test: initialize schema, seed curriculum, verify zero parents/children, setup parent, create children, complete lesson, archive/unarchive child.

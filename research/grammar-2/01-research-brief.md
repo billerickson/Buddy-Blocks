@@ -14,7 +14,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [NCTE: Teaching Grammar in Context](https://ncte.org/statement/teaching-grammar-in-context/), for grammar instruction connected to meaningful reading and writing.
 - [Core Knowledge Sequence 2023](https://www.coreknowledge.org/core-knowledge-sequence/), used as a scope-and-sequence cross-check for grammar and mechanics.
 - [IES: Organizing Instruction and Study to Improve Student Learning](https://ies.ed.gov/ncee/wwc/PracticeGuide/1), for spacing, retrieval, interleaving, and feedback.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 

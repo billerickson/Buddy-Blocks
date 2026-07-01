@@ -14,7 +14,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [IES: Teaching Secondary Students to Write Effectively](https://ies.ed.gov/ncee/wwc/PracticeGuide/22), for planning, argument, evidence, and revision.
 - [BYU Silva Rhetoricae: Progymnasmata](https://rhetoric.byu.edu/Pedagogy/Progymnasmata/Progymnasmata.htm), for refutation, confirmation, commonplace, encomium, invective, and comparison.
 - [IES: Organizing Instruction and Study to Improve Student Learning](https://ies.ed.gov/ncee/wwc/PracticeGuide/1), for cumulative review.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 

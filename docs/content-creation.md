@@ -1,10 +1,10 @@
-# V3 Content Rebuild Plan
+# Content Creation
 
 ## Purpose
 
-V3 should rebuild curriculum from a blank slate. The existing generated curriculum is useful as evidence of what not to do, but it should not be treated as source content to preserve.
+This is the canonical guide for curriculum research, planning, lesson authoring, question authoring, QA, and implementation handoff.
 
-The rebuild should be top-down:
+We use a top-down approach to build lesson content:
 
 1. Research the goals of a track level.
 2. Define the level blueprint.
@@ -24,6 +24,29 @@ The core principle: no lesson or question should exist just because a template p
 - Do not use random distractors. Distractors should usually represent real misconceptions.
 - Do not treat a technically correct answer key as sufficient QA.
 - Do not let the source format hide instructional intent inside large YAML arrays.
+
+## Source Boundaries
+
+For research, planning, and authoring, models may use:
+
+- `docs/content-creation.md`,
+- `docs/question-types.md`,
+- accepted artifacts in `research/[track-level]/`,
+- external primary or high-quality curriculum sources.
+
+When implementation details matter, Codex may also inspect runtime constraints in files such as `src/lib/curriculum.ts`, `src/lib/lesson-engine.ts`, lesson config schemas, and the lesson player.
+
+Do not use these as curriculum evidence while researching, planning, or authoring:
+
+- `src/content/curriculum`,
+- legacy curriculum generation scripts,
+- generated lesson Markdown files,
+- existing generated question arrays,
+- existing generated unit sequences.
+
+Existing curriculum can be inspected later for migration logistics, app behavior, or format comparison, but not as source material for deciding what should be taught.
+
+Research artifacts should be reviewed and committed separately from implemented lesson source when possible. That keeps the instructional thinking easy to review before the app content changes.
 
 ## Research Basis
 
@@ -94,7 +117,7 @@ Hints are optional but recommended for questions where a common wrong answer rev
 
 ## Content Artifacts
 
-The rebuild should produce these artifacts in order.
+The process should produce these artifacts in order.
 
 ### 1. Track Research Brief
 
@@ -122,12 +145,15 @@ Required contents:
 
 - level mission,
 - 5-10 durable outcomes,
+- concept progression,
 - skill progression,
-- vocabulary and representation progression,
-- mastery expectations,
+- vocabulary, representation, model, text, or form progression,
 - fluency expectations,
+- conceptual understanding expectations,
 - application/transfer expectations,
-- review and spacing plan.
+- review and spacing plan,
+- mastery evidence for the end of the level,
+- source and product constraint note.
 
 ### 3. Course Or Track Map
 
@@ -138,9 +164,13 @@ Required contents:
 - ordered units,
 - unit purpose,
 - unit outcomes,
+- key concepts and vocabulary,
 - prerequisite dependencies,
+- connections to prior and later units,
+- misconceptions to address,
 - review connections,
 - estimated lesson count range,
+- notes on review, spacing, or interleaving,
 - capstone or transfer task if useful.
 
 ### 4. Unit Design Brief
@@ -150,12 +180,16 @@ Purpose: decide what the unit teaches and how lessons should sequence.
 Required contents:
 
 - unit goal,
+- why this unit belongs at this point in the level,
 - key concepts,
 - required vocabulary/representations,
+- prerequisite knowledge,
 - common misconceptions,
 - lesson sequence rationale,
+- review connections to earlier units,
+- preparation for later units,
 - assessment targets,
-- connections to earlier and later units.
+- recommended lesson titles with a short purpose for each.
 
 ### 5. Lesson Brief
 
@@ -167,9 +201,10 @@ Required contents:
 - student outcome,
 - key idea, text, model, form, or representation,
 - prerequisite knowledge,
-- misconception check,
+- likely misconceptions,
 - evidence of mastery,
-- recommended question types,
+- recommended question types and why each fits,
+- suggested intro or teaching note,
 - notes on cognitive load and reading level.
 
 ### 6. Question Set
@@ -184,6 +219,7 @@ Required contents:
 - useful explanations,
 - optional second-attempt hints,
 - plausible distractors,
+- sequence from exposure or support toward mastery,
 - at least one application, explanation, transfer, or synthesis item when appropriate,
 - metadata for `questionGoal` and `misconception` during authoring.
 
@@ -202,6 +238,39 @@ Required contents:
 - reading load review,
 - ambiguity and scoring-risk review,
 - final decision: accept, revise, or reject.
+
+## Lesson Sequence
+
+A compact lesson should usually move through some version of:
+
+1. Meaningful exposure or teaching.
+2. Guided recognition.
+3. Misconception check.
+4. Supported practice.
+5. Application, explanation, transfer, or production.
+
+This is a learning arc, not a fixed template. Some lessons will need a different shape, and repeated lesson shapes should be intentional.
+
+If the lesson brief is vague, stop and improve it before writing questions. Vague lesson briefs produce generic questions.
+
+## Question Quality Bar
+
+A question is acceptable only when:
+
+- it directly supports the lesson goal,
+- the correct answer is accurate and unambiguous,
+- the question type fits the learning job,
+- distractors are plausible and diagnostic,
+- the explanation teaches the reasoning or clue,
+- hints, when present, support a second attempt without giving away the answer,
+- reading load matches the student level,
+- it avoids generic filler,
+- it does not rely on duplicate match-pair right-side labels,
+- it contributes to a sequence from support toward mastery.
+
+For new material, unsupported recall should not come first. Students should encounter the idea through explanation, context, model, example, or guided recognition before production.
+
+Use `docs/question-types.md` as the source of truth for runtime question shapes, scoring behavior, media fields, lesson config, and detailed question-type examples.
 
 ## Stage Prompts
 
@@ -242,14 +311,12 @@ Do not write units, lessons, or questions yet.
 Use this repo only for product constraints.
 
 You may read:
-- docs/v3-content-rebuild-plan.md
-- docs/v3-lesson-authoring.md
+- docs/content-creation.md
 - docs/question-types.md
-- docs/curriculum-summary.md
 
 Do not read or use:
 - src/content/curriculum
-- scripts/generate-planned-curriculum.ts
+- legacy curriculum generation scripts
 - existing generated lesson/question files
 
 Save findings to:
@@ -261,7 +328,7 @@ research/[track-level]/01-research-brief.md
 Use this after the research brief is accepted. This prompt intentionally combines the level blueprint, course map, unit design briefs, lesson briefs, and lesson question sets for one track level.
 
 ````text
-/goal Complete Stages 2-6 for one accepted V3 track level: level blueprint, course map, unit design briefs, lesson briefs, and hand-authored question sets for every lesson in the level.
+/goal Complete Stages 2-6 for one accepted track level: level blueprint, course map, unit design briefs, lesson briefs, and hand-authored question sets for every lesson in the level.
 
 You are a senior curriculum architect, lesson designer, and assessment item writer. Work top-down from the accepted research brief and write the full set of planning and authoring artifacts for one level. Do not implement anything under `src/content/curriculum` yet.
 
@@ -273,20 +340,18 @@ Accepted research brief: research/[track-level]/01-research-brief.md
 Use this repo only for product constraints.
 
 You may read:
-- docs/v3-content-rebuild-plan.md
-- docs/v3-lesson-authoring.md
+- docs/content-creation.md
 - docs/question-types.md
-- docs/curriculum-summary.md
 - research/[track-level]/01-research-brief.md
-- research/grade-03-math/02-level-blueprint.md
-- research/grade-03-math/03-course-map.md
-- research/grade-03-math/04-unit-design-briefs/
-- research/grade-03-math/05-lesson-briefs.md
-- research/grade-03-math/06-question-sets.md
+- research/grade-03-math/02-level-blueprint.md as a format reference only; do not copy its scope or sequence
+- research/grade-03-math/03-course-map.md as a format reference only; do not copy its scope or sequence
+- research/grade-03-math/04-unit-design-briefs/ as format references only; do not copy their scope or sequence
+- research/grade-03-math/05-lesson-briefs.md as a format reference only; do not copy its lesson plan
+- research/grade-03-math/06-question-sets.md as a format reference only; do not copy its questions
 
 Do not read or use:
 - src/content/curriculum
-- scripts/generate-planned-curriculum.ts
+- legacy curriculum generation scripts
 - existing generated lesson/question files
 
 Create or update these files:
@@ -513,7 +578,7 @@ Return:
 Use this after a lesson or unit has passed QA.
 
 ```text
-Implement the accepted V3 content for:
+Implement the accepted content for:
 
 Track: [SUBJECT/TRACK]
 Level or grade: [LEVEL/GRADE]
@@ -524,7 +589,7 @@ Content to implement:
 [PASTE ACCEPTED MARKDOWN LESSON CONTENT OR QUESTION BLOCKS]
 
 Requirements:
-- Use the V3 lesson Markdown format.
+- Use the lesson Markdown format.
 - Keep frontmatter limited to metadata.
 - Put teaching goal, student outcome, key ideas, misconceptions, and questions in the Markdown body.
 - Use one `question` fenced YAML block per question.
@@ -533,7 +598,7 @@ Requirements:
 - Do not generate extra lessons or questions.
 - Do not modify unrelated files.
 - Run available content validation after implementation.
-- Update the QA/rebuild log with lesson path, goal, outcome, question count, question types, and QA status.
+- Update the QA/content log with lesson path, goal, outcome, question count, question types, and QA status.
 ```
 
 ### Stage 9: Pilot Review Prompt
@@ -541,7 +606,7 @@ Requirements:
 Use this after a small set of lessons is implemented.
 
 ```text
-You are reviewing a V3 curriculum pilot.
+You are reviewing a curriculum pilot.
 
 Pilot scope:
 [TRACK/LEVEL/UNITS/LESSONS]
@@ -557,7 +622,7 @@ Review the implemented lesson files and summarize:
 8. Whether any lessons should be split, combined, reordered, or rewritten.
 9. Whether the source format is working for authors and QA.
 
-Return a concise pilot report with recommended changes before scaling the rebuild.
+Return a concise pilot report with recommended changes before scaling content creation.
 ```
 
 ## Suggested Build Order
@@ -615,9 +680,9 @@ ChatGPT or a research-enabled model should own:
 
 The best workflow is collaborative: research model drafts and critiques the curriculum plan; Codex turns accepted content into validated app source.
 
-## Definition Of Done For A V3 Lesson
+## Definition Of Done For A Lesson
 
-A V3 lesson is done when:
+A lesson is done when:
 
 - The lesson has explicit teaching goal and student outcome sections.
 - The lesson advances the accepted unit and level blueprint.
@@ -628,4 +693,4 @@ A V3 lesson is done when:
 - Hints, when present, support a second attempt without revealing the answer.
 - The lesson avoids generic repeated patterns.
 - Content validates and renders in the app.
-- QA log records the lesson goal, outcome, question count, question types, and acceptance decision.
+- QA/content log records the lesson goal, outcome, question count, question types, and acceptance decision.

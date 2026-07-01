@@ -14,7 +14,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [Common Core State Standards for English Language Arts and Literacy](https://learning.ccsso.org/wp-content/uploads/2022/11/ELA_Standards1.pdf), especially speaking/listening presentation, fluency, poetry, language, and knowledge-building expectations.
 - [Core Knowledge Sequence 2023](https://www.coreknowledge.org/core-knowledge-sequence/), used as a respected scope-and-sequence cross-check for poems, sayings, geography, history, science, math facts, and cumulative cultural knowledge.
 - [IES What Works Clearinghouse: Teaching Elementary School Students to Be Effective Writers](https://ies.ed.gov/ncee/wwc/PracticeGuide/17), used narrowly for sentence imitation, oral rehearsal, and fluent production connections.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 

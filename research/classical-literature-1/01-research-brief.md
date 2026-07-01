@@ -13,7 +13,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [National Council of Teachers of English: Standards for the English Language Arts](https://ncte.org/resources/standards/ncte-ira-standards-for-the-english-language-arts/), for broad expectations around reading a wide range of literature, using language for learning, and participating in literary response.
 - [IES What Works Clearinghouse: Improving Reading Comprehension in Kindergarten Through 3rd Grade](https://ies.ed.gov/ncee/wwc/PracticeGuide/14), for comprehension strategies, text discussion, and using narrative structure.
 - [IES What Works Clearinghouse: Organizing Instruction and Study to Improve Student Learning](https://ies.ed.gov/ncee/wwc/PracticeGuide/1), for spacing, retrieval, interleaving, and feedback.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 

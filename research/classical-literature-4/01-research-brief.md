@@ -15,7 +15,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [IES What Works Clearinghouse: Improving Adolescent Literacy](https://ies.ed.gov/ncee/wwc/PracticeGuide/8), for explicit vocabulary, comprehension strategies, discussion, motivation, and written response.
 - [IES What Works Clearinghouse: Teaching Secondary Students to Write Effectively](https://ies.ed.gov/ncee/wwc/PracticeGuide/22), for analytic writing support, planning, revision, and using evidence.
 - [IES What Works Clearinghouse: Organizing Instruction and Study to Improve Student Learning](https://ies.ed.gov/ncee/wwc/PracticeGuide/1), for spacing, retrieval, interleaving, and feedback.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 

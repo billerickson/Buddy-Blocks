@@ -13,7 +13,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [Roediger and Karpicke, Test-Enhanced Learning](https://doi.org/10.1111/j.1467-9280.2006.01693.x), for retrieval practice and long-term retention.
 - [Common Core State Standards for ELA/Literacy](https://learning.ccsso.org/wp-content/uploads/2022/11/ELA_Standards1.pdf), for oral presentation, fluency, poetry, language, and knowledge-building expectations.
 - [Core Knowledge Sequence 2023](https://www.coreknowledge.org/core-knowledge-sequence/), used as a cross-check for poems, sayings, geography, history, math/science, and cultural knowledge.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 

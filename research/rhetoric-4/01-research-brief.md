@@ -14,7 +14,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [BYU Silva Rhetoricae: Progymnasmata](https://rhetoric.byu.edu/Pedagogy/Progymnasmata/Progymnasmata.htm), for impersonation, description, thesis, and law.
 - [BYU Silva Rhetoricae: Rhetorical Exercises](https://rhetoric.byu.edu/Pedagogy/Rhetorical%20Exercises.htm), for classical arrangement and exercises.
 - [IES: Organizing Instruction and Study to Improve Student Learning](https://ies.ed.gov/ncee/wwc/PracticeGuide/1), for retrieval and review.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 

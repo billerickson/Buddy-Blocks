@@ -14,7 +14,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [Core Knowledge Sequence 2023](https://www.coreknowledge.org/core-knowledge-sequence/), used as a respected scope-and-sequence cross-check for coherent history, geography, civics, and cultural knowledge.
 - [Common Core State Standards for English Language Arts and Literacy](https://learning.ccsso.org/wp-content/uploads/2022/11/ELA_Standards1.pdf), especially informational reading, source use, vocabulary, and evidence-based explanation.
 - [IES What Works Clearinghouse: Organizing Instruction and Study to Improve Student Learning](https://ies.ed.gov/ncee/wwc/PracticeGuide/1), for spacing, retrieval, interleaving, and feedback.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 

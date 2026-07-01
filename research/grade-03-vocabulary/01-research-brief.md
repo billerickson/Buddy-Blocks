@@ -16,7 +16,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [IES What Works Clearinghouse: Teaching Academic Content and Literacy to English Learners in Elementary and Middle School](https://ies.ed.gov/ncee/wwc/PracticeGuide/19), for explicit academic vocabulary instruction, multiple uses across modalities, and sentence-level language support.
 - [IES What Works Clearinghouse: Foundational Skills to Support Reading for Understanding in Kindergarten Through 3rd Grade](https://ies.ed.gov/ncee/wwc/PracticeGuide/21), for word analysis, decoding, and multisyllabic word reading constraints.
 - [National Reading Panel Report](https://www.nichd.nih.gov/sites/default/files/publications/pubs/nrp/Documents/report.pdf), for the finding that vocabulary instruction benefits from repetition, multiple exposures, and a mix of direct and contextual instruction.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 

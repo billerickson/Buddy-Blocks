@@ -14,7 +14,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [OpenStax Contemporary Mathematics: Constructing Truth Tables](https://openstax.org/books/contemporary-mathematics/pages/2-3-constructing-truth-tables), for truth table concepts.
 - [Internet Encyclopedia of Philosophy: Fallacies](https://iep.utm.edu/fallacy/), for applied argument evaluation.
 - [IES: Organizing Instruction and Study to Improve Student Learning](https://ies.ed.gov/ncee/wwc/PracticeGuide/1), for spacing and retrieval.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 

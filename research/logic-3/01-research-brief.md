@@ -13,7 +13,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [OpenStax Introduction to Philosophy: Logic and Reasoning](https://openstax.org/books/introduction-philosophy/pages/5-summary), for deductive logic, validity, soundness, premises, conclusions, and conditionals.
 - [Internet Encyclopedia of Philosophy: Fallacies](https://iep.utm.edu/fallacy/), for argument evaluation and common invalid reasoning patterns.
 - [IES: Organizing Instruction and Study to Improve Student Learning](https://ies.ed.gov/ncee/wwc/PracticeGuide/1), for retrieval, spacing, interleaving, and feedback.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 

@@ -19,7 +19,7 @@ This brief defines outcomes and instructional priorities only. It does not defin
 - [IES What Works Clearinghouse: Developing Effective Fractions Instruction for Kindergarten Through 8th Grade](https://ies.ed.gov/ncee/wwc/PracticeGuide/15), for rational-number magnitude, fraction division, number-line reasoning, and fraction/decimal misconceptions.
 - [National Research Council: Adding It Up](https://nap.nationalacademies.org/catalog/9822/adding-it-up-helping-children-learn-mathematics), for the strands of mathematical proficiency: conceptual understanding, procedural fluency, strategic competence, adaptive reasoning, and productive disposition.
 - [NCTM Principles to Actions](https://www.nctm.org/PtA/), for effective teaching practices, representations, mathematical discourse, reasoning, and fluency from understanding.
-- Local product constraints only: `docs/v3-content-rebuild-plan.md`, `docs/v3-lesson-authoring.md`, `docs/curriculum-summary.md`, and `docs/question-types.md`.
+- Local product constraints only: `docs/content-creation.md` and `docs/question-types.md`.
 
 ## 1. End-Of-Level Outcomes
 
