@@ -315,7 +315,7 @@ export default {
     if (shouldRedirectToHttps(request, url)) return httpsRedirect(url);
 
     if (url.pathname === '/') return rootRedirect(request, env);
-    if (isPublicAsset(url.pathname)) return env.ASSETS.fetch(request);
+    if (isPublicAsset(url.pathname)) return assetResponse(request, env);
 
     if (url.pathname === '/setup' || url.pathname === SETUP_PATH) return setupPage(request, env);
 
@@ -338,7 +338,7 @@ export default {
       return protectedAsset(request, env);
     }
 
-    return env.ASSETS.fetch(request);
+    return assetResponse(request, env);
   },
 };
 
@@ -2457,7 +2457,31 @@ function serveAsset(request: Request, env: Env, pathname: string) {
   const url = new URL(request.url);
   if (!pathname.endsWith('/') && !pathname.includes('.')) pathname += '/';
   url.pathname = pathname;
-  return env.ASSETS.fetch(new Request(url, request));
+  return assetResponse(new Request(url, request), env);
+}
+
+async function assetResponse(request: Request, env: Env) {
+  const response = await env.ASSETS.fetch(request);
+  const url = new URL(request.url);
+  return withAssetHeaders(response, url.pathname);
+}
+
+function withAssetHeaders(response: Response, pathname: string) {
+  const headers = new Headers(response.headers);
+  if (response.ok) {
+    headers.set('No-Vary-Search', 'key-order, params=("utm_source" "utm_medium" "utm_campaign" "utm_content" "utm_term")');
+    if (pathname.startsWith('/_astro/')) {
+      headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (isCacheablePublicFile(pathname)) {
+      headers.set('Cache-Control', 'public, max-age=604800');
+    }
+  }
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 }
 
 function redirect(url: URL, status = 302) {
@@ -2528,6 +2552,15 @@ function sameOrigin(request: Request) {
 function isPublicAsset(pathname: string) {
   if (PUBLIC_FILE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return true;
   return ['/favicon.ico', '/manifest.webmanifest', '/service-worker.js'].includes(pathname);
+}
+
+function isCacheablePublicFile(pathname: string) {
+  return (
+    pathname.startsWith('/icons/') ||
+    pathname.startsWith('/screenshots/') ||
+    pathname.startsWith('/og/') ||
+    pathname === '/manifest.webmanifest'
+  );
 }
 
 function stripTrailingSlash(pathname: string) {

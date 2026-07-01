@@ -4,6 +4,7 @@ import PublicFooter from '../../components/PublicFooter.astro';
 import PublicTopbar from '../../components/PublicTopbar.astro';
 import AppLayout from '../../layouts/AppLayout.astro';
 import { getCourseFamilies, getCourseLevels, type CourseFamily } from '../../lib/public-courses';
+import { absoluteUrl, courseFamilyGraph, resolveSiteUrl, webPageGraph } from '../../lib/seo';
 
 interface Props {
   family: CourseFamily;
@@ -18,9 +19,37 @@ export function getStaticPaths() {
 
 const { family } = Astro.props;
 const levels = getCourseLevels(family);
+const siteUrl = resolveSiteUrl(Astro.site);
+const courseTitle = `${family.title} Learning Courses | Buddy Blocks`;
+const courseDescription = family.summary;
+const courseCanonical = absoluteUrl(siteUrl, `/courses/${family.slug}/`);
+const courseGraph = webPageGraph({
+  site: siteUrl,
+  canonicalUrl: courseCanonical,
+  title: courseTitle,
+  description: courseDescription,
+  breadcrumbs: [
+    { name: 'Home', path: '/' },
+    { name: 'Courses', path: '/courses/' },
+    { name: family.title, path: `/courses/${family.slug}/` },
+  ],
+  pageType: 'CollectionPage',
+  extra: [courseFamilyGraph(siteUrl, family)],
+});
 ---
 
-<AppLayout title={`${family.title} Courses | Buddy Blocks`} showNav={false}>
+<AppLayout
+  title={courseTitle}
+  description={courseDescription}
+  canonicalPath={`/courses/${family.slug}/`}
+  breadcrumbs={[
+    { name: 'Home', path: '/' },
+    { name: 'Courses', path: '/courses/' },
+    { name: family.title, path: `/courses/${family.slug}/` },
+  ]}
+  structuredData={courseGraph}
+  showNav={false}
+>
   <PublicTopbar active="courses" />
 
   <main style={`--course-color: ${family.color}; --course-accent: ${family.accent};`}>

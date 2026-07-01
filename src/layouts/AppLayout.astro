@@ -1,22 +1,45 @@
 ---
 import BrandMark from '../components/BrandMark.astro';
+import Seo from '../components/Seo.astro';
 import OfflineSyncBoot from '../components/islands/offline/OfflineSyncBoot';
+import { DEFAULT_SITE_DESCRIPTION, isIndexableMarketingPath, type BreadcrumbEntry, type JsonLd } from '../lib/seo';
 import '../styles/global.css';
 
 interface Props {
   title: string;
+  description?: string;
   showNav?: boolean;
   active?: 'profiles' | 'parent' | 'kid';
   brandHref?: string;
+  canonicalPath?: string;
+  noindex?: boolean;
+  image?: string;
+  imageAlt?: string;
+  breadcrumbs?: BreadcrumbEntry[];
+  structuredData?: JsonLd;
 }
 
-const { title, showNav = true, active, brandHref } = Astro.props;
+const {
+  title,
+  description = DEFAULT_SITE_DESCRIPTION,
+  showNav = true,
+  active,
+  brandHref,
+  canonicalPath,
+  noindex,
+  image,
+  imageAlt,
+  breadcrumbs,
+  structuredData,
+} = Astro.props;
 const kidPathMatch = Astro.url.pathname.match(/^\/kid\/([^/]+)/);
 const generatedKidShellSlugs = new Set(['shell', 'track-shell', 'lesson-shell']);
 const isGeneratedKidShell = active === 'kid' && kidPathMatch ? generatedKidShellSlugs.has(kidPathMatch[1]) : false;
 const resolvedBrandHref =
   brandHref ?? (active === 'kid' && kidPathMatch && !isGeneratedKidShell ? `/kid/${kidPathMatch[1]}/` : '/profiles/');
 const shouldResolveKidHomeLink = active === 'kid' && !brandHref;
+const resolvedNoindex = noindex ?? !isIndexableMarketingPath(Astro.url.pathname);
+const shouldBootOfflineSync = active === 'profiles' || active === 'parent' || active === 'kid';
 ---
 
 <!doctype html>
@@ -24,13 +47,16 @@ const shouldResolveKidHomeLink = active === 'kid' && !brandHref;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>{title}</title>
-    <meta name="theme-color" content="#e63e80" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Buddy Blocks" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="icon" href="/icons/buddy-blocks-bb-large.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/icons/buddy-blocks-bb-large.svg" />
+    <Seo
+      title={title}
+      description={description}
+      canonicalPath={canonicalPath}
+      noindex={resolvedNoindex}
+      image={image}
+      imageAlt={imageAlt}
+      breadcrumbs={breadcrumbs}
+      structuredData={structuredData}
+    />
   </head>
   <body class="blocks">
     {showNav && (
@@ -51,7 +77,7 @@ const shouldResolveKidHomeLink = active === 'kid' && !brandHref;
       </header>
     )}
     <slot />
-    <OfflineSyncBoot client:load />
+    {shouldBootOfflineSync && <OfflineSyncBoot client:load />}
     {shouldResolveKidHomeLink && (
       <script is:inline>
         const kidHomeLink = document.querySelector('[data-kid-home-link]');
@@ -86,12 +112,15 @@ const shouldResolveKidHomeLink = active === 'kid' && !brandHref;
           if (window.innerWidth >= 768) setMobileMenuOpen(false);
         });
       }
-
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js').catch(() => {});
-        });
-      }
     </script>
+    {shouldBootOfflineSync && (
+      <script is:inline>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+          });
+        }
+      </script>
+    )}
   </body>
 </html>

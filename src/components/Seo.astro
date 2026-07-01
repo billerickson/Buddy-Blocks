@@ -1,0 +1,116 @@
+---
+import {
+  DEFAULT_OG_IMAGE,
+  DEFAULT_OG_IMAGE_ALT,
+  DEFAULT_SITE_DESCRIPTION,
+  SITE_NAME,
+  absoluteUrl,
+  canonicalPath,
+  resolveSiteUrl,
+  webPageGraph,
+  type BreadcrumbEntry,
+  type JsonLd,
+} from '../lib/seo';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonicalPath?: string;
+  noindex?: boolean;
+  ogType?: 'website' | 'article';
+  image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  breadcrumbs?: BreadcrumbEntry[];
+  structuredData?: JsonLd;
+}
+
+const {
+  title,
+  description = DEFAULT_SITE_DESCRIPTION,
+  canonicalPath: canonicalPathProp,
+  noindex = false,
+  ogType = 'website',
+  image = DEFAULT_OG_IMAGE,
+  imageAlt = DEFAULT_OG_IMAGE_ALT,
+  imageWidth = 1200,
+  imageHeight = 675,
+  breadcrumbs = [],
+  structuredData,
+} = Astro.props;
+
+const siteUrl = resolveSiteUrl(Astro.site);
+const pagePath = canonicalPath(canonicalPathProp ?? Astro.url.pathname);
+const canonical = absoluteUrl(siteUrl, pagePath);
+const imageUrl = absoluteUrl(siteUrl, image);
+const robots = `${noindex ? 'noindex, nofollow' : 'index, follow'}, max-snippet:-1, max-image-preview:large, max-video-preview:-1`;
+const fontStylesheet =
+  'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;700;800;900&display=swap';
+const jsonLd =
+  structuredData ??
+  webPageGraph({
+    site: siteUrl,
+    canonicalUrl: canonical,
+    title,
+    description,
+    breadcrumbs,
+    image,
+    imageAlt,
+  });
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={robots} />
+{!noindex && <link rel="canonical" href={canonical} />}
+
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content={imageAlt} />
+<meta property="og:image:width" content={String(imageWidth)} />
+<meta property="og:image:height" content={String(imageHeight)} />
+{!noindex && <meta property="og:url" content={canonical} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+<meta name="theme-color" content="#e63e80" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content={SITE_NAME} />
+<link rel="manifest" href="/manifest.webmanifest" />
+<link rel="icon" href="/icons/buddy-blocks-bb-large.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/icons/buddy-blocks-bb-large.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="alternate" type="application/ld+json" href="/schema/site.json" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<script is:inline>
+  (() => {
+    const href =
+      'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;700;800;900&display=swap';
+    const loadFonts = () => {
+      if (document.querySelector(`link[href="${href}"]`)) return;
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      document.head.appendChild(link);
+    };
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(loadFonts, { timeout: 1500 });
+    } else {
+      window.addEventListener('load', loadFonts, { once: true });
+    }
+  })();
+</script>
+<noscript><link rel="stylesheet" href={fontStylesheet} /></noscript>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

@@ -4,6 +4,7 @@ import PublicFooter from '../../components/PublicFooter.astro';
 import PublicTopbar from '../../components/PublicTopbar.astro';
 import AppLayout from '../../layouts/AppLayout.astro';
 import { getCourseFamilies } from '../../lib/public-courses';
+import { SITE_NAME, absoluteUrl, courseFamilyGraph, resolveSiteUrl, webPageGraph } from '../../lib/seo';
 
 const families = getCourseFamilies();
 const totals = families.reduce(
@@ -15,9 +16,49 @@ const totals = families.reduce(
   }),
   { levels: 0, units: 0, lessons: 0, questions: 0 },
 );
+const coursesTitle = 'Buddy Blocks Courses | Classical Learning Paths for Kids';
+const coursesDescription =
+  'Explore Buddy Blocks courses for math, vocabulary, Spanish, French, grammar, logic, rhetoric, literature, history, civics, and memory work.';
+const siteUrl = resolveSiteUrl(Astro.site);
+const coursesCanonical = absoluteUrl(siteUrl, '/courses/');
+const coursesGraph = webPageGraph({
+  site: siteUrl,
+  canonicalUrl: coursesCanonical,
+  title: coursesTitle,
+  description: coursesDescription,
+  breadcrumbs: [
+    { name: 'Home', path: '/' },
+    { name: 'Courses', path: '/courses/' },
+  ],
+  pageType: 'CollectionPage',
+  extra: [
+    {
+      '@type': 'ItemList',
+      '@id': `${coursesCanonical}#course-list`,
+      name: `${SITE_NAME} Course Families`,
+      numberOfItems: families.length,
+      itemListElement: families.map((family, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: { '@id': `${absoluteUrl(siteUrl, `/courses/${family.slug}/`)}#course` },
+      })),
+    },
+    ...families.map((family) => courseFamilyGraph(siteUrl, family)),
+  ],
+});
 ---
 
-<AppLayout title="Courses | Buddy Blocks" showNav={false}>
+<AppLayout
+  title={coursesTitle}
+  description={coursesDescription}
+  canonicalPath="/courses/"
+  breadcrumbs={[
+    { name: 'Home', path: '/' },
+    { name: 'Courses', path: '/courses/' },
+  ]}
+  structuredData={coursesGraph}
+  showNav={false}
+>
   <PublicTopbar active="courses" />
 
   <main>

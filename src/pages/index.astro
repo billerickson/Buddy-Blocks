@@ -3,11 +3,15 @@ import PublicTopbar from '../components/PublicTopbar.astro';
 import PublicFooter from '../components/PublicFooter.astro';
 import AppLayout from '../layouts/AppLayout.astro';
 import { getCourseFamilies } from '../lib/public-courses';
+import { SITE_NAME, absoluteUrl, resolveSiteUrl, webPageGraph } from '../lib/seo';
 
 const screenshotCards = [
   {
     image: '/screenshots/kid-dashboard.jpg',
+    webpSrcSet: '/screenshots/kid-dashboard-640.webp 640w',
     alt: 'Buddy Blocks kid dashboard showing subject tracks and progress cards',
+    width: 1218,
+    height: 816,
     eyebrow: 'Kid dashboard',
     title: 'Each learner sees a clear path',
     description:
@@ -15,7 +19,10 @@ const screenshotCards = [
   },
   {
     image: '/screenshots/lesson-player.jpg',
+    webpSrcSet: '/screenshots/lesson-player-640.webp 640w',
     alt: 'Buddy Blocks lesson player with a multiple choice vocabulary question',
+    width: 916,
+    height: 520,
     eyebrow: 'Lesson player',
     title: 'Short practice that feels hands-on',
     description:
@@ -23,7 +30,10 @@ const screenshotCards = [
   },
   {
     image: '/screenshots/parent-dashboard.jpg',
+    webpSrcSet: '/screenshots/parent-dashboard-640.webp 640w',
     alt: 'Buddy Blocks parent dashboard showing progress across subjects',
+    width: 1218,
+    height: 868,
     eyebrow: 'Parent dashboard',
     title: 'Progress without digging',
     description:
@@ -70,15 +80,55 @@ const courseTotals = courseFamilies.reduce(
   }),
   { levels: 0, units: 0, lessons: 0, questions: 0 },
 );
+const homeTitle = 'Buddy Blocks | Self-Hosted Learning App for Families';
+const homeDescription =
+  'Buddy Blocks is a self-hosted family learning app with short lessons, parent dashboards, progress rewards, and classical course paths for kids.';
+const siteUrl = resolveSiteUrl(Astro.site);
+const homeCanonical = absoluteUrl(siteUrl, '/');
+const homeGraph = webPageGraph({
+  site: siteUrl,
+  canonicalUrl: homeCanonical,
+  title: homeTitle,
+  description: homeDescription,
+  breadcrumbs: [{ name: 'Home', path: '/' }],
+  extra: [
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `${homeCanonical}#software`,
+      name: SITE_NAME,
+      description: homeDescription,
+      url: homeCanonical,
+      applicationCategory: 'EducationalApplication',
+      operatingSystem: 'Web browser',
+      educationalUse: ['Practice', 'Review', 'Homeschool support'],
+      audience: {
+        '@type': 'EducationalAudience',
+        educationalRole: 'student',
+      },
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      },
+    },
+  ],
+});
 ---
 
-<AppLayout title="Buddy Blocks" showNav={false}>
+<AppLayout
+  title={homeTitle}
+  description={homeDescription}
+  canonicalPath="/"
+  breadcrumbs={[{ name: 'Home', path: '/' }]}
+  structuredData={homeGraph}
+  showNav={false}
+>
   <PublicTopbar active="home" />
 
   <main>
     <section class="app-shell grid items-center gap-10 py-10 lg:grid-cols-[0.94fr_1.06fr] lg:py-12">
       <div>
-        <img class="hero-moxie" src="/icons/moxie.svg" alt="" />
+        <img class="hero-moxie" src="/icons/moxie.svg" alt="" width="220" height="220" decoding="async" fetchpriority="high" />
         <h1 class="mt-7 text-[clamp(3.4rem,8vw,7rem)] leading-none">Buddy Blocks</h1>
         <p class="mt-5 max-w-2xl text-xl font-extrabold text-muted">
           A colorful learning app where kids build progress one small lesson at a time, and parents can see what is working without turning practice into a project.
@@ -201,7 +251,17 @@ const courseTotals = courseFamilies.reduce(
           {screenshotCards.map((card, index) => (
             <article class={`screenshot-row ${index % 2 === 1 ? 'screenshot-row-reversed' : ''}`}>
               <figure class="screenshot-frame">
-                <img src={card.image} alt={card.alt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+                <picture>
+                  <source type="image/webp" srcset={card.webpSrcSet} sizes="(max-width: 900px) calc(100vw - 32px), 58vw" />
+                  <img
+                    src={card.image}
+                    alt={card.alt}
+                    width={card.width}
+                    height={card.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
               </figure>
               <div class="screenshot-copy">
                 <p class="font-black uppercase text-berryDark">{card.eyebrow}</p>
@@ -478,6 +538,10 @@ const courseTotals = courseFamilies.reduce(
       border-radius: 8px;
       background: var(--paper);
       box-shadow: 6px 6px 0 var(--block-shadow);
+    }
+
+    .screenshot-frame picture {
+      display: block;
     }
 
     .screenshot-frame img {
