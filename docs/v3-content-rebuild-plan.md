@@ -205,7 +205,9 @@ Required contents:
 
 ## Stage Prompts
 
-Use these prompts one stage at a time. Do not ask the model to produce the entire curriculum in one pass.
+Use Stage 1 first. After the research brief is accepted, use the combined Stage 2-6 `/goal` prompt when you want Codex to complete the remaining design and authoring artifacts for the whole level in one sustained run.
+
+Do not ask the model to produce multiple track levels in one pass. The combined prompt is for one accepted track level at a time.
 
 ### Stage 1: Track-Level Deep Research
 
@@ -236,51 +238,83 @@ Produce a research brief with:
 10. Source notes explaining how the references shaped the plan.
 
 Do not write units, lessons, or questions yet.
+
+Use this repo only for product constraints.
+
+You may read:
+- docs/v3-content-rebuild-plan.md
+- docs/v3-lesson-authoring.md
+- docs/question-types.md
+- docs/curriculum-summary.md
+
+Do not read or use:
+- src/content/curriculum
+- scripts/generate-planned-curriculum.ts
+- existing generated lesson/question files
+
+Save findings to:
+research/[track-level]/01-research-brief.md
 ```
 
-### Stage 2: Level Blueprint
+### Stages 2-6: Level Blueprint Through Question Sets
 
-Use this after the research brief is accepted.
+Use this after the research brief is accepted. This prompt intentionally combines the level blueprint, course map, unit design briefs, lesson briefs, and lesson question sets for one track level.
 
-```text
-You are a curriculum architect.
+````text
+/goal Complete Stages 2-6 for one accepted V3 track level: level blueprint, course map, unit design briefs, lesson briefs, and hand-authored question sets for every lesson in the level.
 
-Using only the accepted research brief below, create a level blueprint for:
+You are a senior curriculum architect, lesson designer, and assessment item writer. Work top-down from the accepted research brief and write the full set of planning and authoring artifacts for one level. Do not implement anything under `src/content/curriculum` yet.
 
 Track: [SUBJECT/TRACK]
 Level or grade: [LEVEL/GRADE]
+Track-level slug: [track-level, e.g. grade-03-math]
+Accepted research brief: research/[track-level]/01-research-brief.md
 
-Research brief:
-[PASTE ACCEPTED RESEARCH BRIEF]
+Use this repo only for product constraints.
 
-Create a blueprint with:
+You may read:
+- docs/v3-content-rebuild-plan.md
+- docs/v3-lesson-authoring.md
+- docs/question-types.md
+- docs/curriculum-summary.md
+- research/[track-level]/01-research-brief.md
+- research/grade-03-math/02-level-blueprint.md
+- research/grade-03-math/03-course-map.md
+- research/grade-03-math/04-unit-design-briefs/
+- research/grade-03-math/05-lesson-briefs.md
+- research/grade-03-math/06-question-sets.md
+
+Do not read or use:
+- src/content/curriculum
+- scripts/generate-planned-curriculum.ts
+- existing generated lesson/question files
+
+Create or update these files:
+1. `research/[track-level]/02-level-blueprint.md`
+2. `research/[track-level]/03-course-map.md`
+3. `research/[track-level]/04-unit-design-briefs/[two-digit-unit-slug].md` for every unit
+4. `research/[track-level]/05-lesson-briefs.md`
+5. `research/[track-level]/06-question-sets.md`
+
+Stage 2: Level Blueprint
+
+Using only the accepted research brief and product constraints, create a level blueprint with:
 1. A one-paragraph level mission.
 2. 5-10 durable student outcomes.
 3. A concept and skill progression from beginning to end of the level.
 4. Vocabulary, representation, model, text, or form progression.
-5. Fluency expectations.
+5. Fluency expectations, if applicable.
 6. Conceptual understanding expectations.
 7. Application and transfer expectations.
 8. Review and spacing plan.
 9. Mastery evidence for the end of the level.
+10. Source and product constraint note.
 
-Keep this top-down. Do not write units, lessons, or questions yet.
-```
+Save it to `research/[track-level]/02-level-blueprint.md`.
 
-### Stage 3: Course Or Track Map
+Stage 3: Course Or Track Map
 
-Use this to convert a level blueprint into units.
-
-```text
-You are designing the course map for one track level.
-
-Track: [SUBJECT/TRACK]
-Level or grade: [LEVEL/GRADE]
-
-Accepted level blueprint:
-[PASTE BLUEPRINT]
-
-Create an ordered course map. For each unit, include:
+Using the accepted research brief and the level blueprint you just wrote, create an ordered course map. For each unit, include:
 1. Unit title.
 2. Unit purpose.
 3. Student outcomes.
@@ -292,27 +326,14 @@ Create an ordered course map. For each unit, include:
 9. Notes on review, spacing, or interleaving.
 
 Do not force every unit into the same number of lessons. The sequence should serve the level goal.
-Do not write individual lessons or questions yet.
-```
 
-### Stage 4: Unit Design Brief
+Save it to `research/[track-level]/03-course-map.md`.
 
-Use this one unit at a time.
+Stage 4: Unit Design Briefs
 
-```text
-You are designing one unit from an accepted course map.
+Create a separate unit design brief for every unit listed in the course map, in exact course-map order. Preserve unit titles and do not add, remove, rename, or reorder units after the course map is written unless you discover a contradiction that must be fixed consistently across the artifacts.
 
-Track: [SUBJECT/TRACK]
-Level or grade: [LEVEL/GRADE]
-Unit: [UNIT TITLE]
-
-Accepted level blueprint:
-[PASTE BLUEPRINT]
-
-Accepted course map:
-[PASTE COURSE MAP]
-
-Create a unit design brief with:
+For each unit, include:
 1. Unit goal.
 2. Why this unit belongs at this point in the level.
 3. Key concepts, vocabulary, representations, texts, forms, or models.
@@ -324,29 +345,19 @@ Create a unit design brief with:
 9. Assessment targets.
 10. Recommended lesson titles with a short purpose for each.
 
-Avoid a repeated lesson formula. Each proposed lesson should have a distinct instructional job.
-Do not write question sets yet.
-```
+Requirements:
+- Make each unit feel distinct in purpose, pacing, and instructional role.
+- Avoid a repeated lesson formula across units.
+- Each proposed lesson should have a clear instructional job.
+- Use cumulative sequencing: earlier units should prepare later ones, and later units should review earlier ones.
 
-### Stage 5: Lesson Brief
+Save each brief as `research/[track-level]/04-unit-design-briefs/[two-digit-unit-slug].md`, following the file naming pattern in `research/grade-03-math/04-unit-design-briefs/`.
 
-Use this one lesson at a time.
+Stage 5: Lesson Briefs
 
-```text
-You are preparing to write one compact, high-quality lesson.
+Create a separate lesson brief for every recommended lesson in every unit design brief, preserving unit order and lesson order exactly.
 
-Track: [SUBJECT/TRACK]
-Level or grade: [LEVEL/GRADE]
-Unit: [UNIT TITLE]
-Lesson: [LESSON TITLE]
-
-Accepted level blueprint:
-[PASTE BLUEPRINT]
-
-Accepted unit design brief:
-[PASTE UNIT DESIGN BRIEF]
-
-Create a lesson brief with:
+For each lesson, include:
 1. Teaching goal.
 2. Student outcome.
 3. Key idea, model, text, representation, form, or procedure.
@@ -357,25 +368,17 @@ Create a lesson brief with:
 8. Suggested intro/teaching note for the lesson.
 9. Reading-level and cognitive-load constraints.
 
-Do not write the final questions yet. The purpose is to make the lesson target clear before item writing.
-```
+Requirements:
+- Make each lesson target specific enough that question writing can proceed without guessing.
+- Avoid generic repetition across lessons.
+- Each lesson should have a distinct instructional job within its unit.
+- Use cumulative sequencing: lessons should build from exposure to supported practice to application and review.
 
-### Stage 6: Question Authoring
+Save the level-wide lesson briefs to `research/[track-level]/05-lesson-briefs.md`, following the format in `research/grade-03-math/05-lesson-briefs.md`.
 
-Use this only after the lesson brief is accepted.
+Stage 6: Question Authoring
 
-```text
-You are an expert assessment item writer.
-
-Write a hand-authored question set for one lesson. Do not use a repeated template. Each question must serve the lesson goal.
-
-Track: [SUBJECT/TRACK]
-Level or grade: [LEVEL/GRADE]
-Unit: [UNIT TITLE]
-Lesson: [LESSON TITLE]
-
-Accepted lesson brief:
-[PASTE LESSON BRIEF]
+Write a hand-authored question set for every lesson. Do not use a repeated template. Each question must serve the lesson goal from `05-lesson-briefs.md`.
 
 Supported Buddy Blocks question types:
 - multiple-choice
@@ -393,7 +396,7 @@ Supported Buddy Blocks question types:
 - conjugation-grid
 - flash-card
 
-Write [6-10] questions. For each question, include:
+Write 6-10 questions per lesson unless the lesson brief gives a stronger reason for a different compact count. For each question, include:
 1. key
 2. type
 3. prompt
@@ -413,9 +416,62 @@ Requirements:
 - Do not use duplicate right-side answers in match-pairs.
 - Keep language appropriate for the student level.
 - Do not include generic filler questions.
+- Do not hide instructional intent inside large YAML arrays; keep a Markdown unit and lesson heading structure and use one fenced `question` YAML block per question.
 
-Return the questions as YAML fenced blocks using the `question` code fence format.
+Save all lesson question sets to `research/[track-level]/06-question-sets.md`, following the format in `research/grade-03-math/06-question-sets.md`.
+
+Question set file format:
+
+# [LEVEL/GRADE] [TRACK] Question Sets
+
+Sources: accepted [LEVEL/GRADE] [TRACK] blueprint, course map, unit design briefs, and lesson briefs in `research/[track-level]/`.
+
+## Unit 1: [UNIT TITLE]
+
+### Lesson 1: [LESSON TITLE]
+
+[Optional one-sentence lesson target if it helps preserve intent.]
+
+```question
+key: [stable-question-key]
+type: [question-type]
+prompt: [student-facing prompt]
+[all answer data required for the question type]
+explanation: [useful feedback]
+hint: [optional second-attempt hint]
+questionGoal: [what this item checks]
+misconception: [misconception this item targets, if applicable]
 ```
+
+Workflow requirements:
+- Work in order: blueprint, course map, unit design briefs, lesson briefs, then question sets.
+- After writing each stage artifact, use it as source material for the next stage.
+- Keep files readable as authored curriculum planning documents.
+- Use stable slugs and file names.
+- Complete every unit and every lesson in the level.
+- Do not stop after the first unit or first lesson.
+- Do not implement final curriculum files yet.
+- Do not modify unrelated files.
+
+Before finishing, verify:
+- `02-level-blueprint.md` exists.
+- `03-course-map.md` exists.
+- every course-map unit has one unit design brief file.
+- `05-lesson-briefs.md` covers every recommended lesson from every unit design brief.
+- `06-question-sets.md` covers every lesson brief in unit and lesson order.
+- every question set has 6-10 questions unless explicitly justified.
+- no question set uses generic random distractors or repeated template filler.
+- no files under `src/content/curriculum` were read or modified.
+
+End with a concise completion report listing:
+- track and level,
+- blueprint path,
+- course map path,
+- number of unit design briefs,
+- number of lesson briefs,
+- total question sets and total authored questions,
+- any assumptions or risks for Stage 7 QA.
+````
 
 ### Stage 7: Question QA Review
 
