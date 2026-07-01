@@ -1286,9 +1286,9 @@ describe('worker access control', () => {
     const { env } = createEnv();
 
     const response = await worker.fetch(
-      new Request('http://buddyblocks.billerickson.net/login/', {
+      new Request('http://buddyblocks.net/login/', {
         headers: {
-          Host: 'buddyblocks.billerickson.net',
+          Host: 'buddyblocks.net',
           'CF-Connecting-IP': '::1',
         },
       }),
@@ -1303,9 +1303,9 @@ describe('worker access control', () => {
     const { env } = createEnv();
 
     const response = await worker.fetch(
-      new Request('http://buddyblocks.billerickson.net/login/', {
+      new Request('http://buddyblocks.net/login/', {
         headers: {
-          Host: 'buddyblocks.billerickson.net',
+          Host: 'buddyblocks.net',
           'CF-Connecting-IP': '203.0.113.10',
         },
       }),
@@ -1313,7 +1313,7 @@ describe('worker access control', () => {
     );
 
     expect(response.status).toBe(308);
-    expect(response.headers.get('Location')).toBe('https://buddyblocks.billerickson.net/login/');
+    expect(response.headers.get('Location')).toBe('https://buddyblocks.net/login/');
   });
 
   it('returns 401 for unauthenticated API requests', async () => {

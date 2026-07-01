@@ -1,6 +1,6 @@
 # Self-Hosted Deployment
 
-This guide is for the public self-hosted Buddy Blocks V3 deployment at `buddyblocks.billerickson.net`.
+This guide is for the public self-hosted Buddy Blocks V3 deployment at `buddyblocks.net`.
 
 It intentionally does not cover hosted SaaS billing, tenants, Stripe, or multi-family onboarding. Keep that scope in `docs/hosted-saas-plan.md`.
 
@@ -26,7 +26,7 @@ npm install
 npx wrangler login
 ```
 
-Confirm that `buddyblocks.billerickson.net` is available in a Cloudflare zone you control. The V3 Worker uses a Custom Domain route in `wrangler.jsonc`, so do not point this repo at `learn.billplustara.com`.
+Confirm that `buddyblocks.net` is available in the Cloudflare account. The `buddyblocks.net` zone has been added and currently has no DNS records. The V3 Worker uses a Custom Domain route in `wrangler.jsonc`, so keep the hostname free of conflicting DNS records and do not point this repo at `learn.billplustara.com`.
 
 Before any remote deploy, create or choose the fresh V3 D1 database and update `wrangler.jsonc` with its `database_id`. Do not reuse the old private MVP database unless it has intentionally been reset for V3.
 
@@ -86,14 +86,14 @@ The production route is configured in `wrangler.jsonc`:
 {
   "routes": [
     {
-      "pattern": "buddyblocks.billerickson.net",
+      "pattern": "buddyblocks.net",
       "custom_domain": true
     }
   ]
 }
 ```
 
-Cloudflare Custom Domains require an active Cloudflare zone and a hostname without a conflicting CNAME record. Deploy only after the fresh D1 database id and custom domain are ready:
+Cloudflare Custom Domains require an active Cloudflare zone and a hostname without a conflicting DNS record. Deploy only after the fresh D1 database id and custom domain are ready:
 
 ```bash
 npm run deploy
@@ -103,7 +103,7 @@ Workers Static Assets are served from `dist/` through the `ASSETS` binding. The 
 
 ## First-Run Onboarding
 
-Open `https://buddyblocks.billerickson.net/setup/`.
+Open `https://buddyblocks.net/setup/`.
 
 1. Create the single self-hosted parent account with username, optional email, and password.
 2. Confirm the app creates a parent session and redirects to the parent area.

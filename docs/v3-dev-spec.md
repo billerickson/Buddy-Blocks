@@ -64,7 +64,7 @@ The current app should be treated as an MVP that will be totally replaced by the
 
 Blank-slate requirements:
 
-- Create a new production deployment at `buddyblocks.billerickson.net`.
+- Create a new production deployment at `buddyblocks.net`.
 - Use a new or reset D1 database for V3.
 - Run the V3 schema and curriculum seed into an empty database.
 - Do not seed hardcoded parent or child rows.
@@ -297,7 +297,8 @@ Kid routes:
 
 Deployment target:
 
-- Build and launch V3 at `buddyblocks.billerickson.net`.
+- Build and launch V3 at `buddyblocks.net`.
+- Use the added Cloudflare zone for `buddyblocks.net`; it currently has no DNS records.
 - Keep the existing `learn.billplustara.com` deployment live for a few days while the new site is tested and made production ready.
 - Do not cut over or retire `learn.billplustara.com` until onboarding, curriculum seed, child setup, lesson play, progress saving, and parent flows have passed production smoke testing on the new domain.
 
@@ -317,7 +318,7 @@ Cloudflare-specific docs should cite current official references for Workers, D1
 Brand/config cleanup:
 
 - Remove `learn.billplustara.com` from public docs and brand assets unless explicitly documenting the old private deployment.
-- Use `buddyblocks.billerickson.net` only as the example public deployment target.
+- Use `buddyblocks.net` only as the example public deployment target.
 - Keep hosted SaaS work in `docs/hosted-saas-plan.md`.
 
 ## Test Plan

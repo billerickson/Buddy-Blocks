@@ -10,7 +10,7 @@
   },
   "routes": [
     {
-      "pattern": "buddyblocks.billerickson.net",
+      "pattern": "buddyblocks.net",
       "custom_domain": true
     }
   ],
