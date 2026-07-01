@@ -32,6 +32,8 @@ Set `ASTRO_SITE=https://buddyblocks.net` in `.env`.
 
 Confirm that `buddyblocks.net` is available in the Cloudflare account. The `buddyblocks.net` zone has been added and currently has no DNS records. The V3 Worker uses a Custom Domain route in `wrangler.deploy.jsonc`, so keep the hostname free of conflicting DNS records and do not point this repo at `learn.billplustara.com`.
 
+If you are keeping an existing MVP Worker live during a dual-site cutover, deploy V3 under a distinct Worker name until the old site is intentionally retired. For the production smoke on 2026-07-01, `learn.billplustara.com` stayed on the old `buddy-blocks` Worker while V3 was deployed as `buddy-blocks-v3` for `buddyblocks.net`.
+
 Before any remote deploy, create the fresh V3 D1 database as `buddy_blocks_v3` and update `wrangler.deploy.jsonc` with its `database_name` and `database_id`. Do not reuse the old private MVP database. Keep `.env` and `wrangler.deploy.jsonc` local; they are ignored by git because they contain deployment-specific values.
 
 ## Preflight Validation
@@ -130,6 +132,8 @@ Run this smoke test before treating the deployment as production ready:
 - `learn.billplustara.com` remains live as the old MVP deployment during this smoke period.
 
 Do not retire `learn.billplustara.com` until the new-domain smoke test passes and the release checklist explicitly authorizes retirement.
+
+The 2026-07-01 V3 smoke evidence is recorded in `docs/v3-production-release-checklist.md`. That checklist confirms V3 production readiness and the temporary dual-site hold; it does not authorize old-site retirement.
 
 ## D1 Operating Notes
 

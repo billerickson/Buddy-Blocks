@@ -465,10 +465,10 @@ Recommended `/goal` prompt:
   - Verify: deployment config/docs review.
   - Notes: Ignored local files `.env` and `wrangler.deploy.jsonc` hold the `buddyblocks.net` deployment target and Cloudflare D1 database name/id; tracked `wrangler.jsonc` remains a public template. Brand asset example also uses the new domain. The `buddyblocks.net` Cloudflare zone has been added and currently has no DNS records. `docs/self-hosted-deployment.md` resolves the D1 decision: use a fresh V3 D1 database named `buddy_blocks_v3`, keep the binding named `DB`, and leave the old MVP database/site in place until the new-domain smoke passes. `npm run deploy:dry-run` passed 2026-07-01.
 
-- [ ] Keep `learn.billplustara.com` live during V3 testing.
+- [x] Keep `learn.billplustara.com` live during V3 testing.
   - Done when: old MVP deployment is not retired until V3 production smoke testing passes.
   - Verify: release notes or deployment checklist confirms temporary dual-site period.
-  - Notes: `docs/self-hosted-deployment.md` documents the temporary dual-site hold and says not to retire `learn.billplustara.com` until new-domain smoke passes. No retirement or production deploy was performed in this pass. Keep unchecked until smoke passes and release notes/deployment checklist explicitly authorize retirement.
+  - Notes: Production dual-site smoke passed 2026-07-01 and is recorded in `docs/v3-production-release-checklist.md`. V3 now runs on Worker `buddy-blocks-v3` at `buddyblocks.net` with fresh D1 database `buddy_blocks_v3`; remote migrations, remote seed, setup, child create/edit/archive/unarchive, lesson submission, and cleanup validation passed. The old MVP site was kept live by restoring Worker `buddy-blocks` to version `6e8d3052-0f6c-436c-af8e-d39bed8c4401`, bound to the prior MVP D1 database, and reattaching route `learn.billplustara.com/*`; `GET https://learn.billplustara.com/` returned HTTP 200 with the old catalog. Old-site retirement was not performed and remains a later owner-authorized operational decision.
 
 - [x] Keep hosted SaaS work in `docs/hosted-saas-plan.md`.
   - Done when: V3 self-hosted docs do not absorb hosted SaaS scope beyond compatibility notes.
@@ -568,6 +568,7 @@ Recommended `/goal` prompt:
 
 ## Current Restart State
 
-- No unresolved code/content blockers or decisions are known as of 2026-07-01.
-- Remaining unchecked item is the production deployment gate: keep `learn.billplustara.com` live during V3 testing until `buddyblocks.net` production smoke passes and release notes/deployment checklist explicitly authorize retirement.
-- The accepted V3 catalog cutover is complete locally: `src/content/curriculum/` is the promoted runtime mirror of the 12 imported research tracks, fresh local D1 seed/smoke passed, and final validation commands passed. Do not retire `learn.billplustara.com` until the new-domain production smoke is complete.
+- No unresolved V3 build blockers or unchecked checklist items are known as of 2026-07-01.
+- The accepted V3 catalog cutover is complete locally and in production: `src/content/curriculum/` is the promoted runtime mirror of the 12 imported research tracks, local and remote D1 seed/smoke passed, final validation commands passed, and `buddyblocks.net` is deployed as Worker `buddy-blocks-v3`.
+- `buddyblocks.net` is intentionally reset to first-run setup after production smoke: remote D1 still has 12 tracks, 90 units, 412 lessons, and 2472 questions, with 0 parents, 0 children, 0 lesson attempts, and 0 child lesson progress rows.
+- `learn.billplustara.com` remains live on the old MVP Worker/database for the temporary dual-site period. Do not retire it until the owner explicitly authorizes old-site retirement.
