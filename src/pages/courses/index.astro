@@ -22,30 +22,30 @@ const totals = families.reduce(
   <main>
     <section class="app-shell course-hero">
       <div class="course-hero-copy">
-        <p class="font-black uppercase text-berryDark">Current Courses</p>
-        <h1>Every track has a clear path from exposure to mastery.</h1>
+        <p class="font-black uppercase text-berryDark">V3 Research-Ready Courses</p>
+        <h1>Every listed track is backed by accepted research artifacts.</h1>
         <p class="mt-5 max-w-3xl text-xl font-extrabold text-muted">
-          Buddy Blocks courses are built as ordered tracks. Students meet ideas first, practice with support, return to older material, and complete short lessons that stack into visible progress.
+          These pages only describe courses with accepted V3 research, course maps, lesson briefs, and question sets in <code>/research/</code>. Future levels stay off the page until their research is complete.
         </p>
         <div class="course-stat-row mt-7" aria-label="Curriculum totals">
-          <span><strong>{totals.levels}</strong> levels</span>
+          <span><strong>{totals.levels}</strong> research levels</span>
           <span><strong>{totals.units}</strong> units</span>
-          <span><strong>{totals.lessons}</strong> lessons</span>
-          <span><strong>{totals.questions.toLocaleString()}</strong> questions</span>
+          <span><strong>{totals.lessons}</strong> lesson briefs</span>
+          <span><strong>{totals.questions.toLocaleString()}</strong> question prompts</span>
         </div>
       </div>
 
       <div class="course-dashboard" aria-label="Sample course dashboard mockup">
         <div class="course-dashboard-top">
           <span>Course Library</span>
-          <span>{families.length} tracks</span>
+          <span>{families.length} course families</span>
         </div>
         <div class="course-dashboard-body">
           {families.map((family) => (
             <a class="course-dashboard-row" href={`/courses/${family.slug}/`} style={`--course-color: ${family.color};`}>
               <span>
                 <strong>{family.title}</strong>
-                <small>{family.levelRange} &middot; {family.stats.lessons} lessons</small>
+                <small>{family.levelRange} &middot; {family.stats.lessons} lesson briefs</small>
               </span>
               <b>{family.stats.levels}</b>
             </a>
@@ -61,7 +61,7 @@ const totals = families.reduce(
           <h2 class="mt-3 text-4xl">Learn it, practice it, complete it</h2>
         </div>
         <p class="text-lg font-bold text-muted">
-          Each course family below shows what students will learn, what they are expected to master, why the sequence is built that way, and what they complete at each level. The question mockups are drawn from the same lesson payloads used by the learner app.
+          Each course family below shows what students will learn, what they are expected to master, why the sequence is built that way, and what research-ready work exists now. The question mockups are drawn from each track's <code>06-question-sets.md</code>.
         </p>
       </div>
     </section>
@@ -108,8 +108,8 @@ const totals = families.reduce(
               <div class="course-mini-stats">
                 <span>{family.levelRange}</span>
                 <span>{family.stats.units} units</span>
-                <span>{family.stats.lessons} lessons</span>
-                <span>{family.stats.questions.toLocaleString()} questions</span>
+                <span>{family.stats.lessons} lesson briefs</span>
+                <span>{family.stats.questions.toLocaleString()} question prompts</span>
               </div>
               <a class="primary-button" href={`/courses/${family.slug}/`}>More Information</a>
             </div>

@@ -240,11 +240,11 @@ const courseFamilies = getCourseFamilies();
       <div class="app-shell">
         <div class="courses-heading">
           <div>
-            <p class="font-black uppercase text-berryDark">Current Tracks</p>
-            <h2 class="mt-3 text-4xl">Courses that stack like the kid dashboard</h2>
+            <p class="font-black uppercase text-berryDark">V3 Research-Ready Tracks</p>
+            <h2 class="mt-3 text-4xl">Courses backed by accepted research</h2>
           </div>
           <p class="text-lg font-bold text-muted">
-            Each card represents a public course family. Open the course library to see what students learn, master, and complete at every available level.
+            Each card represents a course family with complete V3 research artifacts. Open the course library to see what students learn, why the sequence exists, and which levels are ready now.
           </p>
         </div>
 
@@ -258,7 +258,7 @@ const courseFamilies = getCourseFamilies();
               <p class="home-course-summary">{family.summary}</p>
               <div class="home-course-progress" aria-label={`${family.title} course size`}>
                 <span class="progress-rail"><span class="progress-fill" style={`width: ${Math.max(38, Math.min(96, family.stats.levels * 8))}%`}></span></span>
-                <span>{family.stats.levels} levels &middot; {family.stats.lessons} lessons</span>
+                <span>{family.stats.levels} {family.stats.levels === 1 ? 'level' : 'levels'} &middot; {family.stats.lessons} lesson briefs</span>
               </div>
             </a>
           ))}

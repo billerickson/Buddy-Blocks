@@ -32,8 +32,8 @@ const levels = getCourseLevels(family);
         <div class="track-stat-row mt-7" aria-label={`${family.title} course totals`}>
           <span>{family.levelRange}</span>
           <span>{family.stats.units} units</span>
-          <span>{family.stats.lessons} lessons</span>
-          <span>{family.stats.questions.toLocaleString()} questions</span>
+          <span>{family.stats.lessons} lesson briefs</span>
+          <span>{family.stats.questions.toLocaleString()} question prompts</span>
         </div>
       </div>
 
@@ -63,8 +63,8 @@ const levels = getCourseLevels(family);
     <section class="level-nav-band">
       <div class="app-shell level-nav">
         <div>
-          <p class="font-black uppercase text-berryDark">Levels</p>
-          <h2 class="mt-2 text-4xl">What each level covers</h2>
+          <p class="font-black uppercase text-berryDark">Research-Ready Levels</p>
+          <h2 class="mt-2 text-4xl">What is complete now</h2>
         </div>
         <nav aria-label={`${family.title} levels`}>
           {levels.map((level) => <a href={`#${level.track.slug}`}>{level.label}</a>)}
@@ -80,9 +80,10 @@ const levels = getCourseLevels(family);
             <h2>{level.track.title}</h2>
             <div class="level-stat-row" aria-label={`${level.track.title} totals`}>
               <span>{level.stats.units} units</span>
-              <span>{level.stats.lessons} lessons</span>
-              <span>{level.stats.questions} questions</span>
+              <span>{level.stats.lessons} lesson briefs</span>
+              <span>{level.stats.questions} question prompts</span>
             </div>
+            <p class="research-source">Source: <code>{level.track.researchPath}</code></p>
             <div class="level-paragraphs">
               {level.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
             </div>
@@ -251,6 +252,22 @@ const levels = getCourseLevels(family);
 
     .level-stat-row {
       margin-top: 16px;
+    }
+
+    .research-source {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 900;
+    }
+
+    .research-source code {
+      border: 2px solid color-mix(in srgb, var(--ink) 60%, var(--course-color));
+      border-radius: 8px;
+      background: white;
+      padding: 2px 6px;
+      color: var(--ink);
+      font-weight: 950;
     }
 
     .level-paragraphs {
