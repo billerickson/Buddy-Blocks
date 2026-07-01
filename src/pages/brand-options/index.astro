@@ -1,0 +1,8 @@
+---
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+const html = readFileSync(join(process.cwd(), 'public', 'brand-options', 'index.html'), 'utf8');
+---
+
+<Fragment set:html={html} />
