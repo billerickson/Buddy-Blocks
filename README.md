@@ -23,14 +23,12 @@ Buddy Blocks can be deployed as a personal, self-hosted site on your own Cloudfl
 
 This table reflects the current `/research/` track status. "Research ready" means the level has accepted research artifacts through `06-question-sets.md`. "Coming soon" means the level currently has only `01-research-brief.md`.
 
-| Course | Research-ready levels | Coming soon levels |
+| Course | Current | Coming soon |
 | --- | --- | --- |
 | Classical Literature | Level 1 | Level 2, Level 3, Level 4, Level 5 |
 | French | Level 1 | Level 2, Level 3, Level 4, Level 5 |
-| Grade 3 Math | Grade 3 | - |
-| Grade 3 Vocabulary | Grade 3 | - |
-| Grade 6 Math | Grade 6 | - |
-| Grade 6 Vocabulary | Grade 6 | - |
+| Math | Grade 3 & 6 | - |
+| Vocabulary | Grade 3 & 6 | - |
 | Grammar | Level 1 | Level 2, Level 3, Level 4 |
 | History and Civics | Level 1 | Level 2, Level 3, Level 4, Level 5 |
 | Logic | Level 1 | Level 2, Level 3, Level 4 |
