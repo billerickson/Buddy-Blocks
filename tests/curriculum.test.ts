@@ -692,6 +692,46 @@ describe('curriculum content', () => {
     ]);
   });
 
+  it('preserves V3 question hints from fenced question blocks', () => {
+    const root = createTempCurriculumRoot();
+    writeTrack(root, 'grade-07', '01-science', {
+      id: 'track_grade7_science',
+      slug: 'grade-7-science',
+      subject: 'science',
+      title: 'Science',
+    });
+    writeUnit(root, 'grade-07', '01-science', '01-cells', {
+      id: 'unit_grade7_science_cells',
+      slug: 'cells',
+      title: 'Cells',
+    });
+    writeFileSync(
+      join(root, 'grade-07', '01-science', '01-cells', '01-cell-parts.md'),
+      `---
+id: lesson_grade7_science_cell_parts
+slug: cell-parts
+title: Cell Parts
+---
+
+## Questions
+
+\`\`\`question
+type: text-input
+prompt: Type cell.
+acceptedAnswers:
+  - cell
+hint: Think about the smallest living unit.
+\`\`\`
+`,
+      'utf8',
+    );
+
+    const tracks = loadCurriculumFromRoot(root);
+    const question = tracks[0]?.units[0]?.lessons[0]?.questions[0];
+
+    expect(question?.hint).toBe('Think about the smallest living unit.');
+  });
+
   it('detects duplicate track, unit, lesson, and generated question IDs', () => {
     const duplicateTracks: TrackFixture[] = [
       duplicateFixtureTrack('track_dup', 'one', 'unit_dup', 'lesson_dup'),

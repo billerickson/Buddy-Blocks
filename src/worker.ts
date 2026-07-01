@@ -92,6 +92,7 @@ type QuestionRow = {
   prompt: string;
   payload_json: string;
   explanation: string | null;
+  hint: string | null;
   sort_order: number;
 };
 
@@ -1808,6 +1809,7 @@ async function getLessonQuestions(env: Env, lessonId: string): Promise<LessonQue
     prompt: row.prompt,
     payload: JSON.parse(row.payload_json) as QuestionPayload,
     explanation: row.explanation,
+    hint: row.hint,
   }));
 }
 
@@ -1831,6 +1833,7 @@ async function getLessonQuestionsByLessonIds(env: Env, lessonIds: string[]) {
       prompt: row.prompt,
       payload: JSON.parse(row.payload_json) as QuestionPayload,
       explanation: row.explanation,
+      hint: row.hint,
     };
     const questions = questionsByLessonId.get(row.lesson_id) ?? [];
     questions.push(question);

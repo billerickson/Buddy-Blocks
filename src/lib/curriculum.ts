@@ -18,6 +18,7 @@ export type QuestionFixture = {
   prompt: string;
   payload: QuestionPayload;
   explanation?: string;
+  hint?: string;
 };
 
 export type LessonFixture = {
@@ -111,6 +112,7 @@ const unitFileSchema = z.object({
 const baseQuestionSchema = z.object({
   prompt: z.string().min(1),
   explanation: z.string().optional(),
+  hint: z.string().min(1).optional(),
   media: MediaSchema.optional(),
 });
 
@@ -478,6 +480,11 @@ function loadLesson(lessonPath: string): LessonFixture {
 }
 
 function normalizeQuestion(question: AuthoredQuestion): QuestionFixture {
+  const normalized = normalizeQuestionPayload(question);
+  return question.hint ? { ...normalized, hint: question.hint } : normalized;
+}
+
+function normalizeQuestionPayload(question: AuthoredQuestion): QuestionFixture {
   if (question.type === 'multiple-choice') {
     return {
       type: question.type,

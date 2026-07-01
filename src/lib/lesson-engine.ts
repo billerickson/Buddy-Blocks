@@ -154,6 +154,7 @@ export type LessonQuestion = {
   prompt: string;
   payload: QuestionPayload;
   explanation?: string | null;
+  hint?: string | null;
 };
 
 export function normalizeText(value: unknown) {

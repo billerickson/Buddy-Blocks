@@ -7,6 +7,7 @@ export type SeedQuestion = {
   prompt: string;
   payload: unknown;
   explanation?: string | null;
+  hint?: string | null;
   sortOrder: number;
 };
 
@@ -69,6 +70,7 @@ export function buildCurriculumSeedStatements(tracks: TrackFixture[], questions:
         prompt: question.prompt,
         payload_json: JSON.stringify(question.payload),
         explanation: question.explanation ?? null,
+        hint: question.hint ?? null,
         sort_order: question.sortOrder,
       }),
     );

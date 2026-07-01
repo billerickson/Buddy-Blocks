@@ -380,6 +380,12 @@ export default function LessonPlayer({
           <PromptWithSpeech question={current.question} speechLanguage={speechLanguage} />
         </h2>
         <QuestionMediaDisplay media={mediaFromQuestion(current.question)} />
+        {current.review && current.question.hint && (
+          <div className="mt-5 rounded-lg border-[3px] border-ink bg-[#fff3b0] p-4 shadow-[4px_4px_0_var(--block-shadow)]" role="note" aria-label="Hint">
+            <p className="text-sm font-black uppercase text-muted">Hint</p>
+            <p className="mt-1 text-lg font-black text-ink">{current.question.hint}</p>
+          </div>
+        )}
 
         <div className="mt-6">
           <QuestionControl

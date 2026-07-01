@@ -53,6 +53,7 @@ describe('seed SQL helpers', () => {
         type: 'text-input',
         prompt: 'Type cell.',
         payload: { acceptedAnswers: ['cell'], answerType: 'text' },
+        hint: 'Cells are the smallest living units.',
         sortOrder: 1,
       },
     ]);
@@ -60,7 +61,10 @@ describe('seed SQL helpers', () => {
     expect(statements.find((statement) => statement.startsWith('INSERT INTO tracks'))).toContain("'track_grade7_science'");
     expect(statements.find((statement) => statement.startsWith('INSERT INTO units'))).toContain("'unit_grade7_science_cells'");
     expect(statements.find((statement) => statement.startsWith('INSERT INTO lessons'))).toContain("'lesson_grade7_science_cell_parts'");
-    expect(statements.find((statement) => statement.startsWith('INSERT INTO questions'))).toContain("'lesson_grade7_science_cell_parts_q01'");
+    const questionStatement = statements.find((statement) => statement.startsWith('INSERT INTO questions'));
+    expect(questionStatement).toBeDefined();
+    expect(questionStatement!).toContain("'lesson_grade7_science_cell_parts_q01'");
+    expect(questionStatement!).toContain("'Cells are the smallest living units.'");
   });
 
   it('keeps curriculum rows upsertable but progress rows insert-only', () => {

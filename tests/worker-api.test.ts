@@ -144,7 +144,7 @@ function seedTrackFixture(db: DatabaseSync) {
   insertQuestion(db, 'question_lesson_5', 'lesson_5', 'Type si.', {
     acceptedAnswers: ['si'],
     answerType: 'text',
-  });
+  }, 'Remember the short Spanish word for yes.');
   insertQuestion(db, 'question_lesson_g4_1', 'lesson_g4_1', 'Type hola.', {
     acceptedAnswers: ['hola'],
     answerType: 'text',
@@ -227,12 +227,12 @@ function insertLesson(
   ).run(lesson.id, lesson.unitId, lesson.slug, lesson.title, lesson.kind ?? 'standard', lesson.config ?? null, lesson.sortOrder, 10);
 }
 
-function insertQuestion(db: DatabaseSync, id: string, lessonId: string, prompt: string, payload: unknown) {
+function insertQuestion(db: DatabaseSync, id: string, lessonId: string, prompt: string, payload: unknown, hint: string | null = null) {
   db.prepare(
     `INSERT INTO questions
-     (id, lesson_id, type, prompt, payload_json, explanation, sort_order)
-     VALUES (?, ?, 'text-input', ?, ?, NULL, 1)`,
-  ).run(id, lessonId, prompt, JSON.stringify(payload));
+     (id, lesson_id, type, prompt, payload_json, explanation, hint, sort_order)
+     VALUES (?, ?, 'text-input', ?, ?, NULL, ?, 1)`,
+  ).run(id, lessonId, prompt, JSON.stringify(payload), hint);
 }
 
 function createEnv() {
@@ -394,7 +394,11 @@ describe('worker track APIs', () => {
         track: { slug: 'grade-3-spanish' },
       },
     });
-    expect(body.lessons.find((lessonData: { lesson: { id: string } }) => lessonData.lesson.id === 'lesson_5').lesson.questions).toHaveLength(1);
+    expect(body.lessons.find((lessonData: { lesson: { id: string } }) => lessonData.lesson.id === 'lesson_5').lesson.questions).toEqual([
+      expect.objectContaining({
+        hint: 'Remember the short Spanish word for yes.',
+      }),
+    ]);
 
     const normalLockedLesson = await getJson('/api/children/reagan/lessons/lesson_3', env);
     expect(normalLockedLesson.response.status).toBe(403);
