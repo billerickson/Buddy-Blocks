@@ -12,19 +12,19 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Everyday social routines in English and willingness to repeat short phrases.
 - **Likely misconceptions:** Using one greeting for every time of day; treating `gracias` and `de nada` as interchangeable; omitting politeness because the phrase still has content.
 - **Evidence of mastery:** Given a mini situation or dialogue turn, the student chooses or produces a fitting greeting, farewell, or courtesy response.
-- **Recommended question types:** `multiple-choice` for context-to-phrase recognition; `match-pairs` for phrase meanings; `dialogue-builder` for choosing the next polite line; `speaking-prompt` for low-stakes oral rehearsal.
-- **Suggested intro/teaching note:** Begin with a two-line exchange such as `Hola. ¿Como estas?` and show how greetings and courtesy words make the exchange work.
+- **Recommended question types:** `multiple-choice` for context-to-phrase recognition; `match-pairs` for phrase meanings; `dialogue-builder` for choosing the next polite line; `fill-blank` for constrained polite request completion.
+- **Suggested intro/teaching note:** Begin with a two-line exchange such as `Hola. ¿Cómo estás?` and show how greetings and courtesy words make the exchange work.
 - **Reading-level and cognitive-load constraints:** Keep contexts one sentence; do not require accent marks or long typed production in the first lesson.
 
 ### Lesson 2: Names And Simple Introductions
 
 - **Teaching goal:** Teach the name question and simple well-being exchange as reusable introductory chunks.
-- **Student outcome:** The student can ask and answer `¿Como te llamas?`, use `Me llamo...`, and respond to `¿Como estas?` with a short feeling phrase.
+- **Student outcome:** The student can ask and answer `¿Cómo te llamas?`, use `Me llamo...`, and respond to `¿Cómo estás?` with a short feeling phrase.
 - **Key idea, model, text, representation, form, or procedure:** Introductory questions and answers should be learned as whole chunks before students analyze every word.
 - **Prerequisite knowledge:** Unit 1 greeting and courtesy phrases; recognition that Spanish question marks can appear at the beginning.
-- **Likely misconceptions:** Translating `Me llamo` word by word; answering `¿Como te llamas?` with a feeling; using `soy` before it is taught as a comparison.
+- **Likely misconceptions:** Translating `Me llamo` word by word; answering `¿Cómo te llamas?` with a feeling; using `soy` before it is taught as a comparison.
 - **Evidence of mastery:** The student builds or completes a four-turn introduction with greeting, name question, name answer, and well-being response.
-- **Recommended question types:** `dialogue-builder` for next-line choice; `order-items` for dialogue order; `multi-blank-cloze` for completing chunks; `speaking-prompt` for oral rehearsal.
+- **Recommended question types:** `dialogue-builder` for next-line choice; `order-items` for dialogue order; `multi-blank-cloze` for completing chunks; `text-input` for constrained name-answer production.
 - **Suggested intro/teaching note:** Model two students meeting and point out that `Me llamo...` is the expected name-answer chunk.
 - **Reading-level and cognitive-load constraints:** Use invented names and very short turns; keep `soy` out of answer choices unless testing chunk confusion.
 
@@ -36,7 +36,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Greetings, politeness, and willingness to infer meaning from classroom context.
 - **Likely misconceptions:** Confusing commands that look similar; thinking `no entiendo` is impolite; responding to every classroom phrase with a translation instead of an action.
 - **Evidence of mastery:** Given a phrase or classroom scenario, the student chooses the matching action, response, or help phrase.
-- **Recommended question types:** `match-pairs` for command-to-action; `multiple-choice` for choosing a help phrase; `dialogue-builder` for asking for repetition; `speaking-prompt` for rehearsal.
+- **Recommended question types:** `match-pairs` for command-to-action; `multiple-choice` for choosing a help phrase; `dialogue-builder` for asking for repetition; `fill-blank` for completing polite help phrases.
 - **Suggested intro/teaching note:** Pair each phrase with a gesture or classroom action before showing written forms.
 - **Reading-level and cognitive-load constraints:** Keep choices concrete; do not introduce formal command grammar.
 
@@ -48,8 +48,8 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Familiar Unit 1 words and comfort comparing sounds.
 - **Likely misconceptions:** Pronouncing Spanish vowels like English vowels; pronouncing `h` in `hola`; ignoring the opening question mark; treating accent marks as decoration.
 - **Evidence of mastery:** The student selects the correct pronunciation clue or explains which written feature changes how to read a familiar word.
-- **Recommended question types:** `multiple-choice` for recognizing sound clues; `match-pairs` for letter-feature examples; `error-correction` for punctuation or accent noticing; `speaking-prompt` for oral practice.
-- **Suggested intro/teaching note:** Use known words such as `hola`, `gracias`, `señor`, `Mexico`, and `¿Como?` so the lesson is about noticing, not memorizing new vocabulary.
+- **Recommended question types:** `multiple-choice` for recognizing sound clues; `match-pairs` for letter-feature examples; `error-correction` for punctuation or accent noticing; `fill-blank` for identifying written sound-spelling clues.
+- **Suggested intro/teaching note:** Use known words such as `hola`, `gracias`, `señor`, `México`, and `¿Cómo?` so the lesson is about noticing, not memorizing new vocabulary.
 - **Reading-level and cognitive-load constraints:** Keep the lesson at exposure and recognition; avoid technical phonetics terms.
 
 ### Lesson 5: Cognates And Mini Dialogues
@@ -60,7 +60,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Greetings, introductions, classroom phrases, and sound-spelling clues from Lessons 1-4.
 - **Likely misconceptions:** Assuming every look-alike word has the exact English meaning; reading for isolated words instead of the whole exchange; choosing dialogue lines by word similarity alone.
 - **Evidence of mastery:** The student interprets a short mini dialogue, identifies a useful cognate, and orders or completes a simple exchange.
-- **Recommended question types:** `passage-question` for short dialogue comprehension; `multiple-choice` for cognate strategy; `order-items` for dialogue sequence; `constructed-response` for a brief gist statement.
+- **Recommended question types:** `passage-question` for short dialogue comprehension; `multiple-choice` for cognate strategy; `order-items` for dialogue sequence; `text-input` for constrained cognate-meaning retrieval.
 - **Suggested intro/teaching note:** Show a tiny dialogue containing one or two cognates and ask what students can understand before translating.
 - **Reading-level and cognitive-load constraints:** Keep passages under six short lines; define or avoid false cognates unless they are the focus.
 
@@ -81,22 +81,22 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 ### Lesson 2: Age With Tener
 
 - **Teaching goal:** Teach the Spanish age question and answer as a `tener` formula.
-- **Student outcome:** The student can ask and answer age with `¿Cuantos años tienes?` and `Tengo... años`.
+- **Student outcome:** The student can ask and answer age with `¿Cuántos años tienes?` and `Tengo... años`.
 - **Key idea, model, text, representation, form, or procedure:** Spanish uses a `tener` chunk for age; students should use the whole formula rather than translate from English.
 - **Prerequisite knowledge:** Numbers 0-31, name introductions, question-response routines.
 - **Likely misconceptions:** Saying `Soy doce años`; omitting `años`; confusing `tienes` and `tengo`; answering with only an English-style number.
 - **Evidence of mastery:** The student completes a short age exchange and corrects a common age-statement error.
-- **Recommended question types:** `dialogue-builder` for age exchanges; `multi-blank-cloze` for the formula; `error-correction` for English-transfer errors; `speaking-prompt` for oral answer practice.
+- **Recommended question types:** `dialogue-builder` for age exchanges; `multi-blank-cloze` for the formula; `error-correction` for English-transfer errors; `text-input` for constrained age-answer production.
 - **Suggested intro/teaching note:** Contrast the English idea "I am 12" with the Spanish chunk `Tengo 12 años` without overexplaining verb grammar.
 - **Reading-level and cognitive-load constraints:** Use numbers students already practiced; keep personal prompts optional or use fictional students.
 
 ### Lesson 3: Days, Months, And Dates
 
 - **Teaching goal:** Teach students to interpret and state days, months, dates, and birthdays in short contexts.
-- **Student outcome:** The student can answer `¿Que dia es hoy?`, interpret dates, and state a birthday using a supported frame.
+- **Student outcome:** The student can answer `¿Qué día es hoy?`, interpret dates, and state a birthday using a supported frame.
 - **Key idea, model, text, representation, form, or procedure:** Spanish calendar statements have predictable patterns and normally lowercase days and months.
 - **Prerequisite knowledge:** Numbers 1-31, question punctuation, greetings, and simple sentence frames.
-- **Likely misconceptions:** Capitalizing days and months because English does; using English date order word for word; confusing `dia` and `fecha`.
+- **Likely misconceptions:** Capitalizing days and months because English does; using English date order word for word; confusing `día` and `fecha`.
 - **Evidence of mastery:** The student matches dates to Spanish statements and completes a birthday sentence accurately.
 - **Recommended question types:** `match-pairs` for days/months; `fill-blank` for date phrases; `passage-question` for calendar note comprehension; `text-input` for short supported birthday output.
 - **Suggested intro/teaching note:** Use a calendar image or text layout and read date statements from it before asking for production.
@@ -105,12 +105,12 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 ### Lesson 4: Weather And Seasons
 
 - **Teaching goal:** Teach common weather and season statements as context-setting chunks.
-- **Student outcome:** The student can interpret and produce common statements such as `Hace sol`, `Hace frio`, `Llueve`, `Nieva`, and `Es invierno`.
+- **Student outcome:** The student can interpret and produce common statements such as `Hace sol`, `Hace frío`, `Llueve`, `Nieva`, and `Es invierno`.
 - **Key idea, model, text, representation, form, or procedure:** Weather expressions are fixed chunks that do not translate word for word from English.
 - **Prerequisite knowledge:** Calendar language, basic adjectives, and exposure to `hace` as a phrase.
-- **Likely misconceptions:** Saying `es frio` for weather; treating every weather statement as `hace`; mixing seasons and weather conditions.
+- **Likely misconceptions:** Saying `es frío` for weather; treating every weather statement as `hace`; mixing seasons and weather conditions.
 - **Evidence of mastery:** The student selects or completes weather statements that fit simple images or context sentences.
-- **Recommended question types:** `multiple-choice` for weather recognition; `match-pairs` for phrase meanings; `fill-blank` for chunk completion; `constructed-response` for a short weather report.
+- **Recommended question types:** `multiple-choice` for weather recognition; `match-pairs` for phrase meanings; `fill-blank` for chunk completion; `text-input` for constrained weather-sentence production.
 - **Suggested intro/teaching note:** Present weather phrases with simple icons or contexts and note that students should learn the whole expression.
 - **Reading-level and cognitive-load constraints:** Keep output one sentence; do not introduce full impersonal-expression grammar.
 
@@ -159,21 +159,21 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Key idea, model, text, representation, form, or procedure:** Many Spanish color adjectives come after the noun and change to fit gender and number when they have changeable endings.
 - **Prerequisite knowledge:** Articles, familiar classroom nouns, singular/plural, and color recognition.
 - **Likely misconceptions:** Putting every adjective before the noun; using one color form for every noun; changing invariant colors unnecessarily.
-- **Evidence of mastery:** The student selects or completes phrases such as `la carpeta roja`, `los libros rojos`, and `el lapiz azul`.
-- **Recommended question types:** `multiple-choice` for phrase choice; `multi-blank-cloze` for adjective endings; `error-correction` for word-order and agreement; `constructed-response` for a short object description.
+- **Evidence of mastery:** The student selects or completes phrases such as `la carpeta roja`, `los libros rojos`, and `el lápiz azul`.
+- **Recommended question types:** `multiple-choice` for phrase choice; `multi-blank-cloze` for adjective endings; `error-correction` for word-order and agreement; `order-items` for constrained object-description building.
 - **Suggested intro/teaching note:** Compare one masculine and one feminine object with the same color so students see the agreement cue.
 - **Reading-level and cognitive-load constraints:** Use a small color set; avoid advanced adjective placement exceptions.
 
 ### Lesson 4: Hay And Object Locations
 
 - **Teaching goal:** Teach students to say what exists in a scene and where familiar objects are.
-- **Student outcome:** The student can interpret and produce `hay/no hay` statements and simple `esta/estan en...` location statements.
-- **Key idea, model, text, representation, form, or procedure:** `Hay` introduces what exists; `esta/estan` can locate a known object.
+- **Student outcome:** The student can interpret and produce `hay/no hay` statements and simple `está/están en...` location statements.
+- **Key idea, model, text, representation, form, or procedure:** `Hay` introduces what exists; `está/están` can locate a known object.
 - **Prerequisite knowledge:** Classroom nouns, articles, numbers, colors, and singular/plural awareness.
-- **Likely misconceptions:** Using `hay` and `esta` interchangeably; omitting `en`; using singular `esta` for plural objects; choosing a location word from English word order alone.
+- **Likely misconceptions:** Using `hay` and `está` interchangeably; omitting `en`; using singular `está` for plural objects; choosing a location word from English word order alone.
 - **Evidence of mastery:** The student describes a simple classroom scene with one existence statement and one location statement.
-- **Recommended question types:** `passage-question` for scene descriptions; `fill-blank` for `hay/esta/estan`; `match-pairs` for prepositions; `constructed-response` for a short scene description.
-- **Suggested intro/teaching note:** Contrast `Hay un libro` with `El libro esta en la mesa` using the same object.
+- **Recommended question types:** `passage-question` for scene descriptions; `fill-blank` for `hay/está/están`; `match-pairs` for prepositions; `multi-blank-cloze` for constrained scene-sentence completion.
+- **Suggested intro/teaching note:** Contrast `Hay un libro` with `El libro está en la mesa` using the same object.
 - **Reading-level and cognitive-load constraints:** Keep scenes sparse; use only three or four prepositions at a time.
 
 ## Unit 4: People, Family, And Personal Identity
@@ -186,19 +186,19 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Name introductions, age, adjectives from object descriptions, and question-response routines.
 - **Likely misconceptions:** Using `estoy` for identity; always stating `yo`; translating every English "am/is" the same way.
 - **Evidence of mastery:** The student completes identity sentences and chooses the correct `ser` form in short profile contexts.
-- **Recommended question types:** `multi-blank-cloze` for `soy/eres/es`; `dialogue-builder` for identity exchanges; `error-correction` for `ser` misuse; `constructed-response` for a short identity statement.
+- **Recommended question types:** `multi-blank-cloze` for `soy/eres/es`; `dialogue-builder` for identity exchanges; `error-correction` for `ser` misuse; `text-input` for constrained identity-sentence production.
 - **Suggested intro/teaching note:** Reuse known introductions, then add `Soy estudiante` and `Ella es Ana` to expand identity language.
 - **Reading-level and cognitive-load constraints:** Avoid full `ser` charts; focus on first, second, and third person singular.
 
 ### Lesson 2: Feelings And Location With Estar
 
 - **Teaching goal:** Teach limited `estar` chunks for feelings and location while distinguishing them from `ser` identity.
-- **Student outcome:** The student can use `estoy` and `esta` to say how someone feels or where someone is in familiar contexts.
+- **Student outcome:** The student can use `estoy` and `está` to say how someone feels or where someone is in familiar contexts.
 - **Key idea, model, text, representation, form, or procedure:** `Estar` is useful for condition and location in this level's limited contexts.
-- **Prerequisite knowledge:** Greetings, `¿Como estas?`, classroom locations, and `ser` for identity.
+- **Prerequisite knowledge:** Greetings, `¿Cómo estás?`, classroom locations, and `ser` for identity.
 - **Likely misconceptions:** Using `soy bien`; using `es en la clase`; treating `ser` and `estar` as the same because English uses "is."
 - **Evidence of mastery:** The student chooses `ser` or `estar` based on whether the sentence expresses identity, feeling, or location.
-- **Recommended question types:** `multiple-choice` for form choice; `fill-blank` for `estoy/esta`; `error-correction` for common transfer errors; `dialogue-builder` for feeling exchanges.
+- **Recommended question types:** `multiple-choice` for form choice; `fill-blank` for `estoy/está`; `error-correction` for common transfer errors; `dialogue-builder` for feeling exchanges.
 - **Suggested intro/teaching note:** Contrast `Soy estudiante` with `Estoy bien` and `Estoy en la clase` using clear meanings.
 - **Reading-level and cognitive-load constraints:** Teach only the limited contrast needed now; avoid exhaustive rule lists.
 
@@ -210,7 +210,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Age with `tener`, numbers, articles, and basic identity statements.
 - **Likely misconceptions:** Using `soy` for age; omitting articles with family nouns; confusing `mi` and `yo`; using `tengo` for another person.
 - **Evidence of mastery:** The student interprets a simple family tree and writes or completes statements such as `Tengo una hermana`.
-- **Recommended question types:** `match-pairs` for family terms; `multi-blank-cloze` for `tengo/tiene`; `passage-question` for family-tree notes; `constructed-response` for a short family sentence.
+- **Recommended question types:** `match-pairs` for family terms; `multi-blank-cloze` for `tengo/tiene`; `passage-question` for family-tree notes; `text-input` for constrained family-sentence production.
 - **Suggested intro/teaching note:** Start with a tiny family tree and model `Tengo...` and `Ella tiene...` from it.
 - **Reading-level and cognitive-load constraints:** Use a small family vocabulary set; avoid extended possessive adjective tables.
 
@@ -221,8 +221,8 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Key idea, model, text, representation, form, or procedure:** Descriptive adjectives should fit the person or people being described.
 - **Prerequisite knowledge:** `ser` for traits, color/adjective agreement, family nouns, singular/plural.
 - **Likely misconceptions:** Using masculine singular as a default for everyone; changing adjectives like `inteligente` to forms that are not used; placing adjectives before nouns by English habit.
-- **Evidence of mastery:** The student chooses accurate descriptions such as `Mi hermana es simpatica` and `Mis amigos son inteligentes`.
-- **Recommended question types:** `multiple-choice` for agreement choice; `error-correction` for adjective errors; `multi-blank-cloze` for adjective endings; `speaking-prompt` for a short description.
+- **Evidence of mastery:** The student chooses accurate descriptions such as `Mi hermana es simpática` and `Mis amigos son inteligentes`.
+- **Recommended question types:** `multiple-choice` for agreement choice; `error-correction` for adjective errors; `multi-blank-cloze` for adjective endings; `fill-blank` for constrained person-description completion.
 - **Suggested intro/teaching note:** Compare `mi hermano`, `mi hermana`, and `mis amigos` with the same adjective idea.
 - **Reading-level and cognitive-load constraints:** Keep adjectives high frequency and respectful; avoid physical description overload.
 
@@ -234,7 +234,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Unit 4 `ser`, `estar`, `tener`, family, origin, adjectives, and earlier name/age language.
 - **Likely misconceptions:** Adding unsupported forms to sound more advanced; mixing `ser`, `estar`, and `tener`; ignoring agreement when combining sentences.
 - **Evidence of mastery:** The student answers profile comprehension questions and writes or speaks a compact supported profile.
-- **Recommended question types:** `passage-question` for profile reading; `multi-blank-cloze` for profile completion; `constructed-response` for short writing; `speaking-prompt` for oral presentation.
+- **Recommended question types:** `passage-question` for profile reading; `multi-blank-cloze` for profile completion; `dialogue-builder` for fitting profile answers; `order-items` for compact profile sequencing.
 - **Suggested intro/teaching note:** Show a five-sentence model profile and label what each sentence does: name, age, origin, family, description.
 - **Reading-level and cognitive-load constraints:** Keep profiles under six short sentences; provide frames for production.
 
@@ -248,8 +248,8 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Identity statements, basic nouns, and short sentence frames.
 - **Likely misconceptions:** Translating as `yo gusto`; adding English word order; using `me gusta` with plural nouns before noticing the plural pattern.
 - **Evidence of mastery:** The student chooses or produces a simple like statement and identifies the liked activity or thing.
-- **Recommended question types:** `flash-card` for activities; `multiple-choice` for correct liking statement; `multi-blank-cloze` for chunk completion; `speaking-prompt` for oral preference practice.
-- **Suggested intro/teaching note:** Model `Me gusta leer` and `Me gusta la musica` as complete chunks tied to a picture or activity.
+- **Recommended question types:** `flash-card` for activities; `multiple-choice` for correct liking statement; `multi-blank-cloze` for chunk completion; `text-input` for constrained preference production.
+- **Suggested intro/teaching note:** Model `Me gusta leer` and `Me gusta la música` as complete chunks tied to a picture or activity.
 - **Reading-level and cognitive-load constraints:** Use a small set of high-interest activities; avoid explaining indirect objects.
 
 ### Lesson 2: Me Gustan And No Me Gusta
@@ -260,19 +260,19 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Singular/plural noun phrases, `me gusta`, and simple negation with `no`.
 - **Likely misconceptions:** Using `me gusta` for every plural; placing `no` after the verb; treating `me gustan` as a stronger like.
 - **Evidence of mastery:** The student completes preference sentences from singular, plural, and dislike cues.
-- **Recommended question types:** `fill-blank` for `gusta/gustan`; `error-correction` for negation and plural errors; `multiple-choice` for meaning; `constructed-response` for one like and one dislike.
+- **Recommended question types:** `fill-blank` for `gusta/gustan`; `error-correction` for negation and plural errors; `multiple-choice` for meaning; `text-input` for constrained like or dislike production.
 - **Suggested intro/teaching note:** Contrast `Me gusta la clase` with `Me gustan las clases` and `No me gusta la tarea`.
 - **Reading-level and cognitive-load constraints:** Keep grammar explanation short; use visible singular/plural cues.
 
 ### Lesson 3: Activities And Opinions
 
 - **Teaching goal:** Help students combine activities, opinions, and simple connectors.
-- **Student outcome:** The student can state a liked activity and give a simple opinion using `y`, `pero`, or `tambien`.
+- **Student outcome:** The student can state a liked activity and give a simple opinion using `y`, `pero`, or `también`.
 - **Key idea, model, text, representation, form, or procedure:** Connectors let novice speakers make a short message slightly richer without adding new tense systems.
 - **Prerequisite knowledge:** `me gusta`, basic adjectives, `ser`, and activity vocabulary.
-- **Likely misconceptions:** Using opinion adjectives without agreement; overusing `y` for every connection; treating `pero` and `tambien` as interchangeable.
-- **Evidence of mastery:** The student builds a two-part preference sentence such as `Me gusta dibujar, pero es dificil`.
-- **Recommended question types:** `order-items` for sentence building; `multi-blank-cloze` for connectors and opinions; `dialogue-builder` for preference response; `constructed-response` for a short opinion.
+- **Likely misconceptions:** Using opinion adjectives without agreement; overusing `y` for every connection; treating `pero` and `también` as interchangeable.
+- **Evidence of mastery:** The student builds a two-part preference sentence such as `Me gusta dibujar, pero es difícil`.
+- **Recommended question types:** `order-items` for sentence building; `multi-blank-cloze` for connectors and opinions; `dialogue-builder` for preference response; `fill-blank` for constrained opinion completion.
 - **Suggested intro/teaching note:** Show two model sentences that differ only by connector and ask how the meaning changes.
 - **Reading-level and cognitive-load constraints:** Keep sentences to two clauses; avoid requiring multiple new activity words at once.
 
@@ -291,12 +291,12 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 ### Lesson 5: Asking About School And Free Time
 
 - **Teaching goal:** Teach students to ask and answer short questions about preferences, classes, and activities.
-- **Student outcome:** The student can build a short school/free-time dialogue using `¿Que te gusta?`, `¿Que clase tienes?`, and familiar answers.
+- **Student outcome:** The student can build a short school/free-time dialogue using `¿Qué te gusta?`, `¿Qué clase tienes?`, and familiar answers.
 - **Key idea, model, text, representation, form, or procedure:** Interpersonal language requires choosing a reply that answers the actual question asked.
 - **Prerequisite knowledge:** Preference chunks, school subjects, days, time, activity vocabulary, and polite dialogue routines.
 - **Likely misconceptions:** Answering the word recognized rather than the question; using a statement where a question is needed; omitting polite opening or closing in an exchange.
 - **Evidence of mastery:** The student orders or completes a short dialogue and produces one answer about school or free time.
-- **Recommended question types:** `dialogue-builder` for next-turn selection; `order-items` for dialogue order; `constructed-response` for a short answer; `speaking-prompt` for oral dialogue practice.
+- **Recommended question types:** `dialogue-builder` for next-turn selection; `order-items` for dialogue order; `match-pairs` for question-to-answer type; `text-input` for constrained school preference production.
 - **Suggested intro/teaching note:** Compare two questions and underline the clue that decides the answer: `te gusta` versus `clase tienes`.
 - **Reading-level and cognitive-load constraints:** Use short two-speaker exchanges; limit each prompt to one question.
 
@@ -310,7 +310,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Likes, politeness, articles, singular/plural, and basic noun phrases.
 - **Likely misconceptions:** Treating `quiero` as equally polite in every setting; omitting `por favor`; using wrong articles with food nouns; expecting every food word to be a cognate.
 - **Evidence of mastery:** The student matches foods/drinks, chooses a polite request, and completes a short ordering exchange.
-- **Recommended question types:** `flash-card` for food vocabulary; `dialogue-builder` for ordering; `fill-blank` for request chunks; `speaking-prompt` for oral request practice.
+- **Recommended question types:** `flash-card` for food vocabulary; `dialogue-builder` for ordering; `fill-blank` for request chunks; `text-input` for constrained polite request production.
 - **Suggested intro/teaching note:** Model a cafe exchange and point out how `por favor` changes the tone of a request.
 - **Reading-level and cognitive-load constraints:** Keep the menu short; avoid regional food-culture overgeneralizations.
 
@@ -322,14 +322,14 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** `tener` for age/family, food and drink vocabulary, likes and dislikes.
 - **Likely misconceptions:** Saying `soy hambre`; confusing food with drink responses; treating meal names as identical across cultures.
 - **Evidence of mastery:** The student chooses the correct `tener` expression for a situation and matches foods or drinks to meal contexts.
-- **Recommended question types:** `multiple-choice` for situation-to-expression; `match-pairs` for meals and items; `error-correction` for `tener` errors; `constructed-response` for a short meal sentence.
+- **Recommended question types:** `multiple-choice` for situation-to-expression; `match-pairs` for meals and items; `error-correction` for `tener` errors; `text-input` for constrained hunger or thirst sentence production.
 - **Suggested intro/teaching note:** Link `Tengo doce años` and `Tengo hambre` as familiar `tener` chunks without turning the lesson into a full verb chart.
 - **Reading-level and cognitive-load constraints:** Use everyday foods and drinks; allow cultural variation in meal preferences.
 
 ### Lesson 3: Places With Estar And Ir A
 
 - **Teaching goal:** Teach location and destination contrast with familiar places.
-- **Student outcome:** The student can distinguish `estoy/esta en...` from `voy/va a...` in simple place statements.
+- **Student outcome:** The student can distinguish `estoy/está en...` from `voy/va a...` in simple place statements.
 - **Key idea, model, text, representation, form, or procedure:** `Estar en` says where someone is; `ir a` says where someone is going.
 - **Prerequisite knowledge:** `estar` for location, school and classroom places, basic question words, and place nouns with articles.
 - **Likely misconceptions:** Using `estoy en` for a destination; omitting `a` after `voy`; choosing `ser` for location; ignoring article contractions as exposure.
@@ -341,12 +341,12 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 ### Lesson 4: Simple Daily Routines
 
 - **Teaching goal:** Help students sequence a simple day with familiar actions, time phrases, and connectors.
-- **Student outcome:** The student can interpret and produce a short routine with `primero`, `despues`, time phrases, and common action chunks.
+- **Student outcome:** The student can interpret and produce a short routine with `primero`, `después`, time phrases, and common action chunks.
 - **Key idea, model, text, representation, form, or procedure:** A novice routine is a sequence of familiar present-time chunks, not a full narration across tenses.
 - **Prerequisite knowledge:** Time, school activities, places, `voy a`, connectors, and first-person action chunks.
 - **Likely misconceptions:** Writing a long English-like paragraph; mixing time frames; using connectors without sequence meaning; overextending verbs beyond taught chunks.
 - **Evidence of mastery:** The student orders routine events and writes or speaks three supported routine sentences.
-- **Recommended question types:** `order-items` for sequence; `passage-question` for routine reading; `multi-blank-cloze` for connectors and times; `constructed-response` for short routine production.
+- **Recommended question types:** `order-items` for sequence; `passage-question` for routine reading; `multi-blank-cloze` for connectors and times; `text-input` for constrained routine sentence production.
 - **Suggested intro/teaching note:** Show a three-step model routine with times and ask students to notice the sequence words before reading details.
 - **Reading-level and cognitive-load constraints:** Keep routines to three or four events; use familiar verbs only.
 
@@ -356,9 +356,9 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Student outcome:** The student can identify the question word or phrase and choose or produce a fitting answer.
 - **Key idea, model, text, representation, form, or procedure:** The question clue determines what kind of answer is needed: name, age, place, preference, date, time, weather, or family.
 - **Prerequisite knowledge:** All major Level 1 question-answer frames from Units 1-6.
-- **Likely misconceptions:** Answering based on one familiar word instead of the question; using a memorized answer that does not fit; confusing `que`, `como`, `cuantos`, `donde`, and `cuando`.
+- **Likely misconceptions:** Answering based on one familiar word instead of the question; using a memorized answer that does not fit; confusing `qué`, `cómo`, `cuántos`, `dónde`, and `cuándo`.
 - **Evidence of mastery:** The student completes a mixed short dialogue and explains or selects the clue that made the answer fit.
-- **Recommended question types:** `dialogue-builder` for fitting replies; `match-pairs` for question-to-answer type; `multiple-choice` for question-word clues; `speaking-prompt` for oral mixed practice.
+- **Recommended question types:** `dialogue-builder` for fitting replies; `match-pairs` for question-to-answer type; `multiple-choice` for question-word clues; `multi-blank-cloze` for constrained mixed-answer completion.
 - **Suggested intro/teaching note:** Make a question-word chart with answer types, then immediately use it in short dialogues.
 - **Reading-level and cognitive-load constraints:** Keep each exchange short; avoid stacking multiple questions in one prompt.
 
@@ -370,6 +370,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** All prior Level 1 vocabulary, forms, question frames, connectors, and review strategies.
 - **Likely misconceptions:** Trying to use unsupported advanced grammar; valuing length over accuracy; omitting key learned domains; translating an English paragraph word by word.
 - **Evidence of mastery:** The student completes a model-profile reading, chooses accurate sentence frames, writes a five-to-seven-sentence supported presentation, and optionally rehearses it aloud.
-- **Recommended question types:** `passage-question` for model comprehension; `multi-blank-cloze` for frame completion; `constructed-response` for supported presentation; `speaking-prompt` for oral rehearsal.
+- **Recommended question types:** `passage-question` for model comprehension; `multi-blank-cloze` for frame completion; `multiple-choice` for selecting a strong supported presentation; `order-items` for capstone sequence.
 - **Suggested intro/teaching note:** Show a model capstone with sentence jobs labeled: greeting, name/age, family, school, like, food/place, routine, closing.
 - **Reading-level and cognitive-load constraints:** Provide frames and word banks; keep production short and familiar; assess clarity and accuracy, not sophistication.

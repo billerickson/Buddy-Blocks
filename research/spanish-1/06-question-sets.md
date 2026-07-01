@@ -11,12 +11,12 @@ key: u01_l01_q01_morning_greeting
 type: multiple-choice
 prompt: "You see your teacher in the morning. Which greeting fits best?"
 choices:
-  - "Buenos dias"
+  - "Buenos días"
   - "Buenas noches"
-  - "Adios"
+  - "Adiós"
   - "De nada"
-correctAnswer: "Buenos dias"
-explanation: "Buenos dias is the usual greeting for the morning."
+correctAnswer: "Buenos días"
+explanation: "Buenos días is the usual greeting for the morning."
 hint: "Look for the greeting connected to morning."
 questionGoal: "Choose a greeting that fits time of day."
 misconception: "Using one memorized greeting without checking the context."
@@ -50,9 +50,9 @@ turns:
     line: "Gracias."
 choices:
   - "De nada."
-  - "Buenos dias."
+  - "Buenos días."
   - "Me llamo Ana."
-  - "Adios."
+  - "Adiós."
 correctAnswer: "De nada."
 explanation: "De nada is the polite response to gracias."
 hint: "Ana said thank you. Choose the response to thanks."
@@ -68,7 +68,7 @@ sentenceBefore: ""
 sentenceAfter: ", repite."
 choices:
   - "Por favor"
-  - "Adios"
+  - "Adiós"
   - "De nada"
   - "Buenas noches"
 correctAnswer: "Por favor"
@@ -84,7 +84,7 @@ type: multiple-choice
 prompt: "Your friend is leaving after class. Which phrase fits?"
 choices:
   - "Hasta luego"
-  - "Buenos dias"
+  - "Buenos días"
   - "De nada"
   - "Por favor"
 correctAnswer: "Hasta luego"
@@ -96,17 +96,18 @@ misconception: "Confusing greetings, farewells, and courtesy phrases."
 
 ```question
 key: u01_l01_q06_say_polite_opening
-type: speaking-prompt
-prompt: "Say a greeting and one polite phrase in Spanish."
-minSeconds: 4
-sampleAnswer: "Hola. Por favor."
-checklist:
-  - "Say one greeting"
-  - "Say one polite phrase"
-explanation: "Oral rehearsal helps greetings and politeness become usable chunks."
-hint: "You can use hola, buenos dias, por favor, or gracias."
-questionGoal: "Rehearse a greeting plus a courtesy phrase aloud."
-misconception: "Thinking recognition alone is enough for social language."
+type: multiple-choice
+prompt: "Which short opening includes both a greeting and a polite phrase?"
+choices:
+  - "Hola. Gracias."
+  - "Adiós. Me llamo Ana."
+  - "De nada. Hasta luego."
+  - "Lee el texto."
+correctAnswer: "Hola. Gracias."
+explanation: "Hola is a greeting, and gracias is a polite courtesy phrase."
+hint: "Look for one line that starts socially and also uses courtesy language."
+questionGoal: "Choose a short opening that combines greeting and courtesy language."
+misconception: "Recognizing polite words separately but not using them as social moves."
 ```
 
 ### Lesson 2: Names And Simple Introductions
@@ -117,14 +118,14 @@ type: dialogue-builder
 prompt: "Choose the best answer."
 turns:
   - speaker: "Lucia"
-    line: "¿Como te llamas?"
+    line: "¿Cómo te llamas?"
 choices:
   - "Me llamo Diego."
   - "Estoy bien."
   - "Hace sol."
   - "De nada."
 correctAnswer: "Me llamo Diego."
-explanation: "¿Como te llamas? asks for a name, and Me llamo... answers with a name."
+explanation: "¿Cómo te llamas? asks for a name, and Me llamo... answers with a name."
 hint: "Look for the answer that gives a name."
 questionGoal: "Answer the name question with the correct chunk."
 misconception: "Answering a name question with a feeling or courtesy phrase."
@@ -137,14 +138,16 @@ prompt: "Put the simple introduction in a logical order."
 items:
   - "Me llamo Ana."
   - "Hola."
-  - "¿Como te llamas?"
+  - "¿Cómo te llamas?"
+  - "¿Cómo estás?"
   - "Estoy bien."
 correctOrder:
   - "Hola."
-  - "¿Como te llamas?"
+  - "¿Cómo te llamas?"
   - "Me llamo Ana."
+  - "¿Cómo estás?"
   - "Estoy bien."
-explanation: "A short introduction can begin with a greeting, ask a name, answer the name, then give a simple feeling."
+explanation: "A short introduction can begin with a greeting, ask and answer a name question, then ask and answer how someone is."
 hint: "Start with the greeting."
 questionGoal: "Sequence familiar introductory lines."
 misconception: "Treating dialogue lines as isolated translations instead of turns."
@@ -174,14 +177,14 @@ misconception: "Mixing courtesy words into name or feeling chunks."
 ```question
 key: u01_l02_q04_how_are_you_answer
 type: multiple-choice
-prompt: "Which answer fits ¿Como estas?"
+prompt: "Which answer fits ¿Cómo estás?"
 choices:
   - "Estoy bien."
   - "Me llamo Eva."
-  - "Buenos dias."
+  - "Buenos días."
   - "Por favor."
 correctAnswer: "Estoy bien."
-explanation: "¿Como estas? asks how you are, so Estoy bien is a fitting answer."
+explanation: "¿Cómo estás? asks how you are, so Estoy bien is a fitting answer."
 hint: "Find the answer that tells how someone feels."
 questionGoal: "Match a well-being question to a fitting answer."
 misconception: "Confusing the name question and the how-are-you question."
@@ -202,17 +205,16 @@ misconception: "Translating word by word from 'my name is.'"
 
 ```question
 key: u01_l02_q06_speak_intro
-type: speaking-prompt
-prompt: "Say a two-line introduction: greet someone and say your name."
-minSeconds: 5
-sampleAnswer: "Hola. Me llamo Alex."
-checklist:
-  - "Use a greeting"
-  - "Use Me llamo with a name"
-explanation: "A short spoken introduction helps the chunks become ready for conversation."
-hint: "Start with hola or buenos dias."
-questionGoal: "Rehearse greeting plus name production."
-misconception: "Only recognizing introduction chunks without producing them."
+type: text-input
+prompt: "Type a Spanish name answer for Alex using Me llamo."
+acceptedAnswers:
+  - "Me llamo Alex."
+  - "Me llamo Alex"
+answerType: text
+explanation: "Me llamo Alex is the complete Spanish chunk for giving that name."
+hint: "Use Me llamo followed by the name."
+questionGoal: "Produce the memorized name-answer chunk in writing."
+misconception: "Recognizing Me llamo but not being able to use it with a name."
 ```
 
 ### Lesson 3: Classroom Survival Phrases
@@ -282,7 +284,7 @@ sentenceAfter: " el texto."
 choices:
   - "Lee"
   - "Gracias"
-  - "Adios"
+  - "Adiós"
   - "Tengo"
 correctAnswer: "Lee"
 explanation: "Lee means read, so Lee el texto means Read the text."
@@ -309,16 +311,20 @@ misconception: "Translating only familiar-looking words and missing action meani
 
 ```question
 key: u01_l03_q06_speak_help_phrase
-type: speaking-prompt
-prompt: "Say one classroom help phrase in Spanish."
-minSeconds: 3
-sampleAnswer: "No entiendo. Otra vez, por favor."
-checklist:
-  - "Use No entiendo or Otra vez, por favor"
-explanation: "Practicing help phrases makes it easier to use them when you need support."
-hint: "Choose a phrase for I do not understand or again, please."
-questionGoal: "Rehearse oral classroom self-advocacy."
-misconception: "Avoiding Spanish help phrases because they feel less familiar than English."
+type: fill-blank
+prompt: "Complete the polite classroom help phrase."
+sentenceBefore: "Otra vez,"
+sentenceAfter: "."
+choices:
+  - "por favor"
+  - "de nada"
+  - "adios"
+  - "me llamo"
+correctAnswer: "por favor"
+explanation: "Otra vez, por favor asks for something again politely."
+hint: "Choose the courtesy phrase that makes a request polite."
+questionGoal: "Complete a classroom self-advocacy phrase."
+misconception: "Knowing the help phrase meaning but omitting the polite request word."
 ```
 
 ### Lesson 4: Spanish Sounds And Written Clues
@@ -347,7 +353,7 @@ pairs:
   - left: "ñ"
     right: "señor"
   - left: "opening question mark"
-    right: "¿Como?"
+    right: "¿Cómo?"
   - left: "j sound"
     right: "jugo"
   - left: "accent mark"
@@ -362,9 +368,8 @@ misconception: "Ignoring marks and letters that do not work like English."
 key: u01_l04_q03_fix_question_marks
 type: error-correction
 prompt: "Correct the Spanish question punctuation."
-sentence: "Como estas?"
+sentence: "Cómo estás?"
 acceptedAnswers:
-  - "¿Como estas?"
   - "¿Cómo estás?"
 explanation: "Spanish questions use an opening question mark and a closing question mark."
 hint: "Add the mark that tells the reader a question is starting."
@@ -408,18 +413,18 @@ misconception: "Treating ñ as the same letter as n."
 
 ```question
 key: u01_l04_q06_speak_sound_clues
-type: speaking-prompt
-prompt: "Say these words slowly: hola, señor, gracias."
-minSeconds: 5
-sampleAnswer: "hola, señor, gracias"
-checklist:
-  - "Do not pronounce the h in hola"
-  - "Use the ñ sound in señor"
-  - "Say the vowels clearly"
-explanation: "Speaking familiar words helps connect spelling clues to pronunciation."
-hint: "Focus on h, ñ, and clear vowels."
-questionGoal: "Practice pronunciation features in familiar words."
-misconception: "Seeing pronunciation as separate from written Spanish."
+type: multiple-choice
+prompt: "Which word gives a clue that Spanish h is silent?"
+choices:
+  - "hola"
+  - "jugo"
+  - "señor"
+  - "gracias"
+correctAnswer: "hola"
+explanation: "Hola begins with h, but Spanish h is usually silent."
+hint: "Look for the word that begins with h."
+questionGoal: "Identify a familiar written example of silent h."
+misconception: "Seeing pronunciation clues but not connecting them to familiar words."
 ```
 
 ### Lesson 5: Cognates And Mini Dialogues
@@ -432,13 +437,13 @@ passageTitle: "En clase"
 passage: |
   Profe: Hola, clase.
   Mateo: Hola, profesora.
-  Profe: Música hoy.
+  Profe: Clase de música hoy.
 question: "Which word is a helpful cognate for understanding the topic?"
 choices:
   - "Música"
   - "Hola"
   - "Hoy"
-  - "Clase"
+  - "Mateo"
 correctAnswer: "Música"
 explanation: "Música looks like music and helps you infer the class topic."
 hint: "Look for the Spanish word that looks like an English word about a subject."
@@ -488,14 +493,14 @@ prompt: "Put the mini dialogue in order."
 items:
   - "Me llamo Maya."
   - "Hola."
-  - "¿Como te llamas?"
-  - "Gracias."
+  - "¿Cómo te llamas?"
+  - "Adiós."
 correctOrder:
   - "Hola."
-  - "¿Como te llamas?"
+  - "¿Cómo te llamas?"
   - "Me llamo Maya."
-  - "Gracias."
-explanation: "The exchange starts with a greeting, asks a name, answers the name, and ends politely."
+  - "Adiós."
+explanation: "The exchange starts with a greeting, asks a name, answers the name, and ends with a farewell."
 hint: "Start with the greeting, then ask the question."
 questionGoal: "Build a short introductory dialogue from familiar chunks."
 misconception: "Ordering by memorized word recognition rather than conversation logic."
@@ -507,9 +512,9 @@ type: passage-question
 prompt: "Read the dialogue and answer."
 passageTitle: "Dos estudiantes"
 passage: |
-  Elena: Buenos dias.
-  Tomas: Buenos dias.
-  Elena: ¿Como te llamas?
+  Elena: Buenos días.
+  Tomas: Buenos días.
+  Elena: ¿Cómo te llamas?
   Tomas: Me llamo Tomas.
 question: "What does Elena ask Tomas?"
 choices:
@@ -518,7 +523,7 @@ choices:
   - "the weather"
   - "the date"
 correctAnswer: "his name"
-explanation: "¿Como te llamas? asks What is your name?"
+explanation: "¿Cómo te llamas? asks What is your name?"
 hint: "Find the question phrase from introductions."
 questionGoal: "Understand a familiar question in a short dialogue."
 misconception: "Using one familiar word to guess instead of reading the whole turn."
@@ -526,17 +531,16 @@ misconception: "Using one familiar word to guess instead of reading the whole tu
 
 ```question
 key: u01_l05_q06_explain_cognate
-type: constructed-response
-prompt: "Name one Spanish cognate you know and its English meaning."
-minWords: 4
-sampleAnswer: "Familia means family."
-checklist:
-  - "Include one Spanish word"
-  - "Include its English meaning"
-explanation: "Naming the clue and meaning helps you use cognates deliberately."
-hint: "You can use familia, color, animal, hospital, or musica."
-questionGoal: "Explain a cognate connection in simple language."
-misconception: "Using cognates passively without knowing how they helped."
+type: text-input
+prompt: "Type the English meaning of the Spanish cognate familia."
+acceptedAnswers:
+  - "family"
+  - "the family"
+answerType: text
+explanation: "Familia is a cognate for family, so the spelling gives a useful clue."
+hint: "Use the English word that looks and sounds close to familia."
+questionGoal: "Use a cognate clue to produce a meaning."
+misconception: "Seeing a look-alike word without using it as a checked clue."
 ```
 
 ## Unit 2: Numbers, Calendar, Weather, And Time
@@ -585,12 +589,12 @@ key: u02_l01_q03_quantity_context
 type: fill-blank
 prompt: "Complete the sentence."
 sentenceBefore: "Hay"
-sentenceAfter: "lapices."
+sentenceAfter: "lápices."
 choices:
   - "tres"
   - "gracias"
   - "lunes"
-  - "frio"
+  - "frío"
 correctAnswer: "tres"
 explanation: "Tres is a number, so it fits a quantity of pencils."
 hint: "The sentence needs a number."
@@ -648,12 +652,12 @@ type: dialogue-builder
 prompt: "Choose the best answer."
 turns:
   - speaker: "Rosa"
-    line: "¿Cuantos años tienes?"
+    line: "¿Cuántos años tienes?"
 choices:
   - "Tengo once años."
   - "Me llamo Rosa."
-  - "Hace frio."
-  - "Buenos dias."
+  - "Hace frío."
+  - "Buenos días."
 correctAnswer: "Tengo once años."
 explanation: "The question asks age, so the answer uses Tengo... años."
 hint: "Look for the answer with years."
@@ -717,7 +721,7 @@ misconception: "Reading tengo only as literal possession in every context."
 key: u02_l02_q05_age_question_word
 type: fill-blank
 prompt: "Complete the age question."
-sentenceBefore: "¿Cuantos años"
+sentenceBefore: "¿Cuántos años"
 sentenceAfter: "?"
 choices:
   - "tienes"
@@ -725,7 +729,7 @@ choices:
   - "llamas"
   - "gracias"
 correctAnswer: "tienes"
-explanation: "¿Cuantos años tienes? asks how old you are."
+explanation: "¿Cuántos años tienes? asks how old you are."
 hint: "The question asks you, so it uses tienes."
 questionGoal: "Complete the memorized age question."
 misconception: "Confusing the question form tienes with the answer form tengo."
@@ -733,18 +737,18 @@ misconception: "Confusing the question form tienes with the answer form tengo."
 
 ```question
 key: u02_l02_q06_speak_age
-type: speaking-prompt
-prompt: "Answer the question aloud: ¿Cuantos años tienes?"
-minSeconds: 4
-sampleAnswer: "Tengo doce años."
-checklist:
-  - "Use Tengo"
-  - "Include a number"
-  - "Include años"
-explanation: "Oral practice helps the age formula become a ready answer."
-hint: "Use the frame Tengo ___ años."
-questionGoal: "Rehearse an age answer orally."
-misconception: "Knowing the formula in recognition but not being able to produce it."
+type: text-input
+prompt: "Type a Spanish age answer for 12 years old."
+acceptedAnswers:
+  - "Tengo doce años."
+  - "Tengo doce años"
+  - "Tengo 12 años."
+  - "Tengo 12 años"
+answerType: text
+explanation: "Tengo doce años is the Spanish age formula for I am 12 years old."
+hint: "Use Tengo, a number, and años."
+questionGoal: "Produce the tener age formula in writing."
+misconception: "Recognizing the age formula but not producing the full chunk."
 ```
 
 ### Lesson 3: Days, Months, And Dates
@@ -826,7 +830,7 @@ misconception: "Applying English capitalization and word order to Spanish dates.
 ```question
 key: u02_l03_q05_birthday_frame
 type: multi-blank-cloze
-prompt: "Complete the birthday sentence."
+prompt: "Complete the birthday sentence for April 10."
 parts:
   - "Mi cumpleaños es el "
   - " de "
@@ -867,7 +871,7 @@ prompt: "Match each weather phrase to its meaning."
 pairs:
   - left: "Hace sol"
     right: "It is sunny"
-  - left: "Hace frio"
+  - left: "Hace frío"
     right: "It is cold"
   - left: "Llueve"
     right: "It is raining"
@@ -917,11 +921,10 @@ misconception: "Filling a chunk with an unrelated familiar word."
 key: u02_l04_q04_fix_cold_weather
 type: error-correction
 prompt: "Correct the weather sentence."
-sentence: "Es frio hoy."
+sentence: "Es frío hoy."
 acceptedAnswers:
-  - "Hace frio hoy."
   - "Hace frío hoy."
-explanation: "For cold weather, use the chunk Hace frio."
+explanation: "For cold weather, use the chunk Hace frío."
 hint: "Use the weather chunk with Hace."
 questionGoal: "Correct an English-transfer weather expression."
 misconception: "Using es for every English 'it is' sentence."
@@ -951,17 +954,16 @@ misconception: "Confusing a season statement with a weather statement."
 
 ```question
 key: u02_l04_q06_weather_report
-type: constructed-response
-prompt: "Write one short Spanish weather sentence."
-minWords: 2
-sampleAnswer: "Hace sol."
-checklist:
-  - "Use a weather phrase"
-  - "Write one complete sentence"
-explanation: "A useful weather report can be one clear sentence."
-hint: "You can use Hace sol, Hace frio, Llueve, or Nieva."
-questionGoal: "Produce a simple weather sentence."
-misconception: "Thinking a weather report must be long or word-for-word from English."
+type: text-input
+prompt: "Type the Spanish weather sentence for It is sunny."
+acceptedAnswers:
+  - "Hace sol."
+  - "Hace sol"
+answerType: text
+explanation: "Hace sol is the fixed beginner chunk for It is sunny."
+hint: "Use the weather chunk with Hace."
+questionGoal: "Produce a common fixed weather expression."
+misconception: "Recognizing weather chunks but translating word by word during production."
 ```
 
 ### Lesson 5: Telling Basic Time
@@ -1022,7 +1024,7 @@ misconception: "Putting a day, age word, or the singular hour into the plural ti
 ```question
 key: u02_l05_q04_half_past
 type: multi-blank-cloze
-prompt: "Complete the half-hour time."
+prompt: "Complete the half-hour time for 3:30."
 parts:
   - "Son las "
   - " y "
@@ -1056,7 +1058,7 @@ misconception: "Overgeneralizing Son las to every hour."
 ```question
 key: u02_l05_q06_type_hour
 type: text-input
-prompt: "Complete the time in Spanish: Son las ___."
+prompt: "Complete the time in Spanish for 3:00: Son las ___."
 acceptedAnswers:
   - "tres"
 answerType: text
@@ -1093,7 +1095,7 @@ key: u03_l01_q02_object_pairs
 type: match-pairs
 prompt: "Match each classroom phrase to English."
 pairs:
-  - left: "el lapiz"
+  - left: "el lápiz"
     right: "the pencil"
   - left: "la mesa"
     right: "the table"
@@ -1128,15 +1130,15 @@ key: u03_l01_q04_article_lapiz
 type: fill-blank
 prompt: "Complete the classroom phrase."
 sentenceBefore: ""
-sentenceAfter: " lapiz"
+sentenceAfter: " lápiz"
 choices:
   - "el"
   - "la"
   - "los"
   - "las"
 correctAnswer: "el"
-explanation: "The taught phrase is el lapiz."
-hint: "Use the singular article learned with lapiz."
+explanation: "The taught phrase is el lápiz."
+hint: "Use the singular article learned with lápiz."
 questionGoal: "Recall the article for a familiar classroom noun."
 misconception: "Treating all classroom nouns as if they used la."
 ```
@@ -1156,16 +1158,17 @@ misconception: "Thinking articles can be chosen randomly."
 
 ```question
 key: u03_l01_q06_explain_article
-type: constructed-response
-prompt: "Why should you learn el libro instead of only libro?"
-minWords: 6
-sampleAnswer: "The article el is part of the useful noun phrase."
-checklist:
-  - "Mention the article"
-  - "Say it helps with the noun phrase or gender"
-explanation: "Articles carry information in Spanish, so learning the whole phrase helps later sentences."
-hint: "Think about what el tells you."
-questionGoal: "Explain why articles matter in Spanish noun learning."
+type: multiple-choice
+prompt: "Why is it useful to learn el libro instead of only libro?"
+choices:
+  - "The article is part of the noun phrase and helps with Spanish patterns."
+  - "The article changes the object from a book to a pencil."
+  - "Spanish nouns never use articles in sentences."
+  - "El means the noun is plural."
+correctAnswer: "The article is part of the noun phrase and helps with Spanish patterns."
+explanation: "Learning el libro as a phrase helps you remember the article that travels with libro."
+hint: "Think about what el adds to the noun phrase."
+questionGoal: "Explain why articles should be learned with nouns."
 misconception: "Believing articles are optional decoration."
 ```
 
@@ -1208,21 +1211,22 @@ misconception: "Using singular la with a plural noun."
 ```question
 key: u03_l02_q03_quantity_phrase
 type: multi-blank-cloze
-prompt: "Complete the classroom quantity sentence."
+prompt: "Complete the classroom quantity sentence for two books and three tables."
 parts:
   - "Hay "
   - " libros y "
-  - " mesa."
+  - " mesas."
 blanks:
   - correctAnswer: "dos"
     acceptedAnswers:
       - "dos"
       - "2"
-  - correctAnswer: "una"
+  - correctAnswer: "tres"
     acceptedAnswers:
-      - "una"
-explanation: "Dos libros is plural, and una mesa means one table."
-hint: "Use a number for books and one for the table."
+      - "tres"
+      - "3"
+explanation: "Dos libros and tres mesas both use numbers with familiar classroom nouns."
+hint: "Use the number clue before each noun."
 questionGoal: "Use number words with familiar classroom nouns."
 misconception: "Mixing calendar or weather words into quantity phrases."
 ```
@@ -1264,11 +1268,10 @@ key: u03_l02_q06_three_pencils
 type: text-input
 prompt: "Type the Spanish phrase for three pencils."
 acceptedAnswers:
-  - "tres lapices"
   - "tres lápices"
 answerType: text
-explanation: "Three pencils is tres lapices. The accent may appear in the preferred spelling: lápices."
-hint: "Start with the number word for 3, then the plural of lapiz."
+explanation: "Three pencils is tres lápices. The accent may appear in the preferred spelling: lápices."
+hint: "Start with the number word for 3, then the plural of lápiz."
 questionGoal: "Produce a quantity phrase with a familiar classroom noun."
 misconception: "Using a singular noun after a number greater than one."
 ```
@@ -1312,16 +1315,16 @@ misconception: "Putting the color before the noun because English does."
 ```question
 key: u03_l03_q03_plural_color
 type: multi-blank-cloze
-prompt: "Complete the object description."
+prompt: "Complete the object description for the red pencils."
 parts:
-  - "Los lapices "
-  - " estan en la mesa."
+  - "Los lápices "
+  - "."
 blanks:
   - correctAnswer: "rojos"
     acceptedAnswers:
       - "rojos"
-explanation: "Los lapices is masculine plural, so the color is rojos."
-hint: "Match the color to los lapices."
+explanation: "Los lápices is masculine plural, so the color form is rojos."
+hint: "Match the color ending to a masculine plural noun."
 questionGoal: "Apply plural adjective agreement in a familiar phrase."
 misconception: "Using one color form for every noun."
 ```
@@ -1348,7 +1351,7 @@ pairs:
     right: "the red book"
   - left: "la silla azul"
     right: "the blue chair"
-  - left: "los lapices negros"
+  - left: "los lápices negros"
     right: "the black pencils"
   - left: "las carpetas verdes"
     right: "the green folders"
@@ -1360,18 +1363,20 @@ misconception: "Reading only the noun and ignoring adjective cues."
 
 ```question
 key: u03_l03_q06_describe_object
-type: constructed-response
-prompt: "Write one Spanish phrase that describes a classroom object with a color."
-minWords: 3
-sampleAnswer: "el libro rojo"
-checklist:
-  - "Include an article"
-  - "Include a classroom object"
-  - "Include a color after the noun"
-explanation: "A clear object description uses article + noun + color."
-hint: "Use a phrase such as el libro rojo or la silla azul."
-questionGoal: "Produce a short noun-color description."
-misconception: "Producing only a noun or using English adjective order."
+type: order-items
+prompt: "Put the Spanish phrase in order: the blue chair."
+items:
+  - "azul"
+  - "la"
+  - "silla"
+correctOrder:
+  - "la"
+  - "silla"
+  - "azul"
+explanation: "A Spanish color description usually uses article + noun + color: la silla azul."
+hint: "Start with the article and noun, then add the color."
+questionGoal: "Build a short noun-color description in Spanish order."
+misconception: "Using English adjective order for Spanish color phrases."
 ```
 
 ### Lesson 4: Hay And Object Locations
@@ -1382,7 +1387,7 @@ type: multiple-choice
 prompt: "Which sentence means There is a book?"
 choices:
   - "Hay un libro."
-  - "Esta un libro."
+  - "Está un libro."
   - "Soy un libro."
   - "Me gusta un libro."
 correctAnswer: "Hay un libro."
@@ -1399,15 +1404,15 @@ prompt: "Complete the location sentence."
 sentenceBefore: "El libro"
 sentenceAfter: "en la mesa."
 choices:
-  - "esta"
+  - "está"
   - "hay"
   - "soy"
   - "tengo"
-correctAnswer: "esta"
-explanation: "El libro esta en la mesa tells where the known book is."
+correctAnswer: "está"
+explanation: "El libro está en la mesa tells where the known book is."
 hint: "Use the form that locates a known object."
 questionGoal: "Choose estar for object location."
-misconception: "Using hay and esta interchangeably."
+misconception: "Using hay and está interchangeably."
 ```
 
 ```question
@@ -1436,8 +1441,8 @@ prompt: "Read the scene and answer."
 passageTitle: "La clase"
 passage: |
   Hay una mesa.
-  El lapiz esta en la mesa.
-  La mochila esta debajo de la mesa.
+  El lápiz está en la mesa.
+  La mochila está debajo de la mesa.
 question: "Where is the pencil?"
 choices:
   - "on the table"
@@ -1445,8 +1450,8 @@ choices:
   - "near the backpack"
   - "in the backpack"
 correctAnswer: "on the table"
-explanation: "El lapiz esta en la mesa means the pencil is on the table in this scene."
-hint: "Find the sentence with lapiz."
+explanation: "El lápiz está en la mesa means the pencil is on the table in this scene."
+hint: "Find the sentence with lápiz."
 questionGoal: "Interpret a simple classroom location description."
 misconception: "Mixing up object names or location phrases in a short text."
 ```
@@ -1457,27 +1462,34 @@ type: error-correction
 prompt: "Correct the sentence."
 sentence: "Hay en la mesa el libro."
 acceptedAnswers:
-  - "El libro esta en la mesa."
   - "El libro está en la mesa."
-explanation: "Use esta to locate a known object: El libro esta en la mesa."
-hint: "Start with the object, then use esta en."
+explanation: "Use está to locate a known object: El libro está en la mesa."
+hint: "Start with the object, then use está en."
 questionGoal: "Correct hay/estar confusion in a location sentence."
 misconception: "Using hay for every classroom-scene sentence."
 ```
 
 ```question
 key: u03_l04_q06_scene_description
-type: constructed-response
-prompt: "Write two short Spanish sentences about a classroom scene: one with hay and one with esta."
-minWords: 6
-sampleAnswer: "Hay un libro. El libro esta en la mesa."
-checklist:
-  - "Use hay once"
-  - "Use esta once"
-  - "Name a classroom object"
-explanation: "Hay introduces what exists. Esta can tell where a known object is."
-hint: "Try Hay un libro. Then tell where the book is."
-questionGoal: "Produce a simple existence plus location description."
+type: multi-blank-cloze
+prompt: "Complete the classroom scene sentences."
+parts:
+  - "Hay "
+  - " libro. El libro "
+  - " en la mesa."
+blanks:
+  - correctAnswer: "un"
+    choices:
+      - "un"
+      - "el"
+      - "los"
+      - "hay"
+  - correctAnswer: "está"
+    acceptedAnswers:
+      - "está"
+explanation: "Hay un libro introduces the book. El libro está en la mesa tells where the known book is."
+hint: "Use hay to introduce the object, then use estar to locate it."
+questionGoal: "Complete an existence statement and a location statement."
 misconception: "Writing two existence statements without locating the object."
 ```
 
@@ -1509,14 +1521,14 @@ misconception: "Using estar or tener for identity."
 ```question
 key: u04_l01_q02_who_are_you
 type: multiple-choice
-prompt: "Which answer fits ¿Quien eres?"
+prompt: "Which answer fits ¿Quién eres?"
 choices:
   - "Soy Luis."
   - "Estoy en la clase."
   - "Tengo hambre."
-  - "Hace frio."
+  - "Hace frío."
 correctAnswer: "Soy Luis."
-explanation: "¿Quien eres? asks who you are, so Soy Luis fits."
+explanation: "¿Quién eres? asks who you are, so Soy Luis fits."
 hint: "Choose the answer that identifies the person."
 questionGoal: "Answer an identity question with soy."
 misconception: "Responding to an identity question with location or condition."
@@ -1528,7 +1540,7 @@ type: dialogue-builder
 prompt: "Choose the best answer."
 turns:
   - speaker: "Marta"
-    line: "¿De donde eres?"
+    line: "¿De dónde eres?"
 choices:
   - "Soy de Texas."
   - "Estoy bien."
@@ -1536,7 +1548,7 @@ choices:
   - "Hay un libro."
 correctAnswer: "Soy de Texas."
 explanation: "Soy de... tells where someone is from."
-hint: "The question de donde asks about origin."
+hint: "The question de dónde asks about origin."
 questionGoal: "Use ser in a simple origin exchange."
 misconception: "Confusing origin with current location or time."
 ```
@@ -1576,17 +1588,18 @@ misconception: "Treating all forms of 'to be' as the same word."
 
 ```question
 key: u04_l01_q06_identity_sentences
-type: constructed-response
-prompt: "Write two short Spanish identity sentences."
-minWords: 4
-sampleAnswer: "Soy Elena. Soy estudiante."
-checklist:
-  - "Use soy or es"
-  - "Include two short sentences"
-explanation: "Identity sentences use familiar ser chunks to say who someone is."
-hint: "Use frames such as Soy ___ and Soy estudiante."
-questionGoal: "Produce compact identity statements."
-misconception: "Trying to translate a long English introduction instead of using learned frames."
+type: text-input
+prompt: "Type the Spanish sentence for I am a student."
+acceptedAnswers:
+  - "Soy estudiante."
+  - "Soy estudiante"
+  - "Yo soy estudiante."
+  - "Yo soy estudiante"
+answerType: text
+explanation: "Soy estudiante is the familiar ser chunk for I am a student."
+hint: "Use the ser form that goes with yo."
+questionGoal: "Produce a compact identity sentence with soy."
+misconception: "Trying to translate identity sentences word by word instead of using learned frames."
 ```
 
 ### Lesson 2: Feelings And Location With Estar
@@ -1594,7 +1607,7 @@ misconception: "Trying to translate a long English introduction instead of using
 ```question
 key: u04_l02_q01_how_feel
 type: multiple-choice
-prompt: "Which answer fits ¿Como estas?"
+prompt: "Which answer fits ¿Cómo estás?"
 choices:
   - "Estoy bien."
   - "Soy estudiante."
@@ -1614,12 +1627,12 @@ prompt: "Complete the location sentence."
 sentenceBefore: "Ana"
 sentenceAfter: "en la clase."
 choices:
-  - "esta"
+  - "está"
   - "es"
   - "tiene"
   - "hay"
-correctAnswer: "esta"
-explanation: "Ana esta en la clase tells where Ana is."
+correctAnswer: "está"
+explanation: "Ana está en la clase tells where Ana is."
 hint: "Use estar for location."
 questionGoal: "Choose estar for a person's location."
 misconception: "Using ser for every English 'is.'"
@@ -1660,15 +1673,15 @@ type: dialogue-builder
 prompt: "Choose the best answer."
 turns:
   - speaker: "Sofia"
-    line: "¿Donde esta Luis?"
+    line: "¿Dónde está Luis?"
 choices:
-  - "Esta en la biblioteca."
+  - "Está en la clase."
   - "Es Luis."
   - "Tiene trece años."
   - "Hace sol."
-correctAnswer: "Esta en la biblioteca."
-explanation: "¿Donde esta...? asks where someone is, so a location answer with esta fits."
-hint: "Donde asks for a place."
+correctAnswer: "Está en la clase."
+explanation: "¿Dónde está...? asks where someone is, so a location answer with está fits."
+hint: "Dónde asks for a place."
 questionGoal: "Answer a location question with estar."
 misconception: "Answering a where question with identity or age."
 ```
@@ -1678,14 +1691,14 @@ key: u04_l02_q06_estar_pairs
 type: match-pairs
 prompt: "Match each phrase to English."
 pairs:
-  - left: "estoy cansado"
-    right: "I am tired"
-  - left: "esta en casa"
-    right: "he or she is at home"
   - left: "estoy bien"
     right: "I am well"
-  - left: "no estoy en la escuela"
-    right: "I am not at school"
+  - left: "estoy mal"
+    right: "I am not well"
+  - left: "estoy en la clase"
+    right: "I am in class"
+  - left: "está en la clase"
+    right: "he or she is in class"
 explanation: "These estar chunks tell condition or location."
 hint: "Look for whether the phrase tells how someone is or where someone is."
 questionGoal: "Interpret limited estar phrases."
@@ -1788,17 +1801,16 @@ misconception: "Confusing mi with yo or me."
 
 ```question
 key: u04_l03_q06_family_sentence
-type: constructed-response
-prompt: "Write one short Spanish sentence about a family member."
-minWords: 3
-sampleAnswer: "Tengo una hermana."
-checklist:
-  - "Use a family word"
-  - "Use tengo, tiene, mi, or tu"
-explanation: "A short family sentence can use tener or a possessive chunk."
-hint: "Try Tengo un hermano or Mi madre es amable."
-questionGoal: "Produce a supported family sentence."
-misconception: "Listing vocabulary without making a sentence."
+type: text-input
+prompt: "Type the Spanish sentence for I have a sister."
+acceptedAnswers:
+  - "Tengo una hermana."
+  - "Tengo una hermana"
+answerType: text
+explanation: "Tengo una hermana uses tener to say you have a sister."
+hint: "Use Tengo plus the family noun phrase."
+questionGoal: "Produce a supported family sentence with tener."
+misconception: "Listing family vocabulary without using the tener sentence frame."
 ```
 
 ### Lesson 4: Describing People With Agreement
@@ -1808,12 +1820,12 @@ key: u04_l04_q01_sister_kind
 type: multiple-choice
 prompt: "Choose the sentence that means My sister is nice."
 choices:
-  - "Mi hermana es simpatica."
-  - "Mi hermana es simpatico."
-  - "Mi hermano es simpatica."
-  - "Mi hermana esta simpatica."
-correctAnswer: "Mi hermana es simpatica."
-explanation: "Hermana is feminine, so the adjective is simpatica, and es describes a trait."
+  - "Mi hermana es simpática."
+  - "Mi hermana es simpático."
+  - "Mi hermano es simpática."
+  - "Mi hermana está simpática."
+correctAnswer: "Mi hermana es simpática."
+explanation: "Hermana is feminine, so the adjective is simpática, and es describes a trait."
 hint: "Match the adjective ending to hermana."
 questionGoal: "Choose an adjective that agrees with a feminine person noun."
 misconception: "Using masculine singular adjective form as the default."
@@ -1841,11 +1853,10 @@ misconception: "Forgetting plural agreement on adjectives."
 key: u04_l04_q03_fix_person_adjective
 type: error-correction
 prompt: "Correct the person description."
-sentence: "Mi hermano es simpatica."
+sentence: "Mi hermano es simpática."
 acceptedAnswers:
-  - "Mi hermano es simpatico."
   - "Mi hermano es simpático."
-explanation: "Hermano is masculine, so the adjective is simpatico."
+explanation: "Hermano is masculine, so the adjective is simpático."
 hint: "Make the adjective fit hermano."
 questionGoal: "Correct gender agreement in a people description."
 misconception: "Copying an adjective form from a different noun."
@@ -1862,10 +1873,10 @@ pairs:
     right: "hardworking"
   - left: "serio"
     right: "serious"
-  - left: "comico"
+  - left: "cómico"
     right: "funny"
 explanation: "These adjectives help describe people respectfully and simply."
-hint: "Look for cognates such as serio and comico."
+hint: "Look for cognates such as serio and cómico."
 questionGoal: "Recognize common descriptive adjectives for people."
 misconception: "Depending only on physical adjectives or only on English-looking words."
 ```
@@ -1873,10 +1884,10 @@ misconception: "Depending only on physical adjectives or only on English-looking
 ```question
 key: u04_l04_q05_two_people
 type: multi-blank-cloze
-prompt: "Complete the descriptions."
+prompt: "Complete the descriptions for a hardworking girl and boy."
 parts:
   - "Ella es "
-  - ". El es "
+  - ". Él es "
   - "."
 blanks:
   - correctAnswer: "trabajadora"
@@ -1885,7 +1896,7 @@ blanks:
   - correctAnswer: "trabajador"
     acceptedAnswers:
       - "trabajador"
-explanation: "Ella takes trabajadora, and el takes trabajador."
+explanation: "Ella takes trabajadora, and él takes trabajador."
 hint: "Match each adjective to the person described."
 questionGoal: "Contrast masculine and feminine adjective forms."
 misconception: "Using one adjective form for both people."
@@ -1893,18 +1904,20 @@ misconception: "Using one adjective form for both people."
 
 ```question
 key: u04_l04_q06_speak_person
-type: speaking-prompt
-prompt: "Say one Spanish sentence describing a family member or friend."
-minSeconds: 5
-sampleAnswer: "Mi hermana es inteligente."
-checklist:
-  - "Name a person or family member"
-  - "Use es"
-  - "Use one adjective"
-explanation: "Speaking a short description helps you practice agreement in a real message."
-hint: "Use a frame like Mi hermano es ___ or Mi amiga es ___."
-questionGoal: "Rehearse oral people description with agreement."
-misconception: "Avoiding production because agreement feels uncertain."
+type: fill-blank
+prompt: "Complete the person description."
+sentenceBefore: "Mi amiga es"
+sentenceAfter: "."
+choices:
+  - "inteligente"
+  - "inteligentes"
+  - "trabajador"
+  - "altos"
+correctAnswer: "inteligente"
+explanation: "Mi amiga is singular, and inteligente keeps the same gender form but adds s only for plural."
+hint: "Choose the singular adjective form that can describe a female friend."
+questionGoal: "Choose an adjective form that fits a singular person noun."
+misconception: "Changing every adjective to an -a form or making singular nouns plural."
 ```
 
 ### Lesson 5: Short Profiles About People
@@ -1918,11 +1931,11 @@ passage: |
   Me llamo Camila.
   Tengo doce años.
   Soy de Texas.
-  Mi hermano es comico.
+  Mi hermano es cómico.
 question: "Where is Camila from?"
 choices:
   - "Texas"
-  - "Mexico"
+  - "México"
   - "the classroom"
   - "her family"
 correctAnswer: "Texas"
@@ -1960,11 +1973,11 @@ type: dialogue-builder
 prompt: "Choose the answer that fits the question."
 turns:
   - speaker: "Leo"
-    line: "¿Cuantos años tiene Sara?"
+    line: "¿Cuántos años tiene Sara?"
 choices:
   - "Sara tiene trece años."
-  - "Sara es de Peru."
-  - "Sara esta en casa."
+  - "Sara es de Perú."
+  - "Sara está en casa."
   - "Sara tiene una mesa."
 correctAnswer: "Sara tiene trece años."
 explanation: "The question asks Sara's age, so the answer uses tiene... años."
@@ -1977,11 +1990,10 @@ misconception: "Choosing any sentence about the person instead of answering the 
 key: u04_l05_q04_fix_origin
 type: error-correction
 prompt: "Correct the origin sentence."
-sentence: "Maria estoy de Peru."
+sentence: "María estoy de Perú."
 acceptedAnswers:
-  - "Maria es de Peru."
   - "María es de Perú."
-explanation: "Origin uses ser in this lesson: Maria es de Peru."
+explanation: "Origin uses ser in this lesson: María es de Perú."
 hint: "Use es de for where someone is from."
 questionGoal: "Correct ser/estar confusion in origin statements."
 misconception: "Using estoy because English says 'is from' or because estar was recently learned."
@@ -1990,7 +2002,7 @@ misconception: "Using estoy because English says 'is from' or because estar was 
 ```question
 key: u04_l05_q05_sentence_job
 type: multiple-choice
-prompt: "In the sentence Mi hermana es simpatica, what job does the sentence do in a profile?"
+prompt: "In the sentence Mi hermana es simpática, what job does the sentence do in a profile?"
 choices:
   - "It describes a family member."
   - "It tells the date."
@@ -1998,25 +2010,29 @@ choices:
   - "It asks a name."
 correctAnswer: "It describes a family member."
 explanation: "The sentence names a family member and gives a trait."
-hint: "Look at hermana and simpatica."
+hint: "Look at hermana and simpática."
 questionGoal: "Identify the purpose of a profile sentence."
 misconception: "Reading sentence parts without understanding their role in a profile."
 ```
 
 ```question
 key: u04_l05_q06_write_profile
-type: constructed-response
-prompt: "Write a short Spanish profile with at least three sentences."
-minWords: 8
-sampleAnswer: "Me llamo Daniel. Tengo doce años. Soy estudiante."
-checklist:
-  - "Include a name or identity sentence"
-  - "Include age, origin, family, or description"
-  - "Use familiar Spanish chunks"
-explanation: "A good Level 1 profile uses short accurate sentences from learned frames."
-hint: "Use frames like Me llamo..., Tengo... años, Soy..., and Mi familia..."
-questionGoal: "Produce a compact supported profile."
-misconception: "Trying to write a long English-style paragraph with unsupported forms."
+type: order-items
+prompt: "Put the short profile in a logical order."
+items:
+  - "Tengo doce años."
+  - "Hola."
+  - "Me llamo Daniel."
+  - "Soy estudiante."
+correctOrder:
+  - "Hola."
+  - "Me llamo Daniel."
+  - "Tengo doce años."
+  - "Soy estudiante."
+explanation: "A compact profile can open politely, give a name, add age, and then give an identity detail."
+hint: "Start with the opening, then move from name to personal details."
+questionGoal: "Sequence familiar chunks into a compact supported profile."
+misconception: "Treating profile sentences as unrelated facts rather than an organized message."
 ```
 
 ## Unit 5: Likes, Activities, And School Life
@@ -2062,15 +2078,15 @@ key: u05_l01_q03_music_like
 type: fill-blank
 prompt: "Complete the like sentence."
 sentenceBefore: "Me"
-sentenceAfter: "la musica."
+sentenceAfter: "la música."
 choices:
   - "gusta"
   - "gustan"
   - "soy"
   - "tengo"
 correctAnswer: "gusta"
-explanation: "Me gusta la musica means I like music."
-hint: "La musica is one singular thing in this sentence."
+explanation: "Me gusta la música means I like music."
+hint: "La música is one singular thing in this sentence."
 questionGoal: "Complete me gusta with a singular liked thing."
 misconception: "Choosing gustan without checking the liked noun."
 ```
@@ -2101,14 +2117,14 @@ type: dialogue-builder
 prompt: "Choose the best answer."
 turns:
   - speaker: "Eva"
-    line: "¿Que te gusta?"
+    line: "¿Qué te gusta?"
 choices:
   - "Me gusta dibujar."
   - "Tengo doce años."
-  - "Hace frio."
+  - "Hace frío."
   - "Soy de Texas."
 correctAnswer: "Me gusta dibujar."
-explanation: "¿Que te gusta? asks what you like, so a me gusta answer fits."
+explanation: "¿Qué te gusta? asks what you like, so a me gusta answer fits."
 hint: "Look for the preference answer."
 questionGoal: "Answer a preference question with me gusta."
 misconception: "Answering a familiar question word with unrelated personal information."
@@ -2116,17 +2132,16 @@ misconception: "Answering a familiar question word with unrelated personal infor
 
 ```question
 key: u05_l01_q06_speak_like
-type: speaking-prompt
-prompt: "Say one thing you like using Me gusta."
-minSeconds: 4
-sampleAnswer: "Me gusta dibujar."
-checklist:
-  - "Start with Me gusta"
-  - "Add one activity or singular thing"
-explanation: "Speaking a like sentence helps the chunk become usable."
-hint: "Use Me gusta leer, Me gusta dibujar, or Me gusta la musica."
-questionGoal: "Rehearse oral production of a simple preference."
-misconception: "Recognizing me gusta but not producing it in a personal answer."
+type: text-input
+prompt: "Type the Spanish sentence for I like to draw."
+acceptedAnswers:
+  - "Me gusta dibujar."
+  - "Me gusta dibujar"
+answerType: text
+explanation: "Me gusta dibujar uses the whole preference chunk before the activity."
+hint: "Start with Me gusta, then add the activity."
+questionGoal: "Produce a simple preference sentence with me gusta."
+misconception: "Recognizing me gusta but not producing it with an activity."
 ```
 
 ### Lesson 2: Me Gustan And No Me Gusta
@@ -2184,7 +2199,7 @@ type: multi-blank-cloze
 prompt: "Complete the preference sentence."
 parts:
   - "No "
-  - " gusta la musica, pero me "
+  - " gusta la música, pero me "
   - " las ciencias."
 blanks:
   - correctAnswer: "me"
@@ -2207,7 +2222,7 @@ choices:
   - "las clases"
   - "la clase"
   - "leer"
-  - "la musica"
+  - "la música"
 correctAnswer: "las clases"
 explanation: "Las clases is plural, so Me gustan las clases is the fitting pattern."
 hint: "Look for a plural article and noun."
@@ -2217,17 +2232,16 @@ misconception: "Choosing gusta/gustan by memorized sound instead of noun number.
 
 ```question
 key: u05_l02_q06_like_dislike_write
-type: constructed-response
-prompt: "Write one Spanish sentence about something you like or do not like."
-minWords: 3
-sampleAnswer: "No me gusta la tarea."
-checklist:
-  - "Use me gusta, me gustan, or no me gusta"
-  - "Name one thing or activity"
-explanation: "A preference sentence can be short if the chunk is accurate."
-hint: "Check whether your liked thing is singular or plural."
-questionGoal: "Produce a supported preference or dislike statement."
-misconception: "Trying to translate 'I like' word by word instead of using the chunk."
+type: text-input
+prompt: "Type the Spanish sentence for I do not like homework."
+acceptedAnswers:
+  - "No me gusta la tarea."
+  - "No me gusta la tarea"
+answerType: text
+explanation: "No me gusta la tarea uses no before the me gusta chunk."
+hint: "Put no before me gusta."
+questionGoal: "Produce a supported dislike statement."
+misconception: "Putting no inside the preference chunk or translating word by word."
 ```
 
 ### Lesson 3: Activities And Opinions
@@ -2245,7 +2259,7 @@ pairs:
     right: "to dance"
   - left: "estudiar"
     right: "to study"
-explanation: "Activity words often appear after me gusta or quiero."
+explanation: "Activity words often appear after me gusta or in short routine sentences."
 hint: "Look for cognate clues in cantar, bailar, and estudiar."
 questionGoal: "Recognize common activity vocabulary."
 misconception: "Missing helpful cognates in activity words."
@@ -2256,7 +2270,7 @@ key: u05_l03_q02_opinion_order
 type: order-items
 prompt: "Put the sentence in order."
 items:
-  - "es dificil"
+  - "es difícil"
   - "dibujar,"
   - "Me gusta"
   - "pero"
@@ -2264,7 +2278,7 @@ correctOrder:
   - "Me gusta"
   - "dibujar,"
   - "pero"
-  - "es dificil"
+  - "es difícil"
 explanation: "The sentence says I like to draw, but it is difficult."
 hint: "Start with the like statement, then use pero to contrast."
 questionGoal: "Build a two-part preference and opinion sentence."
@@ -2276,23 +2290,23 @@ key: u05_l03_q03_connector_choice
 type: fill-blank
 prompt: "Choose the connector that shows contrast."
 sentenceBefore: "Me gusta cantar,"
-sentenceAfter: "es dificil."
+sentenceAfter: "es difícil."
 choices:
   - "pero"
   - "y"
-  - "tambien"
+  - "también"
   - "hola"
 correctAnswer: "pero"
 explanation: "Pero means but, so it shows a contrast."
 hint: "The sentence changes from liking something to saying it is hard."
 questionGoal: "Choose a connector based on meaning."
-misconception: "Treating y, pero, and tambien as interchangeable connectors."
+misconception: "Treating y, pero, and también as interchangeable connectors."
 ```
 
 ```question
 key: u05_l03_q04_opinion_cloze
 type: multi-blank-cloze
-prompt: "Complete the opinion sentence."
+prompt: "Complete the opinion sentence with and interesting."
 parts:
   - "Me gusta la ciencia "
   - " es "
@@ -2316,14 +2330,14 @@ type: dialogue-builder
 prompt: "Choose the best response."
 turns:
   - speaker: "Luis"
-    line: "Me gusta la musica."
+    line: "Me gusta la música."
 choices:
-  - "A mi tambien."
+  - "A mí también."
   - "Son las tres."
   - "Estoy en la clase."
-  - "Hace frio."
-correctAnswer: "A mi tambien."
-explanation: "A mi tambien means me too, so it fits an agreement response."
+  - "Hace frío."
+correctAnswer: "A mí también."
+explanation: "A mí también means me too, so it fits an agreement response."
 hint: "Choose the line that responds to a preference."
 questionGoal: "Use a simple interpersonal response to a preference."
 misconception: "Answering a preference statement with unrelated memorized facts."
@@ -2331,18 +2345,22 @@ misconception: "Answering a preference statement with unrelated memorized facts.
 
 ```question
 key: u05_l03_q06_short_opinion
-type: constructed-response
-prompt: "Write a short Spanish sentence with a like and an opinion."
-minWords: 5
-sampleAnswer: "Me gusta leer porque es interesante."
-checklist:
-  - "Use Me gusta"
-  - "Include an activity or subject"
-  - "Include an opinion word"
-explanation: "A short opinion sentence can explain a preference with familiar words."
-hint: "Use porque es interesante, divertido, facil, or dificil."
-questionGoal: "Produce a supported preference plus opinion."
-misconception: "Giving a preference without any reason or opinion when the task asks for both."
+type: order-items
+prompt: "Put the Spanish opinion sentence in order."
+items:
+  - "leer"
+  - "porque"
+  - "Me gusta"
+  - "es interesante."
+correctOrder:
+  - "Me gusta"
+  - "leer"
+  - "porque"
+  - "es interesante."
+explanation: "The sentence gives a preference first, then a reason: Me gusta leer porque es interesante."
+hint: "Start with the preference chunk, then add the reason."
+questionGoal: "Build a preference sentence with a simple opinion reason."
+misconception: "Adding opinion words without connecting them to the preference."
 ```
 
 ### Lesson 4: School Subjects And Schedules
@@ -2354,9 +2372,9 @@ prompt: "Read the schedule and answer."
 passageTitle: "Horario"
 passage: |
   Lunes:
-  8:00 - matematicas
+  8:00 - matemáticas
   9:00 - arte
-  10:00 - musica
+  10:00 - música
 question: "What class is at 9:00?"
 choices:
   - "art"
@@ -2375,7 +2393,7 @@ key: u05_l04_q02_subject_pairs
 type: match-pairs
 prompt: "Match each school subject to English."
 pairs:
-  - left: "matematicas"
+  - left: "matemáticas"
     right: "math"
   - left: "ciencias"
     right: "science"
@@ -2408,20 +2426,19 @@ misconception: "Putting Spanish words in English order without a sentence frame.
 ```question
 key: u05_l04_q04_schedule_cloze
 type: multi-blank-cloze
-prompt: "Complete the schedule sentence."
+prompt: "Complete the schedule sentence for math first and art after."
 parts:
   - "El lunes a las ocho tengo clase de "
-  - " y despues tengo "
+  - " y después tengo "
   - "."
 blanks:
-  - correctAnswer: "matematicas"
+  - correctAnswer: "matemáticas"
     acceptedAnswers:
-      - "matematicas"
       - "matemáticas"
   - correctAnswer: "arte"
     acceptedAnswers:
       - "arte"
-explanation: "Matematicas and arte are school subjects; frio and años do not fit a schedule."
+explanation: "Matemáticas and arte are school subjects; frío and años do not fit a schedule."
 hint: "Choose class subjects for both blanks."
 questionGoal: "Complete a short school schedule statement."
 misconception: "Mixing weather or age vocabulary into a school context."
@@ -2462,14 +2479,14 @@ type: dialogue-builder
 prompt: "Choose the best answer."
 turns:
   - speaker: "Ana"
-    line: "¿Que clase tienes?"
+    line: "¿Qué clase tienes?"
 choices:
   - "Tengo clase de arte."
   - "Me gusta bailar."
   - "Estoy bien."
   - "Hace calor."
 correctAnswer: "Tengo clase de arte."
-explanation: "¿Que clase tienes? asks what class you have."
+explanation: "¿Qué clase tienes? asks what class you have."
 hint: "Look for an answer with clase."
 questionGoal: "Answer a school-class question."
 misconception: "Answering with any school or personal phrase instead of the requested class."
@@ -2480,13 +2497,13 @@ key: u05_l05_q02_question_answer_types
 type: match-pairs
 prompt: "Match each question to the kind of answer it needs."
 pairs:
-  - left: "¿Que te gusta?"
+  - left: "¿Qué te gusta?"
     right: "a preference"
-  - left: "¿Que clase tienes?"
+  - left: "¿Qué clase tienes?"
     right: "a class"
-  - left: "¿Cuando?"
+  - left: "¿Cuándo?"
     right: "a time or date"
-  - left: "¿Como estas?"
+  - left: "¿Cómo estás?"
     right: "a feeling"
 explanation: "The question clue tells you what kind of answer fits."
 hint: "Focus on the question word or phrase."
@@ -2501,13 +2518,13 @@ prompt: "Put the dialogue in order."
 items:
   - "Me gusta leer."
   - "Hola."
-  - "¿Que te gusta hacer?"
-  - "A mi tambien."
+  - "¿Qué te gusta hacer?"
+  - "A mí también."
 correctOrder:
   - "Hola."
-  - "¿Que te gusta hacer?"
+  - "¿Qué te gusta hacer?"
   - "Me gusta leer."
-  - "A mi tambien."
+  - "A mí también."
 explanation: "The dialogue opens, asks a preference, answers it, and then agrees."
 hint: "Start with the greeting, then ask the question."
 questionGoal: "Sequence a short preference dialogue."
@@ -2516,41 +2533,43 @@ misconception: "Treating agreement responses as opening lines."
 
 ```question
 key: u05_l05_q04_after_school_answer
-type: constructed-response
-prompt: "Answer in Spanish: ¿Que te gusta hacer despues de la escuela?"
-minWords: 3
-sampleAnswer: "Me gusta jugar."
-checklist:
-  - "Use Me gusta"
-  - "Include an activity"
-explanation: "A short answer with Me gusta and an activity fits the question."
-hint: "Use Me gusta + an activity word."
-questionGoal: "Produce a short answer to a free-time question."
-misconception: "Answering with a school subject when the question asks what you like to do."
+type: dialogue-builder
+prompt: "Choose the best answer."
+turns:
+  - speaker: "Ana"
+    line: "¿Qué te gusta hacer después de la escuela?"
+choices:
+  - "Me gusta jugar."
+  - "Tengo clase de arte."
+  - "Son las dos."
+  - "Estoy bien."
+correctAnswer: "Me gusta jugar."
+explanation: "The question asks what you like to do, so an activity answer with Me gusta fits."
+hint: "Choose the answer that names a liked activity."
+questionGoal: "Answer a free-time preference question."
+misconception: "Answering with a school fact when the question asks what you like to do."
 ```
 
 ```question
 key: u05_l05_q05_speak_school
-type: speaking-prompt
-prompt: "Say one sentence about a class or activity you like."
-minSeconds: 5
-sampleAnswer: "Me gusta la clase de arte."
-checklist:
-  - "Use Me gusta"
-  - "Name a class or activity"
-explanation: "Speaking a personal school sentence prepares short conversations."
-hint: "Try Me gusta la clase de ___ or Me gusta ___."
-questionGoal: "Rehearse oral school or free-time preference language."
-misconception: "Limiting preference language to written recognition."
+type: text-input
+prompt: "Type the Spanish sentence for I like art class."
+acceptedAnswers:
+  - "Me gusta la clase de arte."
+  - "Me gusta la clase de arte"
+answerType: text
+explanation: "Me gusta la clase de arte gives a simple school preference."
+hint: "Use Me gusta followed by la clase de arte."
+questionGoal: "Produce a school preference sentence."
+misconception: "Recognizing school preference language but not producing the sentence frame."
 ```
 
 ```question
 key: u05_l05_q06_fix_question_punctuation
 type: error-correction
 prompt: "Correct the question punctuation."
-sentence: "Que te gusta?"
+sentence: "Qué te gusta?"
 acceptedAnswers:
-  - "¿Que te gusta?"
   - "¿Qué te gusta?"
 explanation: "Spanish questions use an opening question mark and a closing question mark."
 hint: "Add the mark at the beginning of the question."
@@ -2605,7 +2624,7 @@ type: dialogue-builder
 prompt: "Choose the best next line."
 turns:
   - speaker: "Mesero"
-    line: "Hola. ¿Que quieres?"
+    line: "Hola. ¿Qué quieres?"
 choices:
   - "Quiero agua, por favor."
   - "Estoy en la biblioteca."
@@ -2654,18 +2673,16 @@ misconception: "Assuming any short food word is an appropriate request."
 
 ```question
 key: u06_l01_q06_speak_order
-type: speaking-prompt
-prompt: "Say a polite request for one food or drink."
-minSeconds: 5
-sampleAnswer: "Quiero agua, por favor."
-checklist:
-  - "Use quiero or quisiera"
-  - "Name a food or drink"
-  - "Use por favor"
-explanation: "Oral practice makes polite request chunks ready for conversation."
-hint: "Use Quiero ___, por favor."
-questionGoal: "Rehearse a polite food or drink request."
-misconception: "Recognizing food vocabulary without being able to request it."
+type: text-input
+prompt: "Type the Spanish request for I want water, please."
+acceptedAnswers:
+  - "Quiero agua, por favor."
+  - "Quiero agua, por favor"
+answerType: text
+explanation: "Quiero agua, por favor is a simple polite request for a drink."
+hint: "Use Quiero, the drink, and por favor."
+questionGoal: "Produce a polite food or drink request."
+misconception: "Recognizing food vocabulary without using it in a request."
 ```
 
 ### Lesson 2: Meals, Hunger, And Thirst
@@ -2726,15 +2743,15 @@ passageTitle: "Tengo hambre"
 passage: |
   Es la una.
   Tengo hambre.
-  Quiero un sandwich y agua.
+  Quiero pan y agua.
 question: "What does the speaker want?"
 choices:
-  - "a sandwich and water"
+  - "bread and water"
   - "music and art"
   - "a pencil and book"
   - "snow and cold"
-correctAnswer: "a sandwich and water"
-explanation: "Quiero un sandwich y agua says the speaker wants a sandwich and water."
+correctAnswer: "bread and water"
+explanation: "Quiero pan y agua says the speaker wants bread and water."
 hint: "Find the sentence that starts with Quiero."
 questionGoal: "Interpret a short food request in a routine context."
 misconception: "Ignoring the food request after recognizing the time."
@@ -2742,15 +2759,14 @@ misconception: "Ignoring the food request after recognizing the time."
 
 ```question
 key: u06_l02_q05_hungry_sentence
-type: constructed-response
-prompt: "Write one short Spanish sentence that says you are hungry or thirsty."
-minWords: 2
-sampleAnswer: "Tengo hambre."
-checklist:
-  - "Use Tengo"
-  - "Use hambre or sed"
-explanation: "Tengo hambre and Tengo sed are useful physical-state chunks."
-hint: "Use the frame Tengo ___."
+type: text-input
+prompt: "Type the Spanish sentence for I am hungry."
+acceptedAnswers:
+  - "Tengo hambre."
+  - "Tengo hambre"
+answerType: text
+explanation: "Tengo hambre is the tener chunk for I am hungry."
+hint: "Use Tengo with the word for hunger."
 questionGoal: "Produce a tener physical-state sentence."
 misconception: "Trying to translate I am hungry word by word."
 ```
@@ -2758,7 +2774,7 @@ misconception: "Trying to translate I am hungry word by word."
 ```question
 key: u06_l02_q06_hunger_thirst_blank
 type: fill-blank
-prompt: "Complete the sentence for someone who wants water."
+prompt: "Complete the sentence for someone who is thirsty."
 sentenceBefore: "Tengo"
 sentenceAfter: "."
 choices:
@@ -2767,7 +2783,7 @@ choices:
   - "lunes"
   - "rojo"
 correctAnswer: "sed"
-explanation: "A person who wants water is probably thirsty: Tengo sed."
+explanation: "Tengo sed is the Spanish chunk for I am thirsty."
 hint: "Choose the word connected to thirst."
 questionGoal: "Select hunger or thirst based on context."
 misconception: "Confusing food and drink needs."
@@ -2845,10 +2861,10 @@ misconception: "Using destination language for current location."
 key: u06_l03_q05_map_note
 type: passage-question
 prompt: "Read the map note and answer."
-passageTitle: "Despues de clase"
+passageTitle: "Después de clase"
 passage: |
-  Sofia esta en la escuela.
-  Despues, Sofia va a la biblioteca.
+  Sofia está en la escuela.
+  Después, Sofia va a la biblioteca.
 question: "Where is Sofia going after class?"
 choices:
   - "the library"
@@ -2871,14 +2887,13 @@ parts:
   - " en casa. Luis "
   - " a la biblioteca."
 blanks:
-  - correctAnswer: "esta"
+  - correctAnswer: "está"
     acceptedAnswers:
-      - "esta"
       - "está"
   - correctAnswer: "va"
     acceptedAnswers:
       - "va"
-explanation: "Ana is at home, so esta en casa. Luis is going, so va a la biblioteca."
+explanation: "Ana is at home, so está en casa. Luis is going, so va a la biblioteca."
 hint: "Use location for the first sentence and going for the second."
 questionGoal: "Contrast estar en and ir a in adjacent sentences."
 misconception: "Using one place verb for both location and movement."
@@ -2891,13 +2906,13 @@ key: u06_l04_q01_routine_order
 type: order-items
 prompt: "Put the routine in a logical order."
 items:
-  - "Despues, voy a la escuela."
+  - "Después, voy a la escuela."
   - "Primero, desayuno."
   - "Por la tarde, estudio."
   - "Por la noche, leo."
 correctOrder:
   - "Primero, desayuno."
-  - "Despues, voy a la escuela."
+  - "Después, voy a la escuela."
   - "Por la tarde, estudio."
   - "Por la noche, leo."
 explanation: "The sequence moves from first, to after, to afternoon, to night."
@@ -2910,7 +2925,7 @@ misconception: "Ordering by familiar verbs without reading time phrases."
 key: u06_l04_q02_routine_reading
 type: passage-question
 prompt: "Read the routine and answer."
-passageTitle: "Mi dia"
+passageTitle: "Mi día"
 passage: |
   Por la mañana, voy a la escuela.
   A las tres, practico futbol.
@@ -2931,11 +2946,11 @@ misconception: "Reading routine events without tracking time."
 ```question
 key: u06_l04_q03_routine_cloze
 type: multi-blank-cloze
-prompt: "Complete the routine."
+prompt: "Complete the routine: First I go to school. Then I study music."
 parts:
   - "Primero "
-  - " a la escuela. Despues "
-  - " musica."
+  - " a la escuela. Después "
+  - " música."
 blanks:
   - correctAnswer: "voy"
     acceptedAnswers:
@@ -2943,7 +2958,7 @@ blanks:
   - correctAnswer: "estudio"
     acceptedAnswers:
       - "estudio"
-explanation: "Voy a la escuela means I go to school. Estudio musica means I study music."
+explanation: "Voy a la escuela means I go to school. Estudio música means I study music."
 hint: "Use action words, not nouns or adjectives."
 questionGoal: "Complete a simple routine with familiar action chunks."
 misconception: "Choosing any familiar word without checking the sentence job."
@@ -2956,12 +2971,12 @@ prompt: "Choose the word that means after."
 sentenceBefore: "Primero desayuno."
 sentenceAfter: ", voy a la escuela."
 choices:
-  - "Despues"
+  - "Después"
   - "Hola"
   - "Rojo"
   - "Sed"
-correctAnswer: "Despues"
-explanation: "Despues means after, so it connects the next routine step."
+correctAnswer: "Después"
+explanation: "Después means after, so it connects the next routine step."
 hint: "Look for the sequence word."
 questionGoal: "Choose a connector based on routine sequence."
 misconception: "Using a familiar word as a connector even when it has no sequence meaning."
@@ -2969,33 +2984,34 @@ misconception: "Using a familiar word as a connector even when it has no sequenc
 
 ```question
 key: u06_l04_q05_write_routine
-type: constructed-response
-prompt: "Write three short Spanish routine sentences."
-minWords: 7
-sampleAnswer: "Primero desayuno. Despues voy a la escuela. Por la noche leo."
-checklist:
-  - "Use at least one sequence or time phrase"
-  - "Use familiar actions"
-  - "Write three short sentences"
-explanation: "A Level 1 routine should be short, sequenced, and built from familiar chunks."
-hint: "Use Primero, Despues, or Por la noche."
-questionGoal: "Produce a compact supported routine."
-misconception: "Trying to write an unsupported long paragraph."
+type: order-items
+prompt: "Put the routine in a logical order."
+items:
+  - "Por la noche, leo."
+  - "Primero, desayuno."
+  - "Después, voy a la escuela."
+correctOrder:
+  - "Primero, desayuno."
+  - "Después, voy a la escuela."
+  - "Por la noche, leo."
+explanation: "The sequence moves from first, to after, to night."
+hint: "Use the sequence and time words to decide the order."
+questionGoal: "Sequence a compact routine built from familiar chunks."
+misconception: "Writing or ordering routine events without using sequence clues."
 ```
 
 ```question
 key: u06_l04_q06_speak_routine
-type: speaking-prompt
-prompt: "Say two short sentences about your daily routine."
-minSeconds: 7
-sampleAnswer: "Voy a la escuela. Despues estudio."
-checklist:
-  - "Use two short sentences"
-  - "Use familiar routine actions"
-explanation: "Oral routine practice helps prepare the capstone presentation."
-hint: "Use voy, estudio, leo, practico, or desayuno."
-questionGoal: "Rehearse oral routine language."
-misconception: "Avoiding spoken production until sentences are long or perfect."
+type: text-input
+prompt: "Type the Spanish sentence for I go to school."
+acceptedAnswers:
+  - "Voy a la escuela."
+  - "Voy a la escuela"
+answerType: text
+explanation: "Voy a la escuela is a familiar routine sentence for going to school."
+hint: "Use voy a before the place."
+questionGoal: "Produce a familiar routine action sentence."
+misconception: "Recognizing routine verbs but not using the destination frame."
 ```
 
 ### Lesson 5: Mixed Questions In Conversation
@@ -3005,13 +3021,13 @@ key: u06_l05_q01_question_answer_pairs
 type: match-pairs
 prompt: "Match each question to a fitting answer."
 pairs:
-  - left: "¿Como te llamas?"
+  - left: "¿Cómo te llamas?"
     right: "Me llamo Nora."
-  - left: "¿Cuantos años tienes?"
+  - left: "¿Cuántos años tienes?"
     right: "Tengo doce años."
-  - left: "¿Donde estas?"
+  - left: "¿Dónde estás?"
     right: "Estoy en casa."
-  - left: "¿Que te gusta?"
+  - left: "¿Qué te gusta?"
     right: "Me gusta leer."
 explanation: "Each question needs a different kind of answer."
 hint: "Use the question phrase to predict the answer type."
@@ -3025,15 +3041,15 @@ type: dialogue-builder
 prompt: "Choose the best answer."
 turns:
   - speaker: "Diego"
-    line: "¿Donde esta tu hermana?"
+    line: "¿Dónde está tu hermana?"
 choices:
-  - "Esta en la escuela."
+  - "Está en la escuela."
   - "Me gusta la escuela."
   - "Tengo una hermana."
   - "Hace sol."
-correctAnswer: "Esta en la escuela."
-explanation: "¿Donde esta...? asks where someone is."
-hint: "Donde asks for a place."
+correctAnswer: "Está en la escuela."
+explanation: "¿Dónde está...? asks where someone is."
+hint: "Dónde asks for a place."
 questionGoal: "Choose a fitting answer to a mixed family/location question."
 misconception: "Responding with a related family sentence that does not answer where."
 ```
@@ -3043,13 +3059,13 @@ key: u06_l05_q03_question_word_clue
 type: multiple-choice
 prompt: "Which question word usually asks for a place?"
 choices:
-  - "¿Donde?"
-  - "¿Cuando?"
-  - "¿Cuantos?"
-  - "¿Como?"
-correctAnswer: "¿Donde?"
-explanation: "¿Donde? asks where, so it asks for a place."
-hint: "Think of donde esta..."
+  - "¿Dónde?"
+  - "¿Cuándo?"
+  - "¿Cuántos?"
+  - "¿Cómo?"
+correctAnswer: "¿Dónde?"
+explanation: "¿Dónde? asks where, so it asks for a place."
+hint: "Think of dónde está..."
 questionGoal: "Identify the answer type signaled by a question word."
 misconception: "Confusing common question words after mixed practice begins."
 ```
@@ -3061,12 +3077,12 @@ prompt: "Complete the age question."
 sentenceBefore: "¿"
 sentenceAfter: " años tienes?"
 choices:
-  - "Cuantos"
-  - "Donde"
-  - "Que"
-  - "Cuando"
-correctAnswer: "Cuantos"
-explanation: "¿Cuantos años tienes? asks how old you are."
+  - "Cuántos"
+  - "Dónde"
+  - "Qué"
+  - "Cuándo"
+correctAnswer: "Cuántos"
+explanation: "¿Cuántos años tienes? asks how old you are."
 hint: "The word años tells you the question asks how many years."
 questionGoal: "Choose the question word that fits an age question."
 misconception: "Choosing question words by memorized familiarity rather than meaning."
@@ -3079,15 +3095,15 @@ prompt: "Put the conversation in order."
 items:
   - "Tengo doce años."
   - "Hola."
-  - "¿Cuantos años tienes?"
-  - "Me gusta la musica."
-  - "¿Que te gusta?"
+  - "¿Cuántos años tienes?"
+  - "Me gusta la música."
+  - "¿Qué te gusta?"
 correctOrder:
   - "Hola."
-  - "¿Cuantos años tienes?"
+  - "¿Cuántos años tienes?"
   - "Tengo doce años."
-  - "¿Que te gusta?"
-  - "Me gusta la musica."
+  - "¿Qué te gusta?"
+  - "Me gusta la música."
 explanation: "The answers should immediately follow the questions they answer."
 hint: "Pair each question with its answer."
 questionGoal: "Sequence a mixed novice conversation."
@@ -3096,17 +3112,24 @@ misconception: "Grouping all questions or all answers instead of building turns.
 
 ```question
 key: u06_l05_q06_speak_mixed_answers
-type: speaking-prompt
-prompt: "Answer two familiar questions aloud: ¿Como te llamas? ¿Que te gusta?"
-minSeconds: 8
-sampleAnswer: "Me llamo Sofia. Me gusta leer."
-checklist:
-  - "Answer the name question"
-  - "Answer the preference question"
-explanation: "Mixed oral practice helps you switch between familiar answer frames."
-hint: "Use Me llamo... and Me gusta..."
-questionGoal: "Rehearse switching between mixed novice question frames."
-misconception: "Memorizing one answer frame and using it for every question."
+type: multi-blank-cloze
+prompt: "Complete the two answers using the clues: name = Sofia, like = reading."
+parts:
+  - "Me llamo "
+  - ". Me gusta "
+  - "."
+blanks:
+  - correctAnswer: "Sofia"
+    acceptedAnswers:
+      - "Sofia"
+      - "Sofía"
+  - correctAnswer: "leer"
+    acceptedAnswers:
+      - "leer"
+explanation: "The first answer gives a name, and the second answer gives a preference."
+hint: "Use the name clue in the first blank and the activity clue in the second."
+questionGoal: "Switch between mixed novice answer frames."
+misconception: "Using one memorized answer frame for every question type."
 ```
 
 ### Lesson 6: Novice Capstone Presentation
@@ -3115,13 +3138,13 @@ misconception: "Memorizing one answer frame and using it for every question."
 key: u06_l06_q01_model_capstone
 type: passage-question
 prompt: "Read the model capstone and answer."
-passageTitle: "Mi presentacion"
+passageTitle: "Mi presentación"
 passage: |
   Hola. Me llamo Elena.
   Tengo doce años.
-  Mi hermana es simpatica.
-  Me gusta la musica.
-  Despues de la escuela, voy a la biblioteca.
+  Mi hermana es simpática.
+  Me gusta la música.
+  Después de la escuela, voy a la biblioteca.
 question: "What does Elena like?"
 choices:
   - "music"
@@ -3129,7 +3152,7 @@ choices:
   - "her sister"
   - "Spanish class"
 correctAnswer: "music"
-explanation: "Me gusta la musica tells what Elena likes."
+explanation: "Me gusta la música tells what Elena likes."
 hint: "Find the sentence with Me gusta."
 questionGoal: "Read a model capstone for a preference detail."
 misconception: "Confusing a place someone goes with a thing someone likes."
@@ -3138,7 +3161,7 @@ misconception: "Confusing a place someone goes with a thing someone likes."
 ```question
 key: u06_l06_q02_capstone_frames
 type: multi-blank-cloze
-prompt: "Complete the capstone frames."
+prompt: "Complete the capstone frames using the clues: name = Alex, age = 12, like = reading."
 parts:
   - "Me llamo "
   - ". Tengo "
@@ -3181,9 +3204,8 @@ misconception: "Valuing word-for-word translation over learned Spanish frames."
 key: u06_l06_q04_fix_capstone
 type: error-correction
 prompt: "Correct the capstone sentence."
-sentence: "Yo soy doce años y gusto musica."
+sentence: "Yo soy doce años y gusto música."
 acceptedAnswers:
-  - "Tengo doce años y me gusta la musica."
   - "Tengo doce años y me gusta la música."
 explanation: "Use Tengo... años for age and me gusta for liking."
 hint: "Fix the age chunk first, then the liking chunk."
@@ -3193,33 +3215,38 @@ misconception: "Translating 'I am twelve and I like music' word for word."
 
 ```question
 key: u06_l06_q05_write_capstone
-type: constructed-response
-prompt: "Write a short Spanish capstone presentation with five or more sentences."
-minWords: 18
-sampleAnswer: "Hola. Me llamo Mateo. Tengo doce años. Soy estudiante. Me gusta leer. Despues de la escuela, voy a casa."
-checklist:
-  - "Include a greeting or name"
-  - "Include age, family, or identity"
-  - "Include a like, school detail, food, place, or routine"
-  - "Use familiar Spanish chunks"
-explanation: "The capstone should recombine learned language clearly and accurately."
-hint: "Use short sentences from frames you know instead of translating a long paragraph."
-questionGoal: "Produce an integrated novice presentation."
-misconception: "Trying to use unsupported advanced grammar instead of accurate familiar language."
+type: multiple-choice
+prompt: "Which option is the strongest short Level 1 capstone presentation?"
+choices:
+  - "Hola. Me llamo Mateo. Tengo doce años. Mi hermana es simpática. Me gusta leer. Después de la escuela, voy a casa."
+  - "Tengo doce años. Tengo doce años. Tengo doce años."
+  - "La clase rojo biblioteca gusto porque."
+  - "Hola. Gracias. De nada. Adiós."
+correctAnswer: "Hola. Me llamo Mateo. Tengo doce años. Mi hermana es simpática. Me gusta leer. Después de la escuela, voy a casa."
+explanation: "The strongest capstone combines several learned sentence jobs: greeting, name, age, family description, preference, and routine/place."
+hint: "Look for the option that combines different learned frames accurately."
+questionGoal: "Select an integrated novice presentation built from familiar chunks."
+misconception: "Thinking a capstone can be only repeated facts or isolated memorized phrases."
 ```
 
 ```question
 key: u06_l06_q06_speak_capstone
-type: speaking-prompt
-prompt: "Practice saying your capstone presentation aloud."
-minSeconds: 15
-sampleAnswer: "Hola. Me llamo Ana. Tengo once años. Me gusta la musica. Voy a la escuela."
-checklist:
-  - "Use at least four short Spanish sentences"
-  - "Include name or identity"
-  - "Include one preference or routine detail"
-explanation: "Speaking the capstone helps turn written frames into communicative language."
-hint: "Read your own short sentences slowly and clearly."
-questionGoal: "Rehearse integrated novice Spanish orally."
-misconception: "Thinking capstone mastery only means written recall."
+type: order-items
+prompt: "Put the capstone presentation in a logical order."
+items:
+  - "Tengo once años."
+  - "Hola."
+  - "Me gusta la música."
+  - "Me llamo Ana."
+  - "Voy a la escuela."
+correctOrder:
+  - "Hola."
+  - "Me llamo Ana."
+  - "Tengo once años."
+  - "Me gusta la música."
+  - "Voy a la escuela."
+explanation: "A clear capstone opens, gives identity details, then adds preference and routine information."
+hint: "Start with the greeting and name before adding details."
+questionGoal: "Sequence familiar capstone sentences into a coherent presentation."
+misconception: "Treating capstone sentences as isolated facts instead of a short organized presentation."
 ```
