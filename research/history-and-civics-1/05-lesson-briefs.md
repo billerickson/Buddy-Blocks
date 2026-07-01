@@ -12,7 +12,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Informal yesterday/today/tomorrow language and the ability to sort familiar examples.
 - **Likely misconceptions:** Treating "long ago" and "yesterday" as the same; thinking future events are guaranteed to happen; using present for any event being discussed now.
 - **Evidence of mastery:** Given short event descriptions, the student sorts them correctly and explains one before/after relationship.
-- **Recommended question types:** `multiple-choice` for recognition of time categories; `match-pairs` for terms to meanings; `fill-blank` for supported use of before/after; `constructed-response` for a brief explanation.
+- **Recommended question types:** `multiple-choice` for recognition of time categories; `match-pairs` for terms to meanings; `fill-blank` for supported use of before/after or time-category sentences; `passage-question` for short contextual sorting.
 - **Suggested intro/teaching note:** Start with a familiar routine: "I ate breakfast," "I am learning now," and "I will go home later." Then widen to community and historical examples.
 - **Reading-level and cognitive-load constraints:** Use one-sentence examples; avoid exact dates until students understand broad time categories.
 
@@ -36,7 +36,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Timeline sequence and broad time words.
 - **Likely misconceptions:** Assuming any earlier event caused a later event; thinking change means everything changed; thinking continuity means time stopped.
 - **Evidence of mastery:** The student uses scenario evidence to identify one cause/effect relation and one change/continuity pair.
-- **Recommended question types:** `multiple-choice` for identifying cause or effect; `match-pairs` for terms to examples; `passage-question` for short scenarios; `constructed-response` for a one-sentence explanation.
+- **Recommended question types:** `multiple-choice` for identifying cause, effect, change, or continuity; `match-pairs` for terms to examples; `passage-question` for short scenarios; `error-correction` for fixing false cause statements.
 - **Suggested intro/teaching note:** Contrast sequence with cause: "I tied my shoes, then it rained" is sequence, not a cause.
 - **Reading-level and cognitive-load constraints:** Use concrete, low-stakes examples; avoid historical controversies or multi-cause events.
 
@@ -62,7 +62,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Basic map awareness and direction vocabulary.
 - **Likely misconceptions:** Guessing a symbol's meaning from its appearance alone; ignoring the key; thinking symbols show real size or exact appearance.
 - **Evidence of mastery:** The student uses a key to identify places and explain why the key matters.
-- **Recommended question types:** `match-pairs` for symbol-to-meaning matches; `multiple-choice` for map-key reasoning; `passage-question` for short map descriptions; `constructed-response` for explaining a key's purpose.
+- **Recommended question types:** `match-pairs` for symbol-to-meaning matches; `multiple-choice` for map-key reasoning and best explanations; `passage-question` for short map descriptions; `fill-blank` for key vocabulary.
 - **Suggested intro/teaching note:** Show the same simple symbol used with two different keys to prove the key controls meaning.
 - **Reading-level and cognitive-load constraints:** Use simple text labels; avoid complex legends or dense geographic terms.
 
@@ -74,7 +74,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Compass directions, map keys, and basic world/community vocabulary.
 - **Likely misconceptions:** Treating city, state, country, continent, and ocean as interchangeable; thinking a map shows everything about a place; ignoring environment when explaining movement.
 - **Evidence of mastery:** The student classifies place types and answers a route or region question with a map clue.
-- **Recommended question types:** `match-pairs` for place type vocabulary; `multiple-choice` for map clue interpretation; `passage-question` for route contexts; `constructed-response` for a short place explanation.
+- **Recommended question types:** `match-pairs` for place type vocabulary; `multiple-choice` for map clue interpretation; `passage-question` for route and region contexts; `order-items` for movement sequences.
 - **Suggested intro/teaching note:** Use nesting language: a city can be in a state, a state in a country, and a country on a continent.
 - **Reading-level and cognitive-load constraints:** Keep geographic examples familiar or clearly labeled; avoid requiring memorization of many locations.
 
@@ -88,7 +88,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Time and map vocabulary, image detail noticing, and short text comprehension.
 - **Likely misconceptions:** Thinking only books count as sources; believing artifacts cannot give information; treating all source details as equally useful for every question.
 - **Evidence of mastery:** The student names the source type and a reasonable kind of evidence it could provide.
-- **Recommended question types:** `multiple-choice` for source recognition; `match-pairs` for source type to clue; `passage-question` for short source descriptions; `constructed-response` for naming a useful detail.
+- **Recommended question types:** `multiple-choice` for source recognition and useful-detail selection; `match-pairs` for source type to clue; `passage-question` for short source descriptions; `fill-blank` for evidence vocabulary.
 - **Suggested intro/teaching note:** Place several "sources" side by side: a photo, an old tool, a map, a diary line, and a textbook sentence.
 - **Reading-level and cognitive-load constraints:** Use concrete source descriptions; avoid abstract source reliability language.
 
@@ -100,7 +100,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** What counts as a source and basic timeline language.
 - **Likely misconceptions:** Believing primary means "best" or always true; believing secondary means "wrong" or useless; classifying by format instead of relationship to the event.
 - **Evidence of mastery:** The student classifies examples and explains the clue: made during the event or made later about it.
-- **Recommended question types:** `multiple-choice` for classification; `match-pairs` for examples to categories; `fill-blank` for vocabulary; `constructed-response` for a short because-statement.
+- **Recommended question types:** `multiple-choice` for classification and because-statements; `match-pairs` for examples to categories; `fill-blank` for vocabulary; `passage-question` for source-note comparisons.
 - **Suggested intro/teaching note:** Compare a photo taken at a parade with a paragraph written later describing the parade.
 - **Reading-level and cognitive-load constraints:** Use clear cases only; avoid complicated copies, translations, or edited sources.
 
@@ -111,8 +111,8 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Key idea, model, text, representation, form, or procedure:** A claim answers a question; evidence is a source detail that supports the claim.
 - **Prerequisite knowledge:** Source types, detail noticing, and primary/secondary distinction.
 - **Likely misconceptions:** Treating opinions or guesses as evidence; choosing an interesting but irrelevant detail; making a claim that is broader than the source supports.
-- **Evidence of mastery:** The student matches a claim with relevant evidence and writes a one-sentence support statement.
-- **Recommended question types:** `passage-question` for source-based evidence selection; `multiple-choice` for relevant evidence; `constructed-response` for claim/evidence sentence; `error-correction` for fixing unsupported claims.
+- **Evidence of mastery:** The student matches a claim with relevant evidence and completes a one-sentence support statement.
+- **Recommended question types:** `passage-question` for source-based evidence selection; `multiple-choice` for relevant evidence; `multi-blank-cloze` for claim/evidence sentence frames; `error-correction` for fixing unsupported claims.
 - **Suggested intro/teaching note:** Use the frame "I know ___ because the source shows ___" and discuss what happens when the evidence does not match.
 - **Reading-level and cognitive-load constraints:** Keep source texts short; ask for one evidence detail, not a paragraph.
 
@@ -126,7 +126,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Familiar community settings and evidence sentence frames.
 - **Likely misconceptions:** Thinking rules exist only to punish; treating rules and laws as identical; assuming every community rule has the same purpose.
 - **Evidence of mastery:** The student identifies a rule/law purpose and supports it with a scenario clue.
-- **Recommended question types:** `multiple-choice` for purpose recognition; `match-pairs` for rule to purpose; `passage-question` for civic scenarios; `constructed-response` for a brief because-statement.
+- **Recommended question types:** `multiple-choice` for purpose recognition and because-statements; `match-pairs` for rule to purpose; `passage-question` for civic scenarios; `fill-blank` for rule/law vocabulary.
 - **Suggested intro/teaching note:** Start with a classroom or playground rule and ask what problem it helps solve before naming formal civic vocabulary.
 - **Reading-level and cognitive-load constraints:** Use nonpartisan, familiar scenarios; avoid legal technicalities.
 
@@ -138,7 +138,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Community, rule, law, and evidence vocabulary.
 - **Likely misconceptions:** Thinking a leader is anyone famous; believing citizens only participate by voting; confusing popularity with responsibility.
 - **Evidence of mastery:** The student connects a role or action to a community purpose.
-- **Recommended question types:** `match-pairs` for role/action relationships; `multiple-choice` for common-good decisions; `passage-question` for community scenarios; `constructed-response` for explaining a helpful action.
+- **Recommended question types:** `match-pairs` for role/action relationships; `multiple-choice` for common-good decisions and helpful-action explanations; `passage-question` for community scenarios; `order-items` for problem-solving sequences.
 - **Suggested intro/teaching note:** Use a school or town problem, then identify what a leader might do and what citizens might do.
 - **Reading-level and cognitive-load constraints:** Keep role descriptions concrete; avoid partisan or current electoral examples.
 
@@ -150,7 +150,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Community, citizen, leader, rule/law, and common-good vocabulary.
 - **Likely misconceptions:** Thinking rights mean doing anything one wants; treating responsibilities as punishments or chores only; ignoring other people's rights.
 - **Evidence of mastery:** The student pairs rights with responsibilities and applies the pair to a short scenario.
-- **Recommended question types:** `match-pairs` for right/responsibility pairs; `multiple-choice` for respectful action; `passage-question` for scenarios; `constructed-response` for one-sentence explanation.
+- **Recommended question types:** `match-pairs` for right/responsibility pairs; `multiple-choice` for respectful action and explanation selection; `passage-question` for scenarios; `error-correction` for revising rights misconceptions.
 - **Suggested intro/teaching note:** Use a discussion example: the right to speak connects with the responsibility to listen respectfully.
 - **Reading-level and cognitive-load constraints:** Keep rights general and age-appropriate; avoid advanced constitutional law.
 
@@ -164,7 +164,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Sorting skills and familiar examples of food, shelter, clothing, games, tools, and time.
 - **Likely misconceptions:** Thinking wants are always bad; thinking scarcity means none exists; confusing a person's preference with a need.
 - **Evidence of mastery:** The student classifies needs/wants in context and identifies a limited resource causing a choice.
-- **Recommended question types:** `multiple-choice` for classification; `match-pairs` for terms to examples; `passage-question` for scarcity scenarios; `constructed-response` for explaining a choice.
+- **Recommended question types:** `multiple-choice` for classification and choice explanations; `match-pairs` for terms to examples; `passage-question` for scarcity scenarios; `fill-blank` for scarcity vocabulary.
 - **Suggested intro/teaching note:** Compare "water to drink" and "a new game," then ask what happens when time, money, or materials are limited.
 - **Reading-level and cognitive-load constraints:** Use familiar, non-shaming contexts; avoid moralizing wants.
 
@@ -188,7 +188,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Goods/services, producer/consumer, needs/wants, and scarcity.
 - **Likely misconceptions:** Thinking money and trade are the same; thinking a trade must involve money; ignoring what is given up when a choice is made.
 - **Evidence of mastery:** The student explains a trade, identifies what each side gives/gets, and names a simple tradeoff.
-- **Recommended question types:** `passage-question` for exchange scenarios; `multiple-choice` for tradeoff recognition; `multi-blank-cloze` for give/get structures; `constructed-response` for explaining a choice.
+- **Recommended question types:** `passage-question` for exchange scenarios; `multiple-choice` for tradeoff recognition and money-as-tool explanations; `multi-blank-cloze` for give/get structures; `match-pairs` for exchange vocabulary.
 - **Suggested intro/teaching note:** Use a barter example first, then show how money can stand between producer and consumer.
 - **Reading-level and cognitive-load constraints:** Keep exchanges one-step; avoid prices requiring computation.
 
@@ -202,7 +202,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Community, source, evidence, and economic daily-life vocabulary.
 - **Likely misconceptions:** Equating culture only with food, clothing, or holidays; thinking every person in a culture does the same things; using stereotypes as evidence.
 - **Evidence of mastery:** The student classifies examples as parts of culture and names source evidence for one cultural detail.
-- **Recommended question types:** `match-pairs` for culture categories; `multiple-choice` for example/non-example reasoning; `passage-question` for short cultural descriptions; `constructed-response` for evidence-based description.
+- **Recommended question types:** `match-pairs` for culture categories; `multiple-choice` for example/non-example reasoning and evidence-based descriptions; `passage-question` for short cultural descriptions; `fill-blank` for culture vocabulary.
 - **Suggested intro/teaching note:** Build a culture web with many branches, then ask which branches a source can actually support.
 - **Reading-level and cognitive-load constraints:** Use respectful, general descriptions; avoid trying to summarize an entire culture in one item.
 
@@ -214,19 +214,19 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Time, maps, sources, economics, and culture categories.
 - **Likely misconceptions:** Ranking past and present as simply better/worse; comparing without using the same category; treating one example as everyone.
 - **Evidence of mastery:** The student compares two short descriptions and supports a similarity or difference with evidence.
-- **Recommended question types:** `passage-question` for paired descriptions; `match-pairs` for comparison categories; `multiple-choice` for evidence selection; `constructed-response` for a concise compare/contrast statement.
+- **Recommended question types:** `passage-question` for paired descriptions; `match-pairs` for comparison categories; `multiple-choice` for evidence selection and concise compare/contrast statements; `fill-blank` for compare/contrast vocabulary.
 - **Suggested intro/teaching note:** Compare one familiar feature, such as travel or school, before asking for broader daily-life comparisons.
 - **Reading-level and cognitive-load constraints:** Use short paired texts; ask for one similarity or difference at a time.
 
 ### Lesson 3: Respectful Historical Descriptions
 
 - **Teaching goal:** Teach students to describe historical people and cultures accurately, respectfully, and with context.
-- **Student outcome:** The student can choose or write a respectful description supported by source evidence.
+- **Student outcome:** The student can choose or complete a respectful description supported by source evidence.
 - **Key idea, model, text, representation, form, or procedure:** Respectful historical language avoids stereotypes, presentism, and unsupported claims while still naming real differences and harms age-appropriately.
 - **Prerequisite knowledge:** Source evidence, culture categories, compare/contrast, change and continuity.
 - **Likely misconceptions:** Thinking respectful means never naming differences; thinking present-day ideas automatically explain past choices; writing broad claims from one detail.
 - **Evidence of mastery:** The student revises or selects a description that uses evidence and avoids ranking or stereotyping.
-- **Recommended question types:** `error-correction` for revising disrespectful or unsupported statements; `multiple-choice` for best description; `passage-question` for evidence-based interpretation; `constructed-response` for a short respectful statement.
+- **Recommended question types:** `error-correction` for revising disrespectful or unsupported statements; `multiple-choice` for best description or respectful statement; `passage-question` for evidence-based interpretation; `fill-blank` for context vocabulary.
 - **Suggested intro/teaching note:** Compare "They were strange" with "Their tools were different because they used local materials" and discuss why the second is stronger.
 - **Reading-level and cognitive-load constraints:** Keep examples age-appropriate; avoid graphic harm or dense historical conflict.
 
@@ -240,7 +240,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Source details, community values, culture, and evidence sentence frames.
 - **Likely misconceptions:** Treating symbol meaning as only the pictured object; assuming every viewer has exactly the same feeling; memorizing a symbol name without explaining meaning.
 - **Evidence of mastery:** The student uses a detail to explain a reasonable shared meaning.
-- **Recommended question types:** `multiple-choice` for symbol-detail interpretation; `match-pairs` for symbol term to meaning; `passage-question` for short symbol descriptions; `constructed-response` for a detail-to-meaning sentence.
+- **Recommended question types:** `multiple-choice` for symbol-detail interpretation and detail-to-meaning explanations; `match-pairs` for symbol term to meaning; `passage-question` for short symbol descriptions; `fill-blank` for symbol vocabulary.
 - **Suggested intro/teaching note:** Use a school or community symbol before national examples so students see how symbols work generally.
 - **Reading-level and cognitive-load constraints:** Use familiar or described symbols; avoid requiring specialized historical background.
 
@@ -252,7 +252,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Primary/secondary source distinction, claim/evidence frames, civic vocabulary.
 - **Likely misconceptions:** Believing only pictures and artifacts are sources; quoting words without explaining their meaning; thinking all civic text is too hard to read.
 - **Evidence of mastery:** The student chooses the best evidence phrase for an ideal and explains it in simple language.
-- **Recommended question types:** `passage-question` for short excerpts; `multiple-choice` for ideal recognition; `fill-blank` for key vocabulary; `constructed-response` for a short paraphrase.
+- **Recommended question types:** `passage-question` for short excerpts and evidence phrases; `multiple-choice` for ideal recognition and paraphrase selection; `fill-blank` for key vocabulary; `match-pairs` for civic text forms.
 - **Suggested intro/teaching note:** Read one short line aloud, then ask what word or phrase gives the clue.
 - **Reading-level and cognitive-load constraints:** Use very short excerpts or paraphrased civic lines; define difficult words such as liberty or justice in context.
 
@@ -264,7 +264,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Rights/responsibilities, leaders/citizens, symbols/documents, and source evidence.
 - **Likely misconceptions:** Treating ideals as words only; assuming an ideal has no tradeoffs; choosing actions that help one person while ignoring the shared community question.
 - **Evidence of mastery:** The student matches an ideal to a community action and explains the responsibility involved.
-- **Recommended question types:** `match-pairs` for ideal/action pairs; `passage-question` for community action scenarios; `multiple-choice` for responsible choice; `constructed-response` for explaining an ideal in action.
+- **Recommended question types:** `match-pairs` for ideal/action pairs; `passage-question` for community action scenarios; `multiple-choice` for responsible choice and explanation selection; `order-items` for responsible action sequences.
 - **Suggested intro/teaching note:** Use a community problem and ask which action best shows fairness or responsibility and why.
 - **Reading-level and cognitive-load constraints:** Keep scenarios nonpartisan and concrete; avoid abstract policy debate.
 
@@ -278,7 +278,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Source, evidence, map, timeline, civic/economic vocabulary, and question words.
 - **Likely misconceptions:** Asking questions too broad for the source set; asking opinion questions when evidence is needed; assuming any question is equally useful.
 - **Evidence of mastery:** The student chooses the question that the provided sources can answer and revises a broad question into a focused one.
-- **Recommended question types:** `multiple-choice` for best focused question; `passage-question` for source-set fit; `error-correction` for revising broad questions; `constructed-response` for writing a focused question.
+- **Recommended question types:** `multiple-choice` for best focused question; `passage-question` for source-set fit; `error-correction` for revising broad questions; `match-pairs` for broad-to-focused question pairs.
 - **Suggested intro/teaching note:** Compare "What was life like long ago?" with "What does the photo show about how children traveled to school?"
 - **Reading-level and cognitive-load constraints:** Use small source sets and sentence frames; do not require student-generated research topics.
 
@@ -290,18 +290,18 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Timeline reading, map keys, source evidence, and focused inquiry questions.
 - **Likely misconceptions:** Treating maps and timelines as decoration; using only the easiest source; combining details that answer different questions.
 - **Evidence of mastery:** The student identifies which clue comes from which tool and uses the clues together to answer a simple question.
-- **Recommended question types:** `match-pairs` for tool to clue; `passage-question` for mini source packets; `multi-blank-cloze` for building a combined answer; `constructed-response` for a brief synthesis.
+- **Recommended question types:** `match-pairs` for tool to clue; `passage-question` for mini source packets; `multi-blank-cloze` for building a combined answer; `order-items` for inquiry steps.
 - **Suggested intro/teaching note:** Use a three-part display: a small timeline, a tiny map description, and a source sentence. Ask what each part tells us.
 - **Reading-level and cognitive-load constraints:** Keep each tool short and clearly labeled; limit the task to one inquiry question.
 
 ### Lesson 3: Make A Claim With Evidence
 
-- **Teaching goal:** Bring the level to mastery by writing or choosing a claim supported by relevant evidence.
+- **Teaching goal:** Bring the level to mastery by choosing or completing a claim supported by relevant evidence.
 - **Student outcome:** The student can answer a historical or civic question with a clear claim and one relevant evidence detail.
 - **Key idea, model, text, representation, form, or procedure:** A strong answer includes a claim that answers the question and evidence that supports the claim from a source, timeline, or map.
 - **Prerequisite knowledge:** All earlier level tools, especially claim/evidence frames, timeline/map reading, and respectful explanation.
 - **Likely misconceptions:** Writing a detail without a claim; making a claim the evidence does not support; adding unrelated facts; thinking longer is always better.
-- **Evidence of mastery:** The student selects or writes a concise claim-and-evidence response that matches the question and source set.
-- **Recommended question types:** `multiple-choice` for best claim; `passage-question` for evidence selection; `constructed-response` for claim/evidence writing; `error-correction` for revising weak support.
+- **Evidence of mastery:** The student selects or completes a concise claim-and-evidence response that matches the question and source set.
+- **Recommended question types:** `multiple-choice` for best claim and complete answer selection; `passage-question` for evidence selection; `multi-blank-cloze` for claim/evidence completion; `error-correction` for revising weak support.
 - **Suggested intro/teaching note:** Model two answers to the same question: one with an unsupported claim and one with a claim plus source detail.
 - **Reading-level and cognitive-load constraints:** Require one claim and one evidence detail; prioritize accuracy and relevance over length.

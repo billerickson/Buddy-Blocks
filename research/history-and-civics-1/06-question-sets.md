@@ -11,14 +11,14 @@ Students classify broad time examples and use before/after language.
 ```question
 key: u01_l01_q01_past_event
 type: multiple-choice
-prompt: "A town opened its first library in 1985. Which time word fits this event?"
+prompt: "A town opened its first library many years ago. Which time word fits this event?"
 choices:
   - "past"
   - "present"
   - "future"
   - "later"
 correctAnswer: "past"
-explanation: "An event from 1985 already happened, so it belongs in the past."
+explanation: "An event from many years ago already happened, so it belongs in the past."
 hint: "Ask whether the event already happened, is happening now, or may happen later."
 questionGoal: "Classify an event that already happened as past."
 misconception: "Thinking an event being discussed now is a present event."
@@ -66,14 +66,14 @@ key: u01_l01_q04_life_sequence
 type: order-items
 prompt: "Put these events in a common life sequence."
 items:
-  - "learn to read"
+  - "take first steps"
   - "be born"
   - "become an adult"
   - "start school"
 correctOrder:
   - "be born"
+  - "take first steps"
   - "start school"
-  - "learn to read"
   - "become an adult"
 explanation: "A sequence orders events from earlier to later."
 hint: "Start with the event that must happen first."
@@ -105,17 +105,20 @@ misconception: "Treating every event in a passage as happening at the same time.
 
 ```question
 key: u01_l01_q06_time_sentence
-type: constructed-response
-prompt: "Write one sentence that tells whether an event is past, present, or future."
-minWords: 6
-sampleAnswer: "My first day of school is in the past."
-checklist:
-  - "Name one event"
-  - "Use past, present, or future"
-explanation: "A strong sentence names an event and places it in time."
-hint: "Choose something that already happened, is happening now, or may happen later."
-questionGoal: "Produce a simple time-category sentence."
-misconception: "Using a time word without connecting it to an event."
+type: fill-blank
+prompt: "Complete the sentence."
+sentenceBefore: "The sentence 'I am eating lunch now' describes a"
+sentenceAfter: "event."
+choices:
+  - "present"
+  - "past"
+  - "future"
+  - "long ago"
+correctAnswer: "present"
+explanation: "The word now shows the event is happening in the present."
+hint: "Look for the word that tells when the lunch is happening."
+questionGoal: "Use a time word to complete a simple event sentence."
+misconception: "Using a time word without matching it to the event clue."
 ```
 
 ### Lesson 2: Reading A Simple Timeline
@@ -217,17 +220,18 @@ misconception: "Treating labels and positions as unrelated."
 
 ```question
 key: u01_l02_q06_before_after_explain
-type: constructed-response
-prompt: "Write one sentence using before or after: 2005: Bridge built. 2012: Bridge repaired."
-minWords: 6
-sampleAnswer: "The bridge was built before it was repaired."
-checklist:
-  - "Use before or after"
-  - "Keep the event order correct"
-explanation: "A good timeline sentence uses the dates to show correct order."
+type: multiple-choice
+prompt: "Which sentence correctly uses before or after? 2005: Bridge built. 2012: Bridge repaired."
+choices:
+  - "The bridge was built before it was repaired."
+  - "The bridge was built after it was repaired."
+  - "The bridge was repaired before it was built."
+  - "The dates do not show an order."
+correctAnswer: "The bridge was built before it was repaired."
+explanation: "The bridge was built in 2005, and 2005 comes before 2012."
 hint: "2005 comes before 2012."
-questionGoal: "Produce a correct before/after statement from a timeline."
-misconception: "Repeating events without showing their time relationship."
+questionGoal: "Choose a correct before/after statement from a timeline."
+misconception: "Reversing the relationship between earlier and later events."
 ```
 
 ### Lesson 3: Cause, Effect, Change, And Continuity
@@ -321,16 +325,17 @@ misconception: "Treating all before/after relationships as cause/effect."
 
 ```question
 key: u01_l03_q06_change_continuity
-type: constructed-response
-prompt: "A town replaced horse carts with buses, but people still traveled to the market. Name one change and one continuity."
-minWords: 8
-sampleAnswer: "The transportation changed to buses, but people still went to the market."
-checklist:
-  - "Name what changed"
-  - "Name what stayed the same"
-explanation: "A strong answer notices both the different transportation and the continued trip to the market."
+type: multiple-choice
+prompt: "A town replaced horse carts with buses, but people still traveled to the market. Which answer names one change and one continuity?"
+choices:
+  - "Change: people used buses; continuity: people still traveled to the market."
+  - "Change: people still went to the market; continuity: horse carts disappeared."
+  - "Change: nothing changed; continuity: buses replaced horse carts."
+  - "Change: the town stopped traveling; continuity: the market vanished."
+correctAnswer: "Change: people used buses; continuity: people still traveled to the market."
+explanation: "The transportation changed from horse carts to buses, while traveling to the market stayed the same."
 hint: "Ask what became different and what stayed the same."
-questionGoal: "Explain change and continuity from a short scenario."
+questionGoal: "Identify change and continuity from a short scenario."
 misconception: "Thinking change means nothing stayed the same."
 ```
 
@@ -363,6 +368,9 @@ type: text-input
 prompt: "Type the direction that is opposite of south."
 acceptedAnswers:
   - "north"
+  - "North"
+  - "N"
+  - "n"
 answerType: text
 explanation: "North is opposite of south on a compass rose."
 hint: "Look at the direction across from south."
@@ -431,16 +439,17 @@ misconception: "Choosing a nearby place without using the direction clue."
 
 ```question
 key: u02_l01_q06_direction_explain
-type: constructed-response
-prompt: "Explain why a compass rose helps someone read a map."
-minWords: 6
-sampleAnswer: "A compass rose shows directions such as north, south, east, and west."
-checklist:
-  - "Mention directions"
-  - "Connect the compass rose to map reading"
+type: multiple-choice
+prompt: "Why does a compass rose help someone read a map?"
+choices:
+  - "It shows directions such as north, south, east, and west."
+  - "It lists every event in time order."
+  - "It explains what each map symbol means."
+  - "It makes the map title longer."
+correctAnswer: "It shows directions such as north, south, east, and west."
 explanation: "A compass rose helps readers know which way places or routes go."
 hint: "Name what the compass rose labels."
-questionGoal: "Explain the purpose of a compass rose."
+questionGoal: "Choose the purpose of a compass rose."
 misconception: "Thinking the compass rose is only decoration."
 ```
 
@@ -539,16 +548,17 @@ misconception: "Assuming a symbol always has one universal meaning."
 
 ```question
 key: u02_l02_q06_key_explain
-type: constructed-response
-prompt: "Explain why guessing a symbol's meaning can lead to a map-reading mistake."
-minWords: 8
-sampleAnswer: "A symbol may mean something different, so I should check the key."
-checklist:
-  - "Mention checking the key"
-  - "Explain the risk of guessing"
+type: multiple-choice
+prompt: "A map uses a circle symbol. The key says the circle means well. What is the best reason to check the key before answering?"
+choices:
+  - "The key defines what the circle means on this map."
+  - "Every circle on every map means well."
+  - "The key tells which direction is north."
+  - "Guessing is always more accurate than reading."
+correctAnswer: "The key defines what the circle means on this map."
 explanation: "The key prevents wrong guesses because it defines symbols for that map."
-hint: "Think about the square symbol example."
-questionGoal: "Explain why key use matters for accurate map reading."
+hint: "Ask which map part tells what a symbol means."
+questionGoal: "Choose why key use matters for accurate map reading."
 misconception: "Treating symbols as self-explanatory pictures."
 ```
 
@@ -652,16 +662,22 @@ misconception: "Treating route steps as unordered place names."
 
 ```question
 key: u02_l03_q06_map_selection
-type: constructed-response
-prompt: "Why might a map of rivers be useful for understanding where people traveled?"
-minWords: 8
-sampleAnswer: "Rivers can show routes people used for travel or trade."
-checklist:
-  - "Mention rivers as a map feature"
-  - "Connect the feature to movement"
-explanation: "Maps can show selected features, such as rivers, that help explain movement."
+type: passage-question
+prompt: "Use the map description to answer."
+passageTitle: "River And Road Map"
+passage: |
+  A historical map shows a river beside a town.
+  A road follows the river to a market.
+question: "Why might this map help explain where people traveled?"
+choices:
+  - "The river and road are route clues."
+  - "The map tells every word people said."
+  - "The map proves no one used the market."
+  - "The river has no connection to movement."
+correctAnswer: "The river and road are route clues."
+explanation: "Maps can show selected features, such as rivers and roads, that help explain movement."
 hint: "Think about how a river can help or block travel."
-questionGoal: "Explain how selected map features support historical reasoning."
+questionGoal: "Use selected map features to reason about movement."
 misconception: "Thinking maps show facts without helping answer questions."
 ```
 
@@ -760,16 +776,17 @@ misconception: "Using any source for any question without considering fit."
 
 ```question
 key: u03_l01_q06_source_detail
-type: constructed-response
-prompt: "A photograph shows children standing beside a one-room schoolhouse. Name one detail the photograph could provide."
-minWords: 5
-sampleAnswer: "It could show what the schoolhouse looked like."
-checklist:
-  - "Name a visible detail"
-  - "Do not invent something the photo cannot show"
+type: multiple-choice
+prompt: "A photograph shows children standing beside a one-room schoolhouse. Which detail could the photograph provide?"
+choices:
+  - "what the schoolhouse looked like"
+  - "what every child thought"
+  - "what song they sang later"
+  - "what the teacher wrote years later"
+correctAnswer: "what the schoolhouse looked like"
 explanation: "A photograph can show visible details, but not every hidden fact."
 hint: "Choose something a viewer could see in the photograph."
-questionGoal: "Name a reasonable evidence detail from a visual source."
+questionGoal: "Choose a reasonable evidence detail from a visual source."
 misconception: "Inventing information beyond what the source can show."
 ```
 
@@ -834,7 +851,7 @@ type: passage-question
 prompt: "Read the source notes and answer."
 passageTitle: "Two Parade Sources"
 passage: |
-  Source A: A newspaper photo printed the morning after the parade.
+  Source A: A photograph taken during the parade.
   Source B: A history book chapter written 40 years later about the parade.
 question: "Which source is the clearer secondary source?"
 choices:
@@ -867,17 +884,18 @@ misconception: "Believing primary sources are automatically complete or always t
 
 ```question
 key: u03_l02_q06_classify_because
-type: constructed-response
-prompt: "A teacher writes a summary about a field trip one week after it happened. Is the summary primary or secondary? Explain why."
-minWords: 8
-sampleAnswer: "It is secondary because it was written later about the trip."
-checklist:
-  - "Choose primary or secondary"
-  - "Explain using during or later"
-explanation: "The timing and purpose of the source help classify it."
-hint: "Was it made during the trip or later about the trip?"
-questionGoal: "Explain source classification with a time clue."
-misconception: "Giving a label without evidence from the source description."
+type: multiple-choice
+prompt: "A school newsletter summary written one week after a field trip explains what happened. What kind of source is the summary about the trip?"
+choices:
+  - "secondary source, because it was written later about the trip"
+  - "primary source, because every school paper is primary"
+  - "artifact, because it is an object from the trip"
+  - "not a source, because summaries cannot give evidence"
+correctAnswer: "secondary source, because it was written later about the trip"
+explanation: "The summary was made later to explain the field trip, so it is a secondary source."
+hint: "Ask whether the summary was made during the trip or later about it."
+questionGoal: "Classify a source using a time clue."
+misconception: "Classifying by format or setting instead of relationship to the event."
 ```
 
 ### Lesson 3: Claims Need Evidence
@@ -972,16 +990,24 @@ misconception: "Using evidence language without linking to the source."
 
 ```question
 key: u03_l03_q06_claim_evidence_sentence
-type: constructed-response
-prompt: "Write one sentence using this frame: I know the town had a school because the source ___. Source detail: A map labels a schoolhouse."
-minWords: 9
-sampleAnswer: "I know the town had a school because the source labels a schoolhouse."
-checklist:
-  - "Answer with a claim"
-  - "Use the map detail as evidence"
+type: multi-blank-cloze
+prompt: "Complete the claim-and-evidence sentence. Source detail: A map labels a schoolhouse."
+parts:
+  - "I know the town had a school because the source "
+  - " a "
+  - "."
+blanks:
+  - correctAnswer: "labels"
+    acceptedAnswers:
+      - "labels"
+      - "shows"
+  - correctAnswer: "schoolhouse"
+    acceptedAnswers:
+      - "schoolhouse"
+      - "school"
 explanation: "The map label is evidence that supports the claim about a school."
-hint: "Use the words map, labels, or schoolhouse."
-questionGoal: "Produce a claim-and-evidence sentence from a source detail."
+hint: "Use the source detail: the map labels a schoolhouse."
+questionGoal: "Complete a claim-and-evidence sentence from a source detail."
 misconception: "Writing a claim without including evidence."
 ```
 
@@ -1080,17 +1106,18 @@ misconception: "Thinking rules are only punishments."
 
 ```question
 key: u04_l01_q06_rule_reason
-type: constructed-response
-prompt: "Choose one rule from home, school, or a community place. Explain what problem it helps solve."
-minWords: 8
-sampleAnswer: "The crosswalk rule helps people cross the street safely."
-checklist:
-  - "Name a rule"
-  - "Explain the problem or purpose"
-explanation: "A good civic explanation connects a rule to the shared need it serves."
-hint: "Use because to explain why the rule exists."
-questionGoal: "Explain a rule's civic purpose in the student's own words."
-misconception: "Naming a rule without explaining its purpose."
+type: multiple-choice
+prompt: "A community pool has a rule: Walk on the wet deck. What problem does the rule help solve?"
+choices:
+  - "People could slip or get hurt if they run."
+  - "People need to talk louder."
+  - "The pool should have no safety rules."
+  - "Only one person should use the pool."
+correctAnswer: "People could slip or get hurt if they run."
+explanation: "Walking on a wet deck helps people stay safe around the pool."
+hint: "Ask what could happen if people ran on a wet surface."
+questionGoal: "Connect a community rule to the problem it helps solve."
+misconception: "Naming a rule without understanding its purpose."
 ```
 
 ### Lesson 2: Leaders, Citizens, And The Common Good
@@ -1191,16 +1218,17 @@ misconception: "Jumping to action without understanding or discussion."
 
 ```question
 key: u04_l02_q06_citizen_action
-type: constructed-response
-prompt: "Name one way a citizen can help a community besides voting."
-minWords: 5
-sampleAnswer: "A citizen can volunteer to clean a park."
-checklist:
-  - "Name a citizen action"
-  - "Connect it to helping the community"
+type: multiple-choice
+prompt: "Which action is a way a citizen can help a community besides voting?"
+choices:
+  - "Volunteer to help clean a park."
+  - "Ignore every shared problem."
+  - "Break a rule to become famous."
+  - "Stop neighbors from helping."
+correctAnswer: "Volunteer to help clean a park."
 explanation: "Citizens can participate in many ways, including helping, listening, speaking respectfully, and volunteering."
-hint: "Think about actions children or adults can take in a community."
-questionGoal: "Expand participation beyond voting only."
+hint: "Choose the action that helps a shared place or need."
+questionGoal: "Identify civic participation beyond voting only."
 misconception: "Thinking civic participation matters only in adult elections."
 ```
 
@@ -1297,16 +1325,17 @@ misconception: "Thinking rights mean doing anything one wants."
 
 ```question
 key: u04_l03_q06_responsibility_explain
-type: constructed-response
-prompt: "Explain one responsibility that helps protect another person's right."
-minWords: 8
-sampleAnswer: "Listening quietly helps protect another person's right to speak."
-checklist:
-  - "Name a responsibility"
-  - "Name the right it helps protect"
-explanation: "A strong civic answer connects an action to the right it supports."
-hint: "Think about speaking, learning, safety, or shared places."
-questionGoal: "Explain the relationship between rights and responsibilities."
+type: multiple-choice
+prompt: "Which responsibility best protects another person's right to learn?"
+choices:
+  - "Let classmates listen and work."
+  - "Talk loudly during every lesson."
+  - "Hide shared books."
+  - "Say only one person has rights."
+correctAnswer: "Let classmates listen and work."
+explanation: "Letting classmates listen and work helps protect their right to learn."
+hint: "Choose the action that helps other people learn too."
+questionGoal: "Connect a responsibility to the right it helps protect."
 misconception: "Listing a responsibility without connecting it to a right."
 ```
 
@@ -1405,16 +1434,21 @@ misconception: "Thinking wants are unimportant or bad because they are not needs
 
 ```question
 key: u05_l01_q06_choice_explain
-type: constructed-response
-prompt: "A family has time to visit either the library or the park today, but not both. Explain the scarcity and choice."
-minWords: 10
-sampleAnswer: "The scarce resource is time, so the family must choose one place."
-checklist:
-  - "Name the limited resource"
-  - "Explain the choice"
+type: passage-question
+prompt: "Read the scenario and answer."
+passageTitle: "One Afternoon"
+passage: |
+  A family has time to visit either the library or the park today, but not both.
+question: "Which answer best explains the scarcity and choice?"
+choices:
+  - "Time is limited, so the family must choose one place."
+  - "Water is limited, so the family cannot read."
+  - "There is no scarcity because the family has two ideas."
+  - "The family can do everything because choices have no costs."
+correctAnswer: "Time is limited, so the family must choose one place."
 explanation: "Scarcity can involve time, money, materials, or other limited resources."
 hint: "Ask what the family does not have enough of to do both."
-questionGoal: "Explain scarcity and choice in a familiar context."
+questionGoal: "Identify scarcity and choice in a familiar context."
 misconception: "Thinking scarcity only means lack of money."
 ```
 
@@ -1514,16 +1548,17 @@ misconception: "Thinking producers only make factory objects."
 
 ```question
 key: u05_l02_q06_good_service_explain
-type: constructed-response
-prompt: "Name one good and one service people might use in a community."
-minWords: 6
-sampleAnswer: "A book is a good, and a bus ride is a service."
-checklist:
-  - "Name a physical good"
-  - "Name an action or work service"
+type: multiple-choice
+prompt: "Which pair correctly names one good and one service people might use in a community?"
+choices:
+  - "good: a book; service: a bus ride"
+  - "good: a haircut; service: a coat"
+  - "good: a bus ride; service: a book"
+  - "good: a producer; service: a consumer"
+correctAnswer: "good: a book; service: a bus ride"
 explanation: "Goods are things; services are actions or work people provide."
 hint: "Choose one object and one helpful action."
-questionGoal: "Produce examples of good and service."
+questionGoal: "Distinguish examples of goods and services."
 misconception: "Naming two goods or two services without distinguishing them."
 ```
 
@@ -1569,7 +1604,7 @@ misconception: "Equating all trade with money."
 ```question
 key: u05_l03_q03_give_get
 type: multi-blank-cloze
-prompt: "Complete the exchange sentence."
+prompt: "Use this trade: Ana gives a basket of eggs to Ben. Ben gives Ana cloth. Complete the exchange sentence."
 parts:
   - "Ana gives "
   - " and gets "
@@ -1624,16 +1659,17 @@ misconception: "Ignoring what is given up in a choice."
 
 ```question
 key: u05_l03_q06_exchange_explain
-type: constructed-response
-prompt: "Explain how money can make trade easier."
-minWords: 8
-sampleAnswer: "Money helps because people can buy goods without finding a direct trade."
-checklist:
-  - "Mention exchange or buying"
-  - "Explain why money helps"
+type: multiple-choice
+prompt: "Why can money make trade easier?"
+choices:
+  - "People can buy without finding someone who wants their exact trade item."
+  - "Money means no one gives anything up."
+  - "Money makes goods and services the same."
+  - "Money means trade cannot involve services."
+correctAnswer: "People can buy without finding someone who wants their exact trade item."
 explanation: "Money can make exchange easier because people do not have to want exactly what the other person offers."
 hint: "Think about why eggs-for-cloth might be harder than using coins."
-questionGoal: "Explain money as a tool for exchange."
+questionGoal: "Choose why money can make exchange easier."
 misconception: "Thinking money is the same thing as all trade."
 ```
 
@@ -1734,13 +1770,14 @@ misconception: "Turning one source example into a claim about everyone."
 
 ```question
 key: u06_l01_q06_culture_source_detail
-type: constructed-response
-prompt: "A source says a community built fishing boats and told stories about the sea. Name two parts of culture shown in the source."
-minWords: 6
-sampleAnswer: "The source shows work with boats and stories about the sea."
-checklist:
-  - "Name two culture parts"
-  - "Use details from the source"
+type: multiple-choice
+prompt: "A source says a community built fishing boats and told stories about the sea. Which two parts of culture are shown?"
+choices:
+  - "work or technology, and stories or tradition"
+  - "food and holidays only"
+  - "a map key and a compass rose"
+  - "scarcity and money"
+correctAnswer: "work or technology, and stories or tradition"
 explanation: "Boat building can show work or technology, and stories can show tradition or belief."
 hint: "Look for what people do and what they pass on."
 questionGoal: "Identify culture parts from source details."
@@ -1807,16 +1844,17 @@ misconception: "Choosing a true detail that does not support the specific claim.
 
 ```question
 key: u06_l02_q04_similarity_sentence
-type: constructed-response
-prompt: "Write one similarity from the school comparison: past children walked to school; many children today ride buses to school."
-minWords: 6
-sampleAnswer: "A similarity is that both groups went to school."
-checklist:
-  - "Name something shared"
-  - "Do not rank one group over the other"
+type: multiple-choice
+prompt: "Past children walked to school; many children today ride buses to school. Which sentence states a similarity?"
+choices:
+  - "Both groups went to school."
+  - "Both groups rode buses."
+  - "Past travel was bad because it was different."
+  - "Neither group went anywhere."
+correctAnswer: "Both groups went to school."
 explanation: "A similarity tells what the examples have in common."
 hint: "Ask what both groups did."
-questionGoal: "Produce a concise similarity statement."
+questionGoal: "Choose a concise similarity statement."
 misconception: "Writing a difference when asked for a similarity."
 ```
 
@@ -1917,8 +1955,8 @@ pairs:
     right: "claims a whole group is all the same"
   - left: "unsupported"
     right: "makes a claim without a clue"
-  - left: "presentism"
-    right: "judges the past only by today's context"
+  - left: "judging without context"
+    right: "uses today's ideas as the only test"
 explanation: "Good historical descriptions use evidence, context, and careful language."
 hint: "Look for whether the description uses evidence or jumps beyond it."
 questionGoal: "Recognize qualities of strong and weak historical descriptions."
@@ -1945,16 +1983,17 @@ misconception: "Judging past choices without considering time and place."
 
 ```question
 key: u06_l03_q06_respectful_sentence
-type: constructed-response
-prompt: "A source says a community used reeds from a river to make baskets. Write a respectful evidence-based sentence."
-minWords: 8
-sampleAnswer: "The source shows that people used river reeds to make baskets."
-checklist:
-  - "Use the source detail"
-  - "Avoid insulting or ranking language"
+type: multiple-choice
+prompt: "A source says a community used reeds from a river to make baskets. Which sentence is respectful and evidence-based?"
+choices:
+  - "The source shows that people used river reeds to make baskets."
+  - "Those people were strange because they used reeds."
+  - "Everyone in the community made baskets every day."
+  - "The source proves river reeds were useless."
+correctAnswer: "The source shows that people used river reeds to make baskets."
 explanation: "The sentence should describe what the source supports without stereotyping."
-hint: "Start with: The source shows..."
-questionGoal: "Produce a respectful historical description from evidence."
+hint: "Choose the sentence that stays close to the source detail."
+questionGoal: "Choose a respectful historical description from evidence."
 misconception: "Adding unsupported judgments to a source-based description."
 ```
 
@@ -2053,16 +2092,17 @@ misconception: "Thinking symbol meaning is either literal only or proof of a bro
 
 ```question
 key: u07_l01_q06_detail_meaning_sentence
-type: constructed-response
-prompt: "A community seal shows a tree. Write one possible meaning the tree could stand for and why."
-minWords: 8
-sampleAnswer: "The tree could stand for growth because trees grow over time."
-checklist:
-  - "Name a possible meaning"
-  - "Connect it to the symbol detail"
+type: multiple-choice
+prompt: "A community seal shows a tree. Which explanation connects the detail to a possible meaning?"
+choices:
+  - "The tree could stand for growth because trees grow over time."
+  - "The tree proves every person works in a forest."
+  - "The tree cannot stand for any idea."
+  - "The tree means the community has no shared values."
+correctAnswer: "The tree could stand for growth because trees grow over time."
 explanation: "Symbol interpretation should connect the detail to a reasonable idea."
 hint: "Think about ideas people connect with trees, such as growth, roots, or nature."
-questionGoal: "Produce a detail-to-meaning symbol explanation."
+questionGoal: "Choose a detail-to-meaning symbol explanation."
 misconception: "Giving a symbol meaning without explaining the connection."
 ```
 
@@ -2143,16 +2183,17 @@ misconception: "Treating all civic text forms as identical."
 
 ```question
 key: u07_l02_q05_paraphrase_liberty
-type: constructed-response
-prompt: "The line says, 'People should be free to speak respectfully.' Put the idea in your own words."
-minWords: 6
-sampleAnswer: "People should have liberty to share ideas respectfully."
-checklist:
-  - "Mention freedom or liberty"
-  - "Mention respectful speech or sharing ideas"
+type: multiple-choice
+prompt: "The line says, 'People should be free to speak respectfully.' Which sentence best puts the idea in other words?"
+choices:
+  - "People should have liberty to share ideas respectfully."
+  - "People should never share ideas."
+  - "Only disrespectful speech is allowed."
+  - "The line is about park safety."
+correctAnswer: "People should have liberty to share ideas respectfully."
 explanation: "Paraphrasing shows the meaning of a civic line without only copying it."
 hint: "Use simpler words for free to speak."
-questionGoal: "Paraphrase a short civic excerpt."
+questionGoal: "Choose a paraphrase of a short civic excerpt."
 misconception: "Copying words without explaining their meaning."
 ```
 
@@ -2273,16 +2314,17 @@ misconception: "Acting before identifying the shared problem."
 
 ```question
 key: u07_l03_q06_ideal_explain
-type: constructed-response
-prompt: "Explain how taking turns with shared supplies can show fairness."
-minWords: 8
-sampleAnswer: "Taking turns is fair because each person gets a chance to use the supplies."
-checklist:
-  - "Name the action"
-  - "Connect it to fairness"
+type: multiple-choice
+prompt: "How can taking turns with shared supplies show fairness?"
+choices:
+  - "Each person gets a chance to use the supplies."
+  - "One person keeps the supplies all day."
+  - "No one has to share any space."
+  - "Fairness means ignoring supplies."
+correctAnswer: "Each person gets a chance to use the supplies."
 explanation: "The explanation should connect a practical action to a shared ideal."
-hint: "Use because to explain how the action helps people share."
-questionGoal: "Explain an ideal in action."
+hint: "Look for the answer that gives each person a fair chance."
+questionGoal: "Choose an explanation of an ideal in action."
 misconception: "Naming an ideal without explaining how an action shows it."
 ```
 
@@ -2336,7 +2378,7 @@ acceptedAnswers:
   - "Where was the town located?"
   - "Was the town beside a river?"
   - "What does the map show about the town's location?"
-  - "How was the town located near the river?"
+  - "Where was the town in relation to the river?"
 explanation: "A focused question should match the map evidence available."
 hint: "Ask about location or the river, because that is what the map shows."
 questionGoal: "Revise a broad question into a focused source-based question."
@@ -2382,17 +2424,18 @@ misconception: "Mistaking broad curiosity for a source-answerable question."
 
 ```question
 key: u08_l01_q06_write_focused_question
-type: constructed-response
-prompt: "Write a focused question for this source: a timeline with three events about a bridge being built, repaired, and replaced."
-minWords: 6
-sampleAnswer: "Which bridge event happened first on the timeline?"
-checklist:
-  - "Ask about the timeline"
-  - "Make the question answerable from the source"
+type: multiple-choice
+prompt: "A timeline has three events about a bridge being built, repaired, and replaced. Which inquiry question is focused and answerable from this source?"
+choices:
+  - "Which bridge event happened first?"
+  - "What was everything about town life?"
+  - "Which bridge is the best in the world?"
+  - "What will all bridges look like forever?"
+correctAnswer: "Which bridge event happened first?"
 explanation: "A focused timeline question should be answerable by reading the events in order."
 hint: "Use words like first, after, before, repaired, or replaced."
-questionGoal: "Produce a focused inquiry question from a given source."
-misconception: "Writing a question that the source cannot answer."
+questionGoal: "Choose a focused inquiry question from a given source."
+misconception: "Choosing a question that the source cannot answer."
 ```
 
 ### Lesson 2: Use Timeline, Map, And Source Together
@@ -2441,7 +2484,7 @@ misconception: "Mixing up which tool provides which clue."
 ```question
 key: u08_l02_q03_combined_answer
 type: multi-blank-cloze
-prompt: "Complete the combined evidence sentence."
+prompt: "Use these clues: Timeline: 1905 bridge built. Map: The bridge was north of town. Complete the combined evidence sentence."
 parts:
   - "The timeline shows the bridge was built in "
   - ", and the map shows it was "
@@ -2477,16 +2520,23 @@ misconception: "Treating all representations as equally useful for every questio
 
 ```question
 key: u08_l02_q05_two_clue_synthesis
-type: constructed-response
-prompt: "Use both clues in one answer. Timeline clue: The market opened in 1920. Map clue: The market was beside the train station."
-minWords: 10
-sampleAnswer: "The market opened in 1920 and was located beside the train station."
-checklist:
-  - "Use the timeline clue"
-  - "Use the map clue"
+type: multi-blank-cloze
+prompt: "Use both clues to complete the answer. Timeline clue: The market opened in 1920. Map clue: The market was beside the train station."
+parts:
+  - "The market opened in "
+  - " and was located "
+  - " the train station."
+blanks:
+  - correctAnswer: "1920"
+    acceptedAnswers:
+      - "1920"
+  - correctAnswer: "beside"
+    acceptedAnswers:
+      - "beside"
+      - "near"
 explanation: "A synthesis answer combines accurate clues from more than one tool."
 hint: "Include both when and where."
-questionGoal: "Write a brief answer using timeline and map evidence."
+questionGoal: "Complete a brief answer using timeline and map evidence."
 misconception: "Using only one available clue."
 ```
 
@@ -2568,17 +2618,24 @@ misconception: "Attaching unrelated evidence to a claim."
 
 ```question
 key: u08_l03_q04_claim_evidence_write
-type: constructed-response
-prompt: "Question: How did people cross the river? Evidence: A photo shows wagons on a bridge. Write a claim with evidence."
-minWords: 10
-sampleAnswer: "People crossed the river by bridge because the photo shows wagons on it."
-checklist:
-  - "Answer the question with a claim"
-  - "Use the photo evidence"
+type: multi-blank-cloze
+prompt: "Complete the claim with evidence. Question: How did people cross the river? Evidence: A photo shows wagons on a bridge."
+parts:
+  - "People crossed the river by "
+  - " because the photo shows "
+  - " on it."
+blanks:
+  - correctAnswer: "bridge"
+    acceptedAnswers:
+      - "bridge"
+      - "a bridge"
+  - correctAnswer: "wagons"
+    acceptedAnswers:
+      - "wagons"
 explanation: "The claim answers how people crossed, and the evidence explains how we know."
 hint: "Use the frame: People crossed by ___ because the source shows ___."
-questionGoal: "Produce a final claim-and-evidence response."
-misconception: "Writing evidence without a clear claim."
+questionGoal: "Complete a final claim-and-evidence response."
+misconception: "Completing evidence without a clear claim."
 ```
 
 ```question
