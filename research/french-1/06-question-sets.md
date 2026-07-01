@@ -81,7 +81,7 @@ misconception: "Using a greeting when the interaction is ending."
 ```question
 key: u01_l01_q05_order_greeting_exchange
 type: order-items
-prompt: "Put this very short exchange in a natural order."
+prompt: "Maya says hello first, then Léo replies. Maya says goodbye first, then Léo replies. Put the exchange in order."
 items:
   - "Au revoir, Léo."
   - "Bonjour, Maya."
@@ -100,16 +100,15 @@ misconception: "Treating social phrases as interchangeable regardless of order."
 
 ```question
 key: u01_l01_q06_say_greeting
-type: speaking-prompt
-prompt: "Say a polite greeting and a goodbye in French."
-minSeconds: 4
-sampleAnswer: "Bonjour. Au revoir."
-checklist:
-  - "Use one greeting"
-  - "Use one goodbye"
-explanation: "Short phrases are enough for first oral practice when they fit the situation."
-hint: "Bonjour can open the exchange, and au revoir can close it."
-questionGoal: "Rehearse producing a greeting and farewell aloud."
+type: text-input
+prompt: "Type the French for Hello. Goodbye."
+acceptedAnswers:
+  - "Bonjour. Au revoir."
+  - "Bonjour au revoir"
+answerType: text
+explanation: "Bonjour opens the exchange, and au revoir closes it."
+hint: "Use one hello phrase and one goodbye phrase."
+questionGoal: "Produce a constrained greeting and farewell."
 misconception: "Thinking beginning communication must be long to count."
 ```
 
@@ -213,16 +212,15 @@ misconception: "Using thanks or a command when an apology is needed."
 
 ```question
 key: u01_l02_q06_classroom_survival_speak
-type: speaking-prompt
-prompt: "Say one phrase you can use when you need help in French class."
-minSeconds: 3
-sampleAnswer: "Je ne comprends pas. Répétez, s'il vous plaît."
-checklist:
-  - "Use a repair phrase or request"
-  - "Keep it short and clear"
-explanation: "A survival phrase helps you stay in the lesson even when you miss something."
-hint: "You might say you do not understand or ask someone to repeat."
-questionGoal: "Rehearse oral use of a classroom survival phrase."
+type: text-input
+prompt: "Type the French classroom phrase for I do not understand."
+acceptedAnswers:
+  - "Je ne comprends pas."
+  - "Je ne comprends pas"
+answerType: text
+explanation: "Je ne comprends pas is a repair phrase that helps when meaning is unclear."
+hint: "Use the repair phrase that starts with Je ne..."
+questionGoal: "Produce a constrained classroom survival phrase."
 misconception: "Thinking confusion means stopping instead of using a repair phrase."
 ```
 
@@ -324,18 +322,16 @@ misconception: "Substituting a social phrase that does not describe how someone 
 
 ```question
 key: u01_l03_q06_speaking_dialogue
-type: speaking-prompt
-prompt: "Say a short exchange: greet someone, ask Comment ça va?, and answer."
-minSeconds: 6
-sampleAnswer: "Bonjour. Comment ça va? Ça va bien, merci."
-checklist:
-  - "Use a greeting"
-  - "Ask comment ça va"
-  - "Give one well-being answer"
-explanation: "A short rehearsed exchange is real novice communication."
-hint: "You can use bonjour, comment ça va, and ça va bien."
-questionGoal: "Practice oral production of a first mini-dialogue."
-misconception: "Thinking a dialogue must be long before it is meaningful."
+type: text-input
+prompt: "Type the French return question for And you?"
+acceptedAnswers:
+  - "Et toi?"
+  - "Et toi"
+answerType: text
+explanation: "Et toi? keeps the well-being exchange going by asking the other person."
+hint: "This two-word phrase starts with Et."
+questionGoal: "Produce the reciprocal prompt in a first mini-dialogue."
+misconception: "Omitting the return question after answering comment ça va."
 ```
 
 ### Lesson 4: French Sounds You Notice First
@@ -424,17 +420,17 @@ misconception: "Thinking all final consonants are either always silent or always
 
 ```question
 key: u01_l04_q06_sound_notice_speak
-type: speaking-prompt
-prompt: "Say these phrases slowly: salut, ça va, répétez. Try to notice the final t in salut and the ç in ça."
-minSeconds: 5
-sampleAnswer: "salut; ça va; répétez"
-checklist:
-  - "Say salut without a strong final t"
-  - "Say ça with an s sound"
-  - "Try répétez with clear é sounds"
-explanation: "Speaking slowly helps connect written clues to sounds."
-hint: "Use the spelling marks as clues, not decorations."
-questionGoal: "Practice pronunciation noticing with familiar words."
+type: multiple-choice
+prompt: "Which sound note is correct for these familiar words?"
+choices:
+  - "In salut, the final t is usually quiet; in ça, ç sounds like s."
+  - "In salut, every letter is strongly pronounced."
+  - "In ça, ç sounds like k."
+  - "Accent marks never help with sound or spelling."
+correctAnswer: "In salut, the final t is usually quiet; in ça, ç sounds like s."
+explanation: "The final t in salut is usually silent, and ç signals an /s/ sound in ça."
+hint: "Check the final letter in salut and the mark under c in ça."
+questionGoal: "Apply pronunciation-noticing rules to familiar words."
 misconception: "Treating pronunciation as unrelated to spelling clues."
 ```
 
@@ -534,7 +530,7 @@ misconception: "Keeping English word order instead of the learned French phrase.
 ```question
 key: u02_l01_q06_classroom_count
 type: multi-blank-cloze
-prompt: "Complete the classroom count."
+prompt: "Complete the classroom count: There are three notebooks and two pens."
 parts:
   - "Il y a "
   - " cahiers et "
@@ -657,17 +653,15 @@ misconception: "Confusing the day, date, and birthday month."
 
 ```question
 key: u02_l02_q06_write_birthday
-type: constructed-response
-prompt: "Write a short birthday sentence in French using the frame Mon anniversaire est en ___."
-minWords: 4
-sampleAnswer: "Mon anniversaire est en juillet."
-checklist:
-  - "Use Mon anniversaire"
-  - "Use est en"
-  - "Add a month"
+type: text-input
+prompt: "Type the French sentence: My birthday is in July."
+acceptedAnswers:
+  - "Mon anniversaire est en juillet."
+  - "Mon anniversaire est en juillet"
+answerType: text
 explanation: "The frame lets you give a birthday month without a long sentence."
-hint: "Choose any month word you know, such as juin or juillet."
-questionGoal: "Produce a supported birthday-month sentence."
+hint: "Use the frame Mon anniversaire est en ___ with the month juillet."
+questionGoal: "Produce a constrained birthday-month sentence."
 misconception: "Trying to translate a full English birthday sentence beyond the learned frame."
 ```
 
@@ -723,7 +717,7 @@ choices:
   - "Il fait beau."
 correctAnswer: "Il pleut."
 explanation: "Il pleut means it is raining. Il neige means it is snowing."
-hint: "Pleut is the rain word."
+hint: "Choose the special rain phrase, not the snow phrase."
 questionGoal: "Distinguish rain and snow phrases."
 misconception: "Confusing non-il fait weather expressions."
 ```
@@ -744,34 +738,33 @@ misconception: "Using être because English says 'it is cold.'"
 ```question
 key: u02_l03_q05_weather_dialogue
 type: dialogue-builder
-prompt: "Choose the reply that fits."
+prompt: "The weather window shows sunshine. Choose the reply that fits."
 turns:
   - speaker: "Teacher"
     line: "Quel temps fait-il?"
 choices:
   - "Il fait beau."
-  - "Je m'appelle Sam."
-  - "J'ai treize ans."
-  - "À bientôt."
+  - "Il pleut."
+  - "Il neige."
+  - "Il fait froid."
 correctAnswer: "Il fait beau."
-explanation: "Quel temps fait-il? asks about the weather."
-hint: "Look for the answer that starts with il fait."
+explanation: "Quel temps fait-il? asks about the weather, and sunshine fits il fait beau."
+hint: "Choose the weather phrase that matches a sunny window."
 questionGoal: "Match a weather question with a weather answer."
-misconception: "Answering with a familiar personal phrase instead of the weather."
+misconception: "Choosing a weather phrase without checking the scene."
 ```
 
 ```question
 key: u02_l03_q06_weather_report
-type: constructed-response
-prompt: "Write one short French weather sentence for today or an imaginary day."
-minWords: 3
-sampleAnswer: "Il fait beau."
-checklist:
-  - "Start with Il"
-  - "Use a learned weather phrase"
+type: text-input
+prompt: "Type the French sentence: It is raining."
+acceptedAnswers:
+  - "Il pleut."
+  - "Il pleut"
+answerType: text
 explanation: "A one-sentence weather report is enough for novice production."
-hint: "You can use il fait beau, il fait froid, il pleut, or il neige."
-questionGoal: "Produce a supported weather sentence."
+hint: "Use the learned rain phrase."
+questionGoal: "Produce a constrained weather sentence."
 misconception: "Trying to build a long weather sentence before the basic chunk is secure."
 ```
 
@@ -865,17 +858,14 @@ misconception: "Placing the adjective before the noun because English does."
 
 ```question
 key: u02_l04_q06_object_description
-type: constructed-response
-prompt: "Write one French phrase for a colored classroom object."
-minWords: 3
-sampleAnswer: "le stylo noir"
-checklist:
-  - "Use an article"
-  - "Use a classroom object"
-  - "Put the color after the noun"
+type: text-input
+prompt: "Type the French phrase for the black pen."
+acceptedAnswers:
+  - "le stylo noir"
+answerType: text
 explanation: "A short noun phrase can show article, noun, and color order."
-hint: "Try le cahier bleu or la trousse rouge."
-questionGoal: "Produce a supported article-noun-color phrase."
+hint: "Use article + noun + color."
+questionGoal: "Produce a constrained article-noun-color phrase."
 misconception: "Leaving out the article or using English word order."
 ```
 
@@ -898,7 +888,7 @@ choices:
   - "vais"
 correctAnswer: "m'appelle"
 explanation: "Je m'appelle Lina means My name is Lina."
-hint: "Use the name phrase you learned in the first unit."
+hint: "Use the name phrase from this profile lesson."
 questionGoal: "Complete the basic name-introduction phrase."
 misconception: "Using a general verb chunk instead of the memorized name phrase."
 ```
@@ -914,7 +904,7 @@ choices:
   - "J'aime treize ans."
 correctAnswer: "J'ai treize ans."
 explanation: "French uses j'ai with age: j'ai treize ans."
-hint: "Age uses avoir, so look for j'ai."
+hint: "For age, French uses the have pattern instead of the am pattern."
 questionGoal: "Choose the correct age structure."
 misconception: "Translating English 'I am thirteen' with je suis."
 ```
@@ -922,7 +912,7 @@ misconception: "Translating English 'I am thirteen' with je suis."
 ```question
 key: u03_l01_q03_profile_cloze
 type: multi-blank-cloze
-prompt: "Complete the short profile."
+prompt: "Complete Noah's short profile: Noah is twelve and a student."
 parts:
   - "Bonjour. Je m'appelle "
   - ". J'ai "
@@ -969,34 +959,34 @@ misconception: "Treating all personal phrases as interchangeable introductions."
 
 ```question
 key: u03_l01_q05_write_profile
-type: constructed-response
-prompt: "Write a three-sentence French profile with name, age, and student identity."
-minWords: 7
-sampleAnswer: "Je m'appelle Alex. J'ai douze ans. Je suis élève."
-checklist:
-  - "Use Je m'appelle"
-  - "Use J'ai ___ ans"
-  - "Use Je suis élève"
+type: text-input
+prompt: "Type the French sentence: I am a student."
+acceptedAnswers:
+  - "Je suis élève."
+  - "Je suis élève"
+answerType: text
 explanation: "A clear novice profile can be short and accurate."
-hint: "Use the exact sentence frames from the lesson."
-questionGoal: "Produce a supported self-profile."
+hint: "Use the student identity frame from the lesson."
+questionGoal: "Produce a constrained student identity sentence."
 misconception: "Writing beyond the learned frames and losing accuracy."
 ```
 
 ```question
 key: u03_l01_q06_say_profile
-type: speaking-prompt
-prompt: "Say a short profile: name, age, and je suis élève."
-minSeconds: 6
-sampleAnswer: "Je m'appelle Alex. J'ai douze ans. Je suis élève."
-checklist:
-  - "Say your name or a pretend name"
-  - "Say an age with j'ai"
-  - "Say je suis élève"
-explanation: "Speaking the profile helps make the chunks more automatic."
-hint: "Keep the sentences short and use the model."
-questionGoal: "Rehearse oral production of a self-profile."
-misconception: "Thinking oral practice requires spontaneous long speech."
+type: order-items
+prompt: "Put the short profile in a natural order."
+items:
+  - "Je suis élève."
+  - "Je m'appelle Alex."
+  - "J'ai douze ans."
+correctOrder:
+  - "Je m'appelle Alex."
+  - "J'ai douze ans."
+  - "Je suis élève."
+explanation: "A simple profile usually gives name, age, then student identity."
+hint: "Start with the name sentence."
+questionGoal: "Sequence a three-part self-profile."
+misconception: "Treating profile sentences as disconnected chunks."
 ```
 
 ### Lesson 2: Where I Am From And Where I Live
@@ -1031,7 +1021,7 @@ turns:
     line: "D'où viens-tu?"
 choices:
   - "Je viens de Québec."
-  - "J'habite à l'école."
+  - "J'habite à Québec."
   - "J'ai douze ans."
   - "Il pleut."
 correctAnswer: "Je viens de Québec."
@@ -1099,17 +1089,15 @@ misconception: "Confusing où and d'où questions."
 
 ```question
 key: u03_l02_q06_write_place_sentence
-type: constructed-response
-prompt: "Write one French sentence about where you live or a pretend place."
-minWords: 3
-sampleAnswer: "J'habite à Dallas."
-checklist:
-  - "Use J'habite"
-  - "Use à"
-  - "Add a place"
+type: text-input
+prompt: "Type the French sentence: I live in Dallas."
+acceptedAnswers:
+  - "J'habite à Dallas."
+  - "J'habite à Dallas"
+answerType: text
 explanation: "The chunk j'habite à... lets you give residence information."
-hint: "Use the sentence frame exactly: J'habite à ___."
-questionGoal: "Produce a supported residence sentence."
+hint: "Use the sentence frame J'habite à ___."
+questionGoal: "Produce a constrained residence sentence."
 misconception: "Mixing origin and residence phrases in production."
 ```
 
@@ -1128,8 +1116,8 @@ pairs:
     right: "a place"
   - left: "pourquoi"
     right: "a reason"
-  - left: "comment"
-    right: "a name or how someone is"
+  - left: "comment ça va?"
+    right: "how someone feels"
 explanation: "Question words are clues for the answer type."
 hint: "Think of the English question word each one connects to."
 questionGoal: "Connect common French question words to answer types."
@@ -1147,7 +1135,7 @@ choices:
   - "J'habite à Houston."
   - "J'ai treize ans."
   - "Je m'appelle Léo."
-  - "Parce que c'est amusant."
+  - "Bonjour."
 correctAnswer: "J'habite à Houston."
 explanation: "Où asks for a place, so a residence answer fits."
 hint: "Où points to where."
@@ -1160,12 +1148,12 @@ key: u03_l03_q03_why_answer
 type: multiple-choice
 prompt: "Which answer best fits Pourquoi?"
 choices:
-  - "Parce que c'est amusant."
-  - "J'ai douze ans."
-  - "Bonjour."
-  - "Je viens de Lyon."
-correctAnswer: "Parce que c'est amusant."
-explanation: "Pourquoi asks why, and parce que introduces a reason."
+  - "Because it is fun."
+  - "I am twelve."
+  - "Hello."
+  - "I am from Lyon."
+correctAnswer: "Because it is fun."
+explanation: "Pourquoi asks why, so it calls for a reason."
 hint: "Look for the answer that gives a reason."
 questionGoal: "Recognize that pourquoi calls for a reason."
 misconception: "Treating pourquoi as a yes/no or identity question."
@@ -1210,13 +1198,14 @@ misconception: "Matching by one familiar word instead of the question's purpose.
 
 ```question
 key: u03_l03_q06_explain_question_clue
-type: constructed-response
+type: multiple-choice
 prompt: "In the question Où habites-tu?, what clue tells you the answer should be a place?"
-minWords: 5
-sampleAnswer: "Où means where, so the answer is a place."
-checklist:
-  - "Mention où"
-  - "Say it asks for a place"
+choices:
+  - "Où means where."
+  - "Tu means teacher."
+  - "Habites means goodbye."
+  - "The question has no place clue."
+correctAnswer: "Où means where."
 explanation: "Naming the clue helps you avoid answering with the wrong kind of information."
 hint: "Focus on the first word of the question."
 questionGoal: "Explain how a question word guides the answer."
@@ -1238,7 +1227,7 @@ choices:
   - "Quel temps fait-il?"
 correctAnswer: "Comment tu t'appelles?"
 explanation: "Tu fits a clear informal friend situation."
-hint: "Friend situation: choose the tu form."
+hint: "Use the relationship clue: familiar or polite?"
 questionGoal: "Choose tu in a familiar peer exchange."
 misconception: "Avoiding tu even when the situation is clearly informal."
 ```
@@ -1254,7 +1243,7 @@ choices:
   - "Ça va mal?"
 correctAnswer: "Comment vous appelez-vous?"
 explanation: "Vous is the polite choice for a teacher or adult in this clear situation."
-hint: "Teacher or adult: choose the vous form."
+hint: "Use the relationship clue: familiar or polite?"
 questionGoal: "Choose vous in a polite adult exchange."
 misconception: "Using tu with everyone because it is shorter or familiar."
 ```
@@ -1313,16 +1302,16 @@ misconception: "Using tu with a teacher or adult because the meaning is similar 
 
 ```question
 key: u03_l04_q06_explain_tu_vous
-type: constructed-response
-prompt: "Write one short note explaining when tu or vous fits."
-minWords: 8
-sampleAnswer: "Tu fits a friend. Vous fits a teacher or polite adult."
-checklist:
-  - "Mention tu"
-  - "Mention vous"
-  - "Name a relationship clue"
+type: multiple-choice
+prompt: "Which note best explains when tu or vous fits?"
+choices:
+  - "Use tu with a close friend; use vous with a teacher or polite adult."
+  - "Use tu only for weather; use vous only for food."
+  - "Use vous with close friends because it is shorter."
+  - "Tu and vous mean exactly the same thing in every situation."
+correctAnswer: "Use tu with a close friend; use vous with a teacher or polite adult."
 explanation: "The relationship helps you choose the form."
-hint: "Use friend for tu and teacher or adult for vous."
+hint: "Sort the choices by familiar versus polite relationships."
 questionGoal: "Explain the social meaning of tu/vous at a novice level."
 misconception: "Thinking tu/vous is only a grammar choice, not a social one."
 ```
@@ -1410,7 +1399,7 @@ type: passage-question
 prompt: "Read the family note and answer."
 passageTitle: "La famille de Zoé"
 passage: |
-  Dans ma famille, il y a ma mère, mon père et un frère.
+  Dans la famille de Zoé, il y a une mère, un père et un frère.
 question: "Who is in Zoé's family note?"
 choices:
   - "mother, father, and a brother"
@@ -1418,7 +1407,7 @@ choices:
   - "mother, grandmother, and dog"
   - "father, cousin, and friend"
 correctAnswer: "mother, father, and a brother"
-explanation: "Ma mère, mon père, et un frère means mother, father, and a brother."
+explanation: "Une mère, un père, et un frère means a mother, a father, and a brother."
 hint: "Look for mère, père, and frère."
 questionGoal: "Interpret familiar family nouns in a short text."
 misconception: "Skipping articles and missing the noun meanings."
@@ -1426,16 +1415,14 @@ misconception: "Skipping articles and missing the noun meanings."
 
 ```question
 key: u04_l01_q06_family_phrase
-type: constructed-response
-prompt: "Write one French family phrase with an article, such as la mère."
-minWords: 2
-sampleAnswer: "le frère"
-checklist:
-  - "Use an article"
-  - "Use a family noun"
+type: text-input
+prompt: "Type the French phrase for the brother."
+acceptedAnswers:
+  - "le frère"
+answerType: text
 explanation: "For French 1, learn the article and noun together."
-hint: "Try la mère, le père, la soeur, or le frère."
-questionGoal: "Produce a short article-family noun phrase."
+hint: "Use the article that travels with frère."
+questionGoal: "Produce a constrained article-family noun phrase."
 misconception: "Writing the noun alone without its article."
 ```
 
@@ -1513,8 +1500,8 @@ pairs:
     right: "There are two brothers."
   - left: "Il y a une trousse."
     right: "There is a pencil case."
-  - left: "Il y a les parents."
-    right: "The parents are there."
+  - left: "Il y a deux parents."
+    right: "There are two parents."
 explanation: "Il y a can describe what is present in a family, bag, room, or picture."
 hint: "After il y a, look for the number or article and noun."
 questionGoal: "Interpret il y a sentences across familiar noun domains."
@@ -1528,7 +1515,6 @@ prompt: "Correct the sentence so it says There is a sister."
 sentence: "Il y a soeur."
 acceptedAnswers:
   - "Il y a une soeur."
-  - "Il y a la soeur."
 explanation: "A French noun usually needs an article. Une soeur means a sister."
 hint: "Add an article before soeur."
 questionGoal: "Repair a missing article after il y a."
@@ -1537,17 +1523,15 @@ misconception: "Dropping the article because English can say 'there is sister' o
 
 ```question
 key: u04_l02_q06_describe_picture
-type: constructed-response
-prompt: "Write one il y a sentence about a family, classroom, or picture."
-minWords: 4
-sampleAnswer: "Il y a un frère."
-checklist:
-  - "Start with Il y a"
-  - "Use an article or number"
-  - "Add a familiar noun"
+type: text-input
+prompt: "Type the French sentence: There is a book."
+acceptedAnswers:
+  - "Il y a un livre."
+  - "Il y a un livre"
+answerType: text
 explanation: "Il y a helps you describe what is present."
-hint: "Try Il y a un livre or Il y a deux personnes."
-questionGoal: "Produce a supported existence sentence."
+hint: "Start with Il y a, then add the article and noun."
+questionGoal: "Produce a constrained existence sentence."
 misconception: "Using j'ai or il est when the goal is to say what exists."
 ```
 
@@ -1612,10 +1596,10 @@ misconception: "Mixing feminine adjective endings with masculine nouns."
 key: u04_l03_q04_correct_adjective
 type: error-correction
 prompt: "Correct the adjective form."
-sentence: "Ma mère est intelligent."
+sentence: "Ma mère est grand."
 acceptedAnswers:
-  - "Ma mère est intelligente."
-explanation: "Mère is feminine, so the controlled form is intelligente."
+  - "Ma mère est grande."
+explanation: "Mère is feminine, so the controlled form is grande."
 hint: "Add the feminine ending to the adjective."
 questionGoal: "Correct a simple adjective agreement error."
 misconception: "Assuming the adjective never changes form."
@@ -1644,17 +1628,17 @@ misconception: "Reading familiar sentence frames but skipping description words.
 
 ```question
 key: u04_l03_q06_write_person_description
-type: constructed-response
-prompt: "Write two short French sentences describing a family member or friend."
-minWords: 6
-sampleAnswer: "Ma soeur est grande. Elle est sympa."
-checklist:
-  - "Name a person with mon, ma, or a family noun"
-  - "Use est"
-  - "Use at least one adjective"
+type: multiple-choice
+prompt: "Which sentence correctly says My sister is funny?"
+choices:
+  - "Ma soeur est drôle."
+  - "Mon soeur est drôle."
+  - "Ma soeur est brun."
+  - "Soeur drôle ma."
+correctAnswer: "Ma soeur est drôle."
 explanation: "A clear description can use short sentences and familiar adjective forms."
-hint: "Try Mon frère est petit or Ma soeur est drôle."
-questionGoal: "Produce a supported people description."
+hint: "Look for ma soeur and a complete est + adjective sentence."
+questionGoal: "Choose a complete, controlled people description."
 misconception: "Writing a list of adjectives without a person and verb chunk."
 ```
 
@@ -1694,7 +1678,7 @@ choices:
   - "le"
 correctAnswer: "ma"
 explanation: "Use ma with soeur in the phrase ma soeur."
-hint: "Soeur goes with la, so it also uses ma here."
+hint: "Use the article pattern you learned for soeur."
 questionGoal: "Choose ma with a familiar feminine noun."
 misconception: "Choosing mon or ma based on the speaker instead of the noun."
 ```
@@ -1752,17 +1736,17 @@ misconception: "Skipping mon/ma/mes and guessing from names only."
 
 ```question
 key: u04_l04_q06_write_possession
-type: constructed-response
-prompt: "Write one French sentence using mon, ma, or mes with a family word."
-minWords: 4
-sampleAnswer: "Ma soeur est sympa."
-checklist:
-  - "Use mon, ma, or mes"
-  - "Use a family or friend noun"
-  - "Make a short sentence"
+type: multiple-choice
+prompt: "Which sentence uses a possessive chunk correctly?"
+choices:
+  - "Ma soeur est sympa."
+  - "Mon soeur est sympa."
+  - "Mes soeur est sympa."
+  - "La ma soeur est sympa."
+correctAnswer: "Ma soeur est sympa."
 explanation: "Possession chunks help you talk about people in your world."
-hint: "Try Mon frère est drôle or Mes parents sont sympas."
-questionGoal: "Produce a supported sentence with a possessive chunk."
+hint: "Check the possessive word before soeur."
+questionGoal: "Choose a controlled sentence with a possessive chunk."
 misconception: "Choosing possessives without checking the noun that follows."
 ```
 
@@ -1817,7 +1801,7 @@ choices:
   - "J'adore danser."
   - "J'aime danser."
   - "Je n'aime pas danser."
-  - "Je déteste danser."
+  - "J'ai douze ans."
 correctAnswer: "J'adore danser."
 explanation: "J'adore is stronger than j'aime."
 hint: "Look for the phrase that means I love."
@@ -1846,7 +1830,7 @@ misconception: "Confusing activity chunks with similar classroom verbs."
 ```question
 key: u05_l01_q05_preference_cloze
 type: multi-blank-cloze
-prompt: "Complete the positive preference sentence."
+prompt: "Complete the positive preference sentence: I like listening to music and I love playing soccer."
 parts:
   - "J'"
   - " écouter de la musique et j'"
@@ -1870,16 +1854,15 @@ misconception: "Choosing familiar verbs that do not express preference."
 
 ```question
 key: u05_l01_q06_say_preference
-type: speaking-prompt
-prompt: "Say one positive preference in French using J'aime or J'adore."
-minSeconds: 4
-sampleAnswer: "J'aime écouter de la musique."
-checklist:
-  - "Use J'aime or J'adore"
-  - "Add an activity"
+type: text-input
+prompt: "Type the French sentence: I like to read."
+acceptedAnswers:
+  - "J'aime lire."
+  - "J'aime lire"
+answerType: text
 explanation: "A short preference sentence lets you communicate something personal."
-hint: "Try J'aime lire or J'adore danser."
-questionGoal: "Practice oral production of a positive preference."
+hint: "Use J'aime plus the activity word lire."
+questionGoal: "Produce a constrained positive preference."
 misconception: "Trying to conjugate the activity chunk instead of using the learned phrase."
 ```
 
@@ -1974,26 +1957,25 @@ pairs:
     right: "I do not like to read."
   - left: "J'adore lire."
     right: "I love to read."
-  - left: "Je déteste lire."
-    right: "I hate to read."
+  - left: "J'aime danser."
+    right: "I like to dance."
 explanation: "Preference words and the negative frame change the meaning."
-hint: "Sort the positive sentences from the negative or strong dislike sentences."
+hint: "Sort the positive sentences from the negative sentence, then check the activity."
 questionGoal: "Distinguish positive, negative, and strong preference meanings."
 misconception: "Treating every sentence with lire as having the same meaning."
 ```
 
 ```question
 key: u05_l02_q06_write_negative
-type: constructed-response
-prompt: "Write one French sentence saying you do not like an activity."
-minWords: 4
-sampleAnswer: "Je n'aime pas danser."
-checklist:
-  - "Use Je n'aime pas"
-  - "Add an activity"
+type: text-input
+prompt: "Type the French sentence: I do not like to dance."
+acceptedAnswers:
+  - "Je n'aime pas danser."
+  - "Je n'aime pas danser"
+answerType: text
 explanation: "The frame Je n'aime pas + activity makes a clear negative preference."
 hint: "Keep the frame together: Je n'aime pas ___."
-questionGoal: "Produce a supported negative preference sentence."
+questionGoal: "Produce a constrained negative preference sentence."
 misconception: "Leaving out ne/n' or placing pas after the activity."
 ```
 
@@ -2047,18 +2029,18 @@ pairs:
     right: "Oui, j'aime danser."
   - left: "Est-ce que tu aimes étudier?"
     right: "Non, je n'aime pas étudier."
-  - left: "Pourquoi?"
-    right: "Parce que c'est amusant."
+  - left: "Est-ce que tu aimes la musique?"
+    right: "Oui, j'aime la musique."
 explanation: "Different question forms call for different response types."
-hint: "Open question, yes answer, no answer, and reason each have a different shape."
+hint: "Open question, yes answer, and no answer each have a different shape."
 questionGoal: "Match preference question types to fitting replies."
-misconception: "Ignoring whether the question is open, yes/no, or why."
+misconception: "Ignoring whether the question is open or yes/no."
 ```
 
 ```question
 key: u05_l03_q04_order_preference_dialogue
 type: order-items
-prompt: "Put the preference exchange in order."
+prompt: "Omar greets Inès first, then Inès replies. Put the preference exchange in order."
 items:
   - "Oui, j'aime lire."
   - "Salut, Inès."
@@ -2095,17 +2077,15 @@ misconception: "Choosing a familiar tu verb that does not fit preference."
 
 ```question
 key: u05_l03_q06_write_question_answer
-type: constructed-response
-prompt: "Write a short preference question and answer in French."
-minWords: 8
-sampleAnswer: "Est-ce que tu aimes lire? Oui, j'aime lire."
-checklist:
-  - "Ask with Est-ce que tu aimes"
-  - "Answer with oui or non"
-  - "Repeat or refer to the activity"
+type: text-input
+prompt: "Type the French yes/no question: Do you like to read?"
+acceptedAnswers:
+  - "Est-ce que tu aimes lire?"
+  - "Est-ce que tu aimes lire"
+answerType: text
 explanation: "A good novice exchange keeps the question and answer connected."
-hint: "Use the same activity in both lines."
-questionGoal: "Produce a controlled preference exchange."
+hint: "Use Est-ce que tu aimes plus the activity word lire."
+questionGoal: "Produce a constrained preference question."
 misconception: "Writing a question and answer that do not match."
 ```
 
@@ -2135,9 +2115,9 @@ type: multiple-choice
 prompt: "Which reason best fits: J'aime danser parce que..."
 choices:
   - "c'est amusant."
+  - "c'est difficile."
   - "je n'aime pas danser."
-  - "il pleut."
-  - "j'ai douze ans."
+  - "c'est lundi."
 correctAnswer: "c'est amusant."
 explanation: "C'est amusant gives a simple positive reason for liking dancing."
 hint: "The reason should explain the preference."
@@ -2211,17 +2191,15 @@ misconception: "Reading only the preference and skipping the reason."
 
 ```question
 key: u05_l04_q06_write_reason
-type: constructed-response
-prompt: "Write one French preference sentence with parce que."
-minWords: 6
-sampleAnswer: "J'aime la musique parce que c'est amusant."
-checklist:
-  - "Start with J'aime or Je n'aime pas"
-  - "Use parce que"
-  - "Add a short reason"
+type: text-input
+prompt: "Type the French sentence: I like music because it is fun."
+acceptedAnswers:
+  - "J'aime la musique parce que c'est amusant."
+  - "J'aime la musique parce que c'est amusant"
+answerType: text
 explanation: "A reason can be short and still communicate an opinion."
-hint: "Use c'est amusant, c'est intéressant, or c'est difficile."
-questionGoal: "Produce a supported preference statement with a reason."
+hint: "Use J'aime la musique + parce que + c'est amusant."
+questionGoal: "Produce a constrained preference statement with a reason."
 misconception: "Trying to write a long explanation instead of a clear novice reason."
 ```
 
@@ -2307,34 +2285,33 @@ misconception: "Mixing school objects, subjects, and unrelated familiar phrases.
 ```question
 key: u06_l01_q05_sort_objects_subjects
 type: match-pairs
-prompt: "Match each French word to the better category."
+prompt: "Match each school word to English."
 pairs:
   - left: "le crayon"
-    right: "object"
+    right: "the pencil"
   - left: "les maths"
-    right: "subject"
+    right: "math"
   - left: "l'histoire"
-    right: "subject area"
+    right: "history"
   - left: "le sac"
-    right: "bag item"
+    right: "the bag"
 explanation: "School words can name things you use or classes you take."
-hint: "Ask whether it belongs in a backpack or on a schedule."
-questionGoal: "Distinguish school object nouns from subject nouns."
-misconception: "Treating all school vocabulary as the same category."
+hint: "Use the article and the school word together when you match."
+questionGoal: "Recognize additional school object and subject nouns."
+misconception: "Treating all school vocabulary as interchangeable."
 ```
 
 ```question
 key: u06_l01_q06_write_school_preference
-type: constructed-response
-prompt: "Write one French sentence about a school subject you like or do not like."
-minWords: 4
-sampleAnswer: "J'aime les sciences."
-checklist:
-  - "Use J'aime or Je n'aime pas"
-  - "Add a school subject"
+type: text-input
+prompt: "Type the French sentence: I like science."
+acceptedAnswers:
+  - "J'aime les sciences."
+  - "J'aime les sciences"
+answerType: text
 explanation: "Preference language transfers from activities to school subjects."
-hint: "Try J'aime le français or Je n'aime pas les maths."
-questionGoal: "Produce a supported school preference sentence."
+hint: "Use J'aime plus the school subject les sciences."
+questionGoal: "Produce a constrained school preference sentence."
 misconception: "Forgetting earlier preference chunks in a new school context."
 ```
 
@@ -2432,17 +2409,15 @@ misconception: "Matching by object words without reading the preposition."
 
 ```question
 key: u06_l02_q06_write_location
-type: constructed-response
-prompt: "Write one French sentence telling where a school object is."
-minWords: 5
-sampleAnswer: "Le livre est sur la table."
-checklist:
-  - "Name a school object"
-  - "Use est"
-  - "Use a preposition"
+type: text-input
+prompt: "Type the French sentence: The book is on the table."
+acceptedAnswers:
+  - "Le livre est sur la table."
+  - "Le livre est sur la table"
+answerType: text
 explanation: "A location sentence tells where the object is, not just that it exists."
-hint: "Try Le stylo est dans le sac."
-questionGoal: "Produce a supported school-object location sentence."
+hint: "Start with Le livre est, then add the on-the-table phrase."
+questionGoal: "Produce a constrained school-object location sentence."
 misconception: "Writing an il y a sentence when asked for location."
 ```
 
@@ -2544,17 +2519,15 @@ misconception: "Using English word order or leaving out à."
 
 ```question
 key: u06_l03_q06_write_destination
-type: constructed-response
-prompt: "Write one French sentence saying where you are going."
-minWords: 4
-sampleAnswer: "Je vais à la bibliothèque."
-checklist:
-  - "Use Je vais"
-  - "Use à or a modeled à phrase"
-  - "Add a place"
+type: text-input
+prompt: "Type the French sentence: I am going to the library."
+acceptedAnswers:
+  - "Je vais à la bibliothèque."
+  - "Je vais à la bibliothèque"
+answerType: text
 explanation: "The je vais à... chunk lets you talk about a destination."
-hint: "Use a place from the lesson, like la bibliothèque or le parc."
-questionGoal: "Produce a supported destination sentence."
+hint: "Use Je vais plus the à la bibliothèque place phrase."
+questionGoal: "Produce a constrained destination sentence."
 misconception: "Writing je vais without a destination."
 ```
 
@@ -2584,7 +2557,7 @@ misconception: "Choosing a sentence with school vocabulary but the wrong communi
 ```question
 key: u06_l04_q02_polite_request_school
 type: dialogue-builder
-prompt: "Choose the best polite classroom reply."
+prompt: "You did not hear the classroom direction clearly. Choose the best polite reply."
 turns:
   - speaker: "Teacher"
     line: "Regardez le tableau."
@@ -2596,8 +2569,8 @@ choices:
   - "Je vais au café."
   - "Mon frère est grand."
 correctAnswer: "Répétez, s'il vous plaît."
-explanation: "If the student needs help with a classroom direction, asking to repeat fits."
-hint: "Choose the classroom survival phrase."
+explanation: "If the student did not hear or understand a direction, asking to repeat fits."
+hint: "Choose the reply that asks for help with the direction."
 questionGoal: "Reuse classroom repair language in a school dialogue."
 misconception: "Forgetting early survival phrases in later units."
 ```
@@ -2605,7 +2578,7 @@ misconception: "Forgetting early survival phrases in later units."
 ```question
 key: u06_l04_q03_order_school_dialogue
 type: order-items
-prompt: "Put the school dialogue in order."
+prompt: "Marc greets Zoé first, then Zoé replies. Put the school dialogue in order."
 items:
   - "Oui, j'aime l'art."
   - "Salut, Zoé."
@@ -2650,7 +2623,7 @@ prompt: "Match each French line to its communication job."
 pairs:
   - left: "J'aime les sciences."
     right: "state a school preference"
-  - left: "Je vais à la classe."
+  - left: "Je vais à la bibliothèque."
     right: "say a destination"
   - left: "Le livre est sur la table."
     right: "tell where an object is"
@@ -2664,17 +2637,15 @@ misconception: "Matching by nouns while ignoring the sentence frame."
 
 ```question
 key: u06_l04_q06_write_school_exchange
-type: constructed-response
-prompt: "Write a two-line school exchange in French."
-minWords: 8
-sampleAnswer: "Salut! Est-ce que tu aimes le français? Oui, j'aime le français."
-checklist:
-  - "Include a greeting or polite phrase"
-  - "Ask or answer about school"
-  - "Use familiar school vocabulary"
+type: text-input
+prompt: "Type the French question: Do you like French?"
+acceptedAnswers:
+  - "Est-ce que tu aimes le français?"
+  - "Est-ce que tu aimes le français"
+answerType: text
 explanation: "A compact school exchange can combine greetings, questions, and school words."
-hint: "You can ask about liking a subject or where someone is going."
-questionGoal: "Produce a supported school mini-dialogue."
+hint: "Use Est-ce que tu aimes plus the school subject le français."
+questionGoal: "Produce a constrained school question."
 misconception: "Writing disconnected school phrases instead of an exchange."
 ```
 
@@ -2712,7 +2683,7 @@ sentenceAfter: "."
 choices:
   - "s'il vous plaît"
   - "au revoir"
-  - "je déteste"
+  - "merci"
   - "il pleut"
 correctAnswer: "s'il vous plaît"
 explanation: "S'il vous plaît makes the request polite."
@@ -2778,17 +2749,15 @@ misconception: "Using unrelated memorized sentences in a service exchange."
 
 ```question
 key: u07_l01_q06_say_request
-type: speaking-prompt
-prompt: "Say a polite request for one food or drink."
-minSeconds: 4
-sampleAnswer: "Je voudrais un croissant, s'il vous plaît."
-checklist:
-  - "Use Je voudrais"
-  - "Name a food or drink"
-  - "Add s'il vous plaît"
+type: text-input
+prompt: "Type the French sentence: I would like a croissant, please."
+acceptedAnswers:
+  - "Je voudrais un croissant, s'il vous plaît."
+  - "Je voudrais un croissant s'il vous plaît"
+answerType: text
 explanation: "A short polite request is useful real-world novice language."
-hint: "Try Je voudrais l'eau, un sandwich, or un croissant, s'il vous plaît."
-questionGoal: "Practice oral production of a polite food request."
+hint: "Use Je voudrais, the food item, and s'il vous plaît."
+questionGoal: "Produce a constrained polite food request."
 misconception: "Using a direct want phrase without politeness in a service context."
 ```
 
@@ -2821,9 +2790,9 @@ turns:
     line: "C'est combien?"
 choices:
   - "C'est trois euros."
-  - "Je m'appelle trois."
-  - "Il fait trois."
-  - "Je vais à trois."
+  - "J'ai trois ans."
+  - "Je voudrais trois euros."
+  - "C'est un sandwich."
 correctAnswer: "C'est trois euros."
 explanation: "A price answer can be C'est + number + euros."
 hint: "Look for the line with euros."
@@ -2884,17 +2853,15 @@ misconception: "Treating je veux and je voudrais as pragmatically identical."
 
 ```question
 key: u07_l02_q06_write_price_exchange
-type: constructed-response
-prompt: "Write a two-line café exchange with C'est combien? and a price answer."
-minWords: 6
-sampleAnswer: "C'est combien? C'est trois euros."
-checklist:
-  - "Ask C'est combien?"
-  - "Answer with C'est"
-  - "Include a number and euros"
+type: text-input
+prompt: "Type the French price question: How much is it?"
+acceptedAnswers:
+  - "C'est combien?"
+  - "C'est combien"
+answerType: text
 explanation: "A price exchange can be very short and still complete."
-hint: "Use a number you know, such as deux, trois, or cinq."
-questionGoal: "Produce a supported price question and answer."
+hint: "Use the c'est question with combien."
+questionGoal: "Produce a constrained price question."
 misconception: "Answering c'est combien with a food preference instead of a price."
 ```
 
@@ -2970,17 +2937,17 @@ type: passage-question
 prompt: "Read the routine and answer."
 passageTitle: "La journée de Mina"
 passage: |
-  Le matin, Mina mange une pomme.
-  L'après-midi, elle va au parc.
-  Le soir, elle écoute de la musique.
-question: "What does Mina do in the evening?"
+  Le matin, je mange une pomme.
+  L'après-midi, je vais au parc.
+  Le soir, j'écoute de la musique.
+question: "What do I do in the evening?"
 choices:
   - "listens to music"
   - "goes to the park"
   - "eats an apple"
   - "studies math"
 correctAnswer: "listens to music"
-explanation: "Le soir, elle écoute de la musique tells what Mina does in the evening."
+explanation: "Le soir, j'écoute de la musique tells the evening action."
 hint: "Find le soir, then read the action after it."
 questionGoal: "Interpret a short routine text using time clues."
 misconception: "Choosing an action from the text without matching the time phrase."
@@ -2989,32 +2956,30 @@ misconception: "Choosing an action from the text without matching the time phras
 ```question
 key: u07_l03_q05_present_chunk_not_past
 type: multiple-choice
-prompt: "Which sentence stays within the learned routine chunks?"
+prompt: "Which sentence gives a simple morning routine?"
 choices:
   - "Le matin, je vais à l'école."
-  - "Hier, je suis allé à l'école."
-  - "Demain, j'irai à l'école."
-  - "Je voudrais l'école."
+  - "Le soir, je fais mes devoirs."
+  - "J'aime le français."
+  - "Je voudrais un sandwich."
 correctAnswer: "Le matin, je vais à l'école."
-explanation: "French 1 routines use familiar present-tense chunks, not past or future forms."
+explanation: "Le matin marks a morning routine, and je vais à l'école is a learned routine chunk."
 hint: "Look for le matin and je vais."
 questionGoal: "Keep routine production within French 1 scope."
-misconception: "Trying to narrate across time frames before those forms are taught."
+misconception: "Choosing a familiar sentence that does not match the time-of-day prompt."
 ```
 
 ```question
 key: u07_l03_q06_write_routine
-type: constructed-response
-prompt: "Write two short French routine sentences."
-minWords: 8
-sampleAnswer: "Le matin, je vais à l'école. Le soir, je fais mes devoirs."
-checklist:
-  - "Use two time phrases"
-  - "Use familiar chunks such as je vais, je fais, j'aime, je mange, or je bois"
-  - "Keep sentences short"
+type: text-input
+prompt: "Type the French sentence: In the evening, I do my homework."
+acceptedAnswers:
+  - "Le soir, je fais mes devoirs."
+  - "Le soir, je fais mes devoirs"
+answerType: text
 explanation: "A simple routine can be accurate with two short present-tense chunks."
-hint: "Use le matin and le soir to organize your sentences."
-questionGoal: "Produce a supported two-sentence routine."
+hint: "Use le soir plus the homework chunk je fais mes devoirs."
+questionGoal: "Produce a constrained routine sentence."
 misconception: "Writing a disconnected word list instead of routine sentences."
 ```
 
@@ -3115,33 +3080,36 @@ misconception: "Translating isolated words without identifying the sentence's jo
 
 ```question
 key: u07_l04_q05_capstone_short_profile
-type: constructed-response
-prompt: "Write a short French 1 profile with at least three familiar chunks."
-minWords: 12
-sampleAnswer: "Bonjour. Je m'appelle Alex. J'ai douze ans. J'aime le français."
-checklist:
-  - "Use a greeting or name phrase"
-  - "Include age, residence, family, school, or preference"
-  - "Keep sentences short and familiar"
+type: multiple-choice
+prompt: "Which short profile uses familiar French 1 chunks accurately?"
+choices:
+  - "Bonjour. Je m'appelle Alex. J'ai douze ans. J'aime le français."
+  - "Bonjour. Je suis douze ans. J'ai Alex. J'aime le français."
+  - "Au revoir. Il pleut Alex. C'est trois ans."
+  - "Je voudrais Alex. Le français est dans le sac."
+correctAnswer: "Bonjour. Je m'appelle Alex. J'ai douze ans. J'aime le français."
 explanation: "A strong French 1 profile recombines familiar chunks accurately."
-hint: "Use sentence frames from earlier lessons instead of inventing new grammar."
-questionGoal: "Produce a compact presentational profile using cumulative language."
+hint: "Look for correct name, age, and preference chunks."
+questionGoal: "Choose a compact presentational profile using cumulative language."
 misconception: "Trying to write beyond novice control instead of recombining known chunks."
 ```
 
 ```question
 key: u07_l04_q06_capstone_speaking
-type: speaking-prompt
-prompt: "Say four short French sentences from this level about yourself or a pretend student."
-minSeconds: 10
-sampleAnswer: "Bonjour. Je m'appelle Alex. J'ai douze ans. J'aime la musique."
-checklist:
-  - "Use a greeting"
-  - "Give a name or age"
-  - "Add one preference, family, school, food, or place sentence"
-  - "Use familiar chunks"
-explanation: "The capstone speaking task checks whether familiar chunks are ready for short communication."
-hint: "Keep each sentence short: Bonjour. Je m'appelle ___. J'ai ___ ans. J'aime ___."
-questionGoal: "Rehearse cumulative oral presentational output."
+type: order-items
+prompt: "Put the capstone profile in a natural order."
+items:
+  - "J'aime la musique."
+  - "Bonjour."
+  - "J'ai douze ans."
+  - "Je m'appelle Alex."
+correctOrder:
+  - "Bonjour."
+  - "Je m'appelle Alex."
+  - "J'ai douze ans."
+  - "J'aime la musique."
+explanation: "The capstone sequence uses short familiar chunks for greeting, name, age, and preference."
+hint: "Start with the greeting, then give name, age, and preference."
+questionGoal: "Sequence cumulative presentational chunks."
 misconception: "Equating mastery with long speech instead of clear familiar sentences."
 ```

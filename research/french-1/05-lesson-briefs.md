@@ -12,7 +12,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** No French required; students need to distinguish formal and informal situations in English.
 - **Likely misconceptions:** Treating bonjour and salut as identical; using goodbye phrases as greetings; assuming one phrase fits every person.
 - **Evidence of mastery:** Given a short situation, the student chooses a fitting greeting or farewell and can build a two-line exchange.
-- **Recommended question types:** `multiple-choice` for greeting choice; `match-pairs` for phrase meanings; `dialogue-builder` for next-line fit; `speaking-prompt` for low-stakes oral rehearsal.
+- **Recommended question types:** `multiple-choice` for greeting choice; `match-pairs` for phrase meanings; `dialogue-builder` for next-line fit; `text-input` for constrained phrase production.
 - **Suggested intro/teaching note:** Present two pictures: greeting a teacher and greeting a friend. Model why bonjour is safer with an adult and salut fits a friend.
 - **Reading-level and cognitive-load constraints:** Keep contexts one sentence long; do not introduce full formal grammar yet; use audio or pronunciation notes when possible.
 
@@ -24,7 +24,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Basic greetings from Lesson 1 and willingness to respond to short commands.
 - **Likely misconceptions:** Seeing polite language as optional filler; confusing pardon and merci; treating classroom commands as vocabulary labels rather than actions.
 - **Evidence of mastery:** The student can choose a phrase for a classroom need and identify an action after hearing or reading a command.
-- **Recommended question types:** `match-pairs` for phrase-to-meaning; `listening-question` for command recognition when audio exists; `multiple-choice` for social use; `speaking-prompt` for repair phrase rehearsal.
+- **Recommended question types:** `match-pairs` for phrase-to-meaning; `listening-question` for command recognition when audio exists; `multiple-choice` for social use; `text-input` for constrained repair phrase production.
 - **Suggested intro/teaching note:** Model a learner moment: hearing a direction, not understanding, and using je ne comprends pas or répétez, s'il vous plaît.
 - **Reading-level and cognitive-load constraints:** Keep commands as imperatives only in fixed phrases; avoid explaining imperative conjugation.
 
@@ -36,7 +36,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Greetings, farewells, merci, and basic listening habits.
 - **Likely misconceptions:** Answering comment ça va with a name; omitting the return question et toi?; using a farewell in the middle of an exchange.
 - **Evidence of mastery:** The student can choose the logical next line and complete a short dialogue in order.
-- **Recommended question types:** `dialogue-builder` for pragmatic fit; `order-items` for conversation sequence; `fill-blank` for fixed phrase completion; `speaking-prompt` for oral fluency.
+- **Recommended question types:** `dialogue-builder` for pragmatic fit; `order-items` for conversation sequence; `fill-blank` for fixed phrase completion; `text-input` for constrained fixed-phrase production.
 - **Suggested intro/teaching note:** Act out the exchange with one happy, one neutral, and one unhappy response so students connect language to meaning.
 - **Reading-level and cognitive-load constraints:** Limit to four or five lines; do not require spelling of ça before students have seen it several times.
 
@@ -48,7 +48,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Unit 1 phrases and ability to compare spoken and written forms.
 - **Likely misconceptions:** Pronouncing every final letter; ignoring accents; reading ç like English c in cat; assuming liaison means every final letter is always pronounced.
 - **Evidence of mastery:** The student can choose the word or phrase that matches a sound clue and explain the clue in simple language.
-- **Recommended question types:** `multiple-choice` for sound-pattern recognition; `listening-question` for heard-word discrimination; `error-correction` for adding ç or accent marks in familiar words; `speaking-prompt` for rehearsing phrases.
+- **Recommended question types:** `multiple-choice` for sound-pattern recognition; `listening-question` for heard-word discrimination; `error-correction` for adding ç or accent marks in familiar words; `text-input` for constrained spelling of familiar sound-marked phrases.
 - **Suggested intro/teaching note:** Use known phrases only. Ask, "What do you see? What do you hear? What letter is quiet or changed?"
 - **Reading-level and cognitive-load constraints:** Keep explanation language nontechnical; avoid IPA and broad phonology rules.
 
@@ -86,7 +86,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Classroom phrase routines, basic calendar language, and exposure to il as a word in fixed phrases.
 - **Likely misconceptions:** Translating "it is cold" as il est froid for weather; confusing il pleut and il neige; treating fait as a stand-alone weather word.
 - **Evidence of mastery:** Given a weather icon or short forecast, the student chooses or completes the correct French phrase.
-- **Recommended question types:** `multiple-choice` for icon-to-phrase; `fill-blank` for il fait phrases; `listening-question` for weather recognition; `constructed-response` for a one-sentence weather report.
+- **Recommended question types:** `multiple-choice` for icon-to-phrase; `fill-blank` for il fait phrases; `listening-question` for weather recognition; `text-input` for constrained one-sentence weather production.
 - **Suggested intro/teaching note:** Present weather as chunks: il fait beau, il fait froid, il pleut. Do not unpack full verb grammar.
 - **Reading-level and cognitive-load constraints:** Use one weather phrase per item at first; keep production to a single sentence.
 
@@ -109,10 +109,10 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Teaching goal:** Students combine name, age, and student identity into a short profile.
 - **Student outcome:** The student can say or write je m'appelle, j'ai ___ ans, and je suis élève in a supported self-introduction.
 - **Key idea, model, text, representation, form, or procedure:** Profile cards model a three-sentence novice introduction.
-- **Prerequisite knowledge:** Greetings, numbers for age, and je m'appelle from Unit 1.
+- **Prerequisite knowledge:** Greetings, numbers for age, and readiness to learn `je m'appelle` as a new self-introduction chunk.
 - **Likely misconceptions:** Using je suis for age; leaving out ans; using only a name when the prompt asks for identity too.
 - **Evidence of mastery:** The student can complete a profile and choose the correct phrase for name, age, or identity.
-- **Recommended question types:** `multi-blank-cloze` for profile completion; `multiple-choice` for j'ai vs je suis; `constructed-response` for a short self-profile; `speaking-prompt` for oral rehearsal.
+- **Recommended question types:** `multi-blank-cloze` for profile completion; `multiple-choice` for j'ai vs je suis; `text-input` for constrained profile sentences; `order-items` for profile sentence sequence.
 - **Suggested intro/teaching note:** Model a tiny profile and mark what each sentence tells: name, age, role.
 - **Reading-level and cognitive-load constraints:** Keep profile output to three sentences; provide sentence frames for production.
 
@@ -136,7 +136,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Basic self-introduction, age, residence/origin phrases, and classroom response routines.
 - **Likely misconceptions:** Answering by picking a familiar phrase without reading the question word; confusing où and d'où; treating pourquoi as a yes/no question.
 - **Evidence of mastery:** Given a question, the student chooses an answer that matches the question word and can explain the clue.
-- **Recommended question types:** `match-pairs` for question word to answer type; `dialogue-builder` for fitting replies; `multiple-choice` for answer choice; `constructed-response` for a brief explanation.
+- **Recommended question types:** `match-pairs` for question word to answer type; `dialogue-builder` for fitting replies; `multiple-choice` for answer choice and explanation choice.
 - **Suggested intro/teaching note:** Model a "listen for the first clue" routine: question word first, then familiar words.
 - **Reading-level and cognitive-load constraints:** Keep questions short and familiar; avoid multiple unfamiliar words in the same prompt.
 
@@ -174,7 +174,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Family words, articles, numbers, classroom objects as exposure, and basic sentence frames.
 - **Likely misconceptions:** Translating il y a as "he has"; using a singular/plural English distinction that French il y a does not show; omitting the article after il y a.
 - **Evidence of mastery:** Given a picture or inventory, the student completes an il y a sentence with number/article/noun support.
-- **Recommended question types:** `fill-blank` for il y a phrases; `multi-blank-cloze` for inventory sentences; `multiple-choice` for meaning; `constructed-response` for one descriptive sentence.
+- **Recommended question types:** `fill-blank` for il y a phrases; `multi-blank-cloze` for inventory sentences; `multiple-choice` for meaning; `text-input` for constrained descriptive sentences.
 - **Suggested intro/teaching note:** Compare "J'ai un frère" with "Il y a un frère dans la photo" only as meaning, not as a full grammar contrast.
 - **Reading-level and cognitive-load constraints:** Use small quantities and familiar nouns; avoid abstract explanations of il.
 
@@ -186,7 +186,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Family nouns, mon/ma exposure, colors with nouns, and être chunks.
 - **Likely misconceptions:** Using one adjective form for every noun; putting every adjective before the noun; matching adjective to the speaker instead of the described person/noun.
 - **Evidence of mastery:** The student can match a person description to a picture and select a controlled adjective form.
-- **Recommended question types:** `multiple-choice` for adjective choice; `fill-blank` for endings; `error-correction` for mismatched forms; `constructed-response` for a two-sentence description.
+- **Recommended question types:** `multiple-choice` for adjective choice and complete descriptions; `fill-blank` for endings; `error-correction` for mismatched forms.
 - **Suggested intro/teaching note:** Use pairs like grand/grande and brun/brune to show the written clue without turning it into a full adjective chart.
 - **Reading-level and cognitive-load constraints:** Use a small adjective set; avoid irregular placement exceptions beyond common modeled phrases.
 
@@ -212,7 +212,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Identity phrases, question-response routines, and basic pronunciation practice.
 - **Likely misconceptions:** Translating "I like to" word by word; changing the activity verb after j'aime; confusing activity nouns with action chunks.
 - **Evidence of mastery:** The student can match activity chunks, complete j'aime/j'adore sentences, and produce one short preference statement.
-- **Recommended question types:** `flash-card` for activity vocabulary; `match-pairs` for activity meanings; `multi-blank-cloze` for preference statements; `speaking-prompt` for oral preference practice.
+- **Recommended question types:** `flash-card` for activity vocabulary; `match-pairs` for activity meanings; `multi-blank-cloze` for preference statements; `text-input` for constrained preference production.
 - **Suggested intro/teaching note:** Treat j'aime jouer as a chunk meaning "I like to play." Avoid a formal infinitive lecture.
 - **Reading-level and cognitive-load constraints:** Use 6-8 activities; avoid requiring long reasons in this first preference lesson.
 
@@ -236,7 +236,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** J'aime, j'adore, je n'aime pas, activity chunks, tu as informal address exposure.
 - **Likely misconceptions:** Answering a yes/no question with an unrelated favorite; treating qu'est-ce que and est-ce que as the same; ignoring the activity named in the question.
 - **Evidence of mastery:** The student can choose a fitting reply and build a short preference exchange.
-- **Recommended question types:** `dialogue-builder` for reply fit; `multiple-choice` for question type; `order-items` for dialogue order; `constructed-response` for one question-answer pair.
+- **Recommended question types:** `dialogue-builder` for reply fit; `multiple-choice` for question type; `order-items` for dialogue order; `text-input` for constrained question or answer production.
 - **Suggested intro/teaching note:** Put two questions side by side and ask what kind of answer each one expects.
 - **Reading-level and cognitive-load constraints:** Keep questions to familiar activities; avoid multiple preference clauses in one prompt.
 
@@ -248,7 +248,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Positive and negative preference statements, basic adjectives such as amusant, intéressant, difficile, and super.
 - **Likely misconceptions:** Writing a long English-style explanation; using parce que without a reason; choosing an adjective that contradicts the preference.
 - **Evidence of mastery:** The student can choose a logical reason for a preference and produce one supported sentence.
-- **Recommended question types:** `multiple-choice` for logical reason; `multi-blank-cloze` for sentence frames; `passage-question` for a short preference note; `constructed-response` for a brief opinion.
+- **Recommended question types:** `multiple-choice` for logical reason; `multi-blank-cloze` for sentence frames; `passage-question` for a short preference note; `text-input` for constrained opinion sentences.
 - **Suggested intro/teaching note:** Model compact reasons: J'aime la musique parce que c'est amusant. Je n'aime pas les maths parce que c'est difficile.
 - **Reading-level and cognitive-load constraints:** Keep reasons one adjective or very short phrase; do not require subordinate-clause mastery.
 
@@ -262,7 +262,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Articles, colors, j'aime/je n'aime pas, numbers and classroom directions.
 - **Likely misconceptions:** Dropping articles; confusing object nouns with subject nouns; using the wrong article because English has one "the."
 - **Evidence of mastery:** The student can identify a school noun with its article and complete a simple school preference statement.
-- **Recommended question types:** `flash-card` for school nouns; `match-pairs` for meaning; `fill-blank` for articles; `constructed-response` for one school preference.
+- **Recommended question types:** `flash-card` for school nouns; `match-pairs` for meaning; `fill-blank` for articles; `text-input` for constrained school preference sentences.
 - **Suggested intro/teaching note:** Sort words into "things in a bag" and "classes on a schedule" before asking for preferences.
 - **Reading-level and cognitive-load constraints:** Use a small set of high-frequency school words; avoid detailed schedule reading.
 
@@ -286,7 +286,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Place nouns as exposure, school context, question words, and basic politeness.
 - **Likely misconceptions:** Treating je vais as complete without a destination; overgeneralizing à forms; confusing je vais and j'aime when both use familiar nouns.
 - **Evidence of mastery:** The student can match a destination to a sentence and answer Où vas-tu? with a supported place phrase.
-- **Recommended question types:** `match-pairs` for place meaning; `fill-blank` for je vais à...; `dialogue-builder` for destination questions; `constructed-response` for one route sentence.
+- **Recommended question types:** `match-pairs` for place meaning; `fill-blank` for je vais à...; `dialogue-builder` for destination questions; `text-input` for constrained route sentences.
 - **Suggested intro/teaching note:** Keep aller as a chunk. Use "je vais à + place" and do not teach the full paradigm.
 - **Reading-level and cognitive-load constraints:** Avoid full contractions and country preposition rules; use fixed modeled place phrases.
 
@@ -298,7 +298,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** School nouns, preferences, il y a/location, je vais, greetings, tu/vous awareness.
 - **Likely misconceptions:** Choosing a reply that matches one word but not the question; forgetting politeness in a request; mixing liking and going forms.
 - **Evidence of mastery:** The student can choose the best next line and complete a short school exchange.
-- **Recommended question types:** `dialogue-builder` for pragmatic fit; `order-items` for dialogue sequence; `passage-question` for a school note; `constructed-response` for a two-line exchange.
+- **Recommended question types:** `dialogue-builder` for pragmatic fit; `order-items` for dialogue sequence; `passage-question` for a school note; `text-input` for constrained school exchange lines.
 - **Suggested intro/teaching note:** Have students underline the question word or target phrase before choosing the answer.
 - **Reading-level and cognitive-load constraints:** Keep dialogues short; use familiar words and one communication purpose per exchange.
 
@@ -312,7 +312,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Articles, politeness, numbers as exposure, likes, and basic dialogue-building.
 - **Likely misconceptions:** Dropping articles with food nouns; using je veux in every service situation; translating "I would like" word by word.
 - **Evidence of mastery:** The student can match foods to meanings and build a polite one-line request.
-- **Recommended question types:** `flash-card` for food vocabulary; `match-pairs` for food meanings; `dialogue-builder` for ordering; `speaking-prompt` for polite request rehearsal.
+- **Recommended question types:** `flash-card` for food vocabulary; `match-pairs` for food meanings; `dialogue-builder` for ordering; `text-input` for constrained polite request production.
 - **Suggested intro/teaching note:** Model a café exchange and contrast a polite request with a too-direct one.
 - **Reading-level and cognitive-load constraints:** Use common foods and drinks only; do not teach partitive articles as a system.
 
@@ -336,7 +336,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** School places, food, likes, je vais, je fais, and basic connectors.
 - **Likely misconceptions:** Treating the routine as a past-tense story; changing every verb form without a model; writing disconnected word lists instead of short statements.
 - **Evidence of mastery:** The student can order a three-step routine and write or say two supported routine sentences.
-- **Recommended question types:** `order-items` for routine sequence; `multi-blank-cloze` for routine sentences; `passage-question` for a short routine note; `constructed-response` or `speaking-prompt` for supported production.
+- **Recommended question types:** `order-items` for routine sequence; `multi-blank-cloze` for routine sentences; `passage-question` for a short routine note; `text-input` for constrained routine sentence production.
 - **Suggested intro/teaching note:** Present routines as "today/general habit" chunks, not a full tense lesson.
 - **Reading-level and cognitive-load constraints:** Limit to three routine moments; keep output to two or three sentences.
 
@@ -348,6 +348,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** All prior units: greetings, numbers, dates/weather, identity, family, descriptions, likes, school, places, food, routines, question words, articles, and politeness.
 - **Likely misconceptions:** Translating word by word instead of using known chunks; ignoring question words; forgetting earlier article or negation patterns when topics are mixed; trying to write beyond novice control.
 - **Evidence of mastery:** The student completes a mixed set with accurate interpretation, fitting replies, and a comprehensible short output using several familiar chunks.
-- **Recommended question types:** `passage-question` for interpretive reading; `dialogue-builder` for interpersonal replies; `multi-blank-cloze` for cumulative form use; `constructed-response` and `speaking-prompt` for presentational output.
+- **Recommended question types:** `passage-question` for interpretive reading; `dialogue-builder` for interpersonal replies; `multi-blank-cloze` for cumulative form use; `multiple-choice` and `order-items` for cumulative presentational control.
 - **Suggested intro/teaching note:** Remind students to hunt for familiar clues: greeting, question word, article, number, verb chunk, and context.
 - **Reading-level and cognitive-load constraints:** Keep the capstone mixed but short; score production for comprehensibility and required chunks, not extended grammar.
