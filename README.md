@@ -25,16 +25,16 @@ This table reflects the current `/research/` track status. "Research ready" mean
 
 | Course | Current | Coming soon |
 | --- | --- | --- |
-| Classical Literature | Level 1 | Level 2, Level 3, Level 4, Level 5 |
-| French | Level 1 | Level 2, Level 3, Level 4, Level 5 |
 | Math | Grade 3 & 6 | - |
 | Vocabulary | Grade 3 & 6 | - |
-| Grammar | Level 1 | Level 2, Level 3, Level 4 |
-| History and Civics | Level 1 | Level 2, Level 3, Level 4, Level 5 |
-| Logic | Level 1 | Level 2, Level 3, Level 4 |
-| Memory Works | Level 1 | Level 2, Level 3, Level 4 |
-| Rhetoric | Level 1 | Level 2, Level 3, Level 4, Level 5 |
 | Spanish | Level 1 | Level 2, Level 3, Level 4, Level 5 |
+| French | Level 1 | Level 2, Level 3, Level 4, Level 5 |
+| Grammar | Level 1 | Level 2, Level 3, Level 4 |
+| Logic | Level 1 | Level 2, Level 3, Level 4 |
+| Rhetoric | Level 1 | Level 2, Level 3, Level 4, Level 5 |
+| Classical Literature | Level 1 | Level 2, Level 3, Level 4, Level 5 |
+| History and Civics | Level 1 | Level 2, Level 3, Level 4, Level 5 |
+| Memory Work | Level 1 | Level 2, Level 3, Level 4 |
 
 ## Development
 
