@@ -300,13 +300,7 @@ Do not read or use:
 Use this to convert a level blueprint into units.
 
 ```text
-You are designing the course map for one track level.
-
-Track: [SUBJECT/TRACK]
-Level or grade: [LEVEL/GRADE]
-
-Accepted level blueprint:
-[PASTE BLUEPRINT]
+You are designing the course map for [Grade - Subject] using the blueprint you just created.
 
 Create an ordered course map. For each unit, include:
 1. Unit title.
@@ -328,11 +322,12 @@ Do not write individual lessons or questions yet.
 Use this one unit at a time.
 
 ```text
-You are designing one unit from an accepted course map.
+/goal Complete Stage 4 unit design briefs for every unit in this accepted level map.
+
+You are designing all units for one accepted course level, not just one unit.
 
 Track: [SUBJECT/TRACK]
 Level or grade: [LEVEL/GRADE]
-Unit: [UNIT TITLE]
 
 Accepted level blueprint:
 [PASTE BLUEPRINT]
@@ -340,7 +335,9 @@ Accepted level blueprint:
 Accepted course map:
 [PASTE COURSE MAP]
 
-Create a unit design brief with:
+Create a separate unit design brief for every unit listed in the accepted course map, in the exact course-map order. Preserve the accepted unit titles and do not add, remove, rename, or reorder units unless the course map contains an obvious contradiction that must be flagged.
+
+For each unit, include:
 1. Unit goal.
 2. Why this unit belongs at this point in the level.
 3. Key concepts, vocabulary, representations, texts, forms, or models.
@@ -352,8 +349,20 @@ Create a unit design brief with:
 9. Assessment targets.
 10. Recommended lesson titles with a short purpose for each.
 
-Avoid a repeated lesson formula. Each proposed lesson should have a distinct instructional job.
-Do not write question sets yet.
+Requirements:
+- Complete every unit in the level in one pass.
+- Make each unit feel distinct in purpose, pacing, and instructional role.
+- Avoid a repeated lesson formula across units.
+- Each proposed lesson should have a clear instructional job.
+- Use cumulative sequencing: earlier units should prepare later ones, and later units should review earlier ones.
+- Keep the level blueprint and course map as the source of truth.
+- Do not write question sets yet.
+- Do not stop after the first unit.
+
+Output format:
+
+# [TRACK] - [LEVEL/GRADE] Unit Design Briefs
+
 ```
 
 ### Stage 5: Lesson Brief
@@ -361,20 +370,25 @@ Do not write question sets yet.
 Use this one lesson at a time.
 
 ```text
-You are preparing to write one compact, high-quality lesson.
+/goal Complete Stage 5 lesson briefs for every recommended lesson in every unit of this accepted level.
+
+You are preparing to write compact, high-quality lesson briefs for an entire accepted course level, not just one lesson.
 
 Track: [SUBJECT/TRACK]
 Level or grade: [LEVEL/GRADE]
-Unit: [UNIT TITLE]
-Lesson: [LESSON TITLE]
 
 Accepted level blueprint:
 [PASTE BLUEPRINT]
 
-Accepted unit design brief:
-[PASTE UNIT DESIGN BRIEF]
+Accepted course map:
+[PASTE COURSE MAP]
 
-Create a lesson brief with:
+Accepted unit design briefs:
+[PASTE ALL UNIT DESIGN BRIEFS]
+
+Create a separate lesson brief for every recommended lesson listed in the accepted unit design briefs, preserving the unit order and lesson order exactly.
+
+For each lesson, include:
 1. Teaching goal.
 2. Student outcome.
 3. Key idea, model, text, representation, form, or procedure.
@@ -385,7 +399,42 @@ Create a lesson brief with:
 8. Suggested intro/teaching note for the lesson.
 9. Reading-level and cognitive-load constraints.
 
-Do not write the final questions yet. The purpose is to make the lesson target clear before item writing.
+Requirements:
+- Complete every lesson brief for every unit in one pass.
+- Preserve accepted unit titles and lesson titles.
+- Do not add, remove, rename, or reorder lessons unless there is an obvious contradiction that must be flagged.
+- Make each lesson target specific enough that final item writing can proceed without guessing.
+- Avoid generic repetition across lessons.
+- Each lesson should have a distinct instructional job within its unit.
+- Use cumulative sequencing: lessons should build from exposure to supported practice to application and review.
+- Keep the accepted level blueprint, course map, and unit design briefs as the source of truth.
+- Do not write final question sets yet.
+- Do not stop after the first lesson or first unit.
+
+Output format:
+
+# [TRACK] - [LEVEL/GRADE] Lesson Briefs
+
+## Unit 1: [UNIT TITLE]
+
+### Lesson 1: [LESSON TITLE]
+[brief]
+
+### Lesson 2: [LESSON TITLE]
+[brief]
+
+Continue through every lesson in the unit.
+
+## Unit 2: [UNIT TITLE]
+
+Continue until every lesson in every accepted unit has a complete brief.
+
+At the end, include a short completion checklist confirming:
+- total units covered,
+- total lessons briefed,
+- unit order preserved,
+- lesson order preserved,
+- no final question sets written.
 ```
 
 ### Stage 6: Question Authoring
