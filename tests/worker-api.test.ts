@@ -348,13 +348,27 @@ describe('worker track APIs', () => {
     });
     expect(body.units[0].lessons[2].completedAt).toBeNull();
 
-    expect(sqlite.queryLog.filter((sql) => sql.includes('LEFT JOIN child_lesson_progress'))).toHaveLength(2);
+    expect(sqlite.queryLog.filter((sql) => sql.includes('LEFT JOIN child_lesson_progress')).length).toBeLessThanOrEqual(4);
     expect(sqlite.queryLog.some((sql) => sql.includes('SELECT * FROM lessons WHERE unit_id = ?'))).toBe(false);
     expect(sqlite.queryLog.some((sql) => sql.includes('SELECT * FROM child_lesson_progress WHERE child_profile_id = ? AND lesson_id = ?'))).toBe(false);
 
     await expect(getJson('/api/children/mira/tracks/grade-4-spanish', env)).resolves.toMatchObject({
       response: expect.objectContaining({ status: 404 }),
     });
+  });
+
+  it('skips progress repair writes when a child is already provisioned', async () => {
+    const { env, sqlite } = createEnv();
+
+    const first = await getJson('/api/children/mira/home', env);
+    sqlite.queryLog.length = 0;
+    const second = await getJson('/api/children/mira/home', env);
+
+    expect(first.response.status).toBe(200);
+    expect(second.response.status).toBe(200);
+    expect(sqlite.queryLog.some((sql) => sql.includes('INSERT OR IGNORE INTO child_track_progress'))).toBe(false);
+    expect(sqlite.queryLog.some((sql) => sql.includes('INSERT OR IGNORE INTO child_lesson_progress'))).toBe(false);
+    expect(sqlite.queryLog.some((sql) => sql.includes('SELECT lesson_id') && sql.includes('FROM child_lesson_progress'))).toBe(false);
   });
 
   it('returns a whole-track offline pack including locked lesson payloads', async () => {

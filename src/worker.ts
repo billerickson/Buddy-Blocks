@@ -138,6 +138,18 @@ type TrackCountRow = {
   total: number;
 };
 
+type TrackProvisionStatusRow = {
+  track_id: string;
+  total_lessons: number;
+  provisioned_lessons: number;
+  has_track_progress: number;
+};
+
+type BadgeAttemptCountsRow = {
+  total: number;
+  perfect: number | null;
+};
+
 type TrackLessonProgressRow = {
   unit_id: string;
   unit_slug: string;
@@ -1020,75 +1032,54 @@ async function apiSubmitMadMinuteLesson(env: Env, request: Request, child: Child
 async function apiParentDashboard(parent: SessionParent, env: Env) {
   const children = await getChildren(parent, env);
   const today = localDate(new Date(), env.TIME_ZONE);
-  const childSummaries = [];
-
-  for (const child of children) {
-    const tracks = await getTracksForChild(env, child);
-    const trackStats = await getTrackStatsForChild(
-      env,
-      child.id,
-      tracks.map((track) => track.id),
-    );
-    const activityDates = await getActivityDates(env, child.id);
-    const streak = calculateCurrentStreak(activityDates, today);
-    const trackSummaries = [];
-
-    for (const track of tracks) {
-      const progress = trackStats.progressByTrack.get(track.id);
-      trackSummaries.push({
-        id: track.id,
-        slug: track.slug,
-        subject: track.subject,
-        trackGroup: getTrackGroup(track.subject),
-        gradeLevel: track.grade_level,
-        title: track.title,
-        color: track.color,
-        lessonsCompleted: trackStats.completedLessonsByTrack.get(track.id) ?? 0,
-        totalLessons: trackStats.totalLessonsByTrack.get(track.id) ?? 0,
-        xpTotal: progress?.xp_total ?? 0,
-      });
-    }
-
-    const recentActivity = await all<{
-      completed_at: string;
-      score_correct: number;
-      score_total: number;
-      xp_awarded: number;
-      lesson_title: string;
-      track_title: string;
-      track_slug: string;
-    }>(
-      env.DB.prepare(
-        `SELECT lesson_attempts.completed_at, lesson_attempts.score_correct, lesson_attempts.score_total,
-                lesson_attempts.xp_awarded, lessons.title as lesson_title, tracks.title as track_title, tracks.slug as track_slug
-         FROM lesson_attempts
-         JOIN lessons ON lessons.id = lesson_attempts.lesson_id
-         JOIN units ON units.id = lessons.unit_id
-         JOIN tracks ON tracks.id = units.track_id
-         WHERE lesson_attempts.child_profile_id = ?
-         ORDER BY lesson_attempts.completed_at DESC
-         LIMIT 6`,
-      ).bind(child.id),
-    );
-
-    childSummaries.push({
-      child: childResponse(child),
-      stats: {
-        xpTotal: trackSummaries.reduce((sum, track) => sum + track.xpTotal, 0),
-        streak,
-        heartsRemaining: child.hearts_remaining,
-      },
-      tracks: trackSummaries,
-      badges: await getBadges(env, child.id, streak),
-      recentActivity,
-    });
-  }
+  const childSummaries = await Promise.all(children.map((child) => parentDashboardChildSummary(env, child, today)));
 
   return json({
     parent: parentResponse(parent),
     fixedV1Profiles: true,
     children: childSummaries,
   });
+}
+
+async function parentDashboardChildSummary(env: Env, child: ChildRow, today: string) {
+  const tracks = await getTracksForChild(env, child);
+  const [trackStats, activityDates, recentActivity] = await Promise.all([
+    getTrackStatsForChild(
+      env,
+      child.id,
+      tracks.map((track) => track.id),
+    ),
+    getActivityDates(env, child.id),
+    getRecentActivity(env, child.id),
+  ]);
+  const streak = calculateCurrentStreak(activityDates, today);
+  const trackSummaries = tracks.map((track) => {
+    const progress = trackStats.progressByTrack.get(track.id);
+    return {
+      id: track.id,
+      slug: track.slug,
+      subject: track.subject,
+      trackGroup: getTrackGroup(track.subject),
+      gradeLevel: track.grade_level,
+      title: track.title,
+      color: track.color,
+      lessonsCompleted: trackStats.completedLessonsByTrack.get(track.id) ?? 0,
+      totalLessons: trackStats.totalLessonsByTrack.get(track.id) ?? 0,
+      xpTotal: progress?.xp_total ?? 0,
+    };
+  });
+
+  return {
+    child: childResponse(child),
+    stats: {
+      xpTotal: trackSummaries.reduce((sum, track) => sum + track.xpTotal, 0),
+      streak,
+      heartsRemaining: child.hearts_remaining,
+    },
+    tracks: trackSummaries,
+    badges: await getBadges(env, child.id, streak),
+    recentActivity,
+  };
 }
 
 async function apiParentPracticeSets(parent: SessionParent, env: Env, childKey: string) {
@@ -1459,110 +1450,164 @@ async function getTracksForChild(env: Env, child: ChildRow) {
   const tracks = await all<TrackRow>(
     env.DB.prepare('SELECT * FROM tracks ORDER BY sort_order'),
   );
-  const accessibleTracks = [];
-  for (const track of tracks) {
-    if (await canAccessTrack(env, child, track.subject, track.grade_level)) accessibleTracks.push(track);
-  }
-  return uniqueTracks(accessibleTracks).sort(compareTracksBySubjectMetadata);
+  const completedTrackIds = needsCompletedTrackLookup(tracks) ? await getCompletedTrackIdsForChild(env, child.id) : new Set<string>();
+  return accessibleTracksForChild(child, tracks, completedTrackIds);
 }
 
 async function provisionChildProgress(env: Env, child: ChildRow, updatedAt: string) {
   const tracks = await getTracksForChild(env, child);
-  for (const track of tracks) {
-    const lessons = await getLessonDetailsForTrack(env, track.id);
-    const firstLesson = lessons[0];
-    if (!firstLesson) continue;
+  const trackIds = tracks.map((track) => track.id);
+  if (trackIds.length === 0 || !(await childProgressNeedsProvisioning(env, child.id, trackIds))) return;
 
-    await env.DB.batch([
+  const lessons = await getLessonDetailsForTracks(env, trackIds);
+  if (lessons.length === 0) return;
+
+  const lessonIds = lessons.map((lesson) => lesson.id);
+  const [existingTrackProgress, existingLessonProgress] = await Promise.all([
+    all<{ track_id: string }>(
+      env.DB.prepare(
+        `SELECT track_id
+         FROM child_track_progress
+         WHERE child_profile_id = ?
+           AND track_id IN (${placeholders(trackIds)})`,
+      ).bind(child.id, ...trackIds),
+    ),
+    all<{ lesson_id: string }>(
+      env.DB.prepare(
+        `SELECT lesson_id
+         FROM child_lesson_progress
+         WHERE child_profile_id = ?
+           AND lesson_id IN (${placeholders(lessonIds)})`,
+      ).bind(child.id, ...lessonIds),
+    ),
+  ]);
+  const existingTrackIds = new Set(existingTrackProgress.map((row) => row.track_id));
+  const existingLessonIds = new Set(existingLessonProgress.map((row) => row.lesson_id));
+  const firstLessonByTrack = new Map<string, LessonDetailRow>();
+
+  for (const lesson of lessons) {
+    if (!firstLessonByTrack.has(lesson.track_id)) firstLessonByTrack.set(lesson.track_id, lesson);
+  }
+
+  const statements: D1PreparedStatement[] = [];
+  for (const track of tracks) {
+    const firstLesson = firstLessonByTrack.get(track.id);
+    if (!firstLesson || existingTrackIds.has(track.id)) continue;
+    statements.push(
       env.DB.prepare(
         `INSERT OR IGNORE INTO child_track_progress
          (id, child_profile_id, track_id, current_unit_id, current_lesson_id, lessons_completed, xp_total, updated_at)
          VALUES (?, ?, ?, ?, ?, 0, 0, ?)`,
       ).bind(`track_progress_${child.id}_${track.id}`, child.id, track.id, firstLesson.unit_id, firstLesson.id, updatedAt),
-      ...lessons.map((lesson) =>
-        env.DB.prepare(
-          `INSERT OR IGNORE INTO child_lesson_progress
-           (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
-           VALUES (?, ?, ?, ?, NULL, 0, 0)`,
-        ).bind(
-          `lesson_progress_${child.id}_${lesson.id}`,
-          child.id,
-          lesson.id,
-          lesson.id === firstLesson.id || lesson.kind === 'mad-minute' ? 'available' : 'locked',
-        ),
-      ),
-    ]);
+    );
   }
+
+  for (const lesson of lessons) {
+    if (existingLessonIds.has(lesson.id)) continue;
+    const firstLesson = firstLessonByTrack.get(lesson.track_id);
+    statements.push(
+      env.DB.prepare(
+        `INSERT OR IGNORE INTO child_lesson_progress
+         (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+         VALUES (?, ?, ?, ?, NULL, 0, 0)`,
+      ).bind(
+        `lesson_progress_${child.id}_${lesson.id}`,
+        child.id,
+        lesson.id,
+        lesson.id === firstLesson?.id || lesson.kind === 'mad-minute' ? 'available' : 'locked',
+      ),
+    );
+  }
+
+  if (statements.length > 0) await env.DB.batch(statements);
 }
 
 async function getTrackForChild(env: Env, child: ChildRow, trackSlug: string) {
-  const track = await env.DB.prepare('SELECT * FROM tracks WHERE slug = ? LIMIT 1')
-    .bind(trackSlug)
-    .first<TrackRow>();
-  if (!track) return null;
-  return (await canAccessTrack(env, child, track.subject, track.grade_level)) ? track : null;
+  const tracks = await getTracksForChild(env, child);
+  return tracks.find((track) => track.slug === trackSlug) ?? null;
 }
 
 async function canAccessLessonTrack(env: Env, child: ChildRow, lesson: Pick<LessonDetailRow, 'track_subject' | 'track_grade_level'>) {
-  return canAccessTrack(env, child, lesson.track_subject, lesson.track_grade_level);
+  const tracks = await getTracksForChild(env, child);
+  return tracks.some((track) => track.subject === lesson.track_subject && track.grade_level === lesson.track_grade_level);
 }
 
-async function canAccessTrack(env: Env, child: ChildRow, subject: string, gradeLevel: number) {
-  if (!isFoundationSubject(subject)) return gradeLevel === child.grade_level;
-  return canAccessFoundationTrack(env, child, subject, gradeLevel);
-}
-
-async function canAccessFoundationTrack(env: Env, child: ChildRow, subject: string, gradeLevel: number) {
-  const levels = await getFoundationLevelsForSubject(env, subject);
-  const levelIndex = levels.indexOf(gradeLevel);
-  if (levelIndex < 0) return false;
-  if (levelIndex === 0) return true;
-
-  const previousTrack = await getTrackBySubjectGrade(env, subject, levels[levelIndex - 1]);
-  return previousTrack ? isTrackCompleteForChild(env, child.id, previousTrack.id) : false;
-}
-
-async function getFoundationLevelsForSubject(env: Env, subject: string) {
-  const rows = await all<{ grade_level: number }>(
+async function childProgressNeedsProvisioning(env: Env, childId: string, trackIds: string[]) {
+  const rows = await all<TrackProvisionStatusRow>(
     env.DB.prepare(
-      `SELECT grade_level
+      `SELECT tracks.id as track_id,
+              count(lessons.id) as total_lessons,
+              count(child_lesson_progress.lesson_id) as provisioned_lessons,
+              max(CASE WHEN child_track_progress.track_id IS NULL THEN 0 ELSE 1 END) as has_track_progress
        FROM tracks
-       WHERE subject = ?
-       GROUP BY grade_level
-       ORDER BY grade_level`,
-    ).bind(subject),
+       LEFT JOIN units ON units.track_id = tracks.id
+       LEFT JOIN lessons ON lessons.unit_id = units.id
+       LEFT JOIN child_lesson_progress
+         ON child_lesson_progress.child_profile_id = ?
+        AND child_lesson_progress.lesson_id = lessons.id
+       LEFT JOIN child_track_progress
+         ON child_track_progress.child_profile_id = ?
+        AND child_track_progress.track_id = tracks.id
+       WHERE tracks.id IN (${placeholders(trackIds)})
+       GROUP BY tracks.id`,
+    ).bind(childId, childId, ...trackIds),
   );
-  return rows.map((row) => row.grade_level);
+  const statusByTrackId = new Map(rows.map((row) => [row.track_id, row]));
+  return trackIds.some((trackId) => {
+    const row = statusByTrackId.get(trackId);
+    return Boolean(row && row.total_lessons > 0 && (row.has_track_progress !== 1 || row.provisioned_lessons < row.total_lessons));
+  });
 }
 
-async function getTrackBySubjectGrade(env: Env, subject: string, gradeLevel: number) {
-  return env.DB.prepare(
-    `SELECT *
-     FROM tracks
-     WHERE subject = ?
-       AND grade_level = ?
-     LIMIT 1`,
-  )
-    .bind(subject, gradeLevel)
-    .first<TrackRow>();
+function needsCompletedTrackLookup(tracks: TrackRow[]) {
+  return Array.from(foundationTrackGroups(tracks).values()).some((group) => group.length > 1);
 }
 
-async function isTrackCompleteForChild(env: Env, childId: string, trackId: string) {
-  const row = await env.DB.prepare(
-    `SELECT count(lessons.id) as total,
-            sum(CASE WHEN child_lesson_progress.status = 'completed' THEN 1 ELSE 0 END) as completed
-     FROM units
-     JOIN lessons ON lessons.unit_id = units.id
-     LEFT JOIN child_lesson_progress
-       ON child_lesson_progress.child_profile_id = ?
-      AND child_lesson_progress.lesson_id = lessons.id
-     WHERE units.track_id = ?`,
-  )
-    .bind(childId, trackId)
-    .first<{ total: number; completed: number | null }>();
+async function getCompletedTrackIdsForChild(env: Env, childId: string) {
+  const rows = await all<{ track_id: string }>(
+    env.DB.prepare(
+      `SELECT tracks.id as track_id
+       FROM tracks
+       JOIN units ON units.track_id = tracks.id
+       JOIN lessons ON lessons.unit_id = units.id
+       LEFT JOIN child_lesson_progress
+         ON child_lesson_progress.child_profile_id = ?
+        AND child_lesson_progress.lesson_id = lessons.id
+       GROUP BY tracks.id
+       HAVING count(lessons.id) > 0
+          AND sum(CASE WHEN child_lesson_progress.status = 'completed' THEN 1 ELSE 0 END) >= count(lessons.id)`,
+    ).bind(childId),
+  );
+  return new Set(rows.map((row) => row.track_id));
+}
 
-  const total = row?.total ?? 0;
-  return total > 0 && (row?.completed ?? 0) >= total;
+function accessibleTracksForChild(child: ChildRow, tracks: TrackRow[], completedTrackIds: Set<string>) {
+  const foundationGroups = foundationTrackGroups(tracks);
+  const accessibleTracks = tracks.filter((track) => {
+    if (!isFoundationSubject(track.subject)) return track.grade_level === child.grade_level;
+
+    const group = foundationGroups.get(track.subject) ?? [];
+    const index = group.findIndex((candidate) => candidate.id === track.id);
+    if (index < 0) return false;
+    if (index === 0) return true;
+    return completedTrackIds.has(group[index - 1].id);
+  });
+
+  return uniqueTracks(accessibleTracks).sort(compareTracksBySubjectMetadata);
+}
+
+function foundationTrackGroups(tracks: TrackRow[]) {
+  const groups = new Map<TrackRow['subject'], TrackRow[]>();
+  for (const track of tracks) {
+    if (!isFoundationSubject(track.subject)) continue;
+    groups.set(track.subject, [...(groups.get(track.subject) ?? []), track]);
+  }
+
+  for (const group of groups.values()) {
+    group.sort((a, b) => a.grade_level - b.grade_level || a.sort_order - b.sort_order);
+  }
+
+  return groups;
 }
 
 function uniqueTracks(tracks: TrackRow[]) {
@@ -2071,6 +2116,24 @@ async function getLessonDetailsForTrack(env: Env, trackId: string) {
   );
 }
 
+async function getLessonDetailsForTracks(env: Env, trackIds: string[]) {
+  if (trackIds.length === 0) return [];
+
+  return all<LessonDetailRow>(
+    env.DB.prepare(
+      `SELECT lessons.*, units.title as unit_title, units.slug as unit_slug,
+              tracks.id as track_id, tracks.slug as track_slug, tracks.subject as track_subject,
+              tracks.grade_level as track_grade_level, tracks.title as track_title,
+              tracks.color as track_color, tracks.accent as track_accent
+       FROM lessons
+       JOIN units ON units.id = lessons.unit_id
+       JOIN tracks ON tracks.id = units.track_id
+       WHERE tracks.id IN (${placeholders(trackIds)})
+       ORDER BY tracks.sort_order, units.sort_order, lessons.sort_order`,
+    ).bind(...trackIds),
+  );
+}
+
 async function getLessonQuestions(env: Env, lessonId: string): Promise<LessonQuestion[]> {
   const rows = await all<QuestionRow>(
     env.DB.prepare('SELECT * FROM questions WHERE lesson_id = ? ORDER BY sort_order').bind(lessonId),
@@ -2134,15 +2197,39 @@ async function getActivityDates(env: Env, childId: string) {
   return rows.map((row) => row.activity_date);
 }
 
+async function getRecentActivity(env: Env, childId: string) {
+  return all<{
+    completed_at: string;
+    score_correct: number;
+    score_total: number;
+    xp_awarded: number;
+    lesson_title: string;
+    track_title: string;
+    track_slug: string;
+  }>(
+    env.DB.prepare(
+      `SELECT lesson_attempts.completed_at, lesson_attempts.score_correct, lesson_attempts.score_total,
+              lesson_attempts.xp_awarded, lessons.title as lesson_title, tracks.title as track_title, tracks.slug as track_slug
+       FROM lesson_attempts
+       JOIN lessons ON lessons.id = lesson_attempts.lesson_id
+       JOIN units ON units.id = lessons.unit_id
+       JOIN tracks ON tracks.id = units.track_id
+       WHERE lesson_attempts.child_profile_id = ?
+       ORDER BY lesson_attempts.completed_at DESC
+       LIMIT 6`,
+    ).bind(childId),
+  );
+}
+
 async function getBadges(env: Env, childId: string, streak: number) {
-  const attempts = await env.DB.prepare('SELECT count(*) as total FROM lesson_attempts WHERE child_profile_id = ?')
-    .bind(childId)
-    .first<CountRow>();
-  const perfect = await env.DB.prepare(
-    'SELECT count(*) as total FROM lesson_attempts WHERE child_profile_id = ? AND score_correct = score_total',
+  const attempts = await env.DB.prepare(
+    `SELECT count(*) as total,
+            sum(CASE WHEN score_correct = score_total THEN 1 ELSE 0 END) as perfect
+     FROM lesson_attempts
+     WHERE child_profile_id = ?`,
   )
     .bind(childId)
-    .first<CountRow>();
+    .first<BadgeAttemptCountsRow>();
   const completedBySubject = await all<{ subject: TrackRow['subject']; total: number }>(
     env.DB.prepare(
       `SELECT tracks.subject, count(*) as total
@@ -2157,7 +2244,7 @@ async function getBadges(env: Env, childId: string, streak: number) {
   );
   return buildBadges({
     attemptCount: attempts?.total ?? 0,
-    perfectAttemptCount: perfect?.total ?? 0,
+    perfectAttemptCount: attempts?.perfect ?? 0,
     streak,
     completedBySubject,
   });
