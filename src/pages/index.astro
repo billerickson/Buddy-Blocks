@@ -1,5 +1,6 @@
 ---
 import PublicTopbar from '../components/PublicTopbar.astro';
+import PublicFooter from '../components/PublicFooter.astro';
 import AppLayout from '../layouts/AppLayout.astro';
 import { getCourseFamilies } from '../lib/public-courses';
 
@@ -321,6 +322,8 @@ const courseTotals = courseFamilies.reduce(
       </div>
     </section>
   </main>
+
+  <PublicFooter />
 
   <style>
     .homepage-band {

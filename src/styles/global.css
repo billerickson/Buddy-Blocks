@@ -149,7 +149,7 @@
   }
 
   .nav-link:hover,
-  .nav-link[aria-current="page"] {
+  .nav-login-link {
     border-color: var(--ink);
     background: var(--paper);
     color: var(--ink);
@@ -471,9 +471,16 @@
     padding: 8px 4px;
   }
 
-  .nav-link:hover,
-  .nav-link[aria-current="page"] {
+  .nav-link:hover {
     background: transparent;
+    color: var(--ink);
+  }
+
+  .nav-login-link {
+    border-width: 2px;
+    border-color: var(--ink);
+    background: var(--paper);
+    padding-inline: 12px;
     color: var(--ink);
   }
 

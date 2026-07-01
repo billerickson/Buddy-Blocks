@@ -1,5 +1,6 @@
 ---
 import CourseQuestionMockup from '../../components/CourseQuestionMockup.astro';
+import PublicFooter from '../../components/PublicFooter.astro';
 import PublicTopbar from '../../components/PublicTopbar.astro';
 import AppLayout from '../../layouts/AppLayout.astro';
 import { getCourseFamilies, getCourseLevels, type CourseFamily } from '../../lib/public-courses';
@@ -65,6 +66,8 @@ const levels = getCourseLevels(family);
       </section>
     ))}
   </main>
+
+  <PublicFooter />
 
   <style>
     .track-hero {

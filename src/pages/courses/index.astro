@@ -1,5 +1,6 @@
 ---
 import CourseQuestionMockup from '../../components/CourseQuestionMockup.astro';
+import PublicFooter from '../../components/PublicFooter.astro';
 import PublicTopbar from '../../components/PublicTopbar.astro';
 import AppLayout from '../../layouts/AppLayout.astro';
 import { getCourseFamilies } from '../../lib/public-courses';
@@ -81,6 +82,8 @@ const totals = families.reduce(
       </section>
     ))}
   </main>
+
+  <PublicFooter />
 
   <style>
     .course-hero {

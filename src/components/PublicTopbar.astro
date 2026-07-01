@@ -19,7 +19,7 @@ const { active } = Astro.props;
     <nav class="nav-links public-nav" id="public-site-menu" aria-label="Main" data-mobile-menu>
       <a class="nav-link" href="/" aria-current={active === 'home' ? 'page' : undefined}>Home</a>
       <a class="nav-link" href="/courses/" aria-current={active === 'courses' ? 'page' : undefined}>Courses</a>
-      <a class="nav-link border-ink bg-white text-ink" href="/login/">Log In</a>
+      <a class="nav-link nav-login-link" href="/login/">Log In</a>
     </nav>
   </div>
 </header>

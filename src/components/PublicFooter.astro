@@ -1,0 +1,60 @@
+---
+const githubUrl = 'https://github.com/billerickson/Buddy-Blocks';
+---
+
+<footer class="public-footer">
+  <div class="app-shell public-footer-inner">
+    <div class="public-footer-credit">
+      <img src="/icons/bill-erickson-be-mark.png" alt="" width="32" height="32" loading="lazy" decoding="async" />
+      <p>Developed by Bill, Reagan, and Ada Erickson</p>
+    </div>
+    <a class="public-footer-link" href={githubUrl}>GitHub Repo</a>
+  </div>
+</footer>
+
+<style>
+  .public-footer {
+    border-top: 2px solid color-mix(in srgb, var(--line) 70%, transparent);
+    background: var(--paper);
+  }
+
+  .public-footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 18px;
+  }
+
+  .public-footer-credit {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-weight: 900;
+  }
+
+  .public-footer-credit img {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+
+  .public-footer-credit p {
+    margin: 0;
+  }
+
+  .public-footer-link {
+    color: var(--ink);
+    font-weight: 1000;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
+  }
+
+  @media (max-width: 640px) {
+    .public-footer-inner {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>

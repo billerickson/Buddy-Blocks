@@ -1,5 +1,6 @@
 ---
 import BrandMark from '../components/BrandMark.astro';
+import PublicFooter from '../components/PublicFooter.astro';
 import AppLayout from '../layouts/AppLayout.astro';
 
 const hasError = Astro.url.searchParams.get('error') === '1';
@@ -37,4 +38,6 @@ const hasError = Astro.url.searchParams.get('error') === '1';
       </div>
     </section>
   </main>
+
+  <PublicFooter />
 </AppLayout>
