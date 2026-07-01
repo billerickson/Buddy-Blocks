@@ -119,6 +119,8 @@ Question blocks should remain structured YAML so Codex can validate and seed the
 
 Hints are optional but recommended for questions where a common wrong answer reveals a fixable misconception. A hint should not appear on the first attempt. It should appear only when the student sees the same question again after answering it incorrectly once already. The hint should guide the next attempt without giving away the answer.
 
+`questionGoal` and `misconception` are research/QA-only authoring metadata. Keep them in research question sets and QA notes, but strip them during promotion into `src/content/curriculum/`. They should not appear in promoted lesson question blocks, D1 seed data, lesson APIs, or offline packs.
+
 ## Content Artifacts
 
 The process should produce these artifacts in order.
@@ -679,6 +681,7 @@ Requirements:
 - Use one `question` fenced YAML block per question.
 - Preserve valid YAML inside question blocks.
 - Include `hint` only when it would help after one incorrect attempt; do not use hints as first-attempt instruction.
+- Strip research/QA-only question metadata such as `questionGoal` and `misconception` from promoted lesson question blocks.
 - Do not generate extra lessons or questions.
 - Do not modify unrelated files.
 - Run available content validation after implementation.

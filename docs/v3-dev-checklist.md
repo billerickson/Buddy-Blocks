@@ -109,10 +109,10 @@ Recommended `/goal` prompt:
   - Verify: test confirms question IDs remain stable when questions are reordered.
   - Notes:
 
-- [ ] Decide how author-only metadata is preserved.
+- [x] Decide how author-only metadata is preserved.
   - Done when: `questionGoal` and `misconception` are either preserved in comments/QA artifacts or intentionally stripped before runtime output.
   - Verify: decision is documented in code comments, docs, or checklist notes.
-  - Notes:
+  - Notes: Decision made: keep `questionGoal` and `misconception` only in research/QA artifacts. Strip them during promotion so they do not appear in runtime lesson blocks, D1 seed data, lesson APIs, or offline packs.
 
 - [ ] Prevent author-only metadata from leaking to lesson APIs.
   - Done when: `questionGoal` and `misconception` do not appear in lesson API output unless a deliberate metadata endpoint exists.
@@ -142,18 +142,28 @@ Recommended `/goal` prompt:
 ## Phase 3: V3 Promotion And Import Tooling
 
 - [ ] Identify accepted V3 research artifact sources.
-  - Done when: accepted source directories/files are named, starting with artifacts such as `research/grammar-1/03-course-map.md`, `05-lesson-briefs.md`, and `06-question-sets.md`.
-  - Verify: source list is documented here or in the promotion tool docs.
+  - Done when: accepted source directories/files are identified from `research/track-status.json`, starting with tracks marked `ready_for_import` and their artifacts such as `03-course-map.md`, `04-unit-design-briefs/`, `05-lesson-briefs.md`, and `06-question-sets.md`.
+  - Verify: source list is documented here or in the promotion tool docs, and it matches the manifest entries selected for import.
   - Notes:
 
 - [ ] Maintain research track status manifest.
-  - Done when: `research/track-status.json` lists all top-level research tracks, marks tracks with `06-question-sets.md` as `ready_for_import`, and changes tracks to `imported` after promotion.
-  - Verify: compare `find research -maxdepth 2 -name '06-question-sets.md'` with the manifest before each import.
+  - Done when: `research/track-status.json` lists all top-level research tracks, marks tracks with `06-question-sets.md` as `ready_for_import`, and changes tracks to `imported` after successful promotion and validation.
+  - Verify: compare `find research -maxdepth 2 -name '06-question-sets.md'` with the manifest before each import, and confirm imported tracks have `readyForImport: false`, `imported: true`, `importBatch`, and `importedAt`.
+  - Notes:
+
+- [ ] Use `research/track-status.json` as the import queue.
+  - Done when: the promotion/import tool imports tracks marked `ready_for_import` by default and skips `research_only` or already `imported` tracks unless an explicit override is provided.
+  - Verify: dry-run or unit test shows the selected import queue matches the manifest.
   - Notes:
 
 - [ ] Add deterministic promotion/import workflow.
-  - Done when: a script or tool can create or update `src/content/curriculum/` from accepted research artifacts.
-  - Verify: script can be run repeatedly without unintended churn.
+  - Done when: a script or tool can create or update `src/content/curriculum/` from accepted research artifacts selected through `research/track-status.json`.
+  - Verify: script can be run repeatedly without unintended churn, and dry-run output lists selected tracks and generated file paths.
+  - Notes:
+
+- [ ] Record import batches in the manifest.
+  - Done when: each successful import updates `research/track-status.json` with a stable `importBatch`, `importedAt`, `status: imported`, `readyForImport: false`, and `imported: true` for every promoted track.
+  - Verify: manifest diff after import clearly shows which tracks moved from `ready_for_import` to `imported`.
   - Notes:
 
 - [ ] Follow `docs/content-creation.md` rules during promotion.
@@ -186,9 +196,9 @@ Recommended `/goal` prompt:
   - Verify: content parser and seed tests cover a promoted hint.
   - Notes:
 
-- [ ] Preserve or intentionally strip `questionGoal` and `misconception`.
-  - Done when: promotion behavior matches the metadata decision from Phase 2.
-  - Verify: promoted files and API output are checked.
+- [ ] Strip `questionGoal` and `misconception` from promoted runtime content.
+  - Done when: `questionGoal` and `misconception` remain in research/QA artifacts but are removed from promoted lesson question blocks before content validation, seeding, and API output.
+  - Verify: promoted files, seeded data, lesson APIs, and offline packs do not include `questionGoal` or `misconception`.
   - Notes:
 
 - [ ] Enforce app-scorable question policy.
@@ -216,7 +226,7 @@ Recommended `/goal` prompt:
 - [ ] Enforce single-active-parent behavior for self-hosted mode.
   - Done when: duplicate parent creation is blocked once setup is complete.
   - Verify: API test covers duplicate prevention.
-  - Notes:
+  - Notes: Single-parent self-hosted behavior is the default. Add a hosted/SaaS multi-parent flag only when multi-parent SaaS work begins.
 
 - [ ] Create a parent session after setup.
   - Done when: successful parent setup logs the parent in.
@@ -406,7 +416,7 @@ Recommended `/goal` prompt:
 - [ ] Replace MVP migration chain with clean V3 baseline schema when practical.
   - Done when: fresh V3 database setup does not require unsupported MVP compatibility migrations.
   - Verify: fresh migration run succeeds.
-  - Notes:
+  - Notes: Decision made: V3 is a replacement deployment, so remove MVP migration/code compatibility now. Do not delete or alter the existing Cloudflare MVP site/database for `learn.billplustara.com`.
 
 - [ ] Remove prior-MVP database compatibility code.
   - Done when: code only needed to upgrade old MVP database versions is gone or documented as still supported.
@@ -536,16 +546,20 @@ Recommended `/goal` prompt:
 - [ ] Content validation fails on duplicate match-pair right-side labels.
 - [ ] Promoted V3 curriculum excludes scored `constructed-response` and `speaking-prompt` questions unless explicitly supported.
 
+## Resolved Decisions
+
+- [x] Decide which V3 research directories are accepted for initial production curriculum.
+  - Notes: Resolved by `research/track-status.json`. Tracks marked `ready_for_import` are accepted for the initial production curriculum queue.
+
+- [x] Decide when to replace the MVP migration chain with a clean V3 baseline.
+  - Notes: Replace the MVP migration chain during V3 cleanup now. This repo can remove MVP compatibility paths, but do not delete or alter the existing Cloudflare MVP site/database.
+
+- [x] Decide whether self-hosted mode needs an explicit config flag for single-parent behavior before hosted SaaS work begins.
+  - Notes: No self-hosted config flag is needed. Single-parent behavior is the default. Add a hosted/SaaS multi-parent flag later only when hosted mode is implemented.
+
+- [x] Decide whether `questionGoal` and `misconception` should live in comments, QA artifacts, or a future non-runtime metadata path.
+  - Notes: Keep them only in research/QA artifacts for V3. Do not promote them into runtime lesson files, D1 seed data, APIs, or offline packs.
+
 ## Open Blockers And Decisions
 
-- [ ] Decide which V3 research directories are accepted for initial production curriculum.
-  - Notes:
-
-- [ ] Decide whether `questionGoal` and `misconception` should live in comments, QA artifacts, or a future non-runtime metadata path.
-  - Notes:
-
-- [ ] Decide when to replace the MVP migration chain with a clean V3 baseline.
-  - Notes:
-
-- [ ] Decide whether self-hosted mode needs an explicit config flag for single-parent behavior before hosted SaaS work begins.
-  - Notes:
+No planning blockers are currently identified.

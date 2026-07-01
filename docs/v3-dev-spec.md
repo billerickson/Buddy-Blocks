@@ -86,7 +86,7 @@ The promotion workflow should:
 - emit each runtime question as one fenced `question` YAML block,
 - validate stable authored question keys,
 - preserve `hint` when present,
-- preserve author-facing fields such as `questionGoal` and `misconception` either in body comments/QA artifacts or in a future non-runtime metadata path,
+- preserve author-facing fields such as `questionGoal` and `misconception` in research and QA artifacts only,
 - validate the result with `npm run content:validate`.
 
 Manual copying should be treated as a temporary bridge only.
@@ -101,8 +101,8 @@ Implementation requirements:
 - Validate that question keys are unique within a lesson and use a conservative slug-like format.
 - Use the authored question key, not the question index, as the stable basis for seeded question IDs for promoted content, or store an equivalent stable mapping.
 - Keep `hint` as runtime metadata stored in D1 and returned by lesson APIs.
-- Treat `questionGoal` and `misconception` as authoring/QA metadata unless a deliberate runtime metadata table is added.
-- Ensure author-only metadata is either preserved in Markdown comments/QA artifacts or intentionally stripped before D1/API output.
+- Treat `questionGoal` and `misconception` as research/QA-only metadata.
+- Strip `questionGoal` and `misconception` during promotion so they do not appear in promoted lesson question blocks, D1 seed data, lesson APIs, or offline packs.
 - Make `npm run content:validate` fail on duplicate question keys, malformed fenced YAML, unsupported question types, duplicate match-pair right-side labels, and standard lessons with no questions.
 
 ## App-Scorable Question Policy
