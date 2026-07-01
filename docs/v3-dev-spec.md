@@ -4,8 +4,6 @@
 
 V3 moves Buddy Blocks from a personal seeded-family app with copied/generated curriculum into a self-hosted, single-family learning app with reviewed curriculum source, first-run onboarding, and runtime support for second-attempt hints.
 
-This spec combines the V3 curriculum direction with the public self-hosted release requirements from `docs/public-release-plan.md`.
-
 ## Goals
 
 - Keep research artifacts in `research/` as planning and authoring inputs, not as runtime app data.

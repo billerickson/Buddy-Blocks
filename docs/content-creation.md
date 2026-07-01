@@ -32,6 +32,7 @@ For research, planning, and authoring, models may use:
 
 - `docs/content-creation.md`,
 - `docs/question-types.md`,
+- `research/track-status.json` for workflow status only,
 - accepted artifacts in `research/[track-level]/`,
 - external primary or high-quality curriculum sources.
 
@@ -48,6 +49,8 @@ Do not use these as curriculum evidence while researching, planning, or authorin
 Existing curriculum can be inspected later for migration logistics, app behavior, or format comparison, but not as source material for deciding what should be taught.
 
 Research artifacts should be reviewed and committed separately from implemented lesson source when possible. That keeps the instructional thinking easy to review before the app content changes.
+
+`research/track-status.json` is a workflow manifest, not curriculum evidence. Keep it current as tracks move through research, authoring, QA, import, and pilot review so ready tracks remain visible after the initial V3 import.
 
 ## Research Basis
 
@@ -240,6 +243,27 @@ Required contents:
 - ambiguity and scoring-risk review,
 - final decision: accept, revise, or reject.
 
+## Research Track Status Manifest
+
+`research/track-status.json` tracks each top-level research track's import readiness. Update it during every stage that creates, accepts, rejects, imports, or pilots track-level content.
+
+Status rules:
+
+- `research_only`: research or authoring has started, but the track is not ready for promotion.
+- `ready_for_import`: `06-question-sets.md` exists, covers the level, and the track has not yet been promoted into `src/content/curriculum/`.
+- `imported`: the track has been promoted into `src/content/curriculum/` and validated.
+
+Stage update rules:
+
+- Stage 1: add or update the track entry after `01-research-brief.md` is created. Keep `status` as `research_only`, set `hasQuestionSets` and `readyForImport` to `false`, keep `imported` as `false`, and include `01-research-brief.md` in `acceptedArtifacts`.
+- Stages 2-5: update `acceptedArtifacts` as `02-level-blueprint.md`, `03-course-map.md`, `04-unit-design-briefs/`, and `05-lesson-briefs.md` are created or accepted. Keep `status` as `research_only` until the question set exists.
+- Stage 6: after `06-question-sets.md` exists and covers every lesson, set `status` to `ready_for_import`, `hasQuestionSets` to `true`, `readyForImport` to `true`, and keep `imported` as `false`.
+- Stage 7: record QA acceptance, revision needs, or blockers in `notes`. If QA rejects or blocks the track, return `status` to `research_only` until the accepted question set is repaired.
+- Stage 8: after curriculum promotion and validation pass, set `status` to `imported`, `readyForImport` to `false`, `imported` to `true`, and fill `importBatch` and `importedAt`.
+- Stage 9: record pilot findings in `notes`; keep `status` as `imported` unless the track must be pulled from the shipped catalog.
+
+When updating the manifest, preserve existing import history and notes unless the stage result deliberately supersedes them.
+
 ## Lesson Sequence
 
 A compact lesson should usually move through some version of:
@@ -347,6 +371,7 @@ Use this repo only for product constraints.
 You may read:
 - docs/content-creation.md
 - docs/question-types.md
+- research/track-status.json
 
 Do not read or use:
 - src/content/curriculum
@@ -355,6 +380,12 @@ Do not read or use:
 
 Save findings to:
 research/[track-level]/01-research-brief.md
+
+Update `research/track-status.json`:
+- Add or update the track entry.
+- Set `status` to `research_only`.
+- Include `01-research-brief.md` in `acceptedArtifacts`.
+- Keep `hasQuestionSets`, `readyForImport`, and `imported` false.
 ```
 
 ### Stages 2-6: Level Blueprint Through Question Sets
@@ -376,6 +407,7 @@ Use this repo only for product constraints.
 You may read:
 - docs/content-creation.md
 - docs/question-types.md
+- research/track-status.json
 - research/[track-level]/01-research-brief.md
 - research/grade-03-math/02-level-blueprint.md as a format reference only; do not copy its scope or sequence
 - research/grade-03-math/03-course-map.md as a format reference only; do not copy its scope or sequence
@@ -394,6 +426,7 @@ Create or update these files:
 3. `research/[track-level]/04-unit-design-briefs/[two-digit-unit-slug].md` for every unit
 4. `research/[track-level]/05-lesson-briefs.md`
 5. `research/[track-level]/06-question-sets.md`
+6. `research/track-status.json`
 
 Stage 2: Level Blueprint
 
@@ -411,6 +444,8 @@ Using only the accepted research brief and product constraints, create a level b
 
 Save it to `research/[track-level]/02-level-blueprint.md`.
 
+Update `research/track-status.json` so the track entry includes `02-level-blueprint.md` in `acceptedArtifacts` and remains `research_only`.
+
 Stage 3: Course Or Track Map
 
 Using the accepted research brief and the level blueprint you just wrote, create an ordered course map. For each unit, include:
@@ -427,6 +462,8 @@ Using the accepted research brief and the level blueprint you just wrote, create
 Do not force every unit into the same number of lessons. The sequence should serve the level goal.
 
 Save it to `research/[track-level]/03-course-map.md`.
+
+Update `research/track-status.json` so the track entry includes `03-course-map.md` in `acceptedArtifacts` and remains `research_only`.
 
 Stage 4: Unit Design Briefs
 
@@ -452,6 +489,8 @@ Requirements:
 
 Save each brief as `research/[track-level]/04-unit-design-briefs/[two-digit-unit-slug].md`, following the file naming pattern in `research/grade-03-math/04-unit-design-briefs/`.
 
+Update `research/track-status.json` so the track entry includes `04-unit-design-briefs/` in `acceptedArtifacts` and remains `research_only`.
+
 Stage 5: Lesson Briefs
 
 Create a separate lesson brief for every recommended lesson in every unit design brief, preserving unit order and lesson order exactly.
@@ -474,6 +513,8 @@ Requirements:
 - Use cumulative sequencing: lessons should build from exposure to supported practice to application and review.
 
 Save the level-wide lesson briefs to `research/[track-level]/05-lesson-briefs.md`, following the format in `research/grade-03-math/05-lesson-briefs.md`.
+
+Update `research/track-status.json` so the track entry includes `05-lesson-briefs.md` in `acceptedArtifacts` and remains `research_only`.
 
 Stage 6: Question Authoring
 
@@ -518,6 +559,8 @@ Requirements:
 
 Save all lesson question sets to `research/[track-level]/06-question-sets.md`, following the format in `research/grade-03-math/06-question-sets.md`.
 
+Update `research/track-status.json` so the track entry includes `06-question-sets.md`, sets `status` to `ready_for_import`, sets `hasQuestionSets` and `readyForImport` to `true`, and keeps `imported` as `false`.
+
 Question set file format:
 
 # [LEVEL/GRADE] [TRACK] Question Sets
@@ -560,6 +603,7 @@ Before finishing, verify:
 - every question set has 6-10 app-scorable questions unless explicitly justified.
 - no scored promoted question uses `constructed-response` or `speaking-prompt`.
 - no question set uses generic random distractors or repeated template filler.
+- `research/track-status.json` marks the track `ready_for_import`.
 - no files under `src/content/curriculum` were read or modified.
 
 End with a concise completion report listing:
@@ -587,6 +631,8 @@ Question set: [PASTE QUESTIONS]
 
 Also read docs/research-question-gaps.md and use its guidance when doing QA.
 
+Also read `research/track-status.json` and update the track `notes` with QA acceptance, revision needs, or blockers. If QA rejects or blocks the question set, set the track back to `research_only` until repaired.
+
 Check:
 1. Does every question align with the lesson teaching goal?
 2. Are all correct answers accurate?
@@ -607,7 +653,8 @@ Return:
 - exact question keys affected,
 - recommended edits,
 - if removals create a count gap, the number of targeted app-scorable replacements needed and where they should fit in the sequence,
-- accept/revise/reject decision.
+- accept/revise/reject decision,
+- the `research/track-status.json` status and note update applied.
 ```
 
 ### Stage 8: Codex Implementation Prompt
@@ -636,6 +683,7 @@ Requirements:
 - Do not modify unrelated files.
 - Run available content validation after implementation.
 - Update the QA/content log with lesson path, goal, outcome, question count, question types, and QA status.
+- After promotion and validation pass, update `research/track-status.json` for the track: set `status` to `imported`, set `readyForImport` to `false`, set `imported` to `true`, and fill `importBatch` and `importedAt`.
 ```
 
 ### Stage 9: Pilot Review Prompt
@@ -659,7 +707,9 @@ Review the implemented lesson files and summarize:
 8. Whether any lessons should be split, combined, reordered, or rewritten.
 9. Whether the source format is working for authors and QA.
 
-Return a concise pilot report with recommended changes before scaling content creation.
+Update `research/track-status.json` notes for the track with pilot findings or follow-up needs. Keep the track `imported` unless the pilot shows it must be pulled from the shipped catalog.
+
+Return a concise pilot report with recommended changes before scaling content creation and the manifest note update applied.
 ```
 
 ## Suggested Build Order
@@ -693,6 +743,7 @@ Skipping these gates will recreate the original problem: lots of valid-looking c
 Codex should own:
 
 - source format migration,
+- `research/track-status.json` updates during implementation and promotion,
 - content parser updates,
 - schema validation,
 - QA reporting tools,
@@ -713,6 +764,7 @@ ChatGPT or a research-enabled model should own:
 - unit briefs,
 - first-pass lesson briefs,
 - first-pass item writing,
+- `research/track-status.json` updates during research and authoring stages when working in-repo,
 - independent QA review.
 
 The best workflow is collaborative: research model drafts and critiques the curriculum plan; Codex turns accepted content into validated app source.
@@ -733,3 +785,4 @@ A lesson is done when:
 - The lesson avoids generic repeated patterns.
 - Content validates and renders in the app.
 - QA/content log records the lesson goal, outcome, question count, question types, and acceptance decision.
+- `research/track-status.json` reflects the track's current status and notes.

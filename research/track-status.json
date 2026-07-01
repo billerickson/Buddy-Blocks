@@ -1,0 +1,646 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-07-01",
+  "readyForImportRule": "A top-level research track is ready_for_import when it has 06-question-sets.md and has not yet been imported.",
+  "statuses": {
+    "research_only": "Research has started, but the track is not ready for curriculum promotion.",
+    "ready_for_import": "The track has 06-question-sets.md and is ready to promote into src/content/curriculum/.",
+    "imported": "The track has already been promoted into src/content/curriculum/."
+  },
+  "tracks": [
+    {
+      "slug": "classical-literature-1",
+      "path": "research/classical-literature-1",
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
+      ],
+      "notes": ""
+    },
+    {
+      "slug": "classical-literature-2",
+      "path": "research/classical-literature-2",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "classical-literature-3",
+      "path": "research/classical-literature-3",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "classical-literature-4",
+      "path": "research/classical-literature-4",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "classical-literature-5",
+      "path": "research/classical-literature-5",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "french-1",
+      "path": "research/french-1",
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
+      ],
+      "notes": ""
+    },
+    {
+      "slug": "french-2",
+      "path": "research/french-2",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "french-3",
+      "path": "research/french-3",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "french-4",
+      "path": "research/french-4",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "french-5",
+      "path": "research/french-5",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "grade-03-math",
+      "path": "research/grade-03-math",
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
+      ],
+      "notes": ""
+    },
+    {
+      "slug": "grade-03-vocabulary",
+      "path": "research/grade-03-vocabulary",
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
+      ],
+      "notes": ""
+    },
+    {
+      "slug": "grade-06-math",
+      "path": "research/grade-06-math",
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
+      ],
+      "notes": ""
+    },
+    {
+      "slug": "grade-06-vocabulary",
+      "path": "research/grade-06-vocabulary",
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
+      ],
+      "notes": ""
+    },
+    {
+      "slug": "grammar-1",
+      "path": "research/grammar-1",
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
+      ],
+      "notes": ""
+    },
+    {
+      "slug": "grammar-2",
+      "path": "research/grammar-2",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "grammar-3",
+      "path": "research/grammar-3",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "grammar-4",
+      "path": "research/grammar-4",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "history-and-civics-1",
+      "path": "research/history-and-civics-1",
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
+      ],
+      "notes": ""
+    },
+    {
+      "slug": "history-and-civics-2",
+      "path": "research/history-and-civics-2",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "history-and-civics-3",
+      "path": "research/history-and-civics-3",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "history-and-civics-4",
+      "path": "research/history-and-civics-4",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "history-and-civics-5",
+      "path": "research/history-and-civics-5",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "logic-1",
+      "path": "research/logic-1",
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
+      ],
+      "notes": ""
+    },
+    {
+      "slug": "logic-2",
+      "path": "research/logic-2",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "logic-3",
+      "path": "research/logic-3",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "logic-4",
+      "path": "research/logic-4",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "memory-works-1",
+      "path": "research/memory-works-1",
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
+      ],
+      "notes": ""
+    },
+    {
+      "slug": "memory-works-2",
+      "path": "research/memory-works-2",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "memory-works-3",
+      "path": "research/memory-works-3",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "memory-works-4",
+      "path": "research/memory-works-4",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "rhetoric-1",
+      "path": "research/rhetoric-1",
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
+      ],
+      "notes": ""
+    },
+    {
+      "slug": "rhetoric-2",
+      "path": "research/rhetoric-2",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "rhetoric-3",
+      "path": "research/rhetoric-3",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "rhetoric-4",
+      "path": "research/rhetoric-4",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "rhetoric-5",
+      "path": "research/rhetoric-5",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "spanish-1",
+      "path": "research/spanish-1",
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
+      ],
+      "notes": ""
+    },
+    {
+      "slug": "spanish-2",
+      "path": "research/spanish-2",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "spanish-3",
+      "path": "research/spanish-3",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "spanish-4",
+      "path": "research/spanish-4",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "spanish-5",
+      "path": "research/spanish-5",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    }
+  ]
+}
