@@ -107,6 +107,24 @@ Implementation requirements:
 - Ensure author-only metadata is either preserved in Markdown comments/QA artifacts or intentionally stripped before D1/API output.
 - Make `npm run content:validate` fail on duplicate question keys, malformed fenced YAML, unsupported question types, duplicate match-pair right-side labels, and standard lessons with no questions.
 
+## App-Scorable Question Policy
+
+V3 promoted curriculum should prioritize question types the app can evaluate meaningfully.
+
+Default promotion rule:
+
+- Do not promote `constructed-response` or `speaking-prompt` into the scored v3 curriculum unless they are explicitly converted to unscored practice or backed by a real evaluation workflow.
+- Convert existing `constructed-response` and `speaking-prompt` research questions into app-scorable alternatives when possible.
+- If a lesson goal depends on work the app cannot evaluate well, omit that work from Buddy Blocks rather than pretending the app can assess it.
+
+Suggested replacements:
+
+- Use `multiple-choice` for choosing the best explanation, strategy, evidence, or misconception diagnosis.
+- Use `fill-blank`, `multi-blank-cloze`, or `text-input` for constrained answers with clear accepted responses.
+- Use `order-items` for reasoning steps, processes, sentence order, and sequence.
+- Use `error-correction` for fixing a specific flawed step or sentence.
+- Use `passage-question` for scenario, source, or word-problem interpretation with selected answers.
+
 ## Lesson File Format
 
 V3 lesson files should use frontmatter for stable runtime metadata and body Markdown for teaching intent and questions.
@@ -325,6 +343,7 @@ Automated tests should cover:
 - Authored question keys parse, duplicate keys fail validation, and seeded question IDs remain stable when questions are reordered.
 - Author-only metadata such as `questionGoal` and `misconception` does not leak to lesson APIs unless a deliberate metadata endpoint is added.
 - Content validation fails on malformed fenced `question` YAML and duplicate match-pair right-side labels.
+- Promoted v3 curriculum does not include scored `constructed-response` or `speaking-prompt` questions without an explicit unscored-practice or evaluation path.
 
 Validation commands:
 

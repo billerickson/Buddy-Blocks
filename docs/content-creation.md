@@ -272,6 +272,21 @@ For new material, unsupported recall should not come first. Students should enco
 
 Use `docs/question-types.md` as the source of truth for runtime question shapes, scoring behavior, media fields, lesson config, and detailed question-type examples.
 
+## App-Scorable Question Policy
+
+Promoted curriculum should use question types the app can evaluate meaningfully.
+
+Do not use `constructed-response` or `speaking-prompt` for scored promoted curriculum unless the item is explicitly converted to unscored practice or backed by a real evaluation workflow. If a lesson goal depends on work the app cannot evaluate well, leave that work to school, tutoring, discussion, or offline practice rather than pretending Buddy Blocks can assess it.
+
+Prefer app-scorable alternatives:
+
+- `multiple-choice` for choosing the best explanation, strategy, evidence, or misconception diagnosis.
+- `fill-blank`, `multi-blank-cloze`, or `text-input` for constrained answers with clear accepted responses.
+- `order-items` for reasoning steps, processes, sentence order, and sequence.
+- `match-pairs` for distinct relationships.
+- `error-correction` for fixing a specific flawed step or sentence.
+- `passage-question` for scenario, source, or word-problem interpretation with selected answers.
+
 ## Stage Prompts
 
 Use Stage 1 first. After the research brief is accepted, use the combined Stage 2-6 `/goal` prompt when you want Codex to complete the remaining design and authoring artifacts for the whole level in one sustained run.
@@ -445,7 +460,7 @@ Stage 6: Question Authoring
 
 Write a hand-authored question set for every lesson. Do not use a repeated template. Each question must serve the lesson goal from `05-lesson-briefs.md`.
 
-Supported Buddy Blocks question types:
+Preferred app-scorable Buddy Blocks question types for promoted curriculum:
 - multiple-choice
 - text-input
 - fill-blank
@@ -453,10 +468,8 @@ Supported Buddy Blocks question types:
 - order-items
 - passage-question
 - multi-blank-cloze
-- constructed-response
 - dialogue-builder
 - listening-question
-- speaking-prompt
 - error-correction
 - conjugation-grid
 - flash-card
