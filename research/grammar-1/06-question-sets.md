@@ -2357,14 +2357,9 @@ misconception: "Using the spoken sentence's end mark after the tag."
 ```
 
 ```question
-key: u06_l04_q04_dialogue_builder
-type: dialogue-builder
-prompt: "Choose the exact words the Student should say."
-turns:
-  - speaker: "Teacher"
-    line: "Please open your notebook."
-  - speaker: "Student"
-    line: ""
+key: u06_l04_q04_student_exact_words
+type: multiple-choice
+prompt: 'Teacher says, "Please open your notebook." Student replies, "I am ready." Which words are the Student''s exact spoken words?'
 choices:
   - "I am ready."
   - "Student said, I am ready."

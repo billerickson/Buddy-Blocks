@@ -36,7 +36,11 @@ describe('research promotion workflow', () => {
     const root = createTempWorkspace();
     const outputRoot = join(root, 'out');
     writeManifest(root, [manifestTrack('grammar-1', 'ready_for_import')]);
-    writeResearchTrack(root, 'grammar-1', { track: 'Grammar', level: 'Level 1' });
+    writeResearchTrack(root, 'grammar-1', {
+      track: 'Grammar',
+      level: 'Level 1',
+      lessonTitle: 'Anchor Facts: Twos, Fives, And Tens',
+    });
 
     const result = await promoteResearchTracks({
       cwd: root,
@@ -58,8 +62,9 @@ describe('research promotion workflow', () => {
       key: 'u01_l01_q01_complete_sentence',
       hint: 'Ask whether it tells a whole idea.',
     });
+    expect(tracks[0]?.units[0]?.lessons[0]?.title).toBe('Anchor Facts: Twos, Fives, And Tens');
 
-    const lessonFile = readFileSync(result.generatedFiles.find((file) => file.endsWith('01-complete-thoughts.md'))!, 'utf8');
+    const lessonFile = readFileSync(result.generatedFiles.find((file) => file.endsWith('01-anchor-facts-twos-fives-and-tens.md'))!, 'utf8');
     expect(lessonFile).toContain('hint: Ask whether it tells a whole idea.');
     expect(lessonFile).not.toContain('questionGoal');
     expect(lessonFile).not.toContain('misconception');
@@ -159,7 +164,8 @@ function writeResearchTrack(
   - The lantern glowed.
   - After the rain.
 correctAnswer: The lantern glowed.`,
-  }: { track: string; level: string; questionType?: string; extraQuestionFields?: string },
+    lessonTitle = 'Complete Thoughts',
+  }: { track: string; level: string; questionType?: string; extraQuestionFields?: string; lessonTitle?: string },
 ) {
   const dir = join(root, 'research', slug);
   mkdirSync(dir, { recursive: true });
@@ -184,7 +190,7 @@ Build complete-sentence awareness.
 
 ## Unit 1: Sentence Foundations
 
-### Lesson 1: Complete Thoughts
+### Lesson 1: ${lessonTitle}
 
 - **Teaching goal:** Teach complete thoughts.
 - **Student outcome:** The student can identify a complete sentence.
@@ -200,7 +206,7 @@ Build complete-sentence awareness.
 
 ## Unit 1: Sentence Foundations
 
-### Lesson 1: Complete Thoughts
+### Lesson 1: ${lessonTitle}
 
 \`\`\`question
 key: u01_l01_q01_complete_sentence

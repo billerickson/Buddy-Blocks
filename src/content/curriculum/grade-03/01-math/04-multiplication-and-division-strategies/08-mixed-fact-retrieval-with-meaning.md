@@ -17,9 +17,13 @@ The student can solve mixed facts accurately and identify a supporting related f
 
 Fluency includes accurate recall, flexible strategy use, and retention over time.
 
-## Misconceptions
+## Misconception Checks
 
 Speed matters more than accuracy; one correct answer proves mastery; division facts do not need labels or related facts.
+
+## Teaching Note
+
+Frame practice as "retrieve if you know it, reason if you do not."
 
 ## Questions
 
@@ -27,78 +31,79 @@ Speed matters more than accuracy; one correct answer proves mastery; division fa
 key: u04_l08_q01_mixed_fact
 type: text-input
 prompt: "Type the product: 7 x 6"
-acceptedAnswers: ["42"]
+acceptedAnswers:
+  - "42"
 answerType: number
-explanation: "7 x 6 = 42. One strategy is 5 x 6 + 2 x 6."
-hint: "Break 7 into 5 and 2."
-questionGoal: "Retrieve or derive a mixed multiplication fact."
-misconception: "Confusing nearby products."
+explanation: 7 x 6 = 42. One strategy is 5 x 6 + 2 x 6.
+hint: Break 7 into 5 and 2.
 ```
 
 ```question
 key: u04_l08_q02_mixed_division
 type: text-input
 prompt: "Type the quotient: 72 / 9"
-acceptedAnswers: ["8"]
+acceptedAnswers:
+  - "8"
 answerType: number
-explanation: "9 x 8 = 72."
-hint: "Use the related multiplication fact."
-questionGoal: "Retrieve or derive a mixed division fact."
-misconception: "Treating division facts as unrelated to multiplication."
+explanation: 9 x 8 = 72.
+hint: Use the related multiplication fact.
 ```
 
 ```question
 key: u04_l08_q03_related_fact_mc
 type: multiple-choice
-prompt: "Which related fact supports 64 / 8 = 8?"
-choices: ["8 x 8 = 64", "8 + 8 = 16", "64 - 8 = 56", "64 x 8 = 512"]
-correctAnswer: "8 x 8 = 64"
-explanation: "The related multiplication fact shows the quotient."
-hint: "Division asks for a missing factor."
-questionGoal: "Connect mixed division retrieval to multiplication."
-misconception: "Selecting a fact with correct numbers but wrong relationship."
+prompt: Which related fact supports 64 / 8 = 8?
+choices:
+  - 8 x 8 = 64
+  - 8 + 8 = 16
+  - 64 - 8 = 56
+  - 64 x 8 = 512
+correctAnswer: 8 x 8 = 64
+explanation: The related multiplication fact shows the quotient.
+hint: Division asks for a missing factor.
 ```
 
 ```question
 key: u04_l08_q04_match_mixed
 type: match-pairs
-prompt: "Match each fact to its answer."
+prompt: Match each fact to its answer.
 pairs:
-  - left: "8 x 9"
+  - left: 8 x 9
     right: "72"
-  - left: "63 / 7"
+  - left: 63 / 7
     right: "9"
-  - left: "6 x 8"
+  - left: 6 x 8
     right: "48"
-  - left: "56 / 8"
+  - left: 56 / 8
     right: "7"
-explanation: "Mixed practice asks you to decide whether to multiply or divide."
-hint: "For division, find the missing factor."
-questionGoal: "Practice mixed fact retrieval across operations."
-misconception: "Using one operation for every fact."
+explanation: Mixed practice asks you to decide whether to multiply or divide.
+hint: For division, find the missing factor.
 ```
 
 ```question
 key: u04_l08_q05_reasonable_fact
 type: multiple-choice
-prompt: "Which answer is reasonable for 9 x 7?"
-choices: ["63", "16", "97", "72"]
+prompt: Which answer is reasonable for 9 x 7?
+choices:
+  - "63"
+  - "16"
+  - "97"
+  - "72"
 correctAnswer: "63"
-explanation: "9 x 7 is 10 x 7 minus 7, which is 70 - 7 = 63."
-hint: "Use the 10s neighbor fact."
-questionGoal: "Use strategy to choose a product from plausible distractors."
-misconception: "Choosing a nearby nines or tens product."
+explanation: 9 x 7 is 10 x 7 minus 7, which is 70 - 7 = 63.
+hint: Use the 10s neighbor fact.
 ```
 
 ```question
 key: u04_l08_q06_explain_fact
-type: constructed-response
-prompt: "Pick one way to solve 48 / 6 and explain it."
-minWords: 8
-sampleAnswer: "I know 6 x 8 = 48, so 48 divided by 6 is 8."
-checklist: ["Include the answer", "Use a strategy or related fact"]
-explanation: "Mixed fact fluency includes being able to reason when a fact is not automatic."
-hint: "Use a related multiplication fact."
-questionGoal: "Explain a mixed division fact strategy."
-misconception: "Giving answers without retained or explainable reasoning."
+type: multiple-choice
+prompt: Which reasoning can solve 48 / 6?
+choices:
+  - Use the related fact 6 x 8 = 48.
+  - Use 48 + 6 = 54.
+  - Use 48 x 6 because division means multiply the numbers.
+  - Use 6 - 48 because the smaller number comes first.
+correctAnswer: Use the related fact 6 x 8 = 48.
+explanation: Mixed fact fluency includes being able to reason when a fact is not automatic.
+hint: Use a related multiplication fact.
 ```

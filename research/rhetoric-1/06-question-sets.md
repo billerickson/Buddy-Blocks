@@ -380,13 +380,8 @@ misconception: "Thinking any direct sentence fits any audience."
 
 ```question
 key: u01_l04_q02_wait_turn_dialogue
-type: dialogue-builder
-prompt: "Choose the best next line."
-turns:
-  - speaker: "Ari"
-    line: "I am using the blue marker right now."
-  - speaker: "Nina"
-    line: ""
+type: multiple-choice
+prompt: 'Ari says, "I am using the blue marker right now." Which reply from Nina best fits the audience and purpose?'
 choices:
   - "May I use it when you are finished?"
   - "Give it to me this second."
@@ -2473,13 +2468,8 @@ misconception: "Thinking blame requires insulting the person."
 
 ```question
 key: u05_l04_q03_fair_response_dialogue
-type: dialogue-builder
-prompt: "Choose the best next line."
-turns:
-  - speaker: "Maya"
-    line: "I took all the glue sticks so my group could finish first."
-  - speaker: "Jules"
-    line: ""
+type: multiple-choice
+prompt: 'Maya says, "I took all the glue sticks so my group could finish first." Which reply from Jules gives fair criticism without insulting Maya?'
 choices:
   - "That choice was unfair because other groups needed glue too."
   - "That was a selfish thing to do."
@@ -2899,13 +2889,8 @@ misconception: "Thinking fancier words are always stronger."
 
 ```question
 key: u06_l04_q02_audience_fit_dialogue
-type: dialogue-builder
-prompt: "Choose the best next line."
-turns:
-  - speaker: "Teacher"
-    line: "Can you explain why your group needs more time?"
-  - speaker: "Student"
-    line: ""
+type: multiple-choice
+prompt: 'Teacher asks, "Can you explain why your group needs more time?" Which student reply best fits the audience and purpose?'
 choices:
   - "We need five more minutes because we are checking our examples."
   - "Because."

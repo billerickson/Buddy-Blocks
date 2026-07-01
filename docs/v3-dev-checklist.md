@@ -146,10 +146,10 @@ Recommended `/goal` prompt:
   - Verify: source list is documented here or in the promotion tool docs, and it matches the manifest entries selected for import.
   - Notes: Verified 2026-07-01. `find research -maxdepth 2 -name '06-question-sets.md'` matches the 12 manifest tracks marked `ready_for_import`: `classical-literature-1`, `french-1`, `grade-03-math`, `grade-03-vocabulary`, `grade-06-math`, `grade-06-vocabulary`, `grammar-1`, `history-and-civics-1`, `logic-1`, `memory-works-1`, `rhetoric-1`, and `spanish-1`. Full validation passed 2026-07-01.
 
-- [ ] Maintain research track status manifest.
+- [x] Maintain research track status manifest.
   - Done when: `research/track-status.json` lists all top-level research tracks, marks tracks with `06-question-sets.md` as `ready_for_import`, and changes tracks to `imported` after successful promotion and validation.
   - Verify: compare `find research -maxdepth 2 -name '06-question-sets.md'` with the manifest before each import, and confirm imported tracks have `readyForImport: false`, `imported: true`, `importBatch`, and `importedAt`.
-  - Notes: Manifest currently matches all 12 ready question-set directories. Do not mark the real manifest tracks `imported` until a live `--write --mark-imported` promotion is intentionally run. The previous unsupported scored source-item blockers in `grade-03-math`, `grammar-1`, and `memory-works-1` were repaired on 2026-07-01; full `npm run content:promote` dry run now completes.
+  - Notes: Live promotion/import completed 2026-07-01 with import batch `v3-20260701T211036Z`. All 12 accepted tracks are now `status: imported`, `readyForImport: false`, `imported: true`, and have `importBatch`/`importedAt`: `classical-literature-1`, `french-1`, `grade-03-math`, `grade-03-vocabulary`, `grade-06-math`, `grade-06-vocabulary`, `grammar-1`, `history-and-civics-1`, `logic-1`, `memory-works-1`, `rhetoric-1`, and `spanish-1`. Full validation passed after import.
 
 - [x] Use `research/track-status.json` as the import queue.
   - Done when: the promotion/import tool imports tracks marked `ready_for_import` by default and skips `research_only` or already `imported` tracks unless an explicit override is provided.
@@ -376,30 +376,30 @@ Recommended `/goal` prompt:
 
 ## Phase 8: V3 Curriculum Cutover
 
-- [ ] Remove generated MVP curriculum from shipped catalog.
+- [x] Remove generated MVP curriculum from shipped catalog.
   - Done when: existing generated `src/content/curriculum/` track content is no longer shipped unless re-authored and accepted through V3 research.
   - Verify: content inventory confirms only accepted V3 curriculum remains.
-  - Notes: Pending 2026-07-01. Do not remove the current shipped catalog until accepted V3 research is promoted with `--write --mark-imported` and validated. The previous unsupported scored source-item blocker has been resolved; full `npm run content:promote` dry run completes.
+  - Notes: Replaced the bridge catalog on 2026-07-01 with `npm run content:promote -- --output src/content/curriculum --clean-output --write --mark-imported`. Inventory now shows 514 files, 412 lesson Markdown files, and only accepted V3 track directories under `grade-03` and `grade-06`. `npm run content:validate`, `npm test`, `npm run check`, and `npm run build` passed.
 
-- [ ] Promote accepted V3 research into `src/content/curriculum/`.
+- [x] Promote accepted V3 research into `src/content/curriculum/`.
   - Done when: V3 track, unit, lesson, and question files are generated from accepted research artifacts.
   - Verify: `npm run content:validate`.
-  - Notes: Ready for intentional promotion run as of 2026-07-01 source repair. The prior blockers in `research/grade-03-math/06-question-sets.md`, `research/grammar-1/06-question-sets.md`, and `research/memory-works-1/06-question-sets.md` were converted to app-scorable items, and full `npm run content:promote` dry run completes without blockers. No live catalog write was performed during the repair.
+  - Notes: Promoted accepted research into `src/content/curriculum/` on 2026-07-01. Before live write, a strict isolated validation of temp output passed with `validateCurriculum(..., { requireQuestionKeys: true })`: 12 tracks, 90 units, 412 lessons, 2472 questions. Source repairs converted empty-turn `dialogue-builder` items in `research/grammar-1/06-question-sets.md` and `research/rhetoric-1/06-question-sets.md` into app-scorable multiple-choice items. Live `npm run content:validate` passed with the same totals.
 
-- [ ] Avoid preserving legacy generated questions as evidence.
+- [x] Avoid preserving legacy generated questions as evidence.
   - Done when: no legacy generated questions are migrated, summarized, copied, or used as curriculum evidence.
   - Verify: spot check promoted curriculum against accepted research sources.
-  - Notes: Pending actual V3 promotion. The promotion tool reads accepted research artifacts only; no real promoted catalog was written during the 2026-07-01 source repair.
+  - Notes: The live promotion tool reads accepted research artifacts only and deletes the previous output directory before writing. Spot checks and generated path inventory confirm the shipped catalog is generated from accepted research paths. `rg -n "^\\s*(questionGoal|misconception):|type:\\s*(constructed-response|speaking-prompt)" src/content/curriculum` returns no matches, so author-only fields and unsupported scored source types are not in runtime files.
 
 - [x] Keep research files out of runtime reads.
   - Done when: app runtime reads only `src/content/curriculum/` and not arbitrary `research/` files.
   - Verify: `rg "research/" src scripts` confirms only authoring/promotion paths use research files.
   - Notes: `rg "research/" src scripts` shows no `src/` runtime reads and only `scripts/research-promotion.ts` using `research/track-status.json`. Full validation passed 2026-07-01.
 
-- [ ] Seed V3 catalog into fresh database without legacy curriculum rows.
+- [x] Seed V3 catalog into fresh database without legacy curriculum rows.
   - Done when: fresh seed contains only V3 curriculum.
   - Verify: fresh database seed inspection.
-  - Notes: Blocked until the V3 promoted catalog replaces the current generated MVP catalog. The seed script is curriculum-only, but it still seeds whatever catalog is present under `src/content/curriculum/`.
+  - Notes: Fresh local D1 smoke on 2026-07-01 applied migrations to `/tmp/buddyblocks-v3-final.dPAjqF`, ran `npx tsx scripts/seed.ts --config wrangler.deploy.jsonc --local --persist-to /tmp/buddyblocks-v3-final.dPAjqF`, and queried 12 tracks, 90 units, 412 lessons, 2472 questions, 0 parents, and 0 children. No legacy catalog rows were present.
 
 - [x] Delete unsupported legacy curriculum generators.
   - Done when: scripts that can recreate legacy content are removed or clearly replaced by V3 promotion tooling.
@@ -477,49 +477,49 @@ Recommended `/goal` prompt:
 
 ## Phase 11: Final Fresh-Database Smoke Test
 
-- [ ] Initialize fresh V3 schema.
+- [x] Initialize fresh V3 schema.
   - Done when: clean D1 database can be created and migrated from scratch.
   - Verify: migration command succeeds.
-  - Notes: Local isolated validation on 2026-07-01 applied clean baseline `migrations/0001_initial.sql` to `/tmp/buddyblocks-v3-ui.E1imxA` with `npx wrangler d1 migrations apply DB --config wrangler.deploy.jsonc --local --persist-to ...`; Wrangler reported 38 commands executed successfully. Leave unchecked until the final V3 catalog smoke uses the real fresh/reset deployment database.
+  - Notes: Final local fresh-D1 smoke on 2026-07-01 applied migrations from scratch to `/tmp/buddyblocks-v3-final.dPAjqF` with `npx wrangler d1 migrations apply DB --config wrangler.deploy.jsonc --local --persist-to /tmp/buddyblocks-v3-final.dPAjqF`. Wrangler applied `0001_initial.sql` and `0002_hosted_interest_emails.sql` successfully.
 
-- [ ] Seed curriculum into empty database.
+- [x] Seed curriculum into empty database.
   - Done when: curriculum seed succeeds with V3 catalog.
   - Verify: seed command succeeds and curriculum rows are present.
-  - Notes: Local isolated seed on 2026-07-01 succeeded against the current bridge catalog with `npx tsx scripts/seed.ts --local --persist-to ...` and produced 66 tracks, 713 units, 2212 lessons, and 17111 questions. Leave unchecked until accepted V3 research replaces the bridge catalog.
+  - Notes: Final local seed on 2026-07-01 succeeded against the promoted V3 catalog with `npx tsx scripts/seed.ts --config wrangler.deploy.jsonc --local --persist-to /tmp/buddyblocks-v3-final.dPAjqF`, producing 12 tracks, 90 units, 412 lessons, and 2472 questions.
 
-- [ ] Confirm zero parents and zero children after curriculum seed.
+- [x] Confirm zero parents and zero children after curriculum seed.
   - Done when: fresh seeded database has no parent or child rows.
   - Verify: database query confirms zero parents and children.
-  - Notes: Covered by `tests/seed-sql.test.ts` against the clean baseline, and `npm test` passed 2026-07-01. Leave unchecked for final deployment smoke until the real V3 catalog/database seed is run and queried.
+  - Notes: Fresh-D1 query after final V3 seed on 2026-07-01 returned `parents: 0` and `children: 0` alongside 12 tracks, 90 units, 412 lessons, and 2472 questions.
 
-- [ ] Complete first-run parent setup.
+- [x] Complete first-run parent setup.
   - Done when: parent can be created through onboarding and receives a session.
   - Verify: manual smoke test or browser test.
-  - Notes: Browser validation on 2026-07-01 against isolated local D1 created parent `morgan_parent` through `/setup/` and redirected to `/parent/` with a session. Leave unchecked until final smoke runs against the real V3 deployment/database.
+  - Notes: Browser smoke on 2026-07-01 against the final local V3 D1 opened `/setup/`, created parent `v3_parent`, and landed on `/parent/` with a live session showing `Parent account: v3_parent`.
 
-- [ ] Create one or more children through onboarding.
+- [x] Create one or more children through onboarding.
   - Done when: children are created with display names, grade levels, stable slugs, defaults, and initialized progress.
   - Verify: manual smoke test or browser test.
-  - Notes: Browser validation on 2026-07-01 created child `Mira`, edited it to `Mira Sky` / grade 5, and confirmed profile selection showed `Mira Sky` / `Grade 5`. Leave unchecked until final smoke runs after V3 catalog cutover.
+  - Notes: Browser smoke on 2026-07-01 created child `Vera Smoke` from `/parent/` with grade 3. Dashboard showed slug-backed active child state, 5 hearts, 0 XP, and promoted V3 grade 3 scholastic/foundation progress initialized, including Math 0/76 and Vocabulary 0/36.
 
-- [ ] Complete a lesson as a child.
+- [x] Complete a lesson as a child.
   - Done when: child can select profile, play a lesson, answer questions, see retry hints when appropriate, and save progress.
   - Verify: manual smoke test or browser test.
-  - Notes: Not run in browser during this pass. Automated lesson player/API coverage passed, but final browser lesson smoke should wait for V3 catalog cutover because current shipped catalog is still the bridge catalog.
+  - Notes: Browser/API smoke on 2026-07-01 completed promoted V3 math lessons for `vera-smoke`. API smoke completed `lesson_grade3_math_u01_l01_hundreds_tens_and_ones` at 6/6 and verified recent activity. Browser lesson-player smoke then opened `/kid/vera-smoke/`, continued `Addition Strategies That Still Work`, answered all 6 questions through multiple-choice, fill-blank, order-items, and text-input controls, and reached the result screen with `Perfect stack!`, 21 XP, 6/6, and next lesson `Subtraction As Difference And Take-Away`. Retry-hint rendering remains covered by `tests/lesson-flow.test.ts`.
 
-- [ ] Archive and unarchive a child.
+- [x] Archive and unarchive a child.
   - Done when: archived child is hidden/blocked, unarchived child regains access, and progress is preserved.
   - Verify: manual smoke test or browser test.
-  - Notes: Browser validation on 2026-07-01 archived `Mira Sky`, confirmed visible `Archived` status and `Unarchive` action, then unarchived and confirmed `Active` plus profile-selection visibility. Leave unchecked until final smoke runs after V3 catalog cutover.
+  - Notes: Final local API smoke on 2026-07-01 archived `vera-smoke`, verified `/api/children/vera-smoke/home` returned `child_locked` and `/api/children` omitted the child, then unarchived it and verified it returned to active children. Follow-up DB query after browser lesson completion showed `active_children: 1`, `archived_children: 0`, `lesson_attempts: 2`, and Math progress preserved with `math_lessons_completed: 2`.
 
-- [ ] Run final validation commands.
+- [x] Run final validation commands.
   - Done when: all required validation commands pass or deferred failures are documented with reasons.
   - Verify:
     - `npm run content:validate`
     - `npm test`
     - `npm run check`
     - `npm run build`
-  - Notes: Current-tree validation passed 2026-07-01: `npm run content:validate`, `npm test` (15 files / 128 tests), `npm run check`, `npm run build`, and `npm run deploy:dry-run`. Leave unchecked until the final validation pass after V3 catalog cutover.
+  - Notes: Final post-cutover validation passed 2026-07-01: `npm run content:validate` (12 tracks, 90 units, 412 lessons, 2472 questions), `npm test` (15 files / 127 tests), `npm run check` (0 errors/warnings/hints after clearing ignored `.astro/` cache), `npm run build`, and `npm run deploy:dry-run`.
 
 ## Test Coverage Ledger
 
@@ -568,6 +568,6 @@ Recommended `/goal` prompt:
 
 ## Current Restart State
 
-- No unresolved V3 blockers or decisions are known as of 2026-07-01.
-- Remaining unchecked items are execution gates for the restarted implementation goal: Phase 8 catalog cutover, the Phase 10 old-site hold, and the Phase 11 fresh-database smoke test.
-- The next catalog step is an intentional promotion/import run from the accepted research queue, followed by validation. Do not mark `research/track-status.json` tracks imported, remove the bridge catalog, seed the final V3 catalog, retire `learn.billplustara.com`, or check off final production smoke until that run and its validation complete.
+- No unresolved code/content blockers or decisions are known as of 2026-07-01.
+- Remaining unchecked item is the production deployment gate: keep `learn.billplustara.com` live during V3 testing until `buddyblocks.net` production smoke passes and release notes/deployment checklist explicitly authorize retirement.
+- The accepted V3 catalog cutover is complete locally: `src/content/curriculum/` is the promoted runtime mirror of the 12 imported research tracks, fresh local D1 seed/smoke passed, and final validation commands passed. Do not retire `learn.billplustara.com` until the new-domain production smoke is complete.

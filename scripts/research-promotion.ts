@@ -362,14 +362,12 @@ function runtimeQuestion(question: RuntimeQuestionBlock): RuntimeQuestionBlock {
 }
 
 function lessonMarkdown(meta: TrackMeta, unit: UnitSource, lesson: LessonSource) {
-  const frontmatter = [
-    '---',
-    `id: ${lessonIdFor(meta, unit, lesson)}`,
-    `slug: ${lesson.slug}`,
-    `title: ${lesson.title}`,
-    'xpBase: 10',
-    '---',
-  ].join('\n');
+  const frontmatter = `---\n${yamlFile({
+    id: lessonIdFor(meta, unit, lesson),
+    slug: lesson.slug,
+    title: lesson.title,
+    xpBase: 10,
+  }).trimEnd()}\n---`;
   const sections = [
     markdownSection('Teaching Goal', lesson.teachingGoal),
     markdownSection('Student Outcome', lesson.studentOutcome),
