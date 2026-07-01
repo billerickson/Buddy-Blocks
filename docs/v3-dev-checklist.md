@@ -463,7 +463,7 @@ Recommended `/goal` prompt:
 - [x] Configure deployment target for `buddyblocks.net`.
   - Done when: V3 docs/config use the new public deployment target.
   - Verify: deployment config/docs review.
-  - Notes: Ignored local files `.env` and `wrangler.deploy.jsonc` hold the `buddyblocks.net` deployment target and Cloudflare D1 database id; tracked `wrangler.jsonc` remains a public template. Brand asset example also uses the new domain. The `buddyblocks.net` Cloudflare zone has been added and currently has no DNS records. `npm run deploy:dry-run` passed 2026-07-01. The Cloudflare account still needs a fresh/reset V3 D1 database id before production deployment/smoke.
+  - Notes: Ignored local files `.env` and `wrangler.deploy.jsonc` hold the `buddyblocks.net` deployment target and Cloudflare D1 database name/id; tracked `wrangler.jsonc` remains a public template. Brand asset example also uses the new domain. The `buddyblocks.net` Cloudflare zone has been added and currently has no DNS records. `npm run deploy:dry-run` passed 2026-07-01. The Cloudflare account still needs a fresh/reset V3 D1 database id before production deployment/smoke.
 
 - [ ] Keep `learn.billplustara.com` live during V3 testing.
   - Done when: old MVP deployment is not retired until V3 production smoke testing passes.
@@ -480,7 +480,7 @@ Recommended `/goal` prompt:
 - [ ] Initialize fresh V3 schema.
   - Done when: clean D1 database can be created and migrated from scratch.
   - Verify: migration command succeeds.
-  - Notes: Local isolated validation on 2026-07-01 applied clean baseline `migrations/0001_initial.sql` to `/tmp/buddyblocks-v3-ui.E1imxA` with `npx wrangler d1 migrations apply buddy_blocks --local --persist-to ...`; Wrangler reported 38 commands executed successfully. Leave unchecked until the final V3 catalog smoke uses the real fresh/reset deployment database.
+  - Notes: Local isolated validation on 2026-07-01 applied clean baseline `migrations/0001_initial.sql` to `/tmp/buddyblocks-v3-ui.E1imxA` with `npx wrangler d1 migrations apply DB --config wrangler.deploy.jsonc --local --persist-to ...`; Wrangler reported 38 commands executed successfully. Leave unchecked until the final V3 catalog smoke uses the real fresh/reset deployment database.
 
 - [ ] Seed curriculum into empty database.
   - Done when: curriculum seed succeeds with V3 catalog.
@@ -519,7 +519,7 @@ Recommended `/goal` prompt:
     - `npm test`
     - `npm run check`
     - `npm run build`
-  - Notes: Current-tree validation passed 2026-07-01: `npm run content:validate`, `npm test` (15 files / 128 tests), `npm run check`, `npm run build`, and `npx wrangler deploy --dry-run`. Leave unchecked until the final validation pass after V3 catalog cutover.
+  - Notes: Current-tree validation passed 2026-07-01: `npm run content:validate`, `npm test` (15 files / 128 tests), `npm run check`, `npm run build`, and `npm run deploy:dry-run`. Leave unchecked until the final validation pass after V3 catalog cutover.
 
 ## Test Coverage Ledger
 
@@ -564,4 +564,4 @@ Recommended `/goal` prompt:
 
 - V3 curriculum source repair is complete for the unsupported scored `constructed-response` and `speaking-prompt` blocker in `grade-03-math`, `grammar-1`, and `memory-works-1`.
 - Do not mark `research/track-status.json` tracks imported, remove the bridge catalog, seed the final V3 catalog, retire `learn.billplustara.com`, or check off final production smoke until an intentional V3 promotion/import run is completed and validated.
-- The Cloudflare account still needs the fresh/reset production V3 D1 database id recorded in ignored `wrangler.deploy.jsonc` before deploying `buddyblocks.net`; the `buddyblocks.net` zone is already added and currently has no DNS records.
+- The Cloudflare account still needs the fresh/reset production V3 D1 database name/id recorded in ignored `wrangler.deploy.jsonc` before deploying `buddyblocks.net`; the `buddyblocks.net` zone is already added and currently has no DNS records.

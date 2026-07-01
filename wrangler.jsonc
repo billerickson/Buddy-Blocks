@@ -19,7 +19,7 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "buddy_blocks",
+      "database_name": "buddy_blocks_v3",
       "database_id": "00000000-0000-0000-0000-000000000000"
     }
   ],

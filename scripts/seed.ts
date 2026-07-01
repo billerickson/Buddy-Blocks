@@ -13,7 +13,7 @@ import {
   buildCurriculumSeedStatements,
 } from '../src/lib/seed-sql';
 
-const databaseName = 'buddy_blocks';
+const database = 'DB';
 const local = process.argv.includes('--remote') ? false : true;
 const configIndex = process.argv.indexOf('--config');
 const config = configIndex >= 0 ? process.argv[configIndex + 1] : undefined;
@@ -38,10 +38,10 @@ const seedFile = join(tmpdir(), `buddy-blocks-seed-${Date.now()}.sql`);
 writeFileSync(seedFile, `${statements.join('\n')}\n`, 'utf8');
 
 const command = process.platform === 'win32' ? 'npx.cmd' : 'npx';
-const args = ['wrangler', 'd1', 'execute', databaseName, local ? '--local' : '--remote', '--file', seedFile];
+const args = ['wrangler', 'd1', 'execute', database, local ? '--local' : '--remote', '--file', seedFile];
 if (config) args.push('--config', config);
 if (local && persistTo) args.push('--persist-to', persistTo);
 execFileSync(command, args, { stdio: 'inherit' });
 
-console.log(`Seeded ${databaseName} ${local ? 'locally' : 'remotely'} with curriculum only. Run first setup in the app to create the parent account.`);
+console.log(`Seeded ${database} ${local ? 'locally' : 'remotely'} with curriculum only. Run first setup in the app to create the parent account.`);
 console.log(formatCurriculumSummary(summarizeCurriculum(TRACKS)));

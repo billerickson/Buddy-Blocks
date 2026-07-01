@@ -15,11 +15,11 @@
     "content:promote": "tsx scripts/research-promotion.ts",
     "deploy:dry-run": "wrangler deploy --config wrangler.deploy.jsonc --dry-run",
     "deploy": "wrangler deploy --config wrangler.deploy.jsonc",
-    "db:migrate:local": "wrangler d1 migrations apply buddy_blocks --config wrangler.deploy.jsonc --local",
-    "db:migrate:remote": "wrangler d1 migrations apply buddy_blocks --config wrangler.deploy.jsonc --remote",
+    "db:migrate:local": "wrangler d1 migrations apply DB --config wrangler.deploy.jsonc --local",
+    "db:migrate:remote": "wrangler d1 migrations apply DB --config wrangler.deploy.jsonc --remote",
     "db:seed:local": "tsx scripts/seed.ts --config wrangler.deploy.jsonc --local",
     "db:seed:remote": "tsx scripts/seed.ts --config wrangler.deploy.jsonc --remote",
-    "db:reset:local": "wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --local --file scripts/reset-local.sql && npm run db:seed:local"
+    "db:reset:local": "wrangler d1 execute DB --config wrangler.deploy.jsonc --local --file scripts/reset-local.sql && npm run db:seed:local"
   },
   "dependencies": {
     "@astrojs/check": "latest",

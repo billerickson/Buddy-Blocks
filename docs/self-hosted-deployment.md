@@ -32,7 +32,7 @@ Set `ASTRO_SITE=https://buddyblocks.net` in `.env`.
 
 Confirm that `buddyblocks.net` is available in the Cloudflare account. The `buddyblocks.net` zone has been added and currently has no DNS records. The V3 Worker uses a Custom Domain route in `wrangler.deploy.jsonc`, so keep the hostname free of conflicting DNS records and do not point this repo at `learn.billplustara.com`.
 
-Before any remote deploy, create or choose the fresh V3 D1 database and update `wrangler.deploy.jsonc` with its `database_id`. Do not reuse the old private MVP database unless it has intentionally been reset for V3. Keep `.env` and `wrangler.deploy.jsonc` local; they are ignored by git because they contain deployment-specific values.
+Before any remote deploy, create the fresh V3 D1 database as `buddy_blocks_v3` and update `wrangler.deploy.jsonc` with its `database_name` and `database_id`. Do not reuse the old private MVP database. Keep `.env` and `wrangler.deploy.jsonc` local; they are ignored by git because they contain deployment-specific values.
 
 ## Preflight Validation
 
@@ -50,13 +50,13 @@ The dry run verifies the Worker bundle, asset binding, D1 binding, and custom-do
 
 ## D1 Setup
 
-Create a fresh V3 database:
+The old MVP deployment already uses the D1 database name `buddy_blocks`. Cloudflare D1 database names cannot be changed after creation, so leave the MVP database in place for `learn.billplustara.com` and create the V3 database as `buddy_blocks_v3`:
 
 ```bash
-npx wrangler d1 create buddy_blocks
+npx wrangler d1 create buddy_blocks_v3
 ```
 
-Copy the returned database UUID into `wrangler.deploy.jsonc` under `d1_databases[0].database_id`. Keep the binding name as `DB`, because `src/worker.ts` expects `env.DB`.
+Copy the returned database name and UUID into `wrangler.deploy.jsonc` under `d1_databases[0].database_name` and `d1_databases[0].database_id`. Keep the binding name as `DB`, because `src/worker.ts` expects `env.DB`; the npm D1 scripts also target this binding instead of the old MVP database name.
 
 Apply migrations locally when testing the setup on this machine:
 
@@ -75,9 +75,9 @@ npm run db:seed:remote
 After the remote seed, confirm that curriculum rows exist and family-owned rows are empty:
 
 ```bash
-npx wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS tracks FROM tracks;"
-npx wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS parents FROM parents;"
-npx wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS children FROM child_profiles;"
+npx wrangler d1 execute DB --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS tracks FROM tracks;"
+npx wrangler d1 execute DB --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS parents FROM parents;"
+npx wrangler d1 execute DB --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS children FROM child_profiles;"
 ```
 
 The parent and child counts must both be `0` immediately after curriculum seed. First-run setup creates the first parent later through the app.

@@ -51,10 +51,10 @@ Leave the static asset binding named `ASSETS` and the D1 binding named `DB`; `sr
 
 ## 3. Create a Fresh D1 Database
 
-Create a new D1 database in your Cloudflare account:
+Create a new D1 database in your Cloudflare account. The database name is a Cloudflare account label, not the Worker binding; use a unique name if `buddy_blocks` is already taken:
 
 ```bash
-npx wrangler d1 create buddy_blocks
+npx wrangler d1 create buddy_blocks_v3
 ```
 
 Copy the returned database UUID into `wrangler.deploy.jsonc`:
@@ -64,14 +64,14 @@ Copy the returned database UUID into `wrangler.deploy.jsonc`:
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "buddy_blocks",
+      "database_name": "buddy_blocks_v3",
       "database_id": "<your-d1-database-uuid>"
     }
   ]
 }
 ```
 
-The npm migration and seed scripts target the database name `buddy_blocks`. Keep that name unless you also update every package script that references it.
+The npm migration and seed scripts target the `DB` binding, so the `database_name` can be any fresh D1 database name in your account. Keep the binding as `DB`.
 
 ## 4. Validate Locally
 
@@ -106,9 +106,9 @@ npm run db:seed:remote
 Confirm that curriculum rows exist and no family-owned rows were created by the seed:
 
 ```bash
-npx wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS tracks FROM tracks;"
-npx wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS parents FROM parents;"
-npx wrangler d1 execute buddy_blocks --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS children FROM child_profiles;"
+npx wrangler d1 execute DB --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS tracks FROM tracks;"
+npx wrangler d1 execute DB --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS parents FROM parents;"
+npx wrangler d1 execute DB --config wrangler.deploy.jsonc --remote --command "SELECT COUNT(*) AS children FROM child_profiles;"
 ```
 
 The `parents` and `children` counts should both be `0` immediately after the curriculum seed.
