@@ -36,7 +36,7 @@ choices:
   - "Reread the sentence and look for clues"
   - "Skip the word forever"
   - "Pick the meaning of puppy"
-  - "Choose the longest answer"
+  - "Guess from the first nearby word"
 correctAnswer: "Reread the sentence and look for clues"
 explanation: "The routine starts by rereading and looking for clues in the sentence."
 hint: "A first step should help you use the sentence, not avoid it."
@@ -99,16 +99,26 @@ misconception: "Choosing a familiar or random meaning without testing sentence f
 
 ```question
 key: "u01_l01_q06_explain_clue"
-type: "constructed-response"
-prompt: "In the sentence \"The room was silent; no one made a sound,\" explain what silent means and what clue helped you."
-minWords: 7
-sampleAnswer: "Silent means quiet. The clue is no one made a sound."
-checklist:
-  - "Tell what silent means"
-  - "Name the clue"
-explanation: "A good vocabulary explanation gives the meaning and the evidence."
-hint: "Use the frame: Silent means ___. My clue is ___."
-questionGoal: "Produce a short evidence-based vocabulary explanation."
+type: "multi-blank-cloze"
+prompt: "Complete the meaning-and-clue explanation."
+parts:
+  - "Silent means "
+  - ". The clue is "
+  - "."
+blanks:
+  - correctAnswer: "quiet"
+    choices:
+      - "quiet"
+      - "bright"
+      - "crowded"
+  - correctAnswer: "no one made a sound"
+    choices:
+      - "no one made a sound"
+      - "the room was large"
+      - "the word has two syllables"
+explanation: "A good vocabulary explanation gives the meaning and the sentence clue that proves it."
+hint: "Choose the meaning first, then choose the words that prove it."
+questionGoal: "Complete a short evidence-based vocabulary explanation."
 misconception: "Giving only the meaning without naming evidence."
 ```
 
@@ -319,16 +329,17 @@ misconception: "Using only the setting word pond instead of the examples."
 
 ```question
 key: "u01_l03_q06_name_example_clue"
-type: "constructed-response"
-prompt: "In the sentence \"The drawer held fasteners, including nails, clips, and screws,\" what clue helps you understand fasteners?"
-minWords: 5
-sampleAnswer: "The examples nails, clips, and screws help."
-checklist:
-  - "Name at least two examples"
-  - "Explain that they are clues"
+type: "multiple-choice"
+prompt: "Read: \"The drawer held fasteners, including nails, clips, and screws.\" Which clue best helps you understand fasteners?"
+choices:
+  - "nails, clips, and screws"
+  - "The drawer"
+  - "held"
+  - "A drawer can open"
+correctAnswer: "nails, clips, and screws"
 explanation: "The examples show that fasteners are things used to hold objects together."
 hint: "Look after the word including."
-questionGoal: "Explain which examples support a word meaning."
+questionGoal: "Identify example evidence that supports a word meaning."
 misconception: "Giving a meaning without naming the example evidence."
 ```
 
@@ -424,16 +435,26 @@ misconception: "Selecting a nearby noun instead of the contrast signal."
 
 ```question
 key: "u01_l04_q06_explain_contrast"
-type: "constructed-response"
-prompt: "In \"The soup was bland, but the salsa was spicy,\" explain what bland means and what clue helped you."
-minWords: 7
-sampleAnswer: "Bland means not strong in flavor. The clue is but spicy."
-checklist:
-  - "Tell what bland means"
-  - "Mention the contrast with spicy"
+type: "multi-blank-cloze"
+prompt: "Complete the contrast explanation for \"The soup was bland, but the salsa was spicy.\""
+parts:
+  - "Bland means "
+  - ". It contrasts with "
+  - "."
+blanks:
+  - correctAnswer: "not strong in flavor"
+    choices:
+      - "not strong in flavor"
+      - "very spicy"
+      - "cold and sweet"
+  - correctAnswer: "spicy"
+    choices:
+      - "spicy"
+      - "soup"
+      - "salsa"
 explanation: "But shows a contrast, so bland is different from spicy."
-hint: "Use the frame: Bland means ___. It contrasts with ___."
-questionGoal: "Explain a meaning from contrast evidence."
+hint: "Use the contrast word but to connect the two ideas."
+questionGoal: "Complete a meaning explanation from contrast evidence."
 misconception: "Giving a meaning without using the contrast clue."
 ```
 
@@ -495,12 +516,12 @@ misconception: "Choosing an emotion not supported by the clues."
 ```question
 key: "u01_l05_q04_find_effect_clue"
 type: "multiple-choice"
-prompt: "Which sentence best helps explain the word overflowed? \"The sink was left on for a long time. Water overflowed. A puddle spread across the floor.\""
+prompt: "Read: \"The sink was left on for a long time. Water overflowed. A puddle spread across the floor.\" Which effect clue best helps explain overflowed?"
 choices:
   - "A puddle spread across the floor."
   - "The sink was left on for a long time."
   - "Water overflowed."
-  - "Which sentence"
+  - "The water went down the drain."
 correctAnswer: "A puddle spread across the floor."
 explanation: "The puddle shows the effect of water spilling over the sink."
 hint: "Look for what happened because the water overflowed."
@@ -526,16 +547,26 @@ misconception: "Mistaking a nearby event for the word meaning."
 
 ```question
 key: "u01_l05_q06_explain_cause_effect"
-type: "constructed-response"
-prompt: "Read: \"The ice cream melted in the sun, so it became runny.\" Explain what runny means and what caused it."
-minWords: 8
-sampleAnswer: "Runny means thin and liquid. The sun caused the ice cream to melt."
-checklist:
-  - "Tell what runny means"
-  - "Name the cause"
+type: "multi-blank-cloze"
+prompt: "Complete the cause/effect explanation for \"The ice cream melted in the sun, so it became runny.\""
+parts:
+  - "Runny means "
+  - ". The cause was "
+  - "."
+blanks:
+  - correctAnswer: "thin and liquid"
+    choices:
+      - "thin and liquid"
+      - "frozen solid"
+      - "full of crumbs"
+  - correctAnswer: "the ice cream melted in the sun"
+    choices:
+      - "the ice cream melted in the sun"
+      - "the ice cream was in a bowl"
+      - "the sentence used so"
 explanation: "The cause, melting in the sun, helps explain the effect, runny ice cream."
-hint: "Use cause and effect: because ___, the ice cream became ___."
-questionGoal: "Explain a vocabulary meaning using cause/effect evidence."
+hint: "Choose what runny means, then choose what caused it."
+questionGoal: "Complete a vocabulary explanation using cause/effect evidence."
 misconception: "Naming only the cause without explaining the word."
 ```
 
@@ -636,16 +667,17 @@ misconception: "Confusing different text-feature words."
 
 ```question
 key: "u02_l01_q06_glossary_explanation"
-type: "constructed-response"
-prompt: "A glossary says, \"scarce: hard to find or not enough.\" Write a sentence that shows scarce."
-minWords: 6
-sampleAnswer: "Water was scarce during the long dry summer."
-checklist:
-  - "Use scarce"
-  - "Show that something is hard to find or not enough"
-explanation: "A good sentence uses the glossary meaning clearly."
-hint: "Think of something people need but do not have much of."
-questionGoal: "Use a glossary definition in a short original sentence."
+type: "multiple-choice"
+prompt: "A glossary says, \"scarce: hard to find or not enough.\" Which sentence shows scarce?"
+choices:
+  - "Only two pencils were left for the whole class."
+  - "The shelf was full of pencils."
+  - "The pencils were yellow."
+  - "The class sharpened pencils after lunch."
+correctAnswer: "Only two pencils were left for the whole class."
+explanation: "Only two pencils for the whole class shows there are not enough pencils."
+hint: "Look for a sentence that shows something is hard to find or not enough."
+questionGoal: "Use a glossary definition to choose a sentence that shows the meaning."
 misconception: "Including the word without showing its meaning."
 ```
 
@@ -738,8 +770,8 @@ blanks:
   - correctAnswer: "threw the ball"
     choices:
       - "threw the ball"
-      - "The pitcher"
-      - "means"
+      - "a water container"
+      - "the word pitcher"
 explanation: "The clue threw the ball shows pitcher means a player, not a container."
 hint: "Choose the meaning and the clue that proves it."
 questionGoal: "Connect a fitting definition to its sentence clue."
@@ -748,16 +780,17 @@ misconception: "Selecting a definition without evidence."
 
 ```question
 key: "u02_l02_q06_explain_not_fit"
-type: "constructed-response"
-prompt: "In \"The bat flew out of the cave,\" explain why bat does not mean a stick used in baseball."
-minWords: 8
-sampleAnswer: "It does not mean a baseball stick because the bat flew out of a cave."
-checklist:
-  - "Say the baseball meaning does not fit"
-  - "Use the cave or flew clue"
+type: "multiple-choice"
+prompt: "Read: \"The bat flew out of the cave.\" Why does bat not mean a stick used in baseball?"
+choices:
+  - "A baseball bat cannot fly out of a cave, but an animal can."
+  - "A baseball bat is always found in caves."
+  - "The word bat has only one meaning."
+  - "The sentence gives no clue."
+correctAnswer: "A baseball bat cannot fly out of a cave, but an animal can."
 explanation: "A baseball bat cannot fly out of a cave, so the animal meaning fits."
 hint: "Ask which kind of bat can fly."
-questionGoal: "Explain why a tempting definition should be rejected."
+questionGoal: "Choose the reason a tempting definition should be rejected."
 misconception: "Keeping a familiar definition even when context contradicts it."
 ```
 
@@ -853,16 +886,26 @@ misconception: "Selecting the definition or example when asked for syllables."
 
 ```question
 key: "u02_l03_q06_explain_entry_parts"
-type: "constructed-response"
-prompt: "A word entry shows \"fam-ish\" and \"very hungry.\" Which part helps you say the word, and which part tells the meaning?"
-minWords: 8
-sampleAnswer: "Fam-ish helps me say the word. Very hungry tells the meaning."
-checklist:
-  - "Name the saying/reading support"
-  - "Name the meaning support"
+type: "multi-blank-cloze"
+prompt: "A word entry shows \"fam-ish\" and \"very hungry.\" Complete the explanation."
+parts:
+  - "\"Fam-ish\" helps you "
+  - ". \"Very hungry\" tells the "
+  - "."
+blanks:
+  - correctAnswer: "say the word"
+    choices:
+      - "say the word"
+      - "find the word in a story"
+      - "choose a synonym"
+  - correctAnswer: "meaning"
+    choices:
+      - "meaning"
+      - "number of letters"
+      - "page title"
 explanation: "Syllable breaks help with reading the word, and the definition tells meaning."
 hint: "One part splits the word; the other explains it."
-questionGoal: "Explain the different jobs of syllable and definition supports."
+questionGoal: "Distinguish the jobs of syllable and definition supports."
 misconception: "Blending entry parts into one job."
 ```
 
@@ -892,7 +935,7 @@ choices:
   - "Check a glossary or dictionary"
   - "Pretend mineral means scientist"
   - "Skip the whole sentence"
-  - "Choose the shortest meaning"
+  - "Use studied as the definition"
 correctAnswer: "Check a glossary or dictionary"
 explanation: "The sentence gives only a topic, not a clear meaning, so a reference check would help."
 hint: "Does the sentence explain the word, or only show where it appears?"
@@ -960,16 +1003,17 @@ misconception: "Using the same strategy for every unknown word."
 
 ```question
 key: "u02_l04_q06_decision_explanation"
-type: "constructed-response"
-prompt: "Read: \"The animal was enormous, or very large.\" Should you check a dictionary before making a meaning guess? Explain why or why not."
-minWords: 8
-sampleAnswer: "No. The sentence already explains that enormous means very large."
-checklist:
-  - "Answer yes or no"
-  - "Use the context clue in your reason"
+type: "multiple-choice"
+prompt: "Read: \"The animal was enormous, or very large.\" Should you check a dictionary before making a meaning guess?"
+choices:
+  - "No, because the sentence already explains enormous as very large."
+  - "Yes, because the sentence gives no clue about enormous."
+  - "Yes, because every unknown word must be checked first."
+  - "No, because enormous means very small."
+correctAnswer: "No, because the sentence already explains enormous as very large."
 explanation: "A reference can help, but this sentence already gives a clear restatement clue."
 hint: "Look after the word or."
-questionGoal: "Justify when context is enough for an initial meaning."
+questionGoal: "Choose a justified decision about when context is enough."
 misconception: "Believing reference use must always come before context."
 ```
 
@@ -1049,7 +1093,7 @@ misconception: "Treating a member as if it names the entire category."
 ```question
 key: "u03_l01_q05_sort_context"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the sort and answer."
 passageTitle: "Museum Sort"
 passage: "The class sorted fossils, shells, and stones into one tray. They put brushes, rulers, and magnifiers into another tray."
 question: "Which category best fits brushes, rulers, and magnifiers?"
@@ -1067,16 +1111,17 @@ misconception: "Using the first tray's category for all items."
 
 ```question
 key: "u03_l01_q06_explain_category"
-type: "constructed-response"
-prompt: "Explain why violin, drum, and flute belong in the same category."
-minWords: 7
-sampleAnswer: "They belong together because they are all musical instruments."
-checklist:
-  - "Name the category"
-  - "Explain the shared meaning"
+type: "multiple-choice"
+prompt: "Which explanation best tells why violin, drum, and flute belong in the same category?"
+choices:
+  - "They are all musical instruments."
+  - "They all begin with the same letter."
+  - "They are all kinds of weather."
+  - "They all have the same number of letters."
+correctAnswer: "They are all musical instruments."
 explanation: "A good category explanation names the group and what the words share."
 hint: "Use the frame: They are all ___."
-questionGoal: "Explain category membership using shared meaning."
+questionGoal: "Choose a category explanation based on shared meaning."
 misconception: "Naming a loose topic without explaining the shared category."
 ```
 
@@ -1154,7 +1199,7 @@ misconception: "Treating all words for speaking as interchangeable."
 ```question
 key: "u03_l02_q05_synonym_passage"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the context and choose a synonym."
 passageTitle: "New Bike"
 passage: "Omar was thrilled when he saw the new bike. He jumped up and smiled."
 question: "Which word is closest in meaning to thrilled?"
@@ -1172,16 +1217,17 @@ misconception: "Choosing an emotion word that does not fit the actions."
 
 ```question
 key: "u03_l02_q06_synonym_explain"
-type: "constructed-response"
-prompt: "In \"The calm lake had no waves,\" explain why still is a good synonym for calm."
-minWords: 7
-sampleAnswer: "Still is a good synonym because the lake had no waves."
-checklist:
-  - "Use the word still"
-  - "Name the clue no waves"
+type: "multiple-choice"
+prompt: "Read: \"The calm lake had no waves.\" Why is still a good synonym for calm?"
+choices:
+  - "Still fits because the lake had no waves."
+  - "Still fits because the lake was loud."
+  - "Still means the opposite of calm."
+  - "Still tells what color the lake was."
+correctAnswer: "Still fits because the lake had no waves."
 explanation: "Still and calm both fit a lake with no waves."
 hint: "Use the clue after the word lake."
-questionGoal: "Explain why a synonym fits a sentence."
+questionGoal: "Choose an explanation for why a synonym fits a sentence."
 misconception: "Naming a synonym without checking context."
 ```
 
@@ -1259,7 +1305,7 @@ misconception: "Thinking any different word counts as an antonym."
 ```question
 key: "u03_l03_q05_antonym_context"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the passage and find the antonym."
 passageTitle: "The Gate"
 passage: "At sunrise, the park gate was locked. By noon, the worker had opened it for visitors."
 question: "Which word from the passage is an antonym for locked?"
@@ -1277,16 +1323,26 @@ misconception: "Choosing a nearby noun instead of the contrasting word."
 
 ```question
 key: "u03_l03_q06_contrast_explain"
-type: "constructed-response"
-prompt: "Explain the contrast in this sentence: \"The kitten was timid, but the puppy was bold.\""
-minWords: 8
-sampleAnswer: "Timid means shy or nervous, and bold means brave or confident."
-checklist:
-  - "Explain timid"
-  - "Explain how bold contrasts"
+type: "multi-blank-cloze"
+prompt: "Complete the contrast explanation for \"The kitten was timid, but the puppy was bold.\""
+parts:
+  - "Timid means "
+  - ", while bold means "
+  - "."
+blanks:
+  - correctAnswer: "shy or nervous"
+    choices:
+      - "shy or nervous"
+      - "loud and playful"
+      - "hungry"
+  - correctAnswer: "brave or confident"
+    choices:
+      - "brave or confident"
+      - "asleep"
+      - "very small"
 explanation: "The word but shows that timid and bold describe opposite behaviors."
 hint: "Use the word but to compare the two animals."
-questionGoal: "Explain a contrast relationship in context."
+questionGoal: "Complete a contrast relationship in context."
 misconception: "Defining only one word without explaining the contrast."
 ```
 
@@ -1366,7 +1422,7 @@ misconception: "Choosing a descriptive word that does not name the feeling."
 ```question
 key: "u03_l04_q05_shades_passage"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the passage and answer about word strength."
 passageTitle: "In The Library"
 passage: "The sign said, \"Please speak quietly.\" Jada needed to ask a question, so she whispered to the librarian."
 question: "Why is whispered a better word than shouted?"
@@ -1384,16 +1440,17 @@ misconception: "Ignoring setting and intensity clues."
 
 ```question
 key: "u03_l04_q06_explain_intensity"
-type: "constructed-response"
-prompt: "Explain the difference between hungry and starving."
-minWords: 7
-sampleAnswer: "Starving is stronger than hungry. It means very hungry."
-checklist:
-  - "Compare the two words"
-  - "Say which one is stronger"
+type: "multiple-choice"
+prompt: "Which explanation best compares hungry and starving?"
+choices:
+  - "Starving is stronger than hungry; it means very hungry."
+  - "Hungry and starving mean exact opposites."
+  - "Hungry is stronger than starving."
+  - "Starving tells how fast someone walks."
+correctAnswer: "Starving is stronger than hungry; it means very hungry."
 explanation: "Hungry and starving are related, but starving is more intense."
 hint: "Use the word stronger in your explanation."
-questionGoal: "Describe a shade-of-meaning difference."
+questionGoal: "Identify a shade-of-meaning difference."
 misconception: "Saying related words have exactly the same meaning."
 ```
 
@@ -1470,7 +1527,7 @@ misconception: "Matching by general topic instead of exact action."
 ```question
 key: "u03_l05_q05_revise_context"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the race sentence and choose a precise verb."
 passageTitle: "The Race"
 passage: "When the whistle blew, Ana moved very fast toward the finish line."
 question: "Which word could replace moved very fast?"
@@ -1488,16 +1545,19 @@ misconception: "Choosing a verb unrelated to the sentence action."
 
 ```question
 key: "u03_l05_q06_original_revision"
-type: "constructed-response"
-prompt: "Revise this sentence by replacing nice with a more precise word: \"The nice blanket kept me warm.\""
-minWords: 6
-sampleAnswer: "The cozy blanket kept me warm."
-checklist:
-  - "Replace nice"
-  - "Keep the sentence meaning clear"
+type: "fill-blank"
+prompt: "Replace nice with a more precise word."
+sentenceBefore: "The"
+sentenceAfter: "blanket kept me warm."
+choices:
+  - "cozy"
+  - "noisy"
+  - "sharp"
+  - "empty"
+correctAnswer: "cozy"
 explanation: "Cozy is more precise because it connects to warmth and comfort."
 hint: "Choose a word that tells why the blanket is nice."
-questionGoal: "Produce a short sentence revision with a precise word."
+questionGoal: "Choose a precise word that improves a vague sentence."
 misconception: "Using a fancy word that does not fit the sentence."
 ```
 
@@ -1561,7 +1621,7 @@ misconception: "Ignoring the base word when explaining meaning."
 ```question
 key: "u04_l01_q04_context_base"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the passage and use the base word."
 passageTitle: "Garden Helper"
 passage: "Maya was a gardener. She planted seeds, pulled weeds, and watered the flowers."
 question: "How does the base word garden help you understand gardener?"
@@ -1595,16 +1655,26 @@ misconception: "Splitting every familiar-looking word into word parts."
 
 ```question
 key: "u04_l01_q06_base_explanation"
-type: "constructed-response"
-prompt: "Explain how the base word read helps you understand reader."
-minWords: 7
-sampleAnswer: "A reader is a person who reads, so read helps explain reader."
-checklist:
-  - "Name the base word read"
-  - "Explain the meaning of reader"
+type: "multi-blank-cloze"
+prompt: "Complete the base-word explanation."
+parts:
+  - "A reader is a person who "
+  - ". The base word is "
+  - "."
+blanks:
+  - correctAnswer: "reads"
+    choices:
+      - "reads"
+      - "paints"
+      - "runs"
+  - correctAnswer: "read"
+    choices:
+      - "read"
+      - "-er"
+      - "reader"
 explanation: "The base word gives the main meaning, and -er can name a person who does the action."
 hint: "Use the frame: A reader is someone who ___."
-questionGoal: "Explain base-word meaning in a derived word."
+questionGoal: "Complete a base-word meaning explanation."
 misconception: "Giving an example without connecting it to the base word."
 ```
 
@@ -1666,7 +1736,7 @@ misconception: "Choosing a prefix by sound instead of meaning."
 ```question
 key: "u04_l02_q04_prefix_context"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the passage and use the prefix."
 passageTitle: "Before The Show"
 passage: "The class got a preview of the play before opening night. They watched one short scene."
 question: "What does preview mean?"
@@ -1700,16 +1770,17 @@ misconception: "Confusing mis- with missing or not doing something."
 
 ```question
 key: "u04_l02_q06_prefix_explain"
-type: "constructed-response"
-prompt: "Explain what unpack means in the sentence \"We unpacked the suitcase after the trip.\""
-minWords: 8
-sampleAnswer: "Unpack means to take things out of a pack or suitcase."
-checklist:
-  - "Explain the meaning"
-  - "Use the base word pack or the context suitcase"
+type: "multiple-choice"
+prompt: "Read: \"We unpacked the suitcase after the trip.\" What does unpacked mean?"
+choices:
+  - "took things out of the suitcase"
+  - "packed the suitcase again"
+  - "looked at the suitcase before the trip"
+  - "spelled suitcase wrongly"
+correctAnswer: "took things out of the suitcase"
 explanation: "The prefix un- can show reversing an action, and the suitcase clue helps."
 hint: "Ask what you do after a trip with a suitcase."
-questionGoal: "Explain a prefix meaning with context support."
+questionGoal: "Use a prefix meaning with context support."
 misconception: "Assuming un- only means not in every word."
 ```
 
@@ -1787,7 +1858,7 @@ misconception: "Missing the meaning of comparison suffixes."
 ```question
 key: "u04_l03_q05_suffix_context"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the passage and use the suffix."
 passageTitle: "Careful Work"
 passage: "Lena carried the full glass carefully so she would not spill a drop."
 question: "What does carefully tell you?"
@@ -1805,16 +1876,26 @@ misconception: "Treating the suffix as part of the object rather than the action
 
 ```question
 key: "u04_l03_q06_suffix_explain"
-type: "constructed-response"
-prompt: "Explain the difference between hopeful and hopeless."
-minWords: 8
-sampleAnswer: "Hopeful means full of hope. Hopeless means without hope."
-checklist:
-  - "Explain hopeful"
-  - "Explain hopeless"
+type: "multi-blank-cloze"
+prompt: "Complete the suffix explanation."
+parts:
+  - "Hopeful means "
+  - ". Hopeless means "
+  - "."
+blanks:
+  - correctAnswer: "full of hope"
+    choices:
+      - "full of hope"
+      - "without hope"
+      - "hope again"
+  - correctAnswer: "without hope"
+    choices:
+      - "without hope"
+      - "full of hope"
+      - "before hope"
 explanation: "-ful means full of, and -less means without."
 hint: "Use the suffixes -ful and -less."
-questionGoal: "Compare two suffix meanings on the same base word."
+questionGoal: "Distinguish two suffix meanings on the same base word."
 misconception: "Treating opposite suffixes as if they mean the same thing."
 ```
 
@@ -1876,7 +1957,7 @@ misconception: "Choosing a related word without checking how it works in the sen
 ```question
 key: "u04_l04_q04_word_family_passage"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the passage and use the word family."
 passageTitle: "Science Tools"
 passage: "The students inspected the leaf with a magnifier. They looked closely at its veins."
 question: "How does the root meaning look help explain inspected?"
@@ -1910,16 +1991,17 @@ misconception: "Assuming look-alike words must be related."
 
 ```question
 key: "u04_l04_q06_shared_meaning"
-type: "constructed-response"
-prompt: "Explain how paint, painter, and painting are related."
-minWords: 8
-sampleAnswer: "They all share paint and have meanings connected to making art with paint."
-checklist:
-  - "Name the shared base"
-  - "Explain the shared meaning"
+type: "multiple-choice"
+prompt: "Which explanation best shows how paint, painter, and painting are related?"
+choices:
+  - "They all share paint and have meanings connected to using paint."
+  - "They all mean the exact same thing."
+  - "They are related only because they are long words."
+  - "They all mean a person who paints."
+correctAnswer: "They all share paint and have meanings connected to using paint."
 explanation: "Word-family members share a meaningful base or root."
 hint: "Use the frame: They all share ___, which means ___."
-questionGoal: "Explain shared meaning in a word family."
+questionGoal: "Choose the shared-meaning explanation in a word family."
 misconception: "Naming only spelling without meaning."
 ```
 
@@ -1928,15 +2010,15 @@ misconception: "Naming only spelling without meaning."
 ```question
 key: "u04_l05_q01_word_part_and_context"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the passage and check the word part."
 passageTitle: "A Second Try"
 passage: "The directions were confusing, so Eli reread them slowly."
 question: "Which evidence best shows reread means read again?"
 choices:
   - "re- means again and the sentence says the directions were confusing"
-  - "the word has five letters"
-  - "directions are always easy"
-  - "slowly means loudly"
+  - "re- means before and directions are a kind of book"
+  - "slowly means again"
+  - "confusing means the same as reread"
 correctAnswer: "re- means again and the sentence says the directions were confusing"
 explanation: "The prefix re- and the context both support read again."
 hint: "Use both the word part and the reason Eli read the directions."
@@ -1982,7 +2064,7 @@ choices:
   - "The sentence is about a page part, not corn"
   - "Corn is always a suffix"
   - "Corner means a person who grows corn"
-  - "The word has no letters"
+  - "Every word with corn is about food"
 correctAnswer: "The sentence is about a page part, not corn"
 explanation: "The context shows corner means a place where edges meet, not anything about corn."
 hint: "Ask whether the word-part guess fits the sentence."
@@ -2017,17 +2099,32 @@ misconception: "Using suffix meaning without confirming it in context."
 
 ```question
 key: "u04_l05_q06_word_part_check_response"
-type: "constructed-response"
-prompt: "Read: \"The teacher asked us to rewrite the messy sentence.\" Explain how the word part and context help you understand rewrite."
-minWords: 10
-sampleAnswer: "Re- means again, and the messy sentence clue shows rewrite means write again."
-checklist:
-  - "Mention re- means again"
-  - "Mention a context clue"
-  - "Explain rewrite"
+type: "multi-blank-cloze"
+prompt: "Complete the word-part and context check for \"The teacher asked us to rewrite the messy sentence.\""
+parts:
+  - "Rewrite means "
+  - " because re- means "
+  - " and the clue is "
+  - "."
+blanks:
+  - correctAnswer: "write again"
+    choices:
+      - "write again"
+      - "not write"
+      - "write before"
+  - correctAnswer: "again"
+    choices:
+      - "again"
+      - "wrongly"
+      - "without"
+  - correctAnswer: "the messy sentence"
+    choices:
+      - "the messy sentence"
+      - "the teacher"
+      - "asked us"
 explanation: "A strong word-part explanation checks the prefix meaning against the sentence."
 hint: "Use the frame: Re- means ___, and the clue ___ shows ___."
-questionGoal: "Produce a morphology explanation with context evidence."
+questionGoal: "Complete a morphology explanation with context evidence."
 misconception: "Giving only the prefix meaning without using the sentence."
 ```
 
@@ -2091,7 +2188,7 @@ misconception: "Choosing the noun meaning because it is familiar."
 ```question
 key: "u05_l01_q04_passage_meaning"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the passage and choose the fitting meaning."
 passageTitle: "At The Bank"
 passage: "We walked along the river bank and watched ducks swim near the muddy edge."
 question: "What does bank mean in this passage?"
@@ -2125,16 +2222,26 @@ misconception: "Choosing the familiar sports meaning automatically."
 
 ```question
 key: "u05_l01_q06_explain_meaning"
-type: "constructed-response"
-prompt: "In \"The class watched the leaves change in the fall,\" explain what fall means and what clue helped you."
-minWords: 8
-sampleAnswer: "Fall means autumn. The clue is leaves change."
-checklist:
-  - "Tell what fall means"
-  - "Name the clue"
+type: "multi-blank-cloze"
+prompt: "Complete the multiple-meaning explanation for \"The class watched the leaves change in the fall.\""
+parts:
+  - "Fall means "
+  - ". The clue is "
+  - "."
+blanks:
+  - correctAnswer: "autumn"
+    choices:
+      - "autumn"
+      - "drop down"
+      - "trip"
+  - correctAnswer: "leaves change"
+    choices:
+      - "leaves change"
+      - "the class watched"
+      - "fall has four letters"
 explanation: "Leaves changing is a clue that fall means the season."
 hint: "Fall can mean drop or a season. Which one fits leaves changing?"
-questionGoal: "Explain a multiple-meaning word choice with evidence."
+questionGoal: "Complete a multiple-meaning word explanation with evidence."
 misconception: "Giving a definition without connecting it to the sentence."
 ```
 
@@ -2210,7 +2317,7 @@ misconception: "Treating all uses of right as direction."
 ```question
 key: "u05_l02_q05_passage_homophone"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the passage and choose the homophone."
 passageTitle: "Baking Day"
 passage: "Nora measured two cups of flour before mixing the dough. She saved the flower from the garden in a vase."
 question: "Which word names the baking ingredient?"
@@ -2228,16 +2335,19 @@ misconception: "Relying on sound instead of meaning and spelling."
 
 ```question
 key: "u05_l02_q06_homophone_explain"
-type: "constructed-response"
-prompt: "Explain which word fits: \"We waited over (there/their) by the door.\""
-minWords: 8
-sampleAnswer: "There fits because the sentence means a place by the door."
-checklist:
-  - "Choose there or their"
-  - "Explain the meaning clue"
+type: "fill-blank"
+prompt: "Choose the homophone that fits the place clue."
+sentenceBefore: "We waited over"
+sentenceAfter: "by the door."
+choices:
+  - "there"
+  - "their"
+  - "they're"
+  - "hear"
+correctAnswer: "there"
 explanation: "There names a place, and by the door is a place clue."
 hint: "Ask whether the sentence shows place or belonging."
-questionGoal: "Explain a homophone choice with context evidence."
+questionGoal: "Choose a homophone using context evidence."
 misconception: "Choosing the spelling by memory without using the sentence."
 ```
 
@@ -2315,7 +2425,7 @@ misconception: "Assuming wind always means moving air."
 ```question
 key: "u05_l03_q05_homograph_passage"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the passage and choose the homograph meaning."
 passageTitle: "A Small Tear"
 passage: "A tear in the paper grew longer when I pulled the page from my notebook."
 question: "What does tear mean in this passage?"
@@ -2333,16 +2443,26 @@ misconception: "Choosing the familiar crying-related meaning."
 
 ```question
 key: "u05_l03_q06_homograph_explain"
-type: "constructed-response"
-prompt: "In \"The dove dove behind the bush,\" the two words are spelled the same. Explain how context helps."
-minWords: 9
-sampleAnswer: "The first dove is a bird. The second dove means moved downward quickly."
-checklist:
-  - "Explain the first dove"
-  - "Explain the second dove"
+type: "multi-blank-cloze"
+prompt: "Complete the homograph explanation for \"The dove dove behind the bush.\""
+parts:
+  - "The first dove is "
+  - ". The second dove means "
+  - "."
+blanks:
+  - correctAnswer: "a bird"
+    choices:
+      - "a bird"
+      - "a bush"
+      - "a sound"
+  - correctAnswer: "moved downward quickly"
+    choices:
+      - "moved downward quickly"
+      - "sang loudly"
+      - "stood still"
 explanation: "Context shows the first word names an animal and the second word names an action."
 hint: "Ask which word is the animal and which word tells what it did."
-questionGoal: "Explain two same-spelled words with different meanings in context."
+questionGoal: "Complete an explanation of two same-spelled words with different meanings."
 misconception: "Assuming same spelling means same meaning."
 ```
 
@@ -2403,8 +2523,8 @@ blanks:
   - correctAnswer: "hung upside down"
     choices:
       - "hung upside down"
-      - "The bat"
-      - "means"
+      - "a baseball game"
+      - "a kind of hat"
 explanation: "The clue hung upside down fits the animal meaning."
 hint: "Choose the meaning and the clue that supports it."
 questionGoal: "Connect definition choice to context evidence."
@@ -2445,16 +2565,17 @@ misconception: "Choosing the first or action meaning without context fit."
 
 ```question
 key: "u05_l04_q06_verify_explanation"
-type: "constructed-response"
-prompt: "Read: \"The judge was fair to both teams.\" An entry says fair can mean \"light-colored,\" \"a festival,\" or \"treating people equally.\" Which meaning fits, and why?"
-minWords: 10
-sampleAnswer: "Treating people equally fits because the judge was fair to both teams."
-checklist:
-  - "Choose the fitting meaning"
-  - "Use the sentence clue"
+type: "multiple-choice"
+prompt: "Read: \"The judge was fair to both teams.\" An entry says fair can mean \"light-colored,\" \"a festival,\" or \"treating people equally.\" Which explanation is best?"
+choices:
+  - "\"Treating people equally\" fits because the judge was fair to both teams."
+  - "\"Light-colored\" fits because teams are always pale."
+  - "\"A festival\" fits because the sentence is about a judge."
+  - "All three meanings fit equally well."
+correctAnswer: "\"Treating people equally\" fits because the judge was fair to both teams."
 explanation: "The clue both teams shows fair means treating people equally."
 hint: "Think about what a judge should do for two teams."
-questionGoal: "Use context and entry definitions to verify a meaning."
+questionGoal: "Choose a context-and-entry explanation that verifies a meaning."
 misconception: "Choosing a familiar meaning of fair without sentence evidence."
 ```
 
@@ -2534,7 +2655,7 @@ misconception: "Over-labeling ordinary sentences as figurative."
 ```question
 key: "u06_l01_q05_context_nonliteral"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the context and choose the nonliteral meaning."
 passageTitle: "Big News"
 passage: "When Leo heard he was moving, his heart sank. He would miss his friends."
 question: "What does his heart sank mean?"
@@ -2552,16 +2673,17 @@ misconception: "Choosing the literal body-action meaning."
 
 ```question
 key: "u06_l01_q06_literal_explain"
-type: "constructed-response"
-prompt: "Explain why \"The stars winked in the dark sky\" is nonliteral."
-minWords: 8
-sampleAnswer: "Stars do not really wink. It means they seemed to blink or shine."
-checklist:
-  - "Say what is not literal"
-  - "Explain the likely meaning"
+type: "multiple-choice"
+prompt: "Why is \"The stars winked in the dark sky\" nonliteral?"
+choices:
+  - "Stars do not really wink; the words mean they seemed to blink or shine."
+  - "Stars really have eyes and can wink."
+  - "The sentence has no meaning."
+  - "The words only tell the time of day."
+correctAnswer: "Stars do not really wink; the words mean they seemed to blink or shine."
 explanation: "Nonliteral language can describe how something seems, not exactly what it does."
 hint: "Ask whether stars have eyes."
-questionGoal: "Explain why a phrase is nonliteral."
+questionGoal: "Choose an explanation for why a phrase is nonliteral."
 misconception: "Calling nonliteral language meaningless."
 ```
 
@@ -2621,7 +2743,7 @@ misconception: "Taking idioms literally."
 ```question
 key: "u06_l02_q04_idiom_context"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the dialogue and choose the idiom meaning."
 passageTitle: "The Surprise"
 passage: "Tara almost told Dad about the surprise party. \"Don't spill the beans!\" her brother whispered."
 question: "What does spill the beans mean?"
@@ -2657,16 +2779,17 @@ misconception: "Choosing an idiom by familiarity rather than fit."
 
 ```question
 key: "u06_l02_q06_idiom_explain"
-type: "constructed-response"
-prompt: "Explain what hit the books means in this sentence: \"After dinner, I hit the books to study for science.\""
-minWords: 8
-sampleAnswer: "Hit the books means to study. The science test clue helps."
-checklist:
-  - "Tell the idiom meaning"
-  - "Name a context clue"
+type: "multiple-choice"
+prompt: "Read: \"After dinner, I hit the books to study for science.\" What does hit the books mean?"
+choices:
+  - "study"
+  - "knock books off a shelf"
+  - "eat dinner"
+  - "play outside"
+correctAnswer: "study"
 explanation: "The phrase means study, and the science context confirms it."
 hint: "It does not mean really hitting books."
-questionGoal: "Explain an idiom meaning with context evidence."
+questionGoal: "Choose an idiom meaning using context evidence."
 misconception: "Giving only a literal interpretation."
 ```
 
@@ -2710,7 +2833,7 @@ misconception: "Solving sayings word by word."
 ```question
 key: "u06_l03_q03_situation_saying"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the situation and choose the saying."
 passageTitle: "Cleaning The Park"
 passage: "The park looked messy, but ten classmates picked up trash together. Soon the job was done."
 question: "Which saying best fits?"
@@ -2769,16 +2892,17 @@ misconception: "Focusing on one word without the full idea."
 
 ```question
 key: "u06_l03_q06_saying_explain"
-type: "constructed-response"
-prompt: "Explain what \"Look before you leap\" means in your own words."
-minWords: 7
-sampleAnswer: "It means think carefully before you act or make a choice."
-checklist:
-  - "Explain the advice"
-  - "Do not define only look or leap"
+type: "multiple-choice"
+prompt: "What does \"Look before you leap\" mean?"
+choices:
+  - "Think carefully before you act or make a choice."
+  - "Jump first and think later."
+  - "Only look at your feet."
+  - "Never make a choice."
+correctAnswer: "Think carefully before you act or make a choice."
 explanation: "The saying gives advice to think before acting."
 hint: "What should someone do before making a risky choice?"
-questionGoal: "Produce a simple explanation of a saying."
+questionGoal: "Choose a simple explanation of a saying."
 misconception: "Providing a literal word-by-word meaning."
 ```
 
@@ -2840,15 +2964,15 @@ misconception: "Choosing any vivid verb instead of a sound word."
 ```question
 key: "u06_l04_q04_image_context"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the description and choose the image words."
 passageTitle: "At Sunset"
-passage: "Orange clouds stretched across the sky. The lake shone like glass."
-question: "Which words help create an image?"
+passage: "Orange clouds stretched across the sky. The lake was quiet."
+question: "Which words help you picture the sky?"
 choices:
   - "Orange clouds stretched across the sky"
-  - "At Sunset"
-  - "Which words"
-  - "Read and answer"
+  - "The lake was quiet"
+  - "The title At Sunset"
+  - "The word lake"
 correctAnswer: "Orange clouds stretched across the sky"
 explanation: "Those words help the reader picture the scene."
 hint: "Choose the words that make a picture in your mind."
@@ -2874,16 +2998,17 @@ misconception: "Treating dialogue as decoration rather than meaning."
 
 ```question
 key: "u06_l04_q06_craft_explain"
-type: "constructed-response"
-prompt: "Explain what the simile means: \"The runner was as quick as lightning.\""
-minWords: 7
-sampleAnswer: "It means the runner was very fast, like lightning."
-checklist:
-  - "Tell what is being compared"
-  - "Explain the meaning"
+type: "multiple-choice"
+prompt: "What does the simile mean? \"The runner was as quick as lightning.\""
+choices:
+  - "The runner was very fast."
+  - "The runner was actually lightning."
+  - "The runner was standing still."
+  - "The runner was making thunder."
+correctAnswer: "The runner was very fast."
 explanation: "The simile compares the runner's speed to lightning to show very fast movement."
 hint: "Ask what lightning is like."
-questionGoal: "Explain the meaning of a simple simile."
+questionGoal: "Choose the meaning of a simple simile."
 misconception: "Saying the runner is actually lightning."
 ```
 
@@ -2947,7 +3072,7 @@ misconception: "Thinking summarize means copy everything."
 ```question
 key: "u07_l01_q04_direction_context"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the direction and choose the action."
 passageTitle: "Science Direction"
 passage: "Direction: Observe the bean plant each day and record what changes."
 question: "What does observe ask you to do?"
@@ -2981,16 +3106,19 @@ misconception: "Confusing compare and contrast."
 
 ```question
 key: "u07_l01_q06_academic_sentence"
-type: "constructed-response"
-prompt: "Use the word compare in a sentence about two foods."
-minWords: 7
-sampleAnswer: "I can compare apples and oranges by their color and taste."
-checklist:
-  - "Use compare"
-  - "Show that compare means tell how things are alike or different"
+type: "fill-blank"
+prompt: "Complete the sentence so compare is used correctly."
+sentenceBefore: "I can compare apples and oranges by telling how they are"
+sentenceAfter: "."
+choices:
+  - "alike or different"
+  - "spelled"
+  - "in a map"
+  - "before lunch"
+correctAnswer: "alike or different"
 explanation: "A clear sentence shows what the academic word asks someone to do."
 hint: "Compare two foods by size, taste, color, or shape."
-questionGoal: "Use an academic verb accurately in a short sentence."
+questionGoal: "Use an academic verb accurately in a sentence frame."
 misconception: "Using the word without showing its meaning."
 ```
 
@@ -3015,7 +3143,7 @@ misconception: "Thinking evidence is any nearby text."
 ```question
 key: "u07_l02_q02_inference_evidence"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the clues and choose the inference."
 passageTitle: "Rainy Morning"
 passage: "Jules grabbed an umbrella before walking outside. Dark clouds covered the sky."
 question: "Which inference is best supported?"
@@ -3093,16 +3221,17 @@ misconception: "Choosing any nearby detail as evidence."
 
 ```question
 key: "u07_l02_q06_inference_explain"
-type: "constructed-response"
-prompt: "Read: \"Mia zipped her coat and pulled on mittens before recess.\" What can you infer about the weather? Use evidence."
-minWords: 10
-sampleAnswer: "I infer it is cold because Mia zipped her coat and wore mittens."
-checklist:
-  - "Make an inference"
-  - "Use evidence from the sentence"
+type: "multiple-choice"
+prompt: "Read: \"Mia zipped her coat and pulled on mittens before recess.\" Which inference uses evidence?"
+choices:
+  - "It is cold because Mia zipped her coat and wore mittens."
+  - "It is hot because Mia went to recess."
+  - "Mia is hungry because she has mittens."
+  - "Mia dislikes school because she has a coat."
+correctAnswer: "It is cold because Mia zipped her coat and wore mittens."
 explanation: "The coat and mittens support the inference that the weather is cold."
 hint: "Use the frame: I infer ___ because ___."
-questionGoal: "Produce a short inference with evidence vocabulary."
+questionGoal: "Choose a short inference with evidence vocabulary."
 misconception: "Making an unsupported guess."
 ```
 
@@ -3164,7 +3293,7 @@ misconception: "Choosing the everyday furniture meaning."
 ```question
 key: "u07_l03_q04_feature_context"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the feature sentence and choose the meaning."
 passageTitle: "Plant Diagram"
 passage: "The diagram labeled the roots, stem, leaves, and flower of the plant."
 question: "What does diagram mean here?"
@@ -3198,16 +3327,17 @@ misconception: "Choosing familiar text-feature words without purpose."
 
 ```question
 key: "u07_l03_q06_feature_explain"
-type: "constructed-response"
-prompt: "Explain how a glossary can help you read a science page."
-minWords: 8
-sampleAnswer: "A glossary explains important science words so I can understand the page."
-checklist:
-  - "Mention important words"
-  - "Explain how the glossary helps"
+type: "multiple-choice"
+prompt: "How can a glossary help you read a science page?"
+choices:
+  - "It explains important science words."
+  - "It replaces every sentence in the page."
+  - "It tells you to skip hard words."
+  - "It only shows where places are."
+correctAnswer: "It explains important science words."
 explanation: "A glossary supports content reading by defining key words."
 hint: "Think about what you do when you find a hard science word."
-questionGoal: "Explain the purpose of a text feature."
+questionGoal: "Choose the purpose of a text feature."
 misconception: "Seeing a glossary as separate from reading."
 ```
 
@@ -3289,7 +3419,7 @@ misconception: "Ordering by sentence length instead of event order."
 ```question
 key: "u07_l04_q05_classify_context"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the science sentence and choose the relationship word meaning."
 passageTitle: "Rock Sort"
 passage: "The students classified rocks by color, size, and texture."
 question: "What does classified mean?"
@@ -3307,16 +3437,26 @@ misconception: "Treating classify as a reading or naming action only."
 
 ```question
 key: "u07_l04_q06_relationship_explain"
-type: "constructed-response"
-prompt: "Explain the cause and effect in this sentence: \"The lights went out because the storm knocked down a power line.\""
-minWords: 10
-sampleAnswer: "The storm knocked down a power line. The effect was that the lights went out."
-checklist:
-  - "Name the cause"
-  - "Name the effect"
+type: "multi-blank-cloze"
+prompt: "Complete the cause-and-effect explanation for \"The lights went out because the storm knocked down a power line.\""
+parts:
+  - "The cause was "
+  - ". The effect was "
+  - "."
+blanks:
+  - correctAnswer: "the storm knocked down a power line"
+    choices:
+      - "the storm knocked down a power line"
+      - "the lights went out"
+      - "the lights were bright"
+  - correctAnswer: "the lights went out"
+    choices:
+      - "the lights went out"
+      - "the storm came later"
+      - "the power line was new"
 explanation: "Because signals the cause, and the lights going out is the effect."
 hint: "Ask why the lights went out."
-questionGoal: "Use academic relationship words in a short explanation."
+questionGoal: "Complete a short explanation using academic relationship words."
 misconception: "Reversing cause and effect."
 ```
 
@@ -3376,7 +3516,7 @@ misconception: "Using only the everyday meaning of table."
 ```question
 key: "u07_l05_q04_subject_passage"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the science notebook and choose the meaning."
 passageTitle: "Science Notebook"
 passage: "We observed the mealworms for five minutes. Then we recorded that they moved away from the light."
 question: "What does observed mean in this science context?"
@@ -3419,16 +3559,26 @@ misconception: "Swapping related academic words."
 
 ```question
 key: "u07_l05_q06_cross_subject_sentence"
-type: "constructed-response"
-prompt: "Use the word evidence in a sentence about science or reading."
-minWords: 8
-sampleAnswer: "My evidence is the sentence that says the animal hides at night."
-checklist:
-  - "Use evidence"
-  - "Show that evidence means a clue or support"
+type: "multi-blank-cloze"
+prompt: "Complete the sentence so evidence has its academic meaning."
+parts:
+  - "My evidence is "
+  - " because it supports "
+  - "."
+blanks:
+  - correctAnswer: "the sentence that says the animal hides at night"
+    choices:
+      - "the sentence that says the animal hides at night"
+      - "the cover color"
+      - "a random page number"
+  - correctAnswer: "my answer"
+    choices:
+      - "my answer"
+      - "my backpack"
+      - "the lunch menu"
 explanation: "A clear sentence shows evidence as something that supports an idea."
 hint: "Use the frame: My evidence is ___."
-questionGoal: "Produce a sentence using a high-utility academic word."
+questionGoal: "Complete a sentence using a high-utility academic word."
 misconception: "Using the word without showing its academic meaning."
 ```
 
@@ -3490,7 +3640,7 @@ misconception: "Ignoring useful word parts."
 ```question
 key: "u08_l01_q04_strategy_passage"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the map context and choose a strategy."
 passageTitle: "A Map Word"
 passage: "The map key explained each symbol. A blue line meant river, and a star meant capital city."
 question: "Which strategy best helps you understand key?"
@@ -3528,16 +3678,17 @@ misconception: "Jumping directly to an answer."
 
 ```question
 key: "u08_l01_q06_strategy_explain"
-type: "constructed-response"
-prompt: "Read: \"The careless painter spilled blue paint on the floor.\" Which strategy helps with careless, and why?"
-minWords: 10
-sampleAnswer: "Word parts help because care is the base word and -less means without."
-checklist:
-  - "Name a strategy"
-  - "Explain why it fits careless"
+type: "multiple-choice"
+prompt: "Read: \"The careless painter spilled blue paint on the floor.\" Which strategy and reason fit careless?"
+choices:
+  - "Use word parts: care is the base word and -less means without."
+  - "Use an idiom: careless is a phrase that cannot be solved."
+  - "Use a homophone: careless sounds like another word."
+  - "Use a map: careless shows a place."
+correctAnswer: "Use word parts: care is the base word and -less means without."
 explanation: "Careless has a meaningful base and suffix, and the spilling clue confirms the meaning."
 hint: "Use the base word and suffix."
-questionGoal: "Justify strategy choice for a suffixed word."
+questionGoal: "Choose a justified strategy for a suffixed word."
 misconception: "Naming a strategy without explaining the evidence."
 ```
 
@@ -3554,7 +3705,7 @@ choices:
   - "mis- can mean wrongly, and search my backpack fits the entry"
   - "library card means the same as backpack"
   - "misplaced means read again"
-  - "the sentence has a comma"
+  - "search means the card was easy to find"
 correctAnswer: "mis- can mean wrongly, and search my backpack fits the entry"
 explanation: "The prefix, context, and entry all support the meaning."
 hint: "Use more than one clue."
@@ -3589,7 +3740,7 @@ choices:
   - "pre- means before, and the entry says before an event"
   - "view means a kind of animal"
   - "movie means dictionary"
-  - "opened means the word has no prefix"
+  - "opened means before"
 correctAnswer: "pre- means before, and the entry says before an event"
 explanation: "The prefix and entry agree, and the sentence context fits."
 hint: "Look for two pieces of evidence that say before."
@@ -3640,17 +3791,32 @@ misconception: "Overapplying prefix rules."
 
 ```question
 key: "u08_l02_q06_combined_response"
-type: "constructed-response"
-prompt: "Read: \"The joyful team cheered after the win.\" Explain how word parts and context help with joyful."
-minWords: 10
-sampleAnswer: "Joyful means full of joy. The suffix -ful and the clue cheered after the win help."
-checklist:
-  - "Explain -ful"
-  - "Use a context clue"
-  - "Tell what joyful means"
+type: "multi-blank-cloze"
+prompt: "Complete the combined-evidence explanation for \"The joyful team cheered after the win.\""
+parts:
+  - "Joyful means "
+  - ". The suffix -ful means "
+  - ", and the clue is "
+  - "."
+blanks:
+  - correctAnswer: "full of joy"
+    choices:
+      - "full of joy"
+      - "without joy"
+      - "joy again"
+  - correctAnswer: "full of"
+    choices:
+      - "full of"
+      - "not"
+      - "wrongly"
+  - correctAnswer: "cheered after the win"
+    choices:
+      - "cheered after the win"
+      - "the team wore uniforms"
+      - "the team stood in line"
 explanation: "The suffix -ful and the team's cheering both support the meaning."
 hint: "Use the frame: -ful means ___, and the clue ___ shows ___."
-questionGoal: "Produce a combined word-part and context explanation."
+questionGoal: "Complete a combined word-part and context explanation."
 misconception: "Using only the suffix or only the clue."
 ```
 
@@ -3703,8 +3869,8 @@ blanks:
   - correctAnswer: "but the first trail was smooth"
     choices:
       - "but the first trail was smooth"
-      - "trail is a noun"
-      - "the word has seven letters"
+      - "the first trail was short"
+      - "the trail had trees"
 explanation: "The contrast with smooth supports rugged as rough or uneven."
 hint: "Choose the clue that proves the meaning."
 questionGoal: "Complete a concise meaning-plus-evidence explanation."
@@ -3717,9 +3883,9 @@ type: "multiple-choice"
 prompt: "Which sentence gives useful evidence for the meaning of exhausted?"
 choices:
   - "After running three miles, Lina collapsed onto the bench."
-  - "Lina has five letters in her name."
-  - "The bench was brown."
-  - "The word exhausted is in the sentence."
+  - "Lina wore a red shirt."
+  - "The bench was beside a tree."
+  - "Lina started at noon."
 correctAnswer: "After running three miles, Lina collapsed onto the bench."
 explanation: "Running three miles and collapsing are clues that exhausted means very tired."
 hint: "Evidence should help explain the word."
@@ -3748,16 +3914,26 @@ misconception: "Pairing by shared topic rather than proof."
 
 ```question
 key: "u08_l03_q06_evidence_response"
-type: "constructed-response"
-prompt: "Read: \"The ancient pot was buried for hundreds of years.\" Explain what ancient means and what evidence supports it."
-minWords: 10
-sampleAnswer: "Ancient means very old. The evidence is buried for hundreds of years."
-checklist:
-  - "Tell what ancient means"
-  - "Name the evidence"
+type: "multi-blank-cloze"
+prompt: "Complete the evidence explanation for \"The ancient pot was buried for hundreds of years.\""
+parts:
+  - "Ancient means "
+  - ". The evidence is "
+  - "."
+blanks:
+  - correctAnswer: "very old"
+    choices:
+      - "very old"
+      - "brand new"
+      - "easy to carry"
+  - correctAnswer: "buried for hundreds of years"
+    choices:
+      - "buried for hundreds of years"
+      - "the pot was made of clay"
+      - "the pot was found outside"
 explanation: "A complete explanation connects very old to the clue hundreds of years."
 hint: "Use the frame: Ancient means ___. My evidence is ___."
-questionGoal: "Produce an evidence-based vocabulary explanation."
+questionGoal: "Complete an evidence-based vocabulary explanation."
 misconception: "Giving an answer without supporting evidence."
 ```
 
@@ -3766,7 +3942,7 @@ misconception: "Giving an answer without supporting evidence."
 ```question
 key: "u08_l04_q01_mixed_context"
 type: "passage-question"
-prompt: "Read and answer."
+prompt: "Read the garden note and infer the meaning."
 passageTitle: "Garden Notes"
 passage: "The seedlings were fragile, so we carried them gently to the garden bed."
 question: "What does fragile most likely mean?"
@@ -3851,15 +4027,18 @@ misconception: "Using a vague word when a more precise word is requested."
 
 ```question
 key: "u08_l04_q06_final_transfer_response"
-type: "constructed-response"
-prompt: "Use the word cautious in a sentence that shows its meaning."
-minWords: 8
-sampleAnswer: "The cautious hiker stepped slowly across the slippery rocks."
-checklist:
-  - "Use cautious"
-  - "Show that cautious means careful"
+type: "fill-blank"
+prompt: "Choose the word that fits the sentence and shows careful action."
+sentenceBefore: "The"
+sentenceAfter: "hiker stepped slowly across the slippery rocks."
+choices:
+  - "cautious"
+  - "careless"
+  - "joyful"
+  - "ancient"
+correctAnswer: "cautious"
 explanation: "A strong sentence makes the word's meaning clear from context."
 hint: "Think of a person being careful to avoid danger."
-questionGoal: "Demonstrate expressive vocabulary transfer in an original sentence."
+questionGoal: "Use context to choose a precise vocabulary word in cumulative transfer."
 misconception: "Including a target word without a context that shows meaning."
 ```
