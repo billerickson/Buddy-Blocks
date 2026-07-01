@@ -100,16 +100,17 @@ misconception: "Thinking persuasion means getting your way at any cost."
 
 ```question
 key: u01_l01_q06_why_rhetoric_useful
-type: constructed-response
-prompt: "In one sentence, explain why clear communication can be useful."
-minWords: 6
-sampleAnswer: "Clear communication helps people understand what to do and why."
-checklist:
-  - "Name a way communication helps"
-  - "Use a complete thought"
-explanation: "A strong answer connects communication to a purpose, such as helping, explaining, or asking."
-hint: "Think about a time words helped someone understand or act."
-questionGoal: "Produce a simple explanation of why purposeful communication matters."
+type: multiple-choice
+prompt: "Why can clear communication be useful?"
+choices:
+  - "It helps people understand what to do or why something matters."
+  - "It always uses the longest words."
+  - "It makes the speaker louder than everyone else."
+  - "It hides the purpose from the audience."
+correctAnswer: "It helps people understand what to do or why something matters."
+explanation: "Clear communication is useful because it helps an audience understand a purpose, idea, request, or action."
+hint: "Choose the answer that connects communication to helping the audience."
+questionGoal: "Choose a simple explanation of why purposeful communication matters."
 misconception: "Seeing rhetoric as a label to memorize rather than a useful habit."
 ```
 
@@ -125,7 +126,7 @@ choices:
   - "Mrs. Lee"
   - "the class"
   - "the library"
-  - "a book"
+  - "the librarian"
 correctAnswer: "Mrs. Lee"
 explanation: "Mrs. Lee wrote the note, so she is the speaker or writer."
 hint: "Look for who is sending the message."
@@ -140,8 +141,8 @@ prompt: "Read the note: 'Class, please line up quietly for the library. - Mrs. L
 choices:
   - "the class"
   - "Mrs. Lee"
-  - "the pencil box"
-  - "the hallway floor"
+  - "library visitors"
+  - "families at home"
 correctAnswer: "the class"
 explanation: "The note begins with 'Class,' so the class is the audience."
 hint: "Ask who the message is meant for."
@@ -216,16 +217,17 @@ misconception: "Reversing communication roles."
 
 ```question
 key: u01_l02_q06_name_speaker_audience
-type: constructed-response
-prompt: "For this message, name the speaker and audience: 'Team, please clean the art table before recess. - Coach Ray'"
-minWords: 6
-sampleAnswer: "Coach Ray is the speaker, and the team is the audience."
-checklist:
-  - "Name the speaker or writer"
-  - "Name the audience"
-explanation: "Coach Ray sends the message to the team."
-hint: "Look before and after the message for names or group words."
-questionGoal: "Produce a short speaker-audience identification."
+type: multiple-choice
+prompt: "For this message, which choice names the speaker and audience? 'Team, please clean the art table before recess. - Coach Ray'"
+choices:
+  - "Speaker: Coach Ray. Audience: the team."
+  - "Speaker: the team. Audience: Coach Ray."
+  - "Speaker: the art table. Audience: recess."
+  - "Speaker: Coach Ray. Audience: every family at home."
+correctAnswer: "Speaker: Coach Ray. Audience: the team."
+explanation: "Coach Ray sends the message, and the word 'Team' shows who should receive it."
+hint: "Find who sends the message and who is being asked to act."
+questionGoal: "Identify speaker and audience in a short message."
 misconception: "Listing only one communication role."
 ```
 
@@ -264,8 +266,8 @@ question: "Which choice correctly names the message and purpose?"
 choices:
   - "Message: the floor is wet. Purpose: warn people to be careful."
   - "Message: walking is fun. Purpose: entertain people."
-  - "Message: the hallway is long. Purpose: tell a story."
-  - "Message: shoes are new. Purpose: sell shoes."
+  - "Message: people should run. Purpose: make the hallway exciting."
+  - "Message: the floor is shiny. Purpose: describe the building."
 correctAnswer: "Message: the floor is wet. Purpose: warn people to be careful."
 explanation: "The sign says the floor is wet and tries to help people avoid slipping."
 hint: "The message is what it says. The purpose is why it says it."
@@ -338,16 +340,21 @@ misconception: "Choosing an effect unrelated to the message."
 
 ```question
 key: u01_l03_q06_explain_message_purpose
-type: constructed-response
-prompt: "A note says, 'Please bring your library book tomorrow so we can return books on time.' Write the message and purpose."
-minWords: 8
-sampleAnswer: "The message is to bring the book tomorrow. The purpose is to help return books on time."
-checklist:
-  - "State what the note says to do"
-  - "State why the note was sent"
-explanation: "The message is the request. The purpose is the reason the request matters."
-hint: "Use two parts: 'The message is...' and 'The purpose is...'"
-questionGoal: "Produce a short distinction between message and purpose."
+type: passage-question
+prompt: "Read the note and answer."
+passageTitle: "Library Book Note"
+passage: |
+  Please bring your library book tomorrow so we can return books on time.
+question: "Which choice correctly names the message and purpose?"
+choices:
+  - "Message: bring the library book tomorrow. Purpose: return books on time."
+  - "Message: books are heavy. Purpose: describe the backpack."
+  - "Message: tomorrow is a day. Purpose: tell a story about the library."
+  - "Message: return books late. Purpose: make the class wait."
+correctAnswer: "Message: bring the library book tomorrow. Purpose: return books on time."
+explanation: "The message is the request to bring the book. The purpose is the reason: returning books on time."
+hint: "Separate what the note asks from why it asks."
+questionGoal: "Distinguish message from purpose in a short note."
 misconception: "Giving only the request and not the purpose."
 ```
 
@@ -362,7 +369,7 @@ prompt: "You need to ask a teacher for help. Which sentence best fits the audien
 choices:
   - "Could you please help me understand this direction?"
   - "Hey, fix this now."
-  - "I like sandwiches on Tuesdays."
+  - "This direction is confusing."
   - "Help?"
 correctAnswer: "Could you please help me understand this direction?"
 explanation: "The sentence is respectful, clear, and fits the purpose of asking for help."
@@ -384,7 +391,7 @@ choices:
   - "May I use it when you are finished?"
   - "Give it to me this second."
   - "I like that marker best."
-  - "You always get everything."
+  - "I wanted that color first."
 correctAnswer: "May I use it when you are finished?"
 explanation: "Nina's line is respectful and fits the purpose of asking for a turn."
 hint: "Choose the line that respects the listener and still asks clearly."
@@ -450,17 +457,17 @@ misconception: "Ignoring either audience or purpose when choosing words."
 
 ```question
 key: u01_l04_q06_write_audience_fit
-type: constructed-response
-prompt: "Write one respectful sentence asking a classmate to lower their voice during reading time."
-minWords: 6
-sampleAnswer: "Could you please use a quieter voice while we read?"
-checklist:
-  - "Ask respectfully"
-  - "Name the action needed"
-  - "Fit the reading-time situation"
-explanation: "A strong sentence is clear about the action and respectful to the classmate."
-hint: "Use a polite question and say what needs to change."
-questionGoal: "Produce an audience-fit request for a familiar situation."
+type: multiple-choice
+prompt: "Which sentence respectfully asks a classmate to lower their voice during reading time?"
+choices:
+  - "Could you please use a quieter voice while we read?"
+  - "Be quiet because I said so."
+  - "Reading time is on the schedule."
+  - "You are being too loud."
+correctAnswer: "Could you please use a quieter voice while we read?"
+explanation: "The sentence is polite, names the needed action, and fits the reading-time audience and purpose."
+hint: "Look for a polite request that says what needs to change."
+questionGoal: "Choose an audience-fit request for a familiar situation."
 misconception: "Making the request too vague or too harsh for the audience."
 ```
 
@@ -577,16 +584,17 @@ misconception: "Choosing an opening setup as an ending."
 
 ```question
 key: u02_l01_q06_middle_reason
-type: constructed-response
-prompt: "In the story 'A note was lost. Omar searched the hallway. He found the note under a chair,' explain why 'Omar searched the hallway' is the middle."
-minWords: 8
-sampleAnswer: "It is the middle because it shows the action after the note was lost."
-checklist:
-  - "Mention that it is the main action"
-  - "Connect it to the problem"
-explanation: "The middle usually shows what someone does about the problem."
-hint: "Ask what action happens after the problem but before the outcome."
-questionGoal: "Explain why an event belongs in the middle of a story."
+type: multiple-choice
+prompt: "In the story 'A note was lost. Omar searched the hallway. He found the note under a chair,' why is 'Omar searched the hallway' the middle?"
+choices:
+  - "It shows the action after the problem and before the outcome."
+  - "It is the last thing that happens."
+  - "It only names the place."
+  - "It tells the lesson of the story."
+correctAnswer: "It shows the action after the problem and before the outcome."
+explanation: "The middle usually shows what someone does about the problem before the story reaches its outcome."
+hint: "Look for the event between the problem and the result."
+questionGoal: "Choose why an event belongs in the middle of a story."
 misconception: "Labeling story parts by position only, not by job."
 ```
 
@@ -643,7 +651,7 @@ choices:
   - "Priya made a card, lost it behind the bookshelf, searched, and found it."
   - "Priya had striped socks, and the clock was round."
   - "The bookshelf was brown, tall, and beside a window."
-  - "Priya found something sometime."
+  - "Priya made a card and found it later."
 correctAnswer: "Priya made a card, lost it behind the bookshelf, searched, and found it."
 explanation: "This retelling includes the important setup, problem, action, and outcome."
 hint: "Choose the retelling that would help someone understand what happened."
@@ -669,16 +677,17 @@ misconception: "Thinking any descriptive detail must stay."
 
 ```question
 key: u02_l02_q05_why_key_event_matters
-type: constructed-response
+type: multiple-choice
 prompt: "Why is 'Jay picked up the tickets' a key event in the retelling?"
-minWords: 7
-sampleAnswer: "It matters because it shows how Jay fixed the problem."
-checklist:
-  - "Explain what the event does in the story"
-  - "Mention the problem or outcome"
+choices:
+  - "It shows how Jay fixed the problem."
+  - "It tells what color the tickets were."
+  - "It describes where the clock was."
+  - "It adds a funny detail but does not affect the story."
+correctAnswer: "It shows how Jay fixed the problem."
 explanation: "A key event helps the audience understand the action that changes the story."
 hint: "Ask what would be missing if that event were removed."
-questionGoal: "Explain why a story event is necessary."
+questionGoal: "Choose why a story event is necessary."
 misconception: "Calling an event key without connecting it to the story."
 ```
 
@@ -718,7 +727,7 @@ choices:
   - "A student rushed ahead with the lantern, saw the group needed light, and came back to walk with them."
   - "A student had a lantern. Lanterns can be shiny."
   - "The class walked, and something happened with a path."
-  - "The student was fastest, fastest, fastest."
+  - "A student was fast and liked carrying the lantern."
 correctAnswer: "A student rushed ahead with the lantern, saw the group needed light, and came back to walk with them."
 explanation: "The retelling keeps the key events and outcome in order."
 hint: "Choose the answer that would help someone understand the whole fable."
@@ -770,8 +779,8 @@ sentenceBefore: "The student rushed ahead."
 sentenceAfter: ", he returned to help the group see."
 choices:
   - "Later"
-  - "Blue"
-  - "Under"
+  - "Before that"
+  - "At the same time"
   - "Because"
 correctAnswer: "Later"
 explanation: "'Later' shows the next event in time."
@@ -782,17 +791,17 @@ misconception: "Choosing a connector that does not show event order."
 
 ```question
 key: u02_l03_q05_short_retell
-type: constructed-response
-prompt: "Retell the lantern fable in two or three sentences."
-minWords: 12
-sampleAnswer: "A student rushed ahead with the lantern during a class walk. When the group could not see, he came back and walked with them."
-checklist:
-  - "Include the key action"
-  - "Include the problem"
-  - "Include the outcome"
-explanation: "A clear retelling gives the key events in order without copying every word."
-hint: "Use beginning, middle, and end."
-questionGoal: "Produce a concise fable retelling."
+type: multiple-choice
+prompt: "Which retelling of the lantern fable includes the key events and outcome?"
+choices:
+  - "A student rushed ahead with the lantern. When the group could not see, he came back and walked with them."
+  - "A lantern can be bright and useful on a path."
+  - "The student wanted to be fastest, and the group could not see."
+  - "The lesson is that tools can help people."
+correctAnswer: "A student rushed ahead with the lantern. When the group could not see, he came back and walked with them."
+explanation: "The correct retelling gives the main action, problem, and outcome in order."
+hint: "Choose the answer that tells what happened, not only a detail or lesson."
+questionGoal: "Choose a concise fable retelling."
 misconception: "Writing only a detail or only the lesson instead of retelling events."
 ```
 
@@ -893,16 +902,17 @@ misconception: "Treating lesson as an unrelated fact from the story."
 
 ```question
 key: u02_l04_q05_explain_lesson_evidence
-type: constructed-response
-prompt: "A story says that Kai waited his turn and everyone got to play. What lesson might the story show? Use one clue."
-minWords: 10
-sampleAnswer: "The lesson might be that patience is fair because waiting helped everyone play."
-checklist:
-  - "State a lesson"
-  - "Use a clue from the story"
-explanation: "A strong lesson matches what the character did and what happened because of it."
-hint: "Use the action and outcome as clues."
-questionGoal: "Infer a lesson and support it with story evidence."
+type: multiple-choice
+prompt: "A story says that Kai waited his turn and everyone got to play. Which lesson and clue fit best?"
+choices:
+  - "Lesson: Patience can be fair. Clue: Kai waited, and everyone got a turn."
+  - "Lesson: Winning is all that matters. Clue: Kai waited quietly."
+  - "Lesson: Toys should be new. Clue: everyone got to play."
+  - "Lesson: Lunch should be longer. Clue: Kai waited his turn."
+correctAnswer: "Lesson: Patience can be fair. Clue: Kai waited, and everyone got a turn."
+explanation: "The lesson should match both the action Kai chose and the outcome that followed."
+hint: "Use the character's action and what happened because of it."
+questionGoal: "Choose a lesson supported by story evidence."
 misconception: "Naming a lesson without connecting it to events."
 ```
 
@@ -974,9 +984,9 @@ type: multiple-choice
 prompt: "A story's lesson is 'Listen before deciding.' Which event best supports that lesson?"
 choices:
   - "Mara heard both teammates explain before choosing a plan."
-  - "Mara's notebook was green."
-  - "The classroom had a window."
-  - "The plan was written in pencil."
+  - "Mara chose a plan before her teammates finished talking."
+  - "Mara picked the plan with the brightest cover."
+  - "Mara asked what color folder to use."
 correctAnswer: "Mara heard both teammates explain before choosing a plan."
 explanation: "The event directly shows listening before making a decision."
 hint: "Choose the action that matches the lesson words."
@@ -1011,36 +1021,33 @@ misconception: "Listing unrelated events in a lesson explanation."
 
 ```question
 key: u02_l05_q05_choice_to_lesson_explain
-type: constructed-response
-prompt: "A character admits, 'I lost the marker,' and then helps look for it. Explain how that choice supports the lesson 'Honesty helps solve problems.'"
-minWords: 12
-sampleAnswer: "The character tells the truth, so everyone can start looking and fix the problem."
-checklist:
-  - "Name the honest choice"
-  - "Explain how it helps solve the problem"
+type: multiple-choice
+prompt: "A character admits, 'I lost the marker,' and then helps look for it. Which explanation best shows how the choice supports the lesson 'Honesty helps solve problems'?"
+choices:
+  - "The character tells the truth, so everyone can start looking and fix the problem."
+  - "The marker is probably a classroom supply."
+  - "The character talks, so the story has dialogue."
+  - "The lesson is true even without the character's action."
+correctAnswer: "The character tells the truth, so everyone can start looking and fix the problem."
 explanation: "The choice supports the lesson because telling the truth makes it possible to solve the problem."
-hint: "Use the words choice and because in your answer."
-questionGoal: "Explain a choice-to-lesson connection."
+hint: "Choose the explanation that connects the honest choice to the outcome."
+questionGoal: "Choose a choice-to-lesson connection."
 misconception: "Explaining the lesson without referring to the character's action."
 ```
 
 ```question
 key: u02_l05_q06_steps_to_explain_lesson
-type: order-items
-prompt: "Put the steps for explaining a story lesson in order."
-items:
-  - "Name the character's choice."
-  - "Tell what happened because of the choice."
-  - "State the lesson."
-  - "Connect the outcome to the lesson."
-correctOrder:
-  - "Name the character's choice."
-  - "Tell what happened because of the choice."
-  - "State the lesson."
-  - "Connect the outcome to the lesson."
-explanation: "A clear explanation moves from choice to outcome to lesson."
-hint: "Start with what the character did."
-questionGoal: "Sequence the reasoning steps for lesson explanation."
+type: multiple-choice
+prompt: "Lesson: Sharing tools can help a team. Choice: Tessa held the map between herself and her partner. Which explanation best connects the choice to the lesson?"
+choices:
+  - "By sharing the map, Tessa let both partners work, so the team solved a clue together."
+  - "The map had folded corners, so the story has a lesson."
+  - "The hunt was outside, so sharing tools is always easy."
+  - "Tessa had a partner, but the choice does not matter."
+correctAnswer: "By sharing the map, Tessa let both partners work, so the team solved a clue together."
+explanation: "The best explanation connects the character's choice, the outcome, and the lesson."
+hint: "Look for the answer that tells what the choice caused."
+questionGoal: "Choose a complete choice-outcome-lesson explanation."
 misconception: "Jumping to a lesson without evidence from the story."
 ```
 
@@ -1128,16 +1135,17 @@ misconception: "Seeing details as decoration only."
 
 ```question
 key: u03_l01_q05_explain_detail_choice
-type: constructed-response
-prompt: "Main idea: The backpack was too heavy. Choose a useful detail and explain why: 'It held three textbooks' or 'It had a tiny star sticker.'"
-minWords: 10
-sampleAnswer: "It held three textbooks is useful because it shows why the backpack was heavy."
-checklist:
-  - "Choose the useful detail"
-  - "Explain how it supports the main idea"
-explanation: "The textbook detail explains the weight. The sticker detail may be true, but it does not support the main idea."
+type: multiple-choice
+prompt: "Main idea: The backpack was too heavy. Which choice names a useful detail and explains why?"
+choices:
+  - "'It held three textbooks' because it shows why the backpack was heavy."
+  - "'It had a tiny star sticker' because stickers are interesting."
+  - "'It was beside a chair' because every backpack is somewhere."
+  - "'It had a zipper' because backpacks often have zippers."
+correctAnswer: "'It held three textbooks' because it shows why the backpack was heavy."
+explanation: "The textbook detail explains the weight. The sticker, location, and zipper details may be true, but they do not support the main idea."
 hint: "Ask which detail explains 'too heavy.'"
-questionGoal: "Justify a useful-detail choice."
+questionGoal: "Choose and justify a useful-detail choice."
 misconception: "Choosing the more interesting detail instead of the more relevant one."
 ```
 
@@ -1228,17 +1236,26 @@ misconception: "Thinking repeated or vague words count as amplification."
 
 ```question
 key: u03_l02_q04_expand_sentence
-type: constructed-response
-prompt: "Expand this sentence by adding who and where: '___ returned the book ___.'"
-minWords: 5
-sampleAnswer: "Mateo returned the book to the library."
-checklist:
-  - "Add who"
-  - "Add where"
-  - "Keep the sentence clear"
-explanation: "A clear expansion adds useful information while keeping the main action."
-hint: "Name a person and a place."
-questionGoal: "Produce a sentence expansion with who and where details."
+type: multi-blank-cloze
+prompt: "Expand the sentence by adding who and where."
+parts:
+  - ""
+  - " returned the book "
+  - "."
+blanks:
+  - correctAnswer: "Mateo"
+    choices:
+      - "Mateo"
+      - "After lunch"
+      - "Carefully"
+  - correctAnswer: "to the library"
+    choices:
+      - "to the library"
+      - "after lunch"
+      - "with a bookmark"
+explanation: "A clear expansion adds who returned the book and where it went."
+hint: "The first blank should name a person, and the second should name a place."
+questionGoal: "Complete a sentence expansion with who and where details."
 misconception: "Adding details that do not answer the requested questions."
 ```
 
@@ -1372,16 +1389,17 @@ misconception: "Believing precise words are only longer adjectives."
 
 ```question
 key: u03_l03_q06_precise_verb_sentence
-type: constructed-response
-prompt: "Write one sentence using a precise verb instead of 'went.'"
-minWords: 5
-sampleAnswer: "Leo hurried to the bus stop."
-checklist:
-  - "Use a precise movement verb"
-  - "Write a complete sentence"
-explanation: "A precise verb such as hurried, tiptoed, marched, or wandered gives the reader more meaning than 'went.'"
-hint: "Pick a verb that shows how someone moved."
-questionGoal: "Produce a sentence with precise word choice."
+type: multiple-choice
+prompt: "Which sentence uses a precise verb instead of 'went'?"
+choices:
+  - "Leo hurried to the bus stop."
+  - "Leo went to the bus stop."
+  - "Leo was at the bus stop."
+  - "Leo liked the bus stop."
+correctAnswer: "Leo hurried to the bus stop."
+explanation: "'Hurried' shows how Leo moved, so it is more precise than 'went.'"
+hint: "Choose the sentence with a verb that shows the kind of movement."
+questionGoal: "Identify a sentence with precise word choice."
 misconception: "Using a vague verb with extra unrelated details."
 ```
 
@@ -1473,16 +1491,17 @@ misconception: "Adding examples that do not support the stated idea."
 
 ```question
 key: u03_l04_q05_add_example
-type: constructed-response
-prompt: "Add one example to support this main idea: 'The library is a calm place to read.'"
-minWords: 8
-sampleAnswer: "For example, people speak quietly and sit at separate tables."
-checklist:
-  - "Give a specific example"
-  - "Connect to calm reading"
-explanation: "A useful example makes the main idea easier to picture."
-hint: "Think of something you might see or hear in a calm library."
-questionGoal: "Produce a clarifying example for a main idea."
+type: multiple-choice
+prompt: "Main idea: The library is a calm place to read. Which sentence is the best example?"
+choices:
+  - "People speak quietly and sit at separate tables."
+  - "The library has shelves and a front door."
+  - "Some books have colorful covers."
+  - "The library is a library."
+correctAnswer: "People speak quietly and sit at separate tables."
+explanation: "This example shows calm reading behavior in a specific way."
+hint: "Choose the example that helps you picture a calm place to read."
+questionGoal: "Choose a clarifying example for a main idea."
 misconception: "Restating the main idea without giving a specific case."
 ```
 
@@ -1494,7 +1513,7 @@ choices:
   - "Maya repeated the plan so everyone knew their job."
   - "Our team communicated in a clear way."
   - "Clear communication is good."
-  - "The team was a team."
+  - "Our team shared information clearly."
 correctAnswer: "Maya repeated the plan so everyone knew their job."
 explanation: "The sentence gives a specific case of clear communication."
 hint: "An example shows the idea happening."
@@ -1584,16 +1603,17 @@ misconception: "Seeing claim as any sentence, not a supportable idea."
 
 ```question
 key: u04_l01_q05_write_claim
-type: constructed-response
-prompt: "Write one claim about which classroom job is helpful."
-minWords: 6
-sampleAnswer: "The supply helper is a helpful job for our class."
-checklist:
-  - "State an opinion or position"
-  - "Name a classroom job"
-explanation: "A claim tells what you think and can be supported with reasons."
-hint: "Use a frame such as '___ is helpful because...'"
-questionGoal: "Produce a simple supportable claim."
+type: multiple-choice
+prompt: "Which sentence is a supportable claim about a classroom job?"
+choices:
+  - "The supply helper is a helpful job for our class."
+  - "The supply helper carries a bin."
+  - "Who is the supply helper today?"
+  - "The bin is beside the shelf."
+correctAnswer: "The supply helper is a helpful job for our class."
+explanation: "This sentence states an opinion or position that could be supported with reasons."
+hint: "A claim says what someone thinks or wants the audience to accept."
+questionGoal: "Choose a simple supportable claim."
 misconception: "Writing only a fact or question instead of a claim."
 ```
 
@@ -1688,17 +1708,19 @@ misconception: "Thinking repetition makes a claim stronger."
 
 ```question
 key: u04_l02_q05_write_claim_reason
-type: constructed-response
-prompt: "Write one sentence with a claim and a reason about reading time."
-minWords: 9
-sampleAnswer: "Reading time should be quiet because students can focus better."
-checklist:
-  - "State a claim"
-  - "Use because"
-  - "Give a reason"
-explanation: "A claim-plus-reason sentence tells what you think and why."
-hint: "Try this frame: '___ should ___ because ___.'"
-questionGoal: "Produce a claim supported by one reason."
+type: fill-blank
+prompt: "Choose the reason that best completes the claim."
+sentenceBefore: "Reading time should be quiet because"
+sentenceAfter: "."
+choices:
+  - "students can focus better"
+  - "books have pages"
+  - "the shelf is near the wall"
+  - "quiet is a word"
+correctAnswer: "students can focus better"
+explanation: "The reason explains why quiet reading time would help."
+hint: "The words after because should answer why the claim makes sense."
+questionGoal: "Complete a claim with a supporting reason."
 misconception: "Writing a claim without support."
 ```
 
@@ -1802,16 +1824,17 @@ misconception: "Assuming true details are automatically useful support."
 
 ```question
 key: u04_l03_q05_explain_irrelevant
-type: constructed-response
-prompt: "Claim: We should use pencil for the draft. Support: The pencil is yellow. Explain why the support is weak."
-minWords: 8
-sampleAnswer: "The color does not explain why pencil is better for a draft."
-checklist:
-  - "Name why the support does not fit"
-  - "Connect back to the claim"
+type: multiple-choice
+prompt: "Claim: We should use pencil for the draft. Support: The pencil is yellow. Why is the support weak?"
+choices:
+  - "The color does not explain why pencil is better for a draft."
+  - "The support gives a strong reason about revising."
+  - "The claim is about marker colors."
+  - "The support explains that pencil can be erased."
+correctAnswer: "The color does not explain why pencil is better for a draft."
 explanation: "Support should explain why pencil helps with drafting, such as being easy to erase."
 hint: "Ask what the claim is trying to prove."
-questionGoal: "Explain why support is irrelevant."
+questionGoal: "Choose why support is irrelevant."
 misconception: "Judging support by whether it is true instead of relevant."
 ```
 
@@ -1912,17 +1935,17 @@ misconception: "Seeing examples as extra decoration."
 
 ```question
 key: u04_l04_q05_add_specific_example
-type: constructed-response
-prompt: "Claim: Our class should keep a lost-and-found box. Reason: It helps people find missing things. Add one specific example."
-minWords: 8
-sampleAnswer: "For example, someone could find a missing jacket after lunch."
-checklist:
-  - "Start with or imply 'for example'"
-  - "Name a specific missing item or situation"
-  - "Connect to finding missing things"
-explanation: "A specific example shows exactly how the lost-and-found box could help."
-hint: "Think of one item a student might lose and find again."
-questionGoal: "Produce a specific example for a reason."
+type: multiple-choice
+prompt: "Claim: Our class should keep a lost-and-found box. Reason: It helps people find missing things. Which example is most specific?"
+choices:
+  - "For example, someone could find a missing jacket after lunch."
+  - "For example, the box would be helpful for missing things."
+  - "For example, the box could have a neat label."
+  - "For example, the box could be near the wall."
+correctAnswer: "For example, someone could find a missing jacket after lunch."
+explanation: "The example names a specific missing item and shows how the box could help."
+hint: "Choose the example that shows one person finding one missing item."
+questionGoal: "Choose a specific example for a reason."
 misconception: "Writing another reason instead of a concrete example."
 ```
 
@@ -1937,7 +1960,7 @@ choices:
   - "The class should."
 correctAnswer: "Students will remember to walk while carrying scissors."
 explanation: "The example gives a specific case of how the safety rule prevents accidents."
-hint: "Look after the words 'For example.'"
+hint: "An example shows the reason in a specific case."
 questionGoal: "Distinguish an example from the claim and reason."
 misconception: "Confusing reason and example."
 ```
@@ -1954,10 +1977,10 @@ items:
   - "For example, everyone could see the homework date."
   - "The board should show homework reminders."
   - "This would help students come prepared."
-  - "because reminders help students remember assignments."
+  - "Reminders help students remember assignments."
 correctOrder:
   - "The board should show homework reminders."
-  - "because reminders help students remember assignments."
+  - "Reminders help students remember assignments."
   - "For example, everyone could see the homework date."
   - "This would help students come prepared."
 explanation: "A clear response moves from claim to reason to example to conclusion."
@@ -2014,7 +2037,7 @@ prompt: "Read the response and answer."
 passageTitle: "Desk Claim"
 passage: |
   Students should clean their desks every Friday.
-  For example, old papers would not pile up.
+  For example, Mia found her math folder faster after cleaning.
   This would make Monday easier.
 question: "Which part is missing?"
 choices:
@@ -2023,7 +2046,7 @@ choices:
   - "an example"
   - "a conclusion"
 correctAnswer: "a reason explaining why Friday cleaning helps"
-explanation: "The response has a claim, example, and conclusion, but it needs a clear because reason."
+explanation: "The response has a claim, example, and conclusion, but it needs a clear because reason that explains why Friday cleaning helps."
 hint: "Look for the part that answers why."
 questionGoal: "Diagnose a missing part in a supported response."
 misconception: "Thinking an example alone can replace the reason."
@@ -2031,17 +2054,26 @@ misconception: "Thinking an example alone can replace the reason."
 
 ```question
 key: u04_l05_q05_write_supported_response
-type: constructed-response
-prompt: "Write a short response: Should the class use a quiet signal? Include a claim, one reason, and one example."
-minWords: 18
-sampleAnswer: "The class should use a quiet signal because it saves time. For example, students can stop talking without the teacher repeating directions."
-checklist:
-  - "State a claim"
-  - "Give one reason"
-  - "Give one specific example"
-explanation: "A strong response tells what you think, why, and one example that shows the reason."
-hint: "Use the frame: 'The class should ___ because ___. For example, ___.'"
-questionGoal: "Produce a compact claim-reason-example response."
+type: multi-blank-cloze
+prompt: "Complete the short response with a reason and example."
+parts:
+  - "The class should use a quiet signal because "
+  - ". For example, "
+  - "."
+blanks:
+  - correctAnswer: "it saves time"
+    choices:
+      - "it saves time"
+      - "signals can have names"
+      - "the room has a clock"
+  - correctAnswer: "students can stop talking without repeated reminders"
+    choices:
+      - "students can stop talking without repeated reminders"
+      - "students can choose a favorite color"
+      - "the signal could be written on paper"
+explanation: "The reason explains why the quiet signal helps, and the example shows one specific case."
+hint: "The first blank should answer why; the second should show the reason happening."
+questionGoal: "Complete a compact claim-reason-example response."
 misconception: "Omitting either the reason or the example."
 ```
 
@@ -2147,16 +2179,17 @@ misconception: "Thinking comparison has no stated basis."
 
 ```question
 key: u05_l01_q05_name_criterion
-type: constructed-response
-prompt: "Two classmates suggest ways to share one tablet. Name one fair criterion for comparing their ideas."
-minWords: 5
-sampleAnswer: "A fair criterion is whether everyone gets equal time."
-checklist:
-  - "Name one criterion"
-  - "Make it fit sharing"
-explanation: "A useful criterion for sharing should help judge fairness, turn-taking, or usefulness."
+type: multiple-choice
+prompt: "Two classmates suggest ways to share one tablet. Which criterion best compares whether the ideas are fair?"
+choices:
+  - "whether everyone gets equal time"
+  - "which idea uses the longest words"
+  - "which student sits closer to the window"
+  - "whether the tablet case is blue"
+correctAnswer: "whether everyone gets equal time"
+explanation: "A fair criterion for sharing should help judge turn-taking or equal use."
 hint: "Ask what would make sharing fair."
-questionGoal: "Produce a fitting criterion for a comparison."
+questionGoal: "Choose a fitting criterion for a comparison."
 misconception: "Naming a personal favorite instead of a comparison basis."
 ```
 
@@ -2184,7 +2217,7 @@ Students use comparison language with evidence.
 key: u05_l02_q01_comparison_word
 type: fill-blank
 prompt: "Choose the best word."
-sentenceBefore: "Both plans include a cleanup job, so they are"
+sentenceBefore: "Both plans include a cleanup job, so they are the"
 sentenceAfter: "in that way."
 choices:
   - "same"
@@ -2256,17 +2289,17 @@ misconception: "Thinking the word because always creates strong support."
 
 ```question
 key: u05_l02_q05_write_comparison
-type: constructed-response
-prompt: "Compare these examples using the criterion 'specific support': A says, 'It helps.' B says, 'It helps students find scissors quickly.'"
-minWords: 10
-sampleAnswer: "B has stronger support because it gives a specific example about finding scissors."
-checklist:
-  - "Name which is stronger or weaker"
-  - "Use the criterion"
-  - "Give evidence"
+type: multiple-choice
+prompt: "Criterion: specific support. A says, 'It helps.' B says, 'It helps students find scissors quickly.' Which comparison is best?"
+choices:
+  - "B has stronger support because it gives a specific example about finding scissors."
+  - "A has stronger support because it is shorter."
+  - "Both are equally specific because both mention helping."
+  - "B is weaker because scissors are classroom supplies."
+correctAnswer: "B has stronger support because it gives a specific example about finding scissors."
 explanation: "Specific support is stronger when it shows exactly how or why."
 hint: "Look for the response with a clear example."
-questionGoal: "Produce a comparison sentence with criterion and evidence."
+questionGoal: "Choose a comparison sentence with criterion and evidence."
 misconception: "Saying one is better without explaining why."
 ```
 
@@ -2348,17 +2381,17 @@ misconception: "Evaluating people generally instead of actions specifically."
 
 ```question
 key: u05_l03_q04_write_evaluation
-type: constructed-response
-prompt: "Scenario: Ana noticed a classmate was confused and repeated the direction slowly. Evaluate Ana's action with evidence."
-minWords: 12
-sampleAnswer: "Ana's action was helpful because repeating the direction slowly made it easier to understand."
-checklist:
-  - "Evaluate the action"
-  - "Use evidence from the scenario"
-  - "Avoid personal attack"
+type: multiple-choice
+prompt: "Scenario: Ana noticed a classmate was confused and repeated the direction slowly. Which evaluation uses evidence?"
+choices:
+  - "Ana's action was helpful because repeating the direction slowly made it easier to understand."
+  - "Ana's action was nice because Ana is nice."
+  - "The direction was written on paper."
+  - "Ana's action was bad because directions have words."
+correctAnswer: "Ana's action was helpful because repeating the direction slowly made it easier to understand."
 explanation: "A fair evaluation names the action and explains what evidence supports the judgment."
-hint: "Use this frame: 'The action was ___ because ___.'"
-questionGoal: "Produce an evidence-based action evaluation."
+hint: "Choose the evaluation that names the action and why it helped."
+questionGoal: "Choose an evidence-based action evaluation."
 misconception: "Giving praise without evidence."
 ```
 
@@ -2413,8 +2446,8 @@ type: multiple-choice
 prompt: "Which sentence gives respectful, specific praise?"
 choices:
   - "Your explanation was clear because you named each step."
-  - "You are perfect at everything."
-  - "Everyone else is terrible."
+  - "Your explanation was good."
+  - "You are smart at explaining."
   - "That was good, I guess."
 correctAnswer: "Your explanation was clear because you named each step."
 explanation: "The praise names the action and gives evidence."
@@ -2449,9 +2482,9 @@ turns:
     line: ""
 choices:
   - "That choice was unfair because other groups needed glue too."
-  - "You are the worst classmate."
-  - "Glue sticks are small."
-  - "I will never work again."
+  - "That was a selfish thing to do."
+  - "Our group needed glue too."
+  - "Maybe other groups should wait."
 correctAnswer: "That choice was unfair because other groups needed glue too."
 explanation: "The response names the action, gives evidence, and avoids personal attack."
 hint: "Choose the line that evaluates the choice respectfully."
@@ -2501,17 +2534,17 @@ misconception: "Thinking harsh language is necessary for honesty."
 
 ```question
 key: u05_l04_q06_write_fair_feedback
-type: constructed-response
-prompt: "Write one fair sentence about this action: A partner interrupted twice during planning."
-minWords: 10
-sampleAnswer: "Interrupting twice made planning harder because others could not finish their ideas."
-checklist:
-  - "Focus on the action"
-  - "Give evidence or effect"
-  - "Avoid insulting the person"
-explanation: "Fair feedback can name a problem without attacking the partner."
-hint: "Start with the action, not with a label about the person."
-questionGoal: "Produce respectful action-focused criticism."
+type: multiple-choice
+prompt: "Which sentence gives fair feedback about this action: A partner interrupted twice during planning?"
+choices:
+  - "Interrupting twice made planning harder because others could not finish their ideas."
+  - "You do not care about planning."
+  - "Planning happened before the project."
+  - "The partner spoke during planning."
+correctAnswer: "Interrupting twice made planning harder because others could not finish their ideas."
+explanation: "Fair feedback can name a problem and its effect without attacking the partner."
+hint: "Choose the sentence that focuses on the action, not a label about the person."
+questionGoal: "Choose respectful action-focused criticism."
 misconception: "Using personal labels instead of evidence-based evaluation."
 ```
 
@@ -2597,16 +2630,17 @@ misconception: "Reducing revision to surface corrections."
 
 ```question
 key: u06_l01_q05_explain_revision_choice
-type: constructed-response
-prompt: "A draft says, 'The library is helpful.' Explain one revision that would make it stronger."
-minWords: 10
-sampleAnswer: "I would add an example, such as books about our project topic."
-checklist:
-  - "Name one revision"
-  - "Explain how it helps the message"
-explanation: "A useful revision could add a reason, example, or more precise detail."
+type: multiple-choice
+prompt: "A draft says, 'The library is helpful.' Which revision would make the message stronger?"
+choices:
+  - "Add an example: 'It has books about our project topic.'"
+  - "Capitalize the word library."
+  - "Add a period after helpful."
+  - "Write the same sentence twice."
+correctAnswer: "Add an example: 'It has books about our project topic.'"
+explanation: "A useful revision can add a reason, example, or more precise detail that helps the audience understand the idea."
 hint: "Think about what the audience still needs to know."
-questionGoal: "Explain a focused revision target."
+questionGoal: "Choose a focused revision target."
 misconception: "Suggesting only spelling or punctuation when meaning needs support."
 ```
 
@@ -2710,9 +2744,9 @@ sentenceBefore: "First, our group chose a topic."
 sentenceAfter: ", we found two examples."
 choices:
   - "Next"
-  - "Under"
-  - "Blue"
-  - "Almost"
+  - "Before that"
+  - "At the same time"
+  - "Because of that"
 correctAnswer: "Next"
 explanation: "'Next' helps the audience follow the order of actions."
 hint: "Choose the word that shows what happened after the first step."
@@ -2722,16 +2756,17 @@ misconception: "Choosing a connector that does not show sequence."
 
 ```question
 key: u06_l02_q06_explain_order_revision
-type: constructed-response
+type: multiple-choice
 prompt: "Why is clear order important when retelling a story or explaining a plan?"
-minWords: 10
-sampleAnswer: "Clear order helps the audience understand what happened first, next, and last."
-checklist:
-  - "Mention the audience"
-  - "Explain how order helps understanding"
+choices:
+  - "It helps the audience understand what happened first, next, and last."
+  - "It makes every sentence longer."
+  - "It hides the ending from the audience."
+  - "It replaces reasons and examples."
+correctAnswer: "It helps the audience understand what happened first, next, and last."
 explanation: "Order is a revision target because it affects whether the audience can follow the message."
 hint: "Think about what happens when the ending comes first."
-questionGoal: "Explain the purpose of revising for order."
+questionGoal: "Choose the purpose of revising for order."
 misconception: "Thinking order is only a formatting choice."
 ```
 
@@ -2745,7 +2780,7 @@ type: multiple-choice
 prompt: "Draft: 'The class should use a timer because it is good.' Which revision strengthens the reason?"
 choices:
   - "because it helps groups know when to switch turns"
-  - "because it is good and good"
+  - "because it is helpful"
   - "because the timer has a label"
   - "because the timer is kept on the shelf"
 correctAnswer: "because it helps groups know when to switch turns"
@@ -2812,16 +2847,17 @@ misconception: "Using the same fix for every weak response."
 
 ```question
 key: u06_l03_q05_add_specific_example
-type: constructed-response
-prompt: "Draft: 'The class should use name tags because they help visitors.' Add one specific example."
-minWords: 9
-sampleAnswer: "For example, a visitor could greet each student by name."
-checklist:
-  - "Add a specific example"
-  - "Connect to helping visitors"
-explanation: "The example shows one way name tags help visitors."
+type: multiple-choice
+prompt: "Draft: 'The class should use name tags because they help visitors.' Which added example is most specific?"
+choices:
+  - "For example, a visitor could greet each student by name."
+  - "For example, name tags are helpful."
+  - "For example, visitors visit places."
+  - "For example, the tags could be on a table."
+correctAnswer: "For example, a visitor could greet each student by name."
+explanation: "The example shows one specific way name tags help visitors."
 hint: "Think of what a visitor could do because of the name tag."
-questionGoal: "Revise support by adding a specific example."
+questionGoal: "Choose a specific example to strengthen support."
 misconception: "Adding another vague reason instead of an example."
 ```
 
@@ -2830,11 +2866,11 @@ key: u06_l03_q06_repetition_not_revision
 type: multiple-choice
 prompt: "Which revision does NOT really strengthen the support?"
 choices:
-  - "The class should use a checklist because checklists are checklists."
+  - "The class should use a checklist because a checklist is a list."
   - "The class should use a checklist because it reminds us of each step."
   - "The class should use a checklist because groups can mark completed tasks."
   - "The class should use a checklist because it helps prevent forgotten steps."
-correctAnswer: "The class should use a checklist because checklists are checklists."
+correctAnswer: "The class should use a checklist because a checklist is a list."
 explanation: "This repeats the word instead of giving a reason."
 hint: "A stronger reason tells why the claim makes sense."
 questionGoal: "Reject circular support during revision."
@@ -2852,8 +2888,8 @@ prompt: "Audience: a younger student. Purpose: explain where to put scissors saf
 choices:
   - "Please place the scissors in the blue cup with the handles up."
   - "Deposit the instruments in the receptacle."
-  - "Throw them wherever."
-  - "The blue cup is interesting."
+  - "Put the scissors over there carefully."
+  - "Clean up now before anything else."
 correctAnswer: "Please place the scissors in the blue cup with the handles up."
 explanation: "The sentence is clear, respectful, and useful for the audience."
 hint: "Choose wording a younger student could understand and follow."
@@ -2885,12 +2921,13 @@ misconception: "Giving a vague or disrespectful answer when a reason is needed."
 ```question
 key: u06_l04_q03_revise_harsh_wording
 type: error-correction
-prompt: "Revise this sentence so it is clearer and more respectful: 'Your idea is bad.'"
+prompt: "A partner's idea has no reason yet. Revise this feedback so it is clearer and more respectful: 'Your idea is bad.'"
 sentence: "Your idea is bad."
 acceptedAnswers:
   - "Your idea needs a clearer reason."
   - "The idea would be stronger with a clearer reason."
   - "I think the idea needs more support."
+  - "The idea needs a reason."
 explanation: "The revision focuses on the idea and gives a helpful direction."
 hint: "Name what could improve instead of attacking the idea."
 questionGoal: "Revise vague or harsh wording for audience fit."
@@ -2939,17 +2976,17 @@ misconception: "Choosing harsh or unhelpful wording for a simple purpose."
 
 ```question
 key: u06_l04_q06_write_audience_choice
-type: constructed-response
-prompt: "Write one sentence reminding classmates to return markers to the cup. Make it clear and respectful."
-minWords: 7
-sampleAnswer: "Please return the markers to the cup when you finish."
-checklist:
-  - "Name the action"
-  - "Use respectful wording"
-  - "Fit classmates as the audience"
+type: multiple-choice
+prompt: "Which sentence reminds classmates to return markers to the cup in a clear and respectful way?"
+choices:
+  - "Please return the markers to the cup when you finish."
+  - "Markers are used for many projects."
+  - "Put those somewhere now."
+  - "You keep leaving the markers out."
+correctAnswer: "Please return the markers to the cup when you finish."
 explanation: "A good reminder is clear enough to act on and respectful enough for the audience."
-hint: "Use please and say exactly where the markers go."
-questionGoal: "Produce audience-fit reminder wording."
+hint: "Choose the sentence that says exactly where the markers go without attacking classmates."
+questionGoal: "Choose audience-fit reminder wording."
 misconception: "Writing a vague reminder or a harsh command."
 ```
 
@@ -2975,17 +3012,26 @@ misconception: "Thinking faster delivery is better delivery."
 
 ```question
 key: u06_l05_q02_planning_notes
-type: constructed-response
-prompt: "Make simple notes for a short response explaining why a quiet signal helps the class."
-minWords: 10
-sampleAnswer: "Point: quiet signal helps. Reason: saves time. Example: students stop without repeated reminders."
-checklist:
-  - "Include a point"
-  - "Include one reason"
-  - "Include one example or detail"
-explanation: "Simple notes can help a speaker remember the message without writing a full script."
-hint: "Use note words, not a long paragraph."
-questionGoal: "Create brief speaking notes with point, reason, and example."
+type: multi-blank-cloze
+prompt: "Complete the simple notes for a short response explaining why a quiet signal helps the class."
+parts:
+  - "Point: quiet signal helps. Reason: "
+  - ". Example: "
+  - "."
+blanks:
+  - correctAnswer: "saves time"
+    choices:
+      - "saves time"
+      - "has a name"
+      - "uses a hand"
+  - correctAnswer: "students stop without repeated reminders"
+    choices:
+      - "students stop without repeated reminders"
+      - "students choose a favorite signal"
+      - "the signal is written on the board"
+explanation: "Simple notes can help a speaker remember the point, reason, and example without writing a full script."
+hint: "Choose notes that support why the quiet signal helps."
+questionGoal: "Complete brief speaking notes with point, reason, and example."
 misconception: "Thinking oral preparation requires memorizing a full script."
 ```
 
@@ -3032,17 +3078,17 @@ misconception: "Confusing notes with a finished response or unrelated list."
 
 ```question
 key: u06_l05_q05_speaking_practice
-type: speaking-prompt
-prompt: "Say a short response explaining why your class should use a cleanup chart."
-minSeconds: 8
-sampleAnswer: "Our class should use a cleanup chart because everyone would know their job. For example, one person could collect markers."
-checklist:
-  - "State a clear point"
-  - "Give one reason or example"
-  - "Use a clear voice"
-explanation: "The response is complete when it includes a point, support, and listener-aware delivery."
-hint: "Use your note-card structure: point, reason, example."
-questionGoal: "Practice short oral delivery with support."
+type: multiple-choice
+prompt: "Which plan is best for giving a short response about why the class should use a cleanup chart?"
+choices:
+  - "State the point, give one reason or example, and use a clear voice."
+  - "Read the note card as fast as possible."
+  - "Only describe the chart color."
+  - "Skip the point and start with an unrelated story."
+correctAnswer: "State the point, give one reason or example, and use a clear voice."
+explanation: "A short oral response should have a clear point, support, and listener-aware delivery."
+hint: "Choose the plan that helps listeners understand the message."
+questionGoal: "Recognize short oral delivery with support."
 misconception: "Speaking without a clear point or rushing through support."
 ```
 
@@ -3141,34 +3187,33 @@ misconception: "Confusing retelling with evaluation or revision."
 
 ```question
 key: u07_l01_q04_prompt_clue
-type: fill-blank
-prompt: "Choose the clue word that often asks for support."
-sentenceBefore: "A prompt that says 'Give one"
-sentenceAfter: "' is asking you to support an idea."
+type: multiple-choice
+prompt: "Prompt: 'Say your response aloud with a clear voice.' Which rhetorical move fits best?"
 choices:
-  - "reason"
-  - "detail"
-  - "title"
-  - "audience"
-correctAnswer: "reason"
-explanation: "A reason supports a claim or idea."
-hint: "Support answers why."
-questionGoal: "Recognize a prompt clue for support."
+  - "present"
+  - "retell"
+  - "compare"
+  - "describe"
+correctAnswer: "present"
+explanation: "The prompt asks the student to deliver a response aloud, so it calls for presenting."
+hint: "Look for the clue about speaking to listeners."
+questionGoal: "Recognize a prompt clue for presenting."
 misconception: "Missing task words that signal the needed move."
 ```
 
 ```question
 key: u07_l01_q05_explain_move_choice
-type: constructed-response
-prompt: "Prompt: 'Make this request more respectful for a teacher.' Which rhetorical move fits, and what clue tells you?"
-minWords: 10
-sampleAnswer: "The move is revise because the prompt asks me to make the request more respectful."
-checklist:
-  - "Name the move"
-  - "Name a clue from the prompt"
-explanation: "The task asks for a change to improve audience fit, so it calls for revision."
+type: multiple-choice
+prompt: "Prompt: 'Make this request more respectful for a teacher.' Which move and clue fit best?"
+choices:
+  - "Revise, because the prompt asks you to make the request more respectful."
+  - "Retell, because the prompt asks for events in order."
+  - "Compare, because the prompt asks which choice is fairer."
+  - "Present, because the prompt asks for a clear voice."
+correctAnswer: "Revise, because the prompt asks you to make the request more respectful."
+explanation: "The task asks for a change that improves audience fit, so it calls for revision."
 hint: "Look for words that ask you to improve or change the sentence."
-questionGoal: "Explain a move choice using task clues."
+questionGoal: "Choose a move and clue from a prompt."
 misconception: "Choosing a move without reading the purpose of the task."
 ```
 
@@ -3195,14 +3240,14 @@ Students diagnose a weak response and choose a focused fix.
 ```question
 key: u07_l02_q01_diagnose_weak_response
 type: multiple-choice
-prompt: "Weak response: 'The class should use a chart because charts are chart-ish.' What is the main problem?"
+prompt: "Weak response: 'The class should use a chart because charts are helpful.' What is the main problem?"
 choices:
-  - "The reason is vague and repeats the claim."
-  - "The response has too many strong examples."
-  - "The audience is named too clearly."
-  - "The sentence is a retelling with perfect order."
-correctAnswer: "The reason is vague and repeats the claim."
-explanation: "The support does not explain why a chart would help."
+  - "The reason is vague and does not explain how a chart helps."
+  - "The response has too many specific examples."
+  - "The response clearly names a comparison criterion."
+  - "The sentence retells story events in order."
+correctAnswer: "The reason is vague and does not explain how a chart helps."
+explanation: "The support says the chart is helpful, but it does not explain what the chart helps people do."
 hint: "Ask whether the reason answers why."
 questionGoal: "Diagnose weak support in a cumulative response."
 misconception: "Accepting repeated words as real support."
@@ -3265,16 +3310,17 @@ misconception: "Trying to fix the wrong rhetorical problem."
 
 ```question
 key: u07_l02_q05_diagnose_and_fix
-type: constructed-response
-prompt: "Weak response: 'Plan A is better because I like it.' Name the weakness and one fix."
-minWords: 12
-sampleAnswer: "The weakness is no clear criterion or evidence. A fix is to say Plan A is clearer because it numbers the steps."
-checklist:
-  - "Name the weakness"
-  - "Suggest one focused fix"
-explanation: "A useful diagnosis names what is missing, then repairs that part."
+type: multiple-choice
+prompt: "Weak response: 'Plan A is better because I like it.' Which diagnosis and fix are best?"
+choices:
+  - "Weakness: no clear criterion or evidence. Fix: Plan A is clearer because it numbers the steps."
+  - "Weakness: too much evidence. Fix: remove the reason."
+  - "Weakness: too respectful. Fix: add a personal attack."
+  - "Weakness: too many events. Fix: retell a fable."
+correctAnswer: "Weakness: no clear criterion or evidence. Fix: Plan A is clearer because it numbers the steps."
+explanation: "A useful diagnosis names what is missing, then repairs that part with a criterion and evidence."
 hint: "Ask what 'better' means and what evidence is given."
-questionGoal: "Diagnose and repair a weak comparison."
+questionGoal: "Choose a diagnosis and repair for a weak comparison."
 misconception: "Treating personal preference as enough evidence."
 ```
 
@@ -3325,34 +3371,33 @@ misconception: "Choosing a move or support that does not match the task."
 
 ```question
 key: u07_l03_q02_written_mini_response
-type: constructed-response
-prompt: "Write a short response for classmates explaining why a cleanup chart helps. Include one reason or example."
-minWords: 18
-sampleAnswer: "A cleanup chart helps our class because everyone knows their job. For example, one student can collect papers while another puts away markers."
-checklist:
-  - "Fit classmates as the audience"
-  - "State the point"
-  - "Include one reason or example"
+type: multiple-choice
+prompt: "Which short response best fits classmates and explains why a cleanup chart helps?"
+choices:
+  - "A cleanup chart helps our class because everyone knows their job. For example, one student can collect papers while another puts away markers."
+  - "Cleanup charts are charts, and charts are good."
+  - "The chart is on paper with a title at the top."
+  - "Classmates, this is about lunch choices."
+correctAnswer: "A cleanup chart helps our class because everyone knows their job. For example, one student can collect papers while another puts away markers."
 explanation: "A strong mini response fits the audience, gives a clear point, and includes support."
-hint: "Use the frame: 'A cleanup chart helps because ___. For example, ___.'"
-questionGoal: "Produce a compact supported written response."
+hint: "Look for a clear point plus one reason or example about cleanup."
+questionGoal: "Choose a compact supported written response."
 misconception: "Writing a claim without support or audience fit."
 ```
 
 ```question
 key: u07_l03_q03_speaking_mini_response
-type: speaking-prompt
-prompt: "Say your cleanup-chart response aloud for classmates."
-minSeconds: 8
-sampleAnswer: "A cleanup chart helps our class because everyone knows their job. For example, the chart can show who collects papers."
-checklist:
-  - "Use a clear voice"
-  - "State the point"
-  - "Include one support detail"
-  - "Think about classmates as listeners"
-explanation: "The speaking task practices the same rhetorical response with delivery choices."
-hint: "Use your written response or notes: point, reason, example."
-questionGoal: "Deliver a short audience-aware oral response."
+type: multiple-choice
+prompt: "Which delivery choice best fits saying a cleanup-chart response aloud for classmates?"
+choices:
+  - "Use a clear voice, state the point, and include one support detail."
+  - "Rush through the response so it ends quickly."
+  - "Look away and mumble the support detail."
+  - "Say only the example and leave out the point."
+correctAnswer: "Use a clear voice, state the point, and include one support detail."
+explanation: "Audience-aware oral delivery should help classmates hear the point and support."
+hint: "Choose the delivery choice that helps listeners understand."
+questionGoal: "Recognize a short audience-aware oral response."
 misconception: "Treating oral delivery as separate from clear supported communication."
 ```
 
@@ -3393,16 +3438,16 @@ misconception: "Checking off parts without evidence."
 
 ```question
 key: u07_l03_q06_explain_fit
-type: constructed-response
-prompt: "Explain how this response fits its audience and purpose: 'Classmates, a cleanup chart helps because everyone can see their job.'"
-minWords: 12
-sampleAnswer: "It fits classmates because it speaks to them respectfully and explains why the chart helps cleanup."
-checklist:
-  - "Mention the audience"
-  - "Mention the purpose"
-  - "Use evidence from the response"
+type: multiple-choice
+prompt: "Response: 'Classmates, a cleanup chart helps because everyone can see their job.' How does this response fit its audience and purpose?"
+choices:
+  - "It speaks to classmates and explains why the chart helps cleanup."
+  - "It retells a fable in beginning, middle, and end order."
+  - "It compares two plans using the criterion of fairness."
+  - "It gives a sensory detail about how the chart looks."
+correctAnswer: "It speaks to classmates and explains why the chart helps cleanup."
 explanation: "The response names the audience and gives a reason for the purpose of explaining the cleanup chart."
 hint: "Ask who it is for and what it is trying to do."
-questionGoal: "Explain audience-purpose fit in a final mini response."
+questionGoal: "Choose how a final mini response fits audience and purpose."
 misconception: "Judging only whether the sentence is correct, not whether it fits audience and purpose."
 ```

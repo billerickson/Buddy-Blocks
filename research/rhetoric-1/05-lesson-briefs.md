@@ -12,7 +12,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Everyday speaking, listening, reading, and writing experiences.
 - **Likely misconceptions:** Rhetoric means fancy words; persuasion means getting your way; communication quality is about sounding impressive.
 - **Evidence of mastery:** Given short examples, the student can choose which one shows purposeful communication and explain the purpose in simple words.
-- **Recommended question types:** `multiple-choice` for recognizing purposeful communication; `match-pairs` for purpose words to examples; `constructed-response` for a brief explanation of why rhetoric is useful.
+- **Recommended question types:** `multiple-choice` for recognizing purposeful communication or a useful explanation; `match-pairs` for purpose words to examples; `fill-blank` for constrained definition practice.
 - **Suggested intro/teaching note:** Start with familiar examples: a sign, an invitation, a story, and a polite request. Ask what each one is trying to do.
 - **Reading-level and cognitive-load constraints:** Keep examples one sentence long; avoid abstract theory and formal rhetorical labels beyond rhetoric, purpose, audience, and message.
 
@@ -74,7 +74,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Beginning-middle-end order and basic story parts.
 - **Likely misconceptions:** Every detail belongs in a retelling; favorite or funny details are always key; short retellings are weak.
 - **Evidence of mastery:** Given a story and a list of details, the student selects the key events needed for a brief retelling.
-- **Recommended question types:** `multiple-choice` for key event selection; `match-pairs` for key versus extra categories; `constructed-response` for a one-sentence reason why an event matters.
+- **Recommended question types:** `multiple-choice` for key event selection or why an event matters; `match-pairs` for key versus extra categories; `order-items` for key-event sequences.
 - **Suggested intro/teaching note:** Show a retelling that includes a distracting detail and ask whether it helps the listener understand the story.
 - **Reading-level and cognitive-load constraints:** Use one short passage at a time; limit detail lists to four or five items.
 
@@ -86,7 +86,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Story order, key events, and basic fable familiarity.
 - **Likely misconceptions:** Retelling means copying the whole story; a retelling can skip the outcome; extra adjectives matter more than key actions.
 - **Evidence of mastery:** The student chooses or writes a short retelling that includes key events in order and the outcome.
-- **Recommended question types:** `order-items` for retelling sentence order; `passage-question` for choosing the best retelling; `constructed-response` for a two- or three-sentence retell.
+- **Recommended question types:** `order-items` for retelling sentence order; `passage-question` for choosing the best retelling; `multiple-choice` for diagnosing missing key events or outcomes.
 - **Suggested intro/teaching note:** Model a "too long," "too short," and "just right" retelling of the same fable.
 - **Reading-level and cognitive-load constraints:** Use fables under 120 words; production should be short and scaffolded.
 
@@ -98,7 +98,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Retelling, character choices, and outcome.
 - **Likely misconceptions:** The lesson is always directly stated; any nice-sounding sentence can be the lesson; the lesson is the same as the setting or character name.
 - **Evidence of mastery:** Given a fable, the student selects a fitting lesson and rejects lessons that do not match the events.
-- **Recommended question types:** `passage-question` for fable lesson; `multiple-choice` for best moral; `constructed-response` for a short "I know because..." explanation.
+- **Recommended question types:** `passage-question` for fable lesson; `multiple-choice` for best moral or evidence clue; `match-pairs` for summaries to lessons.
 - **Suggested intro/teaching note:** Ask, "What does this story want the listener to learn?" after retelling the key events.
 - **Reading-level and cognitive-load constraints:** Keep moral choices concrete; avoid abstract proverbs that require adult background knowledge.
 
@@ -110,7 +110,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Story lesson, key events, character choice, and outcome.
 - **Likely misconceptions:** A lesson floats apart from the story; only the ending matters; a character's feelings are enough evidence without actions.
 - **Evidence of mastery:** Given a fable lesson, the student chooses the event or action that best supports it and explains why.
-- **Recommended question types:** `match-pairs` for choices to outcomes; `passage-question` for evidence of lesson; `constructed-response` for a one-sentence choice-to-lesson link.
+- **Recommended question types:** `match-pairs` for choices to outcomes; `passage-question` for evidence of lesson; `multiple-choice` for choosing the best choice-to-lesson link.
 - **Suggested intro/teaching note:** Use a two-column chart: "choice" and "what it shows."
 - **Reading-level and cognitive-load constraints:** Keep explanations to one sentence; use familiar action verbs and clear outcomes.
 
@@ -136,7 +136,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Sentence awareness and useful detail judgment.
 - **Likely misconceptions:** Expansion means adding random words; every sentence must answer every question; added details can contradict the original sentence.
 - **Evidence of mastery:** The student completes or chooses a sentence expansion that adds clear, relevant basic information.
-- **Recommended question types:** `fill-blank` for adding a detail; `multi-blank-cloze` for completing an expanded sentence; `constructed-response` for writing one expanded sentence.
+- **Recommended question types:** `fill-blank` for adding a detail; `multi-blank-cloze` for completing an expanded sentence; `multiple-choice` for choosing a clear, noncontradictory expansion.
 - **Suggested intro/teaching note:** Start with "The child ran." Add who, where, and when without changing the core meaning.
 - **Reading-level and cognitive-load constraints:** Keep sentences short; avoid long multi-clause expansions.
 
@@ -160,7 +160,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Useful details, main idea, and basic audience-purpose awareness.
 - **Likely misconceptions:** Examples are extra decorations; an example can be unrelated if it is interesting; a general restatement is the same as an example.
 - **Evidence of mastery:** Given a main idea, the student chooses a specific example that fits and explains why it helps.
-- **Recommended question types:** `multiple-choice` for best example; `match-pairs` for main ideas to examples; `constructed-response` for adding one example.
+- **Recommended question types:** `multiple-choice` for best example or distinguishing examples from restatements; `match-pairs` for main ideas to examples; `multi-blank-cloze` for completing an example frame.
 - **Suggested intro/teaching note:** Show "Our class helped the community" and compare vague support with a specific example.
 - **Reading-level and cognitive-load constraints:** Keep examples concrete and familiar; production can be one sentence.
 
@@ -186,7 +186,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Claim recognition and basic because sentences.
 - **Likely misconceptions:** Repeating the claim is a reason; any sentence after because is support; emotional volume makes a reason stronger.
 - **Evidence of mastery:** Given a claim, the student chooses a reason that supports it and rejects a repeated claim or unrelated sentence.
-- **Recommended question types:** `multiple-choice` for best reason; `fill-blank` for because frame; `constructed-response` for one claim-plus-reason sentence.
+- **Recommended question types:** `multiple-choice` for best reason; `fill-blank` or `multi-blank-cloze` for because frames; `match-pairs` for claims to reasons.
 - **Suggested intro/teaching note:** Ask "Why?" after a claim and test whether the answer actually gives support.
 - **Reading-level and cognitive-load constraints:** Keep reasons one sentence long; avoid requiring outside facts.
 
@@ -210,7 +210,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Claim, reason, relevance, and examples that clarify.
 - **Likely misconceptions:** A second reason is always an example; an example can be vague; examples do not need to connect to the reason.
 - **Evidence of mastery:** Given a claim and reason, the student selects a specific example that makes the reason clearer.
-- **Recommended question types:** `multiple-choice` for strongest example; `multi-blank-cloze` for completing claim-reason-example; `constructed-response` for one added example.
+- **Recommended question types:** `multiple-choice` for strongest example or example role; `multi-blank-cloze` for completing claim-reason-example; `match-pairs` for reasons to examples.
 - **Suggested intro/teaching note:** Put the claim, reason, and example on three linked cards and ask what job each one does.
 - **Reading-level and cognitive-load constraints:** Keep examples familiar and specific; do not require long paragraphs.
 
@@ -222,7 +222,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Claims, reasons, relevant support, examples, and audience-purpose awareness.
 - **Likely misconceptions:** Longer is automatically stronger; the conclusion should introduce a new claim; examples can replace reasons.
 - **Evidence of mastery:** The student orders or writes a four-part supported response that stays on one claim.
-- **Recommended question types:** `order-items` for response order; `multi-blank-cloze` for response frame; `constructed-response` for a short produced response.
+- **Recommended question types:** `order-items` for response order; `multi-blank-cloze` for response frame; `passage-question` for diagnosing missing parts.
 - **Suggested intro/teaching note:** Model a four-sentence response and color-code each part by job.
 - **Reading-level and cognitive-load constraints:** Use sentence frames; limit production to one compact paragraph.
 
@@ -236,7 +236,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Claims, reasons, useful details, and comparison words such as same and different.
 - **Likely misconceptions:** Comparing means naming a favorite; the criterion can change during the comparison; any difference is equally important.
 - **Evidence of mastery:** Given two choices, the student identifies a fitting comparison criterion such as fairness, usefulness, clarity, or bravery.
-- **Recommended question types:** `multiple-choice` for criterion choice; `match-pairs` for criteria to examples; `constructed-response` for naming one comparison basis.
+- **Recommended question types:** `multiple-choice` for criterion choice or naming a fitting basis in context; `match-pairs` for criteria to examples; `passage-question` for criterion clues.
 - **Suggested intro/teaching note:** Compare two classroom jobs by one criterion at a time, such as helpfulness or difficulty.
 - **Reading-level and cognitive-load constraints:** Use two items or actions only; avoid multi-criterion scoring.
 
@@ -248,7 +248,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Clear criterion and reason-example support.
 - **Likely misconceptions:** Stronger means louder or more exciting; different means one is bad; comparison words do not need evidence.
 - **Evidence of mastery:** Given two short examples and a criterion, the student chooses the accurate comparison statement.
-- **Recommended question types:** `fill-blank` for comparison words; `multiple-choice` for supported comparison; `constructed-response` for one comparison sentence.
+- **Recommended question types:** `fill-blank` for comparison words; `multiple-choice` for supported comparison; `passage-question` for comparing responses with evidence.
 - **Suggested intro/teaching note:** Use a comparison chart with one criterion and evidence under each option.
 - **Reading-level and cognitive-load constraints:** Keep comparison sets short; use familiar adjectives and clear evidence.
 
@@ -260,7 +260,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Claim-reason-example structure, story choices, outcomes, and comparison criteria.
 - **Likely misconceptions:** Feelings alone are enough; evidence can be invented; evaluating an action means judging a person's worth.
 - **Evidence of mastery:** Given a short scenario, the student selects or writes an evidence-based evaluation of an action.
-- **Recommended question types:** `passage-question` for scenario evidence; `multiple-choice` for best evaluation; `constructed-response` for a short action-evidence judgment.
+- **Recommended question types:** `passage-question` for scenario evidence; `multiple-choice` for best evaluation; `multi-blank-cloze` for completing an action-evidence judgment.
 - **Suggested intro/teaching note:** Use a character choice from a fable and ask, "Was the action careful, fair, or useful? What shows that?"
 - **Reading-level and cognitive-load constraints:** Use safe fictional or school scenarios; avoid morally complex or emotionally loaded topics.
 
@@ -286,7 +286,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Basic writing, audience-purpose awareness, and earlier response types.
 - **Likely misconceptions:** Revision means spelling only; any change is revision; a draft is finished once mechanics are correct.
 - **Evidence of mastery:** Given a change to a short response, the student names whether it is revision or editing and what it improves.
-- **Recommended question types:** `multiple-choice` for revision versus editing; `match-pairs` for changes to improvement targets; `constructed-response` for explaining a useful revision.
+- **Recommended question types:** `multiple-choice` for revision versus editing or useful revision targets; `match-pairs` for changes to improvement targets; `passage-question` for revision in context.
 - **Suggested intro/teaching note:** Show two changes to the same sentence: one fixes a capital letter and one adds a needed reason.
 - **Reading-level and cognitive-load constraints:** Keep drafts very short; focus on one change at a time.
 
@@ -310,7 +310,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Claim, reason, example, relevant support, and evaluation with evidence.
 - **Likely misconceptions:** Vague support is fine if the claim is clear; adding any example improves support; repeating the claim strengthens it.
 - **Evidence of mastery:** Given a weak response, the student selects or writes a stronger reason or example.
-- **Recommended question types:** `multiple-choice` for strongest revision; `error-correction` for replacing weak support; `constructed-response` for adding one specific example.
+- **Recommended question types:** `multiple-choice` for strongest revision; `error-correction` for replacing weak support; `multi-blank-cloze` for adding one specific example.
 - **Suggested intro/teaching note:** Use a response with "because it is good" and revise it into a reason plus example.
 - **Reading-level and cognitive-load constraints:** Keep revision choices close in length so students judge quality, not size.
 
@@ -334,7 +334,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Audience-purpose fit, claim-reason-example, retelling, revision, and respectful language.
 - **Likely misconceptions:** Speaking well means memorizing perfectly; faster is better; listeners do not affect delivery choices.
 - **Evidence of mastery:** The student completes a speaking prompt with a clear message, one support point, and a listener-aware delivery checklist.
-- **Recommended question types:** `speaking-prompt` for delivery practice; `constructed-response` for planning notes; `multiple-choice` for delivery-choice recognition.
+- **Recommended question types:** `multiple-choice` for delivery-choice recognition; `match-pairs` for delivery goals to choices; `multi-blank-cloze` for planning or delivery checklists.
 - **Suggested intro/teaching note:** Model a short response with a note card: point, one reason or event, final sentence.
 - **Reading-level and cognitive-load constraints:** Keep oral responses under 30 seconds; allow sentence frames and rehearsal.
 
@@ -348,7 +348,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** All prior Level 1 moves and vocabulary.
 - **Likely misconceptions:** The newest skill fits every task; a task can be answered well without noticing its purpose; describing and supporting are the same move.
 - **Evidence of mastery:** Given mixed task prompts, the student chooses the move and names a clue such as "tell what happened," "give a reason," or "make it clearer."
-- **Recommended question types:** `match-pairs` for task to move; `multiple-choice` for best move; `constructed-response` for explaining a move choice.
+- **Recommended question types:** `match-pairs` for task to move; `multiple-choice` for best move or explanation; `passage-question` for task-clue interpretation.
 - **Suggested intro/teaching note:** Present a move menu and sort five short prompts before answering any of them.
 - **Reading-level and cognitive-load constraints:** Use familiar tasks; do not combine more than two moves in early items.
 
@@ -372,6 +372,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Full Rhetoric 1 sequence.
 - **Likely misconceptions:** A performance must be long; revision happens after communication instead of during it; oral and written responses use unrelated skills.
 - **Evidence of mastery:** The student completes a short written or spoken response with a checklist showing audience, purpose, move, support/detail, and one revision.
-- **Recommended question types:** `constructed-response` for planning and written response; `speaking-prompt` for oral delivery; `multi-blank-cloze` for completing a planning frame.
+- **Recommended question types:** `multi-blank-cloze` for completing a planning frame; `multiple-choice` for revision and audience-purpose decisions; `match-pairs` for checklist evidence.
 - **Suggested intro/teaching note:** Keep the final task small: one short passage or scenario, one chosen move, one revision, and one brief presentation.
 - **Reading-level and cognitive-load constraints:** Avoid long essay or speech expectations; use checklist support and allow sentence frames.
