@@ -415,7 +415,7 @@ misconception: "Believing a comma can fix any run-on by itself."
 ```question
 key: u02_l01_q01_find_proper_noun
 type: multiple-choice
-prompt: "Which word is a proper noun in this sentence? On Friday, Lena visited the museum."
+prompt: "Which word is a proper noun in this sentence? On Friday, the class visited the museum."
 choices:
   - "Friday"
   - "visited"
@@ -601,7 +601,7 @@ blanks:
       - "these"
       - "a"
 explanation: "This means one nearby thing. These means more than one nearby thing."
-hint: "One nearby: this. More than one nearby: these."
+hint: "Check whether the word points to one nearby thing or more than one nearby thing."
 questionGoal: "Name the number meaning of common determiners."
 misconception: "Treating pointing words as interchangeable."
 ```
@@ -633,7 +633,7 @@ choices:
   - "cat"
   - "cats"
   - "cat's"
-  - "cats's"
+  - "cats'"
 correctAnswer: "cats"
 explanation: "Three means more than one, so the plural noun cats fits. No apostrophe is needed."
 hint: "Plural means more than one; ownership is not being shown."
@@ -725,9 +725,9 @@ type: multiple-choice
 prompt: "What does the phrase Liam's backpack mean?"
 choices:
   - "one backpack that belongs to Liam"
-  - "more than one Liam"
-  - "a backpack named Liam"
-  - "Liam and backpack are both plural"
+  - "more than one backpack"
+  - "a backpack near Liam"
+  - "Liam carrying a backpack"
 correctAnswer: "one backpack that belongs to Liam"
 explanation: "Apostrophe-s after Liam shows ownership."
 hint: "Ask whose backpack it is."
@@ -807,14 +807,14 @@ misconception: "Confusing plural s with possessive apostrophe-s."
 ```question
 key: u02_l04_q06_explain_pronoun
 type: constructed-response
-prompt: "Rewrite this sentence so the pronoun is clear: Noah showed Eli his drawing."
+prompt: "Rewrite this sentence so the pronoun clearly refers to Eli: Noah showed Eli his drawing."
 minWords: 5
-sampleAnswer: "Noah showed Eli Noah's drawing."
+sampleAnswer: "Noah showed Eli the drawing Eli made."
 checklist:
-  - "Replace his with a clear noun or name"
-  - "Keep the meaning possible"
+  - "Replace his with Eli or a clear phrase about Eli"
+  - "Keep the sentence meaning possible"
 explanation: "When a pronoun could mean more than one person, naming the person makes the sentence clearer."
-hint: "Decide whose drawing it is, then use that name."
+hint: "Name Eli as the person connected to the drawing."
 questionGoal: "Produce a clear revision for an ambiguous pronoun."
 misconception: "Leaving ambiguous pronouns unchanged in revision."
 ```
@@ -1146,7 +1146,7 @@ choices:
   - "were sing"
 correctAnswer: "sings"
 explanation: "The singular subject bird agrees with sings."
-hint: "One bird: sings. More than one bird: sing."
+hint: "Check whether the subject names one bird or more than one bird."
 questionGoal: "Choose a present-tense verb for a singular subject."
 misconception: "Using the plural verb form with a singular subject."
 ```
@@ -1199,7 +1199,7 @@ blanks:
       - "is"
       - "are"
       - "was"
-explanation: "One apple is red. More than one apple are red."
+explanation: "One apple is red. The plural subject apples uses are: the apples are red."
 hint: "Check one noun, then more than one noun."
 questionGoal: "Contrast singular and plural being-verb agreement."
 misconception: "Using one being verb form for singular and plural subjects."
@@ -1430,7 +1430,7 @@ choices:
   - "bestest"
 correctAnswer: "better"
 explanation: "Use better when comparing two."
-hint: "Two choices: better. Three or more choices: best."
+hint: "Count how many plans are being compared before choosing the form."
 questionGoal: "Use irregular good/better/best in a two-item comparison."
 misconception: "Using best for a comparison of two."
 ```
@@ -1471,16 +1471,16 @@ misconception: "Choosing the verb instead of the word that describes the verb."
 ```question
 key: u04_l03_q02_how_when_where
 type: match-pairs
-prompt: "Match each adverb to the question it answers."
+prompt: "Match each adverb to the detail it adds."
 pairs:
   - left: "carefully"
-    right: "how"
+    right: "how the action is done"
   - left: "today"
-    right: "when"
+    right: "when the action happens"
   - left: "nearby"
-    right: "where"
+    right: "where the action happens"
   - left: "loudly"
-    right: "how again"
+    right: "how the action sounds"
 explanation: "Adverbs can tell how, when, or where about a verb."
 hint: "Put the adverb after an action and ask what detail it adds."
 questionGoal: "Classify adverbs by the kind of detail they add."
@@ -1772,9 +1772,9 @@ type: multiple-choice
 prompt: "Which expansion adds useful detail without changing the meaning? The bird sang."
 choices:
   - "The bird sang in the maple tree."
-  - "The bird sang the bird sang."
-  - "Because the bird sang."
-  - "The bird under."
+  - "Because the bird sang in the maple tree."
+  - "The bird sang because it was a bird."
+  - "The bird in the maple tree."
 correctAnswer: "The bird sang in the maple tree."
 explanation: "This keeps the complete sentence and adds a where detail."
 hint: "Choose the sentence that is complete and clearer."
@@ -1842,7 +1842,7 @@ choices:
   - "in the garden bed"
   - "carefully"
   - "green"
-  - "because they were seeds"
+  - "after lunch"
 correctAnswer: "in the garden bed"
 explanation: "In the garden bed is a where phrase."
 hint: "A where detail tells the place."
@@ -1863,7 +1863,7 @@ choices:
   - "ownership"
 correctAnswer: "how"
 explanation: "Slowly tells how the horse trotted."
-hint: "Ask how the action happened."
+hint: "Find the action word, then ask which question slowly answers."
 questionGoal: "Identify the purpose of an added action detail."
 misconception: "Not connecting added details to the question they answer."
 ```
@@ -2226,7 +2226,7 @@ choices:
   - "no punctuation"
 correctAnswer: ","
 explanation: "Use a comma between the day and year."
-hint: "Month Day, Year needs a comma before the year."
+hint: "Look for where the day number ends and the year begins."
 questionGoal: "Insert comma between day and year."
 misconception: "Treating a date as if no internal punctuation is needed."
 ```
@@ -2240,10 +2240,10 @@ pairs:
     right: "June 2, 2026"
   - left: "City, State"
     right: "Denver, Colorado"
-  - left: "Day, Month Day"
-    right: "Tuesday, March 9"
-  - left: "City, Country"
-    right: "Paris, France"
+  - left: "Month Day, Year in a sentence"
+    right: "The trip is July 4, 2026."
+  - left: "City, State in a sentence"
+    right: "We visited Austin, Texas."
 explanation: "Commas group parts of date and place information."
 hint: "Look for what kind of information is being grouped."
 questionGoal: "Connect comma patterns to date/place examples."
@@ -2256,8 +2256,7 @@ type: multi-blank-cloze
 prompt: "Complete the date and place punctuation."
 parts:
   - "We moved to Boise"
-  - " Idaho"
-  - " on July 4"
+  - " Idaho. The date was July 4"
   - " 2026."
 blanks:
   - correctAnswer: ","
@@ -2266,13 +2265,10 @@ blanks:
   - correctAnswer: ","
     acceptedAnswers:
       - ","
-  - correctAnswer: ","
-    acceptedAnswers:
-      - ","
-explanation: "Use commas around the state when the sentence continues, and between 4 and 2026."
-hint: "One comma starts the state phrase, one closes it, and one separates the date parts."
-questionGoal: "Apply comma placement in a continued place phrase and a date pattern."
-misconception: "Fixing only one comma target in a sentence with two patterns."
+explanation: "Use one comma between the city and state, and one comma between the day and year."
+hint: "Find the city/state pair and the month-day-year date."
+questionGoal: "Apply comma placement in city/state and Month Day, Year patterns."
+misconception: "Fixing only one comma target when two simple patterns are present."
 ```
 
 ```question
@@ -2300,7 +2296,7 @@ choices:
   - "Mia said"
   - "I found the key"
   - "said I found"
-  - "the key Mia"
+  - "found the key"
 correctAnswer: "I found the key"
 explanation: "The exact spoken words are what Mia said aloud."
 hint: "Separate the speaker tag from the spoken words."
@@ -2316,7 +2312,7 @@ sentence: "Mia said, I found the key."
 acceptedAnswers:
   - 'Mia said, "I found the key."'
 explanation: "Quotation marks go around the exact words Mia spoke."
-hint: "Put quotation marks before I and after the period."
+hint: "Find only the words Mia said aloud, then mark those words."
 questionGoal: "Add quotation marks to a tag-first dialogue sentence."
 misconception: "Leaving exact spoken words unmarked."
 ```
@@ -2342,7 +2338,7 @@ misconception: "Using the spoken sentence's end mark after the tag."
 ```question
 key: u06_l04_q04_dialogue_builder
 type: dialogue-builder
-prompt: "Choose the best next spoken line."
+prompt: "Choose the exact words the Student should say."
 turns:
   - speaker: "Teacher"
     line: "Please open your notebook."
@@ -2350,13 +2346,13 @@ turns:
     line: ""
 choices:
   - "I am ready."
-  - "The moon is bright."
-  - "Under the table."
+  - "Student said, I am ready."
+  - "Please open your notebook."
 correctAnswer: "I am ready."
-explanation: "I am ready is a complete response that fits the teacher's direction."
-hint: "Choose a line someone might actually say next."
-questionGoal: "Use dialogue meaning to choose a fitting spoken line."
-misconception: "Choosing a grammatical word group without checking conversation meaning."
+explanation: "I am ready is only the student's exact spoken words; the speaker tag stays outside the quotation."
+hint: "Choose only the words that belong inside the quotation marks."
+questionGoal: "Choose exact spoken words without including the speaker tag."
+misconception: "Including the speaker tag as part of the spoken quotation."
 ```
 
 ```question
@@ -2509,7 +2505,7 @@ choices:
   - "The dog ran the dog chased the ball."
   - "The dog ran, and it chased the ball."
   - "Because the dog ran."
-  - "The dog, the ball, ran chased."
+  - "The dog ran, it chased the ball."
 correctAnswer: "The dog ran, and it chased the ball."
 explanation: "This combines the related ideas without creating a run-on."
 hint: "Choose the revision that keeps both ideas and has a clear connector."
@@ -2575,9 +2571,9 @@ passage: |
 question: "Which revision strategy would reduce repetition?"
 choices:
   - "Combine the ideas and use a pronoun clearly"
-  - "Add random adjectives to every noun"
-  - "Remove all verbs"
-  - "Change beans to a proper noun"
+  - "Add a describing word to beans"
+  - "Repeat The class at the start of both sentences"
+  - "Add a where phrase to only the first sentence"
 correctAnswer: "Combine the ideas and use a pronoun clearly"
 explanation: "The class planted beans and watered them keeps the meaning and reduces repetition."
 hint: "Look for repeated words and related ideas."
@@ -2682,15 +2678,15 @@ misconception: "Changing a correct sentence because mixed review feels like ever
 ```question
 key: u07_l03_q05_explain_capstone_edit
 type: constructed-response
-prompt: "Correct and explain this sentence: the boys lunch spilled."
+prompt: "Correct and explain this sentence, meaning one boy owns the lunch: the boys lunch spilled."
 minWords: 10
 sampleAnswer: "The boy's lunch spilled. The needs a capital, and boy's shows the lunch belongs to one boy."
 checklist:
   - "Correct capitalization"
-  - "Use a possessive if one boy owns the lunch"
+  - "Use a singular possessive for one boy"
   - "Explain at least one edit"
 explanation: "A capstone edit should fix the target and explain why the correction fits the meaning."
-hint: "Ask whether the sentence means one boy owns the lunch or several boys are present."
+hint: "Show that the lunch belongs to one boy."
 questionGoal: "Correct and explain capitalization and possessive ownership."
 misconception: "Adding plural s or apostrophes without checking meaning."
 ```
@@ -2707,7 +2703,7 @@ choices:
   - "Sara packed apples, crackers, and cheese. She was hungry because the hike was long."
   - "sara packed apples crackers and cheese. she was hungry because the hike was long."
   - "Sara packed apples, crackers and cheese she was hungry because the hike was long."
-  - "Sara packed apples, crackers, and cheese because."
+  - "Sara packed apples, crackers, and cheese. Hungry because the hike was long."
 correctAnswer: "Sara packed apples, crackers, and cheese. She was hungry because the hike was long."
 explanation: "The best revision fixes capitalization and the series commas while keeping the second sentence complete."
 hint: "Check the name, sentence beginning, list commas, and complete thoughts."
