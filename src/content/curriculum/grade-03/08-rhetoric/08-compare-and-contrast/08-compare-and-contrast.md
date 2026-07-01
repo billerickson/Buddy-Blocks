@@ -45,13 +45,13 @@ questions:
     prompt: Match each signal word.
     pairs:
       - left: both
-        right: compare
+        right: compare signal for two
       - left: also
-        right: compare
+        right: compare signal for addition
       - left: but
-        right: contrast
+        right: contrast signal for difference
       - left: however
-        right: contrast
+        right: contrast signal for turn
     explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Build a contrast sentence.

@@ -45,13 +45,13 @@ questions:
     prompt: Match each example.
     pairs:
       - left: speak respectfully
-        right: responsibility
+        right: responsibility in speech
       - left: be safe at school
-        right: right
+        right: right to safety
       - left: care for shared books
-        right: responsibility
+        right: responsibility for materials
       - left: be treated fairly
-        right: right
+        right: right to fairness
     explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Connect rights and responsibilities.

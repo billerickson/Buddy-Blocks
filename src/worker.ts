@@ -5,6 +5,7 @@ import {
   childCookie,
   clearChildCookie,
   clearSessionCookie,
+  hashPassword,
   parseCookies,
   randomId,
   sessionCookie,
@@ -27,7 +28,7 @@ import { completeLesson, type CompletionLesson } from './worker/lesson-completio
 type ParentRow = {
   id: string;
   username: string;
-  email: string;
+  email: string | null;
   password_hash: string;
   password_salt: string;
   status: 'active' | 'archived';
@@ -45,6 +46,7 @@ type ChildRow = {
   avatar_key: string;
   level_band: string | null;
   grade_level: number;
+  status: 'active' | 'archived';
   hearts_remaining: number;
   created_at: string;
   updated_at: string;
@@ -203,9 +205,24 @@ type Env = {
 const SESSION_DAYS = 14;
 const PROTECTED_PAGE_PREFIXES = ['/profiles', '/kid', '/parent'];
 const PUBLIC_FILE_PREFIXES = ['/icons/', '/assets/', '/_astro/'];
+const SETUP_PATH = '/setup/';
 const PARENT_GATE_PATH = '/parent-gate/';
 const PRACTICE_LESSON_PREFIX = 'practice_set_';
 const PRACTICE_SET_XP_BASE = 8;
+const SetupParentSchema = z.object({
+  username: z
+    .string()
+    .trim()
+    .min(2)
+    .max(64)
+    .regex(/^[a-z0-9][a-z0-9_-]*$/i)
+    .transform((value) => value.toLowerCase()),
+  email: z.preprocess(
+    (value) => (typeof value === 'string' && value.trim() === '' ? undefined : value),
+    z.string().trim().email().max(254).optional(),
+  ),
+  password: z.string().min(8).max(200),
+});
 const ClientAttemptIdSchema = z.string().trim().min(1).max(128).optional();
 const AttemptSubmissionSchema = z.object({
   clientAttemptId: ClientAttemptIdSchema,
@@ -261,6 +278,19 @@ const PracticeSetUpdateSchema = z.object({
   cards: z.array(PracticeSetCardInputSchema).min(1).optional(),
 });
 
+const ChildCreateSchema = z.object({
+  displayName: z.string().trim().min(1).max(80),
+  gradeLevel: z.number().int().min(1).max(12),
+});
+
+const ChildUpdateSchema = z.object({
+  displayName: z.string().trim().min(1).max(80).optional(),
+  gradeLevel: z.number().int().min(1).max(12).optional(),
+  status: z.enum(['active', 'archived']).optional(),
+});
+
+const childAvatarKeys = ['berry-builder', 'teal-tinkerer', 'gold-builder'];
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -270,13 +300,18 @@ export default {
     if (url.pathname === '/') return rootRedirect(request, env);
     if (isPublicAsset(url.pathname)) return env.ASSETS.fetch(request);
 
+    if (url.pathname === '/setup' || url.pathname === SETUP_PATH) return setupPage(request, env);
+
     if (url.pathname === '/login' || url.pathname === '/login/') {
+      if (!(await hasActiveParent(env))) return redirect(new URL(SETUP_PATH, request.url), 303);
       if (request.method === 'POST') return login(request, env);
       return serveAsset(request, env, '/login/');
     }
 
     if (url.pathname === '/logout' || url.pathname === '/logout/') return logout(request, env);
     if (url.pathname === '/parent-gate' || url.pathname === '/parent-gate/') return parentGate(request, env);
+    if (url.pathname === '/api/setup/status' || url.pathname === '/api/setup/status/') return apiSetupStatus(env);
+    if (url.pathname === '/api/setup/parent' || url.pathname === '/api/setup/parent/') return apiSetupParent(request, env);
     if (url.pathname.startsWith('/api/')) return apiRouter(request, env);
 
     if (PROTECTED_PAGE_PREFIXES.some((prefix) => url.pathname === prefix || url.pathname.startsWith(`${prefix}/`))) {
@@ -288,11 +323,23 @@ export default {
 };
 
 async function rootRedirect(request: Request, env: Env) {
+  if (!(await hasActiveParent(env))) return redirect(new URL(SETUP_PATH, request.url));
+
   const parent = await getParentFromRequest(request, env);
   if (!parent) return serveAsset(request, env, '/');
 
   const childSlug = getChildModeSlug(request);
   return redirect(new URL(childSlug ? `/kid/${encodeURIComponent(childSlug)}/` : '/profiles/', request.url));
+}
+
+async function setupPage(request: Request, env: Env) {
+  if (await hasActiveParent(env)) {
+    const parent = await getParentFromRequest(request, env);
+    return redirect(new URL(parent ? '/profiles/' : '/login/', request.url), 303);
+  }
+
+  if (request.method === 'GET' || request.method === 'HEAD') return serveAsset(request, env, SETUP_PATH);
+  return json({ error: 'method_not_allowed' }, 405);
 }
 
 async function login(request: Request, env: Env) {
@@ -340,6 +387,8 @@ async function logout(request: Request, env: Env) {
 }
 
 async function parentGate(request: Request, env: Env) {
+  if (!(await hasActiveParent(env))) return redirect(new URL(SETUP_PATH, request.url), 303);
+
   const parent = await getParentFromRequest(request, env);
   if (!parent) return redirect(new URL('/login/', request.url), 303);
 
@@ -374,6 +423,8 @@ async function parentGate(request: Request, env: Env) {
 }
 
 async function protectedAsset(request: Request, env: Env) {
+  if (!(await hasActiveParent(env))) return redirect(new URL(SETUP_PATH, request.url), 303);
+
   const parent = await getParentFromRequest(request, env);
   if (!parent) return redirect(new URL('/login/', request.url), 303);
 
@@ -389,7 +440,7 @@ async function protectedAsset(request: Request, env: Env) {
   if (!requestedChildSlug) return serveAsset(request, env, url.pathname);
 
   const child = await getChildForParent(parent, env, requestedChildSlug);
-  if (!child) {
+  if (!child || child.status !== 'active') {
     const response = redirect(new URL('/profiles/', request.url), 303);
     response.headers.append('Set-Cookie', clearChildCookie());
     return response;
@@ -424,11 +475,16 @@ async function apiRouter(request: Request, env: Env) {
     if (childModeSlug) return parentReauthResponse();
     return apiParentDashboard(parent, env);
   }
-
-  const subjectLevelMatch = pathname.match(/^\/api\/parent\/children\/([^/]+)\/subject-levels$/);
-  if (subjectLevelMatch) {
+  if (pathname === '/api/parent/children') {
     if (childModeSlug) return parentReauthResponse();
-    return json({ error: 'subject_levels_removed' }, 410);
+    if (request.method === 'GET') return apiParentChildren(parent, env);
+    if (request.method === 'POST') return apiCreateChild(parent, env, request);
+  }
+
+  const parentChildMatch = pathname.match(/^\/api\/parent\/children\/([^/]+)$/);
+  if (parentChildMatch) {
+    if (childModeSlug) return parentReauthResponse();
+    if (request.method === 'PATCH') return apiUpdateChild(parent, env, request, decodeURIComponent(parentChildMatch[1]));
   }
 
   const parentPracticeSetMatch = pathname.match(/^\/api\/parent\/children\/([^/]+)\/practice-sets(?:\/([^/]+))?$/);
@@ -471,6 +527,57 @@ async function apiRouter(request: Request, env: Env) {
   return json({ error: 'not_found' }, 404);
 }
 
+async function apiSetupStatus(env: Env) {
+  const activeParentCount = await getActiveParentCount(env);
+  return json({
+    configured: activeParentCount > 0,
+    setupRequired: activeParentCount === 0,
+    activeParentCount,
+  });
+}
+
+async function apiSetupParent(request: Request, env: Env) {
+  if (request.method !== 'POST') return json({ error: 'method_not_allowed' }, 405);
+  if (!sameOrigin(request)) return json({ error: 'invalid_origin' }, 403);
+  if (await hasActiveParent(env)) return json({ error: 'setup_complete' }, 409);
+
+  let body: z.infer<typeof SetupParentSchema>;
+  try {
+    body = SetupParentSchema.parse(await request.json());
+  } catch {
+    return json({ error: 'invalid_setup_parent_payload' }, 400);
+  }
+
+  const now = new Date();
+  const expires = new Date(now.getTime() + SESSION_DAYS * 24 * 60 * 60 * 1000);
+  const parentId = randomId('parent_');
+  const sessionId = randomId('sess_');
+  const password = await hashPassword(body.password);
+  const parent: SessionParent = {
+    id: parentId,
+    username: body.username,
+    email: body.email ?? null,
+    status: 'active',
+    created_at: now.toISOString(),
+    updated_at: now.toISOString(),
+  };
+
+  await env.DB.batch([
+    env.DB.prepare(
+      `INSERT INTO parents
+       (id, username, email, password_hash, password_salt, status, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, 'active', ?, ?)`,
+    ).bind(parent.id, parent.username, parent.email, password.hash, password.salt, parent.created_at, parent.updated_at),
+    env.DB.prepare('INSERT INTO sessions (id, parent_id, expires_at, created_at) VALUES (?, ?, ?, ?)')
+      .bind(sessionId, parent.id, expires.toISOString(), parent.created_at),
+  ]);
+
+  const response = json({ parent: parentResponse(parent), redirectTo: '/parent/' }, 201);
+  response.headers.append('Set-Cookie', sessionCookie(sessionId, expires));
+  response.headers.append('Set-Cookie', clearChildCookie());
+  return response;
+}
+
 async function apiMe(parent: SessionParent, env: Env) {
   return json({
     parent: parentResponse(parent),
@@ -479,14 +586,98 @@ async function apiMe(parent: SessionParent, env: Env) {
 }
 
 async function apiChildren(parent: SessionParent, env: Env) {
+  const children = await getActiveChildren(parent, env);
+  return json({ children: children.map(childResponse) });
+}
+
+async function apiParentChildren(parent: SessionParent, env: Env) {
   const children = await getChildren(parent, env);
   return json({ children: children.map(childResponse) });
+}
+
+async function apiCreateChild(parent: SessionParent, env: Env, request: Request) {
+  let body: z.infer<typeof ChildCreateSchema>;
+  try {
+    body = ChildCreateSchema.parse(await request.json());
+  } catch {
+    return json({ error: 'invalid_child_payload' }, 400);
+  }
+
+  const now = new Date().toISOString();
+  const existingChildren = await getChildren(parent, env);
+  const child: ChildRow = {
+    id: randomId('child_'),
+    parent_id: parent.id,
+    slug: uniqueChildSlug(body.displayName, existingChildren.map((item) => item.slug)),
+    display_name: body.displayName,
+    avatar_key: childAvatarKeys[existingChildren.length % childAvatarKeys.length],
+    level_band: levelBandForGrade(body.gradeLevel),
+    grade_level: body.gradeLevel,
+    status: 'active',
+    hearts_remaining: 5,
+    created_at: now,
+    updated_at: now,
+  };
+
+  await env.DB.prepare(
+    `INSERT INTO child_profiles
+     (id, parent_id, slug, display_name, avatar_key, level_band, grade_level, status, hearts_remaining, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  )
+    .bind(
+      child.id,
+      child.parent_id,
+      child.slug,
+      child.display_name,
+      child.avatar_key,
+      child.level_band,
+      child.grade_level,
+      child.status,
+      child.hearts_remaining,
+      child.created_at,
+      child.updated_at,
+    )
+    .run();
+
+  await provisionChildProgress(env, child, now);
+
+  return json({ child: childResponse(child) }, 201);
+}
+
+async function apiUpdateChild(parent: SessionParent, env: Env, request: Request, childKey: string) {
+  const child = await getChildForParent(parent, env, childKey);
+  if (!child) return json({ error: 'child_not_found' }, 404);
+
+  let body: z.infer<typeof ChildUpdateSchema>;
+  try {
+    body = ChildUpdateSchema.parse(await request.json());
+  } catch {
+    return json({ error: 'invalid_child_payload' }, 400);
+  }
+
+  const now = new Date().toISOString();
+  const gradeLevel = body.gradeLevel ?? child.grade_level;
+  const status = body.status ?? child.status;
+  await env.DB.prepare(
+    `UPDATE child_profiles
+     SET display_name = ?, level_band = ?, grade_level = ?, status = ?, updated_at = ?
+     WHERE id = ? AND parent_id = ?`,
+  )
+    .bind(body.displayName ?? child.display_name, levelBandForGrade(gradeLevel), gradeLevel, status, now, child.id, parent.id)
+    .run();
+
+  const updated = await getChildForParent(parent, env, child.id);
+  if (!updated) return json({ error: 'child_not_found' }, 404);
+  if (updated.status === 'active') await provisionChildProgress(env, updated, now);
+
+  return json({ child: childResponse(updated) });
 }
 
 async function apiChildHome(parent: SessionParent, env: Env, childKey: string, childModeSlug: string | null) {
   const child = await getChildForParent(parent, env, childKey);
   if (!child) return json({ error: 'child_not_found' }, 404);
   if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
+  await provisionChildProgress(env, child, new Date().toISOString());
 
   const tracks = await getTracksForChild(env, child);
   const trackStats = await getTrackStatsForChild(
@@ -558,6 +749,7 @@ async function apiChildTrack(
   const child = await getChildForParent(parent, env, childKey);
   if (!child) return json({ error: 'child_not_found' }, 404);
   if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
+  await provisionChildProgress(env, child, new Date().toISOString());
 
   const track = await getTrackForChild(env, child, trackSlug);
   if (!track) return json({ error: 'track_not_found' }, 404);
@@ -591,6 +783,7 @@ async function apiChildTrackOfflinePack(
   const child = await getChildForParent(parent, env, childKey);
   if (!child) return json({ error: 'child_not_found' }, 404);
   if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
+  await provisionChildProgress(env, child, new Date().toISOString());
 
   const track = await getTrackForChild(env, child, trackSlug);
   if (!track) return json({ error: 'track_not_found' }, 404);
@@ -632,6 +825,7 @@ async function apiLesson(
   const child = await getChildForParent(parent, env, childKey);
   if (!child) return json({ error: 'child_not_found' }, 404);
   if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
+  await provisionChildProgress(env, child, new Date().toISOString());
 
   const practiceSetId = practiceSetIdFromLessonId(lessonId);
   if (practiceSetId) return apiPracticeLesson(env, child, practiceSetId);
@@ -659,6 +853,7 @@ async function apiSubmitLesson(
   const child = await getChildForParent(parent, env, childKey);
   if (!child) return json({ error: 'child_not_found' }, 404);
   if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
+  await provisionChildProgress(env, child, new Date().toISOString());
 
   const practiceSetId = practiceSetIdFromLessonId(lessonId);
   if (practiceSetId) return apiSubmitPracticeLesson(env, request, child, practiceSetId);
@@ -1200,9 +1395,24 @@ async function getParentFromRequest(request: Request, env: Env): Promise<Session
   return row;
 }
 
+async function hasActiveParent(env: Env) {
+  return (await getActiveParentCount(env)) > 0;
+}
+
+async function getActiveParentCount(env: Env) {
+  const row = await env.DB.prepare("SELECT count(*) as total FROM parents WHERE status = 'active'").first<CountRow>();
+  return row?.total ?? 0;
+}
+
 async function getChildren(parent: SessionParent, env: Env) {
   return all<ChildRow>(
-    env.DB.prepare('SELECT * FROM child_profiles WHERE parent_id = ? ORDER BY display_name').bind(parent.id),
+    env.DB.prepare("SELECT * FROM child_profiles WHERE parent_id = ? ORDER BY status, display_name").bind(parent.id),
+  );
+}
+
+async function getActiveChildren(parent: SessionParent, env: Env) {
+  return all<ChildRow>(
+    env.DB.prepare("SELECT * FROM child_profiles WHERE parent_id = ? AND status = 'active' ORDER BY display_name").bind(parent.id),
   );
 }
 
@@ -1221,6 +1431,35 @@ async function getTracksForChild(env: Env, child: ChildRow) {
     if (await canAccessTrack(env, child, track.subject, track.grade_level)) accessibleTracks.push(track);
   }
   return uniqueTracks(accessibleTracks).sort(compareTracksBySubjectMetadata);
+}
+
+async function provisionChildProgress(env: Env, child: ChildRow, updatedAt: string) {
+  const tracks = await getTracksForChild(env, child);
+  for (const track of tracks) {
+    const lessons = await getLessonDetailsForTrack(env, track.id);
+    const firstLesson = lessons[0];
+    if (!firstLesson) continue;
+
+    await env.DB.batch([
+      env.DB.prepare(
+        `INSERT OR IGNORE INTO child_track_progress
+         (id, child_profile_id, track_id, current_unit_id, current_lesson_id, lessons_completed, xp_total, updated_at)
+         VALUES (?, ?, ?, ?, ?, 0, 0, ?)`,
+      ).bind(`track_progress_${child.id}_${track.id}`, child.id, track.id, firstLesson.unit_id, firstLesson.id, updatedAt),
+      ...lessons.map((lesson) =>
+        env.DB.prepare(
+          `INSERT OR IGNORE INTO child_lesson_progress
+           (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+           VALUES (?, ?, ?, ?, NULL, 0, 0)`,
+        ).bind(
+          `lesson_progress_${child.id}_${lesson.id}`,
+          child.id,
+          lesson.id,
+          lesson.id === firstLesson.id || lesson.kind === 'mad-minute' ? 'available' : 'locked',
+        ),
+      ),
+    ]);
+  }
 }
 
 async function getTrackForChild(env: Env, child: ChildRow, trackSlug: string) {
@@ -1807,7 +2046,7 @@ async function getLessonQuestions(env: Env, lessonId: string): Promise<LessonQue
     id: row.id,
     type: row.type,
     prompt: row.prompt,
-    payload: JSON.parse(row.payload_json) as QuestionPayload,
+    payload: runtimeQuestionPayload(row.payload_json),
     explanation: row.explanation,
     hint: row.hint,
   }));
@@ -1831,7 +2070,7 @@ async function getLessonQuestionsByLessonIds(env: Env, lessonIds: string[]) {
       id: row.id,
       type: row.type,
       prompt: row.prompt,
-      payload: JSON.parse(row.payload_json) as QuestionPayload,
+      payload: runtimeQuestionPayload(row.payload_json),
       explanation: row.explanation,
       hint: row.hint,
     };
@@ -1841,6 +2080,16 @@ async function getLessonQuestionsByLessonIds(env: Env, lessonIds: string[]) {
   }
 
   return questionsByLessonId;
+}
+
+function runtimeQuestionPayload(payloadJson: string): QuestionPayload {
+  const payload = JSON.parse(payloadJson) as QuestionPayload | Record<string, unknown>;
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return payload as QuestionPayload;
+
+  const runtimePayload: Record<string, unknown> = { ...(payload as Record<string, unknown>) };
+  delete runtimePayload.questionGoal;
+  delete runtimePayload.misconception;
+  return runtimePayload as QuestionPayload;
 }
 
 async function getActivityDates(env: Env, childId: string) {
@@ -1903,6 +2152,7 @@ function childResponse(child: ChildRow) {
     avatarKey: child.avatar_key,
     levelBand: child.level_band,
     gradeLevel: child.grade_level,
+    status: child.status,
     heartsRemaining: child.hearts_remaining,
   };
 }
@@ -1984,7 +2234,7 @@ function getChildModeSlug(request: Request) {
 }
 
 function canAccessChild(childModeSlug: string | null, child: ChildRow) {
-  return !childModeSlug || childModeSlug === child.slug;
+  return child.status === 'active' && (!childModeSlug || childModeSlug === child.slug);
 }
 
 function childLockedResponse() {
@@ -2041,6 +2291,32 @@ function safeNextPath(value: string, fallback: string) {
   } catch {
     return fallback;
   }
+}
+
+function uniqueChildSlug(displayName: string, existingSlugs: string[]) {
+  const taken = new Set(existingSlugs);
+  const base = slugify(displayName) || 'child';
+  if (!taken.has(base)) return base;
+
+  for (let suffix = 2; ; suffix += 1) {
+    const candidate = `${base}-${suffix}`;
+    if (!taken.has(candidate)) return candidate;
+  }
+}
+
+function levelBandForGrade(gradeLevel: number) {
+  return `Grade ${gradeLevel}`;
+}
+
+function slugify(value: string) {
+  return value
+    .normalize('NFKD')
+    .replace(/[^\w\s-]/g, '')
+    .trim()
+    .toLowerCase()
+    .replace(/_/g, '-')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
 }
 
 function childCookieExpiry() {

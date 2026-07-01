@@ -11,6 +11,7 @@
     "preview": "astro preview --host 0.0.0.0",
     "test": "vitest run",
     "content:validate": "tsx scripts/validate-content.ts",
+    "content:promote": "tsx scripts/research-promotion.ts",
     "deploy": "wrangler deploy",
     "db:migrate:local": "wrangler d1 migrations apply buddy_blocks --local",
     "db:migrate:remote": "wrangler d1 migrations apply buddy_blocks --remote",

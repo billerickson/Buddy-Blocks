@@ -48,11 +48,11 @@ questions:
     prompt: Match each setting clue.
     pairs:
       - left: rocky island
-        right: place
+        right: "place: island"
       - left: lanterns burned
         right: time or mood
       - left: harbor
-        right: place
+        right: "place: harbor"
       - left: storm arrived
         right: weather
     explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.

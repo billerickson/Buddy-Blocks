@@ -52,11 +52,11 @@ questions:
     prompt: Match each relationship.
     pairs:
       - left: happy/glad
-        right: synonyms
+        right: same feeling
       - left: rough/smooth
-        right: antonyms
+        right: opposite textures
       - left: large/big
-        right: synonyms
+        right: same size
     explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Order from weakest to strongest.

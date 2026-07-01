@@ -31,11 +31,11 @@ questions:
     prompt: Match each solid to number of faces.
     pairs:
       - left: cube
-        right: "6"
+        right: "6 faces: cube"
       - left: rectangular prism
-        right: "6"
+        right: "6 faces: rectangular prism"
       - left: triangular prism
-        right: "5"
+        right: "5 faces: triangular prism"
   - type: order-items
     prompt: Order the surface-area steps.
     items:

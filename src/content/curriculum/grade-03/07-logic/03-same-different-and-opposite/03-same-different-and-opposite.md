@@ -45,13 +45,13 @@ questions:
     prompt: Match each pair.
     pairs:
       - left: full/empty
-        right: opposites
+        right: opposite amounts
       - left: fast/quick
         right: same meaning
       - left: dog/cat
         right: different animals
       - left: above/below
-        right: opposites
+        right: opposite positions
     explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Order from least full to most full.

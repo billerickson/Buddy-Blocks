@@ -14,6 +14,7 @@ import {
 import type { ExerciseType, QuestionMedia, QuestionPayload } from './lesson-engine';
 
 export type QuestionFixture = {
+  key?: string;
   type: ExerciseType;
   prompt: string;
   payload: QuestionPayload;
@@ -57,6 +58,15 @@ export type CurriculumDuplicate = {
   paths: string[];
 };
 
+export type CurriculumValidationOptions = {
+  requireQuestionKeys?: boolean;
+};
+
+export type CurriculumIssue = {
+  message: string;
+  path: string;
+};
+
 export type CurriculumSummaryRow = {
   gradeLevel: number;
   subject: string;
@@ -86,6 +96,8 @@ const languageTrackSubjects = new Set(['spanish', 'french', 'latin']);
 const exposureFirstSubjects = new Set(['vocabulary', ...languageTrackSubjects]);
 
 const slugSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$/);
+const questionKeyPattern = /^[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?$/;
+const questionKeySchema = z.string().min(1).regex(questionKeyPattern);
 const stringListSchema = z.array(z.coerce.string()).min(1);
 const pairSchema = z.object({
   left: z.coerce.string(),
@@ -110,6 +122,7 @@ const unitFileSchema = z.object({
 });
 
 const baseQuestionSchema = z.object({
+  key: questionKeySchema.optional(),
   prompt: z.string().min(1),
   explanation: z.string().optional(),
   hint: z.string().min(1).optional(),
@@ -271,8 +284,8 @@ export function getTracksForGrade(gradeLevel: number) {
   return TRACKS.filter((track) => track.gradeLevel === gradeLevel);
 }
 
-export function getAllLessons(): LessonWithContext[] {
-  return TRACKS.flatMap((track) =>
+export function getAllLessons(tracks: TrackFixture[] = TRACKS): LessonWithContext[] {
+  return tracks.flatMap((track) =>
     track.units.flatMap((unit) =>
       unit.lessons.map((lesson) => ({
         ...lesson,
@@ -283,15 +296,20 @@ export function getAllLessons(): LessonWithContext[] {
   );
 }
 
-export function getAllQuestions() {
-  return getAllLessons().flatMap((lesson) =>
+export function getAllQuestions(tracks: TrackFixture[] = TRACKS) {
+  return getAllLessons(tracks).flatMap((lesson) =>
     lesson.questions.map((question, index) => ({
       ...question,
-      id: `${lesson.id}_q${String(index + 1).padStart(2, '0')}`,
+      id: questionIdForLesson(lesson, index),
       lessonId: lesson.id,
       sortOrder: index + 1,
     })),
   );
+}
+
+export function questionIdForLesson(lesson: LessonFixture, questionIndex: number) {
+  const key = lesson.questions[questionIndex]?.key;
+  return key ? `${lesson.id}_${key}` : `${lesson.id}_q${String(questionIndex + 1).padStart(2, '0')}`;
 }
 
 export function loadCurriculumFromRoot(root = curriculumRoot) {
@@ -305,14 +323,23 @@ export function loadCurriculumFromRoot(root = curriculumRoot) {
   return tracks;
 }
 
-export function validateCurriculum(tracks: TrackFixture[] = TRACKS) {
+export function validateCurriculum(tracks: TrackFixture[] = TRACKS, options: CurriculumValidationOptions = {}) {
   const duplicates = findDuplicateCurriculumIds(tracks);
-  if (duplicates.length === 0) return;
+  const issues = findCurriculumIssues(tracks, options);
+  if (duplicates.length === 0 && issues.length === 0) return;
 
-  const details = duplicates
+  const duplicateDetails = duplicates
     .map((duplicate) => `${duplicate.kind} id "${duplicate.id}" used by ${duplicate.paths.join(', ')}`)
     .join('; ');
-  throw new Error(`Duplicate curriculum IDs found: ${details}`);
+  const issueDetails = issues.map((issue) => `${issue.path}: ${issue.message}`).join('; ');
+  throw new Error(
+    [
+      duplicateDetails ? `Duplicate curriculum IDs found: ${duplicateDetails}` : '',
+      issueDetails ? `Curriculum validation issues found: ${issueDetails}` : '',
+    ]
+      .filter(Boolean)
+      .join('; '),
+  );
 }
 
 export function findDuplicateCurriculumIds(tracks: TrackFixture[]): CurriculumDuplicate[] {
@@ -327,7 +354,7 @@ export function findDuplicateCurriculumIds(tracks: TrackFixture[]): CurriculumDu
         const lessonPath = `${unitPath}/${lesson.slug}`;
         addId(seen, 'lesson', lesson.id, lessonPath);
         lesson.questions.forEach((_, index) => {
-          addId(seen, 'question', `${lesson.id}_q${String(index + 1).padStart(2, '0')}`, `${lessonPath}#q${index + 1}`);
+          addId(seen, 'question', questionIdForLesson(lesson, index), `${lessonPath}#q${index + 1}`);
         });
       }
     }
@@ -339,6 +366,43 @@ export function findDuplicateCurriculumIds(tracks: TrackFixture[]): CurriculumDu
       const [kind, id] = key.split(':', 2) as [CurriculumDuplicate['kind'], string];
       return { kind, id, paths };
     });
+}
+
+export function findCurriculumIssues(tracks: TrackFixture[], options: CurriculumValidationOptions = {}): CurriculumIssue[] {
+  const issues: CurriculumIssue[] = [];
+
+  for (const track of tracks) {
+    for (const unit of track.units) {
+      for (const lesson of unit.lessons) {
+        const lessonPath = `grade-${String(track.gradeLevel).padStart(2, '0')}/${track.slug}/${unit.slug}/${lesson.slug}`;
+        const seenKeys = new Set<string>();
+        lesson.questions.forEach((question, index) => {
+          const questionPath = `${lessonPath}#q${index + 1}`;
+          if (!question.key) {
+            if (options.requireQuestionKeys) {
+              issues.push({ path: questionPath, message: 'Promoted V3 question is missing key' });
+            }
+          } else if (!questionKeyPattern.test(question.key)) {
+            issues.push({ path: questionPath, message: `Question key "${question.key}" must be lowercase letters, digits, hyphens, or underscores` });
+          } else if (seenKeys.has(question.key)) {
+            issues.push({ path: questionPath, message: `Duplicate question key "${question.key}" in lesson ${lesson.id}` });
+          } else {
+            seenKeys.add(question.key);
+          }
+
+          if (question.type === 'match-pairs') {
+            const rightLabels = (question.payload as { pairs?: Array<{ right: string }> }).pairs?.map((pair) => pair.right) ?? [];
+            const duplicateRight = firstDuplicate(rightLabels);
+            if (duplicateRight) {
+              issues.push({ path: questionPath, message: `Duplicate match-pair right-side label "${duplicateRight}"` });
+            }
+          }
+        });
+      }
+    }
+  }
+
+  return issues;
 }
 
 export function summarizeCurriculum(tracks: TrackFixture[] = TRACKS): CurriculumSummary {
@@ -395,6 +459,15 @@ export function formatCurriculumSummary(summary: CurriculumSummary) {
 function addId(seen: Map<string, string[]>, kind: CurriculumDuplicate['kind'], id: string, path: string) {
   const key = `${kind}:${id}`;
   seen.set(key, [...(seen.get(key) ?? []), path]);
+}
+
+function firstDuplicate(values: string[]) {
+  const seen = new Set<string>();
+  for (const value of values) {
+    if (seen.has(value)) return value;
+    seen.add(value);
+  }
+  return null;
 }
 
 function loadTrack(trackDir: string, gradeLevel: number): TrackFixture {
@@ -481,7 +554,11 @@ function loadLesson(lessonPath: string): LessonFixture {
 
 function normalizeQuestion(question: AuthoredQuestion): QuestionFixture {
   const normalized = normalizeQuestionPayload(question);
-  return question.hint ? { ...normalized, hint: question.hint } : normalized;
+  return {
+    ...normalized,
+    ...(question.key ? { key: question.key } : {}),
+    ...(question.hint ? { hint: question.hint } : {}),
+  };
 }
 
 function normalizeQuestionPayload(question: AuthoredQuestion): QuestionFixture {

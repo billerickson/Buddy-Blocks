@@ -44,14 +44,14 @@ questions:
       - "0.5"
       - "1"
   - type: match-pairs
-    prompt: Match each comparison to true or false.
+    prompt: Match each comparison to its status.
     pairs:
       - left: -6 < -2
-        right: true
+        right: "true: farther left"
       - left: 0 < -1
-        right: false
+        right: "false: zero is greater"
       - left: -0.25 > -0.5
-        right: true
+        right: "true: closer to zero"
   - type: multiple-choice
     prompt: Which number is between -2 and -1?
     choices:

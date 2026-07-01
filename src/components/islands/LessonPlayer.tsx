@@ -30,7 +30,15 @@ import {
 } from '../../lib/lesson-config-core';
 import { calculateMadMinuteXp, generateMadMinuteFact, scoreMadMinuteAttempts } from '../../lib/mad-minute';
 import { LessonIntro } from '../lesson/LessonIntro';
-import { prepareLessonQueue, hashString, nextSeed, type QueueItem } from '../lesson/lesson-flow';
+import {
+  prepareLessonQueue,
+  hashString,
+  nextQueueAfterAnswer,
+  nextSeed,
+  shouldRecordFirstAttempt,
+  shouldShowRetryHint,
+  type QueueItem,
+} from '../lesson/lesson-flow';
 import { clearMatchForLeft } from '../lesson/match-pairs';
 import { AudioBlock, QuestionMediaDisplay, mediaFromQuestion } from '../lesson/media';
 import { fetchKidLesson, submitLessonCompletion, type OfflineSource } from './offline/api';
@@ -380,7 +388,7 @@ export default function LessonPlayer({
           <PromptWithSpeech question={current.question} speechLanguage={speechLanguage} />
         </h2>
         <QuestionMediaDisplay media={mediaFromQuestion(current.question)} />
-        {current.review && current.question.hint && (
+        {shouldShowRetryHint(current) && (
           <div className="mt-5 rounded-lg border-[3px] border-ink bg-[#fff3b0] p-4 shadow-[4px_4px_0_var(--block-shadow)]" role="note" aria-label="Hint">
             <p className="text-sm font-black uppercase text-muted">Hint</p>
             <p className="mt-1 text-lg font-black text-ink">{current.question.hint}</p>
@@ -523,10 +531,10 @@ export default function LessonPlayer({
   function submitCurrent() {
     const answer = currentAnswer(current.question);
     const correct = evaluateAnswer(current.question, answer);
-    const shouldRecordFirstAttempt = !current.review && !firstAttemptIds.has(current.question.id);
-    const nextQueue = !correct && !current.review ? [...queue, { question: current.question, review: true }] : queue;
+    const recordFirstAttempt = shouldRecordFirstAttempt(current, firstAttemptIds);
+    const nextQueue = nextQueueAfterAnswer(queue, current, correct);
 
-    if (shouldRecordFirstAttempt) {
+    if (recordFirstAttempt) {
       setFirstAttempts((attempts) => [...attempts, { questionId: current.question.id, answer }]);
     }
 

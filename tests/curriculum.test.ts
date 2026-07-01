@@ -8,10 +8,12 @@ import {
   GRADE_6_TRACKS,
   TRACKS,
   findDuplicateCurriculumIds,
+  findCurriculumIssues,
   getAllLessons,
   getAllQuestions,
   getTracksForGrade,
   loadCurriculumFromRoot,
+  questionIdForLesson,
   summarizeCurriculum,
   validateCurriculum,
   type TrackFixture,
@@ -732,6 +734,257 @@ hint: Think about the smallest living unit.
     expect(question?.hint).toBe('Think about the smallest living unit.');
   });
 
+  it('parses authored question keys and uses them for stable question IDs', () => {
+    const root = createTempCurriculumRoot();
+    writeTrack(root, 'grade-07', '01-science', {
+      id: 'track_grade7_science',
+      slug: 'grade-7-science',
+      subject: 'science',
+      title: 'Science',
+    });
+    writeUnit(root, 'grade-07', '01-science', '01-cells', {
+      id: 'unit_grade7_science_cells',
+      slug: 'cells',
+      title: 'Cells',
+    });
+    const lessonPath = join(root, 'grade-07', '01-science', '01-cells', '01-cell-parts.md');
+    writeFileSync(
+      lessonPath,
+      lessonMarkdownWithQuestions([
+        `key: cell-part-name
+type: text-input
+prompt: Type cell.
+acceptedAnswers:
+  - cell`,
+        `key: cell-part-choice
+type: multiple-choice
+prompt: Which is a cell part?
+choices:
+  - Nucleus
+  - Sidewalk
+correctAnswer: Nucleus`,
+      ]),
+      'utf8',
+    );
+
+    const tracks = loadCurriculumFromRoot(root);
+    const lesson = tracks[0]!.units[0]!.lessons[0]!;
+
+    expect(lesson.questions.map((question) => question.key)).toEqual(['cell-part-name', 'cell-part-choice']);
+    expect(questionIdForLesson(lesson, 0)).toBe('lesson_grade7_science_cell_parts_cell-part-name');
+    expect(getAllQuestions(tracks).map((question) => question.id)).toEqual([
+      'lesson_grade7_science_cell_parts_cell-part-name',
+      'lesson_grade7_science_cell_parts_cell-part-choice',
+    ]);
+
+    writeFileSync(
+      lessonPath,
+      lessonMarkdownWithQuestions([
+        `key: cell-part-choice
+type: multiple-choice
+prompt: Which is a cell part?
+choices:
+  - Nucleus
+  - Sidewalk
+correctAnswer: Nucleus`,
+        `key: cell-part-name
+type: text-input
+prompt: Type cell.
+acceptedAnswers:
+  - cell`,
+      ]),
+      'utf8',
+    );
+
+    expect(new Set(getAllQuestions(loadCurriculumFromRoot(root)).map((question) => question.id))).toEqual(
+      new Set(['lesson_grade7_science_cell_parts_cell-part-choice', 'lesson_grade7_science_cell_parts_cell-part-name']),
+    );
+  });
+
+  it('strips author-only question metadata from runtime questions', () => {
+    const root = createTempCurriculumRoot();
+    writeTrack(root, 'grade-07', '01-science', {
+      id: 'track_grade7_science',
+      slug: 'grade-7-science',
+      subject: 'science',
+      title: 'Science',
+    });
+    writeUnit(root, 'grade-07', '01-science', '01-cells', {
+      id: 'unit_grade7_science_cells',
+      slug: 'cells',
+      title: 'Cells',
+    });
+    writeFileSync(
+      join(root, 'grade-07', '01-science', '01-cells', '01-cell-parts.md'),
+      lessonMarkdownWithQuestions([
+        `key: cell-part-name
+type: text-input
+prompt: Type cell.
+acceptedAnswers:
+  - cell
+questionGoal: Check whether the student knows the term.
+misconception: Confusing cells with atoms.`,
+      ]),
+      'utf8',
+    );
+
+    const question = loadCurriculumFromRoot(root)[0]!.units[0]!.lessons[0]!.questions[0] as Record<string, unknown>;
+
+    expect(question.key).toBe('cell-part-name');
+    expect(question.questionGoal).toBeUndefined();
+    expect(question.misconception).toBeUndefined();
+    expect(question.payload).not.toHaveProperty('questionGoal');
+    expect(question.payload).not.toHaveProperty('misconception');
+  });
+
+  it('validates required promoted question keys in strict mode', () => {
+    const track = duplicateFixtureTrack('track_promoted', 'science', 'unit_promoted', 'lesson_promoted');
+
+    expect(() => validateCurriculum([track], { requireQuestionKeys: true })).toThrow(/missing key/);
+  });
+
+  it('validates question key format and uniqueness within a lesson', () => {
+    const invalidKeyTrack = duplicateFixtureTrack('track_bad_key', 'science', 'unit_bad_key', 'lesson_bad_key');
+    invalidKeyTrack.units[0]!.lessons[0]!.questions[0]!.key = 'Bad Key';
+
+    expect(() => validateCurriculum([invalidKeyTrack])).toThrow(/must be lowercase/);
+
+    const duplicateKeyTrack = duplicateFixtureTrack('track_duplicate_key', 'science', 'unit_duplicate_key', 'lesson_duplicate_key');
+    duplicateKeyTrack.units[0]!.lessons[0]!.questions = [
+      {
+        key: 'same-key',
+        type: 'text-input',
+        prompt: 'Type yes.',
+        payload: { acceptedAnswers: ['yes'], answerType: 'text' },
+      },
+      {
+        key: 'same-key',
+        type: 'text-input',
+        prompt: 'Type no.',
+        payload: { acceptedAnswers: ['no'], answerType: 'text' },
+      },
+    ];
+
+    expect(findCurriculumIssues([duplicateKeyTrack]).map((issue) => issue.message)).toContain(
+      'Duplicate question key "same-key" in lesson lesson_duplicate_key',
+    );
+    expect(() => validateCurriculum([duplicateKeyTrack])).toThrow(/Duplicate question key/);
+  });
+
+  it('fails validation for malformed fenced question YAML and unsupported question types', () => {
+    const malformedRoot = createTempCurriculumRoot();
+    writeTrack(malformedRoot, 'grade-07', '01-science', {
+      id: 'track_grade7_science',
+      slug: 'grade-7-science',
+      subject: 'science',
+      title: 'Science',
+    });
+    writeUnit(malformedRoot, 'grade-07', '01-science', '01-cells', {
+      id: 'unit_grade7_science_cells',
+      slug: 'cells',
+      title: 'Cells',
+    });
+    writeFileSync(
+      join(malformedRoot, 'grade-07', '01-science', '01-cells', '01-cell-parts.md'),
+      lessonMarkdownWithQuestions([
+        `key: malformed
+type: text-input
+prompt: [unterminated
+acceptedAnswers:
+  - cell`,
+      ]),
+      'utf8',
+    );
+
+    expect(() => loadCurriculumFromRoot(malformedRoot)).toThrow();
+
+    const unsupportedRoot = createTempCurriculumRoot();
+    writeTrack(unsupportedRoot, 'grade-07', '01-science', {
+      id: 'track_grade7_science',
+      slug: 'grade-7-science',
+      subject: 'science',
+      title: 'Science',
+    });
+    writeUnit(unsupportedRoot, 'grade-07', '01-science', '01-cells', {
+      id: 'unit_grade7_science_cells',
+      slug: 'cells',
+      title: 'Cells',
+    });
+    writeFileSync(
+      join(unsupportedRoot, 'grade-07', '01-science', '01-cells', '01-cell-parts.md'),
+      lessonMarkdownWithQuestions([
+        `key: unsupported
+type: mystery-question
+prompt: What is this?`,
+      ]),
+      'utf8',
+    );
+
+    expect(() => loadCurriculumFromRoot(unsupportedRoot)).toThrow(/Invalid discriminator value/);
+  });
+
+  it('fails validation for duplicate match-pair right-side labels', () => {
+    const root = createTempCurriculumRoot();
+    writeTrack(root, 'grade-07', '01-science', {
+      id: 'track_grade7_science',
+      slug: 'grade-7-science',
+      subject: 'science',
+      title: 'Science',
+    });
+    writeUnit(root, 'grade-07', '01-science', '01-cells', {
+      id: 'unit_grade7_science_cells',
+      slug: 'cells',
+      title: 'Cells',
+    });
+    writeFileSync(
+      join(root, 'grade-07', '01-science', '01-cells', '01-cell-parts.md'),
+      lessonMarkdownWithQuestions([
+        `key: duplicate-right
+type: match-pairs
+prompt: Match each part.
+pairs:
+  - left: nucleus
+    right: control center
+  - left: DNA
+    right: control center`,
+      ]),
+      'utf8',
+    );
+
+    expect(() => loadCurriculumFromRoot(root)).toThrow(/Duplicate match-pair right-side label "control center"/);
+  });
+
+  it('fails validation for standard lessons with no questions', () => {
+    const root = createTempCurriculumRoot();
+    writeTrack(root, 'grade-07', '01-science', {
+      id: 'track_grade7_science',
+      slug: 'grade-7-science',
+      subject: 'science',
+      title: 'Science',
+    });
+    writeUnit(root, 'grade-07', '01-science', '01-cells', {
+      id: 'unit_grade7_science_cells',
+      slug: 'cells',
+      title: 'Cells',
+    });
+    writeFileSync(
+      join(root, 'grade-07', '01-science', '01-cells', '01-cell-parts.md'),
+      `---
+id: lesson_grade7_science_cell_parts
+slug: cell-parts
+title: Cell Parts
+---
+
+## Teaching Goal
+
+Students learn cell parts.
+`,
+      'utf8',
+    );
+
+    expect(() => loadCurriculumFromRoot(root)).toThrow(/Standard lesson has no questions/);
+  });
+
   it('detects duplicate track, unit, lesson, and generated question IDs', () => {
     const duplicateTracks: TrackFixture[] = [
       duplicateFixtureTrack('track_dup', 'one', 'unit_dup', 'lesson_dup'),
@@ -838,6 +1091,19 @@ questions:
 `,
     'utf8',
   );
+}
+
+function lessonMarkdownWithQuestions(questionBlocks: string[]) {
+  return `---
+id: lesson_grade7_science_cell_parts
+slug: cell-parts
+title: Cell Parts
+---
+
+## Questions
+
+${questionBlocks.map((block) => `\`\`\`question\n${block}\n\`\`\``).join('\n\n')}
+`;
 }
 
 function duplicateFixtureTrack(id: string, slug: string, unitId: string, lessonId: string): TrackFixture {

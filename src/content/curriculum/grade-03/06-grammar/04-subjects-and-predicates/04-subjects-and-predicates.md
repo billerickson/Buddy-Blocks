@@ -44,13 +44,13 @@ questions:
     prompt: Match each sentence part.
     pairs:
       - left: The puppy
-        right: subject
+        right: subject naming puppy
       - left: slept on the rug
-        right: predicate
+        right: predicate telling sleep
       - left: My sister
-        right: subject
+        right: subject naming sister
       - left: made lunch
-        right: predicate
+        right: predicate telling action
     explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: text-input
     prompt: Type the simple subject in "The old clock ticked loudly."

@@ -28,14 +28,14 @@ questions:
       - coordinates
     correctAnswer: like forms
   - type: match-pairs
-    prompt: Match each comparison to true or false.
+    prompt: Match each comparison to its status.
     pairs:
       - left: 0.25 = 25%
-        right: "true"
+        right: "true: equivalent"
       - left: 2/3 < 0.5
-        right: "false"
+        right: "false: 2/3 is greater"
       - left: 90% > 0.8
-        right: "true"
+        right: "true: 90% is greater"
   - type: order-items
     prompt: Order from least to greatest.
     items:

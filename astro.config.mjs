@@ -4,6 +4,5 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   integrations: [preact(), tailwind({ applyBaseStyles: false })],
-  site: 'https://learn.billplustara.com',
+  site: 'https://buddyblocks.billerickson.net',
 });
-

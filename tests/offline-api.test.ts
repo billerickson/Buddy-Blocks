@@ -67,7 +67,7 @@ describe('offline lesson pack selection', () => {
 
   it('selects every lesson from a saved track pack in pack order', () => {
     const pack: TrackOfflinePack = {
-      child: { slug: 'reagan' },
+      child: { slug: 'mira' },
       track: { slug: 'spanish-1', title: 'Spanish 1' },
       progress: { lessonsCompleted: 0, xpTotal: 0, currentLesson: null },
       units: [],

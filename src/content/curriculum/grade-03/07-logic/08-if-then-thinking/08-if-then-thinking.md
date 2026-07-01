@@ -45,13 +45,13 @@ questions:
     prompt: Match each part.
     pairs:
       - left: If the timer rings
-        right: condition
+        right: condition with timer
       - left: then take out the bread
-        right: result
+        right: result for bread
       - left: If the door is locked
-        right: condition
+        right: condition with door
       - left: then use a key
-        right: result
+        right: result using key
     explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Put the if-then statement in order.

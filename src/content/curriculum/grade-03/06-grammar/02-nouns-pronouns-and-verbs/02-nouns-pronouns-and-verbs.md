@@ -36,13 +36,13 @@ questions:
     prompt: Match each example.
     pairs:
       - left: book
-        right: noun
+        right: noun thing
       - left: we
         right: pronoun
       - left: carry
         right: verb
       - left: teacher
-        right: noun
+        right: noun person
     explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: text-input
     prompt: Type the pronoun that can replace "Maya".

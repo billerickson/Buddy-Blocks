@@ -65,6 +65,12 @@ describe('seed SQL helpers', () => {
     expect(questionStatement).toBeDefined();
     expect(questionStatement!).toContain("'lesson_grade7_science_cell_parts_q01'");
     expect(questionStatement!).toContain("'Cells are the smallest living units.'");
+
+    const db = createTestDatabase();
+    execStatements(db, statements);
+    expect(
+      db.prepare('SELECT hint FROM questions WHERE id = ?').get('lesson_grade7_science_cell_parts_q01'),
+    ).toEqual({ hint: 'Cells are the smallest living units.' });
   });
 
   it('keeps curriculum rows upsertable but progress rows insert-only', () => {
@@ -94,6 +100,43 @@ describe('seed SQL helpers', () => {
     expect(progressStatement).toContain('INSERT OR IGNORE INTO child_lesson_progress');
     expect(progressStatement).not.toContain('DO UPDATE');
     expect(progressStatement).toContain("'lesson_progress_child_lesson_stable'");
+  });
+
+  it('seeds curriculum without creating parent or child rows', () => {
+    const db = createTestDatabase();
+    const track: TrackFixture = {
+      id: 'track_grade7_science',
+      slug: 'grade-7-science',
+      subject: 'science',
+      gradeLevel: 7,
+      title: 'Science',
+      description: 'Science description',
+      color: '#5b79ff',
+      accent: '#ffd84d',
+      units: [
+        {
+          id: 'unit_grade7_science_cells',
+          slug: 'cells',
+          title: 'Cells',
+          description: 'Cells description',
+          lessons: [
+            {
+              id: 'lesson_grade7_science_cell_parts',
+              slug: 'cell-parts',
+              title: 'Cell Parts',
+              xpBase: 10,
+              questions: [],
+            },
+          ],
+        },
+      ],
+    };
+
+    execStatements(db, buildCurriculumSeedStatements([track], []));
+
+    expect(db.prepare('SELECT count(*) as total FROM parents').get()).toEqual({ total: 0 });
+    expect(db.prepare('SELECT count(*) as total FROM child_profiles').get()).toEqual({ total: 0 });
+    expect(db.prepare('SELECT count(*) as total FROM tracks').get()).toEqual({ total: 1 });
   });
 
   it('prunes retired curriculum rows outside the Markdown catalog', () => {
@@ -349,12 +392,12 @@ function seedCanonicalFixture(db: DatabaseSync): TrackFixture {
   db.prepare(
     `INSERT INTO parents
      (id, username, email, password_hash, password_salt, status, created_at, updated_at)
-     VALUES ('parent_1', 'bill', 'bill@example.test', 'hash', 'salt', 'active', ?, ?)`,
+     VALUES ('parent_1', 'morgan', 'morgan@example.test', 'hash', 'salt', 'active', ?, ?)`,
   ).run(now, now);
   db.prepare(
     `INSERT INTO child_profiles
      (id, parent_id, slug, display_name, avatar_key, level_band, hearts_remaining, created_at, updated_at, grade_level)
-     VALUES ('child_1', 'parent_1', 'reagan', 'Reagan', 'berry-builder', 'Grade 7', 5, ?, ?, 7)`,
+     VALUES ('child_1', 'parent_1', 'mira', 'Mira', 'berry-builder', 'Grade 7', 5, ?, ?, 7)`,
   ).run(now, now);
   db.prepare(
     `INSERT INTO tracks

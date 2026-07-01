@@ -67,14 +67,14 @@ function createFixture() {
        (id, username, email, password_hash, password_salt, status, created_at, updated_at)
        VALUES (?, ?, ?, ?, ?, 'active', ?, ?)`,
     )
-    .run('parent_1', 'bill', 'bill@example.test', 'hash', 'salt', now, now);
+    .run('parent_1', 'morgan', 'morgan@example.test', 'hash', 'salt', now, now);
   sqlite.db
     .prepare(
       `INSERT INTO child_profiles
        (id, parent_id, slug, display_name, avatar_key, level_band, hearts_remaining, created_at, updated_at, grade_level)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
-    .run('child_1', 'parent_1', 'reagan', 'Reagan', 'berry-builder', 'Grade 6', 5, now, now, 6);
+    .run('child_1', 'parent_1', 'mira', 'Mira', 'berry-builder', 'Grade 6', 5, now, now, 6);
   sqlite.db
     .prepare(
       `INSERT INTO tracks

@@ -10,7 +10,7 @@
   },
   "routes": [
     {
-      "pattern": "learn.billplustara.com",
+      "pattern": "buddyblocks.billerickson.net",
       "custom_domain": true
     }
   ],

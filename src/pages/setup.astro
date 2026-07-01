@@ -1,0 +1,107 @@
+---
+import BrandMark from '../components/BrandMark.astro';
+import AppLayout from '../layouts/AppLayout.astro';
+---
+
+<AppLayout title="Set up Buddy Blocks" showNav={false}>
+  <main class="min-h-screen px-4 py-8 sm:py-12">
+    <section class="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-5xl items-center gap-8 md:grid-cols-[0.95fr_1.05fr]">
+      <div>
+        <BrandMark href="/setup/" />
+        <p class="stat-chip mt-8 w-fit">First setup</p>
+        <h1 class="mt-5 text-[clamp(3rem,9vw,6rem)] leading-none">Create the parent account</h1>
+        <p class="mt-5 max-w-xl text-xl font-extrabold text-muted">
+          This self-hosted install uses one active parent account to manage profiles and learning progress.
+        </p>
+      </div>
+
+      <form class="block-card p-6 sm:p-8" data-setup-form>
+        <h2 class="text-3xl">Parent Account</h2>
+        <p class="mt-3 font-bold text-muted">Choose the username and password you will use to sign in.</p>
+        <p
+          hidden
+          data-setup-message
+          class="mt-4 rounded-lg border-2 border-berry bg-wash p-3 font-black text-berryDark"
+          aria-live="polite"
+        ></p>
+
+        <label class="mt-6 block font-black" for="username">Username</label>
+        <input
+          id="username"
+          name="username"
+          autocomplete="username"
+          required
+          minlength="2"
+          maxlength="64"
+          pattern="[A-Za-z0-9][A-Za-z0-9_-]*"
+          autofocus
+          class="mt-2 min-h-[54px] w-full rounded-lg border-[3px] border-ink bg-white px-4 font-extrabold outline-none focus:ring-4 focus:ring-reward"
+        />
+
+        <label class="mt-5 block font-black" for="email">Email <span class="text-muted">(optional)</span></label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          class="mt-2 min-h-[54px] w-full rounded-lg border-[3px] border-ink bg-white px-4 font-extrabold outline-none focus:ring-4 focus:ring-reward"
+        />
+
+        <label class="mt-5 block font-black" for="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="new-password"
+          required
+          minlength="8"
+          class="mt-2 min-h-[54px] w-full rounded-lg border-[3px] border-ink bg-white px-4 font-extrabold outline-none focus:ring-4 focus:ring-reward"
+        />
+
+        <button class="primary-button mt-7 w-full" type="submit" data-setup-submit>Create Account</button>
+      </form>
+    </section>
+  </main>
+
+  <script is:inline>
+    const form = document.querySelector('[data-setup-form]');
+    const message = document.querySelector('[data-setup-message]');
+    const submit = document.querySelector('[data-setup-submit]');
+
+    const showMessage = (text) => {
+      if (!message) return;
+      message.textContent = text;
+      message.removeAttribute('hidden');
+    };
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!(form instanceof HTMLFormElement)) return;
+
+      const formData = new FormData(form);
+      submit?.setAttribute('disabled', 'true');
+      message?.setAttribute('hidden', 'true');
+
+      try {
+        const response = await fetch('/api/setup/parent', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: formData.get('username'),
+            email: formData.get('email'),
+            password: formData.get('password'),
+          }),
+        });
+        const body = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(body.error || 'setup_failed');
+        window.location.href = body.redirectTo || '/parent/';
+      } catch (error) {
+        showMessage(error instanceof Error && error.message === 'setup_complete'
+          ? 'Setup is already complete. Sign in with the parent account.'
+          : 'That account could not be created. Check the fields and try again.');
+        submit?.removeAttribute('disabled');
+      }
+    });
+  </script>
+</AppLayout>

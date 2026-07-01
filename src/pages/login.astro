@@ -15,14 +15,13 @@ const hasError = Astro.url.searchParams.get('error') === '1';
         <form method="post" action="/login/" class="block-card p-6 sm:p-8">
           <h2 class="text-3xl">Parent Sign In</h2>
           <p class="mt-3 font-bold text-muted">Sign in to choose a child profile and open the family dashboard.</p>
-          {hasError && <p class="mt-4 rounded-lg border-2 border-berry bg-wash p-3 font-black text-berryDark">That login did not match the seeded parent account.</p>}
+          {hasError && <p class="mt-4 rounded-lg border-2 border-berry bg-wash p-3 font-black text-berryDark">That login did not match the parent account.</p>}
           <label class="mt-6 block font-black" for="identifier">Username or email</label>
           <input
             id="identifier"
             name="identifier"
             autocomplete="username"
             inputmode="email"
-            value="bill"
             class="mt-2 min-h-[54px] w-full rounded-lg border-[3px] border-ink bg-white px-4 font-extrabold outline-none focus:ring-4 focus:ring-reward"
           />
           <label class="mt-5 block font-black" for="password">Password</label>

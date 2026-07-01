@@ -1,10 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import type { LessonQuestion } from '../src/lib/lesson-engine';
 import {
+  nextQueueAfterAnswer,
   prepareLessonQueue,
   rebalanceUniformCorrectChoicePositions,
   shuffleQuestionChoices,
   shuffleQuestions,
+  shouldRecordFirstAttempt,
+  shouldShowRetryHint,
 } from '../src/components/lesson/lesson-flow';
 
 const questions: LessonQuestion[] = ['q1', 'q2', 'q3', 'q4'].map((id) => ({
@@ -40,6 +43,43 @@ describe('lesson flow', () => {
     expect(shuffleQuestions(questions, '').map((question) => question.id)).toEqual(
       shuffleQuestions(questions, '').map((question) => question.id),
     );
+  });
+
+  it('appends missed first-attempt questions as retry items at the end of the queue', () => {
+    const queue = prepareLessonQueue(questions.slice(0, 3), null, 'lesson_a');
+
+    const missed = nextQueueAfterAnswer(queue, queue[0], false);
+
+    expect(missed.map((item) => [item.question.id, item.review])).toEqual([
+      ['q1', false],
+      ['q2', false],
+      ['q3', false],
+      ['q1', true],
+    ]);
+    expect(nextQueueAfterAnswer(queue, queue[0], true)).toBe(queue);
+    expect(nextQueueAfterAnswer(missed, missed.at(-1)!, false)).toBe(missed);
+  });
+
+  it('shows hints only for retry queue items', () => {
+    const hintedQuestion: LessonQuestion = {
+      ...questions[0],
+      hint: 'Look for the strategy clue.',
+    };
+
+    expect(shouldShowRetryHint({ question: hintedQuestion, review: false })).toBe(false);
+    expect(shouldShowRetryHint({ question: hintedQuestion, review: true })).toBe(true);
+    expect(shouldShowRetryHint({ question: questions[1], review: true })).toBe(false);
+  });
+
+  it('records only the first attempt for scoring', () => {
+    const firstAttemptIds = new Set<string>();
+    const first = { question: questions[0], review: false };
+    const retry = { question: questions[0], review: true };
+
+    expect(shouldRecordFirstAttempt(first, firstAttemptIds)).toBe(true);
+    firstAttemptIds.add(questions[0].id);
+    expect(shouldRecordFirstAttempt(first, firstAttemptIds)).toBe(false);
+    expect(shouldRecordFirstAttempt(retry, firstAttemptIds)).toBe(false);
   });
 
   it('shuffles answer choices without mutating the source question', () => {

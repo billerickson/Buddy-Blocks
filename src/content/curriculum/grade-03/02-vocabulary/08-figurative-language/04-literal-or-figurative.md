@@ -42,11 +42,11 @@ questions:
     prompt: Match each sentence type.
     pairs:
       - left: The soup is hot.
-        right: literal
+        right: literal statement
       - left: The soup is lava.
-        right: figurative
+        right: figurative metaphor
       - left: He ran like the wind.
-        right: figurative
+        right: figurative simile
     explanation: Each pair connects a term, example, or sentence part with the matching meaning or role.
   - type: order-items
     prompt: Order the meaning check steps.

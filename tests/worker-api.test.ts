@@ -74,7 +74,7 @@ function seedTrackFixture(db: DatabaseSync) {
     `INSERT INTO parents
      (id, username, email, password_hash, password_salt, status, created_at, updated_at)
      VALUES (?, ?, ?, ?, ?, 'active', ?, ?)`,
-  ).run('parent_1', 'bill', 'bill@example.test', 'hash', 'salt', now, now);
+  ).run('parent_1', 'morgan', 'morgan@example.test', 'hash', 'salt', now, now);
   db.prepare('INSERT INTO sessions (id, parent_id, expires_at, created_at) VALUES (?, ?, ?, ?)').run(
     'session_1',
     'parent_1',
@@ -85,7 +85,7 @@ function seedTrackFixture(db: DatabaseSync) {
     `INSERT INTO child_profiles
      (id, parent_id, slug, display_name, avatar_key, level_band, grade_level, hearts_remaining, created_at, updated_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-  ).run('child_reagan', 'parent_1', 'reagan', 'Reagan', 'berry-builder', 'Grade 6', 6, 5, now, now);
+  ).run('child_mira', 'parent_1', 'mira', 'Mira', 'berry-builder', 'Grade 6', 6, 5, now, now);
   insertTrack(db, {
     id: 'track_g6_math',
     slug: 'grade-6-math',
@@ -154,17 +154,17 @@ function seedTrackFixture(db: DatabaseSync) {
     `INSERT INTO child_track_progress
      (id, child_profile_id, track_id, current_unit_id, current_lesson_id, lessons_completed, xp_total, updated_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-  ).run('track_progress_child_reagan_track_g3_spanish', 'child_reagan', 'track_g3_spanish', 'unit_1', 'lesson_2', 1, 15, now);
+  ).run('track_progress_child_mira_track_g3_spanish', 'child_mira', 'track_g3_spanish', 'unit_1', 'lesson_2', 1, 15, now);
   db.prepare(
     `INSERT INTO child_lesson_progress
      (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
      VALUES (?, ?, ?, ?, ?, ?, ?)`,
-  ).run('lesson_progress_child_reagan_lesson_1', 'child_reagan', 'lesson_1', 'completed', '2026-06-28T10:00:00.000Z', 3, 3);
+  ).run('lesson_progress_child_mira_lesson_1', 'child_mira', 'lesson_1', 'completed', '2026-06-28T10:00:00.000Z', 3, 3);
   db.prepare(
     `INSERT INTO child_lesson_progress
      (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
      VALUES (?, ?, ?, ?, ?, ?, ?)`,
-  ).run('lesson_progress_child_reagan_lesson_2', 'child_reagan', 'lesson_2', 'available', null, 0, 0);
+  ).run('lesson_progress_child_mira_lesson_2', 'child_mira', 'lesson_2', 'available', null, 0, 0);
 }
 
 function insertChild(db: DatabaseSync, id: string, slug: string, gradeLevel: number) {
@@ -235,9 +235,9 @@ function insertQuestion(db: DatabaseSync, id: string, lessonId: string, prompt: 
   ).run(id, lessonId, prompt, JSON.stringify(payload), hint);
 }
 
-function createEnv() {
+function createEnv({ seed = true }: { seed?: boolean } = {}) {
   const sqlite = new SqliteD1Database(createTestDatabase());
-  seedTrackFixture(sqlite.db);
+  if (seed) seedTrackFixture(sqlite.db);
 
   return {
     sqlite,
@@ -302,11 +302,11 @@ describe('worker track APIs', () => {
   it('returns the child track response shape with batched lesson progress in unit order', async () => {
     const { env, sqlite } = createEnv();
 
-    const { response, body } = await getJson('/api/children/reagan/tracks/grade-3-spanish', env);
+    const { response, body } = await getJson('/api/children/mira/tracks/grade-3-spanish', env);
 
     expect(response.status).toBe(200);
     expect(body).toMatchObject({
-      child: { slug: 'reagan', gradeLevel: 6 },
+      child: { slug: 'mira', gradeLevel: 6 },
       track: {
         id: 'track_g3_spanish',
         slug: 'grade-3-spanish',
@@ -346,13 +346,13 @@ describe('worker track APIs', () => {
       madMinuteGoal: 40,
       completedAt: null,
     });
-    expect(body.units[0].lessons[2].completedAt).toBeUndefined();
+    expect(body.units[0].lessons[2].completedAt).toBeNull();
 
-    expect(sqlite.queryLog.filter((sql) => sql.includes('LEFT JOIN child_lesson_progress'))).toHaveLength(1);
+    expect(sqlite.queryLog.filter((sql) => sql.includes('LEFT JOIN child_lesson_progress'))).toHaveLength(2);
     expect(sqlite.queryLog.some((sql) => sql.includes('SELECT * FROM lessons WHERE unit_id = ?'))).toBe(false);
     expect(sqlite.queryLog.some((sql) => sql.includes('SELECT * FROM child_lesson_progress WHERE child_profile_id = ? AND lesson_id = ?'))).toBe(false);
 
-    await expect(getJson('/api/children/reagan/tracks/grade-4-spanish', env)).resolves.toMatchObject({
+    await expect(getJson('/api/children/mira/tracks/grade-4-spanish', env)).resolves.toMatchObject({
       response: expect.objectContaining({ status: 404 }),
     });
   });
@@ -360,11 +360,11 @@ describe('worker track APIs', () => {
   it('returns a whole-track offline pack including locked lesson payloads', async () => {
     const { env } = createEnv();
 
-    const { response, body } = await getJson('/api/children/reagan/tracks/grade-3-spanish/offline-pack', env);
+    const { response, body } = await getJson('/api/children/mira/tracks/grade-3-spanish/offline-pack', env);
 
     expect(response.status).toBe(200);
     expect(body).toMatchObject({
-      child: { slug: 'reagan' },
+      child: { slug: 'mira' },
       track: { slug: 'grade-3-spanish', title: 'Spanish 1' },
       progress: {
         lessonsCompleted: 1,
@@ -400,17 +400,68 @@ describe('worker track APIs', () => {
       }),
     ]);
 
-    const normalLockedLesson = await getJson('/api/children/reagan/lessons/lesson_3', env);
+    const normalLockedLesson = await getJson('/api/children/mira/lessons/lesson_3', env);
     expect(normalLockedLesson.response.status).toBe(403);
     expect(normalLockedLesson.body).toEqual({ error: 'lesson_locked' });
+  });
+
+  it('returns question hints from the regular lesson API', async () => {
+    const { env, sqlite } = createEnv();
+    sqlite.db
+      .prepare(
+        `INSERT INTO child_lesson_progress
+         (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+         VALUES (?, ?, ?, 'available', NULL, 0, 0)`,
+      )
+      .run('lesson_progress_child_mira_lesson_5', 'child_mira', 'lesson_5');
+
+    const { response, body } = await getJson('/api/children/mira/lessons/lesson_5', env);
+
+    expect(response.status).toBe(200);
+    expect(body.lesson.questions).toEqual([
+      expect.objectContaining({
+        id: 'question_lesson_5',
+        hint: 'Remember the short Spanish word for yes.',
+      }),
+    ]);
+  });
+
+  it('does not leak author-only question metadata from lesson APIs', async () => {
+    const { env, sqlite } = createEnv();
+    sqlite.db
+      .prepare(
+        `INSERT INTO child_lesson_progress
+         (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
+         VALUES (?, ?, ?, 'available', NULL, 0, 0)`,
+      )
+      .run('lesson_progress_child_mira_lesson_5', 'child_mira', 'lesson_5');
+    sqlite.db
+      .prepare('UPDATE questions SET payload_json = ? WHERE id = ?')
+      .run(
+        JSON.stringify({
+          acceptedAnswers: ['si'],
+          answerType: 'text',
+          questionGoal: 'Author-only goal.',
+          misconception: 'Author-only misconception.',
+        }),
+        'question_lesson_5',
+      );
+
+    const { response, body } = await getJson('/api/children/mira/lessons/lesson_5', env);
+
+    expect(response.status).toBe(200);
+    expect(body.lesson.questions[0]).not.toHaveProperty('questionGoal');
+    expect(body.lesson.questions[0]).not.toHaveProperty('misconception');
+    expect(body.lesson.questions[0].payload).not.toHaveProperty('questionGoal');
+    expect(body.lesson.questions[0].payload).not.toHaveProperty('misconception');
   });
 
   it('uses child grade for scholastic tracks and starts foundation tracks at level 1', async () => {
     const { env } = createEnv();
 
-    const visible = await getJson('/api/children/reagan/tracks/grade-3-spanish', env);
-    const nextSequence = await getJson('/api/children/reagan/tracks/grade-4-spanish', env);
-    const hidden = await getJson('/api/children/reagan/tracks/grade-6-spanish', env);
+    const visible = await getJson('/api/children/mira/tracks/grade-3-spanish', env);
+    const nextSequence = await getJson('/api/children/mira/tracks/grade-4-spanish', env);
+    const hidden = await getJson('/api/children/mira/tracks/grade-6-spanish', env);
 
     expect(visible.response.status).toBe(200);
     expect(nextSequence.response.status).toBe(404);
@@ -422,7 +473,7 @@ describe('worker track APIs', () => {
   it('unlocks Spanish 2 after completing Spanish 1', async () => {
     const { env, sqlite } = createEnv();
 
-    expect((await getJson('/api/children/reagan/tracks/grade-4-spanish', env)).response.status).toBe(404);
+    expect((await getJson('/api/children/mira/tracks/grade-4-spanish', env)).response.status).toBe(404);
 
     sqlite.db
       .prepare(
@@ -430,32 +481,32 @@ describe('worker track APIs', () => {
          SET status = 'completed', completed_at = '2026-06-29T10:00:00.000Z', best_score_correct = 1, best_score_total = 1
          WHERE child_profile_id = ? AND lesson_id = ?`,
       )
-      .run('child_reagan', 'lesson_2');
+      .run('child_mira', 'lesson_2');
     for (const lessonId of ['lesson_3', 'lesson_4']) {
       sqlite.db
         .prepare(
-          `INSERT INTO child_lesson_progress
-           (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
-           VALUES (?, ?, ?, 'completed', '2026-06-29T10:00:00.000Z', 1, 1)`,
+          `UPDATE child_lesson_progress
+           SET status = 'completed', completed_at = '2026-06-29T10:00:00.000Z', best_score_correct = 1, best_score_total = 1
+           WHERE child_profile_id = ? AND lesson_id = ?`,
         )
-        .run(`lesson_progress_child_reagan_${lessonId}`, 'child_reagan', lessonId);
+        .run('child_mira', lessonId);
     }
     sqlite.db
       .prepare(
-        `INSERT INTO child_lesson_progress
-         (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
-         VALUES (?, ?, ?, 'available', NULL, 0, 0)`,
+        `UPDATE child_lesson_progress
+         SET status = 'available', completed_at = NULL, best_score_correct = 0, best_score_total = 0
+         WHERE child_profile_id = ? AND lesson_id = ?`,
       )
-      .run('lesson_progress_child_reagan_lesson_5', 'child_reagan', 'lesson_5');
+      .run('child_mira', 'lesson_5');
     sqlite.db
       .prepare(
         `UPDATE child_track_progress
          SET current_unit_id = ?, current_lesson_id = ?, lessons_completed = ?
          WHERE child_profile_id = ? AND track_id = ?`,
       )
-      .run('unit_2', 'lesson_5', 4, 'child_reagan', 'track_g3_spanish');
+      .run('unit_2', 'lesson_5', 4, 'child_mira', 'track_g3_spanish');
 
-    const completion = await requestJson('/api/children/reagan/lessons/lesson_5', env, {
+    const completion = await requestJson('/api/children/mira/lessons/lesson_5', env, {
       method: 'POST',
       body: {
         startedAt: '2026-06-29T12:05:00.000Z',
@@ -474,7 +525,7 @@ describe('worker track APIs', () => {
       },
     });
 
-    const grade4 = await getJson('/api/children/reagan/tracks/grade-4-spanish', env);
+    const grade4 = await getJson('/api/children/mira/tracks/grade-4-spanish', env);
     expect(grade4.response.status).toBe(200);
     expect(grade4.body.progress.currentLesson).toMatchObject({
       id: 'lesson_g4_1',
@@ -485,7 +536,7 @@ describe('worker track APIs', () => {
       status: 'available',
     });
 
-    const home = await getJson('/api/children/reagan/home', env);
+    const home = await getJson('/api/children/mira/home', env);
     expect(home.response.status).toBe(200);
     expect(home.body.tracks.map((track: { slug: string }) => track.slug)).toEqual([
       'grade-6-math',
@@ -498,6 +549,31 @@ describe('worker track APIs', () => {
     });
   });
 
+  it('repairs missing progress when a dynamic child enters kid flows', async () => {
+    const { env, sqlite } = createEnv();
+    insertChild(sqlite.db, 'child_luca', 'luca', 6);
+
+    const home = await getJson('/api/children/luca/home', env);
+
+    expect(home.response.status).toBe(200);
+    expect(home.body.child).toMatchObject({ slug: 'luca', gradeLevel: 6 });
+    expect(
+      countRows(
+        sqlite.db,
+        'SELECT count(*) as total FROM child_track_progress WHERE child_profile_id = ? AND track_id = ?',
+        'child_luca',
+        'track_g3_spanish',
+      ),
+    ).toBe(1);
+    expect(
+      countRows(
+        sqlite.db,
+        'SELECT count(*) as total FROM child_lesson_progress WHERE child_profile_id = ?',
+        'child_luca',
+      ),
+    ).toBe(5);
+  });
+
   it('deduplicates standard lesson retries by client attempt id', async () => {
     const { env, sqlite } = createEnv();
     sqlite.db
@@ -506,7 +582,7 @@ describe('worker track APIs', () => {
          (id, child_profile_id, lesson_id, status, completed_at, best_score_correct, best_score_total)
          VALUES (?, ?, ?, 'available', NULL, 0, 0)`,
       )
-      .run('lesson_progress_child_reagan_lesson_5', 'child_reagan', 'lesson_5');
+      .run('lesson_progress_child_mira_lesson_5', 'child_mira', 'lesson_5');
 
     const payload = {
       clientAttemptId: 'offline_standard_attempt_1',
@@ -514,11 +590,11 @@ describe('worker track APIs', () => {
       attempts: [{ questionId: 'question_lesson_5', answer: 'si' }],
     };
 
-    const first = await requestJson('/api/children/reagan/lessons/lesson_5', env, {
+    const first = await requestJson('/api/children/mira/lessons/lesson_5', env, {
       method: 'POST',
       body: payload,
     });
-    const retry = await requestJson('/api/children/reagan/lessons/lesson_5', env, {
+    const retry = await requestJson('/api/children/mira/lessons/lesson_5', env, {
       method: 'POST',
       body: payload,
     });
@@ -536,7 +612,7 @@ describe('worker track APIs', () => {
       countRows(
         sqlite.db,
         'SELECT count(*) as total FROM lesson_attempts WHERE child_profile_id = ? AND client_attempt_id = ?',
-        'child_reagan',
+        'child_mira',
         payload.clientAttemptId,
       ),
     ).toBe(1);
@@ -554,7 +630,7 @@ describe('worker track APIs', () => {
       countRows(
         sqlite.db,
         'SELECT lessons_completed as total FROM child_daily_activity WHERE child_profile_id = ?',
-        'child_reagan',
+        'child_mira',
       ),
     ).toBe(1);
   });
@@ -570,11 +646,11 @@ describe('worker track APIs', () => {
       ],
     };
 
-    const first = await requestJson('/api/children/reagan/lessons/lesson_2', env, {
+    const first = await requestJson('/api/children/mira/lessons/lesson_2', env, {
       method: 'POST',
       body: payload,
     });
-    const retry = await requestJson('/api/children/reagan/lessons/lesson_2', env, {
+    const retry = await requestJson('/api/children/mira/lessons/lesson_2', env, {
       method: 'POST',
       body: payload,
     });
@@ -592,23 +668,11 @@ describe('worker track APIs', () => {
       countRows(
         sqlite.db,
         'SELECT count(*) as total FROM lesson_attempts WHERE child_profile_id = ? AND client_attempt_id = ?',
-        'child_reagan',
+        'child_mira',
         payload.clientAttemptId,
       ),
     ).toBe(1);
-    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM child_daily_activity WHERE child_profile_id = ?', 'child_reagan')).toBe(1);
-  });
-
-  it('returns 410 for the removed subject-level override endpoint', async () => {
-    const { env } = createEnv();
-
-    const { response, body } = await requestJson('/api/parent/children/reagan/subject-levels', env, {
-      method: 'PATCH',
-      body: { subject: 'spanish', gradeLevel: 3 },
-    });
-
-    expect(response.status).toBe(410);
-    expect(body).toEqual({ error: 'subject_levels_removed' });
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM child_daily_activity WHERE child_profile_id = ?', 'child_mira')).toBe(1);
   });
 
   it('keeps historical foundation activity visible without subject overrides', async () => {
@@ -621,7 +685,7 @@ describe('worker track APIs', () => {
       )
       .run(
         'attempt_old_spanish',
-        'child_reagan',
+        'child_mira',
         'lesson_1',
         '2026-06-28T10:00:00.000Z',
         '2026-06-28T10:05:00.000Z',
@@ -642,13 +706,118 @@ describe('worker track APIs', () => {
       }),
     ]);
   });
+
+  it('lists parent children including archived profiles', async () => {
+    const { env, sqlite } = createEnv();
+    insertChild(sqlite.db, 'child_luca', 'luca', 3);
+    sqlite.db.prepare("UPDATE child_profiles SET status = 'archived' WHERE id = ?").run('child_luca');
+
+    const { response, body } = await getJson('/api/parent/children', env);
+
+    expect(response.status).toBe(200);
+    expect(body.children.map((child: { slug: string; status: string }) => [child.slug, child.status])).toEqual([
+      ['mira', 'active'],
+      ['luca', 'archived'],
+    ]);
+  });
+
+  it('creates child profiles with stable slugs, grade level, defaults, and progress', async () => {
+    const { env, sqlite } = createEnv();
+
+    const created = await requestJson('/api/parent/children', env, {
+      method: 'POST',
+      body: { displayName: 'Mira Stone', gradeLevel: 6 },
+    });
+    const duplicate = await requestJson('/api/parent/children', env, {
+      method: 'POST',
+      body: { displayName: 'Mira Stone', gradeLevel: 6 },
+    });
+
+    expect(created.response.status).toBe(201);
+    expect(created.body.child).toMatchObject({
+      slug: 'mira-stone',
+      displayName: 'Mira Stone',
+      gradeLevel: 6,
+      levelBand: 'Grade 6',
+      status: 'active',
+      heartsRemaining: 5,
+    });
+    expect(duplicate.body.child.slug).toBe('mira-stone-2');
+    expect(
+      countRows(
+        sqlite.db,
+        'SELECT count(*) as total FROM child_track_progress WHERE child_profile_id = ? AND track_id = ?',
+        created.body.child.id,
+        'track_g3_spanish',
+      ),
+    ).toBe(1);
+    expect(
+      countRows(
+        sqlite.db,
+        'SELECT count(*) as total FROM child_lesson_progress WHERE child_profile_id = ?',
+        created.body.child.id,
+      ),
+    ).toBe(5);
+  });
+
+  it('updates child profile fields without changing the stable slug', async () => {
+    const { env } = createEnv();
+    const created = await requestJson('/api/parent/children', env, {
+      method: 'POST',
+      body: { displayName: 'Mira Stone', gradeLevel: 6 },
+    });
+
+    const updated = await requestJson(`/api/parent/children/${created.body.child.id}`, env, {
+      method: 'PATCH',
+      body: { displayName: 'Mira Sky', gradeLevel: 4 },
+    });
+
+    expect(updated.response.status).toBe(200);
+    expect(updated.body.child).toMatchObject({
+      id: created.body.child.id,
+      slug: 'mira-stone',
+      displayName: 'Mira Sky',
+      gradeLevel: 4,
+      levelBand: 'Grade 4',
+      status: 'active',
+    });
+  });
+
+  it('archives and unarchives children without deleting progress', async () => {
+    const { env, sqlite } = createEnv();
+    const beforeProgress = countRows(sqlite.db, 'SELECT count(*) as total FROM child_lesson_progress WHERE child_profile_id = ?', 'child_mira');
+
+    const archived = await requestJson('/api/parent/children/mira', env, {
+      method: 'PATCH',
+      body: { status: 'archived' },
+    });
+    const profiles = await getJson('/api/children', env);
+    const home = await getJson('/api/children/mira/home', env);
+    const page = await getText('/kid/mira/', env);
+    const afterArchiveProgress = countRows(sqlite.db, 'SELECT count(*) as total FROM child_lesson_progress WHERE child_profile_id = ?', 'child_mira');
+    const unarchived = await requestJson('/api/parent/children/mira', env, {
+      method: 'PATCH',
+      body: { status: 'active' },
+    });
+    const profilesAfterUnarchive = await getJson('/api/children', env);
+
+    expect(archived.body.child).toMatchObject({ slug: 'mira', status: 'archived' });
+    expect(profiles.body.children.map((child: { slug: string }) => child.slug)).not.toContain('mira');
+    expect(home.response.status).toBe(403);
+    expect(home.body).toEqual({ error: 'child_locked' });
+    expect(page.response.status).toBe(303);
+    expect(page.response.headers.get('Location')).toBe('https://learn.example.test/profiles/');
+    expect(afterArchiveProgress).toBe(beforeProgress);
+    expect(unarchived.body.child).toMatchObject({ slug: 'mira', status: 'active' });
+    expect(profilesAfterUnarchive.body.children.map((child: { slug: string }) => child.slug)).toContain('mira');
+  });
 });
 
 describe('worker practice set APIs', () => {
   it('creates, lists, updates, and archives child-scoped practice sets', async () => {
     const { env, sqlite } = createEnv();
 
-    const created = await requestJson('/api/parent/children/reagan/practice-sets', env, {
+    const created = await requestJson('/api/parent/children/mira/practice-sets', env, {
       method: 'POST',
       body: {
         title: 'Week 1 Words',
@@ -678,11 +847,11 @@ describe('worker practice set APIs', () => {
       acceptedAnswers: ['vast', 'large'],
     });
 
-    const listed = await requestJson('/api/parent/children/reagan/practice-sets', env);
+    const listed = await requestJson('/api/parent/children/mira/practice-sets', env);
     expect(listed.response.status).toBe(200);
     expect(listed.body.practiceSets.map((set: { id: string }) => set.id)).toEqual([created.body.practiceSet.id]);
 
-    const updated = await requestJson(`/api/parent/children/reagan/practice-sets/${created.body.practiceSet.id}`, env, {
+    const updated = await requestJson(`/api/parent/children/mira/practice-sets/${created.body.practiceSet.id}`, env, {
       method: 'PATCH',
       body: { title: 'Week 1 Vocabulary', pinned: false },
     });
@@ -693,7 +862,7 @@ describe('worker practice set APIs', () => {
       archivedAt: null,
     });
 
-    const archived = await requestJson(`/api/parent/children/reagan/practice-sets/${created.body.practiceSet.id}`, env, {
+    const archived = await requestJson(`/api/parent/children/mira/practice-sets/${created.body.practiceSet.id}`, env, {
       method: 'PATCH',
       body: { status: 'archived' },
     });
@@ -706,7 +875,7 @@ describe('worker practice set APIs', () => {
   it('puts pinned active practice sets above normal recommendations on Kid Home', async () => {
     const { env } = createEnv();
 
-    const active = await requestJson('/api/parent/children/reagan/practice-sets', env, {
+    const active = await requestJson('/api/parent/children/mira/practice-sets', env, {
       method: 'POST',
       body: {
         title: 'Pinned School Words',
@@ -715,7 +884,7 @@ describe('worker practice set APIs', () => {
         cards: [{ term: 'scarce', definition: 'hard to find' }],
       },
     });
-    await requestJson('/api/parent/children/reagan/practice-sets', env, {
+    await requestJson('/api/parent/children/mira/practice-sets', env, {
       method: 'POST',
       body: {
         title: 'Expired Words',
@@ -724,7 +893,7 @@ describe('worker practice set APIs', () => {
         cards: [{ term: 'stale', definition: 'old' }],
       },
     });
-    await requestJson('/api/parent/children/reagan/practice-sets', env, {
+    await requestJson('/api/parent/children/mira/practice-sets', env, {
       method: 'POST',
       body: {
         title: 'Archived Words',
@@ -734,7 +903,7 @@ describe('worker practice set APIs', () => {
       },
     });
 
-    const home = await getJson('/api/children/reagan/home', env);
+    const home = await getJson('/api/children/mira/home', env);
 
     expect(home.response.status).toBe(200);
     expect(home.body.practiceSets).toEqual([
@@ -754,7 +923,7 @@ describe('worker practice set APIs', () => {
 
   it('renders and completes a practice set as context, easy card, and hard card questions', async () => {
     const { env, sqlite } = createEnv();
-    const created = await requestJson('/api/parent/children/reagan/practice-sets', env, {
+    const created = await requestJson('/api/parent/children/mira/practice-sets', env, {
       method: 'POST',
       body: {
         title: 'Quiz Words',
@@ -767,7 +936,7 @@ describe('worker practice set APIs', () => {
     });
     const lessonId = created.body.practiceSet.lessonId;
 
-    const lesson = await getJson(`/api/children/reagan/lessons/${lessonId}`, env);
+    const lesson = await getJson(`/api/children/mira/lessons/${lessonId}`, env);
 
     expect(lesson.response.status).toBe(200);
     expect(lesson.body.lesson).toMatchObject({
@@ -809,7 +978,7 @@ describe('worker practice set APIs', () => {
       },
     });
 
-    const completion = await requestJson(`/api/children/reagan/lessons/${lessonId}`, env, {
+    const completion = await requestJson(`/api/children/mira/lessons/${lessonId}`, env, {
       method: 'POST',
       body: {
         clientAttemptId: 'offline_practice_attempt_1',
@@ -835,7 +1004,7 @@ describe('worker practice set APIs', () => {
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(6);
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM lesson_attempts')).toBe(0);
 
-    const retry = await requestJson(`/api/children/reagan/lessons/${lessonId}`, env, {
+    const retry = await requestJson(`/api/children/mira/lessons/${lessonId}`, env, {
       method: 'POST',
       body: {
         clientAttemptId: 'offline_practice_attempt_1',
@@ -854,12 +1023,12 @@ describe('worker practice set APIs', () => {
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_set_attempts')).toBe(1);
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(6);
 
-    await requestJson(`/api/parent/children/reagan/practice-sets/${created.body.practiceSet.id}`, env, {
+    await requestJson(`/api/parent/children/mira/practice-sets/${created.body.practiceSet.id}`, env, {
       method: 'PATCH',
       body: { status: 'archived' },
     });
 
-    const archivedLesson = await getJson(`/api/children/reagan/lessons/${lessonId}`, env);
+    const archivedLesson = await getJson(`/api/children/mira/lessons/${lessonId}`, env);
     expect(archivedLesson.response.status).toBe(404);
     expect(archivedLesson.body).toEqual({ error: 'lesson_not_found' });
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_set_attempts')).toBe(1);
@@ -867,8 +1036,8 @@ describe('worker practice set APIs', () => {
 
   it('enforces child-mode scoping for practice set APIs and virtual lessons', async () => {
     const { env, sqlite } = createEnv();
-    insertChild(sqlite.db, 'child_ada', 'ada', 3);
-    const created = await requestJson('/api/parent/children/reagan/practice-sets', env, {
+    insertChild(sqlite.db, 'child_nico', 'nico', 3);
+    const created = await requestJson('/api/parent/children/mira/practice-sets', env, {
       method: 'POST',
       body: {
         title: 'Private Words',
@@ -876,9 +1045,9 @@ describe('worker practice set APIs', () => {
       },
     });
 
-    const parentMutation = await requestJson('/api/parent/children/reagan/practice-sets', env, {
+    const parentMutation = await requestJson('/api/parent/children/mira/practice-sets', env, {
       method: 'POST',
-      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=reagan`,
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=mira`,
       body: {
         title: 'Blocked',
         cards: [{ term: 'blocked', definition: 'not allowed' }],
@@ -887,14 +1056,14 @@ describe('worker practice set APIs', () => {
     expect(parentMutation.response.status).toBe(403);
     expect(parentMutation.body).toEqual({ error: 'parent_reauth_required' });
 
-    const mismatchedChildMode = await requestJson(`/api/children/reagan/lessons/${created.body.practiceSet.lessonId}`, env, {
-      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=ada`,
+    const mismatchedChildMode = await requestJson(`/api/children/mira/lessons/${created.body.practiceSet.lessonId}`, env, {
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=nico`,
     });
     expect(mismatchedChildMode.response.status).toBe(403);
     expect(mismatchedChildMode.body).toEqual({ error: 'child_locked' });
 
-    const wrongChild = await requestJson(`/api/children/ada/lessons/${created.body.practiceSet.lessonId}`, env, {
-      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=ada`,
+    const wrongChild = await requestJson(`/api/children/nico/lessons/${created.body.practiceSet.lessonId}`, env, {
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=nico`,
     });
     expect(wrongChild.response.status).toBe(404);
     expect(wrongChild.body).toEqual({ error: 'lesson_not_found' });
@@ -904,17 +1073,17 @@ describe('worker practice set APIs', () => {
 describe('worker protected page shells', () => {
   it('serves generic kid app shells for a database child outside static fixtures', async () => {
     const { env, sqlite } = createEnv();
-    insertChild(sqlite.db, 'child_mira', 'mira', 4);
+    insertChild(sqlite.db, 'child_luca', 'luca', 4);
 
-    await expect(getText('/kid/mira/', env)).resolves.toMatchObject({
+    await expect(getText('/kid/luca/', env)).resolves.toMatchObject({
       response: expect.objectContaining({ status: 200 }),
       body: 'asset:/kid/shell/',
     });
-    await expect(getText('/kid/mira/track/grade-4-science/', env)).resolves.toMatchObject({
+    await expect(getText('/kid/luca/track/grade-4-science/', env)).resolves.toMatchObject({
       response: expect.objectContaining({ status: 200 }),
       body: 'asset:/kid/track-shell/',
     });
-    await expect(getText('/kid/mira/lesson/temp_week_1/', env)).resolves.toMatchObject({
+    await expect(getText('/kid/luca/lesson/temp_week_1/', env)).resolves.toMatchObject({
       response: expect.objectContaining({ status: 200 }),
       body: 'asset:/kid/lesson-shell/',
     });
@@ -933,15 +1102,156 @@ describe('worker protected page shells', () => {
     const { env } = createEnv();
 
     const { response } = await getText(
-      '/kid/reagan/track/grade-3-spanish/',
+      '/kid/mira/track/grade-3-spanish/',
       env,
-      `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=ada`,
+      `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=nico`,
     );
 
     expect(response.status).toBe(303);
     expect(response.headers.get('Location')).toBe(
-      'https://learn.example.test/parent-gate/?next=%2Fkid%2Freagan%2Ftrack%2Fgrade-3-spanish%2F',
+      'https://learn.example.test/parent-gate/?next=%2Fkid%2Fmira%2Ftrack%2Fgrade-3-spanish%2F',
     );
+  });
+});
+
+describe('worker setup flow', () => {
+  it('reports setup status without requiring authentication', async () => {
+    const unconfigured = createEnv({ seed: false });
+    const configured = createEnv();
+
+    await expect(requestJson('/api/setup/status', unconfigured.env, { cookie: '' })).resolves.toMatchObject({
+      response: expect.objectContaining({ status: 200 }),
+      body: { configured: false, setupRequired: true, activeParentCount: 0 },
+    });
+    await expect(requestJson('/api/setup/status', configured.env, { cookie: '' })).resolves.toMatchObject({
+      response: expect.objectContaining({ status: 200 }),
+      body: { configured: true, setupRequired: false, activeParentCount: 1 },
+    });
+  });
+
+  it('creates the first parent account and signs it in', async () => {
+    const { env, sqlite } = createEnv({ seed: false });
+
+    const { response, body } = await requestJson('/api/setup/parent', env, {
+      method: 'POST',
+      cookie: '',
+      origin: 'https://learn.example.test',
+      body: {
+        username: 'Tara_Parent',
+        email: 'tara@example.test',
+        password: 'strong-blocks-password',
+      },
+    });
+
+    expect(response.status).toBe(201);
+    expect(body).toMatchObject({
+      parent: { username: 'tara_parent', email: 'tara@example.test' },
+      redirectTo: '/parent/',
+    });
+    expect(response.headers.get('Set-Cookie')).toContain(SESSION_COOKIE);
+    expect(countRows(sqlite.db, "SELECT count(*) as total FROM parents WHERE status = 'active'")).toBe(1);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM sessions')).toBe(1);
+
+    const loginForm = new FormData();
+    loginForm.set('identifier', 'tara_parent');
+    loginForm.set('password', 'strong-blocks-password');
+    const loginResponse = await worker.fetch(
+      new Request('https://learn.example.test/login/', {
+        method: 'POST',
+        body: loginForm,
+      }),
+      env as unknown as Parameters<typeof worker.fetch>[1],
+    );
+    expect(loginResponse.status).toBe(303);
+    expect(loginResponse.headers.get('Location')).toBe('https://learn.example.test/profiles/');
+  });
+
+  it('creates the first parent account without requiring email', async () => {
+    const { env } = createEnv({ seed: false });
+
+    const { response, body } = await requestJson('/api/setup/parent', env, {
+      method: 'POST',
+      cookie: '',
+      body: {
+        username: 'no_email_parent',
+        password: 'strong-blocks-password',
+      },
+    });
+
+    expect(response.status).toBe(201);
+    expect(body.parent).toMatchObject({
+      username: 'no_email_parent',
+      email: null,
+    });
+  });
+
+  it('blocks parent setup after an active parent exists', async () => {
+    const { env, sqlite } = createEnv();
+
+    const { response, body } = await requestJson('/api/setup/parent', env, {
+      method: 'POST',
+      cookie: '',
+      body: {
+        username: 'second_parent',
+        password: 'another-strong-password',
+      },
+    });
+
+    expect(response.status).toBe(409);
+    expect(body).toEqual({ error: 'setup_complete' });
+    expect(countRows(sqlite.db, "SELECT count(*) as total FROM parents WHERE status = 'active'")).toBe(1);
+  });
+
+  it('rejects setup creation from a different origin', async () => {
+    const { env } = createEnv({ seed: false });
+
+    const { response, body } = await requestJson('/api/setup/parent', env, {
+      method: 'POST',
+      cookie: '',
+      origin: 'https://evil.example.test',
+      body: {
+        username: 'tara',
+        password: 'strong-blocks-password',
+      },
+    });
+
+    expect(response.status).toBe(403);
+    expect(body).toEqual({ error: 'invalid_origin' });
+  });
+
+  it('routes an unconfigured install to setup', async () => {
+    const { env } = createEnv({ seed: false });
+
+    const rootResponse = await worker.fetch(
+      new Request('https://learn.example.test/'),
+      env as unknown as Parameters<typeof worker.fetch>[1],
+    );
+    const setupPage = await getText('/setup/', env, '');
+    const loginPage = await getText('/login/', env, '');
+    const parentPage = await getText('/parent/', env, '');
+
+    expect(rootResponse.status).toBe(302);
+    expect(rootResponse.headers.get('Location')).toBe('https://learn.example.test/setup/');
+    expect(setupPage).toMatchObject({
+      response: expect.objectContaining({ status: 200 }),
+      body: 'asset:/setup/',
+    });
+    expect(loginPage.response.status).toBe(303);
+    expect(loginPage.response.headers.get('Location')).toBe('https://learn.example.test/setup/');
+    expect(parentPage.response.status).toBe(303);
+    expect(parentPage.response.headers.get('Location')).toBe('https://learn.example.test/setup/');
+  });
+
+  it('routes configured installs away from setup', async () => {
+    const { env } = createEnv();
+
+    const loggedOut = await getText('/setup/', env, '');
+    const loggedIn = await getText('/setup/', env);
+
+    expect(loggedOut.response.status).toBe(303);
+    expect(loggedOut.response.headers.get('Location')).toBe('https://learn.example.test/login/');
+    expect(loggedIn.response.status).toBe(303);
+    expect(loggedIn.response.headers.get('Location')).toBe('https://learn.example.test/profiles/');
   });
 });
 
@@ -976,9 +1286,9 @@ describe('worker access control', () => {
     const { env } = createEnv();
 
     const response = await worker.fetch(
-      new Request('http://learn.billplustara.com/login/', {
+      new Request('http://buddyblocks.billerickson.net/login/', {
         headers: {
-          Host: 'learn.billplustara.com',
+          Host: 'buddyblocks.billerickson.net',
           'CF-Connecting-IP': '::1',
         },
       }),
@@ -993,9 +1303,9 @@ describe('worker access control', () => {
     const { env } = createEnv();
 
     const response = await worker.fetch(
-      new Request('http://learn.billplustara.com/login/', {
+      new Request('http://buddyblocks.billerickson.net/login/', {
         headers: {
-          Host: 'learn.billplustara.com',
+          Host: 'buddyblocks.billerickson.net',
           'CF-Connecting-IP': '203.0.113.10',
         },
       }),
@@ -1003,7 +1313,7 @@ describe('worker access control', () => {
     );
 
     expect(response.status).toBe(308);
-    expect(response.headers.get('Location')).toBe('https://learn.billplustara.com/login/');
+    expect(response.headers.get('Location')).toBe('https://buddyblocks.billerickson.net/login/');
   });
 
   it('returns 401 for unauthenticated API requests', async () => {
@@ -1018,7 +1328,7 @@ describe('worker access control', () => {
   it('redirects parent pages to the parent gate while child mode is active', async () => {
     const { env } = createEnv();
 
-    const { response } = await getText('/parent/', env, `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=reagan`);
+    const { response } = await getText('/parent/', env, `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=mira`);
 
     expect(response.status).toBe(303);
     expect(response.headers.get('Location')).toBe('https://learn.example.test/parent-gate/?next=%2Fparent%2F');
@@ -1028,7 +1338,7 @@ describe('worker access control', () => {
     const { env } = createEnv();
 
     const { response, body } = await requestJson('/api/parent/dashboard', env, {
-      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=reagan`,
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=mira`,
     });
 
     expect(response.status).toBe(403);
@@ -1037,10 +1347,10 @@ describe('worker access control', () => {
 
   it('blocks child mode from reading another child API', async () => {
     const { env, sqlite } = createEnv();
-    insertChild(sqlite.db, 'child_ada', 'ada', 3);
+    insertChild(sqlite.db, 'child_nico', 'nico', 3);
 
-    const { response, body } = await requestJson('/api/children/ada/home', env, {
-      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=reagan`,
+    const { response, body } = await requestJson('/api/children/nico/home', env, {
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=mira`,
     });
 
     expect(response.status).toBe(403);
@@ -1050,7 +1360,7 @@ describe('worker access control', () => {
   it('rejects mutating APIs from a different origin', async () => {
     const { env } = createEnv();
 
-    const { response, body } = await requestJson('/api/parent/children/reagan/practice-sets', env, {
+    const { response, body } = await requestJson('/api/parent/children/mira/practice-sets', env, {
       method: 'PATCH',
       origin: 'https://evil.example.test',
       body: { title: 'Blocked', cards: [{ term: 'blocked', definition: 'not allowed' }] },
@@ -1058,6 +1368,18 @@ describe('worker access control', () => {
 
     expect(response.status).toBe(403);
     expect(body).toEqual({ error: 'invalid_origin' });
+  });
+});
+
+describe('child profile status migration', () => {
+  it('adds active status as the default child profile state', () => {
+    const db = createTestDatabase();
+    const statusColumn = db
+      .prepare('PRAGMA table_info(child_profiles)')
+      .all()
+      .find((column) => String((column as { name: unknown }).name) === 'status') as { dflt_value: string } | undefined;
+
+    expect(statusColumn?.dflt_value).toBe("'active'");
   });
 });
 
@@ -1078,7 +1400,6 @@ describe('performance index migration', () => {
     expect(indexesFor('lessons').has('idx_lessons_unit_sort')).toBe(true);
     expect(indexesFor('child_lesson_progress').has('idx_child_lesson_progress_child_lesson')).toBe(true);
     expect(indexesFor('child_track_progress').has('idx_child_track_progress_child_track')).toBe(true);
-    expect(indexesFor('child_subject_levels').has('idx_child_subject_levels_child_subject')).toBe(true);
     expect(tables.has('practice_sets')).toBe(true);
     expect(tables.has('practice_set_cards')).toBe(true);
     expect(tables.has('practice_set_attempts')).toBe(true);
@@ -1088,5 +1409,8 @@ describe('performance index migration', () => {
     expect(indexesFor('practice_set_attempts').has('idx_practice_set_attempts_child_set')).toBe(true);
     expect(indexesFor('lesson_attempts').has('idx_lesson_attempts_child_client_attempt')).toBe(true);
     expect(indexesFor('practice_set_attempts').has('idx_practice_set_attempts_child_client_attempt')).toBe(true);
+    expect(
+      new Set(db.prepare('PRAGMA table_info(questions)').all().map((row) => String((row as { name: unknown }).name))).has('hint'),
+    ).toBe(true);
   });
 });

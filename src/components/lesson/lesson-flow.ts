@@ -12,6 +12,18 @@ export function prepareLessonQueue(questions: LessonQuestion[], config: Standard
   return rebalanceUniformCorrectChoicePositions(questionsWithShuffledChoices).map((question) => ({ question, review: false }));
 }
 
+export function nextQueueAfterAnswer(queue: QueueItem[], current: QueueItem, correct: boolean) {
+  return !correct && !current.review ? [...queue, { question: current.question, review: true }] : queue;
+}
+
+export function shouldRecordFirstAttempt(current: QueueItem, firstAttemptIds: Set<string>) {
+  return !current.review && !firstAttemptIds.has(current.question.id);
+}
+
+export function shouldShowRetryHint(current: QueueItem) {
+  return current.review && Boolean(current.question.hint);
+}
+
 export function shuffleQuestions(questions: LessonQuestion[], seedValue: string) {
   const shuffled = [...questions];
   let seed = hashString(seedValue || questions.map((question) => question.id).join('|'));
