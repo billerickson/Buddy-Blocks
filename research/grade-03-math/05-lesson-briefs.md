@@ -16,18 +16,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Suggested intro/teaching note:** Start with one number built three ways: base-ten picture, place-value chart, and expanded form. Ask what changes if the same digit moves places.
 - **Reading-level and cognitive-load constraints:** Keep numbers to three digits; avoid dense word problems; use clear spacing in expanded notation.
 
-### Lesson 2: Numbers On Open Number Lines
-
-- **Teaching goal:** Use open number lines to locate and compare three-digit numbers by magnitude.
-- **Student outcome:** The student can place a number between benchmarks and explain which number is greater or closer to a benchmark.
-- **Key idea, model, or representation:** Open number lines make distance and order visible without requiring every tick mark.
-- **Prerequisite knowledge:** Whole-number order, counting by tens and hundreds, and benchmark numbers.
-- **Likely misconceptions:** Treating number lines as equally spaced labels only; placing numbers by digit appearance rather than size; reversing left and right order.
-- **Evidence of mastery:** The student can place a number such as 372 between 300 and 400, justify its location, and compare it with another number.
-- **Recommended question types:** `multiple-choice` for closest benchmark; `order-items` for least-to-greatest ordering; `text-input` for missing benchmark values.
-- **Suggested intro/teaching note:** Show 0, 100, and 200 on a line, then place 160 by reasoning that it is past halfway from 100 to 200.
-- **Reading-level and cognitive-load constraints:** Use uncluttered number lines; limit to two or three numbers per prompt while the model is new.
-
 ### Lesson 3: Addition Strategies That Still Work
 
 - **Teaching goal:** Refresh flexible addition strategies for sums within 100 and supported sums within 1,000.
@@ -76,18 +64,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Suggested intro/teaching note:** Show 0, 5, 10, 15 on a number line and label each jump as "+5."
 - **Reading-level and cognitive-load constraints:** Keep sequences short; use consistent start points before including nonzero starts.
 
-### Lesson 7: Rows, Columns, And Arrays
-
-- **Teaching goal:** Build array language as preparation for multiplication and area.
-- **Student outcome:** The student can describe an array by rows and columns and find the total using structured counting.
-- **Key idea, model, or representation:** Arrays organize equal groups in rows and columns, making repeated addition easier to see.
-- **Prerequisite knowledge:** Equal groups, skip counting, left-to-right and top-to-bottom orientation, and counting totals.
-- **Likely misconceptions:** Confusing rows and columns; counting every item without noticing structure; treating incomplete rows as arrays with equal rows.
-- **Evidence of mastery:** The student can identify rows, columns, and total objects in an array and choose matching repeated-addition statements.
-- **Recommended question types:** `multiple-choice` for array descriptions; `match-pairs` for arrays to repeated addition; `text-input` for totals.
-- **Suggested intro/teaching note:** Use a 3 by 4 dot array and ask students to describe it first by rows, then by columns.
-- **Reading-level and cognitive-load constraints:** Use clear, evenly spaced arrays; avoid rotated or irregular arrays until the core language is stable.
-
 ### Lesson 8: Choose A Model And Check
 
 - **Teaching goal:** Establish the habit of choosing a useful representation and checking whether the answer makes sense.
@@ -126,18 +102,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Suggested intro/teaching note:** Build one "groups of" statement physically or visually before writing any equation.
 - **Reading-level and cognitive-load constraints:** Keep group numbers from 2 to 6 at first; use familiar objects and short phrases.
 
-### Lesson 3: Skip Counting As Equal Jumps
-
-- **Teaching goal:** Connect multiplication situations to repeated equal jumps on a number line.
-- **Student outcome:** The student can use skip counting to find the total in equal groups and explain the jump size.
-- **Key idea, model, or representation:** Each equal group adds one equal jump; the final landing point is the total.
-- **Prerequisite knowledge:** Skip counting from Unit 1, equal groups, and number-line direction.
-- **Likely misconceptions:** Counting the start point as a group; using uneven jumps; losing track of how many jumps match the number of groups.
-- **Evidence of mastery:** The student can model 4 groups of 5 as four +5 jumps and identify the total.
-- **Recommended question types:** `multiple-choice` for correct number-line model; `fill-blank` for missing landing points; `order-items` for skip-count sequence.
-- **Suggested intro/teaching note:** Put four equal groups beside a number line and draw one jump per group.
-- **Reading-level and cognitive-load constraints:** Keep number lines uncluttered; label jump size and number of jumps while students are learning.
-
 ### Lesson 4: From Repeated Addition To Multiplication
 
 - **Teaching goal:** Introduce multiplication equations as compact notation for repeated equal addends.
@@ -149,18 +113,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Recommended question types:** `match-pairs` for repeated addition to multiplication; `multiple-choice` for matching equation; `text-input` for product.
 - **Suggested intro/teaching note:** Show repeated addition first, circle the equal addends, then name how many addends and how large each addend is.
 - **Reading-level and cognitive-load constraints:** Use the `x` symbol consistently; do not introduce properties yet beyond direct translation.
-
-### Lesson 5: Rows And Columns In Arrays
-
-- **Teaching goal:** Use arrays as a structured multiplication model.
-- **Student outcome:** The student can describe an array with rows and columns and write a matching multiplication equation.
-- **Key idea, model, or representation:** An array shows equal rows and equal columns; each row or column can be treated as an equal group.
-- **Prerequisite knowledge:** Rows, columns, equal groups, repeated addition, and multiplication notation.
-- **Likely misconceptions:** Confusing rows with columns; counting all dots instead of using structure; writing an equation that does not match the described orientation.
-- **Evidence of mastery:** The student can identify rows, columns, factors, and product for a given array.
-- **Recommended question types:** `multiple-choice` for correct equation; `match-pairs` for arrays to descriptions; `text-input` for products.
-- **Suggested intro/teaching note:** Ask for two descriptions of the same array: rows of columns and columns of rows.
-- **Reading-level and cognitive-load constraints:** Use rectangular arrays with no missing elements; keep dimensions within known skip-count ranges.
 
 ### Lesson 6: Match Stories, Arrays, And Equations
 
@@ -235,18 +187,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Recommended question types:** `multiple-choice` for quotient interpretation; `match-pairs` for story to answer meaning; `constructed-response` for a short label explanation.
 - **Suggested intro/teaching note:** Compare 20 divided by 4 as 4 teams sharing 20 players and as groups of 4 players.
 - **Reading-level and cognitive-load constraints:** Keep both comparison stories parallel; emphasize labels in answer choices.
-
-### Lesson 4: Arrays With A Missing Side
-
-- **Teaching goal:** Use arrays to connect division to an unknown row or column count.
-- **Student outcome:** The student can find a missing array dimension using division or related multiplication.
-- **Key idea, model, or representation:** In an array, total objects, rows, and columns are related; if one dimension is missing, division can find it.
-- **Prerequisite knowledge:** Arrays, multiplication factors and products, row/column language, and basic division meanings.
-- **Likely misconceptions:** Counting all objects without using known dimensions; confusing missing side with total; writing a multiplication equation with the missing value as the product.
-- **Evidence of mastery:** The student can solve for a missing row or column count and write a related multiplication/division equation.
-- **Recommended question types:** `fill-blank` for missing side; `multiple-choice` for related equation; `text-input` for unknown dimension.
-- **Suggested intro/teaching note:** Show an array with 24 total dots and 4 rows, then ask how many columns each row has.
-- **Reading-level and cognitive-load constraints:** Use clean rectangular arrays; provide total and one dimension clearly.
 
 ### Lesson 5: Division As An Unknown Factor
 
@@ -604,18 +544,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Suggested intro/teaching note:** Build 3/5 by adding one-fifth, one-fifth, one-fifth while keeping the same whole.
 - **Reading-level and cognitive-load constraints:** Use denominators within Grade 3 scope; avoid mixed numbers and fraction operations.
 
-### Lesson 4: Fractions On A Number Line
-
-- **Teaching goal:** Represent fractions as numbers on a number line from 0 to 1.
-- **Student outcome:** The student can partition a number-line interval into equal parts and locate unit and non-unit fractions.
-- **Key idea, model, or representation:** Fractions mark distances from 0 on a number line, not only shaded regions.
-- **Prerequisite knowledge:** Number-line order, equal intervals, unit fractions, and non-unit fractions.
-- **Likely misconceptions:** Counting tick marks instead of intervals; placing 1/b at the bth tick after 0 incorrectly; uneven interval spacing.
-- **Evidence of mastery:** The student can locate 1/4, 2/4, 3/4, and 4/4 on a line from 0 to 1.
-- **Recommended question types:** `multiple-choice` for correct location; `fill-blank` for missing labels; `order-items` for fraction order on a line.
-- **Suggested intro/teaching note:** Partition the space between 0 and 1 into equal intervals and count intervals, not tick marks.
-- **Reading-level and cognitive-load constraints:** Use clean number lines; limit denominators and label 0 and 1 clearly.
-
 ### Lesson 5: Fractions Greater Than One Whole
 
 - **Teaching goal:** Extend fraction number lines beyond 1 in controlled cases.
@@ -677,18 +605,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Recommended question types:** `match-pairs` for equivalent models; `multiple-choice` for same amount; `constructed-response` for one-sentence reasoning.
 - **Suggested intro/teaching note:** Layer fraction strips for 1/2, 2/4, and 3/6 to show aligned endpoints.
 - **Reading-level and cognitive-load constraints:** Use clear models and same-size wholes; avoid abstract equivalence rules.
-
-### Lesson 2: Equivalent Fractions On Number Lines
-
-- **Teaching goal:** Show equivalent fractions as points at the same location on a number line.
-- **Student outcome:** The student can identify fractions that land on the same point.
-- **Key idea, model, or representation:** Equivalent fractions name the same distance from 0.
-- **Prerequisite knowledge:** Number-line fractions, equal intervals, whole fractions, and equivalence from models.
-- **Likely misconceptions:** Different tick labels must be different points; counting tick marks instead of intervals; comparing denominators as whole numbers.
-- **Evidence of mastery:** The student can identify 2/4 and 1/2 at the same point on aligned number lines.
-- **Recommended question types:** `multiple-choice` for same point; `fill-blank` for missing equivalent label; `match-pairs` for aligned number-line fractions.
-- **Suggested intro/teaching note:** Draw two number lines from 0 to 1, one split in halves and one in fourths, and align 1/2 with 2/4.
-- **Reading-level and cognitive-load constraints:** Keep endpoints and interval counts visible; avoid more than two number lines at first.
 
 ### Lesson 3: Compare Same Denominators
 
@@ -800,18 +716,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Suggested intro/teaching note:** Contrast a bag of rice measured by mass with a bottle of water measured by liquid volume.
 - **Reading-level and cognitive-load constraints:** Keep units within one system per item; avoid conversions between large and small units.
 
-### Lesson 5: Scaled Picture Graphs
-
-- **Teaching goal:** Read scaled picture graphs using the value of each symbol.
-- **Student outcome:** The student can interpret a picture graph where each picture represents more than one item.
-- **Key idea, model, or representation:** The graph scale tells how much each picture counts for.
-- **Prerequisite knowledge:** Skip counting, multiplication facts, data categories, and simple graph reading.
-- **Likely misconceptions:** Counting each picture as 1; ignoring half symbols if used; reading the tallest row without calculating.
-- **Evidence of mastery:** The student uses the scale to find totals and answer comparison questions.
-- **Recommended question types:** `multiple-choice` for graph interpretations; `text-input` for totals; `passage-question` for data comparison.
-- **Suggested intro/teaching note:** Circle the key first and read it aloud before answering any graph question.
-- **Reading-level and cognitive-load constraints:** Use simple scales such as 2, 5, or 10; keep category labels clear.
-
 ### Lesson 6: Scaled Bar Graphs And Tables
 
 - **Teaching goal:** Interpret scaled bar graphs and tables using intervals.
@@ -823,18 +727,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Recommended question types:** `passage-question` for display-based prompts; `text-input` for values/differences; `multiple-choice` for correct interpretation.
 - **Suggested intro/teaching note:** Start by labeling the scale marks together before asking data questions.
 - **Reading-level and cognitive-load constraints:** Limit to a few categories; use consistent intervals.
-
-### Lesson 7: Line Plots And Fractional Lengths
-
-- **Teaching goal:** Use line plots to represent and interpret measurement data, including fractional lengths.
-- **Student outcome:** The student can read a line plot and answer questions about data values and frequencies.
-- **Key idea, model, or representation:** A line plot shows how many measurements fall at each point on a number line.
-- **Prerequisite knowledge:** Number lines, fractions on a number line, length measurement, and counting data marks.
-- **Likely misconceptions:** Reading the label as the count instead of counting marks; misplacing fractional tick marks; ignoring the unit.
-- **Evidence of mastery:** The student can interpret a line plot with whole or simple fractional measurements and answer frequency questions.
-- **Recommended question types:** `multiple-choice` for line-plot interpretations; `text-input` for frequencies; `constructed-response` for explaining a data comparison.
-- **Suggested intro/teaching note:** Build a line plot from a small set of measurements, placing one X for each measurement.
-- **Reading-level and cognitive-load constraints:** Use simple fractions from Unit 7; avoid fractional computation beyond reading and counting.
 
 ### Lesson 8: Money Choices With A Goal
 
@@ -861,30 +753,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Reading-level and cognitive-load constraints:** Keep each item to one main display or context; avoid stacking multiple diagrams in one prompt.
 
 ## Unit 10: Area, Arrays, And Multiplication
-
-### Lesson 1: Cover A Region With Square Units
-
-- **Teaching goal:** Define area as the amount of square-unit covering inside a plane region.
-- **Student outcome:** The student can identify area as covering and count square units in simple tiled shapes.
-- **Key idea, model, or representation:** Area measures how many unit squares cover a region with no gaps or overlaps.
-- **Prerequisite knowledge:** Measurement units, rectangles, counting, equal-size units, and grid familiarity.
-- **Likely misconceptions:** Counting boundary segments; using unequal tiles; leaving gaps or overlaps; confusing area with length.
-- **Evidence of mastery:** The student can choose a valid tiling and state the area in square units.
-- **Recommended question types:** `multiple-choice` for valid tiling; `text-input` for square-unit counts; `constructed-response` for why a tiling is valid.
-- **Suggested intro/teaching note:** Show a rectangle covered by equal squares and a non-example with gaps, then ask which measures area.
-- **Reading-level and cognitive-load constraints:** Use uncluttered grids; keep regions fully tiled at first.
-
-### Lesson 2: Count Squares Efficiently
-
-- **Teaching goal:** Move from one-by-one square counting to structured row and column counting.
-- **Student outcome:** The student can count area units efficiently by grouping rows or columns.
-- **Key idea, model, or representation:** Rows and columns of unit squares reveal repeated equal groups inside a rectangle.
-- **Prerequisite knowledge:** Unit squares, arrays, skip counting, rows, columns, and multiplication readiness.
-- **Likely misconceptions:** Losing count when counting one by one; counting grid lines instead of squares; ignoring partial or missing squares.
-- **Evidence of mastery:** The student finds area by using row or column structure and can explain the grouping.
-- **Recommended question types:** `multiple-choice` for efficient count; `fill-blank` for rows x columns statements; `text-input` for area.
-- **Suggested intro/teaching note:** Compare counting all 24 squares one by one with counting 4 rows of 6.
-- **Reading-level and cognitive-load constraints:** Use complete rectangular grids; avoid composite shapes until the row-column structure is strong.
 
 ### Lesson 3: Arrays Inside Rectangles
 
@@ -921,18 +789,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Recommended question types:** `fill-blank` for missing side/area; `multiple-choice` for related equation; `text-input` for missing value.
 - **Suggested intro/teaching note:** Use "4 rows, ? columns, 28 square units" and ask what factor with 4 makes 28.
 - **Reading-level and cognitive-load constraints:** Keep one unknown per item; use diagrams with labels.
-
-### Lesson 6: Decompose Figures Into Rectangles
-
-- **Teaching goal:** Find areas of supported composite figures by decomposing into rectangles.
-- **Student outcome:** The student can split a rectilinear figure into rectangles, find each area, and add the parts.
-- **Key idea, model, or representation:** A complex shape can be composed of rectangles whose areas add to the total area.
-- **Prerequisite knowledge:** Rectangular area, addition, multiplication facts, grids, and decomposition.
-- **Likely misconceptions:** Overlapping or leaving out parts; adding side lengths instead of areas; using inconsistent square units.
-- **Evidence of mastery:** The student chooses a valid decomposition and finds total area by adding component areas.
-- **Recommended question types:** `multiple-choice` for valid split; `multi-blank-cloze` for component areas and total; `constructed-response` for explaining the decomposition.
-- **Suggested intro/teaching note:** Draw one L-shaped figure and show two possible valid splits into rectangles.
-- **Reading-level and cognitive-load constraints:** Use grid-supported shapes; keep component rectangles easy to see.
 
 ## Unit 11: Perimeter, Geometry, And Shape Attributes
 
@@ -996,18 +852,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Suggested intro/teaching note:** Use an attribute chart with columns for four sides, opposite sides, equal sides, and square corners when appropriate.
 - **Reading-level and cognitive-load constraints:** Avoid formal proof language; use "can belong to" and "has these attributes."
 
-### Lesson 6: Equal-Area Partitions
-
-- **Teaching goal:** Connect shape partitioning to equal-area fraction language.
-- **Student outcome:** The student can partition shapes into equal-area parts and name the fractional parts.
-- **Key idea, model, or representation:** Equal fraction parts must have equal area, even if the pieces do not always look identical.
-- **Prerequisite knowledge:** Fractions as equal parts, same whole, area, rectangles, and shape partitioning.
-- **Likely misconceptions:** Equal parts must be congruent; symmetric-looking parts are always equal; unequal partitions can be named as fractions.
-- **Evidence of mastery:** The student identifies or creates equal-area partitions and names each part as a unit fraction.
-- **Recommended question types:** `multiple-choice` for valid partition; `match-pairs` for partition to fraction name; `constructed-response` for why parts are equal.
-- **Suggested intro/teaching note:** Compare two rectangles split into halves in different ways, then discuss equal area.
-- **Reading-level and cognitive-load constraints:** Use grid support when non-identical equal-area parts appear; avoid complex geometry.
-
 ### Lesson 7: Geometry And Measurement Mix
 
 - **Teaching goal:** Integrate perimeter, area, shape attributes, and fraction partitioning in mixed tasks.
@@ -1045,18 +889,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Recommended question types:** `passage-question` for contexts; `text-input` for computed answers; `multiple-choice` for reasonable estimate or operation.
 - **Suggested intro/teaching note:** Use a quick routine: choose operation, estimate, solve, check.
 - **Reading-level and cognitive-load constraints:** Mix domains but limit each task to one clear storyline and at most two steps.
-
-### Lesson 3: Fractions In New Diagrams
-
-- **Teaching goal:** Check transfer of fraction magnitude, equivalence, and comparison to unfamiliar representations.
-- **Student outcome:** The student can interpret new fraction diagrams and number lines using same-whole and unit-size reasoning.
-- **Key idea, model, or representation:** Fraction reasoning should transfer beyond memorized shapes.
-- **Prerequisite knowledge:** Units 7-8 fraction concepts, number lines, equivalent fractions, and comparison reasoning.
-- **Likely misconceptions:** Matching only familiar diagrams; ignoring same whole; comparing denominators as whole numbers.
-- **Evidence of mastery:** The student names, compares, or identifies equivalent fractions from unfamiliar but clear models.
-- **Recommended question types:** `multiple-choice` for model interpretation; `match-pairs` for equivalent representations; `constructed-response` for comparison reasoning.
-- **Suggested intro/teaching note:** Show an unfamiliar partition and ask students to identify the whole and equal parts first.
-- **Reading-level and cognitive-load constraints:** Keep diagrams unambiguous; do not introduce fraction operations.
 
 ### Lesson 4: Measurement And Data Review Cycle
 
@@ -1109,7 +941,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 ## Completion Checklist
 
 - Total units covered: 12.
-- Total lessons briefed: 90.
+- Total lessons briefed: 76.
 - Unit order preserved: yes.
 - Lesson order preserved: yes.
 - No final question sets written: yes.

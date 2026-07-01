@@ -110,109 +110,6 @@ questionGoal: "Explain zero as a placeholder in a three-digit number."
 misconception: "Thinking zero can always be dropped without changing value."
 ```
 
-### Lesson 2: Numbers On Open Number Lines
-
-```question
-key: u01_l02_q01_between_benchmarks
-type: multiple-choice
-prompt: "368 belongs between which two hundreds on a number line?"
-choices:
-  - "200 and 300"
-  - "300 and 400"
-  - "400 and 500"
-  - "600 and 700"
-correctAnswer: "300 and 400"
-explanation: "368 is greater than 300 and less than 400."
-hint: "Look at the hundreds digit first."
-questionGoal: "Locate a three-digit number between hundred benchmarks."
-misconception: "Using the last two digits instead of the full number's size."
-```
-
-```question
-key: u01_l02_q02_order_numbers
-type: order-items
-prompt: "Put the numbers in order from least to greatest."
-items:
-  - "508"
-  - "580"
-  - "518"
-  - "499"
-correctOrder:
-  - "499"
-  - "508"
-  - "518"
-  - "580"
-explanation: "499 is before 500. Then 508, 518, and 580 increase by tens and ones."
-hint: "Compare hundreds first, then tens, then ones."
-questionGoal: "Order three-digit numbers by magnitude."
-misconception: "Comparing numbers digit by digit without considering place order."
-```
-
-```question
-key: u01_l02_q03_closest_ten
-type: multiple-choice
-prompt: "On an open number line, 143 is closer to which ten?"
-choices:
-  - "130"
-  - "140"
-  - "150"
-  - "200"
-correctAnswer: "140"
-explanation: "143 is 3 away from 140 and 7 away from 150."
-hint: "Count the distance from 143 to each nearby ten."
-questionGoal: "Use distance on a number line to judge closeness."
-misconception: "Choosing the larger nearby benchmark automatically."
-```
-
-```question
-key: u01_l02_q04_missing_midpoint
-type: fill-blank
-prompt: "Complete the benchmark sentence."
-sentenceBefore: "Halfway between 200 and 300 is"
-sentenceAfter: "."
-choices:
-  - "225"
-  - "250"
-  - "275"
-  - "300"
-correctAnswer: "250"
-explanation: "250 is 50 more than 200 and 50 less than 300."
-hint: "Halfway means the distance to both endpoints is the same."
-questionGoal: "Identify a midpoint between hundred benchmarks."
-misconception: "Treating halfway as any number between the endpoints."
-```
-
-```question
-key: u01_l02_q05_place_on_line
-type: multiple-choice
-prompt: "A number line shows 600 on the left and 700 on the right. Where should 690 go?"
-choices:
-  - "Very close to 600"
-  - "A little after 600"
-  - "Near the middle"
-  - "Very close to 700"
-correctAnswer: "Very close to 700"
-explanation: "690 is only 10 away from 700."
-hint: "Compare how far 690 is from 600 and from 700."
-questionGoal: "Reason about approximate position on an open number line."
-misconception: "Placing numbers evenly by appearance instead of distance."
-```
-
-```question
-key: u01_l02_q06_explain_compare
-type: constructed-response
-prompt: "Explain why 412 is greater than 398."
-minWords: 6
-sampleAnswer: "412 is greater because it is past 400, and 398 is before 400."
-checklist:
-  - Compare the hundreds or benchmark
-  - Say which number is greater
-explanation: "412 is more than 400, while 398 is less than 400."
-hint: "Use 400 as a benchmark to compare the two numbers."
-questionGoal: "Explain a comparison using magnitude or benchmarks."
-misconception: "Thinking 398 is greater because 98 is greater than 12."
-```
-
 ### Lesson 3: Addition Strategies That Still Work
 
 ```question
@@ -496,20 +393,6 @@ questionGoal: "Solve unknowns in varied equation positions."
 misconception: "Using the same operation for every blank position."
 ```
 
-```question
-key: u01_l05_q06_fix_unbalanced
-type: error-correction
-prompt: "Correct the equation."
-sentence: "27 + 14 = 27"
-acceptedAnswers:
-  - "27 + 14 = 41"
-  - "41 = 27 + 14"
-explanation: "27 + 14 equals 41, not 27."
-hint: "Find the value of the left side first."
-questionGoal: "Correct an equation so both sides balance."
-misconception: "Copying one addend as the answer without calculating."
-```
-
 ### Lesson 6: Skip Counting With Structure
 
 ```question
@@ -610,105 +493,6 @@ explanation: "Skip counting uses one equal jump for each equal group."
 hint: "Say one total for each group of 10."
 questionGoal: "Explain skip counting as equal jumps connected to groups."
 misconception: "Treating skip counting as a memorized chant without group meaning."
-```
-
-### Lesson 7: Rows, Columns, And Arrays
-
-```question
-key: u01_l07_q01_row_column
-type: multiple-choice
-prompt: "An array has 3 rows with 5 dots in each row. How many dots are there?"
-choices:
-  - "8"
-  - "15"
-  - "25"
-  - "35"
-correctAnswer: "15"
-explanation: "Three rows of 5 dots make 5 + 5 + 5 = 15 dots."
-hint: "Add 5 once for each row."
-questionGoal: "Use row structure to find an array total."
-misconception: "Adding rows and columns instead of using equal groups."
-```
-
-```question
-key: u01_l07_q02_identify_rows
-type: fill-blank
-prompt: "Complete the array description."
-sentenceBefore: "An array with 4 horizontal groups has 4"
-sentenceAfter: "."
-choices:
-  - "rows"
-  - "columns"
-  - "totals"
-  - "ones"
-correctAnswer: "rows"
-explanation: "Rows go across horizontally."
-hint: "Rows run side to side."
-questionGoal: "Identify row language."
-misconception: "Confusing rows and columns."
-```
-
-```question
-key: u01_l07_q03_match_array_repeated_addition
-type: match-pairs
-prompt: "Match each array description to repeated addition."
-pairs:
-  - left: "2 rows of 6"
-    right: "6 + 6"
-  - left: "4 rows of 3"
-    right: "3 + 3 + 3 + 3"
-  - left: "3 rows of 5"
-    right: "5 + 5 + 5"
-  - left: "5 rows of 2"
-    right: "2 + 2 + 2 + 2 + 2"
-explanation: "Each row contributes the same number of dots."
-hint: "The number of rows tells how many addends to use."
-questionGoal: "Connect arrays to repeated addition."
-misconception: "Using the total number of dots as each addend."
-```
-
-```question
-key: u01_l07_q04_columns_total
-type: text-input
-prompt: "An array has 6 columns with 2 dots in each column. Type the total number of dots."
-acceptedAnswers:
-  - "12"
-answerType: number
-explanation: "Six columns of 2 dots make 12 dots."
-hint: "Count by 2s six times."
-questionGoal: "Use column structure to find a total."
-misconception: "Counting the number of columns only."
-```
-
-```question
-key: u01_l07_q05_equal_array
-type: multiple-choice
-prompt: "Which description is an array?"
-choices:
-  - "3 rows with 4 dots in each row"
-  - "3 rows with 4, 5, and 2 dots"
-  - "One long line of 11 uneven spaces"
-  - "A group of dots with no rows"
-correctAnswer: "3 rows with 4 dots in each row"
-explanation: "An array has equal rows and columns."
-hint: "Look for equal-size rows."
-questionGoal: "Recognize the equal-row structure of an array."
-misconception: "Treating any group of dots as an array."
-```
-
-```question
-key: u01_l07_q06_explain_array
-type: constructed-response
-prompt: "Explain how an array helps you count 4 rows of 6."
-minWords: 8
-sampleAnswer: "I can count 6 in each row: 6, 12, 18, 24."
-checklist:
-  - Mention rows or columns
-  - Include the total 24
-explanation: "Arrays organize equal groups so you can count by rows or columns."
-hint: "Use row language in your explanation."
-questionGoal: "Explain how array structure supports efficient counting."
-misconception: "Seeing arrays as pictures to count one by one only."
 ```
 
 ### Lesson 8: Choose A Model And Check
@@ -1008,114 +792,6 @@ questionGoal: "Produce a verbal model for groups-of language."
 misconception: "Describing a total without showing equal groups."
 ```
 
-### Lesson 3: Skip Counting As Equal Jumps
-
-```question
-key: u02_l03_q01_equal_jumps
-type: multiple-choice
-prompt: "Which number line shows 4 groups of 6 starting at 0?"
-choices:
-  - "0, 6, 12, 18, 24"
-  - "0, 4, 8, 12, 16, 20, 24"
-  - "0, 6, 13, 19, 24"
-  - "6, 12, 18"
-correctAnswer: "0, 6, 12, 18, 24"
-explanation: "Four jumps of 6 land on 24."
-hint: "There should be 4 equal jumps, each worth 6."
-questionGoal: "Match equal groups to skip-counting jumps."
-misconception: "Using the number of groups as the jump size."
-```
-
-```question
-key: u02_l03_q02_land_on
-type: text-input
-prompt: "Starting at 0, make 5 jumps of 4. What number do you land on?"
-acceptedAnswers:
-  - "20"
-answerType: number
-explanation: "4, 8, 12, 16, 20. Five jumps of 4 land on 20."
-hint: "Count five totals by 4s."
-questionGoal: "Use skip counting to find a multiplication total."
-misconception: "Making four jumps instead of five."
-```
-
-```question
-key: u02_l03_q03_missing_jump
-type: fill-blank
-prompt: "Complete the equal-jump sentence."
-sentenceBefore: "0, 7, 14, 21 shows jumps of"
-sentenceAfter: "."
-choices:
-  - "3"
-  - "7"
-  - "14"
-  - "21"
-correctAnswer: "7"
-explanation: "Each jump adds 7."
-hint: "Compare 0 to 7 and 7 to 14."
-questionGoal: "Identify the jump size in a multiplication skip count."
-misconception: "Naming the final total instead of the repeated jump."
-```
-
-```question
-key: u02_l03_q04_match_groups_jumps
-type: match-pairs
-prompt: "Match each equal-groups situation to the landing number."
-pairs:
-  - left: "3 jumps of 5"
-    right: "15"
-  - left: "6 jumps of 2"
-    right: "12"
-  - left: "4 jumps of 8"
-    right: "32"
-  - left: "5 jumps of 6"
-    right: "30"
-explanation: "The landing number is the total after all equal jumps."
-hint: "Skip count by the jump size the correct number of times."
-questionGoal: "Relate number of jumps and jump size to a total."
-misconception: "Multiplying or counting with the wrong factor role."
-```
-
-```question
-key: u02_l03_q05_order_skip_count
-type: order-items
-prompt: "Put the totals in order for 6 groups of 5."
-items:
-  - "25"
-  - "10"
-  - "30"
-  - "5"
-  - "20"
-  - "15"
-correctOrder:
-  - "5"
-  - "10"
-  - "15"
-  - "20"
-  - "25"
-  - "30"
-explanation: "Six groups of 5 give totals 5, 10, 15, 20, 25, 30."
-hint: "Count by 5s."
-questionGoal: "Sequence skip-counted totals for equal groups."
-misconception: "Misordering or skipping equal jumps."
-```
-
-```question
-key: u02_l03_q06_explain_jumps
-type: constructed-response
-prompt: "Explain how a number line can show 3 groups of 8."
-minWords: 8
-sampleAnswer: "It can show 3 equal jumps of 8 from 0 to 24."
-checklist:
-  - Mention 3 jumps
-  - Mention jump size 8
-  - Include total 24
-explanation: "Each jump represents one equal group of 8."
-hint: "Think of one jump for each group."
-questionGoal: "Explain equal-jump representation of multiplication."
-misconception: "Treating the number line as a list instead of a model of groups."
-```
-
 ### Lesson 4: From Repeated Addition To Multiplication
 
 ```question
@@ -1211,105 +887,6 @@ explanation: "Factors can name the number of groups and the size of each group."
 hint: "Use the words \"groups\" and \"in each group.\""
 questionGoal: "Interpret factors in a multiplication equation."
 misconception: "Saying factors are only numbers to calculate with."
-```
-
-### Lesson 5: Rows And Columns In Arrays
-
-```question
-key: u02_l05_q01_array_equation
-type: multiple-choice
-prompt: "An array has 4 rows and 6 columns. Which equation matches it?"
-choices:
-  - "4 x 6 = 24"
-  - "4 + 6 = 10"
-  - "6 - 4 = 2"
-  - "24 x 6 = 144"
-correctAnswer: "4 x 6 = 24"
-explanation: "Four rows of 6 columns make 24 total."
-hint: "Rows times columns gives the total in an array."
-questionGoal: "Match an array description to a multiplication equation."
-misconception: "Adding rows and columns instead of multiplying equal rows."
-```
-
-```question
-key: u02_l05_q02_rows_columns_fill
-type: fill-blank
-prompt: "Complete the statement."
-sentenceBefore: "A 5 by 3 array has 5 rows and"
-sentenceAfter: "columns."
-choices:
-  - "3"
-  - "5"
-  - "8"
-  - "15"
-correctAnswer: "3"
-explanation: "A 5 by 3 array has 5 rows with 3 in each row."
-hint: "The second number tells the number in each row or columns."
-questionGoal: "Interpret dimensions in array language."
-misconception: "Treating the product as a dimension."
-```
-
-```question
-key: u02_l05_q03_match_array_total
-type: match-pairs
-prompt: "Match each array to its total."
-pairs:
-  - left: "2 rows of 9"
-    right: "18"
-  - left: "3 rows of 7"
-    right: "21"
-  - left: "4 rows of 8"
-    right: "32"
-  - left: "6 rows of 6"
-    right: "36"
-explanation: "Multiply or skip count by the number in each row."
-hint: "Use rows as equal groups."
-questionGoal: "Find totals from array descriptions."
-misconception: "Adding rows and columns."
-```
-
-```question
-key: u02_l05_q04_turn_array
-type: multiple-choice
-prompt: "A 3 x 8 array is turned sideways. Which equation has the same total?"
-choices:
-  - "8 x 3 = 24"
-  - "8 + 3 = 11"
-  - "3 x 3 = 9"
-  - "8 x 8 = 64"
-correctAnswer: "8 x 3 = 24"
-explanation: "Turning the array changes rows and columns, but the total stays 24."
-hint: "The same dots are still there."
-questionGoal: "Prepare for commutativity through array rotation."
-misconception: "Thinking row/column order changes the total."
-```
-
-```question
-key: u02_l05_q05_array_product
-type: text-input
-prompt: "Type the total in an array with 7 rows and 4 dots in each row."
-acceptedAnswers:
-  - "28"
-answerType: number
-explanation: "7 x 4 = 28."
-hint: "Count by 4s seven times."
-questionGoal: "Compute a product from row structure."
-misconception: "Counting rows only or adding 7 + 4."
-```
-
-```question
-key: u02_l05_q06_explain_array_equation
-type: constructed-response
-prompt: "Explain why a 2-row, 9-column array matches 2 x 9."
-minWords: 8
-sampleAnswer: "It has 2 rows, and each row has 9 dots, so it is 2 x 9."
-checklist:
-  - Mention 2 rows
-  - Mention 9 in each row
-explanation: "The equation names the row groups and the number in each row."
-hint: "Describe the rows first."
-questionGoal: "Explain how an array maps to factors."
-misconception: "Writing the equation without interpreting the factors."
 ```
 
 ### Lesson 6: Match Stories, Arrays, And Equations
@@ -1860,90 +1437,6 @@ questionGoal: "Explain context-dependent quotient meaning."
 misconception: "Believing the equation alone gives the answer label."
 ```
 
-### Lesson 4: Arrays With A Missing Side
-
-```question
-key: u03_l04_q01_missing_columns
-type: multiple-choice
-prompt: "An array has 24 dots and 4 rows. How many columns are in each row?"
-choices: ["4", "6", "20", "28"]
-correctAnswer: "6"
-explanation: "4 rows of 6 dots make 24."
-hint: "Ask, 4 times what equals 24?"
-questionGoal: "Use an array to find a missing dimension."
-misconception: "Using the known row count as the missing side."
-```
-
-```question
-key: u03_l04_q02_missing_rows
-type: fill-blank
-prompt: "Complete the equation for an array with 35 dots and 5 columns."
-sentenceBefore: "__ x 5 = 35, so there are"
-sentenceAfter: "rows."
-choices: ["5", "7", "30", "40"]
-correctAnswer: "7"
-explanation: "7 x 5 = 35, so the missing number of rows is 7."
-hint: "Use the related multiplication fact."
-questionGoal: "Connect missing array side to unknown factor."
-misconception: "Treating the product as a side length."
-```
-
-```question
-key: u03_l04_q03_match_arrays
-type: match-pairs
-prompt: "Match each array fact to the missing side."
-pairs:
-  - left: "3 x __ = 21"
-    right: "7"
-  - left: "__ x 8 = 32"
-    right: "4"
-  - left: "6 x __ = 30"
-    right: "5"
-  - left: "__ x 9 = 54"
-    right: "6"
-explanation: "Each missing side is the factor that makes the product."
-hint: "Say the related multiplication fact aloud."
-questionGoal: "Solve missing-factor array equations."
-misconception: "Adding or subtracting factors instead of using multiplication."
-```
-
-```question
-key: u03_l04_q04_related_division
-type: multiple-choice
-prompt: "Which division equation matches __ x 7 = 42?"
-choices: ["42 / 7 = 6", "42 / 6 = 7", "7 / 42 = 6", "42 + 7 = 49"]
-correctAnswer: "42 / 7 = 6"
-explanation: "If 6 x 7 = 42, then 42 divided by 7 is 6."
-hint: "The missing factor is the quotient."
-questionGoal: "Relate missing-factor multiplication to division."
-misconception: "Reversing the division equation."
-```
-
-```question
-key: u03_l04_q05_type_missing_side
-type: text-input
-prompt: "An array has 48 dots and 6 rows. Type the number of columns."
-acceptedAnswers: ["8"]
-answerType: number
-explanation: "6 x 8 = 48."
-hint: "Ask, 6 times what is 48?"
-questionGoal: "Produce a missing array dimension."
-misconception: "Counting by the wrong factor."
-```
-
-```question
-key: u03_l04_q06_explain_array_division
-type: constructed-response
-prompt: "Explain how an array can help solve 36 / 4."
-minWords: 8
-sampleAnswer: "Make 4 rows with 36 dots total. There are 9 dots in each row."
-checklist: ["Mention 4 rows or groups", "Include 9"]
-explanation: "A division problem can be seen as an array with one missing side."
-hint: "Think of 4 times what equals 36."
-questionGoal: "Explain division using a missing-side array model."
-misconception: "Seeing division as disconnected from arrays."
-```
-
 ### Lesson 5: Division As An Unknown Factor
 
 ```question
@@ -2001,20 +1494,6 @@ explanation: "8 x 7 = 56."
 hint: "Ask, 8 times what equals 56?"
 questionGoal: "Solve a division fact by unknown factor."
 misconception: "Dividing by repeated subtraction without tracking groups."
-```
-
-```question
-key: u03_l05_q05_error_related
-type: error-correction
-prompt: "Correct the related fact."
-sentence: "To solve 36 / 6, use 6 x 5 = 36."
-acceptedAnswers:
-  - "To solve 36 / 6, use 6 x 6 = 36."
-  - "6 x 6 = 36"
-explanation: "6 x 6 = 36, so 36 / 6 = 6."
-hint: "Check whether 6 x 5 really equals 36."
-questionGoal: "Correct an incorrect related multiplication fact."
-misconception: "Accepting a nearby fact as exact."
 ```
 
 ```question
@@ -2352,20 +1831,6 @@ misconception: "Doubling and stopping too soon."
 ```
 
 ```question
-key: u04_l02_q05_error_near_double
-type: error-correction
-prompt: "Correct the strategy."
-sentence: "3 x 5 = 2 x 5 + 1, so 3 x 5 = 11."
-acceptedAnswers:
-  - "3 x 5 = 2 x 5 + 5, so 3 x 5 = 15."
-  - "3 x 5 = 15"
-explanation: "One more group of 5 is 5, not 1."
-hint: "Add one more group, not one more object."
-questionGoal: "Correct a common near-double error."
-misconception: "Adding 1 instead of adding one group."
-```
-
-```question
 key: u04_l02_q06_explain_double
 type: constructed-response
 prompt: "Explain how doubles help solve 4 x 6."
@@ -2524,20 +1989,6 @@ misconception: "Stopping after one partial product."
 ```
 
 ```question
-key: u04_l04_q05_error_decomp
-type: error-correction
-prompt: "Correct the strategy."
-sentence: "6 x 8 = 5 x 8 + 1, so 6 x 8 = 41."
-acceptedAnswers:
-  - "6 x 8 = 5 x 8 + 1 x 8, so 6 x 8 = 48."
-  - "6 x 8 = 48"
-explanation: "The extra group is one group of 8, not 1."
-hint: "When you split 6 into 5 and 1, the 1 still means 1 group of 8."
-questionGoal: "Correct a distributive reasoning error."
-misconception: "Adding the split number instead of its product."
-```
-
-```question
 key: u04_l04_q06_explain_split_array
 type: constructed-response
 prompt: "Explain how splitting an array can help solve 9 x 6."
@@ -2614,20 +2065,6 @@ misconception: "Removing the wrong amount."
 ```
 
 ```question
-key: u04_l05_q05_error_neighbor
-type: error-correction
-prompt: "Correct the strategy."
-sentence: "9 x 5 = 10 x 5 - 1, so 9 x 5 = 49."
-acceptedAnswers:
-  - "9 x 5 = 10 x 5 - 5, so 9 x 5 = 45."
-  - "9 x 5 = 45"
-explanation: "Remove one group of 5, not 1."
-hint: "The missing group has 5 in it."
-questionGoal: "Correct a neighbor-fact adjustment error."
-misconception: "Subtracting one instead of one group."
-```
-
-```question
 key: u04_l05_q06_explain_neighbor
 type: constructed-response
 prompt: "Explain how to use a tens fact to find 9 x 8."
@@ -2697,20 +2134,6 @@ explanation: "7 x 8 = 56."
 hint: "Use the related multiplication fact."
 questionGoal: "Produce a division fact quotient."
 misconception: "Recalling an incorrect nearby fact."
-```
-
-```question
-key: u04_l06_q05_error_division_fact
-type: error-correction
-prompt: "Correct the statement."
-sentence: "48 / 6 = 7 because 6 x 7 = 48."
-acceptedAnswers:
-  - "48 / 6 = 8 because 6 x 8 = 48."
-  - "48 / 6 = 8"
-explanation: "6 x 7 = 42, but 6 x 8 = 48."
-hint: "Check the multiplication fact."
-questionGoal: "Correct an incorrect division fact using multiplication."
-misconception: "Accepting a near fact as the exact fact."
 ```
 
 ```question
@@ -2794,20 +2217,6 @@ explanation: "A useful strategy should fit the numbers and preserve the same pro
 hint: "You might use doubles or break apart 6."
 questionGoal: "Justify a multiplication strategy choice."
 misconception: "Naming a strategy without showing how it starts."
-```
-
-```question
-key: u04_l07_q06_error_strategy_choice
-type: error-correction
-prompt: "Correct the reasoning."
-sentence: "For 7 x 5, I use 7 + 5, so the answer is 12."
-acceptedAnswers:
-  - "For 7 x 5, count 7 groups of 5 or 5 groups of 7, so the answer is 35."
-  - "7 x 5 = 35"
-explanation: "Multiplication finds equal groups, not the sum of the factors."
-hint: "Use groups of 5 or groups of 7."
-questionGoal: "Correct additive reasoning for a multiplication fact."
-misconception: "Adding factors instead of multiplying."
 ```
 
 ### Lesson 8: Mixed Fact Retrieval With Meaning
@@ -2951,20 +2360,6 @@ explanation: "126 is closer to 130 than to 120."
 hint: "126 is 4 away from 130."
 questionGoal: "Produce a nearest-ten rounded number."
 misconception: "Rounding to 100 because it is a three-digit number."
-```
-
-```question
-key: u05_l01_q05_round_error
-type: error-correction
-prompt: "Correct the sentence."
-sentence: "64 rounds to 70 because it is greater than 60."
-acceptedAnswers:
-  - "64 rounds to 60 because it is closer to 60 than to 70."
-  - "64 rounds to 60"
-explanation: "64 is 4 away from 60 and 6 away from 70."
-hint: "Compare both distances."
-questionGoal: "Correct a rounding-by-direction error."
-misconception: "Rounding up whenever a number is greater than the lower ten."
 ```
 
 ```question
@@ -3380,20 +2775,6 @@ misconception: "Writing 5400 or 96 by mishandling place value."
 ```
 
 ```question
-key: u05_l06_q05_error_multiple_ten
-type: error-correction
-prompt: "Correct the statement."
-sentence: "5 x 70 = 35 because 5 x 7 = 35."
-acceptedAnswers:
-  - "5 x 70 = 350 because 5 x 7 tens = 35 tens."
-  - "5 x 70 = 350"
-explanation: "The 70 means 7 tens, so the product is 35 tens, or 350."
-hint: "Do not drop the tens unit."
-questionGoal: "Correct a place-value error in multiplying by tens."
-misconception: "Treating 70 as 7 without converting back to tens."
-```
-
-```question
 key: u05_l06_q06_explain_tens_product
 type: constructed-response
 prompt: "Explain why 8 x 50 = 400."
@@ -3461,20 +2842,6 @@ explanation: "612 is about 600 and 289 is about 300, so the difference is about 
 hint: "Round to hundreds first."
 questionGoal: "Estimate a difference for reasonableness."
 misconception: "Adding rounded numbers when the operation is subtraction."
-```
-
-```question
-key: u05_l07_q05_error_tool
-type: error-correction
-prompt: "Correct the decision."
-sentence: "The question asks exactly how many. I will round and stop."
-acceptedAnswers:
-  - "The question asks exactly how many, so I need to compute the exact answer."
-  - "I need to compute the exact answer."
-explanation: "Rounding can help check, but exact questions need exact computation."
-hint: "Look at the word \"exactly.\""
-questionGoal: "Correct misuse of estimation as a final exact answer."
-misconception: "Treating estimates as interchangeable with exact answers."
 ```
 
 ```question
@@ -4040,20 +3407,6 @@ misconception: "Using the same check for every operation."
 ```
 
 ```question
-key: u06_l07_q04_error_unit
-type: error-correction
-prompt: "Correct the answer label."
-sentence: "There are 24 students put into teams of 4. The answer is 6 students."
-acceptedAnswers:
-  - "There are 24 students put into teams of 4. The answer is 6 teams."
-  - "The answer is 6 teams."
-explanation: "The quotient tells how many teams, not how many students."
-hint: "Ask what the problem wants to find."
-questionGoal: "Correct a quotient label error."
-misconception: "Labeling the answer with the total's unit."
-```
-
-```question
 key: u06_l07_q05_type_reasonable
 type: text-input
 prompt: "A student says 312 + 209 = 421. Type a better estimate for the sum rounded to the nearest hundred."
@@ -4417,88 +3770,6 @@ questionGoal: "Explain non-unit fraction notation."
 misconception: "Reading the fraction as two unrelated whole numbers."
 ```
 
-### Lesson 4: Fractions On A Number Line
-
-```question
-key: u07_l04_q01_count_intervals
-type: multiple-choice
-prompt: "A number line from 0 to 1 is split into 4 equal intervals. What is the first tick after 0?"
-choices: ["1/4", "1/3", "4/1", "4/4"]
-correctAnswer: "1/4"
-explanation: "One interval out of 4 equal intervals is 1/4."
-hint: "Count intervals, not tick marks."
-questionGoal: "Locate a unit fraction on a number line."
-misconception: "Counting tick marks instead of intervals."
-```
-
-```question
-key: u07_l04_q02_label_point
-type: multiple-choice
-prompt: "A number line from 0 to 1 is split into 6 equal intervals. The third tick after 0 is what fraction?"
-choices: ["3/6", "6/3", "1/3 only", "3/3"]
-correctAnswer: "3/6"
-explanation: "Three intervals of size 1/6 make 3/6."
-hint: "Count equal intervals from 0."
-questionGoal: "Locate a non-unit fraction on a number line."
-misconception: "Using the tick count as denominator."
-```
-
-```question
-key: u07_l04_q03_order_number_line
-type: order-items
-prompt: "Put these fractions in order from left to right on a number line."
-items: ["3/4", "1/4", "4/4", "2/4"]
-correctOrder: ["1/4", "2/4", "3/4", "4/4"]
-explanation: "With the same denominator, each step is one more fourth."
-hint: "Count fourths from 0."
-questionGoal: "Order same-denominator fractions on a number line."
-misconception: "Treating fractions as unordered labels."
-```
-
-```question
-key: u07_l04_q04_match_points
-type: match-pairs
-prompt: "Match each location to a fraction on a line from 0 to 1 split into 5 equal parts."
-pairs:
-  - left: "first tick after 0"
-    right: "1/5"
-  - left: "second tick after 0"
-    right: "2/5"
-  - left: "fourth tick after 0"
-    right: "4/5"
-  - left: "endpoint at 1"
-    right: "5/5"
-explanation: "Each equal interval is one fifth."
-hint: "Count intervals from 0."
-questionGoal: "Match number-line positions to fraction labels."
-misconception: "Counting ticks including 0 as the first fraction."
-```
-
-```question
-key: u07_l04_q05_type_point
-type: text-input
-prompt: "A number line from 0 to 1 is split into 8 equal intervals. Type the fraction at the fifth tick after 0."
-acceptedAnswers: ["5/8"]
-answerType: text
-explanation: "Five intervals of size 1/8 make 5/8."
-hint: "The denominator is the number of equal intervals."
-questionGoal: "Produce a fraction label for a number-line point."
-misconception: "Using 5 as denominator or counting tick marks incorrectly."
-```
-
-```question
-key: u07_l04_q06_explain_intervals
-type: constructed-response
-prompt: "Explain why you count intervals, not tick marks, when naming fractions on a number line."
-minWords: 10
-sampleAnswer: "Fractions show distance from 0, so each interval is one equal part of the whole."
-checklist: ["Mention distance from 0", "Mention equal intervals"]
-explanation: "The intervals show equal parts of the distance from 0 to 1."
-hint: "Think about the space between marks."
-questionGoal: "Explain interval reasoning on fraction number lines."
-misconception: "Counting tick marks as parts."
-```
-
 ### Lesson 5: Fractions Greater Than One Whole
 
 ```question
@@ -4811,20 +4082,6 @@ misconception: "Ignoring the whole in fraction comparisons."
 ```
 
 ```question
-key: u07_l08_q05_error_same_whole
-type: error-correction
-prompt: "Correct the reasoning."
-sentence: "1/2 of a tiny bar is the same amount as 1/2 of a huge bar because both are 1/2."
-acceptedAnswers:
-  - "They are both 1/2 of their own whole, but the amounts may be different because the wholes are different sizes."
-  - "The amounts may be different because the wholes are different sizes."
-explanation: "Same fraction names can describe different physical sizes if the wholes differ."
-hint: "Compare the size of each whole bar."
-questionGoal: "Correct a same-whole misconception."
-misconception: "Assuming equal fraction notation guarantees equal physical amount."
-```
-
-```question
 key: u07_l08_q06_explain_same_whole
 type: constructed-response
 prompt: "Explain why the whole matters when naming a fraction."
@@ -4921,90 +4178,6 @@ questionGoal: "Explain equivalence with a model idea."
 misconception: "Relying on symbols without quantity meaning."
 ```
 
-### Lesson 2: Equivalent Fractions On Number Lines
-
-```question
-key: u08_l02_q01_same_point
-type: multiple-choice
-prompt: "On aligned number lines, which fraction lands at the same point as 1/2?"
-choices: ["2/4", "1/4", "3/4", "4/2"]
-correctAnswer: "2/4"
-explanation: "1/2 and 2/4 are the same distance from 0."
-hint: "Split the half into two fourths."
-questionGoal: "Identify equivalent fractions as same number-line point."
-misconception: "Thinking different labels must be different points."
-```
-
-```question
-key: u08_l02_q02_fill_line_equiv
-type: fill-blank
-prompt: "Complete the number-line equivalence."
-sentenceBefore: "3/6 is at the same point as"
-sentenceAfter: "."
-choices: ["1/2", "1/3", "2/6", "6/3"]
-correctAnswer: "1/2"
-explanation: "Three sixths is half of six sixths."
-hint: "3 is half of 6."
-questionGoal: "Connect sixths to halves on a number line."
-misconception: "Comparing only denominators."
-```
-
-```question
-key: u08_l02_q03_match_same_point
-type: match-pairs
-prompt: "Match fractions that land at the same point."
-pairs:
-  - left: "1/2"
-    right: "3/6"
-  - left: "1/4"
-    right: "2/8"
-  - left: "2/3"
-    right: "4/6"
-  - left: "3/4"
-    right: "6/8"
-explanation: "Equivalent fractions have the same number-line location."
-hint: "Think about the distance from 0."
-questionGoal: "Match equivalent fractions using number-line meaning."
-misconception: "Treating equivalent fractions as different because tick marks differ."
-```
-
-```question
-key: u08_l02_q04_order_with_equiv
-type: order-items
-prompt: "Put these points in order from left to right."
-items: ["1/4", "2/4", "3/4", "4/4"]
-correctOrder: ["1/4", "2/4", "3/4", "4/4"]
-explanation: "Fourths increase by equal intervals from 0 to 1."
-hint: "Count fourths from 0."
-questionGoal: "Reinforce number-line order before equivalence."
-misconception: "Treating denominator as making all fourths the same point."
-```
-
-```question
-key: u08_l02_q05_type_same_point
-type: text-input
-prompt: "Type the fraction in fourths at the same point as 1/2."
-acceptedAnswers: ["2/4"]
-answerType: text
-explanation: "2/4 is halfway from 0 to 1, just like 1/2."
-hint: "How many fourths make half of the whole?"
-questionGoal: "Produce an equivalent number-line fraction."
-misconception: "Writing 1/4 because the point is a fraction."
-```
-
-```question
-key: u08_l02_q06_explain_same_point
-type: constructed-response
-prompt: "Explain why equivalent fractions are at the same point on a number line."
-minWords: 10
-sampleAnswer: "They name the same distance from 0, even if the interval names are different."
-checklist: ["Mention same distance from 0", "Mention different names or intervals"]
-explanation: "A number line shows fraction magnitude as location."
-hint: "Think about distance, not just labels."
-questionGoal: "Explain equivalence as same number-line magnitude."
-misconception: "Treating tick labels as unrelated locations."
-```
-
 ### Lesson 3: Compare Same Denominators
 
 ```question
@@ -5062,20 +4235,6 @@ explanation: "Six sevenths is greater than four sevenths."
 hint: "Both are sevenths; compare 4 and 6."
 questionGoal: "Produce the greater same-denominator fraction."
 misconception: "Comparing fraction symbols as whole numbers incorrectly."
-```
-
-```question
-key: u08_l03_q05_error_same_den
-type: error-correction
-prompt: "Correct the comparison."
-sentence: "2/9 > 7/9 because 2 is smaller."
-acceptedAnswers:
-  - "2/9 < 7/9 because 7 ninths is more than 2 ninths."
-  - "2/9 < 7/9"
-explanation: "With the same denominator, the larger numerator means more same-size parts."
-hint: "Both fractions are ninths."
-questionGoal: "Correct same-denominator comparison reasoning."
-misconception: "Reversing comparison of numerators."
 ```
 
 ```question
@@ -5148,20 +4307,6 @@ explanation: "Sixths are larger than ninths, so 5/6 is greater than 5/9."
 hint: "Both count 5 parts; compare part size."
 questionGoal: "Use comparison symbols for same-numerator fractions."
 misconception: "Larger denominator means larger amount."
-```
-
-```question
-key: u08_l04_q05_error_same_num
-type: error-correction
-prompt: "Correct the reasoning."
-sentence: "2/8 > 2/4 because 8 is greater than 4."
-acceptedAnswers:
-  - "2/8 < 2/4 because eighths are smaller than fourths."
-  - "2/8 < 2/4"
-explanation: "If the numerator is the same, the fraction with larger parts is greater."
-hint: "Compare one eighth to one fourth."
-questionGoal: "Correct denominator-as-size misconception."
-misconception: "Comparing denominators as whole numbers."
 ```
 
 ```question
@@ -5321,20 +4466,6 @@ misconception: "Thinking color or shape matters more than whole size."
 ```
 
 ```question
-key: u08_l06_q05_error_whole
-type: error-correction
-prompt: "Correct the reasoning."
-sentence: "1/3 of any cake is always the same amount."
-acceptedAnswers:
-  - "1/3 of cakes can be different amounts if the cakes are different sizes."
-  - "1/3 depends on the size of the whole cake."
-explanation: "One third depends on the size of the whole being split."
-hint: "Compare one third of a small cake and one third of a large cake."
-questionGoal: "Correct same-whole misconception."
-misconception: "Treating fraction amount as independent of whole size."
-```
-
-```question
 key: u08_l06_q06_explain_valid_compare
 type: constructed-response
 prompt: "Explain why 2/5 and 4/5 of the same strip can be compared."
@@ -5404,20 +4535,6 @@ explanation: "Same numerator: fifths are larger than ninths, so 2/5 is greater."
 hint: "Compare the size of one fifth and one ninth."
 questionGoal: "Apply chosen same-numerator reasoning."
 misconception: "Larger denominator means larger fraction."
-```
-
-```question
-key: u08_l07_q05_error_reason
-type: error-correction
-prompt: "Correct the reasoning."
-sentence: "4/7 < 2/7 because 2 is smaller."
-acceptedAnswers:
-  - "4/7 > 2/7 because both are sevenths and 4 sevenths is more than 2 sevenths."
-  - "4/7 > 2/7"
-explanation: "With the same denominator, compare numerators."
-hint: "Both fractions count sevenths."
-questionGoal: "Correct a mismatched comparison reason."
-misconception: "Reversing or misapplying comparison reasoning."
 ```
 
 ```question
@@ -5764,90 +4881,6 @@ questionGoal: "Explain distinction between mass and liquid volume."
 misconception: "Treating grams and liters as interchangeable."
 ```
 
-### Lesson 5: Scaled Picture Graphs
-
-```question
-key: u09_l05_q01_read_key
-type: multiple-choice
-prompt: "A picture graph key says each star = 5 votes. A row has 4 stars. How many votes is that?"
-choices: ["4", "5", "9", "20"]
-correctAnswer: "20"
-explanation: "Four stars at 5 votes each is 4 x 5 = 20."
-hint: "Use the key for every star."
-questionGoal: "Read a scaled picture graph key."
-misconception: "Counting each picture as 1."
-```
-
-```question
-key: u09_l05_q02_picture_total
-type: text-input
-prompt: "Each picture stands for 2 books. A row has 7 pictures. Type the number of books."
-acceptedAnswers: ["14"]
-answerType: number
-explanation: "7 pictures times 2 books each is 14 books."
-hint: "Count by 2s for each picture."
-questionGoal: "Compute a total from a scaled picture graph."
-misconception: "Ignoring the scale."
-```
-
-```question
-key: u09_l05_q03_match_scale
-type: match-pairs
-prompt: "Match each graph row to its total."
-pairs:
-  - left: "3 pictures, each = 4"
-    right: "12"
-  - left: "5 pictures, each = 2"
-    right: "10"
-  - left: "4 pictures, each = 5"
-    right: "20"
-  - left: "6 pictures, each = 3"
-    right: "18"
-explanation: "Multiply the number of pictures by the value of each picture."
-hint: "The key tells the value of one picture."
-questionGoal: "Interpret several scaled picture graph rows."
-misconception: "Counting pictures by ones regardless of key."
-```
-
-```question
-key: u09_l05_q04_compare_rows
-type: multiple-choice
-prompt: "Each symbol = 10 cans. Class A has 3 symbols. Class B has 5 symbols. How many more cans does Class B have?"
-choices: ["2", "10", "20", "80"]
-correctAnswer: "20"
-explanation: "Class B has 50 cans and Class A has 30 cans; the difference is 20."
-hint: "Find each total using the scale before subtracting."
-questionGoal: "Compare scaled picture graph values."
-misconception: "Subtracting symbols without applying the scale."
-```
-
-```question
-key: u09_l05_q05_fill_scale
-type: fill-blank
-prompt: "Complete the sentence."
-sentenceBefore: "If each picture means 5, then 6 pictures mean"
-sentenceAfter: "."
-choices: ["6", "11", "30", "56"]
-correctAnswer: "30"
-explanation: "6 x 5 = 30."
-hint: "Count by 5s six times."
-questionGoal: "Apply graph scale to picture count."
-misconception: "Adding pictures and scale."
-```
-
-```question
-key: u09_l05_q06_explain_scale
-type: constructed-response
-prompt: "Explain why you must read the key before answering a picture graph question."
-minWords: 8
-sampleAnswer: "The key tells what each picture is worth, so a picture may mean more than 1."
-checklist: ["Mention key", "Mention value of each picture"]
-explanation: "Scaled graphs use symbols to represent a set amount."
-hint: "Think about one picture meaning 2, 5, or 10."
-questionGoal: "Explain why scale matters in picture graphs."
-misconception: "Treating every symbol as one item."
-```
-
 ### Lesson 6: Scaled Bar Graphs And Tables
 
 ```question
@@ -5930,88 +4963,6 @@ explanation: "The scale tells the value of each step on the graph."
 hint: "Do not count each line as 1."
 questionGoal: "Explain scaled bar graph reading."
 misconception: "Ignoring the scale."
-```
-
-### Lesson 7: Line Plots And Fractional Lengths
-
-```question
-key: u09_l07_q01_line_plot_count
-type: multiple-choice
-prompt: "A line plot has 4 Xs above 3 inches. How many objects measured 3 inches?"
-choices: ["3", "4", "7", "12"]
-correctAnswer: "4"
-explanation: "Each X represents one measurement."
-hint: "Count the Xs above the value."
-questionGoal: "Read frequency from a line plot."
-misconception: "Reading the label as the count."
-```
-
-```question
-key: u09_l07_q02_fraction_tick
-type: multiple-choice
-prompt: "A line plot scale goes 0, 1/4, 2/4, 3/4, 1. Which label is halfway?"
-choices: ["1/4", "2/4", "3/4", "4/4 only"]
-correctAnswer: "2/4"
-explanation: "2/4 is the same as 1/2, halfway from 0 to 1."
-hint: "Half of 4 fourths is 2 fourths."
-questionGoal: "Read fractional marks on a line plot scale."
-misconception: "Treating fraction labels as whole-number counts."
-```
-
-```question
-key: u09_l07_q03_match_frequency
-type: match-pairs
-prompt: "Match each line-plot description to the count."
-pairs:
-  - left: "2 Xs above 1/2 inch"
-    right: "2 measurements"
-  - left: "5 Xs above 3 inches"
-    right: "5 measurements"
-  - left: "1 X above 4 inches"
-    right: "1 measurement"
-  - left: "0 Xs above 2 inches"
-    right: "0 measurements"
-explanation: "The number of Xs tells how many data values are at that mark."
-hint: "Count Xs, not the number label."
-questionGoal: "Interpret line plot frequencies."
-misconception: "Confusing measurement value with frequency."
-```
-
-```question
-key: u09_l07_q04_total_xs
-type: text-input
-prompt: "A line plot has 3 Xs over 2 inches, 4 Xs over 3 inches, and 1 X over 4 inches. Type the total number of measurements."
-acceptedAnswers: ["8"]
-answerType: number
-explanation: "3 + 4 + 1 = 8 measurements."
-hint: "Add the Xs, not the inch labels."
-questionGoal: "Find total data count from a line plot."
-misconception: "Adding measurement labels instead of frequencies."
-```
-
-```question
-key: u09_l07_q05_compare_frequency
-type: multiple-choice
-prompt: "A line plot has 6 Xs above 1/4 inch and 2 Xs above 3/4 inch. How many more measurements are 1/4 inch?"
-choices: ["2", "4", "6", "8"]
-correctAnswer: "4"
-explanation: "6 - 2 = 4 more measurements."
-hint: "Compare the number of Xs."
-questionGoal: "Compare frequencies on a line plot."
-misconception: "Comparing fraction sizes instead of counts."
-```
-
-```question
-key: u09_l07_q06_explain_line_plot
-type: constructed-response
-prompt: "Explain what an X means on a line plot."
-minWords: 8
-sampleAnswer: "Each X means one measurement with the value shown below it."
-checklist: ["Mention one measurement", "Mention the value below"]
-explanation: "Line plots show frequency by stacking Xs over values."
-hint: "Look at the label under the X."
-questionGoal: "Explain line plot notation."
-misconception: "Thinking an X changes the measurement value."
 ```
 
 ### Lesson 8: Money Choices With A Goal
@@ -6154,20 +5105,6 @@ misconception: "Subtracting hour labels or misreading minutes."
 ```
 
 ```question
-key: u09_l09_q05_error_scale_unit
-type: error-correction
-prompt: "Correct the answer."
-sentence: "Each picture means 5 cans. There are 3 pictures, so there are 3 cans."
-acceptedAnswers:
-  - "Each picture means 5 cans. There are 3 pictures, so there are 15 cans."
-  - "There are 15 cans."
-explanation: "3 pictures at 5 cans each means 3 x 5 = 15 cans."
-hint: "Use the graph key for each picture."
-questionGoal: "Correct a scaled graph interpretation error."
-misconception: "Counting each symbol as 1."
-```
-
-```question
 key: u09_l09_q06_explain_mixed_decision
 type: constructed-response
 prompt: "Explain why you should read units and scales before solving a measurement or graph problem."
@@ -6181,172 +5118,6 @@ misconception: "Treating numbers as enough without context."
 ```
 
 ## Unit 10: Area, Arrays, And Multiplication
-
-### Lesson 1: Cover A Region With Square Units
-
-```question
-key: u10_l01_q01_area_definition
-type: multiple-choice
-prompt: "What does area measure?"
-choices: ["how many square units cover a region", "distance around a shape", "how heavy a shape is", "how many corners a shape has"]
-correctAnswer: "how many square units cover a region"
-explanation: "Area measures the inside covering of a region."
-hint: "Think about covering the inside with unit squares."
-questionGoal: "Identify area as square-unit covering."
-misconception: "Confusing area with perimeter or attributes."
-```
-
-```question
-key: u10_l01_q02_valid_tiling
-type: multiple-choice
-prompt: "Which tiling can measure area?"
-choices: ["equal squares with no gaps or overlaps", "circles with gaps between them", "squares that overlap", "different-size tiles mixed together"]
-correctAnswer: "equal squares with no gaps or overlaps"
-explanation: "Area units must cover the region exactly without gaps or overlaps."
-hint: "A good tiling covers all the space once."
-questionGoal: "Recognize valid square-unit tiling."
-misconception: "Counting any tiles as area units."
-```
-
-```question
-key: u10_l01_q03_match_area_words
-type: match-pairs
-prompt: "Match each word to its area meaning."
-pairs:
-  - left: "area"
-    right: "inside covering"
-  - left: "unit square"
-    right: "one square area unit"
-  - left: "gap"
-    right: "uncovered space"
-  - left: "overlap"
-    right: "space counted twice"
-explanation: "Area measurement depends on equal units covering the region once."
-hint: "Think about tiling a floor."
-questionGoal: "Build area vocabulary."
-misconception: "Missing why gaps and overlaps matter."
-```
-
-```question
-key: u10_l01_q04_count_squares
-type: text-input
-prompt: "A rectangle is covered by 12 unit squares. Type its area in square units."
-acceptedAnswers: ["12"]
-answerType: number
-explanation: "The area is the number of unit squares covering the rectangle."
-hint: "Count the square units."
-questionGoal: "Count square units as area."
-misconception: "Counting side marks or corners."
-```
-
-```question
-key: u10_l01_q05_fill_square_units
-type: fill-blank
-prompt: "Complete the sentence."
-sentenceBefore: "Area is measured in"
-sentenceAfter: "."
-choices: ["square units", "minutes", "kilograms", "plain side lengths"]
-correctAnswer: "square units"
-explanation: "Area counts unit squares."
-hint: "The units cover a flat region."
-questionGoal: "Use correct area unit language."
-misconception: "Reporting area with length units only."
-```
-
-```question
-key: u10_l01_q06_explain_tiling
-type: constructed-response
-prompt: "Explain why gaps are a problem when measuring area with tiles."
-minWords: 8
-sampleAnswer: "Gaps leave part of the region uncovered, so the tile count is too small."
-checklist: ["Mention uncovered space", "Mention area count"]
-explanation: "To measure area, tiles must cover the entire region."
-hint: "Think about a floor that is not fully covered."
-questionGoal: "Explain the no-gaps requirement for area."
-misconception: "Counting visible tiles without considering uncovered space."
-```
-
-### Lesson 2: Count Squares Efficiently
-
-```question
-key: u10_l02_q01_rows_squares
-type: multiple-choice
-prompt: "A tiled rectangle has 3 rows of 8 squares. What is its area?"
-choices: ["11 square units", "24 square units", "38 square units", "64 square units"]
-correctAnswer: "24 square units"
-explanation: "3 rows of 8 squares make 24 square units."
-hint: "Use rows as equal groups."
-questionGoal: "Use row structure to count area squares efficiently."
-misconception: "Adding rows and columns."
-```
-
-```question
-key: u10_l02_q02_count_by_rows
-type: order-items
-prompt: "Put the row totals in order for 4 rows of 5 squares."
-items: ["20", "5", "15", "10"]
-correctOrder: ["5", "10", "15", "20"]
-explanation: "Counting by rows of 5 gives 5, 10, 15, 20."
-hint: "Count by 5s."
-questionGoal: "Use skip counting to count square units."
-misconception: "Counting squares one by one without structure."
-```
-
-```question
-key: u10_l02_q03_match_rows_area
-type: match-pairs
-prompt: "Match each tiled rectangle to its area."
-pairs:
-  - left: "2 rows of 7 squares"
-    right: "14 square units"
-  - left: "4 rows of 6 squares"
-    right: "24 square units"
-  - left: "5 rows of 5 squares"
-    right: "25 square units"
-  - left: "3 rows of 9 squares"
-    right: "27 square units"
-explanation: "Area is the total count of unit squares."
-hint: "Multiply rows by squares in each row."
-questionGoal: "Match row structures to area totals."
-misconception: "Counting rows only."
-```
-
-```question
-key: u10_l02_q04_type_area
-type: text-input
-prompt: "A rectangle has 6 rows of 4 unit squares. Type its area."
-acceptedAnswers: ["24"]
-answerType: number
-explanation: "6 x 4 = 24 square units."
-hint: "Count by 4s six times."
-questionGoal: "Compute area by row counting."
-misconception: "Adding 6 + 4."
-```
-
-```question
-key: u10_l02_q05_grid_lines_error
-type: multiple-choice
-prompt: "A student counts the grid lines around a rectangle to find area. What should they count instead?"
-choices: ["unit squares inside", "corners only", "the longest side", "the title of the graph"]
-correctAnswer: "unit squares inside"
-explanation: "Area counts the square units that cover the inside."
-hint: "Area is inside covering."
-questionGoal: "Correct boundary-counting for area."
-misconception: "Confusing area with perimeter."
-```
-
-```question
-key: u10_l02_q06_explain_efficient
-type: constructed-response
-prompt: "Explain a faster way than counting one by one for a 5 by 6 tiled rectangle."
-minWords: 8
-sampleAnswer: "I can count 5 rows of 6 or multiply 5 x 6 to get 30."
-checklist: ["Mention rows or columns", "Include 30"]
-explanation: "Rows and columns show equal groups of square units."
-hint: "Use the array structure."
-questionGoal: "Explain efficient square counting."
-misconception: "Believing area must always be counted one square at a time."
-```
 
 ### Lesson 3: Arrays Inside Rectangles
 
@@ -6493,20 +5264,6 @@ misconception: "Adding 7 + 8."
 ```
 
 ```question
-key: u10_l04_q05_error_side_area
-type: error-correction
-prompt: "Correct the statement."
-sentence: "A 5 by 9 rectangle has area 14 square units because 5 + 9 = 14."
-acceptedAnswers:
-  - "A 5 by 9 rectangle has area 45 square units because 5 x 9 = 45."
-  - "A 5 by 9 rectangle has area 45 square units."
-explanation: "Area of a rectangle uses multiplication of side lengths."
-hint: "Side lengths show rows and columns."
-questionGoal: "Correct additive reasoning for area."
-misconception: "Adding side lengths to find area."
-```
-
-```question
 key: u10_l04_q06_explain_side_area
 type: constructed-response
 prompt: "Explain why 4 by 8 gives an area of 32 square units."
@@ -6601,94 +5358,6 @@ explanation: "Area, side length, and the other side form a multiplication relati
 hint: "Use 30 divided by 5."
 questionGoal: "Explain missing-side area reasoning."
 misconception: "Not connecting area to multiplication."
-```
-
-### Lesson 6: Decompose Figures Into Rectangles
-
-```question
-key: u10_l06_q01_decompose_reason
-type: multiple-choice
-prompt: "Why might you split an L-shaped figure into rectangles?"
-choices: ["To find each rectangle's area and add them", "To find its color", "To count corners only", "To avoid using units"]
-correctAnswer: "To find each rectangle's area and add them"
-explanation: "Decomposing makes a complex area easier to find."
-hint: "Area parts can be added if they do not overlap."
-questionGoal: "Identify purpose of decomposing area figures."
-misconception: "Splitting shapes without preserving area."
-```
-
-```question
-key: u10_l06_q02_add_component_areas
-type: text-input
-prompt: "A shape is split into rectangles with areas 18 and 12 square units. Type the total area."
-acceptedAnswers: ["30"]
-answerType: number
-explanation: "18 + 12 = 30 square units."
-hint: "Add the area parts."
-questionGoal: "Add component areas."
-misconception: "Multiplying component areas or adding side lengths."
-```
-
-```question
-key: u10_l06_q03_match_parts_total
-type: match-pairs
-prompt: "Match component areas to total area."
-pairs:
-  - left: "10 and 8"
-    right: "18 square units"
-  - left: "15 and 12"
-    right: "27 square units"
-  - left: "24 and 6"
-    right: "30 square units"
-  - left: "16 and 14"
-    right: "30 square units in another shape"
-explanation: "Total area is the sum of non-overlapping parts."
-hint: "Add the two component areas."
-questionGoal: "Combine decomposed area parts."
-misconception: "Losing or double-counting part of a shape."
-```
-
-```question
-key: u10_l06_q04_valid_split
-type: multiple-choice
-prompt: "Which split is valid for finding area?"
-choices: ["Two non-overlapping rectangles that cover the whole shape", "Two rectangles that overlap", "One rectangle that leaves a gap", "Lines outside the shape only"]
-correctAnswer: "Two non-overlapping rectangles that cover the whole shape"
-explanation: "A valid split covers every part exactly once."
-hint: "No gaps and no overlaps."
-questionGoal: "Recognize valid decomposition."
-misconception: "Accepting overlaps or missing regions."
-```
-
-```question
-key: u10_l06_q05_multi_step_area
-type: multi-blank-cloze
-prompt: "Complete the decomposed area calculation."
-parts: ["Rectangle A is 4 x 5 = ", ". Rectangle B is 3 x 6 = ", ". Total area is ", "."]
-blanks:
-  - correctAnswer: "20"
-    acceptedAnswers: ["20"]
-  - correctAnswer: "18"
-    acceptedAnswers: ["18"]
-  - correctAnswer: "38"
-    acceptedAnswers: ["38"]
-explanation: "Find each rectangle's area, then add 20 + 18 = 38."
-hint: "Multiply first, then add the area parts."
-questionGoal: "Complete a decomposed area process."
-misconception: "Adding all side lengths or skipping component products."
-```
-
-```question
-key: u10_l06_q06_explain_decompose
-type: constructed-response
-prompt: "Explain how decomposing helps find the area of a shape that is not one rectangle."
-minWords: 10
-sampleAnswer: "I can split the shape into rectangles, find each rectangle's area, and add the areas."
-checklist: ["Mention splitting into rectangles", "Mention adding areas"]
-explanation: "Area is additive when the parts cover the shape without overlap."
-hint: "Think of covering every square unit exactly once."
-questionGoal: "Explain area decomposition."
-misconception: "Treating composite shapes as unsolvable or using perimeter."
 ```
 
 ## Unit 11: Perimeter, Geometry, And Shape Attributes
@@ -6834,20 +5503,6 @@ explanation: "Perimeter is the sum of side lengths."
 hint: "Add every number in the list."
 questionGoal: "Practice perimeter sums from side lists."
 misconception: "Skipping repeated sides."
-```
-
-```question
-key: u11_l02_q05_error_perimeter
-type: error-correction
-prompt: "Correct the statement."
-sentence: "A 6 by 4 rectangle has perimeter 24 because 6 x 4 = 24."
-acceptedAnswers:
-  - "A 6 by 4 rectangle has perimeter 20 because 6 + 4 + 6 + 4 = 20."
-  - "The perimeter is 20."
-explanation: "6 x 4 finds area, not perimeter."
-hint: "Add all four side lengths."
-questionGoal: "Correct area/perimeter operation confusion."
-misconception: "Multiplying side lengths for perimeter."
 ```
 
 ```question
@@ -7115,92 +5770,6 @@ questionGoal: "Explain subcategory reasoning."
 misconception: "Treating shape categories as mutually exclusive."
 ```
 
-### Lesson 6: Equal-Area Partitions
-
-```question
-key: u11_l06_q01_equal_area_partition
-type: multiple-choice
-prompt: "Which partition can show halves?"
-choices: ["2 equal-area parts", "2 parts with one much larger", "3 equal parts", "4 unequal parts"]
-correctAnswer: "2 equal-area parts"
-explanation: "Halves are 2 equal parts of the same whole."
-hint: "Check both number of parts and equal area."
-questionGoal: "Identify equal-area halves."
-misconception: "Naming halves by number of pieces only."
-```
-
-```question
-key: u11_l06_q02_equal_shapes_needed
-type: multiple-choice
-prompt: "Do equal-area parts always have to be the exact same shape?"
-choices: ["No, they need equal area.", "Yes, they must look identical.", "No, they can be any size.", "Only in circles."]
-correctAnswer: "No, they need equal area."
-explanation: "Fraction parts must have equal area, but they do not always need the same shape."
-hint: "Equal area matters most."
-questionGoal: "Distinguish equal area from identical shape."
-misconception: "Believing equal parts must be congruent or symmetric."
-```
-
-```question
-key: u11_l06_q03_match_partition_fraction
-type: match-pairs
-prompt: "Match each equal-area partition to the unit fraction for one part."
-pairs:
-  - left: "2 equal-area parts"
-    right: "1/2"
-  - left: "3 equal-area parts"
-    right: "1/3"
-  - left: "4 equal-area parts"
-    right: "1/4"
-  - left: "8 equal-area parts"
-    right: "1/8"
-explanation: "One part is named by the number of equal-area parts in the whole."
-hint: "Count equal-area parts in the whole."
-questionGoal: "Connect equal-area partitions to unit fractions."
-misconception: "Counting only shaded or selected parts."
-```
-
-```question
-key: u11_l06_q04_fill_equal_area
-type: fill-blank
-prompt: "Complete the sentence."
-sentenceBefore: "A rectangle split into 4 equal-area parts has parts called"
-sentenceAfter: "."
-choices: ["fourths", "halves", "thirds", "ones"]
-correctAnswer: "fourths"
-explanation: "Four equal parts of a whole are fourths."
-hint: "The name comes from the number of equal parts."
-questionGoal: "Name equal-area partitions."
-misconception: "Using fraction names without part count."
-```
-
-```question
-key: u11_l06_q05_error_partition
-type: error-correction
-prompt: "Correct the reasoning."
-sentence: "This shape has 3 parts, so each part is 1/3, even though one part is much larger."
-acceptedAnswers:
-  - "The parts are not thirds because they are not equal in area."
-  - "They are not thirds because the parts are unequal."
-explanation: "Thirds must be 3 equal-area parts."
-hint: "Check whether the parts are equal."
-questionGoal: "Correct unequal-part fraction naming."
-misconception: "Naming fractions by part count only."
-```
-
-```question
-key: u11_l06_q06_explain_equal_area
-type: constructed-response
-prompt: "Explain what makes a shape partition show fourths."
-minWords: 8
-sampleAnswer: "The whole must be split into 4 parts with equal area."
-checklist: ["Mention 4 parts", "Mention equal area"]
-explanation: "Equal-area parts are required for fraction names in shapes."
-hint: "Use the words \"equal area.\""
-questionGoal: "Explain equal-area partition criteria."
-misconception: "Focusing on shape appearance instead of area."
-```
-
 ### Lesson 7: Geometry And Measurement Mix
 
 ```question
@@ -7452,96 +6021,12 @@ questionGoal: "Explain reasonableness for multiplication facts."
 misconception: "Accepting a digit-combination error as a product."
 ```
 
-### Lesson 3: Fractions In New Diagrams
-
-```question
-key: u12_l03_q01_new_fraction_model
-type: multiple-choice
-prompt: "A hexagon is split into 6 equal-area parts, and 4 parts are shaded. What fraction is shaded?"
-choices: ["4/6", "6/4", "1/6", "4/4"]
-correctAnswer: "4/6"
-explanation: "Four of the 6 equal parts are shaded."
-hint: "Shaded parts go on top; total equal parts go on bottom."
-questionGoal: "Transfer fraction naming to an unfamiliar shape."
-misconception: "Reversing numerator and denominator."
-```
-
-```question
-key: u12_l03_q02_new_equivalence
-type: multiple-choice
-prompt: "A number line shows 2/4 at the same point as another fraction. Which fraction could it be?"
-choices: ["1/2", "1/4", "3/4", "4/2"]
-correctAnswer: "1/2"
-explanation: "2/4 and 1/2 are equivalent."
-hint: "2 fourths is half of 4 fourths."
-questionGoal: "Transfer equivalence to number-line context."
-misconception: "Different labels must be different amounts."
-```
-
-```question
-key: u12_l03_q03_match_fraction_transfer
-type: match-pairs
-prompt: "Match each new diagram description to the fraction idea."
-pairs:
-  - left: "all 5 fifths shaded"
-    right: "one whole"
-  - left: "same point as 3/6"
-    right: "1/2"
-  - left: "2 of 8 equal parts"
-    right: "2/8"
-  - left: "larger parts with same numerator"
-    right: "greater fraction"
-explanation: "Fraction ideas transfer across shapes, strips, and lines."
-hint: "Use equal parts, same whole, and number-line location."
-questionGoal: "Review fraction concepts in unfamiliar descriptions."
-misconception: "Memorizing only familiar diagrams."
-```
-
-```question
-key: u12_l03_q04_compare_transfer
-type: fill-blank
-prompt: "Choose the symbol: 3/5 ___ 3/8"
-sentenceBefore: "3/5"
-sentenceAfter: "3/8"
-choices: [">", "<", "="]
-correctAnswer: ">"
-explanation: "Same numerator: fifths are larger than eighths."
-hint: "Compare the size of one fifth and one eighth."
-questionGoal: "Apply same-numerator comparison in review."
-misconception: "Larger denominator means larger fraction."
-```
-
-```question
-key: u12_l03_q05_type_whole_fraction
-type: text-input
-prompt: "Type the fraction that names one whole split into 8 equal parts."
-acceptedAnswers: ["8/8"]
-answerType: text
-explanation: "Eight eighths make one whole."
-hint: "Count all 8 equal parts."
-questionGoal: "Produce a whole fraction in review."
-misconception: "Writing 1/8 for one whole."
-```
-
-```question
-key: u12_l03_q06_explain_new_diagram
-type: constructed-response
-prompt: "A new diagram looks different from ones you practiced. What should you check before naming its fraction?"
-minWords: 10
-sampleAnswer: "I should identify the whole, check that parts are equal, then count shaded and total parts."
-checklist: ["Identify the whole", "Check equal parts", "Count parts"]
-explanation: "Fraction reasoning transfers when you use the structure, not the picture's appearance."
-hint: "Start with the whole and equal parts."
-questionGoal: "Explain transfer routine for unfamiliar fraction diagrams."
-misconception: "Relying on memorized images instead of fraction structure."
-```
-
 ### Lesson 4: Measurement And Data Review Cycle
 
 ```question
 key: u12_l04_q01_scaled_review
 type: multiple-choice
-prompt: "A graph scale counts by 4. A bar reaches the fifth mark. What value is shown?"
+prompt: "A graph scale counts by 4. A bar reaches the fifth mark after 0. What value is shown?"
 choices: ["5", "9", "20", "45"]
 correctAnswer: "20"
 explanation: "Five jumps of 4 is 20."
@@ -7591,20 +6076,6 @@ explanation: "7 - 3 = 4 more measurements."
 hint: "Compare the number of Xs."
 questionGoal: "Review line plot comparison."
 misconception: "Comparing measurement labels instead of frequencies."
-```
-
-```question
-key: u12_l04_q05_error_unit_review
-type: error-correction
-prompt: "Correct the unit."
-sentence: "The bottle holds 600 grams of water."
-acceptedAnswers:
-  - "The bottle holds 600 milliliters of water."
-  - "The bottle holds 600 milliliters."
-explanation: "How much liquid a bottle holds is liquid volume, measured in milliliters or liters."
-hint: "Grams measure mass."
-questionGoal: "Correct unit mismatch in measurement review."
-misconception: "Confusing mass and liquid volume."
 ```
 
 ```question
@@ -7703,48 +6174,6 @@ misconception: "Ignoring units in geometry answers."
 ```
 
 ### Lesson 6: Find And Fix The Error
-
-```question
-key: u12_l06_q01_error_multiply_add
-type: error-correction
-prompt: "Correct the mistake."
-sentence: "6 x 8 = 14 because 6 + 8 = 14."
-acceptedAnswers:
-  - "6 x 8 = 48 because it means 6 groups of 8."
-  - "6 x 8 = 48"
-explanation: "Multiplication is equal groups, not addition of factors."
-hint: "Think 6 groups of 8."
-questionGoal: "Correct additive reasoning for multiplication."
-misconception: "Adding factors instead of multiplying."
-```
-
-```question
-key: u12_l06_q02_error_fraction_denominator
-type: error-correction
-prompt: "Correct the mistake."
-sentence: "1/8 is greater than 1/4 because 8 is greater than 4."
-acceptedAnswers:
-  - "1/8 is less than 1/4 because eighths are smaller than fourths."
-  - "1/8 < 1/4"
-explanation: "More equal parts make each unit fraction smaller."
-hint: "Compare the size of one eighth and one fourth."
-questionGoal: "Correct denominator-as-size misconception."
-misconception: "Comparing denominators as whole numbers."
-```
-
-```question
-key: u12_l06_q03_error_area_perim
-type: error-correction
-prompt: "Correct the mistake."
-sentence: "A 4 by 7 rectangle has perimeter 28 because 4 x 7 = 28."
-acceptedAnswers:
-  - "A 4 by 7 rectangle has perimeter 22 because 4 + 7 + 4 + 7 = 22."
-  - "The perimeter is 22."
-explanation: "4 x 7 finds area. Perimeter adds all sides."
-hint: "Perimeter means around."
-questionGoal: "Correct area/perimeter confusion."
-misconception: "Using area formula for perimeter."
-```
 
 ```question
 key: u12_l06_q04_identify_error_type
