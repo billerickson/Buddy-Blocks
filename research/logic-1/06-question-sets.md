@@ -100,16 +100,17 @@ misconception: "Reading every sentence in a passage as a statement."
 
 ```question
 key: u01_l01_q06_explain_sentence_job
-type: constructed-response
-prompt: "Explain why 'Bring your folder to the table' is a command."
-minWords: 6
-sampleAnswer: "It tells someone what to do."
-checklist:
-  - "Say that the sentence tells or directs someone"
-  - "Mention the action"
+type: multiple-choice
+prompt: "Why is 'Bring your folder to the table' a command?"
+choices:
+  - "It tells someone to do an action."
+  - "It asks for information about a folder."
+  - "It tells a fact that can be true or false."
+  - "It shows surprise about the table."
+correctAnswer: "It tells someone to do an action."
 explanation: "A command gives a direction. This sentence directs someone to bring a folder."
 hint: "Ask what the sentence wants the listener to do."
-questionGoal: "Explain the clue that identifies a command."
+questionGoal: "Choose the clue that identifies a command."
 misconception: "Identifying sentence jobs without using meaning as evidence."
 ```
 
@@ -138,12 +139,10 @@ prompt: "Match each sentence to the best label."
 pairs:
   - left: "I feel nervous before the play."
     right: "feeling"
-  - left: "Chocolate milk tastes best."
-    right: "preference"
+  - left: "Chocolate milk is my favorite drink."
+    right: "opinion or preference"
   - left: "The play needs more rehearsal time."
     right: "supportable claim"
-  - left: "I enjoyed the funny scene."
-    right: "personal reaction"
 explanation: "Feelings and preferences are personal. A supportable claim can be backed with reasons."
 hint: "Ask whether the sentence tells a feeling, a liking, or an idea someone could support."
 questionGoal: "Sort personal language and supportable claims."
@@ -207,16 +206,17 @@ misconception: "Treating excitement or preference as evidence-ready in the same 
 
 ```question
 key: u01_l02_q06_write_supportable_claim
-type: constructed-response
-prompt: "Write one supportable claim about recess, reading, lunch, or a classroom routine."
-minWords: 5
-sampleAnswer: "Recess should include a quiet game area."
-checklist:
-  - "Write a complete claim"
-  - "Make it something someone could support with a reason"
-explanation: "A supportable claim is an idea someone could give reasons for."
-hint: "Start with 'Our class should...' or 'It would help if...'"
-questionGoal: "Produce a simple supportable claim."
+type: multiple-choice
+prompt: "Which sentence is a supportable claim about a classroom routine?"
+choices:
+  - "Our class should have a quiet reading corner."
+  - "I feel sleepy after lunch."
+  - "Blue folders are my favorite."
+  - "Wow, the bell is loud!"
+correctAnswer: "Our class should have a quiet reading corner."
+explanation: "Someone could give reasons for or against having a quiet reading corner."
+hint: "Look for a sentence someone could try to support with a reason."
+questionGoal: "Choose a simple supportable claim."
 misconception: "Writing only a feeling or preference instead of a claim."
 ```
 
@@ -314,16 +314,17 @@ misconception: "Treating a reason as any extra detail."
 
 ```question
 key: u01_l03_q06_write_because_reason
-type: constructed-response
-prompt: "Complete this tiny argument with a reason: 'We should clean the art table because ___.'"
-minWords: 5
-sampleAnswer: "paint and paper scraps are still on it."
-checklist:
-  - "Give a reason that fits cleaning the art table"
-  - "Do not give a new unrelated claim"
-explanation: "A fitting reason explains why cleaning the art table makes sense."
+type: multiple-choice
+prompt: "Choose the best reason to complete this tiny argument: 'We should clean the art table because ___.'"
+choices:
+  - "paint and paper scraps are still on it"
+  - "the window is near the sink"
+  - "the table has four legs"
+  - "art class happens after lunch"
+correctAnswer: "paint and paper scraps are still on it"
+explanation: "Paint and scraps on the table explain why cleaning the art table makes sense."
 hint: "Think about what problem cleaning the table would solve."
-questionGoal: "Produce a relevant reason in a because frame."
+questionGoal: "Choose a relevant reason in a because frame."
 misconception: "Adding an unrelated detail after because."
 ```
 
@@ -423,16 +424,23 @@ misconception: "Assuming because always introduces the claim."
 
 ```question
 key: u01_l04_q06_label_claim_reason
-type: constructed-response
-prompt: "In this argument, name the claim and the reason: 'We should save the boxes because they can hold art supplies.'"
-minWords: 8
-sampleAnswer: "Claim: We should save the boxes. Reason: They can hold art supplies."
-checklist:
-  - "Name the claim"
-  - "Name the reason"
+type: multi-blank-cloze
+prompt: "Complete the labels for this argument: 'We should save the boxes because they can hold art supplies.'"
+parts:
+  - "Claim: "
+  - ". Reason: "
+  - "."
+blanks:
+  - correctAnswer: "We should save the boxes"
+    acceptedAnswers:
+      - "We should save the boxes"
+  - correctAnswer: "they can hold art supplies"
+    acceptedAnswers:
+      - "they can hold art supplies"
+      - "They can hold art supplies"
 explanation: "The claim says what should happen. The reason explains why saving the boxes is useful."
-hint: "Use the frame: Claim: ___. Reason: ___."
-questionGoal: "Produce claim and reason labels for a short argument."
+hint: "The claim comes before because; the reason comes after because."
+questionGoal: "Label the claim and reason in a short argument."
 misconception: "Repeating the whole sentence without separating the reasoning parts."
 ```
 
@@ -475,16 +483,17 @@ misconception: "Completing the frame with an unrelated word or new claim."
 
 ```question
 key: u01_l05_q03_fix_unrelated_reason
-type: error-correction
-prompt: "Fix the weak reason so it supports the claim."
-sentence: "The library should stay open longer because I like pizza."
-acceptedAnswers:
+type: multiple-choice
+prompt: "Which revision fixes the weak reason? 'The library should stay open longer because I like pizza.'"
+choices:
   - "The library should stay open longer because students need more time to choose books."
-  - "The library should stay open longer because some students can only visit after class."
-  - "The library should stay open longer because readers need more time to borrow books."
+  - "The library should stay open longer because pizza tastes good."
+  - "The library should stay open longer because the wall clock is round."
+  - "The library should stay open longer because longer means not shorter."
+correctAnswer: "The library should stay open longer because students need more time to choose books."
 explanation: "A good fix gives a reason about the library staying open, not an unrelated food preference."
-hint: "Keep the same claim, but replace the reason after because."
-questionGoal: "Revise a tiny argument by replacing unrelated support."
+hint: "Keep the same claim, but choose a reason about library time."
+questionGoal: "Choose a revised tiny argument with relevant support."
 misconception: "Adding any because-clause instead of a relevant reason."
 ```
 
@@ -528,16 +537,17 @@ misconception: "Choosing a grammatically possible but unrelated response."
 
 ```question
 key: u01_l05_q06_write_tiny_argument
-type: constructed-response
-prompt: "Write a tiny argument about a classroom routine. Include one claim and one reason."
-minWords: 8
-sampleAnswer: "We should return tablets to the cart because they are easier to find there."
-checklist:
-  - "Include a claim"
-  - "Include one reason that supports the claim"
+type: multiple-choice
+prompt: "Which sentence is a complete tiny argument with a claim and a relevant reason?"
+choices:
+  - "We should return tablets to the cart because they are easier to find there."
+  - "We should return tablets to the cart because my shirt is green."
+  - "The tablet cart is near the door."
+  - "Where should the tablets go?"
+correctAnswer: "We should return tablets to the cart because they are easier to find there."
 explanation: "A tiny argument has an idea someone should accept and a reason that supports it."
-hint: "Use the frame: We should ___ because ___."
-questionGoal: "Produce a complete tiny argument with relevant support."
+hint: "Look for a claim joined to a reason that answers why."
+questionGoal: "Choose a complete tiny argument with relevant support."
 misconception: "Writing a claim without a reason or a reason that does not fit."
 ```
 
@@ -637,16 +647,17 @@ misconception: "Treating one example as proof of every case."
 
 ```question
 key: u02_l01_q06_explain_support_type
-type: constructed-response
-prompt: "Claim: 'The hallway is crowded after lunch.' Support: 'Students from three classes leave at the same time.' Explain whether the support is a reason, example, or evidence."
-minWords: 8
-sampleAnswer: "It is evidence because it gives information about why the hallway is crowded."
-checklist:
-  - "Choose reason, example, or evidence"
-  - "Explain the clue in the support"
-explanation: "The support gives information about classes leaving at the same time, which can support the claim."
-hint: "Ask whether the support explains why, shows one case, or gives information."
-questionGoal: "Justify a support-type classification."
+type: multiple-choice
+prompt: "Claim: 'The hallway is crowded after lunch.' Support: 'A teacher counted 62 students in the hallway after lunch.' What kind of support is this?"
+choices:
+  - "evidence"
+  - "preference"
+  - "command"
+  - "question"
+correctAnswer: "evidence"
+explanation: "The count gives information that can support the claim that the hallway is crowded."
+hint: "Look for information that can help prove the claim."
+questionGoal: "Classify information as evidence."
 misconception: "Labeling support without explaining how it works."
 ```
 
@@ -745,16 +756,17 @@ misconception: "Choosing an explanation that adds a new unsupported claim."
 
 ```question
 key: u02_l02_q06_why_support_fits
-type: constructed-response
-prompt: "Claim: 'The class should keep extra tissues near the door.' Support: 'Students often need one as they come in from cold weather.' Explain why the support fits."
-minWords: 8
-sampleAnswer: "It fits because students need tissues right when they enter."
-checklist:
-  - "Mention the claim or door location"
-  - "Explain how the support helps"
+type: multiple-choice
+prompt: "Claim: 'The class should keep extra tissues near the door.' Support: 'Students often need one as they come in from cold weather.' Why does the support fit?"
+choices:
+  - "It explains why tissues near the door would be useful."
+  - "It proves cold weather never happens outside."
+  - "It tells what color the tissue box should be."
+  - "It changes the claim to a different classroom supply."
+correctAnswer: "It explains why tissues near the door would be useful."
 explanation: "The support explains why tissues near the door would be useful."
-hint: "Use the frame: It fits because ___."
-questionGoal: "Give a brief relevance explanation."
+hint: "Connect the support to the door location."
+questionGoal: "Choose a brief relevance explanation."
 misconception: "Repeating the support without connecting it to the claim."
 ```
 
@@ -765,12 +777,12 @@ key: u02_l03_q01_true_unrelated_detail
 type: multiple-choice
 prompt: "Claim: 'The fish tank needs to be cleaned.' Which true detail would NOT support the claim?"
 choices:
-  - "The fish tank is beside the window."
+  - "The fish tank has a blue stand."
   - "The water looks cloudy."
   - "There is algae on the glass."
-  - "The filter is making a grinding sound."
-correctAnswer: "The fish tank is beside the window."
-explanation: "Being beside the window may be true, but it does not show that the tank needs cleaning."
+  - "Old food is floating in the water."
+correctAnswer: "The fish tank has a blue stand."
+explanation: "A blue stand may be true, but it does not show that the tank needs cleaning."
 hint: "Find the detail that does not point to a cleaning problem."
 questionGoal: "Identify a true but unrelated detail."
 misconception: "Assuming true information about the topic always supports the claim."
@@ -837,31 +849,33 @@ misconception: "Thinking truth alone is enough for good support."
 
 ```question
 key: u02_l03_q05_replace_unrelated_support
-type: error-correction
-prompt: "Replace the unrelated support with a reason that fits."
-sentence: "The class should use larger print on the poster because the poster has a yellow border."
-acceptedAnswers:
+type: multiple-choice
+prompt: "Which revision replaces the unrelated support with a reason that fits? 'The class should use larger print on the poster because the poster has a yellow border.'"
+choices:
   - "The class should use larger print on the poster because people in the back cannot read it."
-  - "The class should use larger print on the poster because the words are hard to see from far away."
-  - "The class should use larger print on the poster because small print is difficult for visitors to read."
+  - "The class should use larger print on the poster because the poster has a yellow border."
+  - "The class should use larger print on the poster because yellow is bright."
+  - "The class should use larger print on the poster because the poster is on paper."
+correctAnswer: "The class should use larger print on the poster because people in the back cannot read it."
 explanation: "A fitting reason should explain why larger print is needed."
-hint: "Keep the claim about larger print and change the reason."
-questionGoal: "Revise true-but-unrelated support into relevant support."
+hint: "Keep the claim about larger print and choose a reason about readability."
+questionGoal: "Choose a revision that makes true-but-unrelated support relevant."
 misconception: "Keeping a true detail even when it does not support the claim."
 ```
 
 ```question
 key: u02_l03_q06_explain_unrelated
-type: constructed-response
-prompt: "Claim: 'The class should replace the dull markers.' Detail: 'The marker box is square.' Explain why the detail is unrelated."
-minWords: 8
-sampleAnswer: "The box shape does not show that the markers are dull."
-checklist:
-  - "Mention the claim about dull markers"
-  - "Explain why the box detail does not help"
+type: multiple-choice
+prompt: "Claim: 'The class should replace the dull markers.' Detail: 'The marker box is square.' Why is the detail unrelated?"
+choices:
+  - "The box shape does not show that the markers are dull."
+  - "A square box proves the markers are new."
+  - "The detail gives evidence that the markers write clearly."
+  - "The claim is really about the box shape."
+correctAnswer: "The box shape does not show that the markers are dull."
 explanation: "A square box may be true, but it gives no support for replacing dull markers."
 hint: "Ask what the detail proves about marker quality."
-questionGoal: "Explain why a true detail fails as support."
+questionGoal: "Choose why a true detail fails as support."
 misconception: "Rejecting unrelated support without naming the missing connection."
 ```
 
@@ -896,7 +910,7 @@ choices:
   - "Never"
 correctAnswer: "Some"
 explanation: "Two birds show that some birds visited. They do not show all birds visited."
-hint: "Use the word that means at least one."
+hint: "Choose the word for a claim that is smaller than all."
 questionGoal: "Use a careful quantifier for limited evidence."
 misconception: "Choosing broad words when evidence is small."
 ```
@@ -959,16 +973,17 @@ misconception: "Treating everyone/all language as safe emphasis."
 
 ```question
 key: u02_l04_q06_write_careful_claim
-type: constructed-response
-prompt: "Evidence: 'One student finished the puzzle in five minutes.' Write a careful claim that this evidence supports."
-minWords: 6
-sampleAnswer: "At least one student finished the puzzle quickly."
-checklist:
-  - "Do not use all, always, or everyone"
-  - "Keep the claim close to the evidence"
+type: multiple-choice
+prompt: "Evidence: 'One student finished the puzzle in five minutes.' Which claim is careful?"
+choices:
+  - "At least one student finished the puzzle quickly."
+  - "Every student can finish the puzzle in five minutes."
+  - "The puzzle is always easy."
+  - "No student needed help with the puzzle."
+correctAnswer: "At least one student finished the puzzle quickly."
 explanation: "One example supports a careful claim about one student or at least one student."
-hint: "Start with 'At least one student...'"
-questionGoal: "Produce a careful claim from limited evidence."
+hint: "Choose the claim that stays closest to one example."
+questionGoal: "Choose a careful claim from limited evidence."
 misconception: "Writing a broad claim from one example."
 ```
 
@@ -1008,16 +1023,17 @@ misconception: "Keeping all/never language after limited evidence."
 
 ```question
 key: u02_l05_q03_fix_weak_support
-type: error-correction
-prompt: "Fix the weak support."
-sentence: "The playground needs more shade because my favorite color is green."
-acceptedAnswers:
+type: multiple-choice
+prompt: "Which revision fixes the weak support? 'The playground needs more shade because my favorite color is green.'"
+choices:
   - "The playground needs more shade because students get too hot at midday."
-  - "The playground needs more shade because there are few trees near the benches."
-  - "The playground needs more shade because sunny areas become too hot during recess."
+  - "The playground needs more shade because green is my favorite color."
+  - "The playground needs more shade because the swings are metal."
+  - "The playground needs more shade because recess is after math."
+correctAnswer: "The playground needs more shade because students get too hot at midday."
 explanation: "A stronger reason explains a shade problem, not a personal color preference."
-hint: "Keep the claim and replace the reason with something about shade."
-questionGoal: "Improve weak support by replacing an unrelated reason."
+hint: "Keep the claim and choose support about shade or heat."
+questionGoal: "Choose stronger support by replacing an unrelated reason."
 misconception: "Adding personal preference instead of relevant support."
 ```
 
@@ -1032,8 +1048,8 @@ pairs:
     right: "Make the claim more careful."
   - left: "The support is only a topic detail."
     right: "Add evidence that proves the exact claim."
-  - left: "The reason repeats the claim."
-    right: "Give a new why, not the same idea again."
+  - left: "The claim is too broad for the evidence."
+    right: "Narrow the claim to match the evidence."
 explanation: "Different support problems need different fixes."
 hint: "Ask what is wrong before choosing how to repair it."
 questionGoal: "Connect support problems with appropriate revisions."
@@ -1062,16 +1078,17 @@ misconception: "Confusing a more polished sentence with stronger reasoning."
 
 ```question
 key: u02_l05_q06_write_stronger_support
-type: constructed-response
-prompt: "Claim: 'The school should add more bike racks.' Write one strong support sentence for this claim."
-minWords: 7
-sampleAnswer: "Many bikes are locked to the fence because the racks are full."
-checklist:
-  - "Support the need for more bike racks"
-  - "Use a reason or evidence, not an unrelated detail"
+type: multiple-choice
+prompt: "Claim: 'The school should add more bike racks.' Which support is strongest?"
+choices:
+  - "Many bikes are locked to the fence because the racks are full."
+  - "The bike racks are near the sidewalk."
+  - "Some bikes are blue and some are red."
+  - "Bike rack has two words."
+correctAnswer: "Many bikes are locked to the fence because the racks are full."
 explanation: "Strong support should show why more bike racks are needed."
 hint: "Think about what problem more bike racks would solve."
-questionGoal: "Produce relevant support for a claim."
+questionGoal: "Choose relevant support for a claim."
 misconception: "Writing a detail about bikes without supporting the need for racks."
 ```
 
@@ -1102,20 +1119,17 @@ misconception: "Adding unstated details that might be possible."
 
 ```question
 key: u03_l01_q02_given_not_given_match
-type: match-pairs
-prompt: "Match each statement to whether it is given or not given by the scenario: 'Three students sat at the art table. One opened a box of crayons.'"
-pairs:
-  - left: "Three students sat at the art table."
-    right: "given"
-  - left: "One student opened crayons."
-    right: "given detail"
-  - left: "The students drew animals."
-    right: "not given"
-  - left: "The crayon box was new."
-    right: "not stated"
-explanation: "Given information is stated in the scenario. Not-given information may be possible, but it is not stated."
+type: multiple-choice
+prompt: "Scenario: 'Three students sat at the art table. One opened a box of crayons.' Which statement is NOT given?"
+choices:
+  - "The students drew animals."
+  - "Three students sat at the art table."
+  - "One student opened crayons."
+  - "There was a box of crayons."
+correctAnswer: "The students drew animals."
+explanation: "The students might draw next, but the scenario does not say what they drew."
 hint: "Do not add what the students might do next."
-questionGoal: "Sort stated facts from unstated ideas."
+questionGoal: "Identify an unstated idea in a short scenario."
 misconception: "Treating likely next events as given facts."
 ```
 
@@ -1145,7 +1159,7 @@ choices:
   - "actually"
   - "probably"
   - "never"
-  - "secretly"
+  - "usually"
 correctAnswer: "actually"
 explanation: "Given information is the information that is actually stated."
 hint: "Look for the word that means it is really stated."
@@ -1175,16 +1189,17 @@ misconception: "Answering from memory or imagination before checking the prompt.
 
 ```question
 key: u03_l01_q06_explain_not_given
-type: constructed-response
-prompt: "Scenario: 'A tray of muffins sat on the counter. Two muffins were gone by noon.' Explain why 'the teacher ate the muffins' is not given information."
-minWords: 8
-sampleAnswer: "The scenario says muffins were gone, but it does not say who ate them."
-checklist:
-  - "Mention what the scenario says"
-  - "Mention what it does not say"
+type: multiple-choice
+prompt: "Scenario: 'A tray of muffins sat on the counter. Two muffins were gone by noon.' Why is 'the teacher ate the muffins' not given information?"
+choices:
+  - "The scenario says muffins were gone, but it does not say who ate them."
+  - "The scenario says the teacher ate exactly two muffins."
+  - "The scenario says no one ate any muffins."
+  - "The scenario proves the muffins were never on the counter."
+correctAnswer: "The scenario says muffins were gone, but it does not say who ate them."
 explanation: "The missing muffins are given, but the person who ate them is not stated."
-hint: "Use the frame: It says ___, but it does not say ___."
-questionGoal: "Explain the difference between stated information and added guess."
+hint: "Look for what the scenario says and what it does not say."
+questionGoal: "Choose why a statement adds information not given."
 misconception: "Treating one possible explanation as a stated fact."
 ```
 
@@ -1208,20 +1223,17 @@ misconception: "Selecting a certain or broad guess from limited clues."
 
 ```question
 key: u03_l02_q02_conclusion_or_guess_match
-type: match-pairs
-prompt: "Match each answer to the best label based on the clue: 'The class fish food container is empty.'"
-pairs:
-  - left: "The container has no food in it now."
-    right: "supported conclusion"
-  - left: "Someone should check whether more food is stored elsewhere."
-    right: "reasonable next step"
-  - left: "The fish have not eaten for a week."
-    right: "unsupported guess"
-  - left: "The fish are angry."
-    right: "not supported"
-explanation: "The empty container supports only careful conclusions and next steps."
+type: multiple-choice
+prompt: "Clue: 'The class fish food container is empty.' Which answer is an unsupported guess?"
+choices:
+  - "The fish have not eaten for a week."
+  - "The container has no food in it now."
+  - "Someone should check whether more food is stored elsewhere."
+  - "The container may need to be refilled."
+correctAnswer: "The fish have not eaten for a week."
+explanation: "The empty container does not tell how long the fish have gone without food."
 hint: "Do not add a long story that the clue does not show."
-questionGoal: "Separate supported conclusions from unsupported guesses."
+questionGoal: "Separate a supported idea from an unsupported guess."
 misconception: "Turning a clue into a detailed story."
 ```
 
@@ -1237,9 +1249,9 @@ question: "Which answer is a guess, not a supported conclusion?"
 choices:
   - "The marker was on the reading table."
   - "The marker was not in the marker cup."
-  - "Someone used the marker for a secret project."
+  - "Someone used the marker for a poster."
   - "The marker was green."
-correctAnswer: "Someone used the marker for a secret project."
+correctAnswer: "Someone used the marker for a poster."
 explanation: "The passage does not tell why the marker moved or who used it."
 hint: "Look for the choice that adds a reason not given."
 questionGoal: "Identify an unsupported guess in a short passage."
@@ -1270,7 +1282,7 @@ sentenceBefore: "A supported conclusion must follow from the"
 sentenceAfter: "."
 choices:
   - "clues"
-  - "wildest guess"
+  - "most detailed answer"
   - "longest answer"
   - "student's favorite idea"
 correctAnswer: "clues"
@@ -1282,16 +1294,17 @@ misconception: "Thinking the most detailed answer is best."
 
 ```question
 key: u03_l02_q06_explain_guess
-type: constructed-response
-prompt: "Scenario: 'The playground is empty during recess time.' Explain why 'everyone is on a field trip' is a guess."
-minWords: 8
-sampleAnswer: "The empty playground does not tell where everyone went."
-checklist:
-  - "Mention the clue"
-  - "Explain what the clue does not prove"
+type: multiple-choice
+prompt: "Scenario: 'The playground is empty during recess time.' Why is 'everyone is on a field trip' a guess?"
+choices:
+  - "The empty playground does not tell where everyone went."
+  - "The scenario says the buses left for a field trip."
+  - "The scenario says everyone is inside the school."
+  - "The empty playground proves no one likes recess."
+correctAnswer: "The empty playground does not tell where everyone went."
 explanation: "An empty playground shows no one is there, but it does not prove a field trip."
-hint: "Use: The clue shows ___, but not ___."
-questionGoal: "Explain why a possible conclusion is not supported."
+hint: "Ask what the clue shows and what it does not prove."
+questionGoal: "Choose why a possible conclusion is not supported."
 misconception: "Treating a possible explanation as the only explanation."
 ```
 
@@ -1366,7 +1379,7 @@ pairs:
     right: "The floor may be slippery."
   - left: "Three desks are pushed together with poster paper on top."
     right: "A group project may be happening."
-  - left: "The thermometer reads 32 degrees."
+  - left: "The thermometer reads 32 degrees Fahrenheit."
     right: "The temperature is freezing."
   - left: "A note says the bus leaves at 8:00."
     right: "Students need to be ready before 8:00."
@@ -1394,16 +1407,17 @@ misconception: "Using background assumptions as evidence."
 
 ```question
 key: u03_l03_q06_passage_explanation
-type: constructed-response
-prompt: "Passage: 'A long line formed at the water fountain after gym. Several students were fanning themselves.' What conclusion is supported, and what clue supports it?"
-minWords: 10
-sampleAnswer: "The students were probably hot or thirsty because they lined up for water after gym."
-checklist:
-  - "State a supported conclusion"
-  - "Name a clue from the passage"
+type: multiple-choice
+prompt: "Passage: 'A long line formed at the water fountain after gym. Several students were fanning themselves.' Which conclusion and clue are best supported?"
+choices:
+  - "The students were probably hot or thirsty because they lined up for water after gym."
+  - "The students skipped gym because they were in a line."
+  - "The water fountain was broken because students were fanning themselves."
+  - "The students were angry because gym always makes people angry."
+correctAnswer: "The students were probably hot or thirsty because they lined up for water after gym."
 explanation: "The water-fountain line after gym and fanning are clues about being hot or thirsty."
-hint: "Use the frame: I think ___ because the passage says ___."
-questionGoal: "Produce a supported conclusion with text evidence."
+hint: "Choose the answer that connects a conclusion to a clue from the passage."
+questionGoal: "Choose a supported conclusion with text evidence."
 misconception: "Giving a conclusion without naming a passage clue."
 ```
 
@@ -1499,16 +1513,17 @@ misconception: "Providing a clue without tying it to the conclusion."
 
 ```question
 key: u03_l04_q06_write_clue_explanation
-type: constructed-response
-prompt: "Scenario: 'The science table has magnets, paper clips, and a recording sheet.' Explain a supported conclusion using a clue."
-minWords: 10
-sampleAnswer: "The class may study magnets because magnets and paper clips are on the science table."
-checklist:
-  - "State a supported conclusion"
-  - "Use a clue from the scenario"
+type: multiple-choice
+prompt: "Scenario: 'The science table has magnets, paper clips, and a recording sheet.' Which explanation uses a supported conclusion and clue?"
+choices:
+  - "The class may study magnets because magnets and paper clips are on the science table."
+  - "The class will go outside because paper clips are small."
+  - "The recording sheet proves the class finished science yesterday."
+  - "The magnets are new because the table has supplies."
+correctAnswer: "The class may study magnets because magnets and paper clips are on the science table."
 explanation: "A strong explanation connects the conclusion to a clue in the scenario."
-hint: "Use the frame: The class may ___ because ___."
-questionGoal: "Write a clue-based explanation for a supported conclusion."
+hint: "Choose the explanation that uses a clue from the scenario."
+questionGoal: "Choose a clue-based explanation for a supported conclusion."
 misconception: "Making an unsupported guess without pointing to a clue."
 ```
 
@@ -1534,20 +1549,17 @@ misconception: "Selecting the result instead of the condition."
 
 ```question
 key: u04_l01_q02_rule_parts_match
-type: match-pairs
-prompt: "Match each rule part to its label."
-pairs:
-  - left: "if the bell rings"
-    right: "condition"
-  - left: "then line up"
-    right: "result"
-  - left: "if the soil is dry"
-    right: "condition in a plant rule"
-  - left: "then water the plant"
-    right: "result in a plant rule"
+type: multiple-choice
+prompt: "Rule: 'If the bell rings, then line up.' Which labels the rule parts correctly?"
+choices:
+  - "Condition: the bell rings. Result: line up."
+  - "Condition: line up. Result: the bell rings."
+  - "Condition: the bell. Result: rings."
+  - "Condition: the rule. Result: if."
+correctAnswer: "Condition: the bell rings. Result: line up."
 explanation: "The if-part names the condition. The then-part names the result."
 hint: "If tells when; then tells what follows."
-questionGoal: "Distinguish condition and result across simple rules."
+questionGoal: "Distinguish condition and result in a simple rule."
 misconception: "Treating if and then clauses as unlabeled sentence parts."
 ```
 
@@ -1607,16 +1619,24 @@ misconception: "Focusing on the condition because it appears first."
 
 ```question
 key: u04_l01_q06_label_if_then_rule
-type: constructed-response
-prompt: "Rule: 'If a folder is finished, then put it in the basket.' Name the condition and the result."
-minWords: 8
-sampleAnswer: "Condition: a folder is finished. Result: put it in the basket."
-checklist:
-  - "Name the condition"
-  - "Name the result"
+type: multi-blank-cloze
+prompt: "Complete the labels for this rule: 'If a folder is finished, then put it in the basket.'"
+parts:
+  - "Condition: "
+  - ". Result: "
+  - "."
+blanks:
+  - correctAnswer: "a folder is finished"
+    acceptedAnswers:
+      - "a folder is finished"
+      - "A folder is finished"
+  - correctAnswer: "put it in the basket"
+    acceptedAnswers:
+      - "put it in the basket"
+      - "Put it in the basket"
 explanation: "The condition is the if-part; the result is the then-part."
-hint: "Use the frame: Condition: ___. Result: ___."
-questionGoal: "Produce condition/result labels for a simple rule."
+hint: "Use the if-part for the condition and the then-part for the result."
+questionGoal: "Label condition and result in a simple rule."
 misconception: "Repeating the rule without separating its parts."
 ```
 
@@ -1643,11 +1663,11 @@ key: u04_l02_q02_rule_not_enough_info
 type: multiple-choice
 prompt: "Rule: 'If a student brings a permission slip, then the student may ride the bus.' Jay may ride the bus. What can we know for sure?"
 choices:
-  - "Jay may ride the bus."
+  - "We cannot know from this rule whether Jay brought a permission slip."
   - "Jay definitely brought a permission slip."
   - "Jay walked to school."
   - "No one else may ride the bus."
-correctAnswer: "Jay may ride the bus."
+correctAnswer: "We cannot know from this rule whether Jay brought a permission slip."
 explanation: "The result is given, but the rule alone does not prove the condition happened."
 hint: "Do not reverse the rule."
 questionGoal: "Avoid reversing an if-then rule."
@@ -1712,15 +1732,16 @@ misconception: "Reversing the rule or making it broader than stated."
 
 ```question
 key: u04_l02_q06_write_rule_conclusion
-type: constructed-response
+type: multiple-choice
 prompt: "Rule: 'If the answer is not clear, then ask a follow-up question.' The answer is not clear. What follows, and why?"
-minWords: 8
-sampleAnswer: "Ask a follow-up question because the condition is met."
-checklist:
-  - "State what follows"
-  - "Mention that the condition is met"
+choices:
+  - "Ask a follow-up question because the condition is met."
+  - "Do not ask anything because the result is missing."
+  - "The answer must already be clear because questions exist."
+  - "Ask a follow-up question only if the answer is clear."
+correctAnswer: "Ask a follow-up question because the condition is met."
 explanation: "The rule says to ask a follow-up question when the answer is not clear."
-hint: "Use the frame: ___ follows because ___."
+hint: "Check whether the if-part happened."
 questionGoal: "Apply and explain an if-then rule in words."
 misconception: "Giving a response without connecting it to the rule."
 ```
@@ -1766,20 +1787,17 @@ misconception: "Treating any prior event as a cause."
 
 ```question
 key: u04_l03_q03_cause_sequence_match
-type: match-pairs
-prompt: "Match each scenario to the best label."
-pairs:
-  - left: "The paper got wet because water spilled on it."
-    right: "cause and effect"
-  - left: "The music stopped, and then the lights blinked."
-    right: "sequence only"
-  - left: "The balloon popped because it touched a sharp pin."
-    right: "clear cause"
-  - left: "A dog barked, and then the bus arrived."
-    right: "before and after"
-explanation: "Some scenarios show a cause; others only show one thing happening before another."
+type: multiple-choice
+prompt: "Which scenario shows only a before-and-after sequence, not a clear cause?"
+choices:
+  - "A dog barked, and then the bus arrived."
+  - "The paper got wet because water spilled on it."
+  - "The balloon popped because it touched a sharp pin."
+  - "The ice cream melted because it sat in the sun."
+correctAnswer: "A dog barked, and then the bus arrived."
+explanation: "The dog barking happened before the bus arrived, but the sentence does not show that the bark caused the bus."
 hint: "Ask whether the first event made the second happen."
-questionGoal: "Classify examples of cause/effect and sequence."
+questionGoal: "Identify sequence without a clear cause."
 misconception: "Overusing cause labels for any event order."
 ```
 
@@ -1809,7 +1827,7 @@ choices:
   - "Not watering may have caused the leaves to dry."
   - "The pot color caused the leaves to dry."
   - "All plants die in two weeks."
-  - "The plant was pretending."
+  - "Dry leaves always mean a plant was never watered."
 correctAnswer: "Not watering may have caused the leaves to dry."
 explanation: "The lack of water connects to dry leaves and supports a cautious cause claim."
 hint: "Choose the cause connected to the effect."
@@ -1819,16 +1837,17 @@ misconception: "Choosing an unrelated detail or overbroad conclusion."
 
 ```question
 key: u04_l03_q06_explain_sequence_not_cause
-type: constructed-response
-prompt: "Scenario: 'Noah sharpened a pencil. A minute later, the fire drill started.' Explain why this does not prove the pencil caused the fire drill."
-minWords: 9
-sampleAnswer: "The pencil happened first, but there is no clue that it made the drill start."
-checklist:
-  - "Mention that one event happened first"
-  - "Say there is no cause clue"
+type: multiple-choice
+prompt: "Scenario: 'Noah sharpened a pencil. A minute later, the fire drill started.' Why does this not prove the pencil caused the fire drill?"
+choices:
+  - "The pencil sharpening happened first, but there is no clue that it made the drill start."
+  - "Anything that happens first always causes the next event."
+  - "Fire drills start only when pencils are sharpened."
+  - "The scenario says Noah planned the fire drill."
+correctAnswer: "The pencil sharpening happened first, but there is no clue that it made the drill start."
 explanation: "Sequence alone does not prove cause."
-hint: "Use: It happened before, but ___."
-questionGoal: "Explain why sequence is not enough for cause."
+hint: "Look for the choice that separates before-and-after from cause."
+questionGoal: "Choose why sequence is not enough for cause."
 misconception: "Confusing before/after with cause/effect."
 ```
 
@@ -1839,11 +1858,11 @@ key: u04_l04_q01_best_cause_evidence
 type: multiple-choice
 prompt: "Claim: 'The fan made the papers blow off the desk.' Which evidence supports the claim best?"
 choices:
-  - "The papers blew off right after the fan was turned toward them."
+  - "The papers stayed still until the fan was turned toward them, and then they blew off."
   - "The desk is brown."
   - "The papers had writing on them."
   - "The fan has three buttons."
-correctAnswer: "The papers blew off right after the fan was turned toward them."
+correctAnswer: "The papers stayed still until the fan was turned toward them, and then they blew off."
 explanation: "That evidence connects the fan to the papers moving."
 hint: "Choose the evidence that links cause and effect."
 questionGoal: "Select evidence that supports a cause claim."
@@ -1881,7 +1900,7 @@ pairs:
   - left: "The magnet pulled the paper clip."
     right: "The paper clip moved when the magnet came close."
   - left: "The loud noise startled the cat."
-    right: "The cat jumped right after the noise."
+    right: "The cat jumped only when the loud noise happened."
   - left: "The missing label confused students."
     right: "Students put supplies in the wrong bins."
 explanation: "Each evidence sentence connects the possible cause to the effect."
@@ -1926,16 +1945,17 @@ misconception: "Thinking any extra fact strengthens a cause claim."
 
 ```question
 key: u04_l04_q06_next_evidence_needed
-type: constructed-response
+type: multiple-choice
 prompt: "Claim: 'The new lunch line signs made the line move faster.' What evidence would help test or support this claim?"
-minWords: 9
-sampleAnswer: "We could compare how long the line took before and after the signs."
-checklist:
-  - "Name evidence about the signs and line speed"
-  - "Do not give an unrelated detail"
+choices:
+  - "Compare how long the line took before and after the signs."
+  - "Describe the color of the new signs."
+  - "Count how many letters are in the word lunch."
+  - "Ask whether students like recess."
+correctAnswer: "Compare how long the line took before and after the signs."
 explanation: "Useful evidence would connect the signs to a change in line speed."
 hint: "Think about what you could observe or compare."
-questionGoal: "Propose relevant evidence for a cause claim."
+questionGoal: "Choose relevant evidence for a cause claim."
 misconception: "Suggesting evidence about the signs that does not test the effect."
 ```
 
@@ -1987,7 +2007,7 @@ choices:
   - "No fruits are apples."
 correctAnswer: "None of the fruits are bananas."
 explanation: "The tray has apples and oranges only, so it has zero bananas."
-hint: "None means zero."
+hint: "Check which fruit is not in the tray at all."
 questionGoal: "Use none accurately in a category statement."
 misconception: "Confusing none with not many."
 ```
@@ -2032,16 +2052,17 @@ misconception: "Overreading some as all."
 
 ```question
 key: u04_l05_q06_explain_quantifier
-type: constructed-response
-prompt: "A basket has 2 green apples and 3 red apples. Explain why 'All apples in the basket are green' is false."
-minWords: 8
-sampleAnswer: "It is false because three apples are red, so not all are green."
-checklist:
-  - "Mention the red apples"
-  - "Use all correctly"
+type: multiple-choice
+prompt: "A basket has 2 green apples and 3 red apples. Why is 'All apples in the basket are green' false?"
+choices:
+  - "Three apples are red, so not every apple is green."
+  - "Two apples are green, so all apples must be green."
+  - "All means the same thing as some."
+  - "Red apples do not count as apples."
+correctAnswer: "Three apples are red, so not every apple is green."
 explanation: "All means every apple. Red apples in the basket make the all-green claim false."
 hint: "One apple that is not green is enough to make an all claim false."
-questionGoal: "Explain why an all statement is false using counterevidence."
+questionGoal: "Choose why an all statement is false using counterevidence."
 misconception: "Thinking all can still be true when most or some items fit."
 ```
 
@@ -2092,11 +2113,11 @@ passage: |
   The list included dogs, cats, fish, and one turtle.
 question: "Which claim is careful?"
 choices:
-  - "Some class pets are fish."
-  - "All class pets are fish."
+  - "Some pets on the list are fish."
+  - "All pets on the list are fish."
   - "No one has a turtle."
   - "Every pet on the list is a dog."
-correctAnswer: "Some class pets are fish."
+correctAnswer: "Some pets on the list are fish."
 explanation: "The list includes fish, but it also includes other pets."
 hint: "Use a claim that matches the whole list."
 questionGoal: "Make a careful category statement from examples."
@@ -2137,16 +2158,17 @@ misconception: "Making all claims from a small observed group."
 
 ```question
 key: u04_l06_q06_explain_category_rule
-type: constructed-response
-prompt: "Category rule: 'Objects that help people tell time.' Explain why a clock belongs but a pillow does not."
-minWords: 10
-sampleAnswer: "A clock belongs because it tells time, but a pillow does not help tell time."
-checklist:
-  - "Use the category rule"
-  - "Explain both the example and non-example"
+type: multiple-choice
+prompt: "Category rule: 'Objects that help people tell time.' Which explanation uses the rule correctly?"
+choices:
+  - "A clock belongs because it tells time, but a pillow does not help tell time."
+  - "A pillow belongs because people like pillows."
+  - "A clock does not belong because it can be round."
+  - "Both belong because they can be in a bedroom."
+correctAnswer: "A clock belongs because it tells time, but a pillow does not help tell time."
 explanation: "Category sorting depends on the rule for belonging."
-hint: "Use: ___ belongs because ___. ___ does not because ___."
-questionGoal: "Explain category membership using the rule."
+hint: "Use the rule, not where the objects might be found."
+questionGoal: "Choose an explanation of category membership using the rule."
 misconception: "Sorting by personal association instead of the stated category rule."
 ```
 
@@ -2172,16 +2194,17 @@ misconception: "Treating any detail about the object as support."
 
 ```question
 key: u05_l01_q02_replace_unrelated
-type: error-correction
-prompt: "Replace the unrelated reason with a relevant one."
-sentence: "The class should take water bottles to field day because my backpack has a zipper."
-acceptedAnswers:
-  - "The class should take water bottles to field day because students will be active outside."
-  - "The class should take water bottles to field day because people may get thirsty outside."
+type: multiple-choice
+prompt: "Which revision replaces the unrelated reason with a relevant one? 'The class should take water bottles to field day because my backpack has a zipper.'"
+choices:
   - "The class should take water bottles to field day because field day activities can make students thirsty."
+  - "The class should take water bottles to field day because my backpack has two zippers."
+  - "The class should take water bottles to field day because zippers open and close."
+  - "The class should take water bottles to field day because backpacks are useful."
+correctAnswer: "The class should take water bottles to field day because field day activities can make students thirsty."
 explanation: "A relevant reason explains why water bottles are useful at field day."
 hint: "Keep the claim and choose a reason about field day and water."
-questionGoal: "Fix an unrelated reason by replacing it with relevant support."
+questionGoal: "Choose a relevant replacement for an unrelated reason."
 misconception: "Keeping a personal or object detail that does not support the claim."
 ```
 
@@ -2244,16 +2267,17 @@ misconception: "Thinking unrelated means false rather than not supportive."
 
 ```question
 key: u05_l01_q06_explain_unrelated_reason
-type: constructed-response
-prompt: "Claim: 'The class should move the recycling bin closer to the door.' Reason: 'The bin is made of plastic.' Explain why the reason is unrelated."
-minWords: 9
-sampleAnswer: "The bin being plastic does not explain why it should be near the door."
-checklist:
-  - "Mention the claim"
-  - "Explain why the reason does not support it"
+type: multiple-choice
+prompt: "Claim: 'The class should move the recycling bin closer to the door.' Reason: 'The bin is made of plastic.' Why is the reason unrelated?"
+choices:
+  - "The bin being plastic does not explain why it should be near the door."
+  - "Plastic proves the door is the best place for the bin."
+  - "The reason gives evidence about how often students recycle."
+  - "The claim is really about what the bin is made of."
+correctAnswer: "The bin being plastic does not explain why it should be near the door."
 explanation: "The material of the bin does not show that the door is a better location."
 hint: "Ask what the reason proves about the bin's location."
-questionGoal: "Explain the support problem in an unrelated reason."
+questionGoal: "Choose the support problem in an unrelated reason."
 misconception: "Rejecting a reason without naming the missing connection."
 ```
 
@@ -2342,7 +2366,7 @@ choices:
   - "strong"
   - "no"
   - "unrelated"
-  - "secret"
+  - "weaker"
 correctAnswer: "strong"
 explanation: "Broad words make broad claims, so they need strong evidence."
 hint: "Big claims need more support."
@@ -2352,16 +2376,17 @@ misconception: "Using broad words as harmless emphasis."
 
 ```question
 key: u05_l02_q06_write_narrow_claim
-type: constructed-response
-prompt: "Evidence: 'Two students said the math game was fun.' Write a careful claim that does not overreach."
-minWords: 6
-sampleAnswer: "Some students thought the math game was fun."
-checklist:
-  - "Use a careful word such as some or two"
-  - "Do not claim everyone liked it"
+type: multiple-choice
+prompt: "Evidence: 'Two students said the math game was fun.' Which claim is careful and does not overreach?"
+choices:
+  - "Some students thought the math game was fun."
+  - "Everyone thought the math game was fun."
+  - "The math game is always fun for every class."
+  - "No students disliked the math game."
+correctAnswer: "Some students thought the math game was fun."
 explanation: "Two students support a claim about some students, not everyone."
-hint: "Start with 'Some students...'"
-questionGoal: "Produce a careful claim from limited evidence."
+hint: "Choose a claim that fits two students."
+questionGoal: "Choose a careful claim from limited evidence."
 misconception: "Writing an all/everyone claim from two examples."
 ```
 
@@ -2458,16 +2483,17 @@ misconception: "Thinking circular means the argument is about round objects."
 
 ```question
 key: u05_l03_q06_fix_circular_reason
-type: constructed-response
-prompt: "Fix this circular argument with a real reason: 'The instructions are helpful because they help.'"
-minWords: 8
-sampleAnswer: "The instructions are helpful because they show each step with a picture."
-checklist:
-  - "Keep the claim about helpful instructions"
-  - "Add a new reason"
+type: multiple-choice
+prompt: "Which revision fixes this circular argument with a real reason? 'The instructions are helpful because they help.'"
+choices:
+  - "The instructions are helpful because they show each step with a picture."
+  - "The instructions are helpful because they are helpful."
+  - "The instructions help because they help."
+  - "The instructions are helpful because helpful things are helpful."
+correctAnswer: "The instructions are helpful because they show each step with a picture."
 explanation: "A real reason adds new support, such as steps, examples, or pictures."
-hint: "What do the instructions do that makes them helpful?"
-questionGoal: "Replace a circular reason with new support."
+hint: "Choose the reason that adds new information."
+questionGoal: "Choose a replacement for a circular reason."
 misconception: "Rewording the same idea instead of adding support."
 ```
 
@@ -2546,31 +2572,33 @@ misconception: "Accepting a limited choice without checking for other options."
 
 ```question
 key: u05_l04_q05_either_or_fix
-type: error-correction
-prompt: "Fix the either-or trap by making it more careful."
-sentence: "We must choose the blue cover for the report, or the report will look terrible."
-acceptedAnswers:
-  - "The blue cover is one option, but we could compare other covers too."
+type: multiple-choice
+prompt: "Which revision fixes the either-or trap? 'We must choose the blue cover for the report, or the report will look terrible.'"
+choices:
   - "The blue cover might look good, but other covers could also work."
-  - "We should compare the blue cover with other choices before deciding."
+  - "We must choose the blue cover or choose no cover at all."
+  - "Only the blue cover can ever look good."
+  - "The report will be terrible because reports use covers."
+correctAnswer: "The blue cover might look good, but other covers could also work."
 explanation: "A careful fix allows more than two possibilities."
 hint: "Keep the idea of choosing a cover, but do not pretend only one choice can work."
-questionGoal: "Revise an either-or trap into a fairer statement."
+questionGoal: "Choose a fairer revision for an either-or trap."
 misconception: "Replacing one extreme choice with another."
 ```
 
 ```question
 key: u05_l04_q06_name_another_option
-type: constructed-response
-prompt: "Argument: 'We either have a loud game at indoor recess or no fun at all.' Name another possible option and explain why it matters."
-minWords: 9
-sampleAnswer: "Students could play a quiet board game, so loud or no fun are not the only choices."
-checklist:
-  - "Name another option"
-  - "Explain that the original two choices were not the only choices"
+type: multiple-choice
+prompt: "Argument: 'We either have a loud game at indoor recess or no fun at all.' Which response names another possible option?"
+choices:
+  - "Students could play a quiet board game, so loud or no fun are not the only choices."
+  - "No fun at all is always the only quiet option."
+  - "Loud games are the same as quiet games."
+  - "Indoor recess cannot have any choices."
+correctAnswer: "Students could play a quiet board game, so loud or no fun are not the only choices."
 explanation: "Another option shows why the either-or reasoning is too narrow."
 hint: "Think of a fun indoor activity that is not loud."
-questionGoal: "Produce an alternative to an either-or trap."
+questionGoal: "Choose an alternative to an either-or trap."
 misconception: "Accepting the two choices as complete."
 ```
 
@@ -2617,13 +2645,13 @@ type: match-pairs
 prompt: "Match each response to the best label."
 pairs:
   - left: "That plan may be unsafe because the floor is wet."
-    right: "reason about the claim"
+    right: "safety reason"
   - left: "That plan is bad because you are silly."
     right: "personal attack"
   - left: "The claim needs evidence from the survey."
-    right: "fair critique"
+    right: "evidence request"
   - left: "Nobody should listen to Max."
-    right: "attack on speaker"
+    right: "speaker dismissal"
 explanation: "Fair reasoning addresses the claim or evidence, not the person's worth."
 hint: "Ask whether the response talks about the idea or the person."
 questionGoal: "Distinguish personal attacks from fair critique."
@@ -2653,31 +2681,33 @@ misconception: "Believing a speaker's flaw disproves the claim."
 
 ```question
 key: u05_l05_q05_fix_personal_attack
-type: error-correction
-prompt: "Replace the personal attack with a fair reason."
-sentence: "We should not try Nina's idea because Nina is annoying."
-acceptedAnswers:
+type: multiple-choice
+prompt: "Which revision replaces the personal attack with a fair reason? 'We should not try Nina's idea because Nina is annoying.'"
+choices:
   - "We should not try Nina's idea because it would take more time than we have."
-  - "We should not try Nina's idea because it does not fit the assignment rules."
-  - "We should not try Nina's idea because we do not have the supplies for it."
+  - "We should not try Nina's idea because Nina is annoying."
+  - "We should not try Nina's idea because no one should listen to Nina."
+  - "We should not try Nina's idea because Nina always has bad ideas."
+correctAnswer: "We should not try Nina's idea because it would take more time than we have."
 explanation: "A fair reason explains a problem with the idea, not the person."
 hint: "Keep the disagreement, but make the reason about the idea."
-questionGoal: "Revise a personal attack into a claim-focused reason."
+questionGoal: "Choose a claim-focused reason instead of a personal attack."
 misconception: "Thinking disagreement requires attacking the speaker."
 ```
 
 ```question
 key: u05_l05_q06_explain_attack_problem
-type: constructed-response
-prompt: "Explain why 'Your answer is wrong because nobody likes you' is not a good reason."
-minWords: 9
-sampleAnswer: "It attacks the person and gives no evidence about the answer."
-checklist:
-  - "Mention that it attacks the person"
-  - "Mention that it does not address the answer"
+type: multiple-choice
+prompt: "Why is 'Your answer is wrong because nobody likes you' not a good reason?"
+choices:
+  - "It attacks the person and gives no evidence about the answer."
+  - "It explains exactly what is wrong with the answer."
+  - "It gives strong evidence from the problem."
+  - "It is fair because it talks about the person's popularity."
+correctAnswer: "It attacks the person and gives no evidence about the answer."
 explanation: "A good reason should show what is wrong with the answer, not insult the person."
-hint: "Use the words person and answer in your explanation."
-questionGoal: "Explain why personal attacks fail as reasons."
+hint: "Choose the answer that separates the person from the idea."
+questionGoal: "Choose why personal attacks fail as reasons."
 misconception: "Confusing hurtful disagreement with logical support."
 ```
 
@@ -2743,11 +2773,11 @@ passage: |
   We should cancel art club because the sign-up sheet is yellow.
 question: "Which fix best improves the reasoning?"
 choices:
-  - "We should cancel art club only if there are not enough students signed up."
+  - "We should check how many students signed up before deciding whether to cancel art club."
   - "We should cancel art club because yellow is a color."
   - "We should cancel art club because art club should be canceled."
   - "We should cancel art club because the students are silly."
-correctAnswer: "We should cancel art club only if there are not enough students signed up."
+correctAnswer: "We should check how many students signed up before deciding whether to cancel art club."
 explanation: "The fix uses relevant evidence about participation instead of an unrelated sign color."
 hint: "Choose a fix that gives support about whether club should happen."
 questionGoal: "Select a relevant revision for an unrelated reason."
@@ -2776,16 +2806,17 @@ misconception: "Jumping to a revision before diagnosing the problem."
 
 ```question
 key: u05_l06_q06_write_better_argument
-type: constructed-response
-prompt: "Fix this weak argument: 'We should use my poster because my poster is the best.'"
-minWords: 10
-sampleAnswer: "We should use my poster because the letters are large and the information is clear."
-checklist:
-  - "Keep or revise the claim"
-  - "Add a reason that gives new support"
+type: multiple-choice
+prompt: "Which revision fixes this weak argument? 'We should use my poster because my poster is the best.'"
+choices:
+  - "We should use my poster because the letters are large and the information is clear."
+  - "We should use my poster because it is better than all posters."
+  - "We should use my poster because my poster is my poster."
+  - "We should use my poster because nobody else's poster matters."
+correctAnswer: "We should use my poster because the letters are large and the information is clear."
 explanation: "A better argument gives a real reason, such as readable letters or clear information."
-hint: "Avoid saying best again. Explain what makes the poster useful."
-questionGoal: "Produce a revised argument that fixes circular support."
+hint: "Avoid saying best again. Choose what makes the poster useful."
+questionGoal: "Choose a revised argument that fixes circular support."
 misconception: "Repeating the claim with stronger-sounding words."
 ```
 
@@ -2872,35 +2903,38 @@ misconception: "Adding a larger story from a kind action."
 
 ```question
 key: u06_l01_q05_reading_explanation_frame
-type: multi-blank-cloze
-prompt: "Complete the evidence explanation."
-parts:
-  - "The claim is supported because the passage says "
-  - "."
-blanks:
-  - correctAnswer: "Jada moved her backpack"
-    acceptedAnswers:
-      - "Jada moved her backpack"
-      - "Jada made space"
-      - "Jada moved her backpack so there was an empty chair"
-explanation: "A good explanation names a passage clue."
-hint: "Use a phrase from the passage as evidence."
-questionGoal: "Complete a text-evidence explanation."
+type: passage-question
+prompt: "Read the passage and choose the best evidence explanation."
+passageTitle: "The New Student"
+passage: |
+  A new student stood by the classroom door.
+  Jada smiled and moved her backpack so there was an empty chair.
+question: "Which sentence best supports the claim that Jada made space for the new student?"
+choices:
+  - "Jada moved her backpack so there was an empty chair."
+  - "The new student stood by the classroom door."
+  - "The passage does not say Jada was in class."
+  - "Jada and the new student were already best friends."
+correctAnswer: "Jada moved her backpack so there was an empty chair."
+explanation: "A good evidence explanation names a passage clue that directly supports the claim."
+hint: "Use the clue about the empty chair."
+questionGoal: "Choose text evidence for a reading claim."
 misconception: "Explaining from opinion instead of passage evidence."
 ```
 
 ```question
 key: u06_l01_q06_write_text_evidence_explanation
-type: constructed-response
-prompt: "Passage: 'The sky grew dark. Thunder rumbled. The team packed up the picnic quickly.' What conclusion is supported, and what evidence supports it?"
-minWords: 12
-sampleAnswer: "A storm may be coming because the sky grew dark and thunder rumbled."
-checklist:
-  - "State a careful conclusion"
-  - "Use evidence from the passage"
+type: multiple-choice
+prompt: "Passage: 'The sky grew dark. Thunder rumbled. The team packed up the picnic quickly.' Which conclusion and evidence are best supported?"
+choices:
+  - "A storm may be coming because the sky grew dark and thunder rumbled."
+  - "The team won a game because they packed quickly."
+  - "The picnic food was gone because the sky grew dark."
+  - "The team was angry because thunder is loud."
+correctAnswer: "A storm may be coming because the sky grew dark and thunder rumbled."
 explanation: "Dark sky and thunder are clues that a storm may be coming."
-hint: "Use the frame: ___ may be true because the passage says ___."
-questionGoal: "Explain a reading conclusion with relevant text evidence."
+hint: "Choose the answer that uses clues from the passage."
+questionGoal: "Choose a reading conclusion with relevant text evidence."
 misconception: "Stating a conclusion without evidence or making it too certain."
 ```
 
@@ -2987,8 +3021,8 @@ sentenceAfter: "."
 choices:
   - "careful"
   - "unrelated"
-  - "secret"
-  - "always funny"
+  - "certain"
+  - "much longer"
 correctAnswer: "careful"
 explanation: "Science reasoning should use relevant observations and careful conclusions."
 hint: "Think of not claiming more than the evidence shows."
@@ -2998,16 +3032,17 @@ misconception: "Thinking science-sounding claims do not need careful support."
 
 ```question
 key: u06_l02_q06_next_science_evidence
-type: constructed-response
+type: multiple-choice
 prompt: "Claim: 'The paper towel brand A absorbs more water than brand B.' What evidence would help support this claim?"
-minWords: 10
-sampleAnswer: "Measure how much water the same size piece of each brand absorbs."
-checklist:
-  - "Compare brand A and brand B"
-  - "Use evidence about water absorbed"
+choices:
+  - "Measure how much water the same size piece of each brand absorbs."
+  - "Compare the colors on the paper towel packages."
+  - "Count how many letters are in each brand name."
+  - "Ask which brand has the nicer picture."
+correctAnswer: "Measure how much water the same size piece of each brand absorbs."
 explanation: "Useful evidence would compare absorption for both brands."
 hint: "Think about what you could measure."
-questionGoal: "Propose relevant evidence for a simple science claim."
+questionGoal: "Choose relevant evidence for a simple science claim."
 misconception: "Suggesting unrelated product details instead of evidence tied to the claim."
 ```
 
@@ -3090,31 +3125,33 @@ misconception: "Treating status or personal advantage as fair support."
 
 ```question
 key: u06_l03_q05_fix_unfair_reason
-type: error-correction
-prompt: "Replace the unfair reason with a fair one."
-sentence: "We should play my game because I am the best."
-acceptedAnswers:
+type: multiple-choice
+prompt: "Which revision replaces the unfair reason with a fair one? 'We should play my game because I am the best.'"
+choices:
   - "We should play this game because it lets the whole class join."
-  - "We should play this game because it uses the materials we already have."
-  - "We should play this game because it fits the time we have."
+  - "We should play my game because I am still the best."
+  - "We should play my game because only my choice matters."
+  - "We should play my game because I like winning."
+correctAnswer: "We should play this game because it lets the whole class join."
 explanation: "A fair reason should support the game choice, not praise the speaker."
 hint: "Make the reason about the game and the class."
-questionGoal: "Revise an unfair personal reason into a relevant decision reason."
+questionGoal: "Choose a relevant decision reason instead of an unfair personal reason."
 misconception: "Treating personal status as evidence."
 ```
 
 ```question
 key: u06_l03_q06_explain_fair_reason
-type: constructed-response
-prompt: "Decision: 'Which table should use the sink first after painting?' Write a fair reason for a choice or process."
-minWords: 10
-sampleAnswer: "The table with wet brushes could go first because their supplies may drip."
-checklist:
-  - "Give a reason connected to the decision"
-  - "Avoid personal attacks or 'because I want to'"
+type: multiple-choice
+prompt: "Decision: 'Which table should use the sink first after painting?' Which reason is fair and relevant?"
+choices:
+  - "The table with wet brushes could go first because their supplies may drip."
+  - "My table should go first because I want to be first."
+  - "The loudest table should go first because they are loud."
+  - "The table near the window should go first because windows are nice."
+correctAnswer: "The table with wet brushes could go first because their supplies may drip."
 explanation: "A fair reason should fit the decision and respect the people involved."
 hint: "Think about need, safety, time, or taking turns."
-questionGoal: "Produce a fair and relevant reason for a classroom decision."
+questionGoal: "Choose a fair and relevant reason for a classroom decision."
 misconception: "Using preference instead of relevant fairness criteria."
 ```
 
@@ -3194,7 +3231,7 @@ misconception: "Making always/never claims from one trial."
 ```question
 key: u06_l04_q05_final_explanation_frame
 type: multi-blank-cloze
-prompt: "Complete the careful explanation."
+prompt: "Argument: 'The new lunch line is faster because the trays are blue.' Complete the careful explanation."
 parts:
   - "The reason is weak because it is "
   - " to the claim."
@@ -3205,23 +3242,23 @@ blanks:
       - "not related"
       - "not relevant"
 explanation: "A reason is weak when it does not support the claim."
-hint: "Use the logic word for support that does not fit."
+hint: "Ask whether tray color helps prove line speed."
 questionGoal: "Use Logic 1 vocabulary in an explanation frame."
 misconception: "Describing weak reasoning vaguely without naming the problem."
 ```
 
 ```question
 key: u06_l04_q06_final_choose_check_explain
-type: constructed-response
-prompt: "Argument: 'We should cancel the nature walk because one student saw a cloud.' Choose the best reasoning check and explain a careful fix."
-minWords: 14
-sampleAnswer: "I would check whether there is enough evidence. One cloud is too little; we should check the weather forecast."
-checklist:
-  - "Name a reasoning check"
-  - "Explain why the support is weak"
-  - "Suggest a careful fix or next evidence"
+type: multiple-choice
+prompt: "Argument: 'We should cancel the nature walk because one student saw a cloud.' Which reasoning check and careful fix are best?"
+choices:
+  - "Check whether there is enough evidence; one cloud is too little, so check the weather forecast."
+  - "Check for a personal attack; the cloud insulted the student."
+  - "Check an if-then rule; every cloud means every walk must be canceled."
+  - "Check category sorting; clouds and nature walks are the same category."
+correctAnswer: "Check whether there is enough evidence; one cloud is too little, so check the weather forecast."
 explanation: "The argument may use too little evidence for canceling a walk. A careful fix asks for better weather evidence."
 hint: "Ask whether one cloud is enough evidence for the big decision."
-questionGoal: "Synthesize Logic 1 routines in a final mixed explanation."
+questionGoal: "Choose a Logic 1 reasoning check and careful fix."
 misconception: "Accepting a big decision from a small clue without checking evidence."
 ```
