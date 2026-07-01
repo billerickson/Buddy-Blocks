@@ -85,16 +85,17 @@ misconception: "Stopping after the first plausible guess."
 
 ```question
 key: u01_l01_q05_explain_strategy
-type: constructed-response
-prompt: "A classmate says, 'I just guess if I do not know a word.' Explain one step that would make the guess stronger."
-minWords: 10
-sampleAnswer: "I would look for context clues and then test the guessed meaning in the sentence."
-checklist:
-  - "Name one routine step"
-  - "Explain how it improves the guess"
-explanation: "A stronger guess is based on evidence such as context, word parts, reference checks, or meaning fit."
-hint: "Choose one routine step and explain what evidence it gives."
-questionGoal: "Produce a brief explanation of evidence-based word learning."
+type: multiple-choice
+prompt: "A classmate says, 'I just guess if I do not know a word.' Which response best explains how to make the guess stronger?"
+choices:
+  - "Use context clues, then test whether the meaning fits the sentence."
+  - "Choose a meaning based only on the topic of the passage."
+  - "Pick the longest dictionary definition and stop there."
+  - "Skip the word unless it appears in the title."
+correctAnswer: "Use context clues, then test whether the meaning fits the sentence."
+explanation: "A stronger guess is based on evidence and a meaning-fit check, not a single unsupported guess."
+hint: "Look for the response that uses evidence and checks the guess."
+questionGoal: "Choose an explanation of evidence-based word learning."
 misconception: "Thinking word learning is only guessing."
 ```
 
@@ -188,16 +189,17 @@ misconception: "Missing signal words that show the relationship between ideas."
 
 ```question
 key: u01_l02_q05_explain_scarce
-type: constructed-response
-prompt: "In the sentence 'After weeks without rain, clean water became scarce,' explain what scarce means and what clue helped."
-minWords: 10
-sampleAnswer: "Scarce means hard to find or not enough. The clue is weeks without rain."
-checklist:
-  - "Give a meaning for scarce"
-  - "Name the context clue"
+type: multiple-choice
+prompt: "In the sentence 'After weeks without rain, clean water became scarce,' which explanation is best supported?"
+choices:
+  - "Scarce means not enough or hard to find; the clue is 'weeks without rain.'"
+  - "Scarce means clean; the clue is 'clean water.'"
+  - "Scarce means raining often; the clue is 'without rain.'"
+  - "Scarce means easy to find; the clue is that water is familiar."
+correctAnswer: "Scarce means not enough or hard to find; the clue is 'weeks without rain.'"
 explanation: "Weeks without rain would make water limited, so scarce means not enough or hard to find."
-hint: "Think about what happens to water when there is no rain for weeks."
-questionGoal: "Explain a context-based inference in a short response."
+hint: "Pick the answer that gives both a meaning and a sentence clue."
+questionGoal: "Choose a context-based inference with supporting evidence."
 misconception: "Giving a definition without citing evidence."
 ```
 
@@ -305,16 +307,17 @@ misconception: "Keeping a dictionary meaning that does not fit the sentence."
 
 ```question
 key: u01_l03_q06_explain_entry_fit
-type: constructed-response
-prompt: "The word minute can mean 'sixty seconds' or 'very small.' In 'The artist painted minute details,' which meaning fits? Explain how you know."
-minWords: 10
-sampleAnswer: "Minute means very small because it describes details in a painting, not time."
-checklist:
-  - "Choose the fitting definition"
-  - "Use context or part of speech in the explanation"
+type: multiple-choice
+prompt: "The word minute can mean 'sixty seconds' or 'very small.' In 'The artist painted minute details,' which explanation best fits?"
+choices:
+  - "Minute means very small because it describes the details in a painting."
+  - "Minute means sixty seconds because that is the more familiar meaning."
+  - "Minute means sixty seconds because details is a noun."
+  - "Minute means very small because it is always the first dictionary definition."
+correctAnswer: "Minute means very small because it describes the details in a painting."
 explanation: "Minute describes details, so the adjective meaning 'very small' fits."
 hint: "Notice whether minute names time or describes details."
-questionGoal: "Explain definition choice for a multiple-meaning word."
+questionGoal: "Choose an explanation for a multiple-meaning word in context."
 misconception: "Relying on the most familiar meaning instead of context."
 ```
 
@@ -404,16 +407,17 @@ misconception: "Treating any familiar letter group as a reliable root."
 
 ```question
 key: u01_l04_q06_explain_fit_check
-type: constructed-response
-prompt: "Explain why 'bright' does not fit as the meaning of bleak in this sentence: 'The forecast looked bleak, with freezing rain all weekend.'"
-minWords: 10
-sampleAnswer: "Bright does not fit because freezing rain all weekend sounds gloomy or discouraging."
-checklist:
-  - "Reject the bad meaning"
-  - "Use a clue from the sentence"
+type: multiple-choice
+prompt: "Why does bright not fit as the meaning of bleak in this sentence: 'The forecast looked bleak, with freezing rain all weekend'?"
+choices:
+  - "Bright clashes with the freezing-rain clue; bleak means gloomy or not hopeful."
+  - "Bright fits because freezing rain can look shiny."
+  - "Bright fits because bleak and bright can both describe weather."
+  - "The sentence gives no clue about the meaning of bleak."
+correctAnswer: "Bright clashes with the freezing-rain clue; bleak means gloomy or not hopeful."
 explanation: "The forecast is unpleasant, so bleak means gloomy, harsh, or not hopeful, not bright."
 hint: "Substitute 'bright' into the sentence and listen for the mismatch."
-questionGoal: "Explain why a proposed meaning fails a context-fit check."
+questionGoal: "Choose an explanation for why a proposed meaning fails a context-fit check."
 misconception: "Accepting a meaning that clashes with sentence evidence."
 ```
 
@@ -512,16 +516,17 @@ misconception: "Choosing a plant-related answer that ignores the prefix and move
 
 ```question
 key: u02_l01_q06_explain_prefix
-type: constructed-response
-prompt: "Explain how the prefix re- helps with the word reconsider in this sentence: 'After hearing new evidence, Jonah had to reconsider his opinion.'"
-minWords: 10
-sampleAnswer: "Re- means again, so reconsider means think about the opinion again."
-checklist:
-  - "Name the meaning of re-"
-  - "Connect it to reconsider in context"
+type: multiple-choice
+prompt: "Which explanation best shows how the prefix re- helps with reconsider in this sentence: 'After hearing new evidence, Jonah had to reconsider his opinion'?"
+choices:
+  - "Re- means again, and Jonah has to think about his opinion again."
+  - "Re- means before, and Jonah is predicting his opinion."
+  - "Re- means under, and Jonah is hiding his opinion."
+  - "Re- means not, and Jonah refuses to think about his opinion."
+correctAnswer: "Re- means again, and Jonah has to think about his opinion again."
 explanation: "Reconsider means to consider or think about something again, especially after new information."
-hint: "What does Jonah do after hearing new evidence?"
-questionGoal: "Explain prefix evidence in context."
+hint: "Use both the prefix and the new-evidence clue."
+questionGoal: "Choose an explanation of prefix evidence in context."
 misconception: "Giving the prefix meaning without applying it to the whole word."
 ```
 
@@ -622,16 +627,17 @@ misconception: "Choosing a familiar related word instead of the form with the ne
 
 ```question
 key: u02_l02_q06_explain_suffix_shift
-type: constructed-response
-prompt: "Explain the difference between active and activity in these sentences: 'The active puppy ran in circles. The activity lasted ten minutes.'"
-minWords: 12
-sampleAnswer: "Active describes the puppy, but activity is a noun that names what happened."
-checklist:
-  - "Identify active as a describing word"
-  - "Identify activity as a noun"
+type: multiple-choice
+prompt: "Which explanation best shows the difference between active and activity in these sentences: 'The active puppy ran in circles. The activity lasted ten minutes'?"
+choices:
+  - "Active describes the puppy, while activity is a noun that names what happened."
+  - "Active and activity can be switched because they share the same base."
+  - "Active is a noun, while activity describes how the puppy ran."
+  - "Activity means the puppy was not moving."
+correctAnswer: "Active describes the puppy, while activity is a noun that names what happened."
 explanation: "The suffixes help show different roles: active describes, while activity names an action or event."
 hint: "Ask which word describes a noun and which word names a thing."
-questionGoal: "Explain a part-of-speech shift inside a word family."
+questionGoal: "Choose an explanation of a part-of-speech shift inside a word family."
 misconception: "Assuming related words have the same grammar."
 ```
 
@@ -699,8 +705,8 @@ prompt: "Match each word to the root clue it contains."
 pairs:
   - left: "manuscript"
     right: "written by hand"
-  - left: "permission"
-    right: "being allowed or sent through"
+  - left: "transmission"
+    right: "sending across"
   - left: "justice"
     right: "law or fairness"
   - left: "beneficial"
@@ -729,16 +735,17 @@ misconception: "Overapplying root meanings without context."
 
 ```question
 key: u02_l03_q06_explain_root
-type: constructed-response
-prompt: "Explain how the root bene helps with the word beneficial in this sentence: 'Regular practice was beneficial because the team improved.'"
-minWords: 10
-sampleAnswer: "Bene means good or well, so beneficial means helpful or good for the team."
-checklist:
-  - "Name the root meaning"
-  - "Connect it to the sentence meaning"
+type: multiple-choice
+prompt: "Which explanation best shows how the root bene helps with beneficial in this sentence: 'Regular practice was beneficial because the team improved'?"
+choices:
+  - "Bene means good or well, and the team's improvement shows the practice helped."
+  - "Bene means empty, and the team had no practice."
+  - "Bene means law, and the sentence is about a rule."
+  - "Bene gives the whole meaning without needing the sentence."
+correctAnswer: "Bene means good or well, and the team's improvement shows the practice helped."
 explanation: "Beneficial means helpful or producing good results, which fits the team's improvement."
-hint: "Use the clue 'the team improved.'"
-questionGoal: "Explain root evidence with context support."
+hint: "Use the root clue and the phrase 'the team improved.'"
+questionGoal: "Choose an explanation of root evidence with context support."
 misconception: "Naming a root without explaining the whole word."
 ```
 
@@ -833,16 +840,17 @@ misconception: "Missing part-of-speech differences in related words."
 
 ```question
 key: u02_l04_q06_explain_false_pattern
-type: constructed-response
-prompt: "A student says, 'Because corner has corn in it, corner must mean a place where corn grows.' Explain why this is a weak word-part clue."
-minWords: 12
-sampleAnswer: "The letters corn appear in corner, but the meaning does not connect, so context or a dictionary is needed."
-checklist:
-  - "Mention that similar letters are not enough"
-  - "Suggest checking meaning with context or a reference"
+type: multiple-choice
+prompt: "A student says, 'Because corner has corn in it, corner must mean a place where corn grows.' Which response best explains why this is a weak word-part clue?"
+choices:
+  - "Similar letters are not enough; the meaning of corn does not explain corner."
+  - "The guess is strong because every smaller word gives the full meaning."
+  - "The guess is strong because corner and corn both start with the same letters."
+  - "Word parts should never be checked with context or a reference."
+correctAnswer: "Similar letters are not enough; the meaning of corn does not explain corner."
 explanation: "A real word-part clue must help explain the word's meaning; shared letters alone are not enough."
 hint: "Does the familiar-looking part explain the whole word?"
-questionGoal: "Explain why a tempting look-alike is not useful morphology evidence."
+questionGoal: "Choose an explanation for why a tempting look-alike is not useful morphology evidence."
 misconception: "Treating any embedded word as a meaningful root."
 ```
 
@@ -942,16 +950,17 @@ misconception: "Treating evaluate as personal preference."
 
 ```question
 key: u03_l01_q06_explain_verb
-type: constructed-response
-prompt: "Explain the difference between identify and explain in school directions."
-minWords: 12
-sampleAnswer: "Identify means name or point out something. Explain means tell how or why it works."
-checklist:
-  - "Define identify"
-  - "Define explain"
+type: multiple-choice
+prompt: "Which statement best explains the difference between identify and explain in school directions?"
+choices:
+  - "Identify means name or point out; explain means tell how or why."
+  - "Identify means write a long reason; explain means name only."
+  - "Both words mean copy one sentence from the text."
+  - "Both words mean give a personal opinion without evidence."
+correctAnswer: "Identify means name or point out; explain means tell how or why."
 explanation: "Identify is usually shorter: name it. Explain requires reasoning, details, or how/why."
 hint: "One asks you to name; the other asks you to give reasoning."
-questionGoal: "Clarify two commonly confused task verbs."
+questionGoal: "Distinguish two commonly confused task verbs."
 misconception: "Assuming every direction asks for the same depth of answer."
 ```
 
@@ -1054,16 +1063,21 @@ misconception: "Repeating an inference as if it were evidence."
 
 ```question
 key: u03_l02_q06_short_inference
-type: constructed-response
-prompt: "Read: 'The sidewalk sparkled, and Mia pulled her scarf tighter.' Make an inference about the weather and include evidence."
-minWords: 12
-sampleAnswer: "I infer that it is cold because Mia pulls her scarf tighter and the sidewalk sparkles with ice."
-checklist:
-  - "State an inference"
-  - "Include evidence from the sentence"
+type: passage-question
+prompt: "Read the sentence and choose the response that makes an inference with evidence."
+passageTitle: "A Cold Morning"
+passage: |
+  The sidewalk sparkled, and Mia pulled her scarf tighter.
+question: "Which response includes both an inference and evidence?"
+choices:
+  - "It is probably cold because Mia pulled her scarf tighter and the sidewalk sparkled."
+  - "Mia has a scarf, and the sidewalk is outside."
+  - "It is probably summer because the sidewalk sparkled."
+  - "The weather is cold because I like snowy days."
+correctAnswer: "It is probably cold because Mia pulled her scarf tighter and the sidewalk sparkled."
 explanation: "The scarf and sparkling sidewalk suggest cold weather, likely ice or frost."
-hint: "Use both clues, not just one word."
-questionGoal: "Produce a concise inference with evidence."
+hint: "Choose the answer that figures something out and names sentence clues."
+questionGoal: "Choose a concise inference with evidence."
 misconception: "Making a claim without citing sentence clues."
 ```
 
@@ -1164,16 +1178,17 @@ misconception: "Choosing compare because the topic includes two things, even whe
 
 ```question
 key: u03_l03_q06_explain_relation
-type: constructed-response
-prompt: "Write one sentence using cause and effect to explain this idea: 'The power went out. The class used flashlights.'"
-minWords: 10
-sampleAnswer: "Because the power went out, the class used flashlights to see."
-checklist:
-  - "Use a cause/effect word"
-  - "Show which event caused the other"
+type: multiple-choice
+prompt: "Which sentence uses cause and effect to connect these ideas: 'The power went out. The class used flashlights'?"
+choices:
+  - "Because the power went out, the class used flashlights to see."
+  - "Because the class used flashlights, the power went out."
+  - "The power went out, and the class used flashlights."
+  - "The class used flashlights, but the power outage did not matter."
+correctAnswer: "Because the power went out, the class used flashlights to see."
 explanation: "A cause/effect sentence makes the relationship between the two events clear."
-hint: "Try starting with because or so."
-questionGoal: "Use cause/effect vocabulary in production."
+hint: "The cause is the power outage; the effect is using flashlights."
+questionGoal: "Choose a sentence that uses cause/effect vocabulary accurately."
 misconception: "Listing events without naming their relationship."
 ```
 
@@ -1278,16 +1293,17 @@ misconception: "Thinking synthesis means repeating two facts separately."
 
 ```question
 key: u03_l04_q06_use_discussion_move
-type: constructed-response
-prompt: "Write one sentence that elaborates on this idea: 'The character is careful.'"
-minWords: 10
-sampleAnswer: "The character is careful because she checks the map twice before leaving."
-checklist:
-  - "Add a specific detail"
-  - "Keep the idea connected to careful"
+type: multiple-choice
+prompt: "Which sentence elaborates on this idea: 'The character is careful'?"
+choices:
+  - "The character is careful because she checks the map twice before leaving."
+  - "The character is careful."
+  - "The character is careful because careful characters are careful."
+  - "The character is careful, but the sentence does not need more detail."
+correctAnswer: "The character is careful because she checks the map twice before leaving."
 explanation: "Elaborating adds detail that develops the original idea."
-hint: "Add a because statement or example."
-questionGoal: "Use elaboration in a short academic response."
+hint: "Look for the sentence that adds a connected detail or example."
+questionGoal: "Choose an elaboration in a short academic response."
 misconception: "Restating the same idea without adding detail."
 ```
 
@@ -1386,16 +1402,17 @@ misconception: "Thinking estimate means random guessing."
 
 ```question
 key: u04_l01_q06_explain_variable
-type: constructed-response
-prompt: "Explain what variable means in this sentence: 'In the expression 6 + n, n is a variable.'"
-minWords: 10
-sampleAnswer: "A variable is a symbol for an unknown or changing value, so n stands for a number."
-checklist:
-  - "Mention symbol"
-  - "Mention unknown or changing value"
+type: multiple-choice
+prompt: "Which explanation best fits the sentence: 'In the expression 6 + n, n is a variable'?"
+choices:
+  - "The letter n is a symbol for an unknown or changing value."
+  - "The letter n means the number is always negative."
+  - "Variable means the expression must have an equals sign."
+  - "Variable means anything in math that looks different."
+correctAnswer: "The letter n is a symbol for an unknown or changing value."
 explanation: "In math, a variable is not just something that changes; it is a symbol representing a value."
 hint: "What job does n do in the expression?"
-questionGoal: "Explain a technical math term in context."
+questionGoal: "Choose an explanation of a technical math term in context."
 misconception: "Using a vague everyday meaning of variable."
 ```
 
@@ -1492,16 +1509,17 @@ misconception: "Thinking classify means any action with objects."
 
 ```question
 key: u04_l02_q06_evidence_conclusion
-type: constructed-response
-prompt: "Read: 'The ice cube melted faster under the lamp than on the desk.' Write a conclusion using the evidence."
-minWords: 10
-sampleAnswer: "The lamp's heat made the ice melt faster because the cube under the lamp melted first."
-checklist:
-  - "State a conclusion"
-  - "Use the evidence about melting"
+type: multiple-choice
+prompt: "Read: 'The ice cube melted faster under the lamp than on the desk.' Which conclusion is supported by the evidence?"
+choices:
+  - "The lamp's heat made the ice melt faster."
+  - "The ice on the desk melted faster."
+  - "The lamp made the ice freeze."
+  - "The desk was colder because it had no ice."
+correctAnswer: "The lamp's heat made the ice melt faster."
 explanation: "A conclusion should be based on the recorded result, not a random guess."
 hint: "What does the comparison show?"
-questionGoal: "Use conclusion language based on simple data."
+questionGoal: "Choose a conclusion based on simple data."
 misconception: "Making a conclusion that is not supported by evidence."
 ```
 
@@ -1598,16 +1616,17 @@ misconception: "Choosing a general academic word without matching the social stu
 
 ```question
 key: u04_l03_q06_explain_economy
-type: constructed-response
-prompt: "Explain economy in this sentence: 'The town's economy depended on fishing, boat repair, and small shops.'"
-minWords: 10
-sampleAnswer: "Economy means how people make and use goods and services, so the town earns money through those jobs."
-checklist:
-  - "Mention goods, services, jobs, trade, or money"
-  - "Connect the meaning to the town"
+type: multiple-choice
+prompt: "Which explanation best fits economy in this sentence: 'The town's economy depended on fishing, boat repair, and small shops'?"
+choices:
+  - "Economy means how people make, trade, and use goods and services, so the sentence lists the town's work and businesses."
+  - "Economy means only the coins people carry, so the sentence lists places to spend coins."
+  - "Economy means a map region, so the sentence lists landforms."
+  - "Economy means a person's opinion, so the sentence lists viewpoints."
+correctAnswer: "Economy means how people make, trade, and use goods and services, so the sentence lists the town's work and businesses."
 explanation: "Economy names the system of work, goods, services, and trade in a place."
 hint: "Look at the jobs and businesses listed."
-questionGoal: "Explain a social studies term in context."
+questionGoal: "Choose an explanation of a social studies term in context."
 misconception: "Thinking economy means money only, without people or work."
 ```
 
@@ -1703,16 +1722,17 @@ misconception: "Keeping the familiar everyday meaning in a data context."
 
 ```question
 key: u04_l04_q06_explain_context_choice
-type: constructed-response
-prompt: "The word cell can mean a small room, a spreadsheet box, or the basic unit of a living thing. In a biology article about plants, which meaning should you choose? Explain."
-minWords: 12
-sampleAnswer: "I would choose the basic unit of a living thing because biology and plants are living science contexts."
-checklist:
-  - "Choose the biology meaning"
-  - "Explain using the subject context"
+type: multiple-choice
+prompt: "The word cell can mean a small room, a spreadsheet box, or the basic unit of a living thing. In a biology article about plants, which choice best fits?"
+choices:
+  - "the basic unit of a living thing, because biology and plants are life science contexts"
+  - "a spreadsheet box, because articles can include tables"
+  - "a small room, because that is the most familiar meaning"
+  - "any definition, because all meanings fit every subject"
+correctAnswer: "the basic unit of a living thing, because biology and plants are life science contexts"
 explanation: "The subject context tells which technical definition fits."
 hint: "Ask what class or topic the article belongs to."
-questionGoal: "Justify a technical meaning using subject-area context."
+questionGoal: "Choose a technical meaning using subject-area context."
 misconception: "Choosing the most familiar definition instead of the context-specific one."
 ```
 
@@ -1811,16 +1831,17 @@ misconception: "Collapsing denotation and connotation."
 
 ```question
 key: u05_l01_q06_explain_denotation
-type: constructed-response
-prompt: "The words home and residence can both denote a place where someone lives. Explain what denotation means in this example."
-minWords: 10
-sampleAnswer: "Denotation is the direct meaning, so both words mean a place where someone lives."
-checklist:
-  - "Mention direct meaning"
-  - "Use the example of home and residence"
+type: multiple-choice
+prompt: "The words home and residence can both denote a place where someone lives. Which explanation best shows what denotation means here?"
+choices:
+  - "Denotation is direct meaning, so both words can mean a place where someone lives."
+  - "Denotation is the feeling only, so home and residence must feel exactly the same."
+  - "Denotation means one word is always informal and the other is always wrong."
+  - "Denotation means the words have no dictionary meaning."
+correctAnswer: "Denotation is direct meaning, so both words can mean a place where someone lives."
 explanation: "Both words have a similar denotation even though their connotations can differ."
 hint: "Focus only on the shared dictionary meaning."
-questionGoal: "Explain denotation using a word pair."
+questionGoal: "Choose an explanation of denotation using a word pair."
 misconception: "Explaining the emotional difference instead of the direct meaning."
 ```
 
@@ -1921,16 +1942,17 @@ misconception: "Using dictionary similarity as permission to swap any synonym."
 
 ```question
 key: u05_l02_q06_explain_connotation
-type: constructed-response
-prompt: "Explain why 'The puppy was energetic' sounds different from 'The puppy was wild.'"
-minWords: 12
-sampleAnswer: "Energetic sounds positive or neutral, but wild suggests the puppy was out of control."
-checklist:
-  - "Compare the two connotations"
-  - "Mention how the reader's impression changes"
+type: multiple-choice
+prompt: "Which explanation best shows why 'The puppy was energetic' sounds different from 'The puppy was wild'?"
+choices:
+  - "Energetic sounds positive or neutral, while wild suggests the puppy was out of control."
+  - "Energetic and wild have exactly the same connotation in every sentence."
+  - "Wild is more formal than energetic, so it belongs in a school announcement."
+  - "Energetic sounds more out of control than wild."
+correctAnswer: "Energetic sounds positive or neutral, while wild suggests the puppy was out of control."
 explanation: "The words have related meanings, but wild has a more negative or uncontrolled association."
 hint: "Ask which word makes the puppy sound like a problem."
-questionGoal: "Explain how connotation changes reader response."
+questionGoal: "Choose an explanation of how connotation changes reader response."
 misconception: "Saying the words mean exactly the same thing."
 ```
 
@@ -1943,14 +1965,14 @@ prompt: "Order the words from least intense to most intense."
 items:
   - "furious"
   - "annoyed"
-  - "upset"
+  - "angry"
   - "irritated"
 correctOrder:
   - "annoyed"
   - "irritated"
-  - "upset"
+  - "angry"
   - "furious"
-explanation: "The words all show negative feeling, but furious is much stronger than annoyed."
+explanation: "The words all show negative feeling, but angry is stronger than irritated and furious is strongest."
 hint: "Start with the mildest feeling."
 questionGoal: "Rank near-synonyms by intensity."
 misconception: "Treating all emotion synonyms as equal in strength."
@@ -2027,16 +2049,17 @@ misconception: "Selecting a tone word that ignores the consequence in the passag
 
 ```question
 key: u05_l03_q06_explain_precision
-type: constructed-response
-prompt: "Explain why stroll is more precise than go in this sentence: 'After dinner, we decided to stroll through the park.'"
-minWords: 10
-sampleAnswer: "Stroll means walk slowly and calmly, so it tells exactly how they went through the park."
-checklist:
-  - "Explain the meaning of stroll"
-  - "Compare it to the general word go"
+type: multiple-choice
+prompt: "Why is stroll more precise than go in this sentence: 'After dinner, we decided to stroll through the park'?"
+choices:
+  - "Stroll means walk slowly and calmly, so it tells how they went through the park."
+  - "Stroll means run quickly, so it makes the action faster."
+  - "Stroll and go give exactly the same amount of detail."
+  - "Stroll is more precise only because it sounds more formal."
+correctAnswer: "Stroll means walk slowly and calmly, so it tells how they went through the park."
 explanation: "Stroll gives information about the action's speed and mood that go does not give."
 hint: "What does stroll tell the reader that go does not?"
-questionGoal: "Explain precision in a verb choice."
+questionGoal: "Choose an explanation of precision in a verb choice."
 misconception: "Thinking all verbs for movement give the same detail."
 ```
 
@@ -2048,9 +2071,9 @@ type: multiple-choice
 prompt: "Which revision best improves the word good in this sentence: 'The speaker gave a good explanation of the data'?"
 choices:
   - "The speaker gave a clear explanation of the data."
-  - "The speaker gave a sparkly explanation of the data."
-  - "The speaker gave a huge explanation of the data."
-  - "The speaker gave a purple explanation of the data."
+  - "The speaker gave a long explanation of the data."
+  - "The speaker gave a fancy explanation of the data."
+  - "The speaker gave a dramatic explanation of the data."
 correctAnswer: "The speaker gave a clear explanation of the data."
 explanation: "Clear tells what kind of good explanation it was."
 hint: "Choose the word that fits an explanation."
@@ -2064,9 +2087,9 @@ type: multiple-choice
 prompt: "Which sentence best fits a formal email to a principal?"
 choices:
   - "I would like to request permission to start a chess club."
-  - "Yo, let us make a chess thing."
-  - "We gotta do chess because it is cool."
-  - "Chess club now, please."
+  - "Can we make a chess club because chess is fun?"
+  - "I want a chess club, so please approve it."
+  - "Let us start a chess club now."
 correctAnswer: "I would like to request permission to start a chess club."
 explanation: "The sentence uses formal, respectful wording for the audience."
 hint: "Think about audience and purpose."
@@ -2128,16 +2151,17 @@ misconception: "Using loaded or hostile words in academic disagreement."
 
 ```question
 key: u05_l04_q06_revise_explain
-type: constructed-response
-prompt: "Revise this sentence to make the word choice more exact, then explain your change: 'The book was interesting.'"
-minWords: 12
-sampleAnswer: "The book was suspenseful because each chapter ended with an unanswered question."
-checklist:
-  - "Replace interesting with a more exact word"
-  - "Explain why the new word fits"
+type: multiple-choice
+prompt: "Which revision makes the word choice more exact and explains why it fits? Original sentence: 'The book was interesting.'"
+choices:
+  - "The book was suspenseful because each chapter ended with an unanswered question."
+  - "The book was interesting because it was interesting."
+  - "The book was good because good is a positive word."
+  - "The book was gigantic because some books have many pages."
+correctAnswer: "The book was suspenseful because each chapter ended with an unanswered question."
 explanation: "A precise revision names what kind of interesting effect the book had."
-hint: "Choose a word such as suspenseful, informative, funny, or surprising, then give a reason."
-questionGoal: "Produce a precise revision and justify it."
+hint: "Choose the answer that replaces interesting and gives context for the choice."
+questionGoal: "Choose a precise revision and justification."
 misconception: "Giving a synonym without explaining the context it fits."
 ```
 
@@ -2236,16 +2260,17 @@ misconception: "Treating figurative meaning as separate from the surrounding tex
 
 ```question
 key: u06_l01_q06_explain_figurative
-type: constructed-response
-prompt: "Explain the figurative meaning of this sentence: 'After the argument, the room turned icy.'"
-minWords: 10
-sampleAnswer: "The room did not become frozen; icy means the people felt cold, tense, or unfriendly."
-checklist:
-  - "Reject the literal meaning"
-  - "Explain the feeling or situation"
+type: multiple-choice
+prompt: "Which explanation best gives the figurative meaning of this sentence: 'After the argument, the room turned icy'?"
+choices:
+  - "The people felt tense or unfriendly; the room did not literally freeze."
+  - "The room filled with real ice because the argument changed the weather."
+  - "Icy means cheerful because arguments usually make people happy."
+  - "The sentence cannot be interpreted because icy is always literal."
+correctAnswer: "The people felt tense or unfriendly; the room did not literally freeze."
 explanation: "Icy is used figuratively to describe a tense or unfriendly mood."
 hint: "Think about how people act after an argument."
-questionGoal: "Explain figurative meaning in a short context."
+questionGoal: "Choose a figurative meaning in a short context."
 misconception: "Stopping at a literal image without interpreting the mood."
 ```
 
@@ -2342,16 +2367,17 @@ misconception: "Thinking figurative language is only decoration."
 
 ```question
 key: u06_l02_q06_explain_comparison
-type: constructed-response
-prompt: "Explain the metaphor in this sentence: 'The library was an island of quiet in the noisy school.'"
-minWords: 12
-sampleAnswer: "The library is compared to an island because it is separate and quiet while the school is noisy."
-checklist:
-  - "Name the two things being compared"
-  - "Explain the shared quality"
+type: multiple-choice
+prompt: "Which explanation best interprets the metaphor in this sentence: 'The library was an island of quiet in the noisy school'?"
+choices:
+  - "The library is compared to an island because it feels separate and quiet in the noisy school."
+  - "The library is compared to an island because it is surrounded by ocean water."
+  - "The metaphor mainly suggests the library is difficult to reach."
+  - "The noisy school is compared to an island because it is quiet."
+correctAnswer: "The library is compared to an island because it feels separate and quiet in the noisy school."
 explanation: "The metaphor suggests the library feels separate from the noise around it."
 hint: "What quality of an island fits the library?"
-questionGoal: "Explain a metaphor by identifying comparison and meaning."
+questionGoal: "Choose an interpretation of a metaphor by identifying comparison and meaning."
 misconception: "Naming metaphor without interpreting the comparison."
 ```
 
@@ -2448,16 +2474,17 @@ misconception: "Thinking idioms must sound strange or old-fashioned."
 
 ```question
 key: u06_l03_q06_explain_idiom_context
-type: constructed-response
-prompt: "Explain the idiom in context: 'I almost told my sister about the party, but Mom said not to spill the beans.'"
-minWords: 10
-sampleAnswer: "Spill the beans means reveal the secret about the party before it is time."
-checklist:
-  - "Give the idiom's meaning"
-  - "Connect it to the party secret"
+type: multiple-choice
+prompt: "In the sentence 'I almost told my sister about the party, but Mom said not to spill the beans,' which explanation best fits the idiom?"
+choices:
+  - "Spill the beans means reveal the party secret before it is time."
+  - "Spill the beans means drop food on the floor during the party."
+  - "Spill the beans means cook dinner for the speaker's sister."
+  - "Spill the beans means write the party date on a page."
+correctAnswer: "Spill the beans means reveal the party secret before it is time."
 explanation: "The context shows that the party information should stay secret."
 hint: "Ask what Mom does not want the speaker to tell."
-questionGoal: "Explain an idiom using context evidence."
+questionGoal: "Choose an idiom meaning using context evidence."
 misconception: "Explaining the literal image instead of the intended meaning."
 ```
 
@@ -2554,16 +2581,21 @@ misconception: "Collapsing tone and mood into one idea."
 
 ```question
 key: u06_l04_q06_explain_mood
-type: constructed-response
-prompt: "Read: 'Fog curled over the empty street, and the porch light flickered.' What mood do the words create? Use evidence."
-minWords: 12
-sampleAnswer: "The mood is eerie because fog, empty street, and flickered make the scene feel mysterious."
-checklist:
-  - "Name a mood"
-  - "Use at least one word or phrase as evidence"
+type: passage-question
+prompt: "Read the sentence and choose the mood with supporting evidence."
+passageTitle: "Empty Street"
+passage: |
+  Fog curled over the empty street, and the porch light flickered.
+question: "Which answer best names the mood and evidence?"
+choices:
+  - "eerie, because fog, empty street, and flickered make the scene feel mysterious"
+  - "peaceful, because the empty street means nothing unusual is happening"
+  - "cheerful, because a porch light can seem welcoming"
+  - "frustrated, because the sentence mentions a street"
+correctAnswer: "eerie, because fog, empty street, and flickered make the scene feel mysterious"
 explanation: "The imagery creates an eerie or mysterious mood through fog, emptiness, and flickering light."
-hint: "Choose a feeling the reader might get from the scene."
-questionGoal: "Explain mood using imagery evidence."
+hint: "Choose a feeling that matches the specific imagery."
+questionGoal: "Choose a mood using imagery evidence."
 misconception: "Naming a mood without connecting it to word choice."
 ```
 
@@ -2669,16 +2701,17 @@ misconception: "Thinking evidence alone is always enough."
 
 ```question
 key: u07_l01_q06_write_evidence_link
-type: constructed-response
-prompt: "Claim: 'The class should use a shared calendar.' Evidence: 'Three groups forgot project deadlines last month.' Write one sentence explaining how the evidence supports the claim."
-minWords: 12
-sampleAnswer: "The missed deadlines show that a shared calendar could help groups remember important dates."
-checklist:
-  - "Connect missed deadlines to the calendar claim"
-  - "Use explanation language"
+type: multiple-choice
+prompt: "Claim: 'The class should use a shared calendar.' Evidence: 'Three groups forgot project deadlines last month.' Which explanation best links the evidence to the claim?"
+choices:
+  - "The missed deadlines show that a shared calendar could help groups remember important dates."
+  - "The evidence only repeats the claim without showing why a calendar would help."
+  - "The missed deadlines show that groups should stop doing projects."
+  - "The evidence is unrelated because deadlines and calendars are different words."
+correctAnswer: "The missed deadlines show that a shared calendar could help groups remember important dates."
 explanation: "The explanation shows why the evidence matters for the claim."
 hint: "Use a phrase like 'This shows' or 'This matters because.'"
-questionGoal: "Produce a concise explanation linking evidence to claim."
+questionGoal: "Choose a concise explanation linking evidence to claim."
 misconception: "Repeating the evidence without connecting it to the claim."
 ```
 
@@ -2772,16 +2805,17 @@ misconception: "Including an interesting but disconnected detail."
 
 ```question
 key: u07_l02_q06_evaluate_evidence
-type: constructed-response
-prompt: "Claim: 'The school should plant more shade trees.' Evidence: 'On sunny days, the blacktop is much hotter than the grassy area.' Is this evidence relevant? Explain."
-minWords: 12
-sampleAnswer: "Yes, it is relevant because shade trees could cool sunny areas like the hot blacktop."
-checklist:
-  - "State whether the evidence is relevant"
-  - "Explain the connection to the claim"
+type: multiple-choice
+prompt: "Claim: 'The school should plant more shade trees.' Evidence: 'On sunny days, the blacktop is much hotter than the grassy area.' Which evaluation is best?"
+choices:
+  - "The evidence is relevant because shade trees could cool sunny areas like the hot blacktop."
+  - "The evidence is not relevant because it describes temperature, not shade."
+  - "The evidence is relevant because it proves students like trees."
+  - "The evidence is sufficient to prove every school needs more trees."
+correctAnswer: "The evidence is relevant because shade trees could cool sunny areas like the hot blacktop."
 explanation: "The evidence connects heat in sunny areas to the need for shade."
 hint: "Ask whether the evidence helps prove the claim."
-questionGoal: "Explain relevance in a claim/evidence pair."
+questionGoal: "Choose an evaluation of relevance in a claim/evidence pair."
 misconception: "Answering yes or no without explaining the connection."
 ```
 
@@ -2816,9 +2850,9 @@ passage: |
 question: "Who is the main audience for this flyer?"
 choices:
   - "students who might join the lessons"
-  - "professional guitar makers"
-  - "weather reporters"
-  - "city bus drivers"
+  - "parents looking for office permission forms"
+  - "students already taking advanced guitar"
+  - "teachers choosing music textbooks"
 correctAnswer: "students who might join the lessons"
 explanation: "The flyer invites students to join after-school lessons."
 hint: "Ask who the message is trying to reach."
@@ -2880,16 +2914,17 @@ misconception: "Treating different perspectives as proof that one side is dishon
 
 ```question
 key: u07_l03_q06_explain_bias
-type: constructed-response
-prompt: "A club flyer says, 'Our club is the only fun choice after school.' Explain why this wording may show bias."
-minWords: 12
-sampleAnswer: "It may show bias because the club presents itself as the only fun option and ignores other clubs."
-checklist:
-  - "Mention slant or preference"
-  - "Use the phrase 'only fun choice' as evidence"
+type: multiple-choice
+prompt: "A club flyer says, 'Our club is the only fun choice after school.' Which explanation best shows why this wording may show bias?"
+choices:
+  - "The phrase 'only fun choice' shows a one-sided preference for this club over other clubs."
+  - "The wording is unbiased because flyers can never have a point of view."
+  - "The wording is biased only because it is about after-school activities."
+  - "The phrase proves every other club is boring and does not need checking."
+correctAnswer: "The phrase 'only fun choice' shows a one-sided preference for this club over other clubs."
 explanation: "The wording favors one club strongly and does not fairly consider other choices."
 hint: "Look for loaded or one-sided words."
-questionGoal: "Explain bias using wording evidence."
+questionGoal: "Choose an explanation of bias using wording evidence."
 misconception: "Saying bias exists without citing a source clue."
 ```
 
@@ -2987,16 +3022,17 @@ misconception: "Equating framing with lying."
 
 ```question
 key: u07_l04_q06_explain_headline_frame
-type: constructed-response
+type: multiple-choice
 prompt: "Compare the phrases 'students asked for new books' and 'students begged for new books.' How does begged change the framing?"
-minWords: 12
-sampleAnswer: "Begged makes the students sound desperate or powerless, while asked sounds more neutral."
-checklist:
-  - "Compare begged with asked"
-  - "Explain the reader impression"
+choices:
+  - "Begged makes the students sound more desperate or powerless than asked."
+  - "Begged makes the sentence more neutral than asked."
+  - "Begged removes all reader feelings from the sentence."
+  - "Begged means the students requested books with no emotional effect."
+correctAnswer: "Begged makes the students sound more desperate or powerless than asked."
 explanation: "Begged is more emotional and frames the request as desperate."
 hint: "Ask what feeling begged adds."
-questionGoal: "Explain how word choice frames a media-style statement."
+questionGoal: "Choose an explanation of how word choice frames a media-style statement."
 misconception: "Saying the two verbs have exactly the same effect."
 ```
 
@@ -3098,16 +3134,17 @@ misconception: "Thinking conclusion only means the last sentence, not an evidenc
 
 ```question
 key: u08_l01_q06_explain_keyword
-type: constructed-response
-prompt: "Research question: 'What causes ocean tides?' Choose two useful keywords and explain why."
-minWords: 10
-sampleAnswer: "Useful keywords are ocean tides and causes because they name the topic and what I need to find."
-checklist:
-  - "Give two useful keywords"
-  - "Explain why they fit the question"
+type: multiple-choice
+prompt: "Research question: 'What causes ocean tides?' Which keyword set and reason are most useful?"
+choices:
+  - "ocean tides causes, because the words name the topic and what the researcher needs to find"
+  - "what causes ocean tides, because a keyword set should always copy the whole question"
+  - "water fun beach, because the words are loosely related to oceans"
+  - "causes what, because small question words make the strongest search"
+correctAnswer: "ocean tides causes, because the words name the topic and what the researcher needs to find"
 explanation: "Strong keywords keep the main topic and research purpose."
 hint: "Remove small question words and keep the important topic words."
-questionGoal: "Produce and justify research keywords."
+questionGoal: "Choose and justify research keywords."
 misconception: "Copying the whole question instead of selecting searchable terms."
 ```
 
@@ -3202,16 +3239,17 @@ misconception: "Thinking citation is only punctuation or formatting."
 
 ```question
 key: u08_l02_q06_write_synthesis
-type: constructed-response
-prompt: "Note 1: 'Walking to school can add exercise to a student's day.' Note 2: 'Fewer car trips can reduce traffic near school.' Write one synthesis sentence."
-minWords: 12
-sampleAnswer: "Walking to school can help students get exercise while also reducing traffic near the school."
-checklist:
-  - "Use ideas from both notes"
-  - "Combine them into one connected sentence"
+type: multiple-choice
+prompt: "Note 1: 'Walking to school can add exercise to a student's day.' Note 2: 'Fewer car trips can reduce traffic near school.' Which sentence synthesizes the notes?"
+choices:
+  - "Walking to school can help students get exercise while also reducing traffic near the school."
+  - "Walking to school can add exercise to a student's day."
+  - "Fewer car trips can reduce traffic near school."
+  - "Traffic near school can be noisy in the morning."
+correctAnswer: "Walking to school can help students get exercise while also reducing traffic near the school."
 explanation: "A synthesis joins information from more than one note into a larger idea."
 hint: "Use a connector such as while, and, or also."
-questionGoal: "Produce a short synthesis sentence."
+questionGoal: "Choose a short synthesis sentence."
 misconception: "Listing two notes separately instead of combining them."
 ```
 
@@ -3309,16 +3347,17 @@ misconception: "Writing an original sentence that does not show the target meani
 
 ```question
 key: u08_l03_q06_original_sentence
-type: constructed-response
-prompt: "Write an original sentence that shows the meaning of verify."
-minWords: 8
-sampleAnswer: "I checked two sources to verify the date of the event."
-checklist:
-  - "Use verify accurately"
-  - "Show checking or confirming"
+type: multiple-choice
+prompt: "Which original sentence best shows the meaning of verify?"
+choices:
+  - "I checked two sources to verify the date of the event."
+  - "I guessed the date to verify it."
+  - "I decorated the poster to verify it."
+  - "I used verify as the title of my story."
+correctAnswer: "I checked two sources to verify the date of the event."
 explanation: "Verify means check or confirm that something is true or accurate."
 hint: "Think about checking an answer, date, source, or fact."
-questionGoal: "Produce accurate word use for a portfolio entry."
+questionGoal: "Choose accurate word use for a portfolio entry."
 misconception: "Using the word in a sentence that does not reveal its meaning."
 ```
 
@@ -3415,16 +3454,16 @@ misconception: "Using a math/science or sound meaning when the context is books.
 
 ```question
 key: u08_l04_q06_cumulative_explanation
-type: constructed-response
-prompt: "Read: 'The speaker's cautious tone helped the audience trust the warning.' Explain what cautious means here and name the strategy that helped you."
-minWords: 14
-sampleAnswer: "Cautious means careful. The context helped because the warning needed a tone that made the audience trust it."
-checklist:
-  - "Give the meaning of cautious"
-  - "Name a strategy such as context or meaning fit"
-  - "Use evidence from the sentence"
+type: multiple-choice
+prompt: "Read: 'The speaker's cautious tone helped the audience trust the warning.' Which answer gives the meaning, strategy, and evidence?"
+choices:
+  - "Cautious means careful; context and meaning fit help because a careful tone would make a warning trustworthy."
+  - "Cautious means careful; the word part alone is enough, so the warning context does not matter."
+  - "Cautious means loud; the evidence is that the sentence mentions an audience."
+  - "Cautious means funny; the best strategy is to ignore the sentence."
+correctAnswer: "Cautious means careful; context and meaning fit help because a careful tone would make a warning trustworthy."
 explanation: "Cautious means careful or showing care to avoid mistakes. The warning and trust clues support that meaning."
 hint: "Ask what kind of tone would help people trust a warning."
-questionGoal: "Produce a final transfer explanation that names meaning, strategy, and evidence."
+questionGoal: "Choose a final transfer explanation that names meaning, strategy, and evidence."
 misconception: "Giving a meaning without explaining the evidence or strategy."
 ```

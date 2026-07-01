@@ -12,7 +12,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Basic context clues, familiar prefixes/suffixes, dictionary/glossary exposure, and short explanation frames.
 - **Likely misconceptions:** Guessing from one clue is enough; reference tools replace context; word parts always settle the meaning.
 - **Evidence of mastery:** Given an unfamiliar word in a short context, the student chooses the best next strategy and explains why.
-- **Recommended question types and why:** `order-items` for the routine sequence; `multiple-choice` for strategy choice; `constructed-response` for a brief strategy explanation.
+- **Recommended question types and why:** `order-items` for the routine sequence; `multiple-choice` for strategy choice or best strategy explanation; `match-pairs` for strategy-to-purpose links.
 - **Suggested intro/teaching note:** Model one unfamiliar word aloud and show how the first guess improves after checking context, word parts, and fit.
 - **Reading-level and cognitive-load constraints:** Use short contexts and no more than one unfamiliar target word at a time.
 
@@ -24,7 +24,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Basic inference, synonyms/antonyms, and ability to cite a nearby phrase as evidence.
 - **Likely misconceptions:** Any nearby word is a clue; context always provides an exact definition; a familiar topic makes every guess valid.
 - **Evidence of mastery:** The student selects a meaning supported by context and names the clue that supports it.
-- **Recommended question types and why:** `passage-question` for contextual inference; `multiple-choice` for clue selection; `constructed-response` for concise evidence explanation.
+- **Recommended question types and why:** `passage-question` for contextual inference; `multiple-choice` for clue selection or choosing the best evidence explanation; `fill-blank` for constrained clue-type vocabulary.
 - **Suggested intro/teaching note:** Compare two possible meanings for one word and ask which is actually supported by the sentence.
 - **Reading-level and cognitive-load constraints:** Keep passages under 90 words and limit background knowledge demands.
 
@@ -86,7 +86,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Prefixes, suffixes, context checking, and basic word-family comparison.
 - **Likely misconceptions:** Same root means same full definition; a root clue is enough by itself; unrelated look-alikes are always root relatives.
 - **Evidence of mastery:** The student matches roots to meanings, infers a related word, and checks it in context.
-- **Recommended question types and why:** `match-pairs` for root meanings; `passage-question` for root-in-context inference; `constructed-response` for explaining word-part evidence.
+- **Recommended question types and why:** `match-pairs` for root meanings; `passage-question` for root-in-context inference; `multiple-choice` for choosing the best word-part evidence explanation.
 - **Suggested intro/teaching note:** Build a word web for `scrib/script` with describe, manuscript, inscription, and transcript.
 - **Reading-level and cognitive-load constraints:** Keep root sets small and avoid obscure etymology beyond practical meaning.
 
@@ -98,7 +98,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Roots, affixes, context-fit checks, and part-of-speech shifts.
 - **Likely misconceptions:** Every similar spelling signals shared meaning; all cognates mean exactly the same thing; word-family members have identical connotations.
 - **Evidence of mastery:** The student identifies the strongest related-word clue and explains why a tempting look-alike is not useful.
-- **Recommended question types and why:** `match-pairs` for family relationships; `multiple-choice` for false-pattern diagnostics; `constructed-response` for explaining a cautious morphology decision.
+- **Recommended question types and why:** `match-pairs` for family relationships; `multiple-choice` for false-pattern diagnostics or cautious morphology explanations; `passage-question` for word-family context checks.
 - **Suggested intro/teaching note:** Contrast helpful relatives such as inspect and inspection with a misleading look-alike that shares letters but not useful meaning.
 - **Reading-level and cognitive-load constraints:** Use familiar multilingual examples only when the cognate is accurate and not essential background knowledge.
 
@@ -124,7 +124,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Basic text evidence and because statements.
 - **Likely misconceptions:** Evidence and reason are identical; inference is a wild guess; explanation means repeat the evidence.
 - **Evidence of mastery:** The student labels parts of a response and completes a concise evidence-based sentence frame.
-- **Recommended question types and why:** `passage-question` for evidence choice; `multi-blank-cloze` for sentence frames; `constructed-response` for a short inference with evidence.
+- **Recommended question types and why:** `passage-question` for evidence choice and supported inference checks; `multi-blank-cloze` for sentence frames; `multiple-choice` for distinguishing inference, evidence, and explanation.
 - **Suggested intro/teaching note:** Use a three-part frame: "I infer __ because the text says __. This shows __."
 - **Reading-level and cognitive-load constraints:** Keep passages brief and focus on vocabulary roles rather than deep literary analysis.
 
@@ -148,7 +148,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Basic agree/disagree frames, evidence language, and conversational turn-taking.
 - **Likely misconceptions:** Challenge means attack; qualify means make an answer weaker; synthesize means repeat the last speaker.
 - **Evidence of mastery:** The student chooses a discussion move that fits a goal and completes a short academic response.
-- **Recommended question types and why:** `dialogue-builder` for fitting conversation turns; `multiple-choice` for naming discussion moves; `constructed-response` for brief supported use.
+- **Recommended question types and why:** `dialogue-builder` for fitting conversation turns; `multiple-choice` for naming discussion moves or choosing supported use; `fill-blank` for constrained discussion vocabulary.
 - **Suggested intro/teaching note:** Model one claim and several possible next turns, naming the purpose of each.
 - **Reading-level and cognitive-load constraints:** Keep conversations to two or three turns and avoid debating sensitive topics.
 
@@ -174,7 +174,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Basic observe/predict language, table reading, and cause/effect vocabulary.
 - **Likely misconceptions:** Observe means guess; data is the same as conclusion; variable means any detail in a story.
 - **Evidence of mastery:** The student identifies the role of a word in a lab-note or table context.
-- **Recommended question types and why:** `passage-question` for lab-note contexts; `match-pairs` for process terms; `constructed-response` for explaining evidence versus conclusion.
+- **Recommended question types and why:** `passage-question` for lab-note contexts; `match-pairs` for process terms; `multiple-choice` for distinguishing evidence-based conclusions from unsupported claims.
 - **Suggested intro/teaching note:** Show a tiny investigation with observation, variable, data, and conclusion labeled.
 - **Reading-level and cognitive-load constraints:** Use familiar science contexts and very small data displays.
 
@@ -198,7 +198,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Unit 4 vocabulary, reference entry selection, and context-fit checks.
 - **Likely misconceptions:** A familiar everyday meaning is always enough; glossary definitions can be copied without checking the source; visuals are optional.
 - **Evidence of mastery:** The student explains why a technical definition fits a mixed source better than an everyday definition.
-- **Recommended question types and why:** `passage-question` for source interpretation; `multiple-choice` for definition choice; `constructed-response` for technical meaning justification.
+- **Recommended question types and why:** `passage-question` for source interpretation; `multiple-choice` for definition choice or technical meaning justification; `match-pairs` for subject-context meaning links.
 - **Suggested intro/teaching note:** Present a word like model in a science source and a literature sentence, then compare meanings.
 - **Reading-level and cognitive-load constraints:** Use one source feature at a time before combining passage plus visual plus glossary.
 
@@ -224,7 +224,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Denotation, synonyms, tone, and audience/purpose basics.
 - **Likely misconceptions:** Connotation is only positive or negative; informal words are always wrong; formal words are always better.
 - **Evidence of mastery:** The student selects a word that fits a sentence's audience and explains the connotation.
-- **Recommended question types and why:** `multiple-choice` for connotation identification; `order-items` for formality or feeling scales; `constructed-response` for short justification.
+- **Recommended question types and why:** `multiple-choice` for connotation identification or short justification choice; `order-items` for formality or feeling scales; `match-pairs` for near-synonym connotation contrasts.
 - **Suggested intro/teaching note:** Compare childlike, youthful, and immature as words with related denotations but different effects.
 - **Reading-level and cognitive-load constraints:** Avoid culturally obscure associations and use context to make connotation clear.
 
@@ -248,7 +248,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Unit 5 concepts, basic revision vocabulary, and audience/purpose awareness.
 - **Likely misconceptions:** Revision only fixes errors; fancy words are automatically better; tone does not matter in word choice.
 - **Evidence of mastery:** The student revises a sentence and gives a concise reason for the chosen word.
-- **Recommended question types and why:** `error-correction` for replacing imprecise words; `multiple-choice` for best revision; `constructed-response` for a short revision explanation.
+- **Recommended question types and why:** `error-correction` for replacing imprecise words; `multiple-choice` for best revision or revision explanation; `match-pairs` for revision-to-purpose links.
 - **Suggested intro/teaching note:** Show two revised versions of one sentence and ask which better fits a school announcement, a story, or a lab note.
 - **Reading-level and cognitive-load constraints:** Keep revision at sentence level; avoid asking for paragraph rewrites.
 
@@ -262,7 +262,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Context clues, denotation, connotation, and basic idiom exposure.
 - **Likely misconceptions:** Figurative language is nonsense if read literally; every descriptive phrase is figurative; literal meaning is always less important.
 - **Evidence of mastery:** The student explains a figurative phrase in context without relying only on the label.
-- **Recommended question types and why:** `multiple-choice` for literal/figurative decisions; `passage-question` for interpretation; `constructed-response` for concise meaning explanation.
+- **Recommended question types and why:** `multiple-choice` for literal/figurative decisions or concise meaning explanations; `passage-question` for interpretation; `fill-blank` for plain-language paraphrases.
 - **Suggested intro/teaching note:** Use one phrase literally in one sentence and figuratively in another.
 - **Reading-level and cognitive-load constraints:** Use brief excerpts and common expressions before less familiar literary language.
 
@@ -274,7 +274,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Literal/figurative distinction, compare/contrast language, and connotation.
 - **Likely misconceptions:** Simile and metaphor labels matter more than meaning; personification means any animal action; comparisons must match in every way.
 - **Evidence of mastery:** The student explains what two ideas are being connected and what quality is emphasized.
-- **Recommended question types and why:** `match-pairs` for device to meaning; `passage-question` for interpretation; `constructed-response` for explaining effect.
+- **Recommended question types and why:** `match-pairs` for device to meaning; `passage-question` for interpretation; `multiple-choice` for choosing the best explanation of effect.
 - **Suggested intro/teaching note:** Ask what quality is shared in "The hallway was a river of students."
 - **Reading-level and cognitive-load constraints:** Keep examples vivid and concrete; avoid advanced literary taxonomy.
 
@@ -298,7 +298,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Connotation, figurative meaning, and evidence language.
 - **Likely misconceptions:** Tone and mood are interchangeable; imagery means any adjective; one word can prove tone without context.
 - **Evidence of mastery:** The student chooses a tone or mood word and cites wording that supports it.
-- **Recommended question types and why:** `passage-question` for tone/mood evidence; `match-pairs` for tone versus mood examples; `constructed-response` for short evidence-based explanation.
+- **Recommended question types and why:** `passage-question` for tone/mood evidence and evidence-based explanations; `match-pairs` for tone versus mood examples; `fill-blank` for constrained imagery vocabulary.
 - **Suggested intro/teaching note:** Read a two-sentence description and ask how the author's word choice makes the scene feel.
 - **Reading-level and cognitive-load constraints:** Use short excerpts with clear word-choice signals; avoid obscure tone labels.
 
@@ -324,7 +324,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Claim/evidence terms, source vocabulary, and connotation-neutral evaluation language.
 - **Likely misconceptions:** Interesting details are relevant; one example is always sufficient; credible means personally liked.
 - **Evidence of mastery:** The student explains which evidence best supports a claim and why another option is weak.
-- **Recommended question types and why:** `multiple-choice` for evidence quality; `passage-question` for source/evidence scenarios; `constructed-response` for concise evaluation.
+- **Recommended question types and why:** `multiple-choice` for evidence quality or concise evaluation; `passage-question` for source/evidence scenarios; `error-correction` for replacing weak evidence.
 - **Suggested intro/teaching note:** Use a claim about school gardens and compare an expert data point, a personal story, and an unrelated fact.
 - **Reading-level and cognitive-load constraints:** Avoid complex research methods and formal citation rules.
 
@@ -336,7 +336,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Source, tone, connotation, and evidence vocabulary.
 - **Likely misconceptions:** Bias means false; perspective means random opinion; audience is everyone who might read the source.
 - **Evidence of mastery:** The student identifies audience/purpose clues and explains how perspective or bias may affect wording.
-- **Recommended question types and why:** `passage-question` for source notes; `multiple-choice` for audience/purpose identification; `constructed-response` for bias explanation.
+- **Recommended question types and why:** `passage-question` for source notes; `multiple-choice` for audience/purpose identification or bias explanation; `match-pairs` for source-analysis terms.
 - **Suggested intro/teaching note:** Compare a park flyer and a city report about the same event.
 - **Reading-level and cognitive-load constraints:** Use everyday civic or school examples; avoid partisan texts.
 
@@ -348,7 +348,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Connotation, tone, audience, purpose, and source vocabulary.
 - **Likely misconceptions:** Headlines are neutral labels; framing means lying; changing one loaded word cannot change reader response.
 - **Evidence of mastery:** The student compares two headlines or summaries and identifies the framing effect of word choice.
-- **Recommended question types and why:** `match-pairs` for loaded words to effects; `passage-question` for headline comparisons; `constructed-response` for short framing explanation.
+- **Recommended question types and why:** `match-pairs` for loaded words to effects; `passage-question` for headline comparisons; `multiple-choice` for short framing explanations.
 - **Suggested intro/teaching note:** Compare "Students request longer lunch" with "Students demand schedule change" and discuss effect.
 - **Reading-level and cognitive-load constraints:** Use nonpartisan school or community topics and avoid advanced media theory.
 
@@ -374,7 +374,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Source terms, summary language, and sentence-level rewriting.
 - **Likely misconceptions:** Paraphrase means changing a few words; synthesize means list facts separately; citing is only punctuation.
 - **Evidence of mastery:** The student identifies the correct action in a research note and chooses a stronger paraphrase or synthesis sentence.
-- **Recommended question types and why:** `multiple-choice` for distinguishing actions; `error-correction` for fixing weak paraphrases; `constructed-response` for brief synthesis.
+- **Recommended question types and why:** `multiple-choice` for distinguishing actions or choosing brief synthesis; `error-correction` for fixing weak paraphrases; `passage-question` for comparing notes.
 - **Suggested intro/teaching note:** Compare copied, weakly changed, and truly paraphrased versions of the same source sentence.
 - **Reading-level and cognitive-load constraints:** Keep source sentences short and avoid requiring formal bibliographic formats.
 
@@ -386,7 +386,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** Context clues, morphology, reference entries, connotation, examples/nonexamples, and original sentence writing.
 - **Likely misconceptions:** A copied definition is enough; examples and non-examples are optional decoration; original sentences can ignore the word's actual meaning.
 - **Evidence of mastery:** The student chooses or completes the strongest portfolio entry for a new word.
-- **Recommended question types and why:** `multi-blank-cloze` for entry parts; `multiple-choice` for best example/non-example; `constructed-response` for original sentence production.
+- **Recommended question types and why:** `multi-blank-cloze` for entry parts; `multiple-choice` for best example/non-example or accurate original-sentence selection; `error-correction` for fixing weak portfolio sentences.
 - **Suggested intro/teaching note:** Show a weak portfolio card and revise it into a learning tool with evidence.
 - **Reading-level and cognitive-load constraints:** Use one target word at a time and keep original sentences brief.
 
@@ -398,6 +398,6 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Prerequisite knowledge:** All prior units in the Grade 6 Vocabulary level.
 - **Likely misconceptions:** Each strategy works only in its original unit; one clue is enough for every word; transfer means memorizing old answers.
 - **Evidence of mastery:** The student solves unfamiliar vocabulary problems, names the strategy used, and explains the evidence.
-- **Recommended question types and why:** `passage-question` for new contexts; `multiple-choice` for strategy choice; `constructed-response` for concise transfer explanation.
+- **Recommended question types and why:** `passage-question` for new contexts; `multiple-choice` for strategy choice or concise transfer explanation; `fill-blank` for fitting reference definitions.
 - **Suggested intro/teaching note:** Frame the lesson as a mixed strategy challenge: "What kind of word problem is this?"
 - **Reading-level and cognitive-load constraints:** Keep each item compact; mix strategies one at a time before a final combined item.
