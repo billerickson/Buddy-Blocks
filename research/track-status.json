@@ -179,6 +179,34 @@
       "notes": "Not ready until 06-question-sets.md exists."
     },
     {
+      "slug": "grade-01-math",
+      "path": "research/grade-01-math",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "grade-02-math",
+      "path": "research/grade-02-math",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
       "slug": "grade-03-math",
       "path": "research/grade-03-math",
       "status": "imported",
@@ -217,6 +245,34 @@
       "notes": ""
     },
     {
+      "slug": "grade-04-math",
+      "path": "research/grade-04-math",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
+      "slug": "grade-05-math",
+      "path": "research/grade-05-math",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
       "slug": "grade-06-math",
       "path": "research/grade-06-math",
       "status": "imported",
@@ -253,6 +309,20 @@
         "06-question-sets.md"
       ],
       "notes": ""
+    },
+    {
+      "slug": "grade-07-math",
+      "path": "research/grade-07-math",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
     },
     {
       "slug": "grammar-1",
