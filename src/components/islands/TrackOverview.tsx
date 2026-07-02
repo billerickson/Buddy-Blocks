@@ -72,7 +72,12 @@ export default function TrackOverview({
 
   return (
     <section className="space-y-7">
-      <OfflineStatusPill />
+      <div className="flex flex-wrap items-center gap-2">
+        <OfflineStatusPill compact />
+        <a className="secondary-button min-h-[38px] px-3 py-2 text-sm" href={`/kid/${data.child.slug}/`}>
+          ← Back to All Courses
+        </a>
+      </div>
       <div className="block-card p-6 sm:p-8">
         <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
           <div className="flex items-start gap-4">
