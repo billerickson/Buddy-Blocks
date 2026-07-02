@@ -25,17 +25,17 @@
         "05-lesson-briefs.md",
         "06-question-sets.md"
       ],
-      "notes": ""
+      "notes": "Stage 7 curriculum QA 2026-07-02: accepted; already imported, no blocking lesson/question revisions found."
     },
     {
       "slug": "classical-literature-2",
       "path": "research/classical-literature-2",
-      "status": "ready_for_import",
+      "status": "imported",
       "hasQuestionSets": true,
-      "readyForImport": true,
-      "imported": false,
-      "importBatch": null,
-      "importedAt": null,
+      "readyForImport": false,
+      "imported": true,
+      "importBatch": "v3-20260702T031306Z",
+      "importedAt": "2026-07-02T03:13:06.904Z",
       "acceptedArtifacts": [
         "01-research-brief.md",
         "02-level-blueprint.md",
@@ -44,17 +44,17 @@
         "05-lesson-briefs.md",
         "06-question-sets.md"
       ],
-      "notes": "Ready for Stage 7 QA."
+      "notes": "Stage 7 curriculum QA 2026-07-02: revised unsupported cloze/comparison prompts to include needed story context; imported in v3-20260702T031306Z."
     },
     {
       "slug": "classical-literature-3",
       "path": "research/classical-literature-3",
-      "status": "ready_for_import",
+      "status": "imported",
       "hasQuestionSets": true,
-      "readyForImport": true,
-      "imported": false,
-      "importBatch": null,
-      "importedAt": null,
+      "readyForImport": false,
+      "imported": true,
+      "importBatch": "v3-20260702T031306Z",
+      "importedAt": "2026-07-02T03:13:06.904Z",
       "acceptedArtifacts": [
         "01-research-brief.md",
         "02-level-blueprint.md",
@@ -63,17 +63,17 @@
         "05-lesson-briefs.md",
         "06-question-sets.md"
       ],
-      "notes": "Ready for Stage 7 QA before promotion."
+      "notes": "Stage 7 curriculum QA 2026-07-02: revised error-correction prompts so they no longer give away target answers; imported in v3-20260702T031306Z."
     },
     {
       "slug": "classical-literature-4",
       "path": "research/classical-literature-4",
-      "status": "ready_for_import",
+      "status": "imported",
       "hasQuestionSets": true,
-      "readyForImport": true,
-      "imported": false,
-      "importBatch": null,
-      "importedAt": null,
+      "readyForImport": false,
+      "imported": true,
+      "importBatch": "v3-20260702T031306Z",
+      "importedAt": "2026-07-02T03:13:06.904Z",
       "acceptedArtifacts": [
         "01-research-brief.md",
         "02-level-blueprint.md",
@@ -82,17 +82,17 @@
         "05-lesson-briefs.md",
         "06-question-sets.md"
       ],
-      "notes": "Ready for Stage 7 QA before curriculum import."
+      "notes": "Stage 7 curriculum QA 2026-07-02: revised ambiguous drama role wording and measuring-ruler satire wording; imported in v3-20260702T031306Z."
     },
     {
       "slug": "classical-literature-5",
       "path": "research/classical-literature-5",
-      "status": "ready_for_import",
+      "status": "imported",
       "hasQuestionSets": true,
-      "readyForImport": true,
-      "imported": false,
-      "importBatch": null,
-      "importedAt": null,
+      "readyForImport": false,
+      "imported": true,
+      "importBatch": "v3-20260702T031306Z",
+      "importedAt": "2026-07-02T03:13:06.904Z",
       "acceptedArtifacts": [
         "01-research-brief.md",
         "02-level-blueprint.md",
@@ -101,7 +101,7 @@
         "05-lesson-briefs.md",
         "06-question-sets.md"
       ],
-      "notes": ""
+      "notes": "Stage 7 curriculum QA 2026-07-02: accepted and imported in v3-20260702T031306Z; no blocking lesson/question revisions found."
     },
     {
       "slug": "french-1",

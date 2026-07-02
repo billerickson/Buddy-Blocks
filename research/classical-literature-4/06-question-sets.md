@@ -1067,17 +1067,17 @@ misconception: "Mistaking setting details for the central conflict."
 ```question
 key: cl4_u03_l01_q03_speakers_wants
 type: match-pairs
-prompt: "Match each character to what the scene shows they want."
+prompt: "Match each figure to the role or pressure the scene shows."
 pairs:
   - left: "Nera"
-    right: "to pass the gate and honor her brother"
+    right: "family duty pressing against the law"
   - left: "Guard"
-    right: "to obey the ruler's posted law"
+    right: "the posted law being enforced at the gate"
   - left: "Ruler"
-    right: "to forbid burial beyond the wall"
+    right: "the authority forbidding burial beyond the wall"
   - left: "Brother"
-    right: "to be the reason for Nera's family duty"
-explanation: "A dramatic situation becomes clearer when readers track what each figure wants or represents."
+    right: "the dead family member Nera wants to honor"
+explanation: "A dramatic situation becomes clearer when readers track what each figure does, represents, or pressures another character to do."
 hint: "Use what each named figure is connected to in the scene."
 questionGoal: "Identify character roles and pressures in a scene."
 misconception: "Assuming every named figure has the same active role in the scene."
@@ -1776,7 +1776,7 @@ prompt: "Read the passage and identify the target of criticism."
 passageTitle: "The Measuring Officials"
 passage: |
   Three officials arrived to measure whether the village bridge was straight.
-  They spent the whole day arguing about the ruler's golden case, but no one opened the ruler.
+  They spent the whole day arguing about the measuring ruler's golden case, but no one opened the case or used the ruler.
   At sunset they declared, "The case is excellent; the bridge must be also."
 question: "What behavior is the passage criticizing?"
 choices:
@@ -1785,7 +1785,7 @@ choices:
   - "Using rulers to measure straight lines"
   - "Working carefully all day and checking results"
 correctAnswer: "Caring more about impressive tools and status than doing the actual work"
-explanation: "The officials praise the ruler's case but never use the ruler to measure the bridge."
+explanation: "The officials praise the measuring ruler's case but never use the ruler to measure the bridge."
 hint: "Ask what foolish behavior the passage exposes."
 questionGoal: "Identify the target of comic criticism."
 misconception: "Thinking the target is the tool itself instead of the behavior."
@@ -1796,9 +1796,9 @@ key: cl4_u04_l03_q02_evidence_to_target
 type: match-pairs
 prompt: "Match each evidence detail to what it reveals."
 pairs:
-  - left: "arguing about the ruler's golden case"
+  - left: "arguing about the measuring ruler's golden case"
     right: "status distracts from the task"
-  - left: "no one opened the ruler"
+  - left: "no one opened the case or used the ruler"
     right: "the actual work is neglected"
   - left: "\"The case is excellent\""
     right: "appearance is mistaken for quality"
@@ -1866,16 +1866,16 @@ prompt: "Choose the best evidence that the officials neglect the actual task."
 passageTitle: "The Measuring Officials"
 passage: |
   Three officials arrived to measure whether the village bridge was straight.
-  They spent the whole day arguing about the ruler's golden case, but no one opened the ruler.
+  They spent the whole day arguing about the measuring ruler's golden case, but no one opened the case or used the ruler.
   At sunset they declared, "The case is excellent; the bridge must be also."
 question: "Which evidence best supports the claim?"
 choices:
-  - "no one opened the ruler"
+  - "no one opened the case or used the ruler"
   - "Three officials arrived"
   - "the village bridge"
   - "At sunset"
-correctAnswer: "no one opened the ruler"
-explanation: "If they never open the ruler, they never use the measuring tool to do the task."
+correctAnswer: "no one opened the case or used the ruler"
+explanation: "If they never use the ruler, they never use the measuring tool to do the task."
 hint: "Choose the detail that shows failure to measure."
 questionGoal: "Select evidence for a satire target."
 misconception: "Choosing a setting detail instead of evidence of the criticized behavior."

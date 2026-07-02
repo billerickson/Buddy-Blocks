@@ -986,7 +986,7 @@ misconception: "Choosing a comparison that fits only one tale or distorts both."
 ```question
 key: u02_l05_q03_comparison_sentence
 type: multi-blank-cloze
-prompt: "Complete the comparison sentence."
+prompt: "Use these paired tales to complete the comparison sentence. Tale A: A runner boasts that advice is for slow feet, ignores a guide's warning about the marsh, and loses the race. Tale B: A singer mocks every other voice, refuses to practice with the chorus, and is left singing alone."
 parts:
   - "Both tales warn against "
   - ", but Tale A shows it through "
@@ -1267,7 +1267,7 @@ misconception: "Explaining consequences through unsupported superstition."
 ```question
 key: u03_l02_q05_warning_sentence
 type: multi-blank-cloze
-prompt: "Complete the warning-choice-result sentence."
+prompt: "In a myth moment, a child is warned, 'Do not touch the golden fruit before dawn.' The child touches the fruit that afternoon, and the branch turns to stone. Complete the warning-choice-result sentence."
 parts:
   - "The warning was "
   - "; the forbidden choice was "
@@ -1354,7 +1354,7 @@ misconception: "Choosing a detail after the transformation as the cause."
 ```question
 key: u03_l03_q03_before_after
 type: multi-blank-cloze
-prompt: "Complete the transformation statement."
+prompt: "In a transformation story, a sailor steals pearls from the sea god and becomes a shell fixed to the shore. Complete the transformation statement."
 parts:
   - "Before the change, the sailor was "
   - "; after the change, he became "
@@ -1514,7 +1514,7 @@ misconception: "Thinking help removes character agency."
 ```question
 key: u03_l04_q05_host_guest_cloze
 type: multi-blank-cloze
-prompt: "Complete the hospitality pattern."
+prompt: "In the tale, a poor host welcomes a stranger. The stranger later reveals that he is a messenger in disguise, and the host's house is spared from the storm. Complete the hospitality pattern."
 parts:
   - "The host's choice was "
   - "; the guest's hidden role was "
@@ -1624,27 +1624,29 @@ misconception: "Not noticing how a changed ending shifts meaning."
 ```question
 key: u03_l05_q04_version_sentence
 type: multi-blank-cloze
-prompt: "Complete the version comparison."
+prompt: "Read the two versions and complete the comparison. Version A: Before the journey, an old ferryman warns the hero to wait for dawn; the hero listens and crosses safely. Version B: Before the journey, a young shepherd gives the same warning; the hero rushes ahead and gets lost."
 parts:
   - "Both versions include "
-  - ", but Version A changes "
-  - " while Version B changes "
+  - ", but Version A shows "
+  - " while Version B shows "
   - "."
 blanks:
   - correctAnswer: "a warning before the journey"
     acceptedAnswers:
       - "a warning before the journey"
       - "a warning"
-  - correctAnswer: "who gives the warning"
+  - correctAnswer: "the hero listening and crossing safely"
     acceptedAnswers:
-      - "who gives the warning"
-      - "the person giving the warning"
-  - correctAnswer: "what happens after the warning"
+      - "the hero listening and crossing safely"
+      - "listening and crossing safely"
+      - "the hero listens and crosses safely"
+  - correctAnswer: "the hero rushing ahead and getting lost"
     acceptedAnswers:
-      - "what happens after the warning"
-      - "the result after the warning"
-explanation: "This comparison names the shared element and then two changed details."
-hint: "Put the same pattern first, then name differences."
+      - "the hero rushing ahead and getting lost"
+      - "rushing ahead and getting lost"
+      - "the hero rushes ahead and gets lost"
+explanation: "This comparison names the shared warning and then explains how each version handles the warning differently."
+hint: "Put the same pattern first, then compare how each hero responds."
 questionGoal: "Use precise version-comparison language."
 misconception: "Listing differences without naming what the versions share."
 ```
@@ -1783,7 +1785,7 @@ misconception: "Thinking success means there can be no loss or cost."
 ```question
 key: u04_l01_q06_quest_cloze
 type: multi-blank-cloze
-prompt: "Complete the quest map."
+prompt: "In the quest summary, the hero must find the healing spring. Stone lions guard the road, and the hero must bring water back to the city. Complete the quest map."
 parts:
   - "The task is "
   - "; the obstacle is "
@@ -2009,7 +2011,7 @@ misconception: "Treating cleverness as automatically selfish or tricky."
 ```question
 key: u04_l03_q05_quality_cloze
 type: multi-blank-cloze
-prompt: "Complete the quality-and-evidence statement."
+prompt: "At the temple gate, the hero sees a golden cup but leaves it behind. The guardian sees her choice and lets her pass. Complete the quality-and-evidence statement."
 parts:
   - "The hero shows "
   - " when she "
@@ -2111,7 +2113,7 @@ misconception: "Using a comparison claim that does not match the criterion."
 ```question
 key: u04_l04_q04_comparison_cloze
 type: multi-blank-cloze
-prompt: "Complete the heroic comparison."
+prompt: "Use the paired summaries to complete the heroic comparison. Story A: One hero reaches a dangerous bridge, ignores the guide, and rushes ahead without help. Story B: Another hero reaches a dangerous cave, listens to the guide's advice, and waits before acting."
 parts:
   - "Both heroes face "
   - ", but the first hero "
@@ -2719,7 +2721,7 @@ misconception: "Not connecting version differences to interpretation."
 ```question
 key: u06_l01_q04_version_cloze
 type: multi-blank-cloze
-prompt: "Complete the version comparison."
+prompt: "Read the two versions and complete the comparison. Version A: A traveler gives bread to a stranger before being asked, and the stranger later shows the path. Version B: A traveler first ignores a stranger's warning, then listens carefully and shares water; the stranger later shows the path."
 parts:
   - "The shared pattern is "
   - "; the changed detail is "
@@ -3222,7 +3224,7 @@ misconception: "Recognizing terms without finding their story evidence."
 ```question
 key: u06_l05_q05_final_compare
 type: multi-blank-cloze
-prompt: "Complete the comparison sentence."
+prompt: "Use Rhea's tale and the helper-story pattern to complete the comparison. Rhea shares oil with a lost traveler; the traveler guides her by a safer path; the shared oil makes the lamp burn brighter. In another helper story, the traveler gives up a gift as a cost and loses it."
 parts:
   - "Rhea's tale is like a helper story because "
   - ", but it is different because "

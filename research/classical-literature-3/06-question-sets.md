@@ -345,10 +345,11 @@ misconception: "Thinking evidence proves the claim without explanation."
 ```question
 key: u01_l03_q05_fix_weak_response
 type: error-correction
-prompt: "Correct the weak response by replacing the final sentence with the exact explanation: Elian is merciful. He gives Nera his last water. This shows mercy because he helps someone who had mocked him."
+prompt: "Revise the weak response so the final sentence explains how the evidence supports mercy."
 sentence: "Elian is merciful. He gives Nera his last water. This shows that water is wet."
 acceptedAnswers:
   - "Elian is merciful. He gives Nera his last water. This shows mercy because he helps someone who had mocked him."
+  - "Elian is merciful. He gives Nera his last water. This shows mercy because he helps Nera even though she mocked him."
 explanation: "The corrected explanation connects the evidence to mercy instead of stating an irrelevant fact."
 hint: "Keep the claim and evidence, but make the explanation tell why the action shows mercy."
 questionGoal: "Repair a finite weak claim-evidence-explanation response."
@@ -923,10 +924,11 @@ misconception: "Assuming homecoming is automatically simple or happy."
 ```question
 key: u02_l04_q05_correct_motif_overreach
 type: error-correction
-prompt: "Correct the overbroad claim exactly: Homecoming is complicated here because Niko arrives at his old house, but the closed door and covered carving show loss."
+prompt: "Revise the overbroad claim so it stays tied to this passage's evidence about arrival and loss."
 sentence: "Homecoming always means happiness because Niko reaches his old house."
 acceptedAnswers:
   - "Homecoming is complicated here because Niko arrives at his old house, but the closed door and covered carving show loss."
+  - "Homecoming is complicated in this passage because Niko reaches his old house, but the closed door and covered carving suggest loss."
 explanation: "The corrected claim keeps the motif tied to this passage's evidence."
 hint: "Use both arrival and loss in the corrected claim."
 questionGoal: "Repair an overgeneralized motif claim."
@@ -1404,10 +1406,11 @@ misconception: "Choosing neutral setting details as genre evidence."
 ```question
 key: u03_l04_q04_repair_genre_claim
 type: error-correction
-prompt: "Correct the weak genre claim exactly: The passage is comic-ready because the absurd dust permits expose foolish rule-making."
+prompt: "Revise the weak genre claim so it explains what the absurd dust permits reveal."
 sentence: "The passage is comic-ready because dust is funny."
 acceptedAnswers:
   - "The passage is comic-ready because the absurd dust permits expose foolish rule-making."
+  - "The passage is comic-ready because the official's dust permits reveal foolish rule-making."
 explanation: "The corrected claim explains the comic device and what it reveals."
 hint: "Name the absurd rule and the behavior it exposes."
 questionGoal: "Repair a superficial comedy claim."
@@ -1786,10 +1789,11 @@ misconception: "Reducing point of view to first-person or third-person labels on
 ```question
 key: u04_l03_q05_fix_version_claim
 type: error-correction
-prompt: "Correct the unsupported claim exactly: Version A emphasizes the guest's feeling of neglect because it says the guest waited while the cup passed twice."
+prompt: "Revise the unsupported claim so it names a point-of-view effect and supports it with evidence from Version A."
 sentence: "Version A is better because the guest is right."
 acceptedAnswers:
   - "Version A emphasizes the guest's feeling of neglect because it says the guest waited while the cup passed twice."
+  - "Version A emphasizes the guest's neglect because the guest waits while the cup passes twice."
 explanation: "The corrected claim names the effect and supports it with evidence."
 hint: "Replace preference with a point-of-view effect and evidence."
 questionGoal: "Repair an unsupported version-comparison claim."
@@ -1859,18 +1863,18 @@ misconception: "Confusing literal description with figurative comparison."
 ```question
 key: u05_l01_q03_image_to_idea
 type: match-pairs
-prompt: "Match each image to the idea it most likely suggests in context."
+prompt: "Match each image-in-context to the idea it most likely suggests."
 pairs:
-  - left: "A lamp shaking in a windless room"
+  - left: "A lamp shaking after a threat in a windless room"
     right: "Hidden fear"
-  - left: "A gate opening at dawn"
+  - left: "A gate opening at dawn after a long night"
     right: "New possibility"
-  - left: "A cup passed from enemy to enemy"
+  - left: "A cup passed from enemy to enemy after a battle"
     right: "Unexpected reconciliation"
-  - left: "A crown too heavy to lift"
+  - left: "A crown too heavy for the young ruler to lift"
     right: "The burden of rule"
-explanation: "Images suggest ideas through context and association."
-hint: "Think about what each image makes visible beyond itself."
+explanation: "Images suggest ideas through the context around them, not through a fixed code."
+hint: "Use the situation around each image, not just the object by itself."
 questionGoal: "Connect concrete images to interpretive ideas."
 misconception: "Assuming images have no meaning beyond literal objects."
 ```
@@ -2528,10 +2532,11 @@ misconception: "Believing any passage detail can support any claim."
 ```question
 key: u06_l02_q06_repair_weak_response
 type: error-correction
-prompt: "Correct the weak response exactly: Kella is merciful because she tears her cloak to bandage her wounded enemy."
+prompt: "Revise the weak response so the evidence directly supports the claim about mercy."
 sentence: "Kella is merciful because the cedar tree is under the enemy."
 acceptedAnswers:
   - "Kella is merciful because she tears her cloak to bandage her wounded enemy."
+  - "Kella shows mercy because she tears her cloak to bandage her wounded enemy."
 explanation: "The corrected response uses evidence that directly supports mercy."
 hint: "Use the action Kella takes for the enemy."
 questionGoal: "Repair a weak evidence explanation."
@@ -2604,10 +2609,11 @@ misconception: "Treating same action as same interpretation."
 ```question
 key: u06_l03_q04_correct_context_overreach
 type: error-correction
-prompt: "Correct the context-overreach exactly: The context note helps explain why helping an enemy may be surprising, but Kella's torn cloak and the rising moon provide the evidence."
+prompt: "Revise the context-overreach so the context note helps interpretation but passage evidence remains central."
 sentence: "The context note says enemies mattered in ancient stories, so we do not need evidence from the passage."
 acceptedAnswers:
   - "The context note helps explain why helping an enemy may be surprising, but Kella's torn cloak and the rising moon provide the evidence."
+  - "The context note helps explain why helping an enemy is surprising, but Kella's torn cloak and the rising moon are the passage evidence."
 explanation: "The corrected response uses context as support while keeping passage evidence central."
 hint: "Keep both context and passage evidence in the corrected sentence."
 questionGoal: "Repair context overreach in a transfer response."

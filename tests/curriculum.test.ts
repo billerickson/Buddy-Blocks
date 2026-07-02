@@ -32,7 +32,10 @@ const EXPECTED_GRADE_SUBJECTS: Record<number, string[]> = {
     'history-civics',
     'memory-work',
   ],
-  6: ['math', 'vocabulary'],
+  4: ['literature'],
+  5: ['literature'],
+  6: ['math', 'vocabulary', 'literature'],
+  7: ['literature'],
 };
 
 const EXPECTED_SUMMARY_ROWS = [
@@ -46,8 +49,12 @@ const EXPECTED_SUMMARY_ROWS = [
   { gradeLevel: 3, subject: 'rhetoric', tracks: 1, units: 7, lessons: 30, questions: 180 },
   { gradeLevel: 3, subject: 'spanish', tracks: 1, units: 6, lessons: 30, questions: 180 },
   { gradeLevel: 3, subject: 'vocabulary', tracks: 1, units: 8, lessons: 36, questions: 216 },
+  { gradeLevel: 4, subject: 'literature', tracks: 1, units: 6, lessons: 27, questions: 162 },
+  { gradeLevel: 5, subject: 'literature', tracks: 1, units: 6, lessons: 22, questions: 132 },
+  { gradeLevel: 6, subject: 'literature', tracks: 1, units: 6, lessons: 23, questions: 138 },
   { gradeLevel: 6, subject: 'math', tracks: 1, units: 9, lessons: 54, questions: 324 },
   { gradeLevel: 6, subject: 'vocabulary', tracks: 1, units: 8, lessons: 32, questions: 192 },
+  { gradeLevel: 7, subject: 'literature', tracks: 1, units: 6, lessons: 26, questions: 156 },
 ];
 
 describe('curriculum content', () => {
@@ -75,8 +82,12 @@ describe('curriculum content', () => {
       'grade-3-literature',
       'grade-3-history-civics',
       'grade-3-memory-work',
+      'grade-4-literature',
+      'grade-5-literature',
       'grade-6-math',
       'grade-6-vocabulary',
+      'grade-6-literature',
+      'grade-7-literature',
     ]);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'grade-3-number-readiness',
@@ -192,8 +203,40 @@ describe('curriculum content', () => {
       'argument-media-and-source-vocabulary',
       'research-revision-and-cumulative-transfer',
     ]);
-    expect(getAllLessons()).toHaveLength(412);
-    expect(getAllQuestions()).toHaveLength(2472);
+    expect(getTracksForGrade(4).find((track) => track.subject === 'literature')?.units.map((unit) => unit.slug)).toEqual([
+      'story-tools-for-longer-tales',
+      'fables-folktales-motives-and-morals',
+      'myth-cycles-names-places-and-patterns',
+      'quests-tests-and-heroic-choices',
+      'poetry-sound-and-image',
+      'versions-drama-and-transfer',
+    ]);
+    expect(getTracksForGrade(5).find((track) => track.subject === 'literature')?.units.map((unit) => unit.slug)).toEqual([
+      'reading-like-a-literary-analyst',
+      'heroes-journeys-and-epic-signals',
+      'tragic-conflict-and-comic-correction',
+      'versions-translations-and-point-of-view',
+      'imagery-allusion-wisdom-and-dialogue',
+      'transfer-across-classical-texts',
+    ]);
+    expect(GRADE_6_TRACKS.find((track) => track.subject === 'literature')?.units.map((unit) => unit.slug)).toEqual([
+      'close-reading-groundwork-for-older-texts',
+      'epic-scale-heroic-values-and-motif',
+      'tragedy-choice-and-dramatic-irony',
+      'comedy-inversion-and-satire-readiness',
+      'dialogue-wisdom-lyric-and-public-ideas',
+      'allusion-transformation-translation-and-transfer',
+    ]);
+    expect(getTracksForGrade(7).find((track) => track.subject === 'literature')?.units.map((unit) => unit.slug)).toEqual([
+      'seminar-tools-for-difficult-classics',
+      'ancient-questions-of-justice-virtue-and-the-city',
+      'scripture-confession-and-the-inner-life',
+      'renaissance-self-state-satire-and-stage',
+      'liberty-democracy-economy-and-critique',
+      'modern-drama-science-and-capstone-synthesis',
+    ]);
+    expect(getAllLessons()).toHaveLength(510);
+    expect(getAllQuestions()).toHaveLength(3060);
   });
 
   it('requires the shipped V3 catalog to use stable authored question keys', () => {
@@ -595,10 +638,10 @@ Students learn cell parts.
     const summary = summarizeCurriculum(TRACKS);
 
     expect(summary.totals).toEqual({
-      tracks: 12,
-      units: 90,
-      lessons: 412,
-      questions: 2472,
+      tracks: 16,
+      units: 114,
+      lessons: 510,
+      questions: 3060,
     });
     expect(summary.rows).toHaveLength(EXPECTED_SUMMARY_ROWS.length);
     for (const expected of EXPECTED_SUMMARY_ROWS) {
