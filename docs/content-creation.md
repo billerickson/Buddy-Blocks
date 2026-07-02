@@ -412,6 +412,8 @@ Update `research/track-status.json`:
 - Set `status` to `research_only`.
 - Include `01-research-brief.md` in `acceptedArtifacts`.
 - Keep `hasQuestionSets`, `readyForImport`, and `imported` false.
+
+When complete, commit your changes and push to origin/master
 ```
 
 ### Stages 2-6: Level Blueprint Through Question Sets
@@ -642,6 +644,8 @@ End with a concise completion report listing:
 - number of lesson briefs,
 - total question sets and total authored questions,
 - any assumptions or risks for Stage 7 QA.
+
+Then commit your changes and push to origin/master
 ````
 
 ### Stage 7: Question QA Review
