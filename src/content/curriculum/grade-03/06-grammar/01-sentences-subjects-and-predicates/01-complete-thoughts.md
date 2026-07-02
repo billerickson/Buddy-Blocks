@@ -81,7 +81,7 @@ hint: "Commands often have an understood subject: you."
 ```question
 key: u01_l01_q04_fix_fragment
 type: multiple-choice
-prompt: Which choice turns the fragment into a complete sentence?
+prompt: 'Which choice turns the fragment "Under the old bridge." into a complete sentence?'
 choices:
   - Reagan danced under the old bridge.
   - Under the old bridge.

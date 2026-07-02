@@ -68,7 +68,7 @@ hint: Find the two complete thoughts before you choose the fix.
 ```question
 key: u01_l04_q04_fix_because_fragment
 type: multiple-choice
-prompt: Which choice makes this because fragment a complete sentence?
+prompt: 'Which choice makes the fragment "Because the puppy was tired." a complete sentence?'
 choices:
   - Because the puppy was tired, it slept.
   - Because the puppy was tired.

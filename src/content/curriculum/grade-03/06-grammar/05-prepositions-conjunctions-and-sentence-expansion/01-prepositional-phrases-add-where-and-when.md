@@ -82,7 +82,7 @@ hint: The blank should show where.
 ```question
 key: u05_l01_q04_phrase_fragment
 type: multiple-choice
-prompt: Which choice makes this phrase fragment a complete sentence?
+prompt: 'Which choice makes the phrase fragment "After the game." a complete sentence?'
 choices:
   - After the game, we ate dinner.
   - After the game.
