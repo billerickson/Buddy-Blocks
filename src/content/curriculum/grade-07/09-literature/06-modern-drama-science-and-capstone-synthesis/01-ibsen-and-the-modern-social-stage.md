@@ -55,6 +55,9 @@ hint: Compare the public praise with the private action.
 key: u06_l01_q03_scene_movement
 type: order-items
 prompt: Put the scene movement in order.
+passageTitle: The Visiting Room
+passage: |
+  A woman smiles when guests praise her perfect home. After they leave, she hides an unpaid letter and whispers that respectability has become a locked room.
 items:
   - She hides the unpaid letter.
   - Guests praise the perfect home.

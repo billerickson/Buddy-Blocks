@@ -23,6 +23,9 @@ Reversal means any surprise; recognition is the same as apology; consequence is 
 key: u03_l02_q01_sequence_reversal
 type: order-items
 prompt: Put the scene moments in order.
+passageTitle: The Sealed Tablet
+passage: |
+  Liora sent away a dusty messenger, saying no stranger could interrupt the council. Later, her brother broke the seal on the messenger's tablet. The message warned that the council chamber itself was unsafe. Liora stared at the empty doorway and whispered, "I dismissed the warning I most needed." Because the warning was delayed, the city lost its chance to send help in time.
 items:
   - The sealed tablet is opened.
   - Liora realizes the warning was about her own order.

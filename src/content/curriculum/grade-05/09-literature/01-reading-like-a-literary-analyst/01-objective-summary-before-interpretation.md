@@ -58,6 +58,9 @@ hint: Ask whether the sentence tells the main event, explains meaning, names a s
 key: u01_l01_q03_sequence_events
 type: order-items
 prompt: Put the events from the passage in order.
+passageTitle: The Shield At Dawn
+passage: |
+  At dawn, Mira lifted the bronze shield from the temple steps. The older guards warned her that the road beyond the gate was watched by raiders. Mira did not answer them. She carried the shield to the western wall, where her younger brother waited with the last of the city's messengers.
 items:
   - Mira carries the shield to the western wall.
   - The older guards warn Mira about raiders.

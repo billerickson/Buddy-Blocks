@@ -1871,6 +1871,9 @@ misconception: "Reading action without motive or speech."
 key: u04_l04_q03_scene_turns
 type: order-items
 prompt: "Put the scene movement in order."
+passageTitle: "Before The Door"
+passage: |
+  Alone, the character says he hates the deed ahead, yet he imagines the honor it may bring. When another character enters, he speaks bravely and walks toward the door.
 items:
   - "Another character enters."
   - "He speaks bravely in public."
@@ -2553,6 +2556,9 @@ misconception: "Taking public appearance as the whole truth of the scene."
 key: u06_l01_q03_scene_movement
 type: order-items
 prompt: "Put the scene movement in order."
+passageTitle: "The Visiting Room"
+passage: |
+  A woman smiles when guests praise her perfect home. After they leave, she hides an unpaid letter and whispers that respectability has become a locked room.
 items:
   - "She hides the unpaid letter."
   - "Guests praise the perfect home."

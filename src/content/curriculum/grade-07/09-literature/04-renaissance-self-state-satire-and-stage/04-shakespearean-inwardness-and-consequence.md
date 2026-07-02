@@ -55,6 +55,9 @@ hint: Compare what he says alone with what he does when watched.
 key: u04_l04_q03_scene_turns
 type: order-items
 prompt: Put the scene movement in order.
+passageTitle: Before The Door
+passage: |
+  Alone, the character says he hates the deed ahead, yet he imagines the honor it may bring. When another character enters, he speaks bravely and walks toward the door.
 items:
   - Another character enters.
   - He speaks bravely in public.

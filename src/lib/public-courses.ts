@@ -401,6 +401,144 @@ const grammar1: ResearchTrack = {
   ],
 };
 
+const grammar2: ResearchTrack = {
+  slug: 'grammar-2',
+  title: 'Grammar 2',
+  label: 'Level 2',
+  researchPath: 'research/grammar-2',
+  description:
+    'Practice clearer naming, pronoun reference, verb phrases, sentence expansion, punctuation structure, sentence diagrams, and mixed editing.',
+  stats: { levels: 1, units: 6, lessons: 25, questions: 150 },
+  unitTitles: [
+    'Sentences And Nouns That Name Clearly',
+    'Pronouns And Clear Reference',
+    'Verb Phrases And Time',
+    'Expanding Sentences With Purpose',
+    'Punctuation That Shows Structure',
+    'Visual Grammar And Cumulative Editing',
+  ],
+  paragraphs: [
+    'Students revisit complete sentences with stronger attention to precise nouns, clear ownership, and pronouns that point back to the right antecedent.',
+    'Verb phrases, helping verbs, linking verbs, tense consistency, direct objects, compound subjects, compound predicates, and prepositional phrases help students expand sentences with purpose.',
+    'The level connects punctuation and diagramming to editing, so students can see sentence structure before choosing the right grammar tool in mixed review.',
+  ],
+  mockups: [
+    {
+      type: 'multiple-choice',
+      label: 'Multiple Choice',
+      prompt: 'Which group of words is a complete sentence?',
+      choices: [
+        'The bright kite.',
+        'Flew above the park.',
+        'The bright kite flew above the park.',
+        'Above the park on a windy day.',
+      ],
+      correctAnswer: 'The bright kite flew above the park.',
+      feedback: 'A complete sentence has both a subject and a predicate.',
+    },
+    {
+      type: 'match-pairs',
+      label: 'Match Pairs',
+      prompt: 'Match each sentence part to its job.',
+      pairs: [
+        { left: 'subject', right: 'names who or what the sentence is about' },
+        { left: 'predicate', right: 'tells something about the subject' },
+        { left: 'fragment', right: 'is missing a complete sentence part' },
+        { left: 'complete sentence', right: 'has a subject and predicate' },
+      ],
+      feedback: 'Subjects and predicates work together to make complete sentences.',
+    },
+  ],
+};
+
+const grammar3: ResearchTrack = {
+  slug: 'grammar-3',
+  title: 'Grammar 3',
+  label: 'Level 3',
+  researchPath: 'research/grammar-3',
+  description:
+    'Practice clauses, coordination, subordination, modifiers, appositives, agreement, voice, punctuation, and cumulative sentence craft.',
+  stats: { levels: 1, units: 6, lessons: 24, questions: 144 },
+  unitTitles: [
+    'Clause Foundations And Sentence Boundaries',
+    'Coordination And Compound Sentences',
+    'Subordination And Complex Sentences',
+    'Modifiers, Appositives, And Sentence Detail',
+    'Agreement, Voice, And Modifier Clarity',
+    'Punctuation And Cumulative Sentence Craft',
+  ],
+  paragraphs: [
+    'Students learn how independent and dependent clauses behave, then use coordination and subordination to show the relationship between ideas.',
+    'Appositives, introductory elements, modifier placement, pronoun-antecedent agreement, clear reference, and active or passive voice are taught as choices that affect reader understanding.',
+    'Punctuation lessons focus on structure: commas, semicolons, colons, sentence combinations, and cumulative editing all point back to meaning.',
+  ],
+  mockups: [
+    {
+      type: 'multiple-choice',
+      label: 'Multiple Choice',
+      prompt: 'Which word makes this clause dependent? Although the hike was long',
+      choices: ['Although', 'hike', 'was', 'long'],
+      correctAnswer: 'Although',
+      feedback: 'Although is the subordinating word that makes the clause depend on a main clause.',
+    },
+    {
+      type: 'fill-blank',
+      label: 'Fill Blank',
+      prompt: 'Classify the word group.',
+      detail: 'Before the guests arrived is a ___ clause.',
+      choices: ['dependent', 'independent', 'compound', 'complete'],
+      correctAnswer: 'dependent',
+      feedback: 'Before the guests arrived has a subject and verb, but before makes it dependent.',
+    },
+  ],
+};
+
+const grammar4: ResearchTrack = {
+  slug: 'grammar-4',
+  title: 'Grammar 4',
+  label: 'Level 4',
+  researchPath: 'research/grammar-4',
+  description:
+    'Practice purposeful revision with sentence control, variety, rhythm, parallelism, concision, mood, voice, register, craft punctuation, and editing systems.',
+  stats: { levels: 1, units: 6, lessons: 24, questions: 144 },
+  unitTitles: [
+    'Sentence Control For Purposeful Revision',
+    'Sentence Variety, Rhythm, And Emphasis',
+    'Parallelism, Modifiers, And Concision',
+    'Mood, Voice, And Register',
+    'Punctuation As Craft',
+    'Editing Systems And Grammar In Context',
+  ],
+  paragraphs: [
+    'Students use grammar as a revision toolkit, repairing fragments and run-ons, joining independent clauses, and improving pronoun and modifier clarity.',
+    'Sentence variety, rhythm, emphasis, parallelism, concision, mood, voice, and register move the work beyond correctness into deliberate style.',
+    'The level closes with punctuation effects, copyediting passes, literary sentence analysis, and portfolio-style revision justifications.',
+  ],
+  mockups: [
+    {
+      type: 'multiple-choice',
+      label: 'Multiple Choice',
+      prompt: 'Which sentence uses parallel structure?',
+      choices: [
+        'The hikers packed water, snacks, and maps.',
+        'The hikers packed water, bringing snacks, and to carry maps.',
+        'The hikers packed water, snacks, and were mapping.',
+        'The hikers packed water, to snack, and maps.',
+      ],
+      correctAnswer: 'The hikers packed water, snacks, and maps.',
+      feedback: 'Water, snacks, and maps are all nouns in the same list pattern.',
+    },
+    {
+      type: 'error-correction',
+      label: 'Error Correction',
+      prompt: 'Correct the faulty parallelism.',
+      detail: 'Maya likes hiking, swimming, and to bike.',
+      inputAnswer: 'Maya likes hiking, swimming, and biking.',
+      feedback: 'The items should use matching forms, such as all -ing words.',
+    },
+  ],
+};
+
 const logic1: ResearchTrack = {
   slug: 'logic-1',
   title: 'Logic 1',
@@ -938,16 +1076,16 @@ const courseCatalog: CourseCopy[] = [
     title: 'Grammar',
     eyebrow: 'Clear sentences and better writing',
     summary:
-      'Students learn grammar as a tool for clearer thinking and writing, not as a list of labels to memorize.',
+      'Students move through four grammar levels that turn sentence structure, punctuation, usage, and revision into tools for clearer writing.',
     paragraphs: [
-      'Buddy Blocks starts with sentence sense: complete thoughts, subjects, predicates, and the jobs words do inside a sentence.',
-      'Students practice punctuation, capitalization, nouns, pronouns, verbs, adjectives, adverbs, prepositions, conjunctions, ownership, tense, and agreement in focused examples.',
-      'Grammar work leads back to writing through sentence expansion, combining, correction, and revision that makes meaning clearer for a reader.',
+      'Buddy Blocks starts with sentence sense: complete thoughts, subjects, predicates, and the jobs words do inside a sentence, then grows into pronoun clarity, verb phrases, sentence expansion, punctuation, and diagramming.',
+      'Later levels teach clauses, coordination, subordination, appositives, modifiers, agreement, voice, sentence variety, rhythm, parallelism, concision, mood, register, and punctuation as craft.',
+      'Grammar work always leads back to writing through sentence expansion, combining, correction, focused editing, and revision that makes meaning clearer for a reader.',
     ],
     color: '#ffd84d',
     accent: '#e63e80',
-    levelRange: 'Level 1',
-    tracks: [grammar1],
+    levelRange: 'Levels 1-4',
+    tracks: [grammar1, grammar2, grammar3, grammar4],
   },
   {
     slug: 'logic',

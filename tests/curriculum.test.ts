@@ -32,9 +32,9 @@ const EXPECTED_GRADE_SUBJECTS: Record<number, string[]> = {
     'history-civics',
     'memory-work',
   ],
-  4: ['literature'],
-  5: ['literature'],
-  6: ['math', 'vocabulary', 'literature'],
+  4: ['grammar', 'literature'],
+  5: ['grammar', 'literature'],
+  6: ['math', 'vocabulary', 'grammar', 'literature'],
   7: ['literature'],
 };
 
@@ -49,8 +49,11 @@ const EXPECTED_SUMMARY_ROWS = [
   { gradeLevel: 3, subject: 'rhetoric', tracks: 1, units: 7, lessons: 30, questions: 180 },
   { gradeLevel: 3, subject: 'spanish', tracks: 1, units: 6, lessons: 30, questions: 180 },
   { gradeLevel: 3, subject: 'vocabulary', tracks: 1, units: 8, lessons: 36, questions: 216 },
+  { gradeLevel: 4, subject: 'grammar', tracks: 1, units: 6, lessons: 25, questions: 150 },
   { gradeLevel: 4, subject: 'literature', tracks: 1, units: 6, lessons: 27, questions: 162 },
+  { gradeLevel: 5, subject: 'grammar', tracks: 1, units: 6, lessons: 24, questions: 144 },
   { gradeLevel: 5, subject: 'literature', tracks: 1, units: 6, lessons: 22, questions: 132 },
+  { gradeLevel: 6, subject: 'grammar', tracks: 1, units: 6, lessons: 24, questions: 144 },
   { gradeLevel: 6, subject: 'literature', tracks: 1, units: 6, lessons: 23, questions: 138 },
   { gradeLevel: 6, subject: 'math', tracks: 1, units: 9, lessons: 54, questions: 324 },
   { gradeLevel: 6, subject: 'vocabulary', tracks: 1, units: 8, lessons: 32, questions: 192 },
@@ -74,20 +77,23 @@ describe('curriculum content', () => {
     expect(TRACKS.map((track) => track.slug)).toEqual([
       'grade-3-math',
       'grade-3-vocabulary',
-      'grade-3-spanish',
-      'grade-3-french',
-      'grade-3-grammar',
-      'grade-3-logic',
-      'grade-3-rhetoric',
-      'grade-3-literature',
-      'grade-3-history-civics',
-      'grade-3-memory-work',
-      'grade-4-literature',
-      'grade-5-literature',
+      'spanish-1',
+      'french-1',
+      'grammar-1',
+      'logic-1',
+      'rhetoric-1',
+      'classical-literature-1',
+      'history-and-civics-1',
+      'memory-works-1',
+      'grammar-2',
+      'classical-literature-2',
+      'grammar-3',
+      'classical-literature-3',
       'grade-6-math',
       'grade-6-vocabulary',
-      'grade-6-literature',
-      'grade-7-literature',
+      'grammar-4',
+      'classical-literature-4',
+      'classical-literature-5',
     ]);
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'math')?.units.map((unit) => unit.slug)).toEqual([
       'grade-3-number-readiness',
@@ -164,6 +170,13 @@ describe('curriculum content', () => {
       'poetry-sound-and-image',
       'dialogue-comparison-and-final-transfer',
     ]);
+    expect(GRADE_3_TRACKS.find((track) => track.subject === 'literature')?.units[0]?.lessons[0]?.questions[0]).toMatchObject({
+      type: 'order-items',
+      payload: {
+        passageTitle: 'The Crow And The Pitcher',
+        passage: expect.stringContaining('A thirsty crow searched for water'),
+      },
+    });
     expect(GRADE_3_TRACKS.find((track) => track.subject === 'history-civics')?.units.map((unit) => unit.slug)).toEqual([
       'time-sequence-and-change',
       'maps-globes-and-places',
@@ -211,6 +224,14 @@ describe('curriculum content', () => {
       'poetry-sound-and-image',
       'versions-drama-and-transfer',
     ]);
+    expect(getTracksForGrade(4).find((track) => track.subject === 'grammar')?.units.map((unit) => unit.slug)).toEqual([
+      'sentences-and-nouns-that-name-clearly',
+      'pronouns-and-clear-reference',
+      'verb-phrases-and-time',
+      'expanding-sentences-with-purpose',
+      'punctuation-that-shows-structure',
+      'visual-grammar-and-cumulative-editing',
+    ]);
     expect(getTracksForGrade(5).find((track) => track.subject === 'literature')?.units.map((unit) => unit.slug)).toEqual([
       'reading-like-a-literary-analyst',
       'heroes-journeys-and-epic-signals',
@@ -218,6 +239,14 @@ describe('curriculum content', () => {
       'versions-translations-and-point-of-view',
       'imagery-allusion-wisdom-and-dialogue',
       'transfer-across-classical-texts',
+    ]);
+    expect(getTracksForGrade(5).find((track) => track.subject === 'grammar')?.units.map((unit) => unit.slug)).toEqual([
+      'clause-foundations-and-sentence-boundaries',
+      'coordination-and-compound-sentences',
+      'subordination-and-complex-sentences',
+      'modifiers-appositives-and-sentence-detail',
+      'agreement-voice-and-modifier-clarity',
+      'punctuation-and-cumulative-sentence-craft',
     ]);
     expect(GRADE_6_TRACKS.find((track) => track.subject === 'literature')?.units.map((unit) => unit.slug)).toEqual([
       'close-reading-groundwork-for-older-texts',
@@ -227,6 +256,14 @@ describe('curriculum content', () => {
       'dialogue-wisdom-lyric-and-public-ideas',
       'allusion-transformation-translation-and-transfer',
     ]);
+    expect(GRADE_6_TRACKS.find((track) => track.subject === 'grammar')?.units.map((unit) => unit.slug)).toEqual([
+      'sentence-control-for-purposeful-revision',
+      'sentence-variety-rhythm-and-emphasis',
+      'parallelism-modifiers-and-concision',
+      'mood-voice-and-register',
+      'punctuation-as-craft',
+      'editing-systems-and-grammar-in-context',
+    ]);
     expect(getTracksForGrade(7).find((track) => track.subject === 'literature')?.units.map((unit) => unit.slug)).toEqual([
       'seminar-tools-for-difficult-classics',
       'ancient-questions-of-justice-virtue-and-the-city',
@@ -235,8 +272,8 @@ describe('curriculum content', () => {
       'liberty-democracy-economy-and-critique',
       'modern-drama-science-and-capstone-synthesis',
     ]);
-    expect(getAllLessons()).toHaveLength(510);
-    expect(getAllQuestions()).toHaveLength(3060);
+    expect(getAllLessons()).toHaveLength(583);
+    expect(getAllQuestions()).toHaveLength(3498);
   });
 
   it('requires the shipped V3 catalog to use stable authored question keys', () => {
@@ -638,10 +675,10 @@ Students learn cell parts.
     const summary = summarizeCurriculum(TRACKS);
 
     expect(summary.totals).toEqual({
-      tracks: 16,
-      units: 114,
-      lessons: 510,
-      questions: 3060,
+      tracks: 19,
+      units: 132,
+      lessons: 583,
+      questions: 3498,
     });
     expect(summary.rows).toHaveLength(EXPECTED_SUMMARY_ROWS.length);
     for (const expected of EXPECTED_SUMMARY_ROWS) {

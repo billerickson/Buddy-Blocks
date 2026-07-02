@@ -1448,45 +1448,48 @@ function QuestionControl({
   if (question.type === 'order-items') {
     const payload = question.payload as OrderItemsPayload;
     return (
-      <div>
-        <div
-          className="flex min-h-[72px] flex-wrap items-center gap-3 rounded-lg border-[3px] border-ink bg-white p-3 text-xl font-black"
-          aria-live="polite"
-        >
-          {orderAnswer.length ? (
-            orderAnswer.map((item, index) => (
-              <span
-                key={`${item}-${index}`}
-                className="inline-flex min-h-[46px] items-center rounded-lg border-[3px] border-ink bg-reward px-4 py-2 shadow-[3px_3px_0_var(--block-shadow)]"
-              >
-                {item}
-              </span>
-            ))
-          ) : (
-            <span className="text-muted">Tap words or numbers below</span>
-          )}
-        </div>
-        <div className="mt-4 flex flex-wrap gap-3">
-          {payload.items.map((item) => {
-            const used = orderAnswer.includes(item);
-            return (
-              <div key={item} className="flex items-stretch gap-2">
-                <button
-                  type="button"
-                  disabled={disabled || used}
-                  className="touch-choice min-w-[110px]"
-                  onClick={() => setOrderAnswer([...orderAnswer, item])}
+      <div className="space-y-5">
+        {payload.passage && <PassageBlock title={payload.passageTitle} passage={payload.passage} speechLanguage={speechLanguage} />}
+        <div>
+          <div
+            className="flex min-h-[72px] flex-wrap items-center gap-3 rounded-lg border-[3px] border-ink bg-white p-3 text-xl font-black"
+            aria-live="polite"
+          >
+            {orderAnswer.length ? (
+              orderAnswer.map((item, index) => (
+                <span
+                  key={`${item}-${index}`}
+                  className="inline-flex min-h-[46px] items-center rounded-lg border-[3px] border-ink bg-reward px-4 py-2 shadow-[3px_3px_0_var(--block-shadow)]"
                 >
                   {item}
-                </button>
-                <SpeakButton className="min-h-[62px]" language={speechLanguage} text={item} />
-              </div>
-            );
-          })}
+                </span>
+              ))
+            ) : (
+              <span className="text-muted">Tap words or numbers below</span>
+            )}
+          </div>
+          <div className="mt-4 flex flex-wrap gap-3">
+            {payload.items.map((item) => {
+              const used = orderAnswer.includes(item);
+              return (
+                <div key={item} className="flex items-stretch gap-2">
+                  <button
+                    type="button"
+                    disabled={disabled || used}
+                    className="touch-choice min-w-[110px]"
+                    onClick={() => setOrderAnswer([...orderAnswer, item])}
+                  >
+                    {item}
+                  </button>
+                  <SpeakButton className="min-h-[62px]" language={speechLanguage} text={item} />
+                </div>
+              );
+            })}
+          </div>
+          <button type="button" className="secondary-button mt-4" disabled={disabled || orderAnswer.length === 0} onClick={() => setOrderAnswer([])}>
+            Clear
+          </button>
         </div>
-        <button type="button" className="secondary-button mt-4" disabled={disabled || orderAnswer.length === 0} onClick={() => setOrderAnswer([])}>
-          Clear
-        </button>
       </div>
     );
   }

@@ -667,6 +667,10 @@ misconception: "Choosing a topic not supported by the passage's repeated images.
 key: cl4_u02_l02_q03_trace_motif
 type: order-items
 prompt: "Put the motif details in the order they appear."
+passageTitle: "The Threshold"
+passage: |
+  Three times the traveler reached for the threshold stone and drew back his hand.
+  The house smoke rose as it had in childhood, but the dogs barked at him as at a stranger.
 items:
   - "The dogs bark at him as at a stranger"
   - "The traveler reaches for the threshold stone"
@@ -1087,6 +1091,11 @@ misconception: "Assuming every named figure has the same active role in the scen
 key: cl4_u03_l01_q04_scene_turns
 type: order-items
 prompt: "Put the scene turns in order."
+passageTitle: "Before The Decree"
+passage: |
+  Nera: The law is posted, but my brother still lies beyond the wall.
+  Guard: The ruler forbids burial. I am ordered to watch the gate.
+  Nera: Then watch me pass. A law that forgets the dead forgets the living too.
 items:
   - "Nera says the law forgets the dead and living"
   - "The guard says he is ordered to watch the gate"

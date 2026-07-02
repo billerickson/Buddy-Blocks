@@ -2854,6 +2854,12 @@ misconception: "Choosing a line that ignores the previous speaker's action."
 key: u06_l02_q04_scene_order
 type: order-items
 prompt: "Put the scene events in order."
+passageTitle: "At The Gate"
+passage: |
+  Lina: Open the gate before the storm reaches us.
+  Guard: I cannot open it without the bronze token.
+  Lina: Then take my father's ring. It bears the same mark.
+  Guard: The mark is true. I will open the gate.
 items:
   - "Lina offers the ring as proof."
   - "The guard says he needs the bronze token."

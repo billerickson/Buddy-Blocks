@@ -50,6 +50,8 @@ export type MatchPairsPayload = MediaPayload & {
 };
 
 export type OrderItemsPayload = MediaPayload & {
+  passageTitle?: string;
+  passage?: string;
   items: string[];
   correctOrder: string[];
   unorderedGroupsOf?: number;

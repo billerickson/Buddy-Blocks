@@ -18,7 +18,7 @@ const totals = families.reduce(
 );
 const coursesTitle = 'Buddy Blocks Courses | Classical Learning Paths for Kids';
 const coursesDescription =
-  'Explore Buddy Blocks courses for math, vocabulary, Spanish, French, grammar, logic, rhetoric, literature, history, civics, and memory work, including the expanded five-level Classical Literature path.';
+  'Explore Buddy Blocks courses for math, vocabulary, languages, grammar, logic, rhetoric, literature, history, civics, and memory work, including four Grammar levels.';
 const siteUrl = resolveSiteUrl(Astro.site);
 const coursesCanonical = absoluteUrl(siteUrl, '/courses/');
 const coursesGraph = webPageGraph({
@@ -66,7 +66,7 @@ const coursesGraph = webPageGraph({
       <div class="course-hero-copy">
         <h1>Courses that build lasting skills, step by step.</h1>
         <p class="mt-5 max-w-3xl text-xl font-extrabold text-muted">
-          Buddy Blocks gives students a clear path through a classical education with short, engaging lessons that build lasting understanding. The course library now includes five Classical Literature levels, from fables and myths through capstone classical reading, alongside math, languages, grammar, logic, rhetoric, history, civics, and memory work.
+          Buddy Blocks gives students a clear path through a classical education with short, engaging lessons that build lasting understanding. The course library now includes four Grammar levels, from sentence foundations through purposeful revision, plus five Classical Literature levels alongside math, languages, logic, rhetoric, history, civics, and memory work.
         </p>
         <div class="course-stat-row mt-7" aria-label="Curriculum totals">
           <span><strong>{totals.levels}</strong> levels</span>

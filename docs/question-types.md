@@ -117,7 +117,7 @@ The schemas and runtime parsers for standard lesson config and Mad Minute config
 | `text-input` | Typed words, phrases, numbers | string | matches any `acceptedAnswers` |
 | `fill-blank` | One blank with choices | string | selected choice equals `correctAnswer` |
 | `match-pairs` | Vocabulary pairs, equivalent facts | object map | every left item matched to correct right item |
-| `order-items` | Word order, sequencing, ranking | string array | exact order, or grouped order when configured |
+| `order-items` | Word order, sequencing, ranking, passage event order | string array | exact order, or grouped order when configured |
 | `flash-card` | Word learning, preview/easy/medium/hard card practice | string | preview is study-only; easy uses choices; medium and hard use typed accepted answers |
 | `passage-question` | Reading comprehension | string | selected choice equals `correctAnswer` |
 | `multi-blank-cloze` | Multi-blank grammar and paragraph completion | string array | every blank matches |
@@ -217,7 +217,7 @@ The UI shuffles right-side values. Scoring requires every `left` value to be mat
 
 ## Order Items
 
-Use for sequence, sentence order, least-to-greatest, steps in a process, or word order.
+Use for sequence, sentence order, least-to-greatest, steps in a process, passage event order, or word order. When the sequence depends on a source text, include `passageTitle` and `passage` so the app shows the text above the ordering controls.
 
 ```yaml
 - type: order-items
@@ -230,6 +230,22 @@ Use for sequence, sentence order, least-to-greatest, steps in a process, or word
     - Me
     - gusta
     - leer
+```
+
+```yaml
+- type: order-items
+  prompt: Put the events from the fable in order.
+  passageTitle: The Crow And The Pitcher
+  passage: |
+    A thirsty crow found a pitcher, dropped pebbles into it, and drank when the water rose.
+  items:
+    - The crow drops pebbles into the pitcher.
+    - The crow finds a pitcher.
+    - The crow drinks the water.
+  correctOrder:
+    - The crow finds a pitcher.
+    - The crow drops pebbles into the pitcher.
+    - The crow drinks the water.
 ```
 
 Use `unorderedGroupsOf` when each group can be internally unordered but the groups must stay in sequence:
@@ -517,7 +533,7 @@ Use this quick guide when authoring lessons:
 - For constructed response and speaking prompts, remember that scoring is completion-based, not quality-based; do not use them as scored promoted curriculum items.
 - If QA removes questions and the lesson falls below 6 accepted app-scorable items, add targeted replacements that serve the lesson brief instead of recreating removed questions or adding filler.
 - For listening and media questions, commit the asset under `public/` and reference it with a root-relative path.
-- For passage sets, repeat the passage in each `passage-question` until the app has a dedicated shared-passage grouping model.
+- For passage sets, repeat the passage in each `passage-question` or source-based `order-items` question until the app has a dedicated shared-passage grouping model.
 
 ## Verification
 

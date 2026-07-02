@@ -403,7 +403,7 @@ function trackMetaFromCourseMap(trackSlug: string, courseMap: string): TrackMeta
     subject,
     subjectForId,
     trackId: `track_grade${gradeLevel}_${subjectForId}`,
-    trackSlug: `grade-${gradeLevel}-${subject}`,
+    trackSlug: trackSlug.match(/^grade-\d{2}-/) ? `grade-${gradeLevel}-${subject}` : trackSlug,
     title,
     color: colors.color,
     accent: colors.accent,
@@ -430,11 +430,8 @@ function titleFor(trackName: string, level: string) {
   const levelMatch = level.match(/Level\s+(\d+)/i);
   if (!levelMatch) return titleCase(trackName);
   const levelNumber = Number(levelMatch[1]);
-  if (['Spanish', 'French'].includes(trackName)) return `${trackName} ${levelNumber}`;
-  if (trackName === 'Classical Literature') return `Classical Literature ${roman(levelNumber)}`;
-  if (trackName === 'History And Civics') return `History And Civics ${roman(levelNumber)}`;
-  if (trackName === 'Memory Works') return `Memory Work ${roman(levelNumber)}`;
-  return `${trackName} ${roman(levelNumber)}`;
+  if (trackName === 'Memory Works') return `Memory Work ${levelNumber}`;
+  return `${titleCase(trackName)} ${levelNumber}`;
 }
 
 function trackDescription(units: UnitSource[]) {
@@ -536,11 +533,6 @@ function titleCase(value: string) {
     .filter(Boolean)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
     .join(' ');
-}
-
-function roman(value: number) {
-  const numerals = ['', 'I', 'II', 'III', 'IV', 'V'];
-  return numerals[value] ?? String(value);
 }
 
 function firstDuplicate(values: string[]) {

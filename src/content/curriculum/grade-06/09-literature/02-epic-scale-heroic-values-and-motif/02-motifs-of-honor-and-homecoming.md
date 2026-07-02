@@ -59,6 +59,10 @@ hint: Notice both the signs of home and the signs of not belonging.
 key: cl4_u02_l02_q03_trace_motif
 type: order-items
 prompt: Put the motif details in the order they appear.
+passageTitle: The Threshold
+passage: |
+  Three times the traveler reached for the threshold stone and drew back his hand.
+  The house smoke rose as it had in childhood, but the dogs barked at him as at a stranger.
 items:
   - The dogs bark at him as at a stranger
   - The traveler reaches for the threshold stone

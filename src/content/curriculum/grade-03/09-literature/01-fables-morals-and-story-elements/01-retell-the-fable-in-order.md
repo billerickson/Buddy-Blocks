@@ -37,6 +37,9 @@ Read a short fable aloud once for enjoyment, then reread and mark what happened 
 key: u01_l01_q01_crow_order
 type: order-items
 prompt: Put the events from the fable of the thirsty crow in order.
+passageTitle: The Crow And The Pitcher
+passage: |
+  A thirsty crow searched for water on a dry day. At last the crow found a pitcher, but the water was low at the bottom. The crow's beak could not reach it. The crow dropped pebbles into the pitcher one by one. The water rose higher and higher. Then the crow drank the water.
 items:
   - The crow drops pebbles into the pitcher.
   - The crow finds a pitcher with water at the bottom.

@@ -54,9 +54,9 @@ describe('research promotion workflow', () => {
     validateCurriculum(tracks, { requireQuestionKeys: true });
     expect(tracks[0]).toMatchObject({
       id: 'track_grade3_grammar',
-      slug: 'grade-3-grammar',
+      slug: 'grammar-1',
       subject: 'grammar',
-      title: 'Grammar I',
+      title: 'Grammar 1',
     });
     expect(tracks[0]?.units[0]?.lessons[0]?.questions[0]).toMatchObject({
       key: 'u01_l01_q01_complete_sentence',

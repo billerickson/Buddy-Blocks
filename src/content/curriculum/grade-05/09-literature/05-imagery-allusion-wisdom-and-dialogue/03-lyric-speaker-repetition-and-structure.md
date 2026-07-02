@@ -58,6 +58,12 @@ hint: Ask what the repeated action reveals about the speaker.
 key: u05_l03_q03_structure_sequence
 type: order-items
 prompt: Put the passage's movement in order.
+passageTitle: At The Harbor
+passage: |
+  I counted the oars at dawn.
+  I counted them again at dusk.
+  Still the one I love
+  has not crossed the harbor.
 items:
   - The speaker says the loved person has not crossed the harbor.
   - The speaker counts at dawn.

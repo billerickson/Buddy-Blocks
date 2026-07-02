@@ -77,6 +77,11 @@ hint: Use what each named figure is connected to in the scene.
 key: cl4_u03_l01_q04_scene_turns
 type: order-items
 prompt: Put the scene turns in order.
+passageTitle: Before The Decree
+passage: |
+  Nera: The law is posted, but my brother still lies beyond the wall.
+  Guard: The ruler forbids burial. I am ordered to watch the gate.
+  Nera: Then watch me pass. A law that forgets the dead forgets the living too.
 items:
   - Nera says the law forgets the dead and living
   - The guard says he is ordered to watch the gate

@@ -753,7 +753,7 @@ Start with one high-value pilot rather than all tracks.
 Recommended pilot:
 
 1. Grade 3 Math, because it is central, concrete, and exposes whether the format works for procedural, conceptual, and word-problem content.
-2. Grammar I, because it tests foundation-track design and non-math question types.
+2. Grammar 1, because it tests foundation-track design and non-math question types.
 3. Spanish 1 or Vocabulary Grade 3, because it tests exposure-before-recall and language/vocabulary ladders.
 
 After the pilot is accepted, scale one track level at a time.

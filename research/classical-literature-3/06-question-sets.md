@@ -51,6 +51,9 @@ misconception: "Treating any true or interesting sentence as a summary."
 key: u01_l01_q03_sequence_events
 type: order-items
 prompt: "Put the events from the passage in order."
+passageTitle: "The Shield At Dawn"
+passage: |
+  At dawn, Mira lifted the bronze shield from the temple steps. The older guards warned her that the road beyond the gate was watched by raiders. Mira did not answer them. She carried the shield to the western wall, where her younger brother waited with the last of the city's messengers.
 items:
   - "Mira carries the shield to the western wall."
   - "The older guards warn Mira about raiders."
@@ -1099,6 +1102,9 @@ misconception: "Choosing a practical rule or overgeneralization instead of a the
 key: u03_l02_q01_sequence_reversal
 type: order-items
 prompt: "Put the scene moments in order."
+passageTitle: "The Sealed Tablet"
+passage: |
+  Liora sent away a dusty messenger, saying no stranger could interrupt the council. Later, her brother broke the seal on the messenger's tablet. The message warned that the council chamber itself was unsafe. Liora stared at the empty doorway and whispered, "I dismissed the warning I most needed." Because the warning was delayed, the city lost its chance to send help in time.
 items:
   - "The sealed tablet is opened."
   - "Liora realizes the warning was about her own order."
@@ -2111,6 +2117,12 @@ misconception: "Treating repetition as accidental or meaningless."
 key: u05_l03_q03_structure_sequence
 type: order-items
 prompt: "Put the passage's movement in order."
+passageTitle: "At The Harbor"
+passage: |
+  I counted the oars at dawn.
+  I counted them again at dusk.
+  Still the one I love
+  has not crossed the harbor.
 items:
   - "The speaker says the loved person has not crossed the harbor."
   - "The speaker counts at dawn."

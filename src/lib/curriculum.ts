@@ -156,6 +156,8 @@ const matchPairsQuestionSchema = baseQuestionSchema.extend({
 
 const orderItemsQuestionSchema = baseQuestionSchema.extend({
   type: z.literal('order-items'),
+  passageTitle: z.string().optional(),
+  passage: z.string().min(1).optional(),
   items: stringListSchema,
   correctOrder: stringListSchema,
   unorderedGroupsOf: z.number().int().min(2).optional(),
@@ -608,6 +610,7 @@ function normalizeQuestionPayload(question: AuthoredQuestion): QuestionFixture {
       type: question.type,
       prompt: question.prompt,
       payload: withMedia({
+        ...(question.passage ? { passageTitle: question.passageTitle, passage: question.passage } : {}),
         items: question.items,
         correctOrder: question.correctOrder,
         unorderedGroupsOf: question.unorderedGroupsOf,
