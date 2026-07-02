@@ -1,5 +1,6 @@
 ---
 import BrandMark from '../components/BrandMark.astro';
+import PublicFooter from '../components/PublicFooter.astro';
 import Seo from '../components/Seo.astro';
 import OfflineSyncBoot from '../components/islands/offline/OfflineSyncBoot';
 import { DEFAULT_SITE_DESCRIPTION, isIndexableMarketingPath, type BreadcrumbEntry, type JsonLd } from '../lib/seo';
@@ -40,6 +41,7 @@ const resolvedBrandHref =
 const shouldResolveKidHomeLink = active === 'kid' && !brandHref;
 const resolvedNoindex = noindex ?? !isIndexableMarketingPath(Astro.url.pathname);
 const shouldBootOfflineSync = active === 'profiles' || active === 'parent' || active === 'kid';
+const shouldShowAppFooter = shouldBootOfflineSync;
 ---
 
 <!doctype html>
@@ -77,6 +79,7 @@ const shouldBootOfflineSync = active === 'profiles' || active === 'parent' || ac
       </header>
     )}
     <slot />
+    {shouldShowAppFooter && <PublicFooter />}
     {shouldBootOfflineSync && <OfflineSyncBoot client:load />}
     {shouldResolveKidHomeLink && (
       <script is:inline>

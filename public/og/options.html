@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1200, initial-scale=1" />
+    <title>Buddy Blocks OG Image Options</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --font-display: "Fredoka", "Arial Rounded MT Bold", system-ui, sans-serif;
+        --font-body: "Nunito", "Atkinson Hyperlegible", system-ui, sans-serif;
+        --ink: #242134;
+        --muted: #645d79;
+        --page-top: #fff1f7;
+        --page-bottom: #f0fff9;
+        --paper: #ffffff;
+        --paper-soft: #fffaf0;
+        --line: #e6cde4;
+        --primary: #e63e80;
+        --primary-dark: #a91f55;
+        --secondary: #ffd84d;
+        --accent: #18bca4;
+        --accent-two: #5b79ff;
+        --accent-three: #ff7f45;
+        --shadow: rgba(36, 33, 52, 0.2);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1200px;
+        height: 675px;
+        margin: 0;
+        overflow: hidden;
+        background: var(--page-bottom);
+        color: var(--ink);
+        font-family: var(--font-body);
+      }
+
+      .gallery {
+        display: flex;
+        width: 3600px;
+        height: 675px;
+      }
+
+      .artboard {
+        position: relative;
+        width: 1200px;
+        height: 675px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 89% 8%, rgba(255, 216, 77, 0.44), transparent 22%),
+          linear-gradient(145deg, #fff1f7 0%, #fffaf0 47%, #f0fff9 100%);
+      }
+
+      .artboard::before,
+      .artboard::after {
+        position: absolute;
+        content: "";
+        border: 4px solid var(--ink);
+        background: var(--paper);
+        box-shadow: 8px 8px 0 var(--shadow);
+      }
+
+      .logo-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-family: var(--font-display);
+        font-size: 30px;
+        font-weight: 800;
+      }
+
+      .mascot {
+        width: 76px;
+        height: 76px;
+      }
+
+      .badge {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        border: 3px solid var(--ink);
+        border-radius: 8px;
+        background: var(--secondary);
+        padding: 8px 16px;
+        box-shadow: 4px 4px 0 var(--ink);
+        font-weight: 1000;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: 100px;
+        font-weight: 800;
+        letter-spacing: 0;
+        line-height: 0.9;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .deck-card {
+        border: 4px solid var(--ink);
+        border-radius: 8px;
+        background: var(--paper);
+        box-shadow: 8px 8px 0 var(--shadow);
+      }
+
+      .progress-rail {
+        height: 18px;
+        overflow: hidden;
+        border: 3px solid var(--ink);
+        border-radius: 999px;
+        background: white;
+      }
+
+      .progress-fill {
+        display: block;
+        height: 100%;
+        border-right: 3px solid var(--ink);
+        background: linear-gradient(90deg, var(--accent), var(--secondary));
+      }
+
+      .option-1::before {
+        right: -55px;
+        bottom: 78px;
+        width: 312px;
+        height: 312px;
+        border-radius: 44px;
+        transform: rotate(12deg);
+        background: #ffd84d;
+      }
+
+      .option-1::after {
+        left: -210px;
+        bottom: -210px;
+        width: 260px;
+        height: 260px;
+        border-radius: 36px;
+        transform: rotate(-10deg);
+        background: #18bca4;
+      }
+
+      .option-1 .copy {
+        position: absolute;
+        left: 76px;
+        top: 64px;
+        width: 560px;
+      }
+
+      .option-1 .subtitle {
+        margin-top: 24px;
+        color: var(--muted);
+        font-size: 34px;
+        font-weight: 900;
+        line-height: 1.13;
+      }
+
+      .option-1 .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 34px;
+      }
+
+      .option-1 .course-stack {
+        position: absolute;
+        right: 76px;
+        top: 70px;
+        display: grid;
+        width: 430px;
+        gap: 18px;
+        transform: rotate(1.5deg);
+      }
+
+      .course-tile {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: center;
+        min-height: 112px;
+        border-left-width: 18px;
+        padding: 20px 22px;
+      }
+
+      .course-tile h2,
+      .screen-title,
+      .mini-title {
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: 34px;
+        line-height: 1;
+      }
+
+      .course-tile p {
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 19px;
+        font-weight: 900;
+      }
+
+      .course-tile b {
+        display: grid;
+        width: 62px;
+        height: 62px;
+        place-items: center;
+        border: 3px solid var(--ink);
+        border-radius: 8px;
+        background: var(--secondary);
+        font-family: var(--font-display);
+        font-size: 24px;
+      }
+
+      .option-1 .moxie-pop {
+        position: absolute;
+        right: 470px;
+        bottom: 46px;
+        width: 112px;
+        height: 112px;
+        transform: rotate(-8deg);
+        filter: drop-shadow(8px 8px 0 rgba(36, 33, 52, 0.2));
+      }
+
+      .option-2 {
+        background:
+          linear-gradient(135deg, rgba(24, 188, 164, 0.18) 0 18%, transparent 18% 100%),
+          linear-gradient(225deg, rgba(91, 121, 255, 0.18) 0 18%, transparent 18% 100%),
+          #fffaf0;
+      }
+
+      .option-2::before {
+        left: 72px;
+        bottom: -80px;
+        width: 280px;
+        height: 280px;
+        border-radius: 36px;
+        transform: rotate(9deg);
+        background: var(--primary);
+      }
+
+      .option-2::after {
+        right: 88px;
+        top: -70px;
+        width: 210px;
+        height: 210px;
+        border-radius: 999px;
+        background: var(--secondary);
+      }
+
+      .option-2 .phone {
+        position: absolute;
+        left: 82px;
+        top: 58px;
+        width: 465px;
+        height: 560px;
+        overflow: hidden;
+        transform: rotate(-2deg);
+      }
+
+      .phone-top {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 4px solid var(--ink);
+        background: var(--secondary);
+        padding: 18px 22px;
+        font-weight: 1000;
+      }
+
+      .phone-body {
+        display: grid;
+        gap: 14px;
+        padding: 20px;
+        background:
+          linear-gradient(135deg, rgba(230, 62, 128, 0.12), transparent 44%),
+          #ffffff;
+      }
+
+      .learner-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .avatar {
+        display: grid;
+        width: 76px;
+        height: 76px;
+        place-items: center;
+        border: 4px solid var(--ink);
+        border-radius: 8px;
+        background: var(--primary);
+        color: white;
+        font-family: var(--font-display);
+        font-size: 34px;
+        font-weight: 800;
+      }
+
+      .track-row {
+        display: grid;
+        gap: 10px;
+        border: 3px solid var(--ink);
+        border-radius: 8px;
+        background: #f0fff9;
+        padding: 14px;
+      }
+
+      .track-row:nth-child(3) {
+        background: #f3f5ff;
+      }
+
+      .track-row:nth-child(4) {
+        background: #fff3eb;
+      }
+
+      .stats-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .stat-box {
+        border: 3px solid var(--ink);
+        border-radius: 8px;
+        background: var(--secondary);
+        padding: 14px;
+        text-align: center;
+        font-weight: 1000;
+      }
+
+      .option-2 .copy {
+        position: absolute;
+        right: 74px;
+        top: 62px;
+        width: 520px;
+      }
+
+      .option-2 h1 {
+        font-size: 84px;
+      }
+
+      .option-2 .subtitle {
+        margin-top: 20px;
+        color: var(--muted);
+        font-size: 30px;
+        font-weight: 900;
+        line-height: 1.16;
+      }
+
+      .option-2 .proof-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 24px;
+      }
+
+      .proof {
+        border: 3px solid var(--ink);
+        border-radius: 8px;
+        background: white;
+        padding: 12px 10px;
+        box-shadow: 4px 4px 0 var(--shadow);
+        font-weight: 1000;
+        text-align: center;
+      }
+
+      .proof strong {
+        display: block;
+        color: var(--primary-dark);
+        font-family: var(--font-display);
+        font-size: 27px;
+      }
+
+      .option-3 {
+        background:
+          linear-gradient(90deg, rgba(91, 121, 255, 0.13), transparent 46%),
+          linear-gradient(180deg, #f0fff9, #fff1f7);
+      }
+
+      .option-3::before {
+        right: -80px;
+        top: 120px;
+        width: 340px;
+        height: 340px;
+        border-radius: 44px;
+        transform: rotate(16deg);
+        background: var(--accent-two);
+      }
+
+      .option-3::after {
+        left: 470px;
+        bottom: -170px;
+        width: 230px;
+        height: 230px;
+        border-radius: 32px;
+        transform: rotate(-12deg);
+        background: var(--secondary);
+      }
+
+      .option-3 .copy {
+        position: absolute;
+        left: 72px;
+        top: 66px;
+        width: 520px;
+      }
+
+      .option-3 h1 {
+        font-size: 72px;
+      }
+
+      .option-3 .subtitle {
+        margin-top: 20px;
+        color: var(--muted);
+        font-size: 28px;
+        font-weight: 900;
+        line-height: 1.16;
+      }
+
+      .option-3 .dashboard {
+        position: absolute;
+        right: 70px;
+        top: 74px;
+        width: 510px;
+        overflow: hidden;
+        transform: rotate(1.5deg);
+      }
+
+      .dashboard-top {
+        border-bottom: 4px solid var(--ink);
+        background: var(--secondary);
+        padding: 18px 22px;
+        font-weight: 1000;
+      }
+
+      .dashboard-body {
+        display: grid;
+        gap: 16px;
+        padding: 22px;
+        background: white;
+      }
+
+      .parent-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 16px;
+        border: 3px solid var(--ink);
+        border-left-width: 14px;
+        border-radius: 8px;
+        background: #fffaf0;
+        padding: 16px;
+      }
+
+      .parent-row strong {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 26px;
+      }
+
+      .parent-row span {
+        color: var(--muted);
+        font-weight: 900;
+      }
+
+      .pill {
+        border: 3px solid var(--ink);
+        border-radius: 8px;
+        background: var(--secondary);
+        padding: 8px 12px;
+        font-weight: 1000;
+      }
+
+      .option-3 .mini-cards {
+        position: absolute;
+        left: 92px;
+        bottom: 48px;
+        display: grid;
+        grid-template-columns: repeat(2, 210px);
+        gap: 18px;
+      }
+
+      .mini {
+        padding: 18px;
+      }
+
+      .mini p {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 19px;
+        font-weight: 900;
+      }
+
+      body[data-option="1"] .artboard:not(.option-1),
+      body[data-option="2"] .artboard:not(.option-2),
+      body[data-option="3"] .artboard:not(.option-3) {
+        display: none;
+      }
+
+      body[data-option] .gallery {
+        width: 1200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gallery">
+      <section class="artboard option-1" aria-label="Buddy Blocks OG option 1">
+        <div class="copy">
+          <div class="logo-row">
+            <img class="mascot" src="../icons/moxie.svg" alt="" />
+            <span>Buddy Blocks</span>
+          </div>
+          <h1>Learning that clicks into place.</h1>
+          <p class="subtitle">Short lessons, colorful progress, and a calm dashboard for home learning.</p>
+          <div class="chip-row">
+            <span class="badge">Self-hosted</span>
+            <span class="badge" style="background: #ffffff">Kid-friendly</span>
+            <span class="badge" style="background: #f0fff9">Parent-visible</span>
+          </div>
+        </div>
+        <div class="course-stack">
+          <article class="deck-card course-tile" style="border-left-color: #5b79ff">
+            <div>
+              <h2>Math</h2>
+              <p>Models, facts, fractions</p>
+            </div>
+            <b>72%</b>
+          </article>
+          <article class="deck-card course-tile" style="border-left-color: #e63e80">
+            <div>
+              <h2>Vocabulary</h2>
+              <p>Context, roots, precision</p>
+            </div>
+            <b>58%</b>
+          </article>
+          <article class="deck-card course-tile" style="border-left-color: #18bca4">
+            <div>
+              <h2>Spanish</h2>
+              <p>Useful language first</p>
+            </div>
+            <b>41%</b>
+          </article>
+          <article class="deck-card course-tile" style="border-left-color: #ff7f45">
+            <div>
+              <h2>Logic</h2>
+              <p>Claims, reasons, clues</p>
+            </div>
+            <b>34%</b>
+          </article>
+        </div>
+        <img class="moxie-pop" src="../icons/moxie.svg" alt="" />
+      </section>
+
+      <section class="artboard option-2" aria-label="Buddy Blocks OG option 2">
+        <div class="deck-card phone">
+          <div class="phone-top">
+            <span>Maya's Blocks</span>
+            <span>7 day streak</span>
+          </div>
+          <div class="phone-body">
+            <div class="learner-row">
+              <span class="avatar">M</span>
+              <div>
+                <h2 class="screen-title">Ready for today?</h2>
+                <p style="color: var(--muted); font-size: 20px; font-weight: 900">3 lessons planned</p>
+              </div>
+            </div>
+            <div class="track-row">
+              <h2 class="screen-title">Math Foundations</h2>
+              <div class="progress-rail"><span class="progress-fill" style="width: 72%"></span></div>
+            </div>
+            <div class="track-row">
+              <h2 class="screen-title">Spanish 1</h2>
+              <div class="progress-rail"><span class="progress-fill" style="width: 45%"></span></div>
+            </div>
+            <div class="track-row">
+              <h2 class="screen-title">Logic</h2>
+              <div class="progress-rail"><span class="progress-fill" style="width: 30%"></span></div>
+            </div>
+            <div class="stats-row">
+              <div class="stat-box">5 hearts</div>
+              <div class="stat-box">420 XP</div>
+            </div>
+          </div>
+        </div>
+        <div class="copy">
+          <div class="logo-row">
+            <img class="mascot" src="../icons/moxie.svg" alt="" />
+            <span>Buddy Blocks</span>
+          </div>
+          <h1>Small lessons. Big momentum.</h1>
+          <p class="subtitle">A cheerful practice loop kids can use independently, with progress parents can actually see.</p>
+          <div class="proof-row">
+            <div class="proof"><strong>XP</strong> rewards</div>
+            <div class="proof"><strong>Hints</strong> after misses</div>
+            <div class="proof"><strong>Offline</strong> course packs</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="artboard option-3" aria-label="Buddy Blocks OG option 3">
+        <div class="copy">
+          <div class="logo-row">
+            <img class="mascot" src="../icons/moxie.svg" alt="" />
+            <span>Buddy Blocks</span>
+          </div>
+          <h1>Home learning without the hunt.</h1>
+          <p class="subtitle">Courses, kid profiles, lesson progress, and parent-created practice in one private family app.</p>
+        </div>
+        <div class="mini-cards">
+          <article class="deck-card mini">
+            <h2 class="mini-title">Download</h2>
+            <p>Course packs for offline practice.</p>
+          </article>
+          <article class="deck-card mini">
+            <h2 class="mini-title">Review</h2>
+            <p>Mistakes return as useful practice.</p>
+          </article>
+        </div>
+        <div class="deck-card dashboard">
+          <div class="dashboard-top">Parent Dashboard</div>
+          <div class="dashboard-body">
+            <div class="parent-row" style="border-left-color: #e63e80">
+              <div>
+                <strong>Maya</strong>
+                <span>12 lessons complete</span>
+              </div>
+              <span class="pill">7 day streak</span>
+            </div>
+            <div class="parent-row" style="border-left-color: #18bca4">
+              <div>
+                <strong>Next focus</strong>
+                <span>Vocabulary context clues</span>
+              </div>
+              <span class="pill">Ready</span>
+            </div>
+            <div class="parent-row" style="border-left-color: #5b79ff">
+              <div>
+                <strong>Practice set</strong>
+                <span>Spelling list from school</span>
+              </div>
+              <span class="pill">New</span>
+            </div>
+            <div class="track-row">
+              <h2 class="screen-title">Weekly momentum</h2>
+              <div class="progress-rail"><span class="progress-fill" style="width: 82%"></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const option = new URLSearchParams(window.location.search).get('option');
+      if (option) document.body.dataset.option = option;
+    </script>
+  </body>
+</html>

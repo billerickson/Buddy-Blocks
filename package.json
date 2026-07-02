@@ -12,6 +12,7 @@
     "preview": "astro preview --host 0.0.0.0",
     "test": "vitest run",
     "seo:validate": "tsx scripts/validate-seo.ts",
+    "og:render-options": "node scripts/render-og-options.mjs",
     "content:validate": "tsx scripts/validate-content.ts",
     "content:promote": "tsx scripts/research-promotion.ts",
     "deploy:dry-run": "wrangler deploy --config wrangler.deploy.jsonc --dry-run",

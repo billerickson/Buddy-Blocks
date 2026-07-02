@@ -11,6 +11,7 @@ The app is designed for a single family running its own private copy. Parents ca
 - Research-backed course tracks across math, vocabulary, grammar, logic, rhetoric, languages, literature, history/civics, and memory work.
 - Compact lesson sessions with multiple question types, feedback, hints after missed attempts, and saved progress.
 - Parent dashboard for tracking recent work, managing child profiles, and creating targeted practice.
+- Offline-ready kid workflows with downloadable course packs so lessons can keep working when the connection drops.
 - Archive and unarchive support for child profiles with progress preserved.
 - PWA-friendly interface for repeat use on tablets and home screens.
 - Cloudflare Workers, Workers Static Assets, and D1 deployment path for a self-hosted family site.

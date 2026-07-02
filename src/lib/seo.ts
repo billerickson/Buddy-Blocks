@@ -11,8 +11,8 @@ export const SITE_NAME = 'Buddy Blocks';
 export const SITE_AUTHOR = 'Bill, Reagan, and Ada Erickson';
 export const SITE_REPOSITORY_URL = 'https://github.com/billerickson/Buddy-Blocks';
 export const DEFAULT_SITE_URL = 'https://buddyblocks.yoursite.com';
-export const DEFAULT_OG_IMAGE = '/og/buddy-blocks.jpg';
-export const DEFAULT_OG_IMAGE_ALT = 'Buddy Blocks learning app preview with course, progress, and lesson blocks';
+export const DEFAULT_OG_IMAGE = '/og/buddy-blocks-option-2.png';
+export const DEFAULT_OG_IMAGE_ALT = 'Buddy Blocks social preview showing a kid dashboard and small lesson momentum';
 export const DEFAULT_SITE_DESCRIPTION =
   'Buddy Blocks is a self-hosted family learning app with short lessons, parent dashboards, progress rewards, and classical course paths for kids.';
 
