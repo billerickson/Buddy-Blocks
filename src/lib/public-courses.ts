@@ -217,7 +217,7 @@ const grade6Vocabulary: ResearchTrack = {
   label: 'Grade 6',
   researchPath: 'research/grade-06-vocabulary',
   description:
-    'Grade 6 Vocabulary builds a middle-school word-learning course around context, morphology, academic words, disciplinary language, word choice, figurative language, argument, media, research, and revision.',
+    'Practice middle-school word learning through context, morphology, academic words, disciplinary language, word choice, figurative language, argument, media, research, and revision.',
   stats: { levels: 1, units: 8, lessons: 32, questions: 192 },
   unitTitles: [
     'Strategic Word Learning In Context',
@@ -271,7 +271,7 @@ const spanish1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/spanish-1',
   description:
-    'Spanish 1 is organized around novice communication functions instead of a grammar survey.',
+    'Learn novice communication functions through useful phrases and contexts instead of a grammar survey.',
   stats: { levels: 1, units: 6, lessons: 30, questions: 180 },
   unitTitles: [
     'First Spanish Moves',
@@ -316,7 +316,7 @@ const french1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/french-1',
   description:
-    'French 1 moves from immediate classroom interaction into personal identity, family, descriptions, preferences, school, places, food, choices, and cumulative novice communication.',
+    'Learn immediate classroom interaction, personal identity, family, descriptions, preferences, school, places, food, choices, and cumulative novice communication.',
   stats: { levels: 1, units: 7, lessons: 28, questions: 168 },
   unitTitles: [
     'First French For Real Interaction',
@@ -360,7 +360,7 @@ const grammar1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/grammar-1',
   description:
-    'Grammar 1 moves from sentence awareness into word jobs, word forms, mechanics, sentence expansion, and cumulative revision.',
+    'Practice sentence awareness, word jobs, word forms, mechanics, sentence expansion, and cumulative revision.',
   stats: { levels: 1, units: 7, lessons: 26, questions: 156 },
   unitTitles: [
     'Sentences, Subjects, And Predicates',
@@ -407,7 +407,7 @@ const logic1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/logic-1',
   description:
-    'Logic 1 builds careful-thinking habits before formal symbolic logic.',
+    'Practice careful-thinking habits before formal symbolic logic.',
   stats: { levels: 1, units: 6, lessons: 30, questions: 180 },
   unitTitles: [
     'Claims, Reasons, And Tiny Arguments',
@@ -458,7 +458,7 @@ const rhetoric1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/rhetoric-1',
   description:
-    'Rhetoric 1 moves from noticing purpose in communication to producing short, clear, supported responses.',
+    'Practice noticing purpose in communication, then producing short, clear, supported responses.',
   stats: { levels: 1, units: 7, lessons: 30, questions: 180 },
   unitTitles: [
     'Purposeful Communication',
@@ -471,7 +471,7 @@ const rhetoric1: ResearchTrack = {
   ],
   paragraphs: [
     'Students ask who is speaking, who the audience is, and what the communication is trying to do before they are asked to write longer responses.',
-    'The course builds narration, fable retelling, useful detail, claim-reason-example support, comparison by criteria, fair evaluation, revision, and short delivery.',
+    'Students practice narration, fable retelling, useful detail, claim-reason-example support, comparison by criteria, fair evaluation, revision, and short delivery.',
     'The research treats rhetoric as practical judgment: choose the move that fits the audience and purpose, then revise so the message becomes clearer.',
   ],
   mockups: [
@@ -512,7 +512,7 @@ const classicalLiterature1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/classical-literature-1',
   description:
-    'Classical Literature 1 builds a compact shared story foundation through fables, folktales, myths, heroic journeys, poetry, dialogue, comparison, and transfer.',
+    'Explore a compact shared story foundation through fables, folktales, myths, heroic journeys, poetry, dialogue, comparison, and transfer.',
   stats: { levels: 1, units: 6, lessons: 24, questions: 144 },
   unitTitles: [
     'Fables, Morals, And Story Elements',
@@ -566,7 +566,7 @@ const historyAndCivics1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/history-and-civics-1',
   description:
-    'History And Civics 1 begins with the tools students need before large historical claims: time, place, source, evidence, community, economics, culture, symbols, and civic responsibility.',
+    'Begin with the tools students need before large historical claims: time, place, source, evidence, community, economics, culture, symbols, and civic responsibility.',
   stats: { levels: 1, units: 8, lessons: 24, questions: 144 },
   unitTitles: [
     'Time, Sequence, And Change',
@@ -614,7 +614,7 @@ const memoryWorks1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/memory-works-1',
   description:
-    'Memory Works 1 teaches students how to memorize and recite short, meaningful material through look-cover-say-check practice.',
+    'Learn how to memorize and recite short, meaningful material through look-cover-say-check practice.',
   stats: { levels: 1, units: 6, lessons: 22, questions: 132 },
   unitTitles: [
     'Memory Practice Habits',

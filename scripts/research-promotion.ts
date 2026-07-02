@@ -242,7 +242,7 @@ function generateTrackFiles(trackPath: string, trackSlug: string, outputRoot: st
       slug: meta.trackSlug,
       subject: meta.subject,
       title: meta.title,
-      description: trackDescription(meta.title, units),
+      description: trackDescription(units),
       color: meta.color,
       accent: meta.accent,
     }),
@@ -437,9 +437,9 @@ function titleFor(trackName: string, level: string) {
   return `${trackName} ${roman(levelNumber)}`;
 }
 
-function trackDescription(title: string, units: UnitSource[]) {
+function trackDescription(units: UnitSource[]) {
   const unitText = units.slice(0, 5).map((unit) => unit.title.toLowerCase()).join(', ');
-  return `Build ${title} through ${unitText}${units.length > 5 ? ', and cumulative practice' : ''}.`;
+  return `Practice with ${unitText}${units.length > 5 ? ', and cumulative review' : ''}.`;
 }
 
 function unitIdFor(meta: TrackMeta, unit: UnitSource) {
