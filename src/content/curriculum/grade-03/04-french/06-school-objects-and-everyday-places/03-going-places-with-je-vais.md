@@ -3,6 +3,29 @@ id: lesson_grade3_french_u06_l03_going_places_with_je_vais
 slug: going-places-with-je-vais
 title: Going Places With Je Vais
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will understand and produce controlled sentences about going
+        to school, the library, the park, the café, or the cinema. Read each new phrase
+        once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          la bibliothèque = the library.
+        - >
+          le parc = the park.
+        - >
+          le cinéma = the movie theater.
+        - >
+          le musée = the museum.
+        - >
+          Où vas-tu? asks where you are going.
+        - >
+          Je vais au cinéma tells where someone is going.
 ---
 
 ## Teaching Goal

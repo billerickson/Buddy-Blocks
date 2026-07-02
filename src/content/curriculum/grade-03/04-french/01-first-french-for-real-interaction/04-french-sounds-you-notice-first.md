@@ -3,6 +3,32 @@ id: lesson_grade3_french_u01_l04_french_sounds_you_notice_first
 slug: french-sounds-you-notice-first
 title: French Sounds You Notice First
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will identify that some final consonants are silent, accents
+        affect spelling and sound, ç sounds like /s/, and liaison can link words. Read
+        each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          In salut, the final t is silent in normal pronunciation.
+        - >
+          The cedilla in ç tells you to say an /s/ sound, as in ça.
+        - >
+          has ç = ça.
+        - >
+          has é = répétez.
+        - >
+          ends with silent t = salut.
+        - >
+          has à = à bientôt.
+        - >
+          This is liaison exposure: a usually quiet final consonant can link before a
+          vowel sound.
 ---
 
 ## Teaching Goal

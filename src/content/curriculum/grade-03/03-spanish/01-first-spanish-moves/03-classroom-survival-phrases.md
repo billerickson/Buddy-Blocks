@@ -3,6 +3,31 @@ id: lesson_grade3_spanish_u01_l03_classroom_survival_phrases
 slug: classroom-survival-phrases
 title: Classroom Survival Phrases
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will understand and respond to phrases such as escucha, lee,
+        repite, escribe, mira, no entiendo, and otra vez, por favor. Read each new phrase
+        once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          escucha = listen.
+        - >
+          lee = read.
+        - >
+          repite = repeat.
+        - >
+          escribe = write.
+        - >
+          No entiendo means I do not understand, so it is a useful help phrase.
+        - >
+          Otra vez, por favor asks to hear it again politely.
+        - >
+          Escucha is the classroom command for listen.
 ---
 
 ## Teaching Goal

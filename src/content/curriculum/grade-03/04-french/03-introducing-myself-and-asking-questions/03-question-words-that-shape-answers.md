@@ -3,6 +3,31 @@ id: lesson_grade3_french_u03_l03_question_words_that_shape_answers
 slug: question-words-that-shape-answers
 title: Question Words That Shape Answers
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will identify whether comment, qui, où, d'où, quel/quelle, or
+        pourquoi calls for name, person, place, origin, age/date, or reason. Read each new
+        phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          qui = a person.
+        - >
+          où = a place.
+        - >
+          pourquoi = a reason.
+        - >
+          comment ça va? = how someone feels.
+        - >
+          Où asks for a place, so a residence answer fits.
+        - >
+          Pourquoi asks why, so it calls for a reason.
+        - >
+          Quel âge as-tu? = J'ai douze ans.
 ---
 
 ## Teaching Goal

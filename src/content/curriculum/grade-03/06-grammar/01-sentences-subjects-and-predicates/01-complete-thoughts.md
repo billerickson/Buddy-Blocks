@@ -3,6 +3,16 @@ id: lesson_grade3_grammar_u01_l01_complete_thoughts
 slug: complete-thoughts
 title: Complete Thoughts
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will decide whether a word group is a complete sentence and
+        explain what is missing when it is not.
+    - title: Try It This Way
+      body: >
+        Contrast The bright red kite with The bright red kite flew over the fence. Ask
+        which one tells a whole idea.
 ---
 
 ## Teaching Goal

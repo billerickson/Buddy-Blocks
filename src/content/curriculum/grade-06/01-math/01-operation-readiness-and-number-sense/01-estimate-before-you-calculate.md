@@ -3,6 +3,16 @@ id: lesson_grade6_math_u01_l01_estimate_before_you_calculate
 slug: estimate-before-you-calculate
 title: Estimate Before You Calculate
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will choose benchmark or compatible numbers and predict a
+        reasonable answer range before exact calculation.
+    - title: Key Idea
+      body: >
+        Number-line benchmarks and rounded quantities show the likely size of a sum,
+        product, difference, or quotient.
 ---
 
 ## Teaching Goal

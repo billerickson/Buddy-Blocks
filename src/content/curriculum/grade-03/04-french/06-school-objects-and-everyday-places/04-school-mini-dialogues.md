@@ -3,6 +3,28 @@ id: lesson_grade3_french_u06_l04_school_mini_dialogues
 slug: school-mini-dialogues
 title: School Mini-Dialogues
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will interpret and build a school mini-dialogue about an
+        object, subject, place, or activity. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          The question asks whether you like math, so the answer should be a preference.
+        - >
+          If the student did not hear or understand a direction, asking to repeat fits.
+        - >
+          J'aime les sciences. = state a school preference.
+        - >
+          Je vais à la bibliothèque. = say a destination.
+        - >
+          Le livre est sur la table. = tell where an object is.
+        - >
+          Il y a un cahier. = say what is present.
 ---
 
 ## Teaching Goal

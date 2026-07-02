@@ -3,6 +3,15 @@ id: lesson_grade6_vocabulary_u06_l01_literal_and_figurative_meaning
 slug: literal-and-figurative-meaning
 title: Literal And Figurative Meaning
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify literal and figurative meanings and explain the
+        contextual clue.
+    - title: Try It This Way
+      body: >
+        Use one phrase literally in one sentence and figuratively in another.
 ---
 
 ## Teaching Goal

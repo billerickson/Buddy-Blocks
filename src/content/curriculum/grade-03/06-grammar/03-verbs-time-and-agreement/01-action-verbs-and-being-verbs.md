@@ -3,6 +3,15 @@ id: lesson_grade3_grammar_u03_l01_action_verbs_and_being_verbs
 slug: action-verbs-and-being-verbs
 title: Action Verbs And Being Verbs
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify action verbs and simple being verbs in
+        predicates.
+    - title: Try It This Way
+      body: >
+        Compare The dog runs and The dog is tired; both predicates need a verb.
 ---
 
 ## Teaching Goal

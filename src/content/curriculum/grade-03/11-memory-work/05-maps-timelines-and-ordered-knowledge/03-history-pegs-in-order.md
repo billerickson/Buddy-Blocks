@@ -3,6 +3,29 @@ id: lesson_grade3_memory_work_u05_l03_history_pegs_in_order
 slug: history-pegs-in-order
 title: History Pegs In Order
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will order the sequence Ancient Egypt, Ancient Greece, Ancient
+        Rome, Middle Ages, Exploration, Early America.
+    - title: Say It Before You Answer
+      body: >
+        Use a horizontal line and place each peg from oldest to latest, emphasizing that
+        the list is a scaffold, not a complete history course.
+      bullets:
+        - >
+          Ancient Egypt
+        - >
+          Ancient Greece
+        - >
+          Ancient Rome
+        - >
+          Middle Ages
+        - >
+          Exploration
+        - >
+          Early America
 ---
 
 ## Teaching Goal

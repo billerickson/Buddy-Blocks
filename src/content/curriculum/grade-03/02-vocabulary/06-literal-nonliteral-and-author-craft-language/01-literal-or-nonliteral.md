@@ -3,6 +3,16 @@ id: lesson_grade3_vocabulary_u06_l01_literal_or_nonliteral
 slug: literal-or-nonliteral
 title: Literal Or Nonliteral?
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will classify a phrase as literal or nonliteral and explain
+        the meaning in simple words.
+    - title: Try It This Way
+      body: >
+        Compare "The backpack is heavy" with "The homework was a heavy load" in a
+        supported conversation.
 ---
 
 ## Teaching Goal

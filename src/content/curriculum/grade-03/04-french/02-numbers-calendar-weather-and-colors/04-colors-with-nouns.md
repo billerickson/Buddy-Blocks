@@ -3,6 +3,27 @@ id: lesson_grade3_french_u02_l04_colors_with_nouns
 slug: colors-with-nouns
 title: Colors With Nouns
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will understand and build phrases such as le cahier bleu, la
+        trousse rouge, and les stylos verts. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          rouge = red.
+        - >
+          bleu = blue.
+        - >
+          vert = green.
+        - >
+          noir = black.
+        - >
+          Les marks plural, stylos is plural, and verts also shows plural in this
+          controlled phrase.
 ---
 
 ## Teaching Goal

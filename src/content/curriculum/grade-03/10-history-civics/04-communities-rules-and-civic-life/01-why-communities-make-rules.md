@@ -3,6 +3,16 @@ id: lesson_grade3_history_civics_u04_l01_why_communities_make_rules
 slug: why-communities-make-rules
 title: Why Communities Make Rules
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify the purpose of a rule or law in a concrete
+        scenario.
+    - title: Try It This Way
+      body: >
+        Start with a classroom or playground rule and ask what problem it helps solve
+        before naming formal civic vocabulary.
 ---
 
 ## Teaching Goal

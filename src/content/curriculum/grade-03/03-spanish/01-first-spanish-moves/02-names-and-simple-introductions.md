@@ -3,6 +3,21 @@ id: lesson_grade3_spanish_u01_l02_names_and_simple_introductions
 slug: names-and-simple-introductions
 title: Names And Simple Introductions
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will ask and answer ¿Cómo te llamas?, use Me llamo..., and
+        respond to ¿Cómo estás? with a short feeling phrase. Read each new phrase once
+        before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          ¿Cómo te llamas? asks for a name, and Me llamo... answers with a name.
+        - >
+          ¿Cómo estás? asks how you are, so Estoy bien is a fitting answer.
 ---
 
 ## Teaching Goal

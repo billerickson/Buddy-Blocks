@@ -3,6 +3,31 @@ id: lesson_grade3_spanish_u03_l01_classroom_nouns_and_articles
 slug: classroom-nouns-and-articles
 title: Classroom Nouns And Articles
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will recognize classroom objects and choose the correct
+        article for taught nouns. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          el libro = the book.
+        - >
+          el lápiz = the pencil.
+        - >
+          la mesa = the table.
+        - >
+          la silla = the chair.
+        - >
+          el cuaderno = the notebook.
+        - >
+          Mesa is taught with la: la mesa.
+        - >
+          Learning el libro as a phrase helps you remember the article that travels with
+          libro.
 ---
 
 ## Teaching Goal

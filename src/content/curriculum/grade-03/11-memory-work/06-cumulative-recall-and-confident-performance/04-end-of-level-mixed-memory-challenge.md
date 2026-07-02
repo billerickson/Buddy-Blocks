@@ -3,6 +3,16 @@ id: lesson_grade3_memory_work_u06_l04_end_of_level_mixed_memory_challenge
 slug: end-of-level-mixed-memory-challenge
 title: End-Of-Level Mixed Memory Challenge
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will complete a mixed set and explain how to practice a new
+        short target.
+    - title: Say It Before You Answer
+      body: >
+        Present the challenge as a celebration of tools learned, not a high-stakes
+        performance.
 ---
 
 ## Teaching Goal

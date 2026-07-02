@@ -3,6 +3,26 @@ id: lesson_grade3_french_u06_l02_il_y_a_and_where_things_are
 slug: il-y-a-and-where-things-are
 title: Il Y A And Where Things Are
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will describe what is in a classroom or bag and where a
+        familiar object is located. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Il y a tells what exists or what is present.
+        - >
+          dans = in.
+        - >
+          sur = on.
+        - >
+          sous = under.
+        - >
+          à côté de = next to.
 ---
 
 ## Teaching Goal

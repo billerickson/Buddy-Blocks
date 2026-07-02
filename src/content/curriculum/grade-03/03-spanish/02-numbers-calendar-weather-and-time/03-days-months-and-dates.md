@@ -3,6 +3,26 @@ id: lesson_grade3_spanish_u02_l03_days_months_and_dates
 slug: days-months-and-dates
 title: Days, Months, And Dates
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will answer ¿Qué día es hoy?, interpret dates, and state a
+        birthday using a supported frame. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          lunes = Monday.
+        - >
+          martes = Tuesday.
+        - >
+          viernes = Friday.
+        - >
+          domingo = Sunday.
+        - >
+          Spanish days are normally lowercase, and Hoy es martes is the standard order.
 ---
 
 ## Teaching Goal

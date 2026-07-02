@@ -3,6 +3,16 @@ id: lesson_grade3_logic_u03_l01_what_information_is_given
 slug: what-information-is-given
 title: What Information Is Given?
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify what a short prompt actually says and what it
+        does not say.
+    - title: Key Idea
+      body: >
+        Conclusions must start with the information given, not with guesses added from
+        outside.
 ---
 
 ## Teaching Goal

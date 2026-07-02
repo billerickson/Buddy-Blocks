@@ -3,6 +3,16 @@ id: lesson_grade3_vocabulary_u05_l01_multiple_meaning_words_in_context
 slug: multiple-meaning-words-in-context
 title: Multiple-Meaning Words In Context
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will use sentence clues to select the fitting meaning of a
+        multiple-meaning word.
+    - title: Try It This Way
+      body: >
+        Use light in "not heavy" and "lamp light" contexts to show how sentence fit
+        changes meaning.
 ---
 
 ## Teaching Goal

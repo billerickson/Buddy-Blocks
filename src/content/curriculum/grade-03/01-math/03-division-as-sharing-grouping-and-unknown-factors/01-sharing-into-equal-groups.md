@@ -3,6 +3,16 @@ id: lesson_grade3_math_u03_l01_sharing_into_equal_groups
 slug: sharing-into-equal-groups
 title: Sharing Into Equal Groups
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will model a sharing division problem and identify how many
+        are in each group.
+    - title: Key Idea
+      body: >
+        When the number of groups is known, division can find the size of each equal
+        group.
 ---
 
 ## Teaching Goal

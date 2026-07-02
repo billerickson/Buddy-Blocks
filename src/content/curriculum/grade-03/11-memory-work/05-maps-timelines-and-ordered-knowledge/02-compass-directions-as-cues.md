@@ -3,6 +3,25 @@ id: lesson_grade3_memory_work_u05_l02_compass_directions_as_cues
 slug: compass-directions-as-cues
 title: Compass Directions As Cues
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will recall north, east, south, and west in a stable clockwise
+        order and use direction language in simple map prompts.
+    - title: Say It Before You Answer
+      body: >
+        Draw a simple compass rose and have you point through the order while saying the
+        words.
+      bullets:
+        - >
+          north
+        - >
+          east
+        - >
+          south
+        - >
+          west
 ---
 
 ## Teaching Goal

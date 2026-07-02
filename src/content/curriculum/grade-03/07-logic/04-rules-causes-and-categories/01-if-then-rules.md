@@ -3,6 +3,15 @@ id: lesson_grade3_logic_u04_l01_if_then_rules
 slug: if-then-rules
 title: If-Then Rules
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will label what must happen first and what follows in an
+        if-then rule.
+    - title: Key Idea
+      body: >
+        In an if-then rule, the if-part is the condition and the then-part is the result.
 ---
 
 ## Teaching Goal

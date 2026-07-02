@@ -3,6 +3,25 @@ id: lesson_grade3_memory_work_u03_l01_use_rhythm_and_repeated_sound
 slug: use-rhythm-and-repeated-sound
 title: Use Rhythm And Repeated Sound
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will identify a sound pattern or repeated word that can help
+        recall a poem line.
+    - title: Say It Before You Answer
+      body: >
+        Use short original practice lines such as "Bright birds build by the bay" to
+        notice repeated beginning sounds.
+      bullets:
+        - >
+          rhythm = beat or movement in the words
+        - >
+          rhyme = words with ending sounds alike
+        - >
+          line = one row of a poem
+        - >
+          repeated sound = a sound that comes back
 ---
 
 ## Teaching Goal

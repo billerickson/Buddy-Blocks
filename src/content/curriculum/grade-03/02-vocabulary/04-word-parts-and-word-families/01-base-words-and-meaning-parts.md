@@ -3,6 +3,15 @@ id: lesson_grade3_vocabulary_u04_l01_base_words_and_meaning_parts
 slug: base-words-and-meaning-parts
 title: Base Words And Meaning Parts
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will find the base word in familiar words and explain the
+        related meaning.
+    - title: Try It This Way
+      body: >
+        Show teach, teacher, and teaching and ask what meaning stays the same.
 ---
 
 ## Teaching Goal

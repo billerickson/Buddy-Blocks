@@ -3,6 +3,15 @@ id: lesson_grade6_vocabulary_u05_l01_denotation_and_dictionary_meaning
 slug: denotation-and-dictionary-meaning
 title: Denotation And Dictionary Meaning
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify denotation and choose definitions that fit
+        context.
+    - title: Try It This Way
+      body: >
+        Compare the denotation of home and house before discussing associations.
 ---
 
 ## Teaching Goal

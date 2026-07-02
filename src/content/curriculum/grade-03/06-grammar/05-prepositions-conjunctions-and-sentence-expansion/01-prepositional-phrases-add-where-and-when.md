@@ -3,6 +3,15 @@ id: lesson_grade3_grammar_u05_l01_prepositional_phrases_add_where_and_when
 slug: prepositional-phrases-add-where-and-when
 title: Prepositional Phrases Add Where And When
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify a prepositional phrase and explain what
+        where/when detail it adds.
+    - title: Try It This Way
+      body: >
+        Move an object and describe it: on the desk, under the desk, beside the desk.
 ---
 
 ## Teaching Goal

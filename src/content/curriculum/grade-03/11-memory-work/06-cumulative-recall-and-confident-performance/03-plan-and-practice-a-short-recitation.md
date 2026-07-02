@@ -3,6 +3,29 @@ id: lesson_grade3_memory_work_u06_l03_plan_and_practice_a_short_recitation
 slug: plan-and-practice-a-short-recitation
 title: Plan And Practice A Short Recitation
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will choose a target, plan chunked rehearsal, and practice
+        with a clear-voice checklist.
+    - title: Say It Before You Answer
+      body: >
+        Keep the performance private or low-stakes. The point is prepared recall and clear
+        communication.
+      bullets:
+        - >
+          Choose the short target
+        - >
+          Break it into chunks
+        - >
+          Check exact words
+        - >
+          Practice with clear voice
+        - >
+          target = Measure twice, cut once
+        - >
+          chunk = Measure twice / cut once
 ---
 
 ## Teaching Goal

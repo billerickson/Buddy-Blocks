@@ -3,6 +3,30 @@ id: lesson_grade3_french_u01_l02_polite_words_and_classroom_survival
 slug: polite-words-and-classroom-survival
 title: Polite Words And Classroom Survival
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will match and use merci, s'il vous plaît, pardon,
+        excusez-moi, écoutez, répétez, regardez, écrivez, and je ne comprends pas. Read
+        each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          S'il vous plaît is the polite phrase for please.
+        - >
+          écoutez = listen.
+        - >
+          répétez = repeat.
+        - >
+          regardez = look.
+        - >
+          écrivez = write.
+        - >
+          Je ne comprends pas means I do not understand, so it helps when a direction is
+          unclear.
 ---
 
 ## Teaching Goal

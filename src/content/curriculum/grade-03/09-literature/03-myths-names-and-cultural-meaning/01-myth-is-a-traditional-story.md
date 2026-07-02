@@ -3,6 +3,16 @@ id: lesson_grade3_literature_u03_l01_myth_is_a_traditional_story
 slug: myth-is-a-traditional-story
 title: Myth Is A Traditional Story
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify a myth by its literary features and explain that
+        myths should be discussed respectfully.
+    - title: Try It This Way
+      body: >
+        Start with two uses of the word myth and explain that literature class uses the
+        traditional-story meaning.
 ---
 
 ## Teaching Goal

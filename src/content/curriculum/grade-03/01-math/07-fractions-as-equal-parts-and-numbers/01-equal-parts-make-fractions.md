@@ -3,6 +3,16 @@ id: lesson_grade3_math_u07_l01_equal_parts_make_fractions
 slug: equal-parts-make-fractions
 title: Equal Parts Make Fractions
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify equal and unequal partitions and explain whether
+        a diagram can represent a fraction.
+    - title: Key Idea
+      body: >
+        Fraction parts must be equal in size, even if the shapes of the parts can look
+        different in later examples.
 ---
 
 ## Teaching Goal

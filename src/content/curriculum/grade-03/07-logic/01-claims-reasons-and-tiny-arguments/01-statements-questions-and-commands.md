@@ -3,6 +3,16 @@ id: lesson_grade3_logic_u01_l01_statements_questions_and_commands
 slug: statements-questions-and-commands
 title: Statements, Questions, And Commands
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will distinguish statements, questions, commands, and
+        exclamations in familiar contexts.
+    - title: Key Idea
+      body: >
+        A sentence's job can be identified by what it does: tells, asks, directs, or shows
+        strong feeling.
 ---
 
 ## Teaching Goal

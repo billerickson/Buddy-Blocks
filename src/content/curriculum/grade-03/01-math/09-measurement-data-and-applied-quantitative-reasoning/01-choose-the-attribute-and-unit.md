@@ -3,6 +3,15 @@ id: lesson_grade3_math_u09_l01_choose_the_attribute_and_unit
 slug: choose-the-attribute-and-unit
 title: Choose The Attribute And Unit
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify whether a situation measures length, mass,
+        liquid volume, or time and select a reasonable unit.
+    - title: Key Idea
+      body: >
+        Measurement depends on the attribute being measured and the unit used.
 ---
 
 ## Teaching Goal

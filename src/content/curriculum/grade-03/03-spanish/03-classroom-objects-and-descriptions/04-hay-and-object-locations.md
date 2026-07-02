@@ -3,6 +3,26 @@ id: lesson_grade3_spanish_u03_l04_hay_and_object_locations
 slug: hay-and-object-locations
 title: Hay And Object Locations
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will interpret and produce hay/no hay statements and simple
+        está/están en... location statements. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Hay introduces what exists: Hay un libro.
+        - >
+          en = in or on.
+        - >
+          cerca de = near.
+        - >
+          al lado de = next to.
+        - >
+          debajo de = under.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,27 @@ id: lesson_grade3_spanish_u01_l05_cognates_and_mini_dialogues
 slug: cognates-and-mini-dialogues
 title: Cognates And Mini Dialogues
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will identify helpful cognates, avoid overtrusting them, and
+        build a short polite dialogue from familiar chunks. Read each new phrase once
+        before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Cognates are useful clues, but context helps confirm the meaning.
+        - >
+          familia = family.
+        - >
+          color = color.
+        - >
+          animal = animal.
+        - >
+          hospital = hospital.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,29 @@ id: lesson_grade3_french_u04_l04_my_your_mon_ma_mes_in_context
 slug: my-your-mon-ma-mes-in-context
 title: My, Your? Mon, Ma, Mes In Context
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will choose mon, ma, or mes based on the noun that follows and
+        understand ton/ta/tes as exposure if included. Read each new phrase once before
+        you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          mon frère = my brother.
+        - >
+          ma soeur = my sister.
+        - >
+          mes parents = my parents.
+        - >
+          mon ami = my friend.
+        - >
+          Parents is plural, so mes is the controlled possessive chunk.
+        - >
+          Possession chunks help you talk about people in your world.
 ---
 
 ## Teaching Goal

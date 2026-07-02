@@ -3,6 +3,25 @@ id: lesson_grade3_french_u02_l02_dates_days_and_birthdays
 slug: dates-days-and-birthdays
 title: Dates, Days, And Birthdays
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will interpret and complete phrases such as aujourd'hui c'est
+        lundi, la date est le 5 mai, and mon anniversaire est en juin. Read each new
+        phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          lundi = Monday.
+        - >
+          mardi = Tuesday.
+        - >
+          vendredi = Friday.
+        - >
+          dimanche = Sunday.
 ---
 
 ## Teaching Goal

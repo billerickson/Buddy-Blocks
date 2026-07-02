@@ -3,6 +3,24 @@ id: lesson_grade3_memory_work_u02_l02_put_the_meaning_in_your_own_words
 slug: put-the-meaning-in-your-own-words
 title: Put The Meaning In Your Own Words
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will paraphrase a short saying without losing its main idea.
+    - title: Say It Before You Answer
+      body: >
+        Compare exact recall of "A stitch in time saves nine" with the paraphrase "Fix a
+        small problem early before it grows."
+      bullets:
+        - >
+          A stitch in time saves nine. = Fix a small problem early.
+        - >
+          Many hands make light work. = A job is easier with helpers.
+        - >
+          Well begun is half done. = A good start makes the rest easier.
+        - >
+          Measure twice, cut once. = Check carefully before acting.
 ---
 
 ## Teaching Goal

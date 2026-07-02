@@ -3,6 +3,28 @@ id: lesson_grade3_memory_work_u01_l04_correct_the_missed_part
 slug: correct-the-missed-part
 title: Fix The Part You Missed
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will find the part they missed, practice that part, and then
+        say the whole line again.
+    - title: Say It Before You Answer
+      body: >
+        Normalize mistakes by saying, "The missed part shows us what to practice next."
+      bullets:
+        - >
+          missed the last word = practice the ending part
+        - >
+          mixed two steps = put the steps back in order
+        - >
+          forgot after one day = try it again later
+        - >
+          peeked while saying it = cover the line fully
+        - >
+          Find the missed part
+        - >
+          Practice the missed part
 ---
 
 ## Teaching Goal

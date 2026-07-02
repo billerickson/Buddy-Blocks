@@ -3,6 +3,16 @@ id: lesson_grade3_grammar_u02_l01_common_and_proper_nouns
 slug: common-and-proper-nouns
 title: Common And Proper Nouns
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify common and proper nouns and capitalize proper
+        nouns in simple sentences.
+    - title: Try It This Way
+      body: >
+        Pair city with Dallas, girl with Maya, and month with April to show general versus
+        specific naming.
 ---
 
 ## Teaching Goal

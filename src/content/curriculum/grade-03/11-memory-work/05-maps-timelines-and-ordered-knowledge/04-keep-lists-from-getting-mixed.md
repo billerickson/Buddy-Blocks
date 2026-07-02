@@ -3,6 +3,26 @@ id: lesson_grade3_memory_work_u05_l04_keep_lists_from_getting_mixed
 slug: keep-lists-from-getting-mixed
 title: Keep Lists From Getting Mixed
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will decide whether a prompt asks for a saying, measure,
+        grammar definition, compass direction list, geography category, or timeline
+        sequence.
+    - title: Say It Before You Answer
+      body: >
+        Show two prompts side by side: "Name an ocean" and "Name a continent." Ask why the
+        same answer cannot fit both.
+      bullets:
+        - >
+          saying = meaning cue
+        - >
+          measure = unit category cue
+        - >
+          timeline = before-and-after cue
+        - >
+          poem = first-line cue
 ---
 
 ## Teaching Goal

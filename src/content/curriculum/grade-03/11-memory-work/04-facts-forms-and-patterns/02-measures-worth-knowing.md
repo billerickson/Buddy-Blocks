@@ -3,6 +3,25 @@ id: lesson_grade3_memory_work_u04_l02_measures_worth_knowing
 slug: measures-worth-knowing
 title: Measures Worth Knowing
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will recall measures such as 12 inches = 1 foot, 3 feet = 1
+        yard, 60 minutes = 1 hour, and 100 cents = 1 dollar.
+    - title: Say It Before You Answer
+      body: >
+        Show each equivalence as a two-sided card and require a recall attempt before
+        turning the card over.
+      bullets:
+        - >
+          12 inches = 1 foot
+        - >
+          3 feet = 1 yard
+        - >
+          60 minutes = 1 hour
+        - >
+          100 cents = 1 dollar
 ---
 
 ## Teaching Goal

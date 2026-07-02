@@ -3,6 +3,22 @@ id: lesson_grade3_memory_work_u01_l01_study_recognition_and_recall
 slug: study-recognition-and-recall
 title: Try A Short Memory Line
 xpBase: 10
+config:
+  intro:
+    - title: Meet The Memory Line
+      body: >
+        Today you will practice one short line: "North, east, south, west."
+        Read it slowly once or twice. The goal is not to rush. The goal is to
+        remember the exact words in the exact order.
+    - title: Look, Cover, Say, Check
+      body: >
+        Memory practice works best when your memory gets a turn. Use these four
+        steps before you answer.
+      bullets:
+        - Look at the whole line.
+        - Cover the words so you cannot see them.
+        - Say the line from memory.
+        - Check the line and fix any missed word.
 ---
 
 ## Teaching Goal

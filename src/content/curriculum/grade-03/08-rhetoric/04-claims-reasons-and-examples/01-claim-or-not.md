@@ -3,6 +3,16 @@ id: lesson_grade3_rhetoric_u04_l01_claim_or_not
 slug: claim-or-not
 title: Claim Or Not?
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify which statements are claims and which are facts,
+        questions, or details.
+    - title: Try It This Way
+      body: >
+        Compare "The library opens at nine" with "The library is the best quiet place to
+        read."
 ---
 
 ## Teaching Goal

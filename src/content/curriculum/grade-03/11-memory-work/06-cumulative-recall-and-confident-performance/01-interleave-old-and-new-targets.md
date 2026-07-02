@@ -3,6 +3,24 @@ id: lesson_grade3_memory_work_u06_l01_interleave_old_and_new_targets
 slug: interleave-old-and-new-targets
 title: Interleave Old And New Targets
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will identify target type, choose a strategy, and answer mixed
+        recall prompts from earlier units.
+    - title: Say It Before You Answer
+      body: >
+        Present a mixed mini-deck and Try to name the target type before answering.
+      bullets:
+        - >
+          poem line = use a first-word cue
+        - >
+          measure fact = check the units
+        - >
+          timeline peg = use before-and-after order
+        - >
+          saying = use the meaning
 ---
 
 ## Teaching Goal

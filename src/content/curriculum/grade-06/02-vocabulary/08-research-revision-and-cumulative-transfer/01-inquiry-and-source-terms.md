@@ -3,6 +3,16 @@ id: lesson_grade6_vocabulary_u08_l01_inquiry_and_source_terms
 slug: inquiry-and-source-terms
 title: Inquiry And Source Terms
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will use inquiry, keyword, source, note, question, topic, and
+        conclusion vocabulary accurately.
+    - title: Try It This Way
+      body: >
+        Use one research question and show how it becomes keywords, notes, and a
+        conclusion.
 ---
 
 ## Teaching Goal

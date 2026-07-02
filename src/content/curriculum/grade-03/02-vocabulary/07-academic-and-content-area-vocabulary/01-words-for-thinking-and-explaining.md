@@ -3,6 +3,16 @@ id: lesson_grade3_vocabulary_u07_l01_words_for_thinking_and_explaining
 slug: words-for-thinking-and-explaining
 title: Words For Thinking And Explaining
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will choose what a direction asks them to do when it uses
+        words such as identify, describe, explain, compare, contrast, summarize, and
+        conclude.
+    - title: Try It This Way
+      body: >
+        Display a few question stems and ask what each one is really asking you to do.
 ---
 
 ## Teaching Goal

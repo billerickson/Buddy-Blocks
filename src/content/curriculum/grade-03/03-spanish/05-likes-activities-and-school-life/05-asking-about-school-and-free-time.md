@@ -3,6 +3,30 @@ id: lesson_grade3_spanish_u05_l05_asking_about_school_and_free_time
 slug: asking-about-school-and-free-time
 title: Asking About School And Free Time
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will build a short school/free-time dialogue using ¿Qué te
+        gusta?, ¿Qué clase tienes?, and familiar answers. Read each new phrase once before
+        you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          ¿Qué clase tienes? asks what class you have.
+        - >
+          ¿Qué te gusta? = a preference.
+        - >
+          ¿Qué clase tienes? = a class.
+        - >
+          ¿Cuándo? = a time or date.
+        - >
+          ¿Cómo estás? = a feeling.
+        - >
+          The question asks what you like to do, so an activity answer with Me gusta
+          fits.
 ---
 
 ## Teaching Goal

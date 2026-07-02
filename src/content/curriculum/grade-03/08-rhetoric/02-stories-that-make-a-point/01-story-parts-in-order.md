@@ -3,6 +3,15 @@ id: lesson_grade3_rhetoric_u02_l01_story_parts_in_order
 slug: story-parts-in-order
 title: Story Parts In Order
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will place story events in a clear order and name whether each
+        event belongs at the beginning, middle, or end.
+    - title: Try It This Way
+      body: >
+        Use a three-event story and physically move cards into beginning, middle, and end.
 ---
 
 ## Teaching Goal

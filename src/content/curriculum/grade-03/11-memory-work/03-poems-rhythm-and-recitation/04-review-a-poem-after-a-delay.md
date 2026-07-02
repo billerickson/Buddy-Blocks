@@ -3,6 +3,25 @@ id: lesson_grade3_memory_work_u03_l04_review_a_poem_after_a_delay
 slug: review-a-poem-after-a-delay
 title: Review A Poem After A Delay
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will review a learned couplet after a delay, identify a missed
+        chunk, and repair it.
+    - title: Say It Before You Answer
+      body: >
+        Frame delayed review as a checkup: it shows what is strong and what needs one more
+        focused practice.
+      bullets:
+        - >
+          Find the missed word or line
+        - >
+          Practice the missed chunk
+        - >
+          Try the whole couplet again
+        - >
+          Review it again later
 ---
 
 ## Teaching Goal

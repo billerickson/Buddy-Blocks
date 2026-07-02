@@ -3,6 +3,30 @@ id: lesson_grade3_french_u06_l01_classroom_objects_and_school_subjects
 slug: classroom-objects-and-school-subjects
 title: Classroom Objects And School Subjects
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will match common school nouns to meanings and say whether
+        they like a subject. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          le stylo = the pen.
+        - >
+          le cahier = the notebook.
+        - >
+          le livre = the book.
+        - >
+          la trousse = the pencil case.
+        - >
+          les sciences = science.
+        - >
+          le crayon = the pencil.
+        - >
+          les maths = math.
 ---
 
 ## Teaching Goal

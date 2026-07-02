@@ -3,6 +3,28 @@ id: lesson_grade3_spanish_u04_l01_soy_eres_es_for_identity
 slug: soy-eres-es-for-identity
 title: Soy, Eres, Es For Identity
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will use soy, eres, and es for names, identity labels, origin,
+        and simple traits in taught contexts. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          ¿Quién eres? asks who you are, so Soy Luis fits.
+        - >
+          Soy de... tells where someone is from.
+        - >
+          soy = I am.
+        - >
+          eres = you are.
+        - >
+          es = he, she, or it is.
+        - >
+          de = from or of.
 ---
 
 ## Teaching Goal

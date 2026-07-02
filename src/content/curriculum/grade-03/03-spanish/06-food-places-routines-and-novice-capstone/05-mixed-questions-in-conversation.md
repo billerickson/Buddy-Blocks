@@ -3,6 +3,28 @@ id: lesson_grade3_spanish_u06_l05_mixed_questions_in_conversation
 slug: mixed-questions-in-conversation
 title: Mixed Questions In Conversation
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will identify the question word or phrase and choose or
+        produce a fitting answer. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          ¿Cómo te llamas? = Me llamo Nora.
+        - >
+          ¿Cuántos años tienes? = Tengo doce años.
+        - >
+          ¿Dónde estás? = Estoy en casa.
+        - >
+          ¿Qué te gusta? = Me gusta leer.
+        - >
+          ¿Dónde está...? asks where someone is.
+        - >
+          ¿Dónde? asks where, so it asks for a place.
 ---
 
 ## Teaching Goal

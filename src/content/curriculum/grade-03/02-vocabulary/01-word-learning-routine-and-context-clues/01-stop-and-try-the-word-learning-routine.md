@@ -3,6 +3,16 @@ id: lesson_grade3_vocabulary_u01_l01_stop_and_try_the_word_learning_routine
 slug: stop-and-try-the-word-learning-routine
 title: Stop And Try The Word-Learning Routine
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will put the routine steps in order and use them to make a
+        supported meaning guess.
+    - title: Try It This Way
+      body: >
+        Watch for meeting the word drenched in "After the rainstorm, my drenched socks
+        dripped on the floor" and think aloud through the routine.
 ---
 
 ## Teaching Goal

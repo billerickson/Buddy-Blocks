@@ -3,6 +3,28 @@ id: lesson_grade3_memory_work_u03_l03_recite_with_voice_and_pacing
 slug: recite-with-voice-and-pacing
 title: Recite With Voice And Pacing
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will choose delivery choices that support a clear recitation.
+    - title: Say It Before You Answer
+      body: >
+        Contrast a rushed reading with a clear reading and ask which one helps the
+        listener understand.
+      bullets:
+        - >
+          too fast = slow the pace
+        - >
+          too quiet = use a clear voice
+        - >
+          no pauses = pause between chunks
+        - >
+          forgot a line = use the first-word cue
+        - >
+          Understand the meaning
+        - >
+          Chunk the lines
 ---
 
 ## Teaching Goal

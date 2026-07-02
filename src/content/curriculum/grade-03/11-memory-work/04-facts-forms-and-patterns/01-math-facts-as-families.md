@@ -3,6 +3,25 @@ id: lesson_grade3_memory_work_u04_l01_math_facts_as_families
 slug: math-facts-as-families
 title: Math Facts As Families
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will recall related multiplication and division facts for
+        small number sets such as 3, 4, and 12.
+    - title: Say It Before You Answer
+      body: >
+        Put the three numbers 3, 4, and 12 in a triangle and build all related equations
+        from the same set.
+      bullets:
+        - >
+          3 x 4 = 12 = 12 / 3 = 4
+        - >
+          4 x 3 = 12 = 12 / 4 = 3
+        - >
+          5 x 6 = 30 = 30 / 5 = 6
+        - >
+          6 x 5 = 30 = 30 / 6 = 5
 ---
 
 ## Teaching Goal

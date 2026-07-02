@@ -3,6 +3,26 @@ id: lesson_grade3_spanish_u04_l04_describing_people_with_agreement
 slug: describing-people-with-agreement
 title: Describing People With Agreement
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will describe people with familiar adjectives that agree in
+        gender and number when applicable. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Hermana is feminine, so the adjective is simpática, and es describes a trait.
+        - >
+          alto = tall.
+        - >
+          trabajador = hardworking.
+        - >
+          serio = serious.
+        - >
+          cómico = funny.
 ---
 
 ## Teaching Goal

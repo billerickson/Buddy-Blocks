@@ -3,6 +3,29 @@ id: lesson_grade3_memory_work_u01_l02_chunk_the_target
 slug: chunk-the-target
 title: Break A Line Into Parts
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will divide a short line into useful parts and practice one
+        part at a time.
+    - title: Say It Before You Answer
+      body: >
+        Use "Measure twice, cut once." Clap or tap once for each part: "Measure twice" and
+        "cut once." Then put the parts back together.
+      bullets:
+        - >
+          Measure twice
+        - >
+          cut once
+        - >
+          Measure twice = check carefully first
+        - >
+          cut once = act after checking
+        - >
+          North, east = first half of the direction line
+        - >
+          south, west = second half of the direction line
 ---
 
 ## Teaching Goal

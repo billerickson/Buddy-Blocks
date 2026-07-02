@@ -3,6 +3,16 @@ id: lesson_grade3_history_civics_u01_l01_past_present_and_future
 slug: past-present-and-future
 title: Past, Present, And Future
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will classify simple events as past, present, or future and
+        use before/after language in a sentence.
+    - title: Try It This Way
+      body: >
+        Start with a familiar routine: "I ate breakfast," "I am learning now," and "I will
+        go home later." Then widen to community and historical examples.
 ---
 
 ## Teaching Goal

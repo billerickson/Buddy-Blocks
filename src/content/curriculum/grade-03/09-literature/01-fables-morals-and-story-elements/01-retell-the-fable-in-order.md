@@ -3,6 +3,16 @@ id: lesson_grade3_literature_u01_l01_retell_the_fable_in_order
 slug: retell-the-fable-in-order
 title: Retell The Fable In Order
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will place the beginning, middle, and end of a fable in order
+        and include the key event that makes the ending make sense.
+    - title: Try It This Way
+      body: >
+        Read a short fable aloud once for enjoyment, then reread and mark what happened
+        first, what changed, and how it ended.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,31 @@ id: lesson_grade3_french_u01_l01_bonjour_salut_and_goodbye
 slug: bonjour-salut-and-goodbye
 title: Bonjour, Salut, And Goodbye
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will choose and use bonjour, salut, au revoir, and à bientôt
+        in short familiar contexts. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Bonjour is a safe, polite greeting for a teacher or adult.
+        - >
+          Salut is an informal greeting, so another friendly greeting fits.
+        - >
+          bonjour = hello / good day.
+        - >
+          salut = hi.
+        - >
+          au revoir = goodbye.
+        - >
+          à bientôt = see you soon.
+        - >
+          À bientôt means see you soon, so it fits when someone is leaving and you will
+          meet again.
 ---
 
 ## Teaching Goal

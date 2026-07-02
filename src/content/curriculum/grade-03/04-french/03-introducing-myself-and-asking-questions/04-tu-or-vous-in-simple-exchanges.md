@@ -3,6 +3,30 @@ id: lesson_grade3_french_u03_l04_tu_or_vous_in_simple_exchanges
 slug: tu-or-vous-in-simple-exchanges
 title: Tu Or Vous In Simple Exchanges
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will identify when an informal or polite address fits and
+        choose a matching question line. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Tu fits a clear informal friend situation.
+        - >
+          Vous is the polite choice for a teacher or adult in this clear situation.
+        - >
+          talking to a close friend = tu for a close friend.
+        - >
+          talking to a teacher = vous for a teacher.
+        - >
+          talking politely to one adult = vous for a polite adult.
+        - >
+          talking to your sibling = tu for a sibling.
+        - >
+          Bonjour, Madame signals a polite adult exchange, so vous fits.
 ---
 
 ## Teaching Goal

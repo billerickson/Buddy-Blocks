@@ -3,6 +3,22 @@ id: lesson_grade3_spanish_u05_l01_me_gusta_for_one_like
 slug: me-gusta-for-one-like
 title: Me Gusta For One Like
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will say and interpret simple likes with me gusta plus an
+        infinitive or singular noun. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          leer = to read.
+        - >
+          Me gusta leer is the Level 1 chunk for I like to read.
+        - >
+          ¿Qué te gusta? asks what you like, so a me gusta answer fits.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,15 @@ id: lesson_grade6_math_u05_l01_positive_and_negative_contexts
 slug: positive-and-negative-contexts
 title: Positive And Negative Contexts
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will match positive and negative numbers to contexts such as
+        elevation, temperature, debt, or game score.
+    - title: Key Idea
+      body: >
+        Zero is a reference point; signs show direction or side from that reference.
 ---
 
 ## Teaching Goal

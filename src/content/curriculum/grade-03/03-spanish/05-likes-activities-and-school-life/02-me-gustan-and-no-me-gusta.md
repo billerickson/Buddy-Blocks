@@ -3,6 +3,20 @@ id: lesson_grade3_spanish_u05_l02_me_gustan_and_no_me_gusta
 slug: me-gustan-and-no-me-gusta
 title: Me Gustan And No Me Gusta
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will choose between me gusta, me gustan, and no me gusta for
+        taught preferences. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          No goes before the me gusta chunk to make a dislike.
+        - >
+          Las clases is plural, so Me gustan las clases is the fitting pattern.
 ---
 
 ## Teaching Goal

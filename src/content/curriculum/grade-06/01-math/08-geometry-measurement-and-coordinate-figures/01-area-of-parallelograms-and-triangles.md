@@ -3,6 +3,16 @@ id: lesson_grade6_math_u08_l01_area_of_parallelograms_and_triangles
 slug: area-of-parallelograms-and-triangles
 title: Area Of Parallelograms And Triangles
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will find area using base and height and explain why the
+        formula fits the shape.
+    - title: Key Idea
+      body: >
+        Parallelograms can be rearranged into rectangles, and triangles are half of
+        related parallelograms or rectangles.
 ---
 
 ## Teaching Goal

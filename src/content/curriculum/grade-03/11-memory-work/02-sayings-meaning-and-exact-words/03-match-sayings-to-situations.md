@@ -3,6 +3,25 @@ id: lesson_grade3_memory_work_u02_l03_match_sayings_to_situations
 slug: match-sayings-to-situations
 title: Match Sayings To Situations
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will choose which saying fits a short scenario and explain the
+        clue.
+    - title: Say It Before You Answer
+      body: >
+        Read a two-sentence situation, ask what the problem is, then choose the saying
+        that names the lesson.
+      bullets:
+        - >
+          small problem fixed early = A stitch in time saves nine.
+        - >
+          strong beginning helps later = Well begun is half done.
+        - >
+          helpers make a job easier = Many hands make light work.
+        - >
+          check before acting = Measure twice, cut once.
 ---
 
 ## Teaching Goal

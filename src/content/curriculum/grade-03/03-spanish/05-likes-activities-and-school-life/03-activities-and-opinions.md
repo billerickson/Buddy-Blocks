@@ -3,6 +3,26 @@ id: lesson_grade3_spanish_u05_l03_activities_and_opinions
 slug: activities-and-opinions
 title: Activities And Opinions
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will state a liked activity and give a simple opinion using y,
+        pero, or también. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          dibujar = to draw.
+        - >
+          cantar = to sing.
+        - >
+          bailar = to dance.
+        - >
+          estudiar = to study.
+        - >
+          A mí también means me too, so it fits an agreement response.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,28 @@ id: lesson_grade3_spanish_u02_l01_numbers_0_31_in_useful_contexts
 slug: numbers-0-31-in-useful-contexts
 title: Numbers 0-31 In Useful Contexts
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will recognize, match, and produce numbers 0-31 in common
+        Level 1 contexts. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          doce = 12.
+        - >
+          cinco = 5.
+        - >
+          diez = 10.
+        - >
+          quince = 15.
+        - >
+          veinte = 20.
+        - >
+          Quince means 15.
 ---
 
 ## Teaching Goal

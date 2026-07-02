@@ -3,6 +3,17 @@ id: lesson_grade3_spanish_u06_l04_simple_daily_routines
 slug: simple-daily-routines
 title: Simple Daily Routines
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will interpret and produce a short routine with primero,
+        después, time phrases, and common action chunks. Read each new phrase once before
+        you answer.
+    - title: Try It In Context
+      body: >
+        Show a three-step model routine with times and Try to notice the sequence words
+        before reading details.
 ---
 
 ## Teaching Goal

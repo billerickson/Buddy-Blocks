@@ -3,6 +3,15 @@ id: lesson_grade3_math_u11_l01_perimeter_is_distance_around
 slug: perimeter-is-distance-around
 title: Perimeter Is Distance Around
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will trace a boundary and find perimeter when side lengths are
+        given or countable.
+    - title: Key Idea
+      body: >
+        Perimeter measures around the outside, not the inside covering.
 ---
 
 ## Teaching Goal

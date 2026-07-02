@@ -3,6 +3,27 @@ id: lesson_grade3_french_u03_l01_my_name_age_and_student_identity
 slug: my-name-age-and-student-identity
 title: My Name, Age, And Student Identity
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will say or write je m'appelle, j'ai ___ ans, and je suis
+        élève in a supported self-introduction. Read each new phrase once before you
+        answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          French uses j'ai with age: j'ai treize ans.
+        - >
+          Je m'appelle Maya. = name.
+        - >
+          J'ai onze ans. = age.
+        - >
+          Je suis élève. = student identity.
+        - >
+          Ça va bien. = how someone feels.
 ---
 
 ## Teaching Goal

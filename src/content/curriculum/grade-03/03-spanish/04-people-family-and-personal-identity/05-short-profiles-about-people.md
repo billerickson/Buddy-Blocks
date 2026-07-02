@@ -3,6 +3,20 @@ id: lesson_grade3_spanish_u04_l05_short_profiles_about_people
 slug: short-profiles-about-people
 title: Short Profiles About People
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will interpret and produce a short profile about self or
+        another familiar person. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          The question asks Sara's age, so the answer uses tiene... años.
+        - >
+          The sentence names a family member and gives a trait.
 ---
 
 ## Teaching Goal

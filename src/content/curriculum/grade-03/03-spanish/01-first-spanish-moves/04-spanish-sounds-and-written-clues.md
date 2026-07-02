@@ -3,6 +3,32 @@ id: lesson_grade3_spanish_u01_l04_spanish_sounds_and_written_clues
 slug: spanish-sounds-and-written-clues
 title: Spanish Sounds And Written Clues
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will identify clear vowel sounds, silent h, ñ, j, ll/y, accent
+        marks, and inverted punctuation in familiar examples. Read each new phrase once
+        before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          In Spanish, h is usually silent, so hola starts with the vowel sound.
+        - >
+          ñ = señor.
+        - >
+          opening question mark = ¿Cómo?
+        - >
+          j sound = jugo.
+        - >
+          accent mark = adiós.
+        - >
+          Spanish spelling is more regular than English, so vowels are useful
+          pronunciation clues.
+        - >
+          Hola begins with h, but Spanish h is usually silent.
 ---
 
 ## Teaching Goal

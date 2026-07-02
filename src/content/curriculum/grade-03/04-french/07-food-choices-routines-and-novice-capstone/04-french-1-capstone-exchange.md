@@ -3,6 +3,29 @@ id: lesson_grade3_french_u07_l04_french_1_capstone_exchange
 slug: french-1-capstone-exchange
 title: French 1 Capstone Exchange
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will interpret a short familiar text, choose appropriate
+        dialogue replies, and produce a brief self or everyday profile. Read each new
+        phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Comment tu t'appelles? asks for a name.
+        - >
+          Je voudrais un sandwich. = make a polite food request.
+        - >
+          Où habites-tu? = ask where someone lives.
+        - >
+          Il fait beau. = describe the weather.
+        - >
+          Le stylo est dans le sac. = tell where an object is.
+        - >
+          A strong French 1 profile recombines familiar chunks accurately.
 ---
 
 ## Teaching Goal

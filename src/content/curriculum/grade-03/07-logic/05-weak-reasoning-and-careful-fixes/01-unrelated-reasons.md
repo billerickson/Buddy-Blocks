@@ -3,6 +3,16 @@ id: lesson_grade3_logic_u05_l01_unrelated_reasons
 slug: unrelated-reasons
 title: Unrelated Reasons
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify unrelated reasons and choose a reason that fits
+        better.
+    - title: Key Idea
+      body: >
+        A reason can sound positive or true but still fail to answer why the claim should
+        be accepted.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,28 @@ id: lesson_grade3_french_u04_l01_family_words_need_articles
 slug: family-words-need-articles
 title: Family Words Need Articles
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will identify close family words and choose le, la, l', un,
+        une, or les in controlled contexts. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          la mère = mother.
+        - >
+          le père = father.
+        - >
+          la soeur = sister.
+        - >
+          le frère = brother.
+        - >
+          Les marks a plural noun phrase: les parents.
+        - >
+          le grand-père = grandfather.
 ---
 
 ## Teaching Goal

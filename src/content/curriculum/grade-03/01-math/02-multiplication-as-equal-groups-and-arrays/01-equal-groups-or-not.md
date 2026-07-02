@@ -3,6 +3,15 @@ id: lesson_grade3_math_u02_l01_equal_groups_or_not
 slug: equal-groups-or-not
 title: Equal Groups Or Not?
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will decide whether a situation shows equal groups and explain
+        why multiplication does or does not fit.
+    - title: Key Idea
+      body: >
+        Multiplication requires groups of the same size.
 ---
 
 ## Teaching Goal

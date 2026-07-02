@@ -3,6 +3,25 @@ id: lesson_grade3_memory_work_u05_l01_continents_and_oceans_as_categories
 slug: continents-and-oceans-as-categories
 title: Continents And Oceans As Categories
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will identify whether a named place belongs in the continent
+        list or ocean list and recall examples from each.
+    - title: Say It Before You Answer
+      body: >
+        Use two headings, "continents" and "oceans," before naming examples. The category
+        is the first cue.
+      bullets:
+        - >
+          continent = large land area
+        - >
+          ocean = large body of salt water
+        - >
+          Asia = example of a continent
+        - >
+          Pacific Ocean = example of an ocean
 ---
 
 ## Teaching Goal

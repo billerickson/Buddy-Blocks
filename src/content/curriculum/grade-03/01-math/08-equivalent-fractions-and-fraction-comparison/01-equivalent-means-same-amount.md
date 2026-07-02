@@ -3,6 +3,16 @@ id: lesson_grade3_math_u08_l01_equivalent_means_same_amount
 slug: equivalent-means-same-amount
 title: Equivalent Means Same Amount
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify equivalent fractions using aligned visual
+        models.
+    - title: Key Idea
+      body: >
+        Equivalent fractions cover or mark the same quantity, even with different
+        numerators and denominators.
 ---
 
 ## Teaching Goal

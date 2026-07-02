@@ -3,6 +3,31 @@ id: lesson_grade3_spanish_u06_l01_food_drinks_and_polite_wants
 slug: food-drinks-and-polite-wants
 title: Food, Drinks, And Polite Wants
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will identify foods and drinks and request one politely using
+        Quiero... por favor or recognize Quisiera... as a polite option. Read each new
+        phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          la manzana = the apple.
+        - >
+          el agua = water.
+        - >
+          el pan = bread.
+        - >
+          el queso = cheese.
+        - >
+          la fruta = fruit.
+        - >
+          Quiero agua, por favor is a simple polite request for water.
+        - >
+          Quisiera... por favor is a polite request chunk.
 ---
 
 ## Teaching Goal

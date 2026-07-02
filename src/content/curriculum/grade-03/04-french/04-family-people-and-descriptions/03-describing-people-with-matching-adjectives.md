@@ -3,6 +3,28 @@ id: lesson_grade3_french_u04_l03_describing_people_with_matching_adjectives
 slug: describing-people-with-matching-adjectives
 title: Describing People With Matching Adjectives
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will choose or complete short descriptions such as ma soeur
+        est grande and mon frère est brun. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          grand = tall / big.
+        - >
+          petit = small / short.
+        - >
+          drôle = funny.
+        - >
+          sympa = nice.
+        - >
+          Frère is masculine singular, so mon frère and brun fit.
+        - >
+          A clear description can use short sentences and familiar adjective forms.
 ---
 
 ## Teaching Goal

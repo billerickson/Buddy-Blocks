@@ -3,6 +3,16 @@ id: lesson_grade3_math_u12_l01_choose_the_representation
 slug: choose-the-representation
 title: Choose The Representation
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will choose a useful representation for a problem before
+        solving.
+    - title: Key Idea
+      body: >
+        Equations, arrays, number lines, strip diagrams, graphs, fraction models, and
+        geometric diagrams each reveal different structures.
 ---
 
 ## Teaching Goal

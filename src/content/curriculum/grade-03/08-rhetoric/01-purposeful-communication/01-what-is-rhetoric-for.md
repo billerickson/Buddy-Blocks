@@ -3,6 +3,16 @@ id: lesson_grade3_rhetoric_u01_l01_what_is_rhetoric_for
 slug: what-is-rhetoric-for
 title: What Is Rhetoric For?
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will recognize rhetoric as clear communication for a purpose,
+        not fancy language or tricking people.
+    - title: Try It This Way
+      body: >
+        Start with familiar examples: a sign, an invitation, a story, and a polite
+        request. Ask what each one is trying to do.
 ---
 
 ## Teaching Goal

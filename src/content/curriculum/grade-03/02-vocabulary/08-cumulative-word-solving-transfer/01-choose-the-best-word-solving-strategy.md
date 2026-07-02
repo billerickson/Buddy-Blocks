@@ -3,6 +3,17 @@ id: lesson_grade3_vocabulary_u08_l01_choose_the_best_word_solving_strategy
 slug: choose-the-best-word-solving-strategy
 title: Choose The Best Word-Solving Strategy
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will choose a strategy such as context clue, word part,
+        reference check, relationship, or nonliteral interpretation and explain why it
+        fits.
+    - title: Try It This Way
+      body: >
+        Present three words: one with a clear context clue, one with a prefix, and one
+        with multiple definitions, then compare the best first move.
 ---
 
 ## Teaching Goal

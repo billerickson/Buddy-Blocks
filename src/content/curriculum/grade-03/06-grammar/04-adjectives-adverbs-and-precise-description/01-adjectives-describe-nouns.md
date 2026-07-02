@@ -3,6 +3,16 @@ id: lesson_grade3_grammar_u04_l01_adjectives_describe_nouns
 slug: adjectives-describe-nouns
 title: Adjectives Describe Nouns
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify adjectives and the nouns they describe, then
+        choose a precise adjective for meaning.
+    - title: Try It This Way
+      body: >
+        Use The dog barked and ask which word could tell what kind of dog without changing
+        the sentence core.
 ---
 
 ## Teaching Goal

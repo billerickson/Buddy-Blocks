@@ -3,6 +3,25 @@ id: lesson_grade3_memory_work_u01_l03_cover_recall_check
 slug: cover-recall-check
 title: Cover, Say, Check
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will use the cover-say-check cycle for a short saying or
+        direction line.
+    - title: Say It Before You Answer
+      body: >
+        Watch for an attempt with one missing word and think aloud: "I will not guess that
+        it was right. I will check the line."
+      bullets:
+        - >
+          Look at the line
+        - >
+          Cover the line
+        - >
+          Say the line
+        - >
+          Check the line
 ---
 
 ## Teaching Goal

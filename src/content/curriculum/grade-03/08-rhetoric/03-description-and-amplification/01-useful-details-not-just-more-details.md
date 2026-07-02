@@ -3,6 +3,16 @@ id: lesson_grade3_rhetoric_u03_l01_useful_details_not_just_more_details
 slug: useful-details-not-just-more-details
 title: Useful Details, Not Just More Details
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will choose useful details and reject distracting details in a
+        short sentence or paragraph.
+    - title: Try It This Way
+      body: >
+        Compare two details for the same sentence and ask which one helps the reader know
+        more about the main idea.
 ---
 
 ## Teaching Goal

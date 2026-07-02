@@ -3,6 +3,29 @@ id: lesson_grade3_french_u05_l03_asking_about_preferences
 slug: asking-about-preferences
 title: Asking About Preferences
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will respond appropriately to Qu'est-ce que tu aimes? and
+        Est-ce que tu aimes...? Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Qu'est-ce que tu aimes? asks what you like.
+        - >
+          The question asks whether you like playing soccer, so oui plus a preference
+          answer fits.
+        - >
+          Qu'est-ce que tu aimes? = J'aime lire.
+        - >
+          Est-ce que tu aimes danser? = Oui, j'aime danser.
+        - >
+          Est-ce que tu aimes étudier? = Non, je n'aime pas étudier.
+        - >
+          Est-ce que tu aimes la musique? = Oui, j'aime la musique.
 ---
 
 ## Teaching Goal

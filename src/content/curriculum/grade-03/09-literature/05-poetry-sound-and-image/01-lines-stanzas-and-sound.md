@@ -3,6 +3,16 @@ id: lesson_grade3_literature_u05_l01_lines_stanzas_and_sound
 slug: lines-stanzas-and-sound
 title: Lines, Stanzas, And Sound
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify lines and stanzas and notice one sound feature
+        in a short poem.
+    - title: Try It This Way
+      body: >
+        Show a four-line poem beside the same words in a paragraph and ask what changes
+        when it is arranged as lines.
 ---
 
 ## Teaching Goal

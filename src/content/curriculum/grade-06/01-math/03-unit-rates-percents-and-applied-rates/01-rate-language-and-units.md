@@ -3,6 +3,16 @@ id: lesson_grade6_math_u03_l01_rate_language_and_units
 slug: rate-language-and-units
 title: Rate Language And Units
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will explain what statements such as "60 miles per hour" or
+        "$4 per pound" mean.
+    - title: Key Idea
+      body: >
+        A rate compares quantities with different units, and "per" tells which quantity is
+        tied to one unit.
 ---
 
 ## Teaching Goal

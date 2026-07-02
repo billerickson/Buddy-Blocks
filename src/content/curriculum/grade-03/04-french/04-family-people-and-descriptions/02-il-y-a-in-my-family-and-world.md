@@ -3,6 +3,26 @@ id: lesson_grade3_french_u04_l02_il_y_a_in_my_family_and_world
 slug: il-y-a-in-my-family-and-world
 title: Il Y A In My Family And World
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will interpret and build sentences such as Il y a deux frères
+        and Il y a une trousse. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Il y a is a useful chunk meaning there is or there are.
+        - >
+          Il y a un livre. = There is a book.
+        - >
+          Il y a deux frères. = There are two brothers.
+        - >
+          Il y a une trousse. = There is a pencil case.
+        - >
+          Il y a deux parents. = There are two parents.
 ---
 
 ## Teaching Goal

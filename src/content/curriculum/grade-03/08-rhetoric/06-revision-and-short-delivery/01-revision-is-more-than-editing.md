@@ -3,6 +3,16 @@ id: lesson_grade3_rhetoric_u06_l01_revision_is_more_than_editing
 slug: revision-is-more-than-editing
 title: Revision Is More Than Editing
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify whether a change improves meaning, order,
+        support, word choice, or mechanics.
+    - title: Try It This Way
+      body: >
+        Show two changes to the same sentence: one fixes a capital letter and one adds a
+        needed reason.
 ---
 
 ## Teaching Goal

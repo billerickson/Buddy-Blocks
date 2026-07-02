@@ -3,6 +3,15 @@ id: lesson_grade6_math_u02_l01_what_a_ratio_compares
 slug: what-a-ratio-compares
 title: What A Ratio Compares
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify the two quantities in a ratio and describe the
+        comparison in words.
+    - title: Key Idea
+      body: >
+        A ratio names a relationship, such as "3 red tiles for every 2 blue tiles."
 ---
 
 ## Teaching Goal

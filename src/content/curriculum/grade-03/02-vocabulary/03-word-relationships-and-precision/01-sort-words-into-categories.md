@@ -3,6 +3,16 @@ id: lesson_grade3_vocabulary_u03_l01_sort_words_into_categories
 slug: sort-words-into-categories
 title: Sort Words Into Categories
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will sort words into categories and identify a word that does
+        not belong.
+    - title: Try It This Way
+      body: >
+        Sort words such as robin, eagle, salmon, and sparrow and discuss why one does not
+        belong.
 ---
 
 ## Teaching Goal

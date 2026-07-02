@@ -3,6 +3,15 @@ id: lesson_grade6_vocabulary_u04_l01_math_words_with_precise_meanings
 slug: math-words-with-precise-meanings
 title: Math Words With Precise Meanings
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will explain words such as factor, variable, expression,
+        model, estimate, and equivalent in math contexts.
+    - title: Try It This Way
+      body: >
+        Compare the everyday word factor with factor in "3 is a factor of 12."
 ---
 
 ## Teaching Goal

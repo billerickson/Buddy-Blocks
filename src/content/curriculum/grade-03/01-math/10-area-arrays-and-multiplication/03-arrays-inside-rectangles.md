@@ -3,6 +3,16 @@ id: lesson_grade3_math_u10_l03_arrays_inside_rectangles
 slug: arrays-inside-rectangles
 title: Arrays Inside Rectangles
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will write a multiplication equation for the area of a tiled
+        rectangle.
+    - title: Key Idea
+      body: >
+        A tiled rectangle is an array of square units; rows times columns gives the total
+        square units.
 ---
 
 ## Teaching Goal

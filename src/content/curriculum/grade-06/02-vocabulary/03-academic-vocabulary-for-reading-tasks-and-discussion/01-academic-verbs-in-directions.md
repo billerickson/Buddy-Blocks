@@ -3,6 +3,15 @@ id: lesson_grade6_vocabulary_u03_l01_academic_verbs_in_directions
 slug: academic-verbs-in-directions
 title: Academic Verbs In Directions
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will match verbs such as analyze, infer, evaluate, summarize,
+        cite, and support to the expected action.
+    - title: Try It This Way
+      body: >
+        Put three prompts side by side and underline the verb that changes the task.
 ---
 
 ## Teaching Goal

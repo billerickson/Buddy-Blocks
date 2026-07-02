@@ -3,6 +3,16 @@ id: lesson_grade3_history_civics_u05_l01_needs_wants_and_scarcity
 slug: needs-wants-and-scarcity
 title: Needs, Wants, And Scarcity
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will distinguish needs and wants and explain that scarcity
+        means limited resources.
+    - title: Try It This Way
+      body: >
+        Compare "water to drink" and "a new game," then ask what happens when time, money,
+        or materials are limited.
 ---
 
 ## Teaching Goal

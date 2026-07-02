@@ -3,6 +3,20 @@ id: lesson_grade3_spanish_u02_l02_age_with_tener
 slug: age-with-tener
 title: Age With Tener
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will ask and answer age with ¿Cuántos años tienes? and
+        Tengo... años. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          The question asks age, so the answer uses Tengo... años.
+        - >
+          In the age formula, Tengo catorce años means I am 14 years old.
 ---
 
 ## Teaching Goal

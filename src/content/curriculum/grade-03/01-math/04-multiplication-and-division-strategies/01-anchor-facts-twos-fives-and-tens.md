@@ -3,6 +3,15 @@ id: lesson_grade3_math_u04_l01_anchor_facts_twos_fives_and_tens
 slug: anchor-facts-twos-fives-and-tens
 title: "Anchor Facts: Twos, Fives, And Tens"
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will solve and explain facts involving 2, 5, and 10 using
+        patterns, skip counting, or arrays.
+    - title: Key Idea
+      body: >
+        Anchor facts are easy-to-see structures that support harder facts later.
 ---
 
 ## Teaching Goal

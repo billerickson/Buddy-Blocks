@@ -3,6 +3,16 @@ id: lesson_grade6_vocabulary_u07_l01_claim_reason_and_evidence
 slug: claim-reason-and-evidence
 title: Claim, Reason, And Evidence
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify claim, reason, evidence, and explanation in a
+        short argument.
+    - title: Try It This Way
+      body: >
+        Color-code a three-sentence argument into claim, reason, evidence, and
+        explanation.
 ---
 
 ## Teaching Goal

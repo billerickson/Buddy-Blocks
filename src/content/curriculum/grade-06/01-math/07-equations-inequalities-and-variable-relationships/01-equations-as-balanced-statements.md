@@ -3,6 +3,15 @@ id: lesson_grade6_math_u07_l01_equations_as_balanced_statements
 slug: equations-as-balanced-statements
 title: Equations As Balanced Statements
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will decide whether an equation is true for a value and
+        explain what equality means.
+    - title: Key Idea
+      body: >
+        The equals sign means both sides have the same value.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,15 @@ id: lesson_grade3_rhetoric_u07_l01_choose_the_rhetorical_move
 slug: choose-the-rhetorical-move
 title: Choose The Rhetorical Move
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will choose a fitting rhetorical move for a short scenario and
+        explain the clue.
+    - title: Try It This Way
+      body: >
+        Present a move menu and sort five short prompts before answering any of them.
 ---
 
 ## Teaching Goal

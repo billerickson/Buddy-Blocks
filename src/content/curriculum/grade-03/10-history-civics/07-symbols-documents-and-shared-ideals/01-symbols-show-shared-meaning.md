@@ -3,6 +3,16 @@ id: lesson_grade3_history_civics_u07_l01_symbols_show_shared_meaning
 slug: symbols-show-shared-meaning
 title: Symbols Show Shared Meaning
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify a symbol detail and connect it to a possible
+        civic meaning.
+    - title: Try It This Way
+      body: >
+        Use a school or community symbol before national examples so you see how symbols
+        work generally.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,15 @@ id: lesson_grade3_math_u05_l01_nearest_ten_on_a_number_line
 slug: nearest-ten-on-a-number-line
 title: Nearest Ten On A Number Line
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will round two- and three-digit numbers to the nearest ten
+        using a number line.
+    - title: Key Idea
+      body: >
+        Rounding chooses the closest ten, with halfway cases handled consistently.
 ---
 
 ## Teaching Goal

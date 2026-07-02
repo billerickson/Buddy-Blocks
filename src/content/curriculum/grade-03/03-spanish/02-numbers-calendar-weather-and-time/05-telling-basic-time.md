@@ -3,6 +3,26 @@ id: lesson_grade3_spanish_u02_l05_telling_basic_time
 slug: telling-basic-time
 title: Telling Basic Time
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will interpret and produce Es la una and Son las... statements
+        for simple times. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          One o'clock uses the special singular pattern Es la una.
+        - >
+          1:00 = Es la una.
+        - >
+          2:00 = Son las dos.
+        - >
+          4:00 = Son las cuatro.
+        - >
+          6:00 = Son las seis.
 ---
 
 ## Teaching Goal

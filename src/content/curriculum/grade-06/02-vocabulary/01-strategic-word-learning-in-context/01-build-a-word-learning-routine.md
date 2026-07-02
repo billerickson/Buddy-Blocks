@@ -3,6 +3,16 @@ id: lesson_grade6_vocabulary_u01_l01_build_a_word_learning_routine
 slug: build-a-word-learning-routine
 title: Build A Word-Learning Routine
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will name and apply the routine: context, word parts, known
+        words, reference, and meaning-fit check.
+    - title: Try It This Way
+      body: >
+        Watch for one unfamiliar word aloud and show how the first guess improves after
+        checking context, word parts, and fit.
 ---
 
 ## Teaching Goal

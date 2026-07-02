@@ -3,6 +3,28 @@ id: lesson_grade3_french_u05_l01_jaime_and_jadore_activity_chunks
 slug: jaime-and-jadore-activity-chunks
 title: J'aime And J'adore Activity Chunks
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will understand and produce short positive preference
+        statements about familiar activities. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          jouer au foot = to play soccer.
+        - >
+          écouter de la musique = to listen to music.
+        - >
+          regarder un film = to watch a movie.
+        - >
+          parler français = to speak French.
+        - >
+          J'adore is stronger than j'aime.
+        - >
+          chanter = to sing.
 ---
 
 ## Teaching Goal

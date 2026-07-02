@@ -3,6 +3,29 @@ id: lesson_grade3_french_u01_l03_comment_ca_va_first_mini_dialogue
 slug: comment-ca-va-first-mini-dialogue
 title: Comment Ça Va? First Mini-Dialogue
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will understand, order, and produce a simple exchange with
+        comment ça va and ça va bien/mal/comme ci comme ça. Read each new phrase once
+        before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Comment ça va? is the common question How are you?
+        - >
+          The question asks how Malik is, so a well-being answer fits.
+        - >
+          ça va bien = I am doing well.
+        - >
+          ça va mal = I am doing badly.
+        - >
+          comme ci comme ça = so-so.
+        - >
+          merci = thank you.
 ---
 
 ## Teaching Goal

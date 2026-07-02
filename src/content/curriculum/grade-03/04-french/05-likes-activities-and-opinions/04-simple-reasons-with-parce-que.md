@@ -3,6 +3,20 @@ id: lesson_grade3_french_u05_l04_simple_reasons_with_parce_que
 slug: simple-reasons-with-parce-que
 title: Simple Reasons With Parce Que
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will use parce que, et, and mais to make a simple preference
+        statement with a reason. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Parce que means because, so it introduces a reason.
+        - >
+          C'est amusant gives a simple positive reason for liking dancing.
 ---
 
 ## Teaching Goal

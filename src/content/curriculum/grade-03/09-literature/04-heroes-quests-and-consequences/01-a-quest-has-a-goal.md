@@ -3,6 +3,15 @@ id: lesson_grade3_literature_u04_l01_a_quest_has_a_goal
 slug: a-quest-has-a-goal
 title: A Quest Has A Goal
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify the goal and main parts of a short quest or
+        journey episode.
+    - title: Try It This Way
+      body: >
+        Draw a simple path and label what the hero wants before reading the episode.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,21 @@ id: lesson_grade3_memory_work_u03_l02_learn_a_couplet_by_chunks
 slug: learn-a-couplet-by-chunks
 title: Learn A Couplet By Chunks
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will recall the couplet "Small seeds sleep in winter ground; /
+        Spring wakes green where roots are found" with support and then with less support.
+    - title: Say It Before You Answer
+      body: >
+        First read the couplet aloud for meaning, then mark chunks: "Small seeds sleep /
+        in winter ground" and "Spring wakes green / where roots are found."
+      bullets:
+        - >
+          Small seeds sleep in winter ground;
+        - >
+          Spring wakes green where roots are found.
 ---
 
 ## Teaching Goal

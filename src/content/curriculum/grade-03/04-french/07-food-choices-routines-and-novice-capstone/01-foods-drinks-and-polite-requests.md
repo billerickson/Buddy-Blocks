@@ -3,6 +3,29 @@ id: lesson_grade3_french_u07_l01_foods_drinks_and_polite_requests
 slug: foods-drinks-and-polite-requests
 title: Foods, Drinks, And Polite Requests
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will understand food words with articles and use je voudrais
+        ___, s'il vous plaît in a controlled request. Read each new phrase once before you
+        answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          le pain = bread.
+        - >
+          le fromage = cheese.
+        - >
+          la pomme = apple.
+        - >
+          l'eau = water.
+        - >
+          Je voudrais is a polite way to say I would like.
+        - >
+          A café exchange needs a greeting and a polite request.
 ---
 
 ## Teaching Goal

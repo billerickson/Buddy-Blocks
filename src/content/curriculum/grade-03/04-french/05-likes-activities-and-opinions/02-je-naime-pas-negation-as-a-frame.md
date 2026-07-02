@@ -3,6 +3,26 @@ id: lesson_grade3_french_u05_l02_je_naime_pas_negation_as_a_frame
 slug: je-naime-pas-negation-as-a-frame
 title: "Je N'aime Pas: Negation As A Frame"
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will understand, complete, and correct sentences such as je
+        n'aime pas danser. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Je n'aime pas means I do not like.
+        - >
+          J'aime lire. = I like to read.
+        - >
+          Je n'aime pas lire. = I do not like to read.
+        - >
+          J'adore lire. = I love to read.
+        - >
+          J'aime danser. = I like to dance.
 ---
 
 ## Teaching Goal

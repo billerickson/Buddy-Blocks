@@ -3,6 +3,16 @@ id: lesson_grade3_history_civics_u03_l01_what_counts_as_a_source
 slug: what-counts-as-a-source
 title: What Counts As A Source?
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify photographs, artifacts, documents, maps,
+        timelines, and short texts as sources and name a clue each might provide.
+    - title: Try It This Way
+      body: >
+        Place several "sources" side by side: a photo, an old tool, a map, a diary line,
+        and a textbook sentence.
 ---
 
 ## Teaching Goal

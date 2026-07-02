@@ -3,6 +3,30 @@ id: lesson_grade3_spanish_u04_l02_feelings_and_location_with_estar
 slug: feelings-and-location-with-estar
 title: Feelings And Location With Estar
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will use estoy and está to say how someone feels or where
+        someone is in familiar contexts. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Estoy bien uses estar to tell how you are.
+        - >
+          Use ser for identity: Soy estudiante.
+        - >
+          ¿Dónde está...? asks where someone is, so a location answer with está fits.
+        - >
+          estoy bien = I am well.
+        - >
+          estoy mal = I am not well.
+        - >
+          estoy en la clase = I am in class.
+        - >
+          está en la clase = he or she is in class.
 ---
 
 ## Teaching Goal

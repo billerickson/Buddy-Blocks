@@ -3,6 +3,15 @@ id: lesson_grade3_grammar_u06_l01_capital_letters_for_names_and_beginnings
 slug: capital-letters-for-names-and-beginnings
 title: Capital Letters For Names And Beginnings
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will capitalize sentence beginnings, the pronoun I, proper
+        nouns, days, months, titles, and familiar place names.
+    - title: Try It This Way
+      body: >
+        Sort examples into sentence beginning, specific name, and not capitalized.
 ---
 
 ## Teaching Goal

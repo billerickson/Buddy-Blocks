@@ -3,6 +3,15 @@ id: lesson_grade6_vocabulary_u02_l01_prefixes_that_shift_meaning
 slug: prefixes-that-shift-meaning
 title: Prefixes That Shift Meaning
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will explain how a prefix changes the meaning of a base word
+        or academic word.
+    - title: Try It This Way
+      body: >
+        Use a small prefix map and show how pre- changes view into preview.
 ---
 
 ## Teaching Goal

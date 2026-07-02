@@ -3,6 +3,27 @@ id: lesson_grade3_spanish_u02_l04_weather_and_seasons
 slug: weather-and-seasons
 title: Weather And Seasons
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will interpret and produce common statements such as Hace sol,
+        Hace frío, Llueve, Nieva, and Es invierno. Read each new phrase once before you
+        answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Hace sol = It is sunny.
+        - >
+          Hace frío = It is cold.
+        - >
+          Llueve = It is raining.
+        - >
+          Nieva = It is snowing.
+        - >
+          Nieva means it is snowing.
 ---
 
 ## Teaching Goal

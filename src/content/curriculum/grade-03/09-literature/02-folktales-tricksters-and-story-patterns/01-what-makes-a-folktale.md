@@ -3,6 +3,16 @@ id: lesson_grade3_literature_u02_l01_what_makes_a_folktale
 slug: what-makes-a-folktale
 title: What Makes A Folktale?
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify folktale features and explain how a folktale
+        differs from a fable at an introductory level.
+    - title: Try It This Way
+      body: >
+        Compare a one-problem fable with a patterned folktale opening, asking what each
+        kind of story seems designed to do.
 ---
 
 ## Teaching Goal

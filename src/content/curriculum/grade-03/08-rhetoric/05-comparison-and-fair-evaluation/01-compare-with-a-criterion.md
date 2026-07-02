@@ -3,6 +3,15 @@ id: lesson_grade3_rhetoric_u05_l01_compare_with_a_criterion
 slug: compare-with-a-criterion
 title: Compare With A Criterion
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will choose a criterion that fits two things being compared.
+    - title: Try It This Way
+      body: >
+        Compare two classroom jobs by one criterion at a time, such as helpfulness or
+        difficulty.
 ---
 
 ## Teaching Goal

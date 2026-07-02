@@ -3,6 +3,15 @@ id: lesson_grade3_logic_u06_l01_logic_in_reading
 slug: logic-in-reading
 title: Logic In Reading
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify a passage-supported claim or conclusion and
+        choose relevant text evidence.
+    - title: Key Idea
+      body: >
+        Reading evidence should answer the exact question or support the exact claim.
 ---
 
 ## Teaching Goal

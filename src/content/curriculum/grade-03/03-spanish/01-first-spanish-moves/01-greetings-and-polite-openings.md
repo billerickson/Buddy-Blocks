@@ -3,6 +3,31 @@ id: lesson_grade3_spanish_u01_l01_greetings_and_polite_openings
 slug: greetings-and-polite-openings
 title: Greetings And Polite Openings
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will greet, say goodbye, thank someone, respond to thanks, and
+        make a polite request with familiar chunks. Read each new phrase once before you
+        answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Buenos días is the usual greeting for the morning.
+        - >
+          hola = hello.
+        - >
+          gracias = thank you.
+        - >
+          de nada = you're welcome.
+        - >
+          por favor = please.
+        - >
+          De nada is the polite response to gracias.
+        - >
+          Hasta luego is a farewell, like see you later.
 ---
 
 ## Teaching Goal

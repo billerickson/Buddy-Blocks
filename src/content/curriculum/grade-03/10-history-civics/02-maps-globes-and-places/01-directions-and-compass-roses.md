@@ -3,6 +3,16 @@ id: lesson_grade3_history_civics_u02_l01_directions_and_compass_roses
 slug: directions-and-compass-roses
 title: Directions And Compass Roses
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify cardinal and intermediate directions and follow
+        a simple directional route.
+    - title: Try It This Way
+      body: >
+        Use the classroom or a simple grid map with a compass rose before moving to
+        imaginary community maps.
 ---
 
 ## Teaching Goal

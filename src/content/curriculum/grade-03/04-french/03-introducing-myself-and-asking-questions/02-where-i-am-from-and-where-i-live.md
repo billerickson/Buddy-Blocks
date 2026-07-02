@@ -3,6 +3,28 @@ id: lesson_grade3_french_u03_l02_where_i_am_from_and_where_i_live
 slug: where-i-am-from-and-where-i-live
 title: Where I Am From And Where I Live
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will understand and use je viens de... and j'habite à... with
+        familiar place names. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Je viens de Montréal. = I am from Montreal.
+        - >
+          J'habite à Dallas. = I live in Dallas.
+        - >
+          D'où viens-tu? = Where are you from?
+        - >
+          Où habites-tu? = Where do you live?
+        - >
+          D'où viens-tu? asks where someone is from, so je viens de... fits.
+        - >
+          Où habites-tu? asks where you live.
 ---
 
 ## Teaching Goal

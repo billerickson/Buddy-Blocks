@@ -3,6 +3,16 @@ id: lesson_grade3_math_u01_l01_hundreds_tens_and_ones
 slug: hundreds-tens-and-ones
 title: Hundreds, Tens, And Ones
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will read, write, build, and decompose three-digit numbers
+        using digit-value language.
+    - title: Key Idea
+      body: >
+        Base-ten drawings, expanded form, and place-value charts show that a digit's value
+        depends on its place.
 ---
 
 ## Teaching Goal

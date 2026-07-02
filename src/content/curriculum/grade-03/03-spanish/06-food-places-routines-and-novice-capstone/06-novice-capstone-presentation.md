@@ -3,6 +3,22 @@ id: lesson_grade3_spanish_u06_l06_novice_capstone_presentation
 slug: novice-capstone-presentation
 title: Novice Capstone Presentation
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will interpret a model capstone and produce a short supported
+        presentation using accurate familiar chunks. Read each new phrase once before you
+        answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          This sentence uses the learned me gusta chunk with a school phrase.
+        - >
+          The strongest capstone combines several learned sentence jobs: greeting, name,
+          age, family description, preference, and routine/place.
 ---
 
 ## Teaching Goal

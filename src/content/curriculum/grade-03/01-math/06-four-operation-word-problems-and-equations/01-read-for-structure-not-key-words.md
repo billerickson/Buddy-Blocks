@@ -3,6 +3,15 @@ id: lesson_grade3_math_u06_l01_read_for_structure_not_key_words
 slug: read-for-structure-not-key-words
 title: Read For Structure, Not Key Words
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will explain whether a story involves joining, separating,
+        comparing, equal groups, sharing, or grouping.
+    - title: Key Idea
+      body: >
+        Operation choice comes from the relationship among quantities, not a single word.
 ---
 
 ## Teaching Goal

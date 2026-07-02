@@ -3,6 +3,16 @@ id: lesson_grade6_math_u04_l01_division_situations_with_fractions
 slug: division-situations-with-fractions
 title: Division Situations With Fractions
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify the dividend, divisor, and question being
+        answered in a fraction-division story.
+    - title: Key Idea
+      body: >
+        Fraction division answers a sharing or grouping question involving fractional
+        quantities.
 ---
 
 ## Teaching Goal

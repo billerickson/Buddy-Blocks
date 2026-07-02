@@ -3,6 +3,16 @@ id: lesson_grade3_history_civics_u06_l01_what_culture_includes
 slug: what-culture-includes
 title: What Culture Includes
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify multiple parts of culture and avoid reducing
+        culture to food or holidays.
+    - title: Try It This Way
+      body: >
+        Build a culture web with many branches, then ask which branches a source can
+        actually support.
 ---
 
 ## Teaching Goal

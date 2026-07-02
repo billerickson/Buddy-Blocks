@@ -3,6 +3,27 @@ id: lesson_grade3_french_u02_l01_numbers_for_age_and_classroom_counts
 slug: numbers-for-age-and-classroom-counts
 title: Numbers For Age And Classroom Counts
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will match number words to numerals, answer Quel âge as-tu?
+        with j'ai ___ ans, and understand controlled counts. Read each new phrase once
+        before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          cinq = 5.
+        - >
+          douze = 12.
+        - >
+          vingt = 20.
+        - >
+          trente et un = 31.
+        - >
+          Quel âge as-tu? asks how old you are, so the answer uses j'ai ___ ans.
 ---
 
 ## Teaching Goal

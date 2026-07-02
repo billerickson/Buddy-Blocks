@@ -3,6 +3,26 @@ id: lesson_grade3_spanish_u04_l03_family_and_tener
 slug: family-and-tener
 title: Family And Tener
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will describe a small family relationship and use tengo/tiene
+        with mi and tu. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          madre = mother.
+        - >
+          padre = father.
+        - >
+          hermana = sister.
+        - >
+          hermano = brother.
+        - >
+          Mi hermana means my sister.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,29 @@ id: lesson_grade3_memory_work_u06_l02_fade_cues_toward_independent_recall
 slug: fade-cues-toward-independent-recall
 title: Fade Cues Toward Independent Recall
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will choose the next cue level for a target and attempt recall
+        with reduced support.
+    - title: Say It Before You Answer
+      body: >
+        Demonstrate with "Well begun is half done": full saying, "Well ___," "W b i h d,"
+        and blank recall.
+      bullets:
+        - >
+          full model
+        - >
+          first-word cue
+        - >
+          first-letter cue
+        - >
+          no cue
+        - >
+          full model = Well begun is half done.
+        - >
+          first-word cue = Well
 ---
 
 ## Teaching Goal

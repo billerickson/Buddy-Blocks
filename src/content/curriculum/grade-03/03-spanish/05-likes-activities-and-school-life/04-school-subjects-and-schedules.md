@@ -3,6 +3,26 @@ id: lesson_grade3_spanish_u05_l04_school_subjects_and_schedules
 slug: school-subjects-and-schedules
 title: School Subjects And Schedules
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will read a simple schedule and say what class someone has or
+        likes at a given time. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          matemáticas = math.
+        - >
+          ciencias = science.
+        - >
+          historia = history.
+        - >
+          arte = art.
+        - >
+          Tengo clase de ciencias names the class, and a las dos gives the time.
 ---
 
 ## Teaching Goal

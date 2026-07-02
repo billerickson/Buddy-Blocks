@@ -3,6 +3,28 @@ id: lesson_grade3_french_u02_l03_weather_windows
 slug: weather-windows
 title: Weather Windows
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will match weather expressions to meanings and complete short
+        weather statements. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          il fait beau = the weather is nice.
+        - >
+          il fait froid = it is cold.
+        - >
+          il pleut = it is raining.
+        - >
+          il neige = it is snowing.
+        - >
+          Il pleut means it is raining. Il neige means it is snowing.
+        - >
+          Quel temps fait-il? asks about the weather, and sunshine fits il fait beau.
 ---
 
 ## Teaching Goal

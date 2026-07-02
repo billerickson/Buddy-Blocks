@@ -3,6 +3,16 @@ id: lesson_grade3_grammar_u07_l01_focused_editing_targets
 slug: focused-editing-targets
 title: Focused Editing Targets
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will identify the likely grammar target in a short sentence or
+        passage and make the targeted correction.
+    - title: Try It This Way
+      body: >
+        Give a short sentence and three possible targets; model checking only one target
+        at a time.
 ---
 
 ## Teaching Goal

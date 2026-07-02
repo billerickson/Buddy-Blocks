@@ -3,6 +3,15 @@ id: lesson_grade6_math_u06_l01_variables_as_quantities
 slug: variables-as-quantities
 title: Variables As Quantities
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will interpret a variable and a coefficient-like expression in
+        context.
+    - title: Key Idea
+      body: >
+        A letter can stand for a quantity; 5m means five groups of the quantity m.
 ---
 
 ## Teaching Goal

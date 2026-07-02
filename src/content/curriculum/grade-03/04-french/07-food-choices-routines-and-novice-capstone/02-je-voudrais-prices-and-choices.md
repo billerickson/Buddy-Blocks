@@ -3,6 +3,22 @@ id: lesson_grade3_french_u07_l02_je_voudrais_prices_and_choices
 slug: je-voudrais-prices-and-choices
 title: Je Voudrais, Prices, And Choices
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will ask or answer c'est combien? and choose a food or drink
+        with a price in a simple exchange. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          C'est combien? asks the price.
+        - >
+          A price answer can be C'est + number + euros.
+        - >
+          Je voudrais plus s'il vous plaît is the polite request form practiced here.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,26 @@ id: lesson_grade3_spanish_u03_l02_singular_plural_and_how_many
 slug: singular-plural-and-how-many
 title: Singular, Plural, And How Many
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will distinguish el/la from los/las and form simple plural
+        phrases for taught nouns. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          El libro becomes los libros when it is plural.
+        - >
+          el libro = los libros.
+        - >
+          la silla = las sillas.
+        - >
+          el cuaderno = los cuadernos.
+        - >
+          la carpeta = las carpetas.
 ---
 
 ## Teaching Goal

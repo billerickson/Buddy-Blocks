@@ -3,6 +3,28 @@ id: lesson_grade3_french_u07_l03_simple_routines_with_familiar_chunks
 slug: simple-routines-with-familiar-chunks
 title: Simple Routines With Familiar Chunks
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will order and produce short routine statements with le matin,
+        l'après-midi, le soir, je vais, je fais, j'aime, je mange, and je bois as
+        formulaic exposure. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          le matin = in the morning.
+        - >
+          l'après-midi = in the afternoon.
+        - >
+          le soir = in the evening.
+        - >
+          aujourd'hui = today.
+        - >
+          Le matin marks a morning routine, and je vais à l'école is a learned routine
+          chunk.
 ---
 
 ## Teaching Goal

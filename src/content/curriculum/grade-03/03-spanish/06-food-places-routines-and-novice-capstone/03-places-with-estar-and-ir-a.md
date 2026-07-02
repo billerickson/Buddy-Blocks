@@ -3,6 +3,26 @@ id: lesson_grade3_spanish_u06_l03_places_with_estar_and_ir_a
 slug: places-with-estar-and-ir-a
 title: Places With Estar And Ir A
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will distinguish estoy/está en... from voy/va a... in simple
+        place statements. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          la escuela = the school.
+        - >
+          la casa = the house.
+        - >
+          el parque = the park.
+        - >
+          la biblioteca = the library.
+        - >
+          Estoy en tells current location. Voy a tells where someone is going.
 ---
 
 ## Teaching Goal

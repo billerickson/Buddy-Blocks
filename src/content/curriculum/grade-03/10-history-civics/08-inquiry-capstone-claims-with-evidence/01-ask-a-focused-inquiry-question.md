@@ -3,6 +3,16 @@ id: lesson_grade3_history_civics_u08_l01_ask_a_focused_inquiry_question
 slug: ask-a-focused-inquiry-question
 title: Ask A Focused Inquiry Question
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will choose or improve a focused historical or civic inquiry
+        question.
+    - title: Try It This Way
+      body: >
+        Compare "What was life like long ago?" with "What does the photo show about how
+        children traveled to school?".
 ---
 
 ## Teaching Goal

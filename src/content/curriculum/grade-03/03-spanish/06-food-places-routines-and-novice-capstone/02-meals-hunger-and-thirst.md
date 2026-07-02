@@ -3,6 +3,26 @@ id: lesson_grade3_spanish_u06_l02_meals_hunger_and_thirst
 slug: meals-hunger-and-thirst
 title: Meals, Hunger, And Thirst
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will say or interpret Tengo hambre, Tengo sed, and simple meal
+        preferences. Read each new phrase once before you answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Tengo sed means I am thirsty.
+        - >
+          el desayuno = breakfast.
+        - >
+          el almuerzo = lunch.
+        - >
+          la cena = dinner.
+        - >
+          la leche = milk.
 ---
 
 ## Teaching Goal

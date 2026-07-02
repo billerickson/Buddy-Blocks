@@ -3,6 +3,16 @@ id: lesson_grade6_math_u09_l01_statistical_questions_and_variability
 slug: statistical-questions-and-variability
 title: Statistical Questions And Variability
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will decide whether a question anticipates variability in data
+        and revise a nonstatistical question when appropriate.
+    - title: Key Idea
+      body: >
+        A statistical question expects answers that vary across people, objects, or
+        repeated measurements.
 ---
 
 ## Teaching Goal

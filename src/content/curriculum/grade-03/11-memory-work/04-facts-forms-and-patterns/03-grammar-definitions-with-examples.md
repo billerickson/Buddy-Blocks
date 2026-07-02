@@ -3,6 +3,25 @@ id: lesson_grade3_memory_work_u04_l03_grammar_definitions_with_examples
 slug: grammar-definitions-with-examples
 title: Grammar Definitions With Examples
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will recall simple definitions for noun and verb and identify
+        examples of each.
+    - title: Say It Before You Answer
+      body: >
+        Teach the definition, then immediately test it with examples such as teacher,
+        playground, run, and is.
+      bullets:
+        - >
+          noun = names person, place, thing, or idea
+        - >
+          verb = shows action or being
+        - >
+          playground = noun example
+        - >
+          jump = verb example
 ---
 
 ## Teaching Goal

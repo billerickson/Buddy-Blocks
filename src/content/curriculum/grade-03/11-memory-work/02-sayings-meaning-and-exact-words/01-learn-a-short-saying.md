@@ -3,6 +3,21 @@ id: lesson_grade3_memory_work_u02_l01_learn_a_short_saying
 slug: learn-a-short-saying
 title: Learn A Short Saying
 xpBase: 10
+config:
+  intro:
+    - title: Practice Target
+      body: >
+        In this lesson, you will recall and complete short sayings such as "Well begun is
+        half done" and "Measure twice, cut once."
+    - title: Say It Before You Answer
+      body: >
+        Start with "Well begun / is half done." Say it aloud in two chunks before asking
+        for recall.
+      bullets:
+        - >
+          Measure twice
+        - >
+          cut once
 ---
 
 ## Teaching Goal

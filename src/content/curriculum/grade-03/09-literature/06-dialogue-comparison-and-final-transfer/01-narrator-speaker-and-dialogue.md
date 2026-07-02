@@ -3,6 +3,15 @@ id: lesson_grade3_literature_u06_l01_narrator_speaker_and_dialogue
 slug: narrator-speaker-and-dialogue
 title: Narrator, Speaker, And Dialogue
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will tell who is telling the story and who is speaking a
+        quoted or scripted line.
+    - title: Try It This Way
+      body: >
+        Mark one sentence of narration and one line of dialogue in different colors.
 ---
 
 ## Teaching Goal

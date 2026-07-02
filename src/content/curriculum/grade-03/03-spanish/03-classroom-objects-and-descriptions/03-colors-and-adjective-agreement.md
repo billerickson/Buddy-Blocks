@@ -3,6 +3,28 @@ id: lesson_grade3_spanish_u03_l03_colors_and_adjective_agreement
 slug: colors-and-adjective-agreement
 title: Colors And Adjective Agreement
 xpBase: 10
+config:
+  intro:
+    - title: Listen For The Chunks
+      body: >
+        In this lesson, you will describe familiar classroom objects with color adjectives
+        in correct position and basic agreement. Read each new phrase once before you
+        answer.
+    - title: Useful Chunks
+      body: >
+        Keep these meanings nearby as you practice.
+      bullets:
+        - >
+          Carpeta is feminine, so the color form is roja, and the adjective follows the
+          noun.
+        - >
+          el libro rojo = the red book.
+        - >
+          la silla azul = the blue chair.
+        - >
+          los lápices negros = the black pencils.
+        - >
+          las carpetas verdes = the green folders.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,16 @@ id: lesson_grade3_logic_u02_l01_reasons_examples_and_evidence
 slug: reasons-examples-and-evidence
 title: Reasons, Examples, And Evidence
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will tell whether a support sentence is a reason, an example,
+        or evidence.
+    - title: Key Idea
+      body: >
+        Reasons explain why, examples show one case, and evidence gives information that
+        can support a claim.
 ---
 
 ## Teaching Goal

@@ -3,6 +3,16 @@ id: lesson_grade3_vocabulary_u02_l01_read_a_glossary_entry
 slug: read-a-glossary-entry
 title: Read A Glossary Entry
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will read a simple glossary entry and match the entry to a
+        context sentence.
+    - title: Try It This Way
+      body: >
+        Show a mini-glossary for a short animal passage and connect one entry to a
+        sentence in the passage.
 ---
 
 ## Teaching Goal
