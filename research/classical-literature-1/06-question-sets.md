@@ -170,27 +170,40 @@ prompt: "Complete the story chart for this fable: A dog carried meat across a br
 parts:
   - "Character: "
   - "; Setting: "
-  - "; Problem: the dog wants "
+  - "; Action: the dog "
   - "."
 blanks:
   - correctAnswer: "dog"
     acceptedAnswers:
       - "dog"
       - "the dog"
+    choices:
+      - "dog"
+      - "bridge"
+      - "meat"
   - correctAnswer: "bridge"
     acceptedAnswers:
       - "bridge"
       - "a bridge"
       - "near water"
-  - correctAnswer: "more meat"
+    choices:
+      - "bridge"
+      - "forest"
+      - "market"
+  - correctAnswer: "snaps at his reflection"
     acceptedAnswers:
-      - "more meat"
-      - "the other meat"
-      - "the reflection's meat"
-explanation: "The chart names who is there, where it happens, and what the dog wants."
-hint: "Use words from the fable. The dog already has meat but wants what he sees."
+      - "snaps at his reflection"
+      - "snapped at his reflection"
+      - "snaps at it"
+      - "snapped at it"
+    choices:
+      - "snaps at his reflection"
+      - "asks for help"
+      - "shares the meat"
+explanation: "The chart names who is there, where it happens, and the action that leads to the outcome."
+hint: "Use the fable's own words: the dog sees a reflection and snaps at it."
 questionGoal: "Fill story-element information from a short fable."
-misconception: "Confusing the problem with the final outcome."
+misconception: "Confusing the action with the final outcome."
 ```
 
 ```question

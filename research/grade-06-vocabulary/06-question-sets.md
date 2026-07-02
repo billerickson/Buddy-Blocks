@@ -7,28 +7,6 @@ Sources: accepted Grade 6 Vocabulary blueprint, course map, unit design briefs, 
 ### Lesson 1: Build A Word-Learning Routine
 
 ```question
-key: u01_l01_q01_routine_order
-type: order-items
-prompt: "Put the word-learning routine in a useful order."
-items:
-  - "Verify with a reference if needed"
-  - "Look at the sentence and paragraph context"
-  - "Test the meaning back in the sentence"
-  - "Check meaningful word parts"
-  - "Connect to words you already know"
-correctOrder:
-  - "Look at the sentence and paragraph context"
-  - "Check meaningful word parts"
-  - "Connect to words you already know"
-  - "Verify with a reference if needed"
-  - "Test the meaning back in the sentence"
-explanation: "The routine starts with the text, gathers word evidence, verifies when needed, and ends by checking that the meaning fits."
-hint: "Start with evidence from the sentence before using outside tools."
-questionGoal: "Check whether students know the sequence of the routine."
-misconception: "Treating dictionary lookup or guessing as the first and final step."
-```
-
-```question
 key: u01_l01_q02_strategy_choice
 type: multiple-choice
 prompt: "A student sees the word dormant in this sentence: 'During the cold months, the plant stayed dormant and did not grow.' What is the best first strategy?"
@@ -113,6 +91,28 @@ explanation: "Word parts are useful evidence, but they must be checked with cont
 hint: "Think about whether one clue type works perfectly for every word."
 questionGoal: "Recognize that word parts are one evidence source, not a complete routine."
 misconception: "Treating morphology as a guaranteed answer."
+```
+
+```question
+key: u01_l01_q01_routine_order
+type: order-items
+prompt: "Put the word-learning routine in a useful order."
+items:
+  - "Verify with a reference if needed"
+  - "Look at the sentence and paragraph context"
+  - "Test the meaning back in the sentence"
+  - "Check meaningful word parts"
+  - "Connect to words you already know"
+correctOrder:
+  - "Look at the sentence and paragraph context"
+  - "Check meaningful word parts"
+  - "Connect to words you already know"
+  - "Verify with a reference if needed"
+  - "Test the meaning back in the sentence"
+explanation: "The routine starts with the text, gathers word evidence, verifies when needed, and ends by checking that the meaning fits."
+hint: "Start with evidence from the sentence before using outside tools."
+questionGoal: "Synthesize the full sequence of the word-learning routine."
+misconception: "Treating dictionary lookup or guessing as the first and final step."
 ```
 
 ### Lesson 2: Use Context Without Overguessing

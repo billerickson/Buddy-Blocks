@@ -13,7 +13,7 @@ Sources: accepted level blueprint, course map, and unit design briefs in `resear
 - **Likely misconceptions:** Guessing from one clue is enough; reference tools replace context; word parts always settle the meaning.
 - **Evidence of mastery:** Given an unfamiliar word in a short context, the student chooses the best next strategy and explains why.
 - **Recommended question types and why:** `order-items` for the routine sequence; `multiple-choice` for strategy choice or best strategy explanation; `match-pairs` for strategy-to-purpose links.
-- **Suggested intro/teaching note:** Model one unfamiliar word aloud and show how the first guess improves after checking context, word parts, and fit.
+- **Suggested intro/teaching note:** Teach the five-step routine explicitly: look at sentence and paragraph context, check meaningful word parts, connect to words you already know, verify with a reference if needed, and test the meaning back in the sentence.
 - **Reading-level and cognitive-load constraints:** Use short contexts and no more than one unfamiliar target word at a time.
 
 ### Lesson 2: Use Context Without Overguessing

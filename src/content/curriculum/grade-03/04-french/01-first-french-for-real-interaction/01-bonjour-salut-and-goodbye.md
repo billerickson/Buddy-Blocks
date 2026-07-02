@@ -122,9 +122,9 @@ items:
 correctOrder:
   - Bonjour, Léo.
   - Bonjour, Maya.
-  - Au revoir, Maya.
   - Au revoir, Léo.
-explanation: A short exchange opens with greetings and closes with farewells.
+  - Au revoir, Maya.
+explanation: A short exchange opens with greetings and closes with farewells. Maya addresses Léo first in both the hello and goodbye lines.
 hint: Start with the hello lines, then end with the goodbye lines.
 ```
 

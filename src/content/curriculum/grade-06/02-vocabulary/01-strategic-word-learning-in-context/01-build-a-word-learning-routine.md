@@ -11,8 +11,9 @@ config:
         words, reference, and meaning-fit check.
     - title: Try It This Way
       body: >
-        Watch for one unfamiliar word aloud and show how the first guess improves after
-        checking context, word parts, and fit.
+        Use this routine: look at sentence and paragraph context, check meaningful
+        word parts, connect to words you already know, verify with a reference if
+        needed, and test the meaning back in the sentence.
 ---
 
 ## Teaching Goal
@@ -29,29 +30,9 @@ Guessing from one clue is enough; reference tools replace context; word parts al
 
 ## Teaching Note
 
-Model one unfamiliar word aloud and show how the first guess improves after checking context, word parts, and fit.
+Teach the five-step routine explicitly: look at sentence and paragraph context, check meaningful word parts, connect to words you already know, verify with a reference if needed, and test the meaning back in the sentence.
 
 ## Questions
-
-```question
-key: u01_l01_q01_routine_order
-type: order-items
-prompt: Put the word-learning routine in a useful order.
-items:
-  - Verify with a reference if needed
-  - Look at the sentence and paragraph context
-  - Test the meaning back in the sentence
-  - Check meaningful word parts
-  - Connect to words you already know
-correctOrder:
-  - Look at the sentence and paragraph context
-  - Check meaningful word parts
-  - Connect to words you already know
-  - Verify with a reference if needed
-  - Test the meaning back in the sentence
-explanation: The routine starts with the text, gathers word evidence, verifies when needed, and ends by checking that the meaning fits.
-hint: Start with evidence from the sentence before using outside tools.
-```
 
 ```question
 key: u01_l01_q02_strategy_choice
@@ -128,4 +109,24 @@ choices:
 correctAnswer: Some words have misleading parts or need context to finish the meaning
 explanation: Word parts are useful evidence, but they must be checked with context and meaning fit.
 hint: Think about whether one clue type works perfectly for every word.
+```
+
+```question
+key: u01_l01_q01_routine_order
+type: order-items
+prompt: Put the word-learning routine in a useful order.
+items:
+  - Verify with a reference if needed
+  - Look at the sentence and paragraph context
+  - Test the meaning back in the sentence
+  - Check meaningful word parts
+  - Connect to words you already know
+correctOrder:
+  - Look at the sentence and paragraph context
+  - Check meaningful word parts
+  - Connect to words you already know
+  - Verify with a reference if needed
+  - Test the meaning back in the sentence
+explanation: The routine starts with the text, gathers word evidence, verifies when needed, and ends by checking that the meaning fits.
+hint: Start with evidence from the sentence before using outside tools.
 ```
