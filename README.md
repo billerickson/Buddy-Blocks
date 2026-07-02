@@ -4,6 +4,8 @@ Buddy Blocks is a family learning app where kids build progress one small lesson
 
 The app is designed for a single family running its own private copy. Parents can create child profiles, see progress, and guide practice while kids move through short lessons with immediate feedback, retry hints, XP, hearts, streaks, and badges.
 
+![screenshot](https://buddyblocks.net/og/buddy-blocks-option-2.png)
+
 ## Features
 
 - Multi-profile family setup with a first-run parent account.
