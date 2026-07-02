@@ -614,7 +614,7 @@ const memoryWorks1: ResearchTrack = {
   label: 'Level 1',
   researchPath: 'research/memory-works-1',
   description:
-    'Memory Works 1 teaches the memory routine directly, then applies it to sayings, poems, facts, forms, maps, timelines, and mixed review.',
+    'Memory Works 1 teaches students how to memorize and recite short, meaningful material through look-cover-say-check practice.',
   stats: { levels: 1, units: 6, lessons: 22, questions: 132 },
   unitTitles: [
     'Memory Practice Habits',
@@ -625,34 +625,34 @@ const memoryWorks1: ResearchTrack = {
     'Cumulative Recall And Confident Performance',
   ],
   paragraphs: [
-    'Students distinguish study, recognition, cued recall, and independent recall, then practice look/listen, chunk, cover, recall, check, correct, and space.',
-    'The course uses meaningful targets: sayings, short poems, fact families, measure equivalences, grammar definitions, maps, compass directions, and history pegs.',
-    'The research treats memory as active retrieval with fading cues and delayed review, not rereading or same-day recognition.',
+    'Students begin with simple memory moves: look at a short line, break it into parts, cover it, say it, check it, and fix the part they missed.',
+    'The course uses meaningful material: sayings, short poems, fact families, measure equivalences, grammar definitions, maps, compass directions, and history pegs.',
+    'Review returns to older material after a delay so students practice remembering, not just rereading.',
   ],
   mockups: [
     {
       type: 'multiple-choice',
       label: 'Multiple Choice',
-      prompt: 'Which task asks you to use recall?',
+      prompt: 'Which step comes after you look at the line?',
       choices: [
-        'Look at the saying again.',
-        'Choose the saying from four choices.',
-        'Say the saying without looking at it.',
-        'Underline the first word of the saying.',
+        'Cover it and try to say it.',
+        'Throw it away.',
+        'Change all the words.',
+        'Race to a new lesson.',
       ],
-      correctAnswer: 'Say the saying without looking at it.',
-      feedback: 'Recall means you pull the words from memory instead of looking at the model.',
+      correctAnswer: 'Cover it and try to say it.',
+      feedback: 'Memory practice starts simply: look, cover, say, check.',
     },
     {
       type: 'match-pairs',
       label: 'Match Pairs',
-      prompt: 'Match each memory word to its meaning.',
+      prompt: 'Match each memory step to what it means.',
       pairs: [
-        { left: 'study', right: 'look at or listen to the model' },
-        { left: 'recognition', right: 'choose what looks familiar' },
-        { left: 'independent recall', right: 'remember without the model' },
+        { left: 'Look', right: 'read the line' },
+        { left: 'Cover', right: 'hide the words' },
+        { left: 'Say', right: 'try it from memory' },
       ],
-      feedback: 'Each step gives a different amount of support.',
+      feedback: 'The first routine is ordinary on purpose: look, cover, say, check.',
     },
   ],
 };
@@ -807,11 +807,11 @@ const courseCatalog: CourseCopy[] = [
     title: 'Memory Works',
     eyebrow: 'Recall, recitation, and confidence',
     summary:
-      'Students learn how to memorize well by using meaning, chunks, cues, active recall, spacing, correction, and confident recitation.',
+      'Students learn how to memorize and recite well by using meaning, small parts, clues, checking, correction, review, and clear delivery.',
     paragraphs: [
-      'Buddy Blocks treats memory as a learnable skill. Students practice looking, chunking, covering, recalling, checking, correcting, and returning after a delay.',
+      'Buddy Blocks treats memory as a learnable skill. Students practice looking, breaking a line into parts, covering it, saying it, checking it, fixing missed parts, and returning after a delay.',
       'Memory targets include sayings, poems, fact families, measure equivalences, grammar definitions, map knowledge, compass directions, and history pegs.',
-      'Students move from recognition to cued recall to independent recall, with review that helps knowledge last beyond the day it was introduced.',
+      'Students move from seeing the words, to saying them with light clues, to saying them independently, with review that helps knowledge last beyond the day it was introduced.',
     ],
     color: '#ffd84d',
     accent: '#5b79ff',
