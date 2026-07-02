@@ -67,7 +67,7 @@ Every level blueprint should include a short source note explaining which refere
 
 ## Recommended Source Format
 
-Use frontmatter for metadata and Markdown body content for instructional intent and questions.
+Use frontmatter for lesson metadata and compact runtime lesson config. Use Markdown body content for instructional intent and questions.
 
 ````md
 ---
@@ -75,6 +75,20 @@ id: lesson_grade3_math_make_ten
 slug: make-ten
 title: Make Ten
 xpBase: 10
+config:
+  intro:
+    - title: Start Here
+      body: >
+        In this lesson, you will learn how to make 10 as a strategy for adding
+        within 20.
+    - title: Key Idea
+      body: >
+        Break one addend into two parts: the part that completes 10, and the
+        leftover part you still need to add.
+      bullets:
+        - 8 needs 2 more to make 10.
+        - 5 can be split into 2 and 3.
+        - 8 + 5 can be thought of as 10 + 3.
 ---
 
 ## Teaching Goal
@@ -116,6 +130,16 @@ misconception: Treating make-ten as ordinary counting instead of decomposing an 
 ````
 
 Question blocks should remain structured YAML so Codex can validate and seed them, but the lesson should read like authored curriculum.
+
+Every promoted lesson should include a short student-facing `config.intro` in frontmatter unless the QA report explicitly explains why the first question already provides sufficient exposure. The intro is what the child sees before the scored questions, so it must teach or expose the new idea, model, text, phrase set, memory target, or routine. Do not paste teacher-facing notes directly into the intro.
+
+Use `config.intro` especially for:
+
+- every course-opening and unit-opening lesson,
+- every lesson that introduces new vocabulary, symbols, representations, language chunks, text selections, memory targets, or procedures,
+- any lesson whose first question would otherwise ask the student to recall, classify, order, match, or complete material that has not yet been shown.
+
+Intro cards should be compact: usually one or two cards, one short paragraph per card, and optional bullets only when they give the exact target words, steps, phrase meanings, examples, or model the student needs before answering. Keep the language addressed to the student.
 
 Hints are optional but recommended for questions where a common wrong answer reveals a fixable misconception. A hint should not appear on the first attempt. It should appear only when the student sees the same question again after answering it incorrectly once already. The hint should guide the next attempt without giving away the answer.
 
@@ -505,7 +529,7 @@ For each lesson, include:
 5. Likely misconceptions.
 6. Evidence of mastery.
 7. Recommended question types and why each fits.
-8. Suggested intro/teaching note for the lesson.
+8. Student-facing intro content for `config.intro`, plus any teacher-facing teaching note separately if needed.
 9. Reading-level and cognitive-load constraints.
 
 Requirements:
@@ -513,6 +537,7 @@ Requirements:
 - Avoid generic repetition across lessons.
 - Each lesson should have a distinct instructional job within its unit.
 - Use cumulative sequencing: lessons should build from exposure to supported practice to application and review.
+- Do not leave the first scored question to introduce essential new content by surprise; plan the intro or an exposure-first question deliberately.
 
 Save the level-wide lesson briefs to `research/[track-level]/05-lesson-briefs.md`, following the format in `research/grade-03-math/05-lesson-briefs.md`.
 
@@ -548,6 +573,7 @@ Write 6-10 app-scorable questions per lesson unless the lesson brief gives a str
 
 Requirements:
 - Start with exposure, recognition, or guided reasoning if the concept is new.
+- Assume the lesson will have a student-facing `config.intro`; make the first scored question build from that intro instead of asking unsupported recall.
 - Move toward application, explanation, transfer, or production when appropriate.
 - Use varied question types only when the type fits the learning job.
 - Make distractors plausible and diagnostic.
@@ -676,7 +702,8 @@ Content to implement:
 
 Requirements:
 - Use the lesson Markdown format.
-- Keep frontmatter limited to metadata.
+- Keep frontmatter limited to lesson metadata and runtime lesson config such as `config.intro`.
+- Include the accepted student-facing `config.intro` for each promoted lesson unless QA explicitly waived it.
 - Put teaching goal, student outcome, key ideas, misconceptions, and questions in the Markdown body.
 - Use one `question` fenced YAML block per question.
 - Preserve valid YAML inside question blocks.
@@ -777,6 +804,7 @@ The best workflow is collaborative: research model drafts and critiques the curr
 A lesson is done when:
 
 - The lesson has explicit teaching goal and student outcome sections.
+- The lesson has a compact student-facing `config.intro`, or the QA report explicitly explains why it is unnecessary.
 - The lesson advances the accepted unit and level blueprint.
 - The question set was authored from the lesson brief.
 - The accepted question set has at least 6 app-scorable questions unless the QA report explicitly justifies fewer.
