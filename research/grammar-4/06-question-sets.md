@@ -394,15 +394,15 @@ misconception: "Leaving the modifier near the wrong noun."
 ```question
 key: u01_l04_q05_match_reference
 type: match-pairs
-prompt: "Match each underlined pronoun to its clear antecedent."
+prompt: "Match each pronoun to its clear antecedent."
 pairs:
   - left: "After Jamal fixed the bike, it rolled smoothly."
     right: "bike"
-  - left: "Nora thanked Imani because she shared the map."
+  - left: "Because Imani shared the map, Nora thanked her."
     right: "Imani"
   - left: "The trophy fell from the shelf, but it did not break."
     right: "trophy"
-  - left: "Marcus packed the camera after he charged the battery."
+  - left: "After Marcus charged the battery, he packed the camera."
     right: "Marcus"
 explanation: "A clear pronoun points to one specific noun."
 hint: "Ask which noun the pronoun logically replaces."
@@ -1393,7 +1393,7 @@ choices:
   - "command"
 correctAnswer: "suggestion"
 explanation: "The phrase I suggest that introduces a recommendation."
-hint: "Look at the first two words."
+hint: "Look for wording that recommends an action."
 questionGoal: "Identify suggestion meaning in a sentence."
 misconception: "Reading a recommendation as a simple statement of fact."
 ```
@@ -1697,13 +1697,12 @@ misconception: "Changing register by becoming demanding or unclear."
 ```question
 key: u04_l04_q04_academic_register_repair
 type: error-correction
-prompt: "Revise the sentence for an academic report."
+prompt: "Replace the informal phrase with difficult to interpret."
 sentence: "The experiment was kinda hard to figure out."
 acceptedAnswers:
   - "The experiment was difficult to interpret."
-  - "The experiment was difficult to understand."
 explanation: "Difficult to interpret is more precise and academic than kinda hard to figure out."
-hint: "Replace informal wording with clear academic wording."
+hint: "Keep the subject and replace the informal wording after was."
 questionGoal: "Edit informal phrasing into academic register."
 misconception: "Making the sentence more formal by adding vague or inflated language."
 ```
@@ -1926,11 +1925,11 @@ passage: |
   The workshop has one goal teach students to revise with focus.
 question: "Which revision uses a colon correctly?"
 choices:
-  - "The workshop has one goal: teach students to revise with focus."
+  - "The workshop has one goal: to teach students to revise with focus."
   - "The workshop has: one goal teach students to revise with focus."
   - "The workshop: has one goal teach students to revise with focus."
   - "Because the workshop has one goal: teach students."
-correctAnswer: "The workshop has one goal: teach students to revise with focus."
+correctAnswer: "The workshop has one goal: to teach students to revise with focus."
 explanation: "The first part is a complete setup, and the second part explains the goal."
 hint: "Place the colon after the complete setup."
 questionGoal: "Use a colon to introduce an explanation in context."
@@ -2529,14 +2528,14 @@ misconception: "Giving vague praise instead of naming the revision target."
 ```question
 key: u06_l04_q02_preserve_meaning_revision
 type: multiple-choice
-prompt: "Which revision improves the sentence without changing its meaning? 'The committee rejected the proposal because it was too expensive.'"
+prompt: "Which revision improves the sentence without changing its meaning? 'The committee rejected the plan for the exhibit because it was too expensive.'"
 choices:
-  - "The committee rejected the proposal because the proposal was too expensive."
-  - "The committee accepted the proposal because it was affordable."
-  - "The proposal rejected the committee."
+  - "The committee rejected the plan for the exhibit because the plan was too expensive."
+  - "The committee accepted the plan because the exhibit was affordable."
+  - "The exhibit rejected the committee."
   - "Because it was too expensive, the committee was a proposal."
-correctAnswer: "The committee rejected the proposal because the proposal was too expensive."
-explanation: "The revision clarifies the pronoun it while preserving the meaning."
+correctAnswer: "The committee rejected the plan for the exhibit because the plan was too expensive."
+explanation: "Naming the plan clarifies what was too expensive while preserving the action and reason."
 hint: "Keep the same action and reason, but remove possible pronoun confusion."
 questionGoal: "Select a revision that improves clarity and preserves meaning."
 misconception: "Choosing a smoother sentence that reverses or changes the facts."

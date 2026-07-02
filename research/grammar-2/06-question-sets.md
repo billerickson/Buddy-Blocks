@@ -381,7 +381,7 @@ misconception: "Treating any word ending in s as possessive."
 ```question
 key: u01_l04_q05_correct_apostrophe
 type: error-correction
-prompt: "Correct the possessive noun."
+prompt: "Correct the possessive noun for one bird."
 sentence: "The birds nest sat high in the tree."
 acceptedAnswers:
   - "The bird's nest sat high in the tree."
@@ -2415,14 +2415,14 @@ misconception: "Treating all words after verbs as direct objects."
 ```question
 key: u06_l03_q01_name_target
 type: multiple-choice
-prompt: "The sentence is The dogs bowl is empty. Which target should you check?"
+prompt: "One dog owns the bowl. The sentence is The dogs bowl is empty. Which target should you check?"
 choices:
   - "possessive noun"
   - "verb tense"
   - "quotation marks"
   - "compound predicate"
 correctAnswer: "possessive noun"
-explanation: "The bowl belongs to the dog, so the sentence needs a possessive noun: dog's bowl."
+explanation: "The bowl belongs to one dog, so the sentence needs a singular possessive noun: dog's bowl."
 hint: "Ask what kind of grammar mark shows ownership."
 questionGoal: "Identify the named grammar target needed for an edit."
 misconception: "Trying to edit unrelated parts before diagnosing the target."
@@ -2431,7 +2431,7 @@ misconception: "Trying to edit unrelated parts before diagnosing the target."
 ```question
 key: u06_l03_q02_correct_named_possessive
 type: error-correction
-prompt: "Target: possessive noun. Correct only that target."
+prompt: "Target: possessive noun for one dog. Correct only that target."
 sentence: "The dogs bowl is empty."
 acceptedAnswers:
   - "The dog's bowl is empty."
@@ -2513,14 +2513,14 @@ misconception: "Rewriting unrelated correct parts while editing one target."
 ```question
 key: u06_l04_q01_choose_tool_possessive
 type: multiple-choice
-prompt: "Which grammar tool helps fix this sentence? The teachers desk was covered with papers."
+prompt: "Which grammar tool helps show ownership in this sentence? The teachers desk was covered with papers."
 choices:
   - "possessive noun"
   - "linking verb"
   - "reflexive pronoun"
   - "quotation marks"
 correctAnswer: "possessive noun"
-explanation: "The desk belongs to the teacher, so the sentence needs a possessive noun: teacher's desk."
+explanation: "The desk belongs to one or more teachers, so the writer needs a possessive noun such as teacher's or teachers'."
 hint: "Ask whether the sentence shows ownership."
 questionGoal: "Diagnose possessive noun need in mixed review."
 misconception: "Choosing a random recent grammar term instead of the relevant clue."
@@ -2580,14 +2580,14 @@ misconception: "Guessing by surface punctuation instead of the sentence job."
 ```question
 key: u06_l04_q05_best_revision_clarity
 type: multiple-choice
-prompt: "Which revision makes the sentence clearer without changing its meaning? The bird moved."
+prompt: "A writer wants to add useful, clear details to this sentence: The bird moved. Which revision is best?"
 choices:
-  - "The small bird hopped across the wet grass."
+  - "The small bird moved quietly across the wet grass."
   - "The bird moved moved moved."
   - "The bird was bird and moved."
   - "The moving moved bird."
-correctAnswer: "The small bird hopped across the wet grass."
-explanation: "The revision adds precise details and a stronger verb while keeping the basic meaning."
+correctAnswer: "The small bird moved quietly across the wet grass."
+explanation: "The revision adds precise details that make the sentence clearer without becoming repetitive or confusing."
 hint: "Choose the sentence with useful details, not repeated or confusing words."
 questionGoal: "Choose a clear sentence expansion in mixed review."
 misconception: "Thinking longer or repeated wording is automatically better."

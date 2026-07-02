@@ -314,7 +314,7 @@ acceptedAnswers:
   - "if"
 answerType: text
 explanation: "If makes the clause depend on a condition and a main clause."
-hint: "The starter word is the first word."
+hint: "Look for the word that introduces the condition."
 questionGoal: "Identify the subordinating starter in a dependent clause."
 misconception: "Focusing on the subject or verb instead of the dependency signal."
 ```
@@ -963,7 +963,7 @@ acceptedAnswers:
   - "because"
 answerType: text
 explanation: "Because is the word that makes the clause dependent."
-hint: "The subordinating word is the first word in this clause."
+hint: "Look for the word that introduces the reason."
 questionGoal: "Produce the subordinating word from a dependent clause."
 misconception: "Typing the subject or verb instead of the dependency word."
 ```
@@ -1435,15 +1435,15 @@ misconception: "Assuming every phrase after a noun describes that noun."
 ```question
 key: u04_l02_q03_match_modifier_target
 type: match-pairs
-prompt: "Match each modifier to what it describes."
+prompt: "Match each phrase to the word its modifier describes."
 pairs:
-  - left: "with a cracked screen"
+  - left: "the tablet with a cracked screen"
     right: "tablet"
-  - left: "during the parade"
+  - left: "waved during the parade"
     right: "waved"
-  - left: "near the fountain"
+  - left: "the bench near the fountain"
     right: "bench"
-  - left: "with careful steps"
+  - left: "crossed with careful steps"
     right: "crossed"
 explanation: "Modifiers connect to the noun or action they describe."
 hint: "Ask which word each phrase gives more information about."
@@ -1795,17 +1795,17 @@ misconception: "Using singular its for a plural antecedent."
 ```question
 key: u05_l01_q06_agreement_explanation
 type: multiple-choice
-prompt: "Why is this sentence incorrect? The team carried their banner."
+prompt: "Why is this sentence incorrect? The notebook lost their cover."
 choices:
-  - "In this sentence, team is treated as singular, so its would agree."
-  - "Banner should be plural."
+  - "Notebook is singular, so its would agree."
+  - "Cover should be plural."
   - "The sentence has no verb."
   - "Their is always wrong."
-correctAnswer: "In this sentence, team is treated as singular, so its would agree."
-explanation: "Team can name a group, but here it is treated as one unit, so a singular pronoun is expected in this controlled sentence."
-hint: "Ask whether the antecedent is one unit or many separate people."
-questionGoal: "Reason about a collective noun as a singular antecedent in a controlled case."
-misconception: "Assuming group nouns always take plural pronouns."
+correctAnswer: "Notebook is singular, so its would agree."
+explanation: "Notebook names one thing, so the singular possessive pronoun its matches it."
+hint: "Ask whether the antecedent names one thing or more than one."
+questionGoal: "Explain singular pronoun agreement with a clear antecedent."
+misconception: "Using a plural pronoun for a clearly singular antecedent."
 ```
 
 ### Lesson 2: Make Pronoun References Clear
@@ -2022,11 +2022,11 @@ type: multiple-choice
 prompt: "Which sentence has a misplaced modifier?"
 choices:
   - "Covered in mud, the dog shook beside the porch."
-  - "The dog shook beside the porch, covered in mud."
+  - "The dog shook beside the porch covered in mud."
   - "Beside the porch, the dog shook."
   - "The muddy dog shook beside the porch."
-correctAnswer: "The dog shook beside the porch, covered in mud."
-explanation: "Covered in mud appears to describe the porch, but the dog is muddy."
+correctAnswer: "The dog shook beside the porch covered in mud."
+explanation: "Covered in mud sits next to porch, so the sentence makes the porch seem muddy instead of the dog."
 hint: "Ask what the modifier is closest to and what it should describe."
 questionGoal: "Identify a clear misplaced modifier."
 misconception: "Assuming the reader will infer the intended target despite placement."
@@ -2074,6 +2074,7 @@ prompt: "Move the modifier to make the meaning clear."
 sentence: "The teacher handed the paper to Sam with the gold star."
 acceptedAnswers:
   - "The teacher handed the paper with the gold star to Sam."
+  - "The teacher handed Sam the paper with the gold star."
 explanation: "With the gold star describes the paper, so it should sit next to paper."
 hint: "Place with the gold star next to the thing that has the star."
 questionGoal: "Repair a misplaced prepositional phrase with a finite correction."
@@ -2270,7 +2271,7 @@ misconception: "Treating semicolons, colons, and commas as interchangeable pause
 ```question
 key: u06_l02_q04_fix_colon
 type: error-correction
-prompt: "Move the colon so it follows the complete setup."
+prompt: "Rewrite the sentence so the colon follows a complete setup."
 sentence: "We packed: water, snacks, and sunscreen."
 acceptedAnswers:
   - "We packed these supplies: water, snacks, and sunscreen."

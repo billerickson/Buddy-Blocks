@@ -360,7 +360,7 @@
         "05-lesson-briefs.md",
         "06-question-sets.md"
       ],
-      "notes": "Stage 6 authoring complete; ready for Stage 7 QA before import."
+      "notes": "Stage 7 curriculum QA 2026-07-02: accepted after targeted repairs to ambiguous possessive contexts and one unsupported mixed-review sentence expansion; remains ready for import."
     },
     {
       "slug": "grammar-3",
@@ -379,7 +379,7 @@
         "05-lesson-briefs.md",
         "06-question-sets.md"
       ],
-      "notes": "Stages 2-6 authored for Grammar Level 3; ready for Stage 7 QA before import."
+      "notes": "Stage 7 curriculum QA 2026-07-02: accepted after targeted repairs to modifier ambiguity, pronoun-agreement clarity, exact-scored modifier corrections, colon prompt wording, and giveaway hints; remains ready for import."
     },
     {
       "slug": "grammar-4",
@@ -398,7 +398,7 @@
         "05-lesson-briefs.md",
         "06-question-sets.md"
       ],
-      "notes": "Stages 2-6 authored for Grammar Level 4; ready for Stage 7 curriculum QA before import."
+      "notes": "Stage 7 curriculum QA 2026-07-02: accepted after targeted repairs to unclear antecedent matching, constrained register editing, colon revision grammar, pronoun-clarity context, and one giveaway hint; remains ready for import."
     },
     {
       "slug": "history-and-civics-1",
