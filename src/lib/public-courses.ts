@@ -590,6 +590,153 @@ const logic1: ResearchTrack = {
   ],
 };
 
+const logic2: ResearchTrack = {
+  slug: 'logic-2',
+  title: 'Logic 2',
+  label: 'Level 2',
+  researchPath: 'research/logic-2',
+  description:
+    'Extend informal logic through argument parts, definitions, counterexamples, relevance, evidence strength, analogies, cause claims, source reliability, fallacies, and mixed argument analysis.',
+  stats: { levels: 1, units: 5, lessons: 20, questions: 120 },
+  unitTitles: [
+    'Argument Parts And Evidence',
+    'Definitions, Classification, And Counterexamples',
+    'Testing Reasons, Examples, And Analogies',
+    'Cause, Correlation, And Source Reliability',
+    'Informal Fallacies And Mixed Argument Analysis',
+  ],
+  paragraphs: [
+    'Students learn to separate claims, premises, conclusions, evidence, examples, explanations, and objections before they are asked to name reasoning errors.',
+    'Definitions, examples, nonexamples, counterexamples, relevant reasons, sufficient evidence, analogies, generalizations, cause claims, correlations, and sources are treated as practical checks.',
+    'The final fallacy and mixed-clinic lessons ask students to choose the reasoning check that fits the problem instead of memorizing labels as debate shortcuts.',
+  ],
+  mockups: [
+    {
+      type: 'passage-question',
+      label: 'Passage Question',
+      prompt: 'Read the argument and choose the best objection.',
+      passage: 'The poster club should meet every day because three students said they liked making posters.',
+      detail: 'Which objection best tests the support?',
+      choices: [
+        'Is three students enough interest for a daily club?',
+        'Are posters made of paper?',
+        'Does the club have a colorful sign?',
+        'Did one student mention markers?',
+      ],
+      correctAnswer: 'Is three students enough interest for a daily club?',
+      feedback: 'A useful objection tests the support for the exact claim.',
+    },
+    {
+      type: 'match-pairs',
+      label: 'Match Pairs',
+      prompt: 'Match each fallacy label to its support problem.',
+      pairs: [
+        { left: 'Hasty generalization', right: 'too little evidence for a broad claim' },
+        { left: 'Circular reasoning', right: 'the reason repeats the conclusion' },
+        { left: 'Red herring', right: 'a distracting change of subject' },
+      ],
+      feedback: 'Fallacy labels matter only when students can explain the support problem.',
+    },
+  ],
+};
+
+const logic3: ResearchTrack = {
+  slug: 'logic-3',
+  title: 'Logic 3',
+  label: 'Level 3',
+  researchPath: 'research/logic-3',
+  description:
+    'Move into formal category reasoning with terms, propositions, quantifiers, Venn diagrams, syllogisms, validity, truth, soundness, conditionals, and final argument testing.',
+  stats: { levels: 1, units: 6, lessons: 20, questions: 120 },
+  unitTitles: [
+    'Terms, Propositions, And Categorical Language',
+    'Venn Diagrams And Category Relationships',
+    'Standard-Form Syllogisms',
+    'Validity, Truth, And Soundness',
+    'If-Then Reasoning',
+    'Translation And Argument Testing',
+  ],
+  paragraphs: [
+    'Students learn to say exactly what a categorical claim means before they reason from it, keeping all, no, some, some are not, and not all distinct.',
+    'Venn diagrams and standard-form syllogisms make category relationships visible so students can test whether a conclusion must follow.',
+    'Validity, truth, soundness, necessary and sufficient conditions, converse and inverse traps, and mixed translation tasks prepare students for more symbolic work.',
+  ],
+  mockups: [
+    {
+      type: 'multiple-choice',
+      label: 'Multiple Choice',
+      prompt: "In categorical logic, what does 'Some A are B' mean?",
+      choices: ['At least one A is B.', 'Most A are B.', 'All A are B.', 'No A are B.'],
+      correctAnswer: 'At least one A is B.',
+      feedback: 'Some means at least one; it does not prove most or all.',
+    },
+    {
+      type: 'passage-question',
+      label: 'Passage Question',
+      prompt: 'Read the argument and classify it.',
+      passage: 'All robins are birds. All birds are animals. Therefore all robins are animals.',
+      detail: 'Does the conclusion have to follow if the premises are true?',
+      choices: ['Valid', 'Invalid', 'Only if robins are mammals', 'Not a proposition'],
+      correctAnswer: 'Valid',
+      feedback: 'The middle term birds connects robins to animals.',
+    },
+  ],
+};
+
+const logic4: ResearchTrack = {
+  slug: 'logic-4',
+  title: 'Logic 4',
+  label: 'Level 4',
+  researchPath: 'research/logic-4',
+  description:
+    'Develop symbolic and applied reasoning through statement letters, connectives, truth tables, deduction, induction, abduction, data claims, scientific reasoning, argument maps, debate cases, and rebuttals.',
+  stats: { levels: 1, units: 6, lessons: 24, questions: 144 },
+  unitTitles: [
+    'Symbolic Statements And Connectives',
+    'Conditionals, Truth Tables, And Validity',
+    'Deductive, Inductive, And Abductive Reasoning',
+    'Data, Probability, And Cause Claims',
+    'Scientific Reasoning And Competing Explanations',
+    'Argument Maps, Debate Cases, And Applied Analysis',
+  ],
+  paragraphs: [
+    'Students translate ordinary propositions into statement letters, negations, conjunctions, inclusive disjunctions, and conditionals before using truth rows to test form.',
+    'They compare deductive, inductive, and abductive support, then apply those distinctions to data, probability, correlation, cause, and scientific explanations.',
+    'The final unit uses argument maps, linked reasons, missing assumptions, objections, rebuttals, debate-case structure, and applied analysis to transfer the toolkit.',
+  ],
+  mockups: [
+    {
+      type: 'multiple-choice',
+      label: 'Multiple Choice',
+      prompt:
+        'Students who ate breakfast scored higher, so breakfast definitely caused the higher scores. Which revision avoids claiming proven cause?',
+      choices: [
+        'Students who ate breakfast scored higher, but this does not prove breakfast caused the higher scores.',
+        'Students who ate breakfast scored higher, so breakfast definitely caused the higher scores.',
+        'Students who skipped breakfast could never score higher.',
+        'Breakfast was unrelated to scores because the study did not prove cause.',
+      ],
+      correctAnswer: 'Students who ate breakfast scored higher, but this does not prove breakfast caused the higher scores.',
+      feedback: 'A correlation or pattern does not by itself prove causation.',
+    },
+    {
+      type: 'dialogue-builder',
+      label: 'Dialogue Builder',
+      prompt: 'Choose the best rebuttal.',
+      passage:
+        'Ari: The school should add a homework club because many students need a quiet place to work.\nBea: But some students cannot stay after school because they ride the bus.',
+      choices: [
+        'The club could also meet during lunch twice a week.',
+        'After-school time is quieter than lunch.',
+        'Students who ride the bus should just miss the club.',
+        'Homework clubs are useful, so the original plan is already enough.',
+      ],
+      correctAnswer: 'The club could also meet during lunch twice a week.',
+      feedback: 'A rebuttal should answer the specific objection.',
+    },
+  ],
+};
+
 const rhetoric1: ResearchTrack = {
   slug: 'rhetoric-1',
   title: 'Rhetoric 1',
@@ -1092,16 +1239,16 @@ const courseCatalog: CourseCopy[] = [
     title: 'Logic',
     eyebrow: 'Careful thinking made concrete',
     summary:
-      'Students learn to slow down, find the claim, check the support, and draw only the conclusions the evidence allows.',
+      'Students move from careful informal reasoning into categories, syllogisms, conditionals, truth tables, data claims, scientific reasoning, and applied argument analysis.',
     paragraphs: [
-      'Buddy Blocks teaches logic in plain language before formal symbols. Students sort statements, questions, commands, opinions, claims, reasons, evidence, examples, and conclusions.',
-      'Practice asks students to decide whether a reason is relevant, whether a conclusion follows, and whether a cause or rule has enough support.',
-      'Weak reasoning becomes something students can notice and improve: unrelated reasons, too little evidence, either-or traps, personal attacks, and claims that are too broad.',
+      'Buddy Blocks teaches logic in plain language first: students identify claims, reasons, evidence, objections, definitions, counterexamples, and source limits before using formal labels.',
+      'Later levels add categorical propositions, Venn diagrams, syllogisms, validity, truth, soundness, necessary and sufficient conditions, converse and inverse traps, statement symbols, connectives, and truth tables.',
+      'The upper work connects formal logic to real argument analysis through deduction, induction, abduction, data caution, probability language, science explanations, argument maps, debate cases, objections, and rebuttals.',
     ],
     color: '#18bca4',
     accent: '#5b79ff',
-    levelRange: 'Level 1',
-    tracks: [logic1],
+    levelRange: 'Levels 1-4',
+    tracks: [logic1, logic2, logic3, logic4],
   },
   {
     slug: 'rhetoric',

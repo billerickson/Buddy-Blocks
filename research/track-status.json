@@ -567,12 +567,12 @@
     {
       "slug": "logic-2",
       "path": "research/logic-2",
-      "status": "ready_for_import",
+      "status": "imported",
       "hasQuestionSets": true,
-      "readyForImport": true,
-      "imported": false,
-      "importBatch": null,
-      "importedAt": null,
+      "readyForImport": false,
+      "imported": true,
+      "importBatch": "v3-20260702T171740Z",
+      "importedAt": "2026-07-02T17:17:40.536Z",
       "acceptedArtifacts": [
         "01-research-brief.md",
         "02-level-blueprint.md",
@@ -581,17 +581,17 @@
         "05-lesson-briefs.md",
         "06-question-sets.md"
       ],
-      "notes": "Stages 2-6 authored 2026-07-02; ready for Stage 7 QA and curriculum import."
+      "notes": "Stage 7 QA accepted 2026-07-02 after targeted revisions to weak distractors in alternative-explanation, fallacy, and source-check items; imported in batch v3-20260702T171740Z."
     },
     {
       "slug": "logic-3",
       "path": "research/logic-3",
-      "status": "ready_for_import",
+      "status": "imported",
       "hasQuestionSets": true,
-      "readyForImport": true,
-      "imported": false,
-      "importBatch": null,
-      "importedAt": null,
+      "readyForImport": false,
+      "imported": true,
+      "importBatch": "v3-20260702T171740Z",
+      "importedAt": "2026-07-02T17:17:40.536Z",
       "acceptedArtifacts": [
         "01-research-brief.md",
         "02-level-blueprint.md",
@@ -600,17 +600,17 @@
         "05-lesson-briefs.md",
         "06-question-sets.md"
       ],
-      "notes": "Stages 2-6 authored 2026-07-02; ready for Stage 7 QA/import."
+      "notes": "Stage 7 QA accepted 2026-07-02 after revising ambiguous categorical wording and overlapping argument-signal matching; imported in batch v3-20260702T171740Z."
     },
     {
       "slug": "logic-4",
       "path": "research/logic-4",
-      "status": "ready_for_import",
+      "status": "imported",
       "hasQuestionSets": true,
-      "readyForImport": true,
-      "imported": false,
-      "importBatch": null,
-      "importedAt": null,
+      "readyForImport": false,
+      "imported": true,
+      "importBatch": "v3-20260702T171740Z",
+      "importedAt": "2026-07-02T17:17:40.536Z",
       "acceptedArtifacts": [
         "01-research-brief.md",
         "02-level-blueprint.md",
@@ -619,7 +619,7 @@
         "05-lesson-briefs.md",
         "06-question-sets.md"
       ],
-      "notes": "Stage 6 complete for Logic 4; ready for Stage 7 QA and import."
+      "notes": "Stage 7 QA accepted 2026-07-02 after converting an open causal-overclaim rewrite to multiple choice and strengthening weak distractors in applied argument-map/rebuttal items; imported in batch v3-20260702T171740Z."
     },
     {
       "slug": "memory-works-1",

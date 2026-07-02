@@ -32,9 +32,9 @@ const EXPECTED_GRADE_SUBJECTS: Record<number, string[]> = {
     'history-civics',
     'memory-work',
   ],
-  4: ['grammar', 'literature'],
-  5: ['grammar', 'literature'],
-  6: ['math', 'vocabulary', 'grammar', 'literature'],
+  4: ['grammar', 'logic', 'literature'],
+  5: ['grammar', 'logic', 'literature'],
+  6: ['math', 'vocabulary', 'grammar', 'logic', 'literature'],
   7: ['literature'],
 };
 
@@ -51,10 +51,13 @@ const EXPECTED_SUMMARY_ROWS = [
   { gradeLevel: 3, subject: 'vocabulary', tracks: 1, units: 8, lessons: 36, questions: 216 },
   { gradeLevel: 4, subject: 'grammar', tracks: 1, units: 6, lessons: 25, questions: 150 },
   { gradeLevel: 4, subject: 'literature', tracks: 1, units: 6, lessons: 27, questions: 162 },
+  { gradeLevel: 4, subject: 'logic', tracks: 1, units: 5, lessons: 20, questions: 120 },
   { gradeLevel: 5, subject: 'grammar', tracks: 1, units: 6, lessons: 24, questions: 144 },
   { gradeLevel: 5, subject: 'literature', tracks: 1, units: 6, lessons: 22, questions: 132 },
+  { gradeLevel: 5, subject: 'logic', tracks: 1, units: 6, lessons: 20, questions: 120 },
   { gradeLevel: 6, subject: 'grammar', tracks: 1, units: 6, lessons: 24, questions: 144 },
   { gradeLevel: 6, subject: 'literature', tracks: 1, units: 6, lessons: 23, questions: 138 },
+  { gradeLevel: 6, subject: 'logic', tracks: 1, units: 6, lessons: 24, questions: 144 },
   { gradeLevel: 6, subject: 'math', tracks: 1, units: 9, lessons: 54, questions: 324 },
   { gradeLevel: 6, subject: 'vocabulary', tracks: 1, units: 8, lessons: 32, questions: 192 },
   { gradeLevel: 7, subject: 'literature', tracks: 1, units: 6, lessons: 26, questions: 156 },
@@ -86,12 +89,15 @@ describe('curriculum content', () => {
       'history-and-civics-1',
       'memory-works-1',
       'grammar-2',
+      'logic-2',
       'classical-literature-2',
       'grammar-3',
+      'logic-3',
       'classical-literature-3',
       'grade-6-math',
       'grade-6-vocabulary',
       'grammar-4',
+      'logic-4',
       'classical-literature-4',
       'classical-literature-5',
     ]);
@@ -272,8 +278,8 @@ describe('curriculum content', () => {
       'liberty-democracy-economy-and-critique',
       'modern-drama-science-and-capstone-synthesis',
     ]);
-    expect(getAllLessons()).toHaveLength(583);
-    expect(getAllQuestions()).toHaveLength(3498);
+    expect(getAllLessons()).toHaveLength(647);
+    expect(getAllQuestions()).toHaveLength(3882);
   });
 
   it('requires the shipped V3 catalog to use stable authored question keys', () => {
@@ -675,10 +681,10 @@ Students learn cell parts.
     const summary = summarizeCurriculum(TRACKS);
 
     expect(summary.totals).toEqual({
-      tracks: 19,
-      units: 132,
-      lessons: 583,
-      questions: 3498,
+      tracks: 22,
+      units: 149,
+      lessons: 647,
+      questions: 3882,
     });
     expect(summary.rows).toHaveLength(EXPECTED_SUMMARY_ROWS.length);
     for (const expected of EXPECTED_SUMMARY_ROWS) {
