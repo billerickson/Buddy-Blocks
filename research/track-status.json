@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-01",
+  "updatedAt": "2026-07-02",
   "readyForImportRule": "A top-level research track is ready_for_import when it has 06-question-sets.md and has not yet been imported.",
   "statuses": {
     "research_only": "Research has started, but the track is not ready for curriculum promotion.",
@@ -44,16 +44,21 @@
     {
       "slug": "classical-literature-3",
       "path": "research/classical-literature-3",
-      "status": "research_only",
-      "hasQuestionSets": false,
-      "readyForImport": false,
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
       "imported": false,
       "importBatch": null,
       "importedAt": null,
       "acceptedArtifacts": [
-        "01-research-brief.md"
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
       ],
-      "notes": "Not ready until 06-question-sets.md exists."
+      "notes": "Ready for Stage 7 QA before promotion."
     },
     {
       "slug": "classical-literature-4",
