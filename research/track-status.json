@@ -87,16 +87,21 @@
     {
       "slug": "classical-literature-5",
       "path": "research/classical-literature-5",
-      "status": "research_only",
-      "hasQuestionSets": false,
-      "readyForImport": false,
+      "status": "ready_for_import",
+      "hasQuestionSets": true,
+      "readyForImport": true,
       "imported": false,
       "importBatch": null,
       "importedAt": null,
       "acceptedArtifacts": [
-        "01-research-brief.md"
+        "01-research-brief.md",
+        "02-level-blueprint.md",
+        "03-course-map.md",
+        "04-unit-design-briefs/",
+        "05-lesson-briefs.md",
+        "06-question-sets.md"
       ],
-      "notes": "Not ready until 06-question-sets.md exists."
+      "notes": ""
     },
     {
       "slug": "french-1",
