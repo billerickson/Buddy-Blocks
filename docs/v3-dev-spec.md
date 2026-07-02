@@ -120,7 +120,7 @@ Suggested replacements:
 - Use `multiple-choice` for choosing the best explanation, strategy, evidence, or misconception diagnosis.
 - Use `fill-blank`, `multi-blank-cloze`, or `text-input` for constrained answers with clear accepted responses.
 - Use `order-items` for reasoning steps, processes, sentence order, and sequence.
-- Use `error-correction` for fixing a specific flawed step or sentence.
+- Use `error-correction` only for finite exact fixes where every valid correction can be listed in `acceptedAnswers`.
 - Use `passage-question` for scenario, source, or word-problem interpretation with selected answers.
 
 ## Lesson File Format

@@ -57,12 +57,14 @@ hint: The first sentence should help the audience understand the situation.
 
 ```question
 key: u06_l02_q03_fix_order
-type: error-correction
-prompt: "Revise by putting these ideas in a clearer order: 'Finally, we presented. First, we practiced. Then, we fixed one confusing sentence.'"
-sentence: Finally, we presented. First, we practiced. Then, we fixed one confusing sentence.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which revision puts the ideas in a clear time order?
+choices:
   - First, we practiced. Then, we fixed one confusing sentence. Finally, we presented.
-  - First we practiced. Then we fixed one confusing sentence. Finally we presented.
+  - Finally, we presented. First, we practiced. Then, we fixed one confusing sentence.
+  - Then, we fixed one confusing sentence. Finally, we presented. First, we practiced.
+  - First, we presented. Then, we practiced. Finally, we fixed one confusing sentence.
+correctAnswer: First, we practiced. Then, we fixed one confusing sentence. Finally, we presented.
 explanation: "The revised order follows the time words: first, then, finally."
 hint: Use the sequence words as clues.
 ```

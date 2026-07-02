@@ -56,13 +56,14 @@ hint: Do not add more words until you know what is missing.
 
 ```question
 key: u07_l02_q03_fix_vague_response
-type: error-correction
-prompt: "Revise this weak response by adding a clearer reason: 'The group should use a checklist because it is nice.'"
-sentence: The group should use a checklist because it is nice.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which revision adds a clearer reason?
+choices:
   - The group should use a checklist because it helps everyone remember each step.
-  - The group should use a checklist because it shows which steps are finished.
-  - The group should use a checklist because it helps the group avoid forgetting tasks.
+  - The group should use a checklist because it is nice.
+  - The group should use a checklist because it is a checklist.
+  - The group should use a checklist because it looks cool.
+correctAnswer: The group should use a checklist because it helps everyone remember each step.
 explanation: The revision gives a specific reason the checklist helps.
 hint: Tell what the checklist helps the group do.
 ```

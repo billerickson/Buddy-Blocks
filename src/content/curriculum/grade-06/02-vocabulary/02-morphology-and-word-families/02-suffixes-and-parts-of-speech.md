@@ -79,13 +79,14 @@ hint: Look for the word that describes an action.
 
 ```question
 key: u02_l02_q04_correct_word_form
-type: error-correction
-prompt: Correct the word form so the sentence makes sense.
-sentence: The explanation was confusion to the class.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which correction uses a word form that makes sense?
+choices:
   - The explanation was confusing to the class.
-  - The explanation confused the class.
-  - The explanation caused confusion in the class.
+  - The explanation was confusion to the class.
+  - The explanation was confuse to the class.
+  - The explanation was confused the class.
+correctAnswer: The explanation was confusing to the class.
 explanation: The sentence needs an adjective such as confusing, or it must be rewritten to use the noun confusion.
 hint: Ask whether the sentence needs a describing word or a noun.
 ```

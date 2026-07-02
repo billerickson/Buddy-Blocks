@@ -69,12 +69,14 @@ hint: Build the complete sentence core first.
 
 ```question
 key: u07_l02_q04_fix_faulty_revision
-type: error-correction
-prompt: Fix this faulty revision.
-sentence: The storm was loud it shook the windows.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which correction fixes this faulty revision?
+choices:
   - The storm was loud, and it shook the windows.
-  - The storm was loud. It shook the windows.
+  - The storm was loud, it shook the windows.
+  - The storm was loud it shook the windows.
+  - Because the storm was loud.
+correctAnswer: The storm was loud, and it shook the windows.
 explanation: The revision needs a clear boundary between the two complete thoughts.
 hint: Find where the first complete thought ends.
 ```

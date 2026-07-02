@@ -39,13 +39,14 @@ hint: Avoid sticking two complete thoughts together with no proper connector.
 
 ```question
 key: u05_l04_q02_fix_combined_run_on
-type: error-correction
-prompt: Correct the run-on.
-sentence: The recipe was simple I made it after school.
-acceptedAnswers:
-  - The recipe was simple, and I made it after school.
-  - The recipe was simple. I made it after school.
+type: multiple-choice
+prompt: Which correction fixes the run-on?
+choices:
   - Because the recipe was simple, I made it after school.
+  - The recipe was simple, I made it after school.
+  - The recipe was simple I made it after school.
+  - Because the recipe was simple.
+correctAnswer: Because the recipe was simple, I made it after school.
 explanation: The two complete thoughts need a clear boundary or a fitting connector.
 hint: Find both complete thoughts before joining them.
 ```

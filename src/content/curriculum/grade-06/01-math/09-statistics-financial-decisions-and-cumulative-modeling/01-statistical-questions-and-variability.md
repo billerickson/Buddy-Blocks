@@ -76,13 +76,14 @@ hint: Ask whether you would collect several data values.
 
 ```question
 key: u09_l01_q04_revise_question
-type: error-correction
-prompt: Revise the question to make it statistical.
-sentence: How many pets does Amir have?
-acceptedAnswers:
-  - How many pets do students in our class have?
-  - How many pets do families in our neighborhood have?
+type: multiple-choice
+prompt: Which revision makes the question statistical?
+choices:
   - How many pets does each student in our class have?
+  - How many pets does Amir have?
+  - Does Amir have a pet?
+  - What is Amir's pet named?
+correctAnswer: How many pets does each student in our class have?
 explanation: A statistical version asks about a group so the answers can vary.
 hint: Change one person to a group of people.
 ```

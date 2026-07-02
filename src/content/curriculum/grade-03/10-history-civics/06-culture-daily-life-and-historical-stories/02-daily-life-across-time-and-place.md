@@ -105,13 +105,14 @@ hint: Alike and different are the pair.
 
 ```question
 key: u06_l02_q06_fix_ranking
-type: error-correction
-prompt: Correct the sentence so it compares respectfully.
-sentence: The old way of traveling was bad because it was different from today.
-acceptedAnswers:
-  - The old way of traveling was different from today.
+type: multiple-choice
+prompt: Which sentence compares respectfully?
+choices:
   - People traveled in different ways in the past and today.
-  - In the past, people used different transportation than many people use today.
+  - The old way of traveling was bad because it was different from today.
+  - People in the past traveled in silly ways.
+  - Today's travel proves the old way was wrong.
+correctAnswer: People traveled in different ways in the past and today.
 explanation: Different does not automatically mean bad. A respectful comparison names the difference without ranking unfairly.
 hint: Remove the judgment and keep the comparison.
 ```

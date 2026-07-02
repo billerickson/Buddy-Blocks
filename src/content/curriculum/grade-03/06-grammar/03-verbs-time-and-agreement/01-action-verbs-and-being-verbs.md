@@ -86,12 +86,14 @@ hint: The sentence needs a verb that tells what is true about the shells.
 
 ```question
 key: u03_l01_q05_fix_missing_verb
-type: error-correction
-prompt: Add a verb to make the sentence complete.
-sentence: The soup hot.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which choice adds a being verb to make the sentence complete?
+choices:
   - The soup is hot.
-  - The soup was hot.
+  - The soup hot.
+  - The soup under hot.
+  - The soup quickly hot.
+correctAnswer: The soup is hot.
 explanation: The sentence needs a being verb such as is or was.
 hint: Add a verb that tells what is true about the soup.
 ```

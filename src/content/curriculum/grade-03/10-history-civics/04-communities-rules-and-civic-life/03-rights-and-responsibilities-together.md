@@ -91,13 +91,14 @@ hint: Choose the civic word that pairs with responsibility.
 
 ```question
 key: u04_l03_q05_fix_right_claim
-type: error-correction
-prompt: Correct the sentence so it shows rights and responsibilities together.
-sentence: My right to speak means I can stop everyone else from speaking.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which sentence shows rights and responsibilities together?
+choices:
   - My right to speak comes with the responsibility to let others speak.
-  - My right to speak means I should also listen to others.
-  - I have a right to speak, and others have that right too.
+  - My right to speak means I can stop everyone else from speaking.
+  - My right to speak means I should always speak louder.
+  - My right to speak means no one else has that right.
+correctAnswer: My right to speak comes with the responsibility to let others speak.
 explanation: A right does not erase other people's rights.
 hint: Keep the right to speak, but add respect for others.
 ```

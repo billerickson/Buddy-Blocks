@@ -92,13 +92,14 @@ hint: Use the root clue from Unit 2.
 
 ```question
 key: u08_l03_q05_fix_original_sentence
-type: error-correction
-prompt: Correct the original sentence so it shows the word accurate.
-sentence: My answer was accurate because it was very colorful.
-acceptedAnswers:
-  - My answer was accurate because it matched the correct solution.
+type: multiple-choice
+prompt: Which sentence shows the meaning of accurate?
+choices:
   - My answer was accurate because all the facts were correct.
-  - The measurement was accurate because it matched the ruler exactly.
+  - My answer was accurate because it was very colorful.
+  - My answer was accurate because it was written quickly.
+  - My answer was accurate because the paper was neat.
+correctAnswer: My answer was accurate because all the facts were correct.
 explanation: Accurate means correct or exact, not colorful.
 hint: Use a context involving correctness or exactness.
 ```

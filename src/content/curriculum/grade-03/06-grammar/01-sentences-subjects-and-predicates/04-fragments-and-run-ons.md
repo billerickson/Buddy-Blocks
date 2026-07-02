@@ -53,25 +53,28 @@ hint: Find whether two complete thoughts are stuck together.
 
 ```question
 key: u01_l04_q03_fix_run_on
-type: error-correction
-prompt: Correct this run-on sentence.
-sentence: The rain stopped we went outside.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which correction fixes this run-on sentence?
+choices:
   - The rain stopped. We went outside.
-  - The rain stopped, and we went outside.
+  - The rain stopped, we went outside.
+  - The rain stopped we went outside.
+  - Because the rain stopped.
+correctAnswer: The rain stopped. We went outside.
 explanation: The two complete thoughts need to be separated or joined with a comma and conjunction.
 hint: Find the two complete thoughts before you choose the fix.
 ```
 
 ```question
 key: u01_l04_q04_fix_because_fragment
-type: error-correction
-prompt: Make this fragment into a complete sentence.
-sentence: Because the puppy was tired.
-acceptedAnswers:
-  - The puppy slept because it was tired.
+type: multiple-choice
+prompt: Which choice makes this because fragment a complete sentence?
+choices:
   - Because the puppy was tired, it slept.
-  - Because the puppy was tired, it rested.
+  - Because the puppy was tired.
+  - The tired puppy.
+  - Because the puppy.
+correctAnswer: Because the puppy was tired, it slept.
 explanation: The correction completes the idea by telling what happened because the puppy was tired.
 hint: A because part gives a reason. Add the main idea.
 ```

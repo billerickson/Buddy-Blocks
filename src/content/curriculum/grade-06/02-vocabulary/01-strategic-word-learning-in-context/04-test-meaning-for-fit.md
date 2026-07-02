@@ -39,13 +39,14 @@ hint: Substitute each meaning into the sentence and see which one makes sense.
 
 ```question
 key: u01_l04_q02_fix_bad_substitution
-type: error-correction
-prompt: Correct the bad substitution.
-sentence: In 'The route was direct, with no turns,' direct means confusing.
-acceptedAnswers:
-  - In 'The route was direct, with no turns,' direct means straight or going without extra stops.
-  - Direct means straight, not confusing.
-  - Direct means going straight or without extra turns.
+type: multiple-choice
+prompt: "In 'The route was direct, with no turns,' which meaning of direct fits?"
+choices:
+  - Straight or without extra turns
+  - Confusing
+  - Expensive
+  - Crowded
+correctAnswer: Straight or without extra turns
 explanation: The clue 'with no turns' shows direct means straight or not roundabout.
 hint: Use the phrase 'with no turns' to test the meaning.
 ```

@@ -39,13 +39,14 @@ hint: Choose the reason that explains why the claim makes sense.
 
 ```question
 key: u06_l03_q02_revise_vague_reason
-type: error-correction
-prompt: "Revise the reason to make it stronger: 'We should make a supply list because it is helpful.'"
-sentence: We should make a supply list because it is helpful.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which revision gives a stronger reason?
+choices:
   - We should make a supply list because it helps us remember what to bring.
-  - We should make a supply list because it helps the group remember each material.
-  - We should make a supply list because it shows which materials we need.
+  - We should make a supply list because it is helpful.
+  - We should make a supply list because it is nice.
+  - We should make a supply list because lists are lists.
+correctAnswer: We should make a supply list because it helps us remember what to bring.
 explanation: The revision explains how the supply list helps.
 hint: Tell what the list helps people do.
 ```

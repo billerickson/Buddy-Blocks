@@ -53,13 +53,14 @@ hint: Think about audience and purpose.
 
 ```question
 key: u05_l04_q03_error_correction_precision
-type: error-correction
-prompt: Revise the sentence by replacing thing with a more exact word.
-sentence: The microscope helped us see tiny things in the pond water.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which revision replaces things with a more exact word?
+choices:
   - The microscope helped us see tiny organisms in the pond water.
-  - The microscope helped us see tiny cells in the pond water.
-  - The microscope helped us see tiny particles in the pond water.
+  - The microscope helped us see tiny things in the pond water.
+  - The microscope helped us see tiny stuff in the pond water.
+  - The microscope helped us see tiny nice things in the pond water.
+correctAnswer: The microscope helped us see tiny organisms in the pond water.
 explanation: A more precise noun tells what was seen instead of using the vague word things.
 hint: Choose a noun that could be seen in pond water through a microscope.
 ```

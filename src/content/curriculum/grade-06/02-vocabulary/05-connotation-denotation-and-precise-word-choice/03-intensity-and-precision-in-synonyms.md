@@ -73,13 +73,14 @@ hint: Match the strength of the word to the size of the problem.
 
 ```question
 key: u05_l03_q04_vague_revision
-type: error-correction
-prompt: Replace the vague word with a more precise one.
-sentence: The athlete moved fast across the finish line.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which revision uses a more precise verb for moved fast?
+choices:
   - The athlete sprinted across the finish line.
-  - The athlete raced across the finish line.
-  - The athlete dashed across the finish line.
+  - The athlete moved fast across the finish line.
+  - The athlete went across the finish line.
+  - The athlete did across the finish line.
+correctAnswer: The athlete sprinted across the finish line.
 explanation: Sprinted, raced, or dashed gives a more precise sense of fast movement.
 hint: Choose a verb that already includes the idea of moving fast.
 ```

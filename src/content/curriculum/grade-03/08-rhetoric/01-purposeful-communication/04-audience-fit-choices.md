@@ -53,14 +53,14 @@ hint: Choose the line that respects the listener and still asks clearly.
 
 ```question
 key: u01_l04_q03_revise_harsh_request
-type: error-correction
-prompt: "Revise this message so it is respectful and clear: 'Move. I need that seat.'"
-sentence: Move. I need that seat.
-acceptedAnswers:
+type: multiple-choice
+prompt: "Which revision is respectful and clear: 'Move. I need that seat.'"
+choices:
   - Could I please sit there?
-  - Could I sit there, please?
-  - May I please sit there?
-  - May I sit there, please?
+  - Move. I need that seat.
+  - Give me that seat now.
+  - You have to move.
+correctAnswer: Could I please sit there?
 explanation: A respectful request fits the audience better than a command.
 hint: Turn the command into a polite question.
 ```

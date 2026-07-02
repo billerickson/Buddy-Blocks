@@ -56,12 +56,14 @@ hint: Check whether the rest of the word is a meaningful base.
 
 ```question
 key: u04_l05_q03_fix_explanation
-type: error-correction
-prompt: Correct the weak explanation.
-sentence: Preview means view again because pre- means again.
-acceptedAnswers:
-  - Preview means view before because pre- means before.
+type: multiple-choice
+prompt: Which explanation correctly uses the prefix meaning?
+choices:
   - Preview means to see before because pre- means before.
+  - Preview means view again because pre- means again.
+  - Preview means view after because pre- means after.
+  - Preview means to see loudly because pre- means sound.
+correctAnswer: Preview means to see before because pre- means before.
 explanation: Pre- means before, while re- means again.
 hint: "Check the prefix meaning: pre- or re-?"
 ```

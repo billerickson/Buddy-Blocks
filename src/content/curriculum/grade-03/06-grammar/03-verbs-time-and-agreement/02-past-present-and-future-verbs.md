@@ -71,12 +71,14 @@ hint: Look for the future helper will.
 
 ```question
 key: u03_l02_q04_fix_time_mismatch
-type: error-correction
-prompt: Correct the verb so it matches the time clue.
-sentence: Tomorrow, we visited the science museum.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which correction matches the future-time clue?
+choices:
   - Tomorrow, we will visit the science museum.
-  - Tomorrow, we visit the science museum.
+  - Tomorrow, we visited the science museum.
+  - Yesterday, we visited the science museum.
+  - Tomorrow, we had visited the science museum.
+correctAnswer: Tomorrow, we will visit the science museum.
 explanation: Tomorrow is a future-time clue, so will visit fits better than visited.
 hint: The trip has not happened yet.
 ```

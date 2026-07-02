@@ -69,13 +69,14 @@ hint: Ask how she opened the door.
 
 ```question
 key: u05_l03_q04_fix_clutter
-type: error-correction
-prompt: Revise by removing the repeated clutter.
-sentence: The small tiny little kitten slept.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which revision removes the repeated clutter?
+choices:
   - The tiny kitten slept.
-  - The small kitten slept.
-  - The little kitten slept.
+  - The small tiny little kitten slept.
+  - The small tiny little kitten slept quietly softly gently.
+  - The kitten small tiny little slept.
+correctAnswer: The tiny kitten slept.
 explanation: One clear adjective is enough here. Too many similar details can clutter the sentence.
 hint: Keep one useful describing word.
 ```

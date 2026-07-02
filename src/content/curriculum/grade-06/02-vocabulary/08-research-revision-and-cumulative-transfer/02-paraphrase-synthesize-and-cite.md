@@ -56,13 +56,14 @@ hint: A paraphrase should not copy the sentence or change the meaning.
 
 ```question
 key: u08_l02_q03_fix_weak_paraphrase
-type: error-correction
-prompt: Fix the weak paraphrase so it uses your own words.
-sentence: "Source: 'Deserts receive very little rainfall.' Weak paraphrase: Deserts get very little rainfall."
-acceptedAnswers:
+type: multiple-choice
+prompt: "Source: 'Deserts receive very little rainfall.' Which paraphrase uses your own words?"
+choices:
   - Deserts are dry places because they do not get much rain.
-  - A desert is an area with very low rainfall.
-  - Deserts have dry climates with little rain.
+  - Deserts get very little rainfall.
+  - Deserts receive very little rainfall.
+  - Deserts receive very much rainfall.
+correctAnswer: Deserts are dry places because they do not get much rain.
 explanation: A stronger paraphrase changes wording and structure while keeping the meaning.
 hint: Do more than swap receive for get.
 ```

@@ -89,13 +89,14 @@ hint: Do not include describing words in the simple subject.
 
 ```question
 key: u01_l02_q05_complete_missing_predicate
-type: error-correction
-prompt: Add a predicate to make a complete sentence.
-sentence: The tiny frog.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which choice adds a predicate to make a complete sentence?
+choices:
   - The tiny frog jumped.
-  - The tiny frog sat on a leaf.
-  - The tiny frog is green.
+  - The tiny frog.
+  - Under the tiny frog.
+  - The tiny green frog.
+correctAnswer: The tiny frog jumped.
 explanation: The correction tells what the frog did or what is true about the frog.
 hint: Keep the subject, then add what is said about it.
 ```

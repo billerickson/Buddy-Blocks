@@ -70,13 +70,14 @@ hint: "Commands often have an understood subject: you."
 
 ```question
 key: u01_l01_q04_fix_fragment
-type: error-correction
-prompt: Make this fragment into a complete sentence.
-sentence: Under the old bridge.
-acceptedAnswers:
-  - The fox hid under the old bridge.
-  - A fox hid under the old bridge.
-  - We walked under the old bridge.
+type: multiple-choice
+prompt: Which choice turns the fragment into a complete sentence?
+choices:
+  - Reagan danced under the old bridge.
+  - Under the old bridge.
+  - The old bridge.
+  - Because under the old bridge.
+correctAnswer: Reagan danced under the old bridge.
 explanation: The correction adds a subject and predicate so the word group tells a complete thought.
 hint: Add who or what, then tell what happened under the old bridge.
 ```

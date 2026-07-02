@@ -311,7 +311,7 @@ Prefer app-scorable alternatives:
 - `fill-blank`, `multi-blank-cloze`, or `text-input` for constrained answers with clear accepted responses.
 - `order-items` for reasoning steps, processes, sentence order, and sequence.
 - `match-pairs` for distinct relationships.
-- `error-correction` for fixing a specific flawed step or sentence.
+- `error-correction` only for finite exact fixes where every valid correction can be listed in `acceptedAnswers`; use `multiple-choice` or another constrained type for open-ended revisions.
 - `passage-question` for scenario, source, or word-problem interpretation with selected answers.
 
 ## QA Gap Repair

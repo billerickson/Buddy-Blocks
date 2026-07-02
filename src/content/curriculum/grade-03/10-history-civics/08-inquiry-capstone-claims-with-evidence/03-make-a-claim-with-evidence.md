@@ -58,13 +58,14 @@ hint: Look for evidence about crossing or travel.
 
 ```question
 key: u08_l03_q03_fix_weak_support
-type: error-correction
-prompt: Correct the answer so the evidence supports the claim.
-sentence: "Claim: The market was near the river. Evidence: The source says people bought bread."
-acceptedAnswers:
-  - "Claim: The market sold bread. Evidence: The source says people bought bread."
-  - "Claim: People bought bread at the market. Evidence: The source says people bought bread."
-  - The evidence supports a claim about buying bread, not a claim about the river.
+type: multiple-choice
+prompt: "Which claim is supported by this evidence: The source says people bought bread?"
+choices:
+  - "Claim: The market sold bread."
+  - "Claim: The market was near the river."
+  - "Claim: The market was the busiest place in town."
+  - "Claim: The river moved beside the market."
+correctAnswer: "Claim: The market sold bread."
 explanation: Evidence about bread does not support a claim about location near a river.
 hint: Make the claim match what the evidence actually says.
 ```

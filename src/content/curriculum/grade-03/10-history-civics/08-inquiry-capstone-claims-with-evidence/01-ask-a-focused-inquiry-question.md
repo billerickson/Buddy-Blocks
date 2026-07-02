@@ -58,14 +58,14 @@ hint: Look for the question about the clues the sources actually provide.
 
 ```question
 key: u08_l01_q03_fix_broad_question
-type: error-correction
-prompt: "Revise the broad question so it can be answered by this source: a map showing a town beside a river."
-sentence: What was everything about the town's history?
-acceptedAnswers:
+type: multiple-choice
+prompt: Which focused question can be answered by a map showing a town beside a river?
+choices:
   - Where was the town located?
-  - Was the town beside a river?
-  - What does the map show about the town's location?
-  - Where was the town in relation to the river?
+  - What was everything about the town's history?
+  - Why did every family move to the town?
+  - What foods did people eat in the town?
+correctAnswer: Where was the town located?
 explanation: A focused question should match the map evidence available.
 hint: Ask about location or the river, because that is what the map shows.
 ```

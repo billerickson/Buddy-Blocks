@@ -90,13 +90,14 @@ hint: Use the class or source named in each left-side phrase.
 
 ```question
 key: u04_l04_q05_correct_technical_meaning
-type: error-correction
-prompt: Correct the definition choice.
-sentence: In 'The graph shows a positive trend,' trend means a popular fashion style.
-acceptedAnswers:
-  - In 'The graph shows a positive trend,' trend means a general pattern or direction in the data.
-  - Trend means a pattern in the data.
-  - In this graph context, trend means the direction the data are moving.
+type: multiple-choice
+prompt: "In 'The graph shows a positive trend,' which meaning of trend fits?"
+choices:
+  - A general pattern or direction in the data
+  - A popular fashion style
+  - A command to start moving
+  - A single number with no pattern
+correctAnswer: A general pattern or direction in the data
 explanation: In a graph, trend means a pattern or direction in data, not a fashion style.
 hint: Use the graph context.
 ```

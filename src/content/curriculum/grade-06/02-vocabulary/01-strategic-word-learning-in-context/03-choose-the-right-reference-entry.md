@@ -86,13 +86,14 @@ hint: Use the words revised and essay.
 
 ```question
 key: u01_l03_q05_correct_bad_entry
-type: error-correction
-prompt: Correct the bad reference choice.
-sentence: In 'The team will draft a plan,' draft means 'a current of air.'
-acceptedAnswers:
-  - In 'The team will draft a plan,' draft means to write or create an early version.
-  - Draft means to write an early version of the plan.
-  - In this sentence, draft means to create an early version.
+type: multiple-choice
+prompt: "In 'The team will draft a plan,' which meaning of draft fits?"
+choices:
+  - To write or create an early version
+  - A current of air
+  - A group of players chosen for a team
+  - A finished final copy
+correctAnswer: To write or create an early version
 explanation: The team is creating a plan, so the verb meaning 'write or create an early version' fits.
 hint: Ask what action the team will do to the plan.
 ```

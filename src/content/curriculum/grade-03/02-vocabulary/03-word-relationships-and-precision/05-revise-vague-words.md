@@ -39,13 +39,14 @@ hint: Choose a word that shows how a rabbit moves.
 
 ```question
 key: u03_l05_q02_error_correction_vague
-type: error-correction
-prompt: Replace the vague word with a more precise word.
-sentence: The thunder made a big sound.
-acceptedAnswers:
-  - The thunder made a loud sound.
+type: multiple-choice
+prompt: Which revision replaces big with a more precise sound word?
+choices:
   - The thunder made a booming sound.
-  - The thunder made a rumbling sound.
+  - The thunder made a tall sound.
+  - The thunder made a big sound.
+  - The thunder made a blue sound.
+correctAnswer: The thunder made a booming sound.
 explanation: Loud, booming, or rumbling is more precise than big for a sound.
 hint: Use a word that describes sound, not size.
 ```

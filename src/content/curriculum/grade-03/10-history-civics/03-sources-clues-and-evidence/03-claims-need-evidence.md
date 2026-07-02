@@ -74,13 +74,14 @@ hint: Match what the claim says to the source detail that shows it.
 
 ```question
 key: u03_l03_q04_fix_unsupported_claim
-type: error-correction
-prompt: Correct the claim so it is supported by the source.
-sentence: "Source: A photo shows two children carrying lunch pails. Claim: Every child in town carried a lunch pail."
-acceptedAnswers:
+type: multiple-choice
+prompt: "Source: A photo shows two children carrying lunch pails. Which claim is supported?"
+choices:
   - The photo shows two children carrying lunch pails.
-  - Some children in the photo carried lunch pails.
-  - Two children carried lunch pails.
+  - Every child in town carried a lunch pail.
+  - No children carried lunch pails.
+  - All families in town used lunch pails.
+correctAnswer: The photo shows two children carrying lunch pails.
 explanation: The source supports what the photo shows, not a claim about every child in town.
 hint: Limit the claim to what the source actually shows.
 ```

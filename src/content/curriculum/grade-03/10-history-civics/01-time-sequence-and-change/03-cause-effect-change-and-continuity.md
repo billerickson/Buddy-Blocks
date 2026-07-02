@@ -89,13 +89,14 @@ hint: Ask whether the first event really made the second event happen.
 
 ```question
 key: u01_l03_q05_fix_bad_cause
-type: error-correction
-prompt: Correct the sentence so it does not claim a false cause.
-sentence: The museum opened after the storm, so the museum caused the storm.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which correction avoids claiming a false cause?
+choices:
   - The museum opened after the storm, but the museum did not cause the storm.
-  - The storm happened before the museum opened, but the museum did not cause the storm.
-  - The museum opened after the storm.
+  - The museum opened after the storm, so the museum caused the storm.
+  - The museum caused the storm because it opened later.
+  - The storm happened because the museum opened.
+correctAnswer: The museum opened after the storm, but the museum did not cause the storm.
 explanation: After does not always mean because. The sentence needs to avoid a false cause.
 hint: Keep the time order, but remove the wrong cause claim.
 ```

@@ -72,14 +72,14 @@ hint: The blank needs a word that describes the noun blanket.
 
 ```question
 key: u04_l01_q04_fix_adjective_sentence
-type: error-correction
-prompt: Add an adjective that makes sense.
-sentence: The dog carried the stick.
-acceptedAnswers:
-  - The brown dog carried the stick.
-  - The playful dog carried the stick.
-  - The dog carried the long stick.
+type: multiple-choice
+prompt: Which revision adds an adjective that describes a noun?
+choices:
   - The dog carried the wooden stick.
+  - The dog quickly carried the stick.
+  - The dog carried the stick carefully.
+  - The dog carried the stick and ran.
+correctAnswer: The dog carried the wooden stick.
 explanation: A useful adjective describes a noun and keeps the sentence clear.
 hint: Add a word that tells what kind of dog or stick.
 ```

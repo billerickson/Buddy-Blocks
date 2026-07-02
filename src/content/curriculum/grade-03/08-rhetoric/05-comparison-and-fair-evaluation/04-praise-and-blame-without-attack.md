@@ -39,13 +39,14 @@ hint: Look for praise that is specific and action-focused.
 
 ```question
 key: u05_l04_q02_revise_attack
-type: error-correction
-prompt: "Revise this unfair comment so it focuses on the action: 'Sam is awful because he grabbed all the markers.'"
-sentence: Sam is awful because he grabbed all the markers.
-acceptedAnswers:
-  - Sam's choice was unfair because he grabbed all the markers.
+type: multiple-choice
+prompt: "Which revision focuses on the action instead of attacking Sam?"
+choices:
   - It was unfair for Sam to grab all the markers.
-  - Grabbing all the markers was unfair because others could not use them.
+  - Sam is awful because he grabbed all the markers.
+  - Sam is mean with markers.
+  - The markers are awful because Sam grabbed them.
+correctAnswer: It was unfair for Sam to grab all the markers.
 explanation: The revision evaluates the action instead of attacking Sam as a person.
 hint: Change the sentence so it judges the choice, not the person.
 ```

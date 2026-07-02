@@ -72,13 +72,14 @@ hint: The blank should show where.
 
 ```question
 key: u05_l01_q04_phrase_fragment
-type: error-correction
-prompt: Make this phrase fragment into a complete sentence.
-sentence: After the game.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which choice makes this phrase fragment a complete sentence?
+choices:
   - After the game, we ate dinner.
-  - We ate dinner after the game.
-  - After the game, the team cheered.
+  - After the game.
+  - The after game.
+  - After the game and dinner.
+correctAnswer: After the game, we ate dinner.
 explanation: After the game gives time information, but a complete sentence still needs a main idea.
 hint: Add who did something after the game.
 ```

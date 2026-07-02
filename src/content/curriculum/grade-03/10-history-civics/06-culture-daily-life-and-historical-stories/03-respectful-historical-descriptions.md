@@ -39,13 +39,14 @@ hint: Choose the statement that stays close to the source.
 
 ```question
 key: u06_l03_q02_fix_stereotype
-type: error-correction
-prompt: Correct the sentence so it avoids a stereotype.
-sentence: One old tool shows that everyone in the community did the same work.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which sentence avoids a stereotype?
+choices:
   - One old tool shows one kind of work in the community.
-  - The tool is evidence that some people may have done that work.
-  - The old tool gives a clue about work, but it does not show everyone did the same work.
+  - One old tool shows that everyone in the community did the same work.
+  - One old tool proves no one worked in the community.
+  - One old tool tells everything about the community.
+correctAnswer: One old tool shows one kind of work in the community.
 explanation: One source can give a clue, but it does not prove what everyone did.
 hint: Limit the claim to what one tool can support.
 ```

@@ -53,14 +53,14 @@ hint: Choose the line that answers the teacher's question with a reason.
 
 ```question
 key: u06_l04_q03_revise_harsh_wording
-type: error-correction
-prompt: "A partner's idea has no reason yet. Revise this feedback so it is clearer and more respectful: 'Your idea is bad.'"
-sentence: Your idea is bad.
-acceptedAnswers:
+type: multiple-choice
+prompt: "A partner's idea has no reason yet. Which feedback is clearer and more respectful?"
+choices:
   - Your idea needs a clearer reason.
-  - The idea would be stronger with a clearer reason.
-  - I think the idea needs more support.
-  - The idea needs a reason.
+  - Your idea is bad.
+  - I do not like your idea.
+  - Add stuff to it.
+correctAnswer: Your idea needs a clearer reason.
 explanation: The revision focuses on the idea and gives a helpful direction.
 hint: Name what could improve instead of attacking the idea.
 ```

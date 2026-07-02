@@ -97,13 +97,14 @@ hint: An inference is not stated directly, but it is not random.
 
 ```question
 key: u03_l02_q05_fix_evidence_reason
-type: error-correction
-prompt: Correct the confusing response so it separates evidence and explanation.
-sentence: My evidence is that the character is nervous because she is nervous.
-acceptedAnswers:
+type: multiple-choice
+prompt: Which response separates evidence and explanation?
+choices:
   - My evidence is that her hands shake. This shows she is nervous.
-  - The text says her hands shake, so I infer that she is nervous.
-  - Her hands shake in the text, which shows she is nervous.
+  - My evidence is that the character is nervous because she is nervous.
+  - The character is nervous because nervous means nervous.
+  - I infer she is nervous because I infer it.
+correctAnswer: My evidence is that her hands shake. This shows she is nervous.
 explanation: The corrected response uses a text detail as evidence and explains the inference.
 hint: Use something the text shows, not the same idea repeated.
 ```

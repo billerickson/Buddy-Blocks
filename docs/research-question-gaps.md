@@ -20,7 +20,7 @@ Prefer app-scorable replacements:
 - `text-input` for exact numeric, word, phrase, or formula answers.
 - `match-pairs` for distinct relationships.
 - `order-items` for process steps, sequences, and reasoning order.
-- `error-correction` for fixing a specific incorrect step, sentence, or expression.
+- `error-correction` only for finite exact fixes where every valid correction can be listed in `acceptedAnswers`.
 - `passage-question` for scenario or word-problem interpretation with a selected answer.
 
 ## Question Sets Needing Additions

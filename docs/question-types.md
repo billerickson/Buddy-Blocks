@@ -125,7 +125,7 @@ The schemas and runtime parsers for standard lesson config and Mad Minute config
 | `dialogue-builder` | Conversation turns | string | selected line equals `correctAnswer` |
 | `listening-question` | Audio comprehension | string | selected choice equals `correctAnswer` |
 | `speaking-prompt` | Unscored oral practice | object/string | completion only: recorded flag, note, or transcript present |
-| `error-correction` | Editing grammar/spelling | string | matches any `acceptedAnswers` |
+| `error-correction` | Finite exact edits for grammar/spelling | string | matches any `acceptedAnswers` |
 | `conjugation-grid` | Verb/form transformations | row-to-array object | every grid cell matches |
 
 ## App-Scorable Policy
@@ -138,7 +138,7 @@ When a lesson needs an explanation, strategy choice, oral/communication goal, or
 - `text-input`, `fill-blank`, or `multi-blank-cloze` for exact words, phrases, formulas, or numeric answers.
 - `order-items` for process steps, sentence order, ranking, or reasoning sequence.
 - `match-pairs` for distinct relationships.
-- `error-correction` for fixing one specific flawed step, expression, or sentence.
+- `error-correction` only for a finite exact fix where every valid wording can be listed in `acceptedAnswers`.
 - `passage-question` for source, scenario, or word-problem interpretation with selected answers.
 
 ## Multiple Choice
@@ -439,7 +439,7 @@ Because scoring is completion-based, do not count `speaking-prompt` toward the 6
 
 ## Error Correction
 
-Use for grammar, spelling, punctuation, or sentence editing.
+Use for grammar, spelling, punctuation, or sentence editing only when the valid corrections are finite and every valid wording can be listed in `acceptedAnswers`.
 
 ```yaml
 - type: error-correction
@@ -450,7 +450,7 @@ Use for grammar, spelling, punctuation, or sentence editing.
     - Tengo hambre.
 ```
 
-Add reasonable variants to `acceptedAnswers`, especially when a sentence can be corrected in more than one valid way.
+Add every valid variant to `acceptedAnswers`. If a student could write a correct answer that you cannot reasonably enumerate, use `multiple-choice`, `fill-blank`, `multi-blank-cloze`, `order-items`, or another constrained type instead.
 
 ## Conjugation Grid
 

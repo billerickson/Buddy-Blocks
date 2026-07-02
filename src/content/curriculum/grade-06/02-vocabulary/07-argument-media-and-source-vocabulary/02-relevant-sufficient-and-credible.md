@@ -88,13 +88,14 @@ hint: Look for expertise and direct connection to the question.
 
 ```question
 key: u07_l02_q05_fix_irrelevant
-type: error-correction
-prompt: Replace the irrelevant evidence with relevant evidence.
-sentence: "Claim: The cafeteria line is too slow. Evidence: The cafeteria walls are yellow."
-acceptedAnswers:
-  - "Claim: The cafeteria line is too slow. Evidence: Students wait an average of 18 minutes to buy lunch."
-  - "Claim: The cafeteria line is too slow. Evidence: Many students are still in line when lunch is half over."
-  - The cafeteria line is too slow because students wait an average of 18 minutes.
+type: multiple-choice
+prompt: Which evidence is relevant to the claim that the cafeteria line is too slow?
+choices:
+  - Students wait an average of 18 minutes to buy lunch.
+  - The cafeteria walls are yellow.
+  - The cafeteria tables are round.
+  - The cafeteria serves apples on Tuesday.
+correctAnswer: Students wait an average of 18 minutes to buy lunch.
 explanation: Wall color does not connect to line speed. Waiting time is relevant evidence.
 hint: Use evidence about time or waiting.
 ```

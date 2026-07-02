@@ -55,13 +55,14 @@ hint: Pick words that connect to smell.
 
 ```question
 key: u03_l03_q03_replace_vague_word
-type: error-correction
-prompt: "Revise the sentence by replacing 'good' with a more precise word: 'The good directions helped us build the model.'"
-sentence: The good directions helped us build the model.
-acceptedAnswers:
+type: multiple-choice
+prompt: "Which revision replaces 'good' with a more precise word?"
+choices:
   - The clear directions helped us build the model.
-  - The helpful directions helped us build the model.
-  - The step-by-step directions helped us build the model.
+  - The good directions helped us build the model.
+  - The loud directions helped us build the model.
+  - The green directions helped us build the model.
+correctAnswer: The clear directions helped us build the model.
 explanation: A precise word such as clear or step-by-step tells why the directions were good.
 hint: Choose a word that explains what kind of good the directions were.
 ```

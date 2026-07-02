@@ -39,12 +39,14 @@ hint: Choose the answer with both meaning and evidence.
 
 ```question
 key: u08_l03_q02_fix_weak_explanation
-type: error-correction
-prompt: 'Context: "Only one apple was left for the whole class, so fruit was scarce." Correct the weak explanation.'
-sentence: Scarce means food because food is near the word.
-acceptedAnswers:
-  - Scarce means hard to find or not enough because the sentence says there was only one apple left.
+type: multiple-choice
+prompt: 'Context: "Only one apple was left for the whole class, so fruit was scarce." Which explanation uses the clue well?'
+choices:
   - Scarce means not enough because only one apple was left.
+  - Scarce means food because food is near the word.
+  - Scarce means sweet because the sentence mentions an apple.
+  - Scarce means class because the word class is nearby.
+correctAnswer: Scarce means not enough because only one apple was left.
 explanation: A strong explanation uses the real clue and gives the meaning, not just a nearby topic.
 hint: Explain the meaning and use the clue only one apple left.
 ```
