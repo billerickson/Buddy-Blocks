@@ -655,13 +655,12 @@ Use this with a separate model pass, or as a second pass after a pause.
 ```text
 You are a strict curriculum QA reviewer.
 
-Review this lesson brief and question set. Prioritize bugs, weak alignment, ambiguity, wrong answers, poor distractors, unsupported recall, cognitive overload, and generic content.
+Review the lesson briefs and question sets in the courses below. Prioritize bugs, weak alignment, ambiguity, wrong answers, poor distractors, unsupported recall, cognitive overload, and generic content.
 
-Lesson brief: [PASTE LESSON BRIEF]
-
-Question set: [PASTE QUESTIONS]
-
-Also read docs/research-question-gaps.md and use its guidance when doing QA.
+Courses:
+- research/logic-2
+- research/logic-3
+- research/logic-4
 
 Also read `research/track-status.json` and update the track `notes` with QA acceptance, revision needs, or blockers. If QA rejects or blocks the question set, set the track back to `research_only` until repaired.
 
@@ -687,6 +686,10 @@ Return:
 - if removals create a count gap, the number of targeted app-scorable replacements needed and where they should fit in the sequence,
 - accept/revise/reject decision,
 - the `research/track-status.json` status and note update applied.
+
+Then make the recommended updates to the questions, import them into the curriculum, commit your changes to origin/master, and deploy the updates to Cloudflare, including any database changes required for the new courses to be accessible. 
+
+Also update the course information on the homepage, Courses page, and README.md file. Commit all changes and push to origin/master.
 ```
 
 ### Stage 8: Codex Implementation Prompt
