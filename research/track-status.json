@@ -339,6 +339,20 @@
       "notes": "Not ready until 06-question-sets.md exists."
     },
     {
+      "slug": "grade-09-math",
+      "path": "research/grade-09-math",
+      "status": "research_only",
+      "hasQuestionSets": false,
+      "readyForImport": false,
+      "imported": false,
+      "importBatch": null,
+      "importedAt": null,
+      "acceptedArtifacts": [
+        "01-research-brief.md"
+      ],
+      "notes": "Not ready until 06-question-sets.md exists."
+    },
+    {
       "slug": "grade-11-math",
       "path": "research/grade-11-math",
       "status": "research_only",
