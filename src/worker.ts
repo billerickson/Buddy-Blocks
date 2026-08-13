@@ -21,6 +21,16 @@ import {
 } from './lib/lesson-engine';
 import { parseMadMinuteConfig, parseStandardLessonConfig, type LessonKind } from './lib/lesson-config';
 import { calculateMadMinuteXp, scoreMadMinuteAttempts } from './lib/mad-minute';
+import {
+  calculateMultiplicationXp,
+  multiplicationMasteryLevel,
+  multiplicationSelectionKey,
+  normalizeSelectedFactors,
+  scoreMultiplicationAttempts,
+  type MultiplicationInputMethod,
+  type MultiplicationMasteryStats,
+  type MultiplicationSessionInputMethod,
+} from './lib/multiplication';
 import { calculateCurrentStreak } from './lib/streak';
 import { compareSubjectKeys, getSubjectLabel, getTrackGroup, isFoundationSubject } from './lib/subjects';
 import { completeLesson, type CompletionLesson } from './worker/lesson-completion';
@@ -208,6 +218,35 @@ type PracticeSetAttemptRow = {
   hearts_remaining: number;
 };
 
+type MultiplicationSessionRow = {
+  id: string;
+  child_profile_id: string;
+  client_attempt_id: string;
+  mode: 'practice' | 'timed';
+  selected_factors_json: string;
+  selection_key: string;
+  duration_seconds: 60 | 120 | null;
+  input_method: MultiplicationSessionInputMethod;
+  started_at: string;
+  completed_at: string;
+  score_correct: number;
+  score_total: number;
+  xp_awarded: number;
+};
+
+type MultiplicationMasteryRow = {
+  child_profile_id: string;
+  factor: number;
+  multiplier: number;
+  attempts: number;
+  correct: number;
+  correct_streak: number;
+  best_keyboard_response_ms: number | null;
+  last_response_ms: number | null;
+  last_input_method: MultiplicationInputMethod | null;
+  last_practiced_at: string;
+};
+
 type Env = {
   ASSETS: { fetch(request: Request): Promise<Response> };
   DB: D1Database;
@@ -260,6 +299,36 @@ const MadMinuteSubmissionSchema = z.object({
     )
     .max(240),
 });
+
+const MultiplicationSessionSubmissionSchema = z
+  .object({
+    clientAttemptId: z.string().trim().min(1).max(128),
+    mode: z.enum(['practice', 'timed']),
+    selectedFactors: z.array(z.number().int().min(1).max(12)).min(1).max(12),
+    durationSeconds: z.union([z.literal(60), z.literal(120), z.null()]),
+    inputMethod: z.enum(['keyboard', 'voice']),
+    startedAt: z.string().trim().min(1),
+    attempts: z
+      .array(
+        z.object({
+          factor: z.number().int().min(1).max(12),
+          multiplier: z.number().int().min(1).max(12),
+          answer: z.number().int().min(0).max(999),
+          responseMs: z.number().int().min(0).max(600_000).optional(),
+          inputMethod: z.enum(['keyboard', 'voice']),
+          attemptedAt: z.string().trim().min(1).optional(),
+        }),
+      )
+      .max(500),
+  })
+  .superRefine((value, context) => {
+    if (value.mode === 'timed' && value.durationSeconds === null) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ['durationSeconds'], message: 'Timed sessions require a duration.' });
+    }
+    if (value.mode === 'practice' && value.durationSeconds !== null) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ['durationSeconds'], message: 'Practice sessions are untimed.' });
+    }
+  });
 
 const PracticeSetCardInputSchema = z.object({
   term: z.string().trim().min(1),
@@ -520,6 +589,17 @@ async function apiRouter(request: Request, env: Env) {
   const childHomeMatch = pathname.match(/^\/api\/children\/([^/]+)\/home$/);
   if (childHomeMatch) return apiChildHome(parent, env, decodeURIComponent(childHomeMatch[1]), childModeSlug);
 
+  const multiplicationMatch = pathname.match(/^\/api\/children\/([^/]+)\/multiplication(?:\/(sessions))?$/);
+  if (multiplicationMatch) {
+    const childKey = decodeURIComponent(multiplicationMatch[1]);
+    if (!multiplicationMatch[2] && request.method === 'GET') {
+      return apiMultiplicationOverview(parent, env, childKey, childModeSlug);
+    }
+    if (multiplicationMatch[2] === 'sessions' && request.method === 'POST') {
+      return apiSubmitMultiplicationSession(parent, env, request, childKey, childModeSlug);
+    }
+  }
+
   const trackOfflinePackMatch = pathname.match(/^\/api\/children\/([^/]+)\/tracks\/([^/]+)\/offline-pack$/);
   if (trackOfflinePackMatch) {
     return apiChildTrackOfflinePack(
@@ -764,7 +844,8 @@ async function apiChildHome(parent: SessionParent, env: Env, childKey: string, c
     });
   }
 
-  const xpTotal = trackCards.reduce((sum, track) => sum + track.xpTotal, 0);
+  const multiplication = await getMultiplicationSummary(env, child.id);
+  const xpTotal = trackCards.reduce((sum, track) => sum + track.xpTotal, 0) + multiplication.xpTotal;
   const activityDates = await getActivityDates(env, child.id);
   const today = localDate(new Date(), env.TIME_ZONE);
   const streak = calculateCurrentStreak(activityDates, today);
@@ -778,10 +859,174 @@ async function apiChildHome(parent: SessionParent, env: Env, childKey: string, c
       heartsRemaining: child.hearts_remaining,
     },
     recommendedLesson,
+    multiplication,
     practiceSets: activePracticeSets.map(practiceSetHomeResponse),
     tracks: trackCards,
     badges,
   });
+}
+
+async function apiMultiplicationOverview(
+  parent: SessionParent,
+  env: Env,
+  childKey: string,
+  childModeSlug: string | null,
+) {
+  const child = await getChildForParent(parent, env, childKey);
+  if (!child) return json({ error: 'child_not_found' }, 404);
+  if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
+
+  return json(await multiplicationOverviewResponse(env, child));
+}
+
+async function apiSubmitMultiplicationSession(
+  parent: SessionParent,
+  env: Env,
+  request: Request,
+  childKey: string,
+  childModeSlug: string | null,
+) {
+  const child = await getChildForParent(parent, env, childKey);
+  if (!child) return json({ error: 'child_not_found' }, 404);
+  if (!canAccessChild(childModeSlug, child)) return childLockedResponse();
+
+  let body: z.infer<typeof MultiplicationSessionSubmissionSchema>;
+  try {
+    body = MultiplicationSessionSubmissionSchema.parse(await request.json());
+  } catch {
+    return json({ error: 'invalid_multiplication_session_payload' }, 400);
+  }
+
+  const selectedFactors = normalizeSelectedFactors(body.selectedFactors);
+  if (
+    selectedFactors.length !== new Set(body.selectedFactors).size ||
+    body.attempts.some((attempt) => !selectedFactors.includes(attempt.factor))
+  ) {
+    return json({ error: 'invalid_multiplication_session_payload' }, 400);
+  }
+
+  const existing = await env.DB.prepare(
+    'SELECT * FROM multiplication_sessions WHERE child_profile_id = ? AND client_attempt_id = ? LIMIT 1',
+  )
+    .bind(child.id, body.clientAttemptId)
+    .first<MultiplicationSessionRow>();
+  if (existing) return json({ result: await multiplicationCompletionResponse(env, child, existing, false) });
+
+  const config = {
+    mode: body.mode,
+    selectedFactors,
+    durationSeconds: body.durationSeconds,
+  };
+  const { scored, scoreCorrect, scoreTotal } = scoreMultiplicationAttempts(config, body.attempts);
+  const completedAt = new Date().toISOString();
+  const startedAt = validIsoTimestamp(body.startedAt) ? new Date(body.startedAt).toISOString() : completedAt;
+  const xpAwarded = calculateMultiplicationXp(scoreCorrect, scoreTotal);
+  const inputMethod = multiplicationSessionInputMethod(body.inputMethod, body.attempts.map((attempt) => attempt.inputMethod));
+  const selectionKey = multiplicationSelectionKey(selectedFactors, body.durationSeconds, inputMethod);
+  const previousBest = await env.DB.prepare(
+    `SELECT max(score_correct) as total
+     FROM multiplication_sessions
+     WHERE child_profile_id = ? AND selection_key = ?`,
+  )
+    .bind(child.id, selectionKey)
+    .first<CountRow>();
+  const sessionId = randomId('multiplication_session_');
+  const masteryUpdates = aggregateMultiplicationMastery(scored);
+  const activityDate = localDate(new Date(completedAt), env.TIME_ZONE);
+  const statements: D1PreparedStatement[] = [
+    env.DB.prepare(
+      `INSERT INTO multiplication_sessions
+       (id, child_profile_id, client_attempt_id, mode, selected_factors_json, selection_key, duration_seconds,
+        input_method, started_at, completed_at, score_correct, score_total, xp_awarded)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ).bind(
+      sessionId,
+      child.id,
+      body.clientAttemptId,
+      body.mode,
+      JSON.stringify(selectedFactors),
+      selectionKey,
+      body.durationSeconds,
+      inputMethod,
+      startedAt,
+      completedAt,
+      scoreCorrect,
+      scoreTotal,
+      xpAwarded,
+    ),
+    ...scored.map((attempt, index) =>
+      env.DB.prepare(
+        `INSERT INTO multiplication_fact_attempts
+         (id, session_id, sequence_number, factor, multiplier, answer, is_correct, response_ms, input_method, attempted_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ).bind(
+        randomId('multiplication_attempt_'),
+        sessionId,
+        index + 1,
+        attempt.factor,
+        attempt.multiplier,
+        Number(attempt.answer),
+        attempt.isCorrect ? 1 : 0,
+        attempt.responseMs ?? null,
+        attempt.inputMethod ?? body.inputMethod,
+        body.attempts[index]?.attemptedAt && validIsoTimestamp(body.attempts[index].attemptedAt!)
+          ? new Date(body.attempts[index].attemptedAt!).toISOString()
+          : completedAt,
+      ),
+    ),
+    ...masteryUpdates.map((update) =>
+      env.DB.prepare(
+        `INSERT INTO child_multiplication_mastery
+         (child_profile_id, factor, multiplier, attempts, correct, correct_streak, best_keyboard_response_ms,
+          last_response_ms, last_input_method, last_practiced_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         ON CONFLICT(child_profile_id, factor, multiplier) DO UPDATE SET
+           attempts = child_multiplication_mastery.attempts + excluded.attempts,
+           correct = child_multiplication_mastery.correct + excluded.correct,
+           correct_streak = CASE
+             WHEN ? = 1 THEN child_multiplication_mastery.correct_streak + excluded.correct_streak
+             ELSE excluded.correct_streak
+           END,
+           best_keyboard_response_ms = CASE
+             WHEN excluded.best_keyboard_response_ms IS NULL THEN child_multiplication_mastery.best_keyboard_response_ms
+             WHEN child_multiplication_mastery.best_keyboard_response_ms IS NULL THEN excluded.best_keyboard_response_ms
+             ELSE min(child_multiplication_mastery.best_keyboard_response_ms, excluded.best_keyboard_response_ms)
+           END,
+           last_response_ms = excluded.last_response_ms,
+           last_input_method = excluded.last_input_method,
+           last_practiced_at = excluded.last_practiced_at`,
+      ).bind(
+        child.id,
+        update.factor,
+        update.multiplier,
+        update.attempts,
+        update.correct,
+        update.trailingCorrect,
+        update.bestKeyboardResponseMs,
+        update.lastResponseMs,
+        update.lastInputMethod,
+        completedAt,
+        update.allCorrect ? 1 : 0,
+      ),
+    ),
+    env.DB.prepare(
+      `INSERT INTO child_daily_activity
+       (id, child_profile_id, activity_date, lessons_completed, xp_earned, practice_sessions_completed)
+       VALUES (?, ?, ?, 0, ?, 1)
+       ON CONFLICT(child_profile_id, activity_date) DO UPDATE SET
+         practice_sessions_completed = child_daily_activity.practice_sessions_completed + 1,
+         xp_earned = child_daily_activity.xp_earned + excluded.xp_earned`,
+    ).bind(`activity_${child.id}_${activityDate}`, child.id, activityDate, xpAwarded),
+  ];
+
+  await env.DB.batch(statements);
+  const session = await env.DB.prepare('SELECT * FROM multiplication_sessions WHERE id = ? LIMIT 1')
+    .bind(sessionId)
+    .first<MultiplicationSessionRow>();
+  if (!session) return json({ error: 'multiplication_session_not_found' }, 404);
+
+  const isNewPersonalBest = previousBest?.total === null || previousBest?.total === undefined || scoreCorrect > previousBest.total;
+  return json({ result: await multiplicationCompletionResponse(env, child, session, isNewPersonalBest) }, 201);
 }
 
 async function apiChildTrack(
@@ -1043,7 +1288,7 @@ async function apiParentDashboard(parent: SessionParent, env: Env) {
 
 async function parentDashboardChildSummary(env: Env, child: ChildRow, today: string) {
   const tracks = await getTracksForChild(env, child);
-  const [trackStats, activityDates, recentActivity] = await Promise.all([
+  const [trackStats, activityDates, recentActivity, multiplication] = await Promise.all([
     getTrackStatsForChild(
       env,
       child.id,
@@ -1051,6 +1296,7 @@ async function parentDashboardChildSummary(env: Env, child: ChildRow, today: str
     ),
     getActivityDates(env, child.id),
     getRecentActivity(env, child.id),
+    getMultiplicationSummary(env, child.id),
   ]);
   const streak = calculateCurrentStreak(activityDates, today);
   const trackSummaries = tracks.map((track) => {
@@ -1072,10 +1318,11 @@ async function parentDashboardChildSummary(env: Env, child: ChildRow, today: str
   return {
     child: childResponse(child),
     stats: {
-      xpTotal: trackSummaries.reduce((sum, track) => sum + track.xpTotal, 0),
+      xpTotal: trackSummaries.reduce((sum, track) => sum + track.xpTotal, 0) + multiplication.xpTotal,
       streak,
       heartsRemaining: child.hearts_remaining,
     },
+    multiplication,
     tracks: trackSummaries,
     badges: await getBadges(env, child.id, streak),
     recentActivity,
@@ -2188,10 +2435,203 @@ function runtimeQuestionPayload(payloadJson: string): QuestionPayload {
   return runtimePayload as QuestionPayload;
 }
 
+async function multiplicationOverviewResponse(env: Env, child: ChildRow) {
+  const [summary, masteryRows, recentSessions] = await Promise.all([
+    getMultiplicationSummary(env, child.id),
+    all<MultiplicationMasteryRow>(
+      env.DB.prepare(
+        `SELECT * FROM child_multiplication_mastery
+         WHERE child_profile_id = ?
+         ORDER BY factor, multiplier`,
+      ).bind(child.id),
+    ),
+    all<MultiplicationSessionRow>(
+      env.DB.prepare(
+        `SELECT * FROM multiplication_sessions
+         WHERE child_profile_id = ?
+         ORDER BY completed_at DESC
+         LIMIT 8`,
+      ).bind(child.id),
+    ),
+  ]);
+
+  return {
+    child: childResponse(child),
+    summary,
+    mastery: masteryRows.map(multiplicationMasteryResponse),
+    recentSessions: recentSessions.map(multiplicationSessionResponse),
+  };
+}
+
+async function multiplicationCompletionResponse(
+  env: Env,
+  child: ChildRow,
+  session: MultiplicationSessionRow,
+  isNewPersonalBest: boolean,
+) {
+  const [overview, activityDates] = await Promise.all([
+    multiplicationOverviewResponse(env, child),
+    getActivityDates(env, child.id),
+  ]);
+  const accuracy = session.score_total > 0 ? Math.round((session.score_correct / session.score_total) * 100) : 0;
+
+  return {
+    session: multiplicationSessionResponse(session),
+    scoreCorrect: session.score_correct,
+    scoreTotal: session.score_total,
+    accuracy,
+    xpAwarded: session.xp_awarded,
+    streak: calculateCurrentStreak(activityDates, localDate(new Date(), env.TIME_ZONE)),
+    isNewPersonalBest,
+    summary: overview.summary,
+    mastery: overview.mastery,
+  };
+}
+
+async function getMultiplicationSummary(env: Env, childId: string) {
+  const [totals, masteryRows, best60, best120] = await Promise.all([
+    env.DB.prepare(
+      `SELECT count(*) as sessions, coalesce(sum(score_correct), 0) as correct,
+              coalesce(sum(score_total), 0) as attempted, coalesce(sum(xp_awarded), 0) as xp
+       FROM multiplication_sessions
+       WHERE child_profile_id = ?`,
+    )
+      .bind(childId)
+      .first<{ sessions: number; correct: number; attempted: number; xp: number }>(),
+    all<MultiplicationMasteryRow>(
+      env.DB.prepare('SELECT * FROM child_multiplication_mastery WHERE child_profile_id = ?').bind(childId),
+    ),
+    env.DB.prepare(
+      `SELECT max(score_correct) as total FROM multiplication_sessions
+       WHERE child_profile_id = ? AND mode = 'timed' AND duration_seconds = 60`,
+    )
+      .bind(childId)
+      .first<CountRow>(),
+    env.DB.prepare(
+      `SELECT max(score_correct) as total FROM multiplication_sessions
+       WHERE child_profile_id = ? AND mode = 'timed' AND duration_seconds = 120`,
+    )
+      .bind(childId)
+      .first<CountRow>(),
+  ]);
+
+  return {
+    sessionsCompleted: totals?.sessions ?? 0,
+    factsCorrect: totals?.correct ?? 0,
+    factsAttempted: totals?.attempted ?? 0,
+    xpTotal: totals?.xp ?? 0,
+    fluentFacts: masteryRows.filter((row) => multiplicationMasteryLevel(multiplicationMasteryStats(row)) === 'fluent').length,
+    practicedFacts: masteryRows.length,
+    best60Seconds: best60?.total ?? 0,
+    best120Seconds: best120?.total ?? 0,
+  };
+}
+
+function multiplicationSessionResponse(session: MultiplicationSessionRow) {
+  return {
+    id: session.id,
+    mode: session.mode,
+    selectedFactors: parseNumberArray(session.selected_factors_json),
+    durationSeconds: session.duration_seconds,
+    inputMethod: session.input_method,
+    startedAt: session.started_at,
+    completedAt: session.completed_at,
+    scoreCorrect: session.score_correct,
+    scoreTotal: session.score_total,
+    accuracy: session.score_total > 0 ? Math.round((session.score_correct / session.score_total) * 100) : 0,
+    xpAwarded: session.xp_awarded,
+  };
+}
+
+function multiplicationMasteryResponse(row: MultiplicationMasteryRow) {
+  const stats = multiplicationMasteryStats(row);
+  return {
+    factor: row.factor,
+    multiplier: row.multiplier,
+    attempts: row.attempts,
+    correct: row.correct,
+    correctStreak: row.correct_streak,
+    accuracy: row.attempts > 0 ? Math.round((row.correct / row.attempts) * 100) : 0,
+    bestKeyboardResponseMs: row.best_keyboard_response_ms,
+    lastResponseMs: row.last_response_ms,
+    lastInputMethod: row.last_input_method,
+    lastPracticedAt: row.last_practiced_at,
+    level: multiplicationMasteryLevel(stats),
+  };
+}
+
+function multiplicationMasteryStats(row: MultiplicationMasteryRow): MultiplicationMasteryStats {
+  return {
+    attempts: row.attempts,
+    correct: row.correct,
+    correctStreak: row.correct_streak,
+    bestKeyboardResponseMs: row.best_keyboard_response_ms,
+  };
+}
+
+function aggregateMultiplicationMastery(
+  attempts: Array<{
+    factor: number;
+    multiplier: number;
+    isCorrect: boolean;
+    responseMs?: number;
+    inputMethod?: MultiplicationInputMethod;
+  }>,
+) {
+  const grouped = new Map<string, typeof attempts>();
+  for (const attempt of attempts) {
+    const key = `${attempt.factor}x${attempt.multiplier}`;
+    grouped.set(key, [...(grouped.get(key) ?? []), attempt]);
+  }
+
+  return Array.from(grouped.values()).map((factAttempts) => {
+    const last = factAttempts.at(-1)!;
+    const keyboardTimes = factAttempts
+      .filter((attempt) => attempt.inputMethod === 'keyboard' && attempt.responseMs !== undefined)
+      .map((attempt) => attempt.responseMs!);
+    let trailingCorrect = 0;
+    for (let index = factAttempts.length - 1; index >= 0 && factAttempts[index].isCorrect; index -= 1) trailingCorrect += 1;
+    return {
+      factor: last.factor,
+      multiplier: last.multiplier,
+      attempts: factAttempts.length,
+      correct: factAttempts.filter((attempt) => attempt.isCorrect).length,
+      trailingCorrect,
+      allCorrect: trailingCorrect === factAttempts.length,
+      bestKeyboardResponseMs: keyboardTimes.length > 0 ? Math.min(...keyboardTimes) : null,
+      lastResponseMs: last.responseMs ?? null,
+      lastInputMethod: last.inputMethod ?? 'keyboard',
+    };
+  });
+}
+
+function multiplicationSessionInputMethod(
+  preferred: MultiplicationInputMethod,
+  methods: MultiplicationInputMethod[],
+): MultiplicationSessionInputMethod {
+  if (methods.length === 0) return preferred;
+  return new Set(methods).size > 1 ? 'mixed' : methods[0];
+}
+
+function parseNumberArray(value: string) {
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.filter((item): item is number => typeof item === 'number') : [];
+  } catch {
+    return [];
+  }
+}
+
+function validIsoTimestamp(value: string) {
+  return Number.isFinite(Date.parse(value));
+}
+
 async function getActivityDates(env: Env, childId: string) {
   const rows = await all<{ activity_date: string }>(
     env.DB.prepare(
-      'SELECT activity_date FROM child_daily_activity WHERE child_profile_id = ? AND lessons_completed > 0 ORDER BY activity_date DESC',
+      `SELECT activity_date FROM child_daily_activity
+       WHERE child_profile_id = ? AND (lessons_completed > 0 OR practice_sessions_completed > 0)
+       ORDER BY activity_date DESC`,
     ).bind(childId),
   );
   return rows.map((row) => row.activity_date);
@@ -2208,16 +2648,30 @@ async function getRecentActivity(env: Env, childId: string) {
     track_slug: string;
   }>(
     env.DB.prepare(
-      `SELECT lesson_attempts.completed_at, lesson_attempts.score_correct, lesson_attempts.score_total,
-              lesson_attempts.xp_awarded, lessons.title as lesson_title, tracks.title as track_title, tracks.slug as track_slug
-       FROM lesson_attempts
-       JOIN lessons ON lessons.id = lesson_attempts.lesson_id
-       JOIN units ON units.id = lessons.unit_id
-       JOIN tracks ON tracks.id = units.track_id
-       WHERE lesson_attempts.child_profile_id = ?
-       ORDER BY lesson_attempts.completed_at DESC
+      `SELECT * FROM (
+         SELECT lesson_attempts.completed_at, lesson_attempts.score_correct, lesson_attempts.score_total,
+                lesson_attempts.xp_awarded, lessons.title as lesson_title, tracks.title as track_title,
+                tracks.slug as track_slug
+         FROM lesson_attempts
+         JOIN lessons ON lessons.id = lesson_attempts.lesson_id
+         JOIN units ON units.id = lessons.unit_id
+         JOIN tracks ON tracks.id = units.track_id
+         WHERE lesson_attempts.child_profile_id = ?
+         UNION ALL
+         SELECT multiplication_sessions.completed_at, multiplication_sessions.score_correct,
+                multiplication_sessions.score_total, multiplication_sessions.xp_awarded,
+                CASE
+                  WHEN multiplication_sessions.mode = 'timed' THEN printf('%d-minute Time Test', multiplication_sessions.duration_seconds / 60)
+                  ELSE 'Endless Practice'
+                END as lesson_title,
+                'Multiplication Facts' as track_title,
+                'multiplication-facts' as track_slug
+         FROM multiplication_sessions
+         WHERE multiplication_sessions.child_profile_id = ?
+       )
+       ORDER BY completed_at DESC
        LIMIT 6`,
-    ).bind(childId),
+    ).bind(childId, childId),
   );
 }
 

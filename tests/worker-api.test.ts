@@ -1385,6 +1385,126 @@ describe('worker access control', () => {
   });
 });
 
+describe('multiplication facts APIs', () => {
+  it('is available to a child in any grade with an empty progress summary', async () => {
+    const { env, sqlite } = createEnv();
+    insertChild(sqlite.db, 'child_first', 'first', 1);
+    insertChild(sqlite.db, 'child_twelfth', 'twelfth', 12);
+
+    for (const slug of ['first', 'twelfth']) {
+      const { response, body } = await getJson(`/api/children/${slug}/multiplication`, env);
+      expect(response.status).toBe(200);
+      expect(body).toMatchObject({
+        child: { slug },
+        summary: {
+          sessionsCompleted: 0,
+          factsCorrect: 0,
+          factsAttempted: 0,
+          fluentFacts: 0,
+        },
+        mastery: [],
+        recentSessions: [],
+      });
+    }
+  });
+
+  it('scores, persists, summarizes, and deduplicates a practice session', async () => {
+    const { env, sqlite } = createEnv();
+    const payload = {
+      clientAttemptId: 'multiplication_client_1',
+      mode: 'practice',
+      selectedFactors: [6, 2],
+      durationSeconds: null,
+      inputMethod: 'keyboard',
+      startedAt: '2026-06-29T12:10:00.000Z',
+      attempts: Array.from({ length: 10 }, (_, index) => ({
+        factor: index % 2 === 0 ? 6 : 2,
+        multiplier: (index % 5) + 1,
+        answer: index === 9 ? 999 : (index % 2 === 0 ? 6 : 2) * ((index % 5) + 1),
+        responseMs: 2_000 + index,
+        inputMethod: 'keyboard' as const,
+        attemptedAt: `2026-06-29T12:10:${String(index).padStart(2, '0')}.000Z`,
+      })),
+    };
+
+    const first = await requestJson('/api/children/mira/multiplication/sessions', env, {
+      method: 'POST',
+      body: payload,
+    });
+    const duplicate = await requestJson('/api/children/mira/multiplication/sessions', env, {
+      method: 'POST',
+      body: payload,
+    });
+
+    expect(first.response.status).toBe(201);
+    expect(first.body.result).toMatchObject({
+      scoreCorrect: 9,
+      scoreTotal: 10,
+      accuracy: 90,
+      xpAwarded: 11,
+      isNewPersonalBest: true,
+      summary: { sessionsCompleted: 1, factsCorrect: 9, factsAttempted: 10, xpTotal: 11 },
+    });
+    expect(duplicate.response.status).toBe(200);
+    expect(duplicate.body.result.session.id).toBe(first.body.result.session.id);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM multiplication_sessions')).toBe(1);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM multiplication_fact_attempts')).toBe(10);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM child_multiplication_mastery')).toBe(10);
+    expect(sqlite.db.prepare('SELECT practice_sessions_completed, xp_earned FROM child_daily_activity').get()).toEqual({
+      practice_sessions_completed: 1,
+      xp_earned: 11,
+    });
+
+    const home = await getJson('/api/children/mira/home', env);
+    expect(home.body.stats.xpTotal).toBe(26);
+    expect(home.body.multiplication).toMatchObject({ sessionsCompleted: 1, xpTotal: 11 });
+  });
+
+  it('keeps timed records separate by duration and input method', async () => {
+    const { env } = createEnv();
+    const submit = (clientAttemptId: string, durationSeconds: 60 | 120, inputMethod: 'keyboard' | 'voice') =>
+      requestJson('/api/children/mira/multiplication/sessions', env, {
+        method: 'POST',
+        body: {
+          clientAttemptId,
+          mode: 'timed',
+          selectedFactors: [3],
+          durationSeconds,
+          inputMethod,
+          startedAt: '2026-06-29T12:10:00.000Z',
+          attempts: [
+            { factor: 3, multiplier: 4, answer: 12, inputMethod, responseMs: 2_000 },
+          ],
+        },
+      });
+
+    expect((await submit('timed_keyboard_60_1', 60, 'keyboard')).body.result.isNewPersonalBest).toBe(true);
+    expect((await submit('timed_keyboard_60_2', 60, 'keyboard')).body.result.isNewPersonalBest).toBe(false);
+    expect((await submit('timed_voice_60_1', 60, 'voice')).body.result.isNewPersonalBest).toBe(true);
+    expect((await submit('timed_keyboard_120_1', 120, 'keyboard')).body.result.isNewPersonalBest).toBe(true);
+  });
+
+  it('rejects attempts outside the selected tables', async () => {
+    const { env, sqlite } = createEnv();
+    const { response, body } = await requestJson('/api/children/mira/multiplication/sessions', env, {
+      method: 'POST',
+      body: {
+        clientAttemptId: 'invalid_selection',
+        mode: 'practice',
+        selectedFactors: [6],
+        durationSeconds: null,
+        inputMethod: 'keyboard',
+        startedAt: '2026-06-29T12:10:00.000Z',
+        attempts: [{ factor: 7, multiplier: 4, answer: 28, inputMethod: 'keyboard' }],
+      },
+    });
+
+    expect(response.status).toBe(400);
+    expect(body).toEqual({ error: 'invalid_multiplication_session_payload' });
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM multiplication_sessions')).toBe(0);
+  });
+});
+
 describe('hosted interest API', () => {
   it('stores hosted interest email submissions without authentication', async () => {
     const { env, sqlite } = createEnv();
@@ -1485,12 +1605,17 @@ describe('performance index migration', () => {
     expect(tables.has('practice_set_attempts')).toBe(true);
     expect(tables.has('practice_card_attempts')).toBe(true);
     expect(tables.has('hosted_interest_emails')).toBe(true);
+    expect(tables.has('multiplication_sessions')).toBe(true);
+    expect(tables.has('multiplication_fact_attempts')).toBe(true);
+    expect(tables.has('child_multiplication_mastery')).toBe(true);
     expect(indexesFor('practice_sets').has('idx_practice_sets_child_status')).toBe(true);
     expect(indexesFor('practice_set_cards').has('idx_practice_set_cards_set_sort')).toBe(true);
     expect(indexesFor('practice_set_attempts').has('idx_practice_set_attempts_child_set')).toBe(true);
     expect(indexesFor('lesson_attempts').has('idx_lesson_attempts_child_client_attempt')).toBe(true);
     expect(indexesFor('practice_set_attempts').has('idx_practice_set_attempts_child_client_attempt')).toBe(true);
     expect(indexesFor('hosted_interest_emails').has('idx_hosted_interest_emails_created_at')).toBe(true);
+    expect(indexesFor('multiplication_sessions').has('idx_multiplication_sessions_child_completed')).toBe(true);
+    expect(indexesFor('multiplication_sessions').has('idx_multiplication_sessions_child_selection')).toBe(true);
     expect(
       new Set(db.prepare('PRAGMA table_info(questions)').all().map((row) => String((row as { name: unknown }).name))).has('hint'),
     ).toBe(true);
