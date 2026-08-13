@@ -177,16 +177,24 @@ export async function fetchCachedApi<T>(
   path: string,
   metadata: { childSlug?: string; type?: string } = {},
 ): Promise<OfflineResult<T>> {
+  let data: T;
+
   try {
-    const data = await fetchApi<T>(path);
-    await putApiResponse(path, data, metadata);
-    void syncPendingCompletions();
-    return { data, source: 'network' };
+    data = await fetchApi<T>(path);
   } catch (error) {
-    const cached = await getApiResponse<T>(path);
-    if (cached) return { data: cached.data, source: 'cache', savedAt: cached.savedAt };
+    try {
+      const cached = await getApiResponse<T>(path);
+      if (cached) return { data: cached.data, source: 'cache', savedAt: cached.savedAt };
+    } catch {
+      // Offline storage is optional. Preserve the network error when Safari cannot open IndexedDB.
+    }
     throw error;
   }
+
+  // A successful network response must remain usable when IndexedDB is unavailable or stalls.
+  void putApiResponse(path, data, metadata).catch(() => {});
+  void syncPendingCompletions().catch(() => {});
+  return { data, source: 'network' };
 }
 
 export async function saveLessonPack(childSlug: string, maxLessons = DEFAULT_PACK_SIZE): Promise<LessonPackSummary> {
