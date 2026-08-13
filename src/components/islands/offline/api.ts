@@ -5,6 +5,7 @@ import {
   getApiResponse,
   getLessonPack,
   getPendingCompletion,
+  getSavedFactsLab,
   getSavedTrackPack,
   listPendingCompletions,
   putApiResponse,
@@ -12,12 +13,15 @@ import {
   queuePendingCompletion,
   updatePendingCompletion,
   type LessonPackRecord,
+  type FactsLabPackRecord,
   type TrackLessonPackRecord,
 } from './store';
 
-const CACHE_VERSION = 3;
+const CACHE_VERSION = 4;
 const DEFAULT_PACK_SIZE = 5;
 const SHELL_URLS = ['/profiles/', '/kid/shell/', '/kid/track-shell/', '/kid/lesson-shell/', '/kid/facts-shell/'];
+const PAGE_CACHE_NAME = 'buddy-blocks-pages-v3';
+const STATIC_CACHE_NAME = 'buddy-blocks-static-v7';
 
 export type OfflineSource = 'network' | 'cache' | 'queued';
 
@@ -171,6 +175,32 @@ export function fetchMultiplicationOverview<T>(childSlug: string) {
     childSlug,
     type: 'multiplication-overview',
   });
+}
+
+export async function saveMultiplicationOffline<T>(childSlug: string, overview?: T): Promise<FactsLabPackRecord> {
+  const overviewPath = `/api/children/${encodeURIComponent(childSlug)}/multiplication`;
+  const data = overview ?? (await fetchApi<T>(overviewPath));
+  await putApiResponse(overviewPath, data, { childSlug, type: 'multiplication-overview' });
+
+  const assetsCached = await cacheOfflinePages(
+    ['/kid/facts-shell/', `/kid/${encodeURIComponent(childSlug)}/facts/`],
+    true,
+  );
+  const savedAt = new Date().toISOString();
+  const factsLab: FactsLabPackRecord = { assetsCached, savedAt, version: CACHE_VERSION };
+  const existing = await getLessonPack(childSlug);
+  await putLessonPack(
+    mergeLessonPackRecord(existing, {
+      childSlug,
+      lessonIds: [],
+      trackSlugs: [],
+      savedAt,
+      version: CACHE_VERSION,
+      factsLab,
+    }),
+  );
+  await addSyncEvent(`Saved Facts Lab offline for ${childSlug}.`);
+  return factsLab;
 }
 
 export async function fetchCachedApi<T>(
@@ -413,7 +443,7 @@ export async function syncPendingCompletions() {
   return syncInFlight;
 }
 
-export { countPendingCompletions, getLessonPack, getSavedTrackPack };
+export { countPendingCompletions, getLessonPack, getSavedFactsLab, getSavedTrackPack };
 
 async function syncPendingCompletionsNow() {
   if (isProbablyOffline()) return 0;
@@ -664,6 +694,7 @@ function mergeLessonPackRecord(existing: LessonPackRecord | null, incoming: Less
     savedAt: incoming.savedAt,
     version: CACHE_VERSION,
     completedTrackPacks,
+    factsLab: incoming.factsLab ?? existing?.factsLab,
   };
 }
 
@@ -688,13 +719,100 @@ async function cacheShellUrls(childSlug: string, trackSlugs: string[], lessonIds
     navigator.serviceWorker.controller.postMessage({ type: 'CACHE_URLS', urls });
   }
 
-  if (!('caches' in window)) return;
-  try {
-    const cache = await caches.open('buddy-blocks-pages-v3');
-    await Promise.all(urls.map((url) => fetch(url, { credentials: 'same-origin' }).then((response) => cache.put(url, response))));
-  } catch {
-    // The IndexedDB lesson pack is the source of truth; page cache failures can be retried later.
+  await cacheOfflinePages(urls);
+}
+
+async function cacheOfflinePages(urls: string[], strict = false) {
+  if (typeof window === 'undefined' || !('caches' in window)) {
+    if (strict) throw new Error('Offline downloads are not supported in this browser.');
+    return 0;
   }
+
+  const pageCache = await caches.open(PAGE_CACHE_NAME);
+  const assetUrls = new Set<string>();
+  const failures: string[] = [];
+
+  for (const url of uniqueStrings(urls)) {
+    try {
+      const response = await fetch(url, { credentials: 'same-origin' });
+      if (!response.ok || response.redirected) throw new Error(`Could not cache ${url}.`);
+      await pageCache.put(url, response.clone());
+      if (response.headers.get('content-type')?.includes('text/html')) {
+        for (const assetUrl of extractOfflineAssetUrls(await response.text(), new URL(url, window.location.origin).href)) {
+          assetUrls.add(assetUrl);
+        }
+      }
+    } catch {
+      failures.push(url);
+    }
+  }
+
+  if (strict && failures.length > 0) throw new Error('Could not finish saving Facts Lab for offline use.');
+  const assetsCached = await cacheOfflineAssets(assetUrls, strict);
+  if (strict && assetsCached === 0) throw new Error('Could not save the Facts Lab app files.');
+  return assetsCached;
+}
+
+async function cacheOfflineAssets(initialUrls: Iterable<string>, strict: boolean) {
+  const cache = await caches.open(STATIC_CACHE_NAME);
+  const queued = Array.from(initialUrls);
+  const seen = new Set<string>();
+  let cached = 0;
+
+  while (queued.length > 0) {
+    const assetUrl = queued.shift();
+    if (!assetUrl || seen.has(assetUrl)) continue;
+    seen.add(assetUrl);
+
+    try {
+      const response = await fetch(assetUrl, { credentials: 'same-origin' });
+      if (!response.ok || response.redirected) throw new Error(`Could not cache ${assetUrl}.`);
+      await cache.put(assetUrl, response.clone());
+      cached += 1;
+
+      const pathname = new URL(assetUrl).pathname;
+      if (/\.(?:css|m?js)$/.test(pathname)) {
+        const source = await response.text();
+        for (const dependencyUrl of extractOfflineAssetUrls(source, assetUrl)) {
+          if (!seen.has(dependencyUrl)) queued.push(dependencyUrl);
+        }
+      }
+    } catch {
+      if (strict) throw new Error('Could not finish saving the Facts Lab app files.');
+    }
+  }
+
+  return cached;
+}
+
+export function extractOfflineAssetUrls(source: string, baseUrl: string) {
+  const base = new URL(baseUrl);
+  const candidates = new Set<string>();
+  const quotedValuePattern = /["'`]((?:\/|\.\.?\/)[^"'`\s<>]+)["'`]/g;
+  const cssUrlPattern = /url\(\s*["']?([^"')\s]+)["']?\s*\)/g;
+
+  for (const pattern of [quotedValuePattern, cssUrlPattern]) {
+    for (const match of source.matchAll(pattern)) candidates.add(match[1]);
+  }
+
+  return Array.from(candidates)
+    .map((candidate) => {
+      try {
+        const url = new URL(candidate.replace(/&amp;/g, '&'), base);
+        url.hash = '';
+        return url;
+      } catch {
+        return null;
+      }
+    })
+    .filter((url): url is URL => Boolean(url && url.origin === base.origin && isOfflineAssetPath(url.pathname)))
+    .map((url) => url.href);
+}
+
+function isOfflineAssetPath(pathname: string) {
+  if (pathname === '/manifest.webmanifest') return true;
+  if (!pathname.startsWith('/_astro/') && !pathname.startsWith('/icons/')) return false;
+  return /\.(?:css|m?js|woff2?|ttf|otf|svg|png|jpe?g|gif|webp|avif|ico)$/.test(pathname);
 }
 
 function createClientAttemptId() {

@@ -2,7 +2,15 @@ import { useEffect, useState } from 'preact/hooks';
 import { getSubjectMetadata } from '../../lib/subjects';
 import { percent } from './api';
 import { BlockAvatar, TrackIcon } from './BlockAvatar';
-import { fetchKidHome, getSavedTrackPack, saveTrackLessonPack, type OfflineSource } from './offline/api';
+import {
+  fetchKidHome,
+  getSavedFactsLab,
+  getSavedTrackPack,
+  saveMultiplicationOffline,
+  saveTrackLessonPack,
+  type OfflineSource,
+} from './offline/api';
+import { OfflineDownloadButton, type OfflineDownloadState } from './offline/OfflineDownloadButton';
 import { OfflineStatusPill } from './offline/OfflineStatusPill';
 import { childSlugFromLocation } from './route-params';
 
@@ -65,7 +73,7 @@ type HomeData = {
 };
 
 type TrackPackUiState = {
-  state: 'idle' | 'saving' | 'saved' | 'error';
+  state: OfflineDownloadState;
   lessonsCached?: number;
 };
 
@@ -75,6 +83,7 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
   const [dataSource, setDataSource] = useState<OfflineSource>('network');
   const [error, setError] = useState('');
   const [trackPackStates, setTrackPackStates] = useState<Record<string, TrackPackUiState>>({});
+  const [factsPackState, setFactsPackState] = useState<OfflineDownloadState>('idle');
 
   useEffect(() => {
     if (!childSlug) {
@@ -95,13 +104,15 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
 
     let cancelled = false;
     const refreshSavedTrackPacks = async () => {
-      const entries = await Promise.all(
-        data.tracks.map(async (track) => {
+      const [factsPack, entries] = await Promise.all([
+        getSavedFactsLab(childSlug),
+        Promise.all(data.tracks.map(async (track) => {
           const pack = await getSavedTrackPack(childSlug, track.slug);
           return [track.slug, pack] as const;
-        }),
-      );
+        })),
+      ]);
       if (cancelled) return;
+      if (factsPack) setFactsPackState((current) => (current === 'saving' ? current : 'saved'));
       setTrackPackStates((current) => {
         const next = { ...current };
         for (const [trackSlug, pack] of entries) {
@@ -182,12 +193,9 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
           <p className="stat-chip w-fit">Quick practice</p>
           <h2 className="mt-3 text-4xl">Facts Lab</h2>
         </div>
-        <a
-          href={`/kid/${data.child.slug}/facts/`}
-          className="block-card block overflow-hidden p-5 no-underline transition hover:-translate-y-1"
-        >
+        <article className="block-card overflow-hidden p-5 transition hover:-translate-y-1">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-start gap-4">
+            <a href={`/kid/${data.child.slug}/facts/`} className="flex min-w-0 flex-1 items-start gap-4 no-underline">
               <TrackIcon iconKey="plus-block" color="#5b79ff" />
               <div>
                 <div className="flex flex-wrap gap-2">
@@ -197,14 +205,29 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
                 <h3 className="mt-3 text-3xl">Multiplication Facts</h3>
                 <p className="mt-2 font-bold text-muted">Endless practice, timed tests, smart review, and spoken answers.</p>
               </div>
-            </div>
-            <div className="flex flex-wrap gap-2 sm:max-w-xs sm:justify-end">
+            </a>
+            <div className="flex flex-wrap items-center gap-2 sm:max-w-xs sm:justify-end">
               <span className="stat-chip">{data.multiplication.fluentFacts}/144 fluent</span>
               <span className="stat-chip">Best minute: {data.multiplication.best60Seconds}</span>
               <span className="stat-chip">{data.multiplication.xpTotal} XP</span>
+              <OfflineDownloadButton
+                state={factsPackState}
+                title="Facts Lab"
+                onClick={async () => {
+                  if (factsPackState === 'saving') return;
+                  setFactsPackState('saving');
+                  try {
+                    await saveMultiplicationOffline(data.child.slug);
+                    setFactsPackState('saved');
+                  } catch {
+                    setFactsPackState('error');
+                  }
+                }}
+              />
+              {factsPackState === 'error' && <span className="stat-chip bg-[#ffe1ea]">Offline save failed</span>}
             </div>
           </div>
-        </a>
+        </article>
       </section>
 
       {data.practiceSets.length > 0 && (
@@ -270,9 +293,9 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
                     <div className="mt-4 flex flex-wrap items-center gap-2">
                       <span className="stat-chip">{track.lessonsCompleted}/{track.totalLessons} lessons</span>
                       <span className="stat-chip">{track.xpTotal} XP</span>
-                      <TrackOfflineButton
+                      <OfflineDownloadButton
                         state={packState.state}
-                        trackTitle={track.title}
+                        title={track.title}
                         onClick={async () => {
                           if (packState.state === 'saving') return;
                           setTrackPackStates((current) => ({
@@ -318,51 +341,5 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
         </div>
       </section>
     </section>
-  );
-}
-
-function TrackOfflineButton({
-  state,
-  trackTitle,
-  onClick,
-}: {
-  state: TrackPackUiState['state'];
-  trackTitle: string;
-  onClick: () => void | Promise<void>;
-}) {
-  const saved = state === 'saved';
-  const saving = state === 'saving';
-  const errored = state === 'error';
-  const label = saving
-    ? `Saving ${trackTitle} offline`
-    : saved
-      ? `${trackTitle} saved offline`
-      : errored
-        ? `Retry saving ${trackTitle} offline`
-        : `Save ${trackTitle} offline`;
-
-  return (
-    <button
-      className={`offline-icon-button offline-block ${saved ? 'is-saved' : ''} ${saving ? 'is-saving' : ''} ${errored ? 'is-error' : ''}`}
-      type="button"
-      aria-label={label}
-      aria-pressed={saved}
-      title={label}
-      disabled={saving}
-      onClick={() => void onClick()}
-    >
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 3v11" />
-        <path d="M7 9l5 5 5-5" />
-        <path d="M5 19h14" />
-      </svg>
-      {saved && (
-        <span className="status-check" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M5 12.5l4.5 4.5L19 7" />
-          </svg>
-        </span>
-      )}
-    </button>
   );
 }

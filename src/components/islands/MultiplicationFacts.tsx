@@ -15,9 +15,12 @@ import {
 import {
   fetchMultiplicationOverview,
   getQueuedCompletionResult,
+  getSavedFactsLab,
+  saveMultiplicationOffline,
   submitMultiplicationSession,
   type OfflineSource,
 } from './offline/api';
+import { OfflineDownloadButton, type OfflineDownloadState } from './offline/OfflineDownloadButton';
 import { OfflineStatusPill } from './offline/OfflineStatusPill';
 import { childSlugFromLocation } from './route-params';
 
@@ -142,6 +145,7 @@ export default function MultiplicationFacts({ childSlug: childSlugProp }: { chil
   const [voiceAvailable, setVoiceAvailable] = useState(false);
   const [listening, setListening] = useState(false);
   const [voiceMessage, setVoiceMessage] = useState('');
+  const [offlinePackState, setOfflinePackState] = useState<OfflineDownloadState>('idle');
 
   const masteryMap = useMemo(
     () =>
@@ -179,6 +183,16 @@ export default function MultiplicationFacts({ childSlug: childSlugProp }: { chil
       .then((result) => {
         setOverview(result.data);
         setDataSource(result.source);
+        void getSavedFactsLab(childSlug).then((pack) => {
+          if (pack) {
+            setOfflinePackState('saved');
+            return;
+          }
+          if (result.source !== 'network') return;
+          void saveMultiplicationOffline(childSlug, result.data)
+            .then(() => setOfflinePackState('saved'))
+            .catch(() => {});
+        });
       })
       .catch((reason) => setError(reason instanceof Error ? reason.message : 'Could not load multiplication facts.'));
 
@@ -398,12 +412,30 @@ export default function MultiplicationFacts({ childSlug: childSlugProp }: { chil
             <p className="mt-3 max-w-3xl text-lg font-extrabold text-muted">
               Pick the times tables you want, then practice without a clock or race your best time.
             </p>
+            <p className="mt-2 max-w-3xl text-sm font-bold text-muted">
+              Facts and typed answers work offline once saved. Spoken answers may still need your browser's speech service.
+            </p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="stat-chip">{overview.summary.fluentFacts}/144 fluent</span>
             <span className="stat-chip">Best minute: {overview.summary.best60Seconds}</span>
             <span className="stat-chip">Best 2 min: {overview.summary.best120Seconds}</span>
             <span className="stat-chip">{overview.summary.xpTotal} facts XP</span>
+            <OfflineDownloadButton
+              state={offlinePackState}
+              title="Facts Lab"
+              onClick={async () => {
+                if (offlinePackState === 'saving') return;
+                setOfflinePackState('saving');
+                try {
+                  await saveMultiplicationOffline(childSlug, overview);
+                  setOfflinePackState('saved');
+                } catch {
+                  setOfflinePackState('error');
+                }
+              }}
+            />
+            {offlinePackState === 'error' && <span className="stat-chip bg-[#ffe1ea]">Offline save failed</span>}
           </div>
         </div>
       </header>

@@ -1085,6 +1085,17 @@ describe('worker practice set APIs', () => {
 });
 
 describe('worker protected page shells', () => {
+  it('lets an authenticated parent preload the generated kid shells', async () => {
+    const { env } = createEnv();
+
+    for (const path of ['/kid/shell/', '/kid/track-shell/', '/kid/lesson-shell/', '/kid/facts-shell/']) {
+      await expect(getText(path, env)).resolves.toMatchObject({
+        response: expect.objectContaining({ status: 200 }),
+        body: `asset:${path}`,
+      });
+    }
+  });
+
   it('serves generic kid app shells for a database child outside static fixtures', async () => {
     const { env, sqlite } = createEnv();
     insertChild(sqlite.db, 'child_luca', 'luca', 4);

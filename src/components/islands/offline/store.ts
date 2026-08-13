@@ -21,12 +21,19 @@ export type LessonPackRecord = {
   savedAt: string;
   version: number;
   completedTrackPacks?: TrackLessonPackRecord[];
+  factsLab?: FactsLabPackRecord;
 };
 
 export type TrackLessonPackRecord = {
   trackSlug: string;
   lessonIds: string[];
   lessonsCached: number;
+  savedAt: string;
+  version: number;
+};
+
+export type FactsLabPackRecord = {
+  assetsCached: number;
   savedAt: string;
   version: number;
 };
@@ -96,6 +103,11 @@ export async function getLessonPack(childSlug: string) {
 export async function getSavedTrackPack(childSlug: string, trackSlug: string) {
   const pack = await getLessonPack(childSlug);
   return pack?.completedTrackPacks?.find((trackPack) => trackPack.trackSlug === trackSlug) ?? null;
+}
+
+export async function getSavedFactsLab(childSlug: string) {
+  const pack = await getLessonPack(childSlug);
+  return pack?.factsLab ?? null;
 }
 
 export async function queuePendingCompletion<TBody, TResult>(

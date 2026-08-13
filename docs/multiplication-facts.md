@@ -28,6 +28,8 @@ The D1 tables `multiplication_sessions`, `multiplication_fact_attempts`, and `ch
 
 Session submissions use a client attempt ID for idempotency. When a connection fails, the app queues the complete session in IndexedDB, shows Waiting to sync, and retries through the normal offline sync workflow. Server-side scoring and selected-table validation run when the queued session reaches D1.
 
+The Facts Lab card has the same offline download control as course cards. Saving it stores the student's current mastery overview in IndexedDB and preloads both Facts Lab page shells plus their complete same-origin Astro JavaScript, CSS, and image dependency graph. Opening Facts Lab online also prepares the same offline pack automatically. Practice and typed-answer sessions work offline; browser speech recognition may still require an internet connection.
+
 ## API
 
 ```text

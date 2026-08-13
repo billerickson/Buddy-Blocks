@@ -525,6 +525,8 @@ async function protectedAsset(request: Request, env: Env) {
     return serveAsset(request, env, url.pathname);
   }
 
+  if (isKidShellPath(url.pathname)) return serveAsset(request, env, url.pathname);
+
   const requestedChildSlug = childSlugFromKidPath(url.pathname);
   if (!requestedChildSlug) return serveAsset(request, env, url.pathname);
 
@@ -2859,6 +2861,10 @@ function isParentPage(pathname: string) {
 function childSlugFromKidPath(pathname: string) {
   const match = pathname.match(/^\/kid\/([^/]+)(?:\/|$)/);
   return match ? decodeURIComponent(match[1]) : null;
+}
+
+function isKidShellPath(pathname: string) {
+  return ['/kid/shell', '/kid/track-shell', '/kid/lesson-shell', '/kid/facts-shell'].includes(stripTrailingSlash(pathname));
 }
 
 function kidShellAssetPath(pathname: string) {
