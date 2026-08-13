@@ -34,7 +34,7 @@ const {
   structuredData,
 } = Astro.props;
 const kidPathMatch = Astro.url.pathname.match(/^\/kid\/([^/]+)/);
-const generatedKidShellSlugs = new Set(['shell', 'track-shell', 'lesson-shell']);
+const generatedKidShellSlugs = new Set(['shell', 'track-shell', 'lesson-shell', 'facts-shell']);
 const isGeneratedKidShell = active === 'kid' && kidPathMatch ? generatedKidShellSlugs.has(kidPathMatch[1]) : false;
 const resolvedBrandHref =
   brandHref ?? (active === 'kid' && kidPathMatch && !isGeneratedKidShell ? `/kid/${kidPathMatch[1]}/` : '/profiles/');
@@ -85,7 +85,7 @@ const shouldShowAppFooter = shouldBootOfflineSync;
       <script is:inline>
         const kidHomeLink = document.querySelector('[data-kid-home-link]');
         const kidPathMatch = window.location.pathname.match(/^\/kid\/([^/]+)(?:\/|$)/);
-        const generatedKidShellSlugs = new Set(['shell', 'track-shell', 'lesson-shell']);
+        const generatedKidShellSlugs = new Set(['shell', 'track-shell', 'lesson-shell', 'facts-shell']);
         if (kidHomeLink && kidPathMatch && !generatedKidShellSlugs.has(kidPathMatch[1])) {
           kidHomeLink.setAttribute('href', `/kid/${kidPathMatch[1]}/`);
         }

@@ -1,0 +1,10 @@
+---
+import MultiplicationFacts from '../../components/islands/MultiplicationFacts';
+import AppLayout from '../../layouts/AppLayout.astro';
+---
+
+<AppLayout title="Multiplication Facts · Buddy Blocks" active="kid">
+  <main class="app-shell page-band">
+    <MultiplicationFacts client:load />
+  </main>
+</AppLayout>

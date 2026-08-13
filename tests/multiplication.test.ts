@@ -104,6 +104,8 @@ describe('spoken multiplication answers', () => {
     ['forty-two', 42],
     ['the answer is one hundred and forty four', 144],
     ['won', 1],
+    ['to', 2],
+    ['equal to forty two', 42],
     ['for', 4],
     ['ate', 8],
   ])('parses %s as %i', (value, expected) => {

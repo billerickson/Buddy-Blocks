@@ -1101,6 +1101,10 @@ describe('worker protected page shells', () => {
       response: expect.objectContaining({ status: 200 }),
       body: 'asset:/kid/lesson-shell/',
     });
+    await expect(getText('/kid/luca/facts/', env)).resolves.toMatchObject({
+      response: expect.objectContaining({ status: 200 }),
+      body: 'asset:/kid/facts-shell/',
+    });
   });
 
   it('redirects unknown child pages back to profiles', async () => {
@@ -1442,7 +1446,7 @@ describe('multiplication facts APIs', () => {
       scoreTotal: 10,
       accuracy: 90,
       xpAwarded: 11,
-      isNewPersonalBest: true,
+      isNewPersonalBest: false,
       summary: { sessionsCompleted: 1, factsCorrect: 9, factsAttempted: 10, xpTotal: 11 },
     });
     expect(duplicate.response.status).toBe(200);
@@ -1458,6 +1462,17 @@ describe('multiplication facts APIs', () => {
     const home = await getJson('/api/children/mira/home', env);
     expect(home.body.stats.xpTotal).toBe(26);
     expect(home.body.multiplication).toMatchObject({ sessionsCompleted: 1, xpTotal: 11 });
+
+    const dashboard = await getJson('/api/parent/dashboard', env);
+    expect(dashboard.body.children[0].multiplication).toMatchObject({
+      sessionsCompleted: 1,
+      factsCorrect: 9,
+      factsAttempted: 10,
+      xpTotal: 11,
+      mastery: expect.arrayContaining([
+        expect.objectContaining({ factor: 6, multiplier: 1, attempts: 1, correct: 1, level: 'learning' }),
+      ]),
+    });
   });
 
   it('keeps timed records separate by duration and input method', async () => {

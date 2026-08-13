@@ -4,6 +4,7 @@ import {
   countPendingCompletions,
   getApiResponse,
   getLessonPack,
+  getPendingCompletion,
   getSavedTrackPack,
   listPendingCompletions,
   putApiResponse,
@@ -16,7 +17,7 @@ import {
 
 const CACHE_VERSION = 3;
 const DEFAULT_PACK_SIZE = 5;
-const SHELL_URLS = ['/profiles/', '/kid/shell/', '/kid/track-shell/', '/kid/lesson-shell/'];
+const SHELL_URLS = ['/profiles/', '/kid/shell/', '/kid/track-shell/', '/kid/lesson-shell/', '/kid/facts-shell/'];
 
 export type OfflineSource = 'network' | 'cache' | 'queued';
 
@@ -25,6 +26,13 @@ export type OfflineResult<T> = {
   source: OfflineSource;
   savedAt?: string;
 };
+
+export async function getQueuedCompletionResult<T>(clientAttemptId: string) {
+  const completion = await getPendingCompletion<unknown, T>(clientAttemptId);
+  return completion
+    ? { status: completion.status, syncedResult: completion.syncedResult }
+    : null;
+}
 
 export type TrackLike = {
   slug: string;
@@ -117,6 +125,16 @@ export type LessonCompletionBody = {
   attempts: unknown[];
 };
 
+export type MultiplicationSessionBody = {
+  clientAttemptId?: string;
+  mode: 'practice' | 'timed';
+  selectedFactors: number[];
+  durationSeconds: 60 | 120 | null;
+  inputMethod: 'keyboard' | 'voice';
+  startedAt: string;
+  attempts: unknown[];
+};
+
 export type LessonPackSummary = LessonPackRecord & {
   lessonsCached: number;
 };
@@ -145,6 +163,13 @@ export function fetchKidLesson<T>(childSlug: string, lessonId: string) {
   return fetchCachedApi<T>(`/api/children/${encodeURIComponent(childSlug)}/lessons/${encodeURIComponent(lessonId)}`, {
     childSlug,
     type: 'child-lesson',
+  });
+}
+
+export function fetchMultiplicationOverview<T>(childSlug: string) {
+  return fetchCachedApi<T>(`/api/children/${encodeURIComponent(childSlug)}/multiplication`, {
+    childSlug,
+    type: 'multiplication-overview',
   });
 }
 
@@ -326,6 +351,42 @@ export async function submitLessonCompletion<T extends CompletionEnvelope>({
   }
 }
 
+export async function submitMultiplicationSession<T>({
+  childSlug,
+  body,
+  localResult,
+}: {
+  childSlug: string;
+  body: MultiplicationSessionBody;
+  localResult: T;
+}): Promise<OfflineResult<T> & { clientAttemptId: string }> {
+  const clientAttemptId = body.clientAttemptId || createClientAttemptId();
+  const bodyWithAttemptId = { ...body, clientAttemptId };
+  const path = `/api/children/${encodeURIComponent(childSlug)}/multiplication/sessions`;
+
+  try {
+    if (isProbablyOffline()) throw new TypeError('Offline');
+    const data = await fetchApi<T>(path, { method: 'POST', body: JSON.stringify(bodyWithAttemptId) });
+    void refreshCachedMultiplicationContext(childSlug);
+    void syncPendingCompletions();
+    return { data, source: 'network', clientAttemptId };
+  } catch (error) {
+    if (!shouldQueueForOffline(error)) throw error;
+    const queuedResult = withQueuedFactsResult(localResult, clientAttemptId);
+    await queuePendingCompletion({
+      clientAttemptId,
+      childSlug,
+      lessonId: 'multiplication-facts',
+      kind: 'multiplication',
+      path,
+      body: bodyWithAttemptId,
+      localResult: queuedResult,
+    });
+    await addSyncEvent(`Saved multiplication facts offline for ${childSlug}.`);
+    return { data: queuedResult, source: 'queued', clientAttemptId };
+  }
+}
+
 export function startOfflineSync() {
   if (typeof window === 'undefined') return () => {};
 
@@ -372,7 +433,8 @@ async function syncPendingCompletionsNow() {
         syncedResult: data,
         lastError: undefined,
       });
-      await refreshCachedLessonContext(item.childSlug, item.lessonId, item.trackSlug, data);
+      if (item.kind === 'multiplication') await refreshCachedMultiplicationContext(item.childSlug);
+      else await refreshCachedLessonContext(item.childSlug, item.lessonId, item.trackSlug, data);
       await addSyncEvent(`Synced ${item.lessonId} for ${item.childSlug}.`);
       synced += 1;
     } catch (error) {
@@ -388,6 +450,26 @@ async function syncPendingCompletionsNow() {
   }
 
   return synced;
+}
+
+async function refreshCachedMultiplicationContext(childSlug: string) {
+  if (isProbablyOffline()) return;
+  await refreshCachePath(`/api/children/${encodeURIComponent(childSlug)}/home`, childSlug, 'child-home');
+  await refreshCachePath(
+    `/api/children/${encodeURIComponent(childSlug)}/multiplication`,
+    childSlug,
+    'multiplication-overview',
+  );
+}
+
+function withQueuedFactsResult<T>(localResult: T, clientAttemptId: string): T {
+  if (!localResult || typeof localResult !== 'object') return localResult;
+  const envelope = localResult as T & { result?: Record<string, unknown> };
+  if (!envelope.result) return localResult;
+  return {
+    ...envelope,
+    result: { ...envelope.result, syncStatus: 'queued', clientAttemptId },
+  };
 }
 
 async function refreshCachedLessonContext(
@@ -608,7 +690,7 @@ async function cacheShellUrls(childSlug: string, trackSlugs: string[], lessonIds
 
   if (!('caches' in window)) return;
   try {
-    const cache = await caches.open('buddy-blocks-pages-v2');
+    const cache = await caches.open('buddy-blocks-pages-v3');
     await Promise.all(urls.map((url) => fetch(url, { credentials: 'same-origin' }).then((response) => cache.put(url, response))));
   } catch {
     // The IndexedDB lesson pack is the source of truth; page cache failures can be retried later.

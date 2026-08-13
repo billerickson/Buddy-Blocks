@@ -37,6 +37,7 @@ export type PendingCompletion<TBody = unknown, TResult = unknown> = {
   clientAttemptId: string;
   childSlug: string;
   lessonId: string;
+  kind?: 'lesson' | 'multiplication';
   path: string;
   body: TBody;
   localResult: TResult;

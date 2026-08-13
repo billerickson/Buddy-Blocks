@@ -1,6 +1,6 @@
-const STATIC_CACHE = 'buddy-blocks-static-v6';
-const PAGE_CACHE = 'buddy-blocks-pages-v2';
-const API_CACHE = 'buddy-blocks-api-v2';
+const STATIC_CACHE = 'buddy-blocks-static-v7';
+const PAGE_CACHE = 'buddy-blocks-pages-v3';
+const API_CACHE = 'buddy-blocks-api-v3';
 const OFFLINE_DB_NAME = 'buddy-blocks-offline-v3';
 const STALE_OFFLINE_DB_NAMES = ['buddy-blocks-offline'];
 const STATIC_ASSETS = ['/manifest.webmanifest', '/icons/buddy-blocks-bb-large.svg', '/icons/moxie.svg'];
@@ -130,6 +130,7 @@ function isChildSafeApi(pathname) {
   return (
     pathname === '/api/children' ||
     /^\/api\/children\/[^/]+\/home$/.test(pathname) ||
+    /^\/api\/children\/[^/]+\/multiplication$/.test(pathname) ||
     /^\/api\/children\/[^/]+\/tracks\/[^/]+\/offline-pack$/.test(pathname) ||
     /^\/api\/children\/[^/]+\/tracks\/[^/]+$/.test(pathname) ||
     /^\/api\/children\/[^/]+\/lessons\/[^/]+$/.test(pathname)
@@ -137,11 +138,11 @@ function isChildSafeApi(pathname) {
 }
 
 function isKidPage(pathname) {
-  return /^\/kid\/[^/]+(?:\/(?:track|lesson)\/[^/]+)?\/?$/.test(pathname);
+  return /^\/kid\/[^/]+(?:\/facts|\/(?:track|lesson)\/[^/]+)?\/?$/.test(pathname);
 }
 
 function isShellPath(pathname) {
-  return pathname === '/profiles/' || pathname === '/kid/shell/' || pathname === '/kid/track-shell/' || pathname === '/kid/lesson-shell/';
+  return pathname === '/profiles/' || pathname === '/kid/shell/' || pathname === '/kid/track-shell/' || pathname === '/kid/lesson-shell/' || pathname === '/kid/facts-shell/';
 }
 
 function isLogoutPath(pathname) {
@@ -150,6 +151,7 @@ function isLogoutPath(pathname) {
 
 function shellFallbackFor(pathname) {
   const normalized = pathname.replace(/\/$/, '');
+  if (/^\/kid\/[^/]+\/facts$/.test(normalized)) return '/kid/facts-shell/';
   if (/^\/kid\/[^/]+\/track\/[^/]+$/.test(normalized)) return '/kid/track-shell/';
   if (/^\/kid\/[^/]+\/lesson\/[^/]+$/.test(normalized)) return '/kid/lesson-shell/';
   if (/^\/kid\/[^/]+$/.test(normalized)) return '/kid/shell/';

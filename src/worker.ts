@@ -1025,7 +1025,9 @@ async function apiSubmitMultiplicationSession(
     .first<MultiplicationSessionRow>();
   if (!session) return json({ error: 'multiplication_session_not_found' }, 404);
 
-  const isNewPersonalBest = previousBest?.total === null || previousBest?.total === undefined || scoreCorrect > previousBest.total;
+  const isNewPersonalBest =
+    body.mode === 'timed' &&
+    (previousBest?.total === null || previousBest?.total === undefined || scoreCorrect > previousBest.total);
   return json({ result: await multiplicationCompletionResponse(env, child, session, isNewPersonalBest) }, 201);
 }
 
@@ -1288,7 +1290,7 @@ async function apiParentDashboard(parent: SessionParent, env: Env) {
 
 async function parentDashboardChildSummary(env: Env, child: ChildRow, today: string) {
   const tracks = await getTracksForChild(env, child);
-  const [trackStats, activityDates, recentActivity, multiplication] = await Promise.all([
+  const [trackStats, activityDates, recentActivity, multiplication, multiplicationMastery] = await Promise.all([
     getTrackStatsForChild(
       env,
       child.id,
@@ -1297,6 +1299,7 @@ async function parentDashboardChildSummary(env: Env, child: ChildRow, today: str
     getActivityDates(env, child.id),
     getRecentActivity(env, child.id),
     getMultiplicationSummary(env, child.id),
+    getMultiplicationMasteryResponses(env, child.id),
   ]);
   const streak = calculateCurrentStreak(activityDates, today);
   const trackSummaries = tracks.map((track) => {
@@ -1322,7 +1325,7 @@ async function parentDashboardChildSummary(env: Env, child: ChildRow, today: str
       streak,
       heartsRemaining: child.hearts_remaining,
     },
-    multiplication,
+    multiplication: { ...multiplication, mastery: multiplicationMastery },
     tracks: trackSummaries,
     badges: await getBadges(env, child.id, streak),
     recentActivity,
@@ -1710,7 +1713,7 @@ async function provisionChildProgress(env: Env, child: ChildRow, updatedAt: stri
   if (lessons.length === 0) return;
 
   const lessonIds = lessons.map((lesson) => lesson.id);
-  const [existingTrackProgress, existingLessonProgress] = await Promise.all([
+  const [existingTrackProgress, existingLessonProgressGroups] = await Promise.all([
     all<{ track_id: string }>(
       env.DB.prepare(
         `SELECT track_id
@@ -1719,15 +1722,20 @@ async function provisionChildProgress(env: Env, child: ChildRow, updatedAt: stri
            AND track_id IN (${placeholders(trackIds)})`,
       ).bind(child.id, ...trackIds),
     ),
-    all<{ lesson_id: string }>(
-      env.DB.prepare(
-        `SELECT lesson_id
-         FROM child_lesson_progress
-         WHERE child_profile_id = ?
-           AND lesson_id IN (${placeholders(lessonIds)})`,
-      ).bind(child.id, ...lessonIds),
+    Promise.all(
+      chunks(lessonIds, 90).map((lessonIdChunk) =>
+        all<{ lesson_id: string }>(
+          env.DB.prepare(
+            `SELECT lesson_id
+             FROM child_lesson_progress
+             WHERE child_profile_id = ?
+               AND lesson_id IN (${placeholders(lessonIdChunk)})`,
+          ).bind(child.id, ...lessonIdChunk),
+        ),
+      ),
     ),
   ]);
+  const existingLessonProgress = existingLessonProgressGroups.flat();
   const existingTrackIds = new Set(existingTrackProgress.map((row) => row.track_id));
   const existingLessonIds = new Set(existingLessonProgress.map((row) => row.lesson_id));
   const firstLessonByTrack = new Map<string, LessonDetailRow>();
@@ -1766,7 +1774,7 @@ async function provisionChildProgress(env: Env, child: ChildRow, updatedAt: stri
     );
   }
 
-  if (statements.length > 0) await env.DB.batch(statements);
+  for (const statementChunk of chunks(statements, 90)) await env.DB.batch(statementChunk);
 }
 
 async function getTrackForChild(env: Env, child: ChildRow, trackSlug: string) {
@@ -2436,15 +2444,9 @@ function runtimeQuestionPayload(payloadJson: string): QuestionPayload {
 }
 
 async function multiplicationOverviewResponse(env: Env, child: ChildRow) {
-  const [summary, masteryRows, recentSessions] = await Promise.all([
+  const [summary, mastery, recentSessions] = await Promise.all([
     getMultiplicationSummary(env, child.id),
-    all<MultiplicationMasteryRow>(
-      env.DB.prepare(
-        `SELECT * FROM child_multiplication_mastery
-         WHERE child_profile_id = ?
-         ORDER BY factor, multiplier`,
-      ).bind(child.id),
-    ),
+    getMultiplicationMasteryResponses(env, child.id),
     all<MultiplicationSessionRow>(
       env.DB.prepare(
         `SELECT * FROM multiplication_sessions
@@ -2458,9 +2460,20 @@ async function multiplicationOverviewResponse(env: Env, child: ChildRow) {
   return {
     child: childResponse(child),
     summary,
-    mastery: masteryRows.map(multiplicationMasteryResponse),
+    mastery,
     recentSessions: recentSessions.map(multiplicationSessionResponse),
   };
+}
+
+async function getMultiplicationMasteryResponses(env: Env, childId: string) {
+  const rows = await all<MultiplicationMasteryRow>(
+    env.DB.prepare(
+      `SELECT * FROM child_multiplication_mastery
+       WHERE child_profile_id = ?
+       ORDER BY factor, multiplier`,
+    ).bind(childId),
+  );
+  return rows.map(multiplicationMasteryResponse);
 }
 
 async function multiplicationCompletionResponse(
@@ -2828,6 +2841,12 @@ function placeholders(values: unknown[]) {
   return values.map(() => '?').join(', ');
 }
 
+function chunks<T>(values: readonly T[], size: number) {
+  const result: T[][] = [];
+  for (let index = 0; index < values.length; index += size) result.push(values.slice(index, index + size));
+  return result;
+}
+
 function isParentPage(pathname: string) {
   return (
     pathname === '/profiles' ||
@@ -2845,6 +2864,7 @@ function childSlugFromKidPath(pathname: string) {
 function kidShellAssetPath(pathname: string) {
   const path = stripTrailingSlash(pathname);
   if (/^\/kid\/[^/]+$/.test(path)) return '/kid/shell/';
+  if (/^\/kid\/[^/]+\/facts$/.test(path)) return '/kid/facts-shell/';
   if (/^\/kid\/[^/]+\/track\/[^/]+$/.test(path)) return '/kid/track-shell/';
   if (/^\/kid\/[^/]+\/lesson\/[^/]+$/.test(path)) return '/kid/lesson-shell/';
   return null;

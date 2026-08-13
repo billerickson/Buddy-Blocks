@@ -170,15 +170,17 @@ export function parseSpokenNumber(value: string) {
   const digitMatch = normalized.match(/\b\d{1,3}\b/);
   if (digitMatch) return Number(digitMatch[0]);
 
-  const ignored = new Set(['the', 'answer', 'is', 'equals', 'equal', 'to']);
+  const speech = normalized.replace(/\b(?:equals|equal) to\b/g, ' ').replace(/\s+/g, ' ').trim();
+  const ignored = new Set(['the', 'answer', 'is', 'equals', 'equal']);
   const homophones: Record<string, string> = {
     won: 'one',
+    to: 'two',
     too: 'two',
     for: 'four',
     fore: 'four',
     ate: 'eight',
   };
-  const tokens = normalized
+  const tokens = speech
     .split(' ')
     .filter((token) => !ignored.has(token))
     .map((token) => homophones[token] ?? token)

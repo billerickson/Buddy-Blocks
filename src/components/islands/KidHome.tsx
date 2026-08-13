@@ -26,6 +26,16 @@ type HomeData = {
     trackTitle: string;
     unitTitle: string;
   };
+  multiplication: {
+    sessionsCompleted: number;
+    factsCorrect: number;
+    factsAttempted: number;
+    xpTotal: number;
+    fluentFacts: number;
+    practicedFacts: number;
+    best60Seconds: number;
+    best120Seconds: number;
+  };
   practiceSets: Array<{
     id: string;
     lessonId: string;
@@ -166,6 +176,36 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
           )}
         </div>
       </div>
+
+      <section className="space-y-4">
+        <div>
+          <p className="stat-chip w-fit">Quick practice</p>
+          <h2 className="mt-3 text-4xl">Facts Lab</h2>
+        </div>
+        <a
+          href={`/kid/${data.child.slug}/facts/`}
+          className="block-card block overflow-hidden p-5 no-underline transition hover:-translate-y-1"
+        >
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4">
+              <TrackIcon iconKey="plus-block" color="#5b79ff" />
+              <div>
+                <div className="flex flex-wrap gap-2">
+                  <span className="stat-chip bg-reward">Grades 1–12</span>
+                  <span className="stat-chip">1s through 12s</span>
+                </div>
+                <h3 className="mt-3 text-3xl">Multiplication Facts</h3>
+                <p className="mt-2 font-bold text-muted">Endless practice, timed tests, smart review, and spoken answers.</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2 sm:max-w-xs sm:justify-end">
+              <span className="stat-chip">{data.multiplication.fluentFacts}/144 fluent</span>
+              <span className="stat-chip">Best minute: {data.multiplication.best60Seconds}</span>
+              <span className="stat-chip">{data.multiplication.xpTotal} XP</span>
+            </div>
+          </div>
+        </a>
+      </section>
 
       {data.practiceSets.length > 0 && (
         <section className="space-y-4">

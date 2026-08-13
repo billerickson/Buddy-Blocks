@@ -12,6 +12,7 @@ The app is designed for a single family running its own private copy. Parents ca
 - Kid profile selection and a touch-friendly learner dashboard.
 - Research-backed course tracks across math, vocabulary, grammar, logic, rhetoric, languages, literature, history/civics, and memory work.
 - Compact lesson sessions with multiple question types, feedback, hints after missed attempts, and saved progress.
+- Multiplication Facts Lab for every grade with custom 1–12 table sets, endless practice, one- and two-minute tests, adaptive review, spoken answers, and per-fact mastery.
 - Parent dashboard for tracking recent work, managing child profiles, and creating targeted practice.
 - Offline-ready kid workflows with downloadable course packs so lessons can keep working when the connection drops.
 - Archive and unarchive support for child profiles with progress preserved.

@@ -34,6 +34,24 @@ type DashboardData = {
       totalLessons: number;
       xpTotal: number;
     }>;
+    multiplication: {
+      sessionsCompleted: number;
+      factsCorrect: number;
+      factsAttempted: number;
+      xpTotal: number;
+      fluentFacts: number;
+      practicedFacts: number;
+      best60Seconds: number;
+      best120Seconds: number;
+      mastery: Array<{
+        factor: number;
+        multiplier: number;
+        attempts: number;
+        correct: number;
+        accuracy: number;
+        level: 'new' | 'learning' | 'fluent';
+      }>;
+    };
     badges: Array<{ key: string; label: string }>;
     recentActivity: Array<{
       completed_at: string;
@@ -241,6 +259,7 @@ function ChildPanel({
       {!isArchived && (
         <>
           <div className="mt-5 space-y-5">
+            <MultiplicationProgress multiplication={childSummary.multiplication} />
             {(['scholastic', 'foundation'] as const).map((trackGroup) => {
               const tracks = childSummary.tracks.filter((track) => track.trackGroup === trackGroup);
               if (tracks.length === 0) return null;
@@ -308,6 +327,57 @@ function ChildPanel({
           </div>
         </>
       )}
+    </section>
+  );
+}
+
+function MultiplicationProgress({ multiplication }: { multiplication: DashboardData['children'][number]['multiplication'] }) {
+  const numbers = Array.from({ length: 12 }, (_, index) => index + 1);
+  return (
+    <section>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h3 className="text-2xl">Multiplication Facts</h3>
+          <p className="mt-1 font-bold text-muted">Accuracy and fluency across every table, independent of grade.</p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <span className="stat-chip">{multiplication.fluentFacts}/144 fluent</span>
+          <span className="stat-chip">Best minute: {multiplication.best60Seconds}</span>
+          <span className="stat-chip">Best 2 min: {multiplication.best120Seconds}</span>
+          <span className="stat-chip">{multiplication.sessionsCompleted} sessions</span>
+          <span className="stat-chip">{multiplication.xpTotal} XP</span>
+        </div>
+      </div>
+      <div className="mt-3 overflow-x-auto rounded-lg border-2 border-line bg-white p-3">
+        <div className="grid min-w-[570px] grid-cols-[38px_repeat(12,minmax(34px,1fr))] gap-1" role="grid" aria-label="Multiplication fact mastery">
+          <span />
+          {numbers.map((multiplier) => <span className="text-center text-xs font-black text-muted" key={`head-${multiplier}`}>{multiplier}</span>)}
+          {numbers.flatMap((factor) => [
+            <span className="grid place-items-center text-sm font-black text-muted" key={`row-${factor}`}>{factor}s</span>,
+            ...numbers.map((multiplier) => {
+              const item = multiplication.mastery.find((candidate) => candidate.factor === factor && candidate.multiplier === multiplier);
+              const level = item?.level ?? 'new';
+              const color = level === 'fluent' ? 'bg-[#18bca4]' : level === 'learning' ? 'bg-[#ffd84d]' : 'bg-[#e8e7ef]';
+              return (
+                <span
+                  role="gridcell"
+                  className={`grid aspect-square place-items-center rounded border border-ink/20 text-[10px] font-black ${color}`}
+                  title={`${factor} × ${multiplier}: ${level}${item ? `, ${item.accuracy}% accurate` : ''}`}
+                  aria-label={`${factor} times ${multiplier}: ${level}${item ? `, ${item.accuracy} percent accurate` : ''}`}
+                  key={`${factor}x${multiplier}`}
+                >
+                  {factor * multiplier}
+                </span>
+              );
+            }),
+          ])}
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2 text-xs font-black">
+          <span className="stat-chip bg-[#e8e7ef]">New</span>
+          <span className="stat-chip bg-[#ffd84d]">Learning</span>
+          <span className="stat-chip bg-[#d9fff5]">Fluent</span>
+        </div>
+      </div>
     </section>
   );
 }
