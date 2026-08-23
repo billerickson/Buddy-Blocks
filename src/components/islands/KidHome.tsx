@@ -230,14 +230,18 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
         </article>
       </section>
 
-      {data.practiceSets.length > 0 && (
-        <section className="space-y-4">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <p className="stat-chip w-fit">Weekly practice</p>
-              <h2 className="mt-3 text-4xl">School words</h2>
-            </div>
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="stat-chip w-fit">Made by you</p>
+            <h2 className="mt-3 text-4xl">My Flash Cards</h2>
+            <p className="mt-2 font-bold text-muted">Build a section, add your own cards, then practice the whole stack.</p>
           </div>
+          <a className="primary-button" href={`/kid/${data.child.slug}/flash-cards/`}>
+            {data.practiceSets.length > 0 ? 'Manage Flash Cards' : 'Create Flash Cards'}
+          </a>
+        </div>
+        {data.practiceSets.length > 0 ? (
           <div className="track-grid">
             {data.practiceSets.map((practiceSet) => (
               <a
@@ -261,8 +265,13 @@ export default function KidHome({ childSlug: childSlugProp }: { childSlug?: stri
               </a>
             ))}
           </div>
-        </section>
-      )}
+        ) : (
+          <div className="soft-panel p-5">
+            <h3 className="text-3xl">Start your first section</h3>
+            <p className="mt-2 font-bold text-muted">Add a front and back to each card for words, questions, or facts you want to remember.</p>
+          </div>
+        )}
+      </section>
 
       {trackGroups.map((group) => {
         if (group.tracks.length === 0) return null;

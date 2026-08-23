@@ -130,6 +130,7 @@ function isChildSafeApi(pathname) {
   return (
     pathname === '/api/children' ||
     /^\/api\/children\/[^/]+\/home$/.test(pathname) ||
+    /^\/api\/children\/[^/]+\/flash-card-sections$/.test(pathname) ||
     /^\/api\/children\/[^/]+\/multiplication$/.test(pathname) ||
     /^\/api\/children\/[^/]+\/tracks\/[^/]+\/offline-pack$/.test(pathname) ||
     /^\/api\/children\/[^/]+\/tracks\/[^/]+$/.test(pathname) ||
@@ -138,11 +139,11 @@ function isChildSafeApi(pathname) {
 }
 
 function isKidPage(pathname) {
-  return /^\/kid\/[^/]+(?:\/facts|\/(?:track|lesson)\/[^/]+)?\/?$/.test(pathname);
+  return /^\/kid\/[^/]+(?:\/(?:facts|flash-cards)|\/(?:track|lesson)\/[^/]+)?\/?$/.test(pathname);
 }
 
 function isShellPath(pathname) {
-  return pathname === '/profiles/' || pathname === '/kid/shell/' || pathname === '/kid/track-shell/' || pathname === '/kid/lesson-shell/' || pathname === '/kid/facts-shell/';
+  return pathname === '/profiles/' || pathname === '/kid/shell/' || pathname === '/kid/track-shell/' || pathname === '/kid/lesson-shell/' || pathname === '/kid/facts-shell/' || pathname === '/kid/flash-cards-shell/';
 }
 
 function isLogoutPath(pathname) {
@@ -152,6 +153,7 @@ function isLogoutPath(pathname) {
 function shellFallbackFor(pathname) {
   const normalized = pathname.replace(/\/$/, '');
   if (/^\/kid\/[^/]+\/facts$/.test(normalized)) return '/kid/facts-shell/';
+  if (/^\/kid\/[^/]+\/flash-cards$/.test(normalized)) return '/kid/flash-cards-shell/';
   if (/^\/kid\/[^/]+\/track\/[^/]+$/.test(normalized)) return '/kid/track-shell/';
   if (/^\/kid\/[^/]+\/lesson\/[^/]+$/.test(normalized)) return '/kid/lesson-shell/';
   if (/^\/kid\/[^/]+$/.test(normalized)) return '/kid/shell/';

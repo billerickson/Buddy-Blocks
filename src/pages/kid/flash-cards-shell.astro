@@ -1,0 +1,10 @@
+---
+import FlashCardSections from '../../components/islands/FlashCardSections';
+import AppLayout from '../../layouts/AppLayout.astro';
+---
+
+<AppLayout title="My Flash Cards · Buddy Blocks" active="kid">
+  <main class="app-shell page-band">
+    <FlashCardSections client:load />
+  </main>
+</AppLayout>

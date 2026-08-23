@@ -1084,11 +1084,117 @@ describe('worker practice set APIs', () => {
   });
 });
 
+describe('worker kid flash-card section APIs', () => {
+  it('lets the active child create, edit, list, archive, and restore flash-card sections', async () => {
+    const { env } = createEnv();
+    const childCookie = `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=mira`;
+
+    const created = await requestJson('/api/children/mira/flash-card-sections', env, {
+      method: 'POST',
+      cookie: childCookie,
+      body: {
+        title: 'Science Words',
+        source: 'Chapter 3',
+        pinned: true,
+        cards: [
+          { term: 'orbit', definition: 'the path one object takes around another' },
+          { term: 'axis', definition: 'an imaginary line an object turns around', example: 'Earth spins on its axis.' },
+        ],
+      },
+    });
+
+    expect(created.response.status).toBe(201);
+    expect(created.body.practiceSet).toMatchObject({
+      title: 'Science Words',
+      source: 'Chapter 3',
+      status: 'active',
+      pinned: true,
+    });
+    expect(created.body.practiceSet.cards).toHaveLength(2);
+
+    const listed = await requestJson('/api/children/mira/flash-card-sections', env, { cookie: childCookie });
+    expect(listed.response.status).toBe(200);
+    expect(listed.body.practiceSets).toEqual([
+      expect.objectContaining({ id: created.body.practiceSet.id, title: 'Science Words' }),
+    ]);
+
+    const updated = await requestJson(
+      `/api/children/mira/flash-card-sections/${created.body.practiceSet.id}`,
+      env,
+      {
+        method: 'PATCH',
+        cookie: childCookie,
+        body: {
+          title: 'Space Science',
+          cards: [{ term: 'orbit', definition: 'a path around another object' }],
+        },
+      },
+    );
+    expect(updated.response.status).toBe(200);
+    expect(updated.body.practiceSet).toMatchObject({ title: 'Space Science', status: 'active' });
+    expect(updated.body.practiceSet.cards).toHaveLength(1);
+
+    const archived = await requestJson(
+      `/api/children/mira/flash-card-sections/${created.body.practiceSet.id}`,
+      env,
+      { method: 'PATCH', cookie: childCookie, body: { status: 'archived' } },
+    );
+    expect(archived.response.status).toBe(200);
+    expect(archived.body.practiceSet.status).toBe('archived');
+    expect(archived.body.practiceSet.archivedAt).toEqual(expect.any(String));
+
+    const restored = await requestJson(
+      `/api/children/mira/flash-card-sections/${created.body.practiceSet.id}`,
+      env,
+      { method: 'PATCH', cookie: childCookie, body: { status: 'active' } },
+    );
+    expect(restored.response.status).toBe(200);
+    expect(restored.body.practiceSet).toMatchObject({ status: 'active', archivedAt: null });
+  });
+
+  it('requires the matching child mode instead of parent mode or another child profile', async () => {
+    const { env, sqlite } = createEnv();
+    insertChild(sqlite.db, 'child_nico', 'nico', 3);
+    const body = {
+      title: 'Private Cards',
+      cards: [{ term: 'front', definition: 'back' }],
+    };
+
+    const parentMode = await requestJson('/api/children/mira/flash-card-sections', env, {
+      method: 'POST',
+      body,
+    });
+    expect(parentMode.response.status).toBe(403);
+    expect(parentMode.body).toEqual({ error: 'child_locked' });
+
+    const wrongChildMode = await requestJson('/api/children/mira/flash-card-sections', env, {
+      method: 'POST',
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=nico`,
+      body,
+    });
+    expect(wrongChildMode.response.status).toBe(403);
+    expect(wrongChildMode.body).toEqual({ error: 'child_locked' });
+
+    const matchingChildMode = await requestJson('/api/children/mira/flash-card-sections', env, {
+      method: 'POST',
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=mira`,
+      body,
+    });
+    expect(matchingChildMode.response.status).toBe(201);
+  });
+});
+
 describe('worker protected page shells', () => {
   it('lets an authenticated parent preload the generated kid shells', async () => {
     const { env } = createEnv();
 
-    for (const path of ['/kid/shell/', '/kid/track-shell/', '/kid/lesson-shell/', '/kid/facts-shell/']) {
+    for (const path of [
+      '/kid/shell/',
+      '/kid/track-shell/',
+      '/kid/lesson-shell/',
+      '/kid/facts-shell/',
+      '/kid/flash-cards-shell/',
+    ]) {
       await expect(getText(path, env)).resolves.toMatchObject({
         response: expect.objectContaining({ status: 200 }),
         body: `asset:${path}`,
@@ -1115,6 +1221,10 @@ describe('worker protected page shells', () => {
     await expect(getText('/kid/luca/facts/', env)).resolves.toMatchObject({
       response: expect.objectContaining({ status: 200 }),
       body: 'asset:/kid/facts-shell/',
+    });
+    await expect(getText('/kid/luca/flash-cards/', env)).resolves.toMatchObject({
+      response: expect.objectContaining({ status: 200 }),
+      body: 'asset:/kid/flash-cards-shell/',
     });
   });
 

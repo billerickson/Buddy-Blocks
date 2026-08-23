@@ -331,32 +331,32 @@ const MultiplicationSessionSubmissionSchema = z
   });
 
 const PracticeSetCardInputSchema = z.object({
-  term: z.string().trim().min(1),
-  definition: z.string().trim().min(1).optional().nullable(),
-  example: z.string().trim().min(1).optional().nullable(),
-  acceptedAnswers: z.array(z.string().trim().min(1)).optional().default([]),
+  term: z.string().trim().min(1).max(500),
+  definition: z.string().trim().min(1).max(800).optional().nullable(),
+  example: z.string().trim().min(1).max(800).optional().nullable(),
+  acceptedAnswers: z.array(z.string().trim().min(1).max(200)).max(20).optional().default([]),
 });
 
 const PracticeSetCreateSchema = z.object({
-  title: z.string().trim().min(1),
-  subject: z.string().trim().min(1).default('vocabulary'),
-  source: z.string().trim().min(1).optional().nullable(),
+  title: z.string().trim().min(1).max(100),
+  subject: z.string().trim().min(1).max(64).default('vocabulary'),
+  source: z.string().trim().min(1).max(160).optional().nullable(),
   status: z.enum(['draft', 'active', 'archived']).default('active'),
   pinned: z.boolean().default(false),
   startsAt: z.string().trim().min(1).optional().nullable(),
   expiresAt: z.string().trim().min(1).optional().nullable(),
-  cards: z.array(PracticeSetCardInputSchema).min(1),
+  cards: z.array(PracticeSetCardInputSchema).min(1).max(100),
 });
 
 const PracticeSetUpdateSchema = z.object({
-  title: z.string().trim().min(1).optional(),
-  subject: z.string().trim().min(1).optional(),
-  source: z.string().trim().min(1).optional().nullable(),
+  title: z.string().trim().min(1).max(100).optional(),
+  subject: z.string().trim().min(1).max(64).optional(),
+  source: z.string().trim().min(1).max(160).optional().nullable(),
   status: z.enum(['draft', 'active', 'archived']).optional(),
   pinned: z.boolean().optional(),
   startsAt: z.string().trim().min(1).optional().nullable(),
   expiresAt: z.string().trim().min(1).optional().nullable(),
-  cards: z.array(PracticeSetCardInputSchema).min(1).optional(),
+  cards: z.array(PracticeSetCardInputSchema).min(1).max(100).optional(),
 });
 
 const ChildCreateSchema = z.object({
@@ -586,6 +586,25 @@ async function apiRouter(request: Request, env: Env) {
     if (!practiceSetId && request.method === 'GET') return apiParentPracticeSets(parent, env, childKey);
     if (!practiceSetId && request.method === 'POST') return apiCreatePracticeSet(parent, env, request, childKey);
     if (practiceSetId && request.method === 'PATCH') return apiUpdatePracticeSet(parent, env, request, childKey, practiceSetId);
+  }
+
+  const childFlashCardSectionMatch = pathname.match(
+    /^\/api\/children\/([^/]+)\/flash-card-sections(?:\/([^/]+))?$/,
+  );
+  if (childFlashCardSectionMatch) {
+    const childKey = decodeURIComponent(childFlashCardSectionMatch[1]);
+    const child = await getChildForParent(parent, env, childKey);
+    if (!child) return json({ error: 'child_not_found' }, 404);
+    if (child.status !== 'active' || childModeSlug !== child.slug) return childLockedResponse();
+
+    const practiceSetId = childFlashCardSectionMatch[2]
+      ? decodeURIComponent(childFlashCardSectionMatch[2])
+      : null;
+    if (!practiceSetId && request.method === 'GET') return apiParentPracticeSets(parent, env, child.id);
+    if (!practiceSetId && request.method === 'POST') return apiCreatePracticeSet(parent, env, request, child.id);
+    if (practiceSetId && request.method === 'PATCH') {
+      return apiUpdatePracticeSet(parent, env, request, child.id, practiceSetId);
+    }
   }
 
   const childHomeMatch = pathname.match(/^\/api\/children\/([^/]+)\/home$/);
@@ -2864,13 +2883,16 @@ function childSlugFromKidPath(pathname: string) {
 }
 
 function isKidShellPath(pathname: string) {
-  return ['/kid/shell', '/kid/track-shell', '/kid/lesson-shell', '/kid/facts-shell'].includes(stripTrailingSlash(pathname));
+  return ['/kid/shell', '/kid/track-shell', '/kid/lesson-shell', '/kid/facts-shell', '/kid/flash-cards-shell'].includes(
+    stripTrailingSlash(pathname),
+  );
 }
 
 function kidShellAssetPath(pathname: string) {
   const path = stripTrailingSlash(pathname);
   if (/^\/kid\/[^/]+$/.test(path)) return '/kid/shell/';
   if (/^\/kid\/[^/]+\/facts$/.test(path)) return '/kid/facts-shell/';
+  if (/^\/kid\/[^/]+\/flash-cards$/.test(path)) return '/kid/flash-cards-shell/';
   if (/^\/kid\/[^/]+\/track\/[^/]+$/.test(path)) return '/kid/track-shell/';
   if (/^\/kid\/[^/]+\/lesson\/[^/]+$/.test(path)) return '/kid/lesson-shell/';
   return null;

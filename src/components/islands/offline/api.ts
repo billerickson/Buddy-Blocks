@@ -19,7 +19,14 @@ import {
 
 const CACHE_VERSION = 4;
 const DEFAULT_PACK_SIZE = 5;
-const SHELL_URLS = ['/profiles/', '/kid/shell/', '/kid/track-shell/', '/kid/lesson-shell/', '/kid/facts-shell/'];
+const SHELL_URLS = [
+  '/profiles/',
+  '/kid/shell/',
+  '/kid/track-shell/',
+  '/kid/lesson-shell/',
+  '/kid/facts-shell/',
+  '/kid/flash-cards-shell/',
+];
 const PAGE_CACHE_NAME = 'buddy-blocks-pages-v3';
 const STATIC_CACHE_NAME = 'buddy-blocks-static-v7';
 
