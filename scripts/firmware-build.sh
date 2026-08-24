@@ -20,7 +20,7 @@ esac
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 firmware_root="${repo_root}/firmware/esp32-p4"
-build_dir="${firmware_root}/build-${profile}-${rotation}"
+build_dir="${BUDDY_BUILD_DIR:-${firmware_root}/build-${profile}-${rotation}}"
 
 # shellcheck disable=SC1091
 source "${repo_root}/scripts/firmware-env.sh"

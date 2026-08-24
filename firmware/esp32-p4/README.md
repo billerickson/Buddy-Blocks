@@ -17,6 +17,7 @@ From the repository root:
 ./scripts/firmware-build.sh rev3 bsp
 ./scripts/firmware-build.sh rev3 cpu
 ./scripts/firmware-build.sh rev3 ppa
+./scripts/firmware-verify-matrix.sh
 ```
 
 Valid silicon profiles are `rev3` and `rev1_3`. Never flash a profile until the
@@ -24,6 +25,12 @@ physical revision has been read with esptool and confirmed in the boot log.
 
 The bootstrap installs ESP-IDF `v5.5.5` below ignored `.toolchains/`. Override
 `BUDDY_IDF_PATH` and `IDF_TOOLS_PATH` if an audited installation already exists.
+The application version is read from tracked `version.txt`, and reproducible
+build mode removes timestamps and host paths. Verify a clean second build with:
+
+```bash
+./scripts/firmware-repro-check.sh rev3 bsp
+```
 
 ## Local Wi-Fi proof credentials
 

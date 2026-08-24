@@ -1181,3 +1181,15 @@ components are therefore pinned to the factory source's exact 1.4.7/0.14.5
 tuple. This is a host-build compatibility decision only; the C6 slave firmware
 version and image hash still require a physical handshake before Milestone 0
 can pass.
+
+### 2026-08-23: Reproducible builds use isolated generated configuration
+
+Firmware version `0.1.0` is tracked in `firmware/esp32-p4/version.txt`, and
+ESP-IDF reproducible-build mode removes compile timestamps and host paths. A
+first comparison against a persistent developer build correctly failed because
+ESP-IDF does not retroactively apply a newly added sdkconfig default to an
+existing generated `sdkconfig`. Build-matrix and reproducibility verification
+therefore use isolated fresh build directories, preserving developer Wi-Fi
+credentials while ensuring defaults are actually applied. Two independent
+fresh Rev3/BSP builds then matched byte-for-byte. Persistent local build output
+is never accepted as release evidence.

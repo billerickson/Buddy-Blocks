@@ -46,19 +46,27 @@ specification.
 
 ## Milestone 0 build matrix
 
-The instrumented matrix compiled from the uncommitted Milestone 0 harness
-based on repository revision `caa7d33`. These hashes identify the local build
-outputs only; release artifacts will be rebuilt from a clean signed tag.
+The instrumented matrix was built in isolated fresh directories from the source
+in this document's commit. Firmware version `0.1.0` and ESP-IDF reproducible
+build mode prevent repository dirtiness, timestamps, and host paths from
+changing these application images. Release artifacts will still be rebuilt
+from a clean signed tag.
 
 | Silicon profile | Rotation path | Image bytes | 7 MiB slot use | SHA-256 |
 | --- | --- | ---: | ---: | --- |
-| Rev3.x | Waveshare BSP | 1,090,880 | 14.9% | `f25ef041b170b1fbadbefffd0a613134e407e829f81f4c85757c57d5df6d399f` |
-| Rev3.x | Deferred CPU | 1,014,400 | 13.8% | `f8b8448138ec9bc2a7b5e26f014df3a86476c42e185d5a35a6c227d8d93326c0` |
-| Rev3.x | PPA | 1,091,424 | 14.9% | `ec673ce90cc72fb8d651e3097f81e5bff969f6d5c1a2c0324040f45628aca133` |
-| Rev1.3 | Waveshare BSP | 1,090,656 | 14.9% | `fb446ee1b31db7fe41730c0ddd33b79cc3eaa567f0a16c2a8399ba1fc500d3f5` |
-| Rev1.3 | Deferred CPU | 1,014,176 | 13.8% | `9d6d6ea3b10e35497e0cb4b9c49085a424fe6d2b72d012026ba0b4a1c6dec0b6` |
-| Rev1.3 | PPA | 1,091,200 | 14.9% | `3437cd83381d23c0d929774b10e5bc214c274d8e235670008e21e7e873920a54` |
+| Rev3.x | Waveshare BSP | 1,090,720 | 14.9% | `c84727c8df84d2c73a50405784e3ed35f7534dbee8c6f2ae95d452bd134a5ee3` |
+| Rev3.x | Deferred CPU | 1,014,240 | 13.8% | `b2b22d8de554b2321d47a2a2be066e997982b54038869941d7a0f89703d72806` |
+| Rev3.x | PPA | 1,091,264 | 14.9% | `d71a7e3a962812a2773218b66e437571fd3c699cc7d6fa4ff72654dddb4b7028` |
+| Rev1.3 | Waveshare BSP | 1,090,480 | 14.9% | `6f3ae2af7fad93371c54833d154aa342dbc96acb2ccea51781c3f61781c2dd32` |
+| Rev1.3 | Deferred CPU | 1,014,000 | 13.8% | `39815a16e8d9fbc688d3aed56adc28fd97ae1801a60de0579cc693cc798942fd` |
+| Rev1.3 | PPA | 1,091,024 | 14.9% | `c7f0abd14d0dffc7a55ca77a609e827d81ca26dade3512035fda7e6c4f457bde` |
 
 Every build generated a component-size report and passed the repository's
 5,872,025-byte limit (80% of one 7 MiB OTA application slot). Build directories,
 reports, binaries, managed components, and the resolver lock are ignored.
+
+Two independent clean Rev3/BSP builds also produced the identical application
+SHA-256 `c84727c8df84d2c73a50405784e3ed35f7534dbee8c6f2ae95d452bd134a5ee3`.
+The reproducibility verifier deliberately does not compare against persistent
+developer build directories because an existing generated `sdkconfig` retains
+the settings from when it was first created.

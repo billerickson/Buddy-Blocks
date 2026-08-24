@@ -70,8 +70,10 @@ Build evidence:
 - [x] Rev1.3 BSP candidate builds with ESP-IDF `v5.5.5`.
 - [x] Deferred CPU candidate builds for both silicon overlays.
 - [x] PPA candidate builds for both silicon overlays.
-- [x] Application size is below 80% of a 7 MiB slot (largest: 1,091,424
+- [x] Application size is below 80% of a 7 MiB slot (largest: 1,091,264
   bytes, 14.9%).
+- [x] Fixed firmware version plus ESP-IDF reproducible-build mode produce
+  byte-identical application images in two independent clean Rev3/BSP builds.
 
 Physical evidence (`BLOCKED—HARDWARE` until the board is connected):
 
