@@ -78,16 +78,16 @@ jobs:
 
       - name: Source and generated-file checks
         run: |
-          git diff --check
+          git -C "${GITHUB_WORKSPACE}" diff --check
           bash -n scripts/firmware-*.sh
           node --check scripts/generate-firmware-domain-vectors.mjs
           node --check scripts/generate-firmware-release-metadata.mjs
           node --check scripts/generate-sha256sums.mjs
           test ! -e firmware/esp32-p4/sdkconfig
-          git check-ignore -q firmware/esp32-p4/dependencies.lock
-          git check-ignore -q firmware/esp32-p4/managed_components
-          test -z "$(git ls-files 'firmware/esp32-p4/dependencies.lock' 'firmware/esp32-p4/managed_components/**')"
-          test -z "$(git ls-files 'firmware/esp32-p4/secrets/*' '*.pem' '*.key' '*.bin' | head -n 1)"
+          git -C "${GITHUB_WORKSPACE}" check-ignore -q firmware/esp32-p4/dependencies.lock
+          git -C "${GITHUB_WORKSPACE}" check-ignore -q firmware/esp32-p4/managed_components
+          test -z "$(git -C "${GITHUB_WORKSPACE}" ls-files 'firmware/esp32-p4/dependencies.lock' 'firmware/esp32-p4/managed_components/**')"
+          test -z "$(git -C "${GITHUB_WORKSPACE}" ls-files 'firmware/esp32-p4/secrets/*' '*.pem' '*.key' '*.bin' | head -n 1)"
 
       - name: Package SHA-labeled recovery artifacts
         run: |
