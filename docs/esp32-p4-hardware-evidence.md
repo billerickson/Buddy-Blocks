@@ -55,8 +55,8 @@ touch sequence for every row.
 | Candidate | App SHA | Mean / p95 frame | Mean / p95 flush | Touch p95 | Internal heap min | PSRAM min | Tearing/corruption | 100 transitions | Result / evidence |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
 | Waveshare BSP rotation | `c01d2b9b…7cf2` measured; `90cb9162…342a` current | 3,304 / 7,055 us after Wi-Fi interaction on prior stable image; current-image comparable sequence pending | callback 1,021 / 2,880 us; wait 3 / 4 us on prior stable image | Pending | 124,784 bytes on prior image | 29,329,424 bytes on prior image | User reported a readable landscape Wi-Fi and pairing screen; corrected image boots without the duplicate LEDC warning; current visible/tearing rerun pending | Pending | Partial pass; `serial-logs/m0-rev1_3-bsp-restored-20260824T165500Z.log` and `serial-logs/m0-rev1_3-bsp-20260824T171654Z.log` |
-| Deferred CPU full-frame rotation | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Pending |
-| PPA rotation | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Pending |
+| Deferred CPU full-frame rotation | `db139b4f…b6658` prepared | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Reproducible Rev1.3 image prepared; not yet flashed |
+| PPA rotation | `357ca812…06a55` prepared | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Reproducible Rev1.3 image prepared; not yet flashed |
 
 Selected path: Pending.
 

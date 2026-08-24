@@ -76,6 +76,12 @@ Build evidence:
   2,101,248 bytes (28.6%).
 - [x] Fixed firmware version plus ESP-IDF reproducible-build mode produce
   byte-identical application images in two independent clean Rev3/BSP builds.
+- [x] The corrected Rev1.3 deferred-CPU and PPA candidates each produce
+  byte-identical images in two clean builds: CPU SHA-256
+  `db139b4f5b9cb9c3f4f4ba3572063b49bffbf53f98c2d726e8ede6987b4b6658`
+  and PPA SHA-256
+  `357ca8127dc7ea6c600cfc3d7575c713be4fe3b68d766ed2ac5d2511eb306a55`.
+  Both remain unflashed pending the BSP baseline interaction sequence.
 - [x] The build-only ESP-Hosted 1.4.7 / IDF 5.5.5 C6 recovery candidate
   validates its 4 MiB SDIO configuration and produces byte-identical
   application and merged-image hashes in two clean builds. It has not been

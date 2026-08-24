@@ -32,6 +32,25 @@ FATAL_PATTERNS = (
     "Previous LittleFS proof record is corrupt",
     "Backtrace:",
 )
+ANSI_ESCAPE = re.compile(r"\x1b\[[0-9;]*m")
+METRICS_MAIN = re.compile(
+    r"metrics path=(?P<path>[a-z0-9-]+) frames=(?P<frames>\d+) "
+    r"refresh_us\(avg/p95/max\)=(?P<refresh_avg>\d+)/(?P<refresh_p95>\d+)/(?P<refresh_max>\d+) "
+    r"render_us\(avg/p95/max\)=(?P<render_avg>\d+)/(?P<render_p95>\d+)/(?P<render_max>\d+) "
+    r"flush_cb_us\(avg/p95/max\)=(?P<flush_avg>\d+)/(?P<flush_p95>\d+)/(?P<flush_max>\d+)"
+)
+METRICS_PIPELINE = re.compile(
+    r"metrics wait_us\(avg/p95/max\)=(?P<wait_avg>\d+)/(?P<wait_p95>\d+)/(?P<wait_max>\d+) "
+    r"cpu_rotate_us\(avg/p95/max\)=(?P<rotate_avg>\d+)/(?P<rotate_p95>\d+)/(?P<rotate_max>\d+) "
+    r"cpu_pipeline_us\(avg/p95/max\)="
+    r"(?P<pipeline_avg>\d+)/(?P<pipeline_p95>\d+)/(?P<pipeline_max>\d+)"
+)
+METRICS_MEMORY = re.compile(
+    r"metrics touch_dispatch_us\(avg/p95/max\)="
+    r"(?P<touch_avg>\d+)/(?P<touch_p95>\d+)/(?P<touch_max>\d+) "
+    r"touches=(?P<touches>\d+) heap_min=(?P<heap_min>\d+) "
+    r"psram_free=(?P<psram_free>\d+) psram_min=(?P<psram_min>\d+)"
+)
 
 
 @dataclass(frozen=True)
@@ -54,6 +73,30 @@ class RebootResult:
     display_frame: bool | None
     storage_verified: bool
     reason: str
+
+
+@dataclass(frozen=True)
+class MetricTriple:
+    average_us: int
+    p95_us: int
+    maximum_us: int
+
+
+@dataclass(frozen=True)
+class MetricsSnapshot:
+    path: str
+    frames: int
+    refresh: MetricTriple
+    render: MetricTriple
+    flush_callback: MetricTriple
+    wait: MetricTriple
+    cpu_rotate: MetricTriple
+    cpu_pipeline: MetricTriple
+    touch_dispatch: MetricTriple
+    touches: int
+    internal_heap_minimum_bytes: int
+    psram_free_bytes: int
+    psram_minimum_bytes: int
 
 
 def utc_now() -> str:
@@ -103,6 +146,55 @@ def fatal_reason(lines: list[str]) -> str | None:
             if pattern in line:
                 return f"fatal serial marker: {pattern}"
     return None
+
+
+def metric_triple(fields: dict[str, str], prefix: str) -> MetricTriple:
+    return MetricTriple(
+        int(fields[f"{prefix}_avg"]),
+        int(fields[f"{prefix}_p95"]),
+        int(fields[f"{prefix}_max"]),
+    )
+
+
+def parse_metrics_snapshots(lines: list[str]) -> list[MetricsSnapshot]:
+    snapshots: list[MetricsSnapshot] = []
+    main: dict[str, str] | None = None
+    pipeline: dict[str, str] | None = None
+    for raw_line in lines:
+        line = ANSI_ESCAPE.sub("", raw_line)
+        if matched := METRICS_MAIN.search(line):
+            main = matched.groupdict()
+            pipeline = None
+            continue
+        if main is not None and (matched := METRICS_PIPELINE.search(line)):
+            pipeline = matched.groupdict()
+            continue
+        if (
+            main is not None
+            and pipeline is not None
+            and (matched := METRICS_MEMORY.search(line))
+        ):
+            memory = matched.groupdict()
+            snapshots.append(
+                MetricsSnapshot(
+                    path=main["path"],
+                    frames=int(main["frames"]),
+                    refresh=metric_triple(main, "refresh"),
+                    render=metric_triple(main, "render"),
+                    flush_callback=metric_triple(main, "flush"),
+                    wait=metric_triple(pipeline, "wait"),
+                    cpu_rotate=metric_triple(pipeline, "rotate"),
+                    cpu_pipeline=metric_triple(pipeline, "pipeline"),
+                    touch_dispatch=metric_triple(memory, "touch"),
+                    touches=int(memory["touches"]),
+                    internal_heap_minimum_bytes=int(memory["heap_min"]),
+                    psram_free_bytes=int(memory["psram_free"]),
+                    psram_minimum_bytes=int(memory["psram_min"]),
+                )
+            )
+            main = None
+            pipeline = None
+    return snapshots
 
 
 def evaluate_reboot(
@@ -475,6 +567,59 @@ def run_soak(args: argparse.Namespace, repo_root: Path) -> int:
     return 0 if passed else 1
 
 
+def run_metrics_summary(args: argparse.Namespace, repo_root: Path) -> int:
+    log_path = Path(args.log).resolve()
+    if not log_path.is_file():
+        raise SystemExit(f"Serial log does not exist: {log_path}")
+    output_path = (
+        Path(args.output).resolve()
+        if args.output is not None
+        else log_path.with_suffix(".metrics.json")
+    )
+    lines = log_path.read_text(encoding="utf-8", errors="replace").splitlines()
+    snapshots = parse_metrics_snapshots(lines)
+    fatal = fatal_reason(lines)
+    reasons: list[str] = []
+    if not snapshots:
+        reasons.append("no complete three-line metrics snapshot found")
+    if fatal is not None:
+        reasons.append(fatal)
+    paths = list(dict.fromkeys(snapshot.path for snapshot in snapshots))
+    if len(paths) > 1:
+        reasons.append(f"multiple rotation paths in one log: {paths}")
+    passed = not reasons
+    summary = {
+        "schemaVersion": 1,
+        "kind": "rotation-metrics",
+        "generatedUtc": utc_now(),
+        "gitSha": git_head(repo_root),
+        "sourceLog": str(log_path),
+        "snapshotCount": len(snapshots),
+        "rotationPaths": paths,
+        "finalSnapshot": asdict(snapshots[-1]) if snapshots else None,
+        "passed": passed,
+        "reason": "; ".join(reasons) if reasons else "ok",
+        "visualEvidenceRequired": True,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+    print(f"Metrics summary: {output_path}")
+    print(f"Rotation telemetry: {'PASS' if passed else 'FAIL'}")
+    if reasons:
+        print(summary["reason"])
+    else:
+        final = snapshots[-1]
+        print(
+            f"path={final.path} frames={final.frames} "
+            f"refresh_avg/p95={final.refresh.average_us}/{final.refresh.p95_us} "
+            f"flush_avg/p95={final.flush_callback.average_us}/{final.flush_callback.p95_us} "
+            f"touch_p95={final.touch_dispatch.p95_us} "
+            f"heap_min={final.internal_heap_minimum_bytes} "
+            f"psram_min={final.psram_minimum_bytes}"
+        )
+    return 0 if passed else 1
+
+
 def run_self_test() -> int:
     good = [
         "I buddy_m0: Previous LittleFS proof record verified (nonce suffix=1234)",
@@ -516,6 +661,35 @@ def run_self_test() -> int:
         6, [good[1].replace("storage=1", "storage=0")], 3000, "home", 5000, True
     )
     assert not storage_failed.passed and "LittleFS" in storage_failed.reason
+    metrics_lines = [
+        "\x1b[0;32mI buddy_m0: metrics path=deferred-cpu frames=42 "
+        "refresh_us(avg/p95/max)=100/200/300 render_us(avg/p95/max)=40/50/60 "
+        "flush_cb_us(avg/p95/max)=70/80/90\x1b[0m",
+        "I buddy_m0: metrics wait_us(avg/p95/max)=1/2/3 "
+        "cpu_rotate_us(avg/p95/max)=11/12/13 "
+        "cpu_pipeline_us(avg/p95/max)=21/22/23",
+        "I buddy_m0: metrics touch_dispatch_us(avg/p95/max)=31/32/33 "
+        "touches=15 heap_min=123456 psram_free=29330000 psram_min=29320000",
+    ]
+    metrics = parse_metrics_snapshots(metrics_lines)
+    assert metrics == [
+        MetricsSnapshot(
+            "deferred-cpu",
+            42,
+            MetricTriple(100, 200, 300),
+            MetricTriple(40, 50, 60),
+            MetricTriple(70, 80, 90),
+            MetricTriple(1, 2, 3),
+            MetricTriple(11, 12, 13),
+            MetricTriple(21, 22, 23),
+            MetricTriple(31, 32, 33),
+            15,
+            123456,
+            29330000,
+            29320000,
+        )
+    ]
+    assert parse_metrics_snapshots(metrics_lines[:2]) == []
     print("firmware hardware evidence parser: PASS")
     return 0
 
@@ -543,6 +717,13 @@ def build_parser() -> argparse.ArgumentParser:
     soak.add_argument("port")
     soak.add_argument("--hours", type=float, default=8)
 
+    metrics = subparsers.add_parser(
+        "metrics-summary",
+        description="Extract the final complete rotation telemetry snapshot from a serial log",
+    )
+    metrics.add_argument("log")
+    metrics.add_argument("--output")
+
     subparsers.add_parser("self-test")
     return parser
 
@@ -558,6 +739,8 @@ def main() -> int:
         if not re.fullmatch(r"[a-z0-9-]+", args.expected_surface):
             raise SystemExit("Expected surface must use lowercase letters, digits, or hyphens")
         return run_reboot_loop(args, repo_root)
+    if args.command == "metrics-summary":
+        return run_metrics_summary(args, repo_root)
     if args.hours < 8:
         raise SystemExit("A qualifying screen-on soak must run for at least 8 hours")
     return run_soak(args, repo_root)

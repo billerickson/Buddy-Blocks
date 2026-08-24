@@ -91,6 +91,20 @@ latency, minimum internal heap, minimum PSRAM, tearing/corruption, and 100
 screen transitions. Use Home → Multiplication → table selection → Back → Flash
 cards → Back → Settings → Back as a repeatable transition loop.
 
+After exiting each serial monitor, extract its final complete three-line metric
+snapshot to ignored JSON (replace the example log with the file printed by the
+flash command):
+
+```bash
+./scripts/firmware-hardware-evidence.sh metrics-summary \
+  firmware/esp32-p4/serial-logs/m0-rev1_3-bsp-YYYYMMDDTHHMMSSZ.log
+```
+
+The parser fails on an incomplete snapshot, mixed rotation paths, or a fatal
+serial marker. Its JSON proves only the numeric telemetry; the operator's
+recorded observation is still required for tearing, corruption, colors, and
+touch-coordinate correctness.
+
 Select a winner only from the physical measurements. Retain BSP as the reliable
 fallback unless evidence supports another path. Restore the selected candidate
 before continuing the functional tests.
