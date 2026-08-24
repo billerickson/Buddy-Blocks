@@ -1,0 +1,3 @@
+# Production-board candidate. Flash only after esptool/boot evidence confirms Rev3.x.
+CONFIG_ESP32P4_REV_MIN_300=y
+CONFIG_SPIRAM_SPEED_250M=y

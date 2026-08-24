@@ -8,3 +8,28 @@ node_modules/
 .env.*
 !.env.example
 wrangler.deploy.jsonc
+
+# ESP-IDF toolchains, generated configuration, managed dependencies, and builds.
+.toolchains/
+firmware/esp32-p4/build*/
+firmware/esp32-p4/managed_components/
+firmware/esp32-p4/dependencies.lock
+firmware/esp32-p4/sdkconfig
+firmware/esp32-p4/sdkconfig.old
+firmware/esp32-p4/.cache/
+firmware/esp32-p4/.artifacts/
+firmware/esp32-p4/*.bin
+firmware/esp32-p4/*.elf
+firmware/esp32-p4/*.map
+firmware/esp32-p4/*.uf2
+firmware/esp32-p4/*.log
+firmware/esp32-p4/serial-logs/
+
+# Firmware credentials, local overrides, and signing/encryption material.
+firmware/esp32-p4/sdkconfig.local*
+firmware/esp32-p4/secrets/
+firmware/esp32-p4/keys/
+firmware/esp32-p4/**/*.pem
+firmware/esp32-p4/**/*.key
+firmware/esp32-p4/**/*.der
+firmware/esp32-p4/**/*signing*
