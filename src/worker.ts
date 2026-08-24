@@ -6,9 +6,12 @@ import {
   clearChildCookie,
   clearSessionCookie,
   hashPassword,
+  fromHex,
   parseCookies,
   randomId,
   sessionCookie,
+  timingSafeEqual as constantTimeStringEqual,
+  toHex,
   verifyPassword,
 } from './lib/auth';
 import { buildBadges } from './lib/badges';
@@ -232,6 +235,7 @@ type MultiplicationSessionRow = {
   score_correct: number;
   score_total: number;
   xp_awarded: number;
+  device_payload_hash: string | null;
 };
 
 type MultiplicationMasteryRow = {
@@ -247,10 +251,55 @@ type MultiplicationMasteryRow = {
   last_practiced_at: string;
 };
 
+type DevicePairingRow = {
+  id: string;
+  code_hmac: string;
+  poll_secret_hash: string;
+  proposed_device_id: string;
+  proposed_token_hash: string;
+  source_fingerprint: string;
+  hardware_model: string;
+  hardware_revision: string;
+  firmware_version: string;
+  api_version: number;
+  status: 'pending' | 'claimed' | 'expired' | 'cancelled';
+  claimed_child_profile_id: string | null;
+  failed_claim_count: number;
+  failed_poll_count: number;
+  created_at: string;
+  expires_at: string;
+  claimed_at: string | null;
+};
+
+type ChildDeviceRow = {
+  id: string;
+  child_profile_id: string;
+  name: string;
+  token_hash: string;
+  status: 'active' | 'revoked';
+  hardware_model: string;
+  hardware_revision: string;
+  firmware_version: string;
+  api_version: number;
+  created_at: string;
+  updated_at: string;
+  last_seen_at: string | null;
+  revoked_at: string | null;
+};
+
+type ContentRevisionRow = {
+  child_profile_id: string;
+  flash_cards_revision: number;
+  updated_at: string;
+};
+
 type Env = {
   ASSETS: { fetch(request: Request): Promise<Response> };
   DB: D1Database;
   TIME_ZONE?: string;
+  PAIRING_HMAC_SECRET?: string;
+  FIRMWARE_MANIFEST_REV3?: string;
+  FIRMWARE_MANIFEST_REV1_3?: string;
 };
 
 const SESSION_DAYS = 14;
@@ -330,6 +379,57 @@ const MultiplicationSessionSubmissionSchema = z
     }
   });
 
+const Sha256HexSchema = z.string().regex(/^[a-f0-9]{64}$/i).transform((value) => value.toLowerCase());
+const FirmwareVersionSchema = z.string().regex(/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/).max(64);
+const FirmwareManifestSchema = z.object({
+  schemaVersion: z.literal(1),
+  hardwareProfile: z.enum(['waveshare-p4-lcd43-rev3', 'waveshare-p4-lcd43-rev1.3']),
+  version: FirmwareVersionSchema,
+  minimumVersion: FirmwareVersionSchema,
+  url: z.string().url().refine((value) => value.startsWith('https://')),
+  sha256: Sha256HexSchema,
+  size: z.number().int().min(1).max(7 * 1024 * 1024),
+  releaseNotes: z.string().max(1000).default(''),
+  mandatory: z.boolean().default(false),
+}).strict();
+const DevicePairingCreateSchema = z.object({
+  deviceId: z.string().uuid(),
+  tokenHash: Sha256HexSchema,
+  pollSecretHash: Sha256HexSchema,
+  hardwareModel: z.literal('waveshare-esp32-p4-wifi6-touch-lcd-4.3'),
+  hardwareRevision: z.enum(['rev3', 'rev1_3']),
+  firmwareVersion: FirmwareVersionSchema,
+  apiVersion: z.literal(1),
+});
+const ParentPairDeviceSchema = z.object({
+  code: z.string().trim().regex(/^[0-9A-HJKMNP-TV-Z]{8}$/i).transform((value) => value.toUpperCase()),
+  childId: z.string().trim().min(1).max(128),
+  name: z.string().trim().min(1).max(80),
+});
+const ParentDeviceUpdateSchema = z.object({
+  name: z.string().trim().min(1).max(80).optional(),
+  status: z.literal('revoked').optional(),
+}).refine((value) => value.name !== undefined || value.status !== undefined);
+const FlashCardStudySubmissionSchema = z.object({
+  clientAttemptId: z.string().trim().min(1).max(128),
+  practiceSetId: z.string().trim().min(1).max(128),
+  contentRevision: z.number().int().min(0),
+  startedAt: z.string().trim().min(1).optional(),
+  completedAt: z.string().trim().min(1).optional(),
+  durationSeconds: z.number().int().min(0).max(86400),
+  uniqueCards: z.number().int().min(0).max(100),
+  firstPassGotIt: z.number().int().min(0).max(100),
+  totalReviews: z.number().int().min(0).max(10000),
+  reviews: z.array(z.object({
+    cardId: z.string().trim().min(1).max(128).optional().nullable(),
+    cardFingerprint: Sha256HexSchema,
+    rating: z.enum(['again', 'got_it']),
+    shownCount: z.number().int().min(1).max(1000),
+    responseMs: z.number().int().min(0).max(600000).optional().nullable(),
+    reviewedAt: z.string().trim().min(1).optional(),
+  })).max(1000),
+});
+
 const PracticeSetCardInputSchema = z.object({
   term: z.string().trim().min(1).max(500),
   definition: z.string().trim().min(1).max(800).optional().nullable(),
@@ -400,6 +500,9 @@ export default {
     if (url.pathname === '/api/setup/parent' || url.pathname === '/api/setup/parent/') return apiSetupParent(request, env);
     if (url.pathname === '/api/hosted-interest' || url.pathname === '/api/hosted-interest/') {
       return apiHostedInterest(request, env);
+    }
+    if (url.pathname === '/api/device/v1' || url.pathname.startsWith('/api/device/v1/')) {
+      return deviceApiRouter(request, env);
     }
     if (url.pathname.startsWith('/api/')) return apiRouter(request, env);
 
@@ -543,6 +646,609 @@ async function protectedAsset(request: Request, env: Env) {
   return childModeSlug === child.slug ? response : withCookie(response, childCookie(child.slug, childCookieExpiry()));
 }
 
+type DeviceAuthContext = {
+  device: ChildDeviceRow;
+  child: ChildRow;
+  parent: SessionParent;
+};
+
+async function deviceApiRouter(request: Request, env: Env) {
+  const pathname = stripTrailingSlash(new URL(request.url).pathname);
+  if (pathname === '/api/device/v1/pairings' && request.method === 'POST') {
+    return apiCreateDevicePairing(request, env);
+  }
+  const pairingMatch = pathname.match(/^\/api\/device\/v1\/pairings\/([^/]+)$/);
+  if (pairingMatch && request.method === 'GET') {
+    return apiPollDevicePairing(request, env, decodeURIComponent(pairingMatch[1]));
+  }
+
+  const authenticated = await authenticateDevice(request, env);
+  if (authenticated instanceof Response) return authenticated;
+
+  if (pathname !== '/api/device/v1/bootstrap' && pathname !== '/api/device/v1/firmware') {
+    const firmware = deviceFirmwarePolicy(authenticated.device, env);
+    if (!firmware) return deviceError('temporarily_unavailable', 503, 300);
+    if (firmware.mandatory) return deviceError('firmware_update_required', 426);
+  }
+
+  if (pathname === '/api/device/v1/bootstrap' && request.method === 'GET') {
+    return apiDeviceBootstrap(env, authenticated);
+  }
+  if (pathname === '/api/device/v1/flash-card-sections' && request.method === 'GET') {
+    return apiDeviceFlashCardSections(request, env, authenticated);
+  }
+  if (pathname === '/api/device/v1/multiplication/sessions' && request.method === 'POST') {
+    return apiSubmitMultiplicationSession(
+      authenticated.parent,
+      env,
+      request,
+      authenticated.child.id,
+      authenticated.child.slug,
+      true,
+    );
+  }
+  if (pathname === '/api/device/v1/flash-card-sessions' && request.method === 'POST') {
+    return apiDeviceFlashCardStudy(request, env, authenticated);
+  }
+  if (pathname === '/api/device/v1/firmware' && request.method === 'GET') {
+    return apiDeviceFirmware(authenticated, env);
+  }
+  return deviceError('resource_not_found', 404);
+}
+
+async function apiCreateDevicePairing(request: Request, env: Env) {
+  if (!env.PAIRING_HMAC_SECRET || env.PAIRING_HMAC_SECRET.length < 32) {
+    return deviceError('server_error', 500);
+  }
+  let body: z.infer<typeof DevicePairingCreateSchema>;
+  try {
+    body = DevicePairingCreateSchema.parse(await readBoundedJson(request, 16 * 1024));
+  } catch {
+    return deviceError('invalid_payload', 400);
+  }
+
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+  const sourceFingerprint = await pairingCodeHmac(
+    env.PAIRING_HMAC_SECRET,
+    `source:${request.headers.get('CF-Connecting-IP') ?? 'unknown'}`,
+  );
+  const [recent, recentSource] = await Promise.all([env.DB.prepare(
+    'SELECT count(*) AS total FROM device_pairings WHERE proposed_device_id = ? AND created_at >= ?',
+  ).bind(body.deviceId, oneHourAgo).first<CountRow>(), env.DB.prepare(
+    'SELECT count(*) AS total FROM device_pairings WHERE source_fingerprint = ? AND created_at >= ?',
+  ).bind(sourceFingerprint, oneHourAgo).first<CountRow>()]);
+  if ((recent?.total ?? 0) >= 5 || (recentSource?.total ?? 0) >= 20) {
+    return deviceError('rate_limited', 429, 3600);
+  }
+
+  const now = new Date();
+  const expires = new Date(now.getTime() + 10 * 60 * 1000);
+  const code = randomPairingCode();
+  const pairingId = randomId('pairing_');
+  await env.DB.prepare(
+    `INSERT INTO device_pairings
+     (id, code_hmac, poll_secret_hash, proposed_device_id, proposed_token_hash, source_fingerprint,
+      hardware_model, hardware_revision, firmware_version, api_version, status,
+      created_at, expires_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)`,
+  ).bind(
+    pairingId,
+    await pairingCodeHmac(env.PAIRING_HMAC_SECRET, code),
+    body.pollSecretHash,
+    body.deviceId,
+    body.tokenHash,
+    sourceFingerprint,
+    body.hardwareModel,
+    body.hardwareRevision,
+    body.firmwareVersion,
+    body.apiVersion,
+    now.toISOString(),
+    expires.toISOString(),
+  ).run();
+
+  const claimUrl = new URL('/parent/', request.url);
+  claimUrl.searchParams.set('pair', code);
+  return deviceJson({
+    schemaVersion: 1,
+    pairingId,
+    code,
+    claimUrl: claimUrl.toString(),
+    expiresAt: expires.toISOString(),
+  }, 201);
+}
+
+async function apiPollDevicePairing(request: Request, env: Env, pairingId: string) {
+  const pairing = await env.DB.prepare('SELECT * FROM device_pairings WHERE id = ? LIMIT 1')
+    .bind(pairingId)
+    .first<DevicePairingRow>();
+  if (!pairing) return deviceError('resource_not_found', 404);
+  if (pairing.failed_poll_count >= 100) return deviceError('rate_limited', 429, 600);
+
+  const authorization = request.headers.get('Authorization') ?? '';
+  const pollSecret = authorization.startsWith('Pairing ') ? authorization.slice(8) : '';
+  const presentedHash = pollSecret ? await sha256Hex(pollSecret) : '';
+  if (!secureHashEqual(presentedHash, pairing.poll_secret_hash)) {
+    await env.DB.prepare(
+      'UPDATE device_pairings SET failed_poll_count = min(100, failed_poll_count + 1) WHERE id = ?',
+    ).bind(pairing.id).run();
+    return deviceError('device_auth_invalid', 401);
+  }
+
+  if (pairing.status === 'pending' && pairing.expires_at <= new Date().toISOString()) {
+    await env.DB.prepare("UPDATE device_pairings SET status = 'expired' WHERE id = ? AND status = 'pending'")
+      .bind(pairing.id)
+      .run();
+    return deviceJson({ schemaVersion: 1, status: 'expired' });
+  }
+  if (pairing.status !== 'claimed' || !pairing.claimed_child_profile_id) {
+    return deviceJson({ schemaVersion: 1, status: pairing.status });
+  }
+  const [child, device] = await Promise.all([
+    env.DB.prepare('SELECT * FROM child_profiles WHERE id = ? LIMIT 1')
+      .bind(pairing.claimed_child_profile_id)
+      .first<ChildRow>(),
+    env.DB.prepare('SELECT id, name FROM child_devices WHERE id = ? LIMIT 1')
+      .bind(pairing.proposed_device_id)
+      .first<{ id: string; name: string }>(),
+  ]);
+  return deviceJson({
+    schemaVersion: 1,
+    status: 'claimed',
+    deviceId: pairing.proposed_device_id,
+    device: device ? { id: device.id, name: device.name } : null,
+    child: child ? { id: child.id, slug: child.slug, displayName: child.display_name } : null,
+  });
+}
+
+async function authenticateDevice(request: Request, env: Env): Promise<DeviceAuthContext | Response> {
+  const deviceId = request.headers.get('X-Buddy-Blocks-Device-ID')?.trim() ?? '';
+  const firmwareVersionResult = FirmwareVersionSchema.safeParse(
+    request.headers.get('X-Buddy-Blocks-Firmware')?.trim() ?? '',
+  );
+  const authorization = request.headers.get('Authorization') ?? '';
+  const token = authorization.startsWith('Bearer ') ? authorization.slice(7) : '';
+  if (!deviceId || !firmwareVersionResult.success || !token.startsWith('bbdev_v1_') || token.length > 128) {
+    return recordDeviceAuthFailure(request, env);
+  }
+  const firmwareVersion = firmwareVersionResult.data;
+
+  const device = await env.DB.prepare('SELECT * FROM child_devices WHERE id = ? LIMIT 1')
+    .bind(deviceId)
+    .first<ChildDeviceRow>();
+  const presentedHash = await sha256Hex(token);
+  if (!device || !secureHashEqual(presentedHash, device.token_hash)) {
+    return recordDeviceAuthFailure(request, env);
+  }
+  if (device.status !== 'active') return deviceError('device_revoked', 403);
+
+  const child = await env.DB.prepare('SELECT * FROM child_profiles WHERE id = ? LIMIT 1')
+    .bind(device.child_profile_id)
+    .first<ChildRow>();
+  if (!child || child.status !== 'active') return deviceError('child_inactive', 403);
+  const parent = await env.DB.prepare(
+    `SELECT id, username, email, status, created_at, updated_at
+     FROM parents WHERE id = ? AND status = 'active' LIMIT 1`,
+  ).bind(child.parent_id).first<SessionParent>();
+  if (!parent) return deviceError('device_revoked', 403);
+
+  const now = new Date();
+  if (!device.last_seen_at || Date.parse(device.last_seen_at) < now.getTime() - 60 * 60 * 1000) {
+    await env.DB.prepare(
+      'UPDATE child_devices SET last_seen_at = ?, firmware_version = ?, updated_at = ? WHERE id = ?',
+    ).bind(now.toISOString(), firmwareVersion.slice(0, 64), now.toISOString(), device.id).run();
+  }
+  return { device: { ...device, firmware_version: firmwareVersion }, child, parent };
+}
+
+async function recordDeviceAuthFailure(request: Request, env: Env) {
+  if (!env.PAIRING_HMAC_SECRET || env.PAIRING_HMAC_SECRET.length < 32) {
+    return deviceError('device_auth_invalid', 401);
+  }
+  const windowMilliseconds = 10 * 60 * 1000;
+  const now = new Date();
+  const windowStarted = new Date(
+    Math.floor(now.getTime() / windowMilliseconds) * windowMilliseconds,
+  ).toISOString();
+  const sourceFingerprint = await pairingCodeHmac(
+    env.PAIRING_HMAC_SECRET,
+    `device-auth:${request.headers.get('CF-Connecting-IP') ?? 'unknown'}`,
+  );
+  await env.DB.prepare(
+    `INSERT INTO device_auth_failure_limits
+       (source_fingerprint, window_started_at, attempt_count, last_attempt_at)
+     VALUES (?, ?, 1, ?)
+     ON CONFLICT(source_fingerprint) DO UPDATE SET
+       window_started_at = excluded.window_started_at,
+       attempt_count = CASE
+         WHEN device_auth_failure_limits.window_started_at = excluded.window_started_at
+           THEN min(1000, device_auth_failure_limits.attempt_count + 1)
+         ELSE 1
+       END,
+       last_attempt_at = excluded.last_attempt_at`,
+  ).bind(sourceFingerprint, windowStarted, now.toISOString()).run();
+  const failureLimit = await env.DB.prepare(
+    'SELECT attempt_count FROM device_auth_failure_limits WHERE source_fingerprint = ? LIMIT 1',
+  ).bind(sourceFingerprint).first<{ attempt_count: number }>();
+  return (failureLimit?.attempt_count ?? 0) > 20
+    ? deviceError('rate_limited', 429, 600)
+    : deviceError('device_auth_invalid', 401);
+}
+
+async function apiDeviceBootstrap(env: Env, authenticated: DeviceAuthContext) {
+  const firmware = deviceFirmwarePolicy(authenticated.device, env);
+  if (!firmware) return deviceError('temporarily_unavailable', 503, 300);
+  const [overview, revision] = await Promise.all([
+    multiplicationOverviewResponse(env, authenticated.child),
+    getContentRevision(env, authenticated.child.id),
+  ]);
+  return deviceJson({
+    schemaVersion: 1,
+    serverTime: new Date().toISOString(),
+    device: { id: authenticated.device.id, name: authenticated.device.name },
+    child: {
+      id: authenticated.child.id,
+      slug: authenticated.child.slug,
+      displayName: authenticated.child.display_name,
+    },
+    content: { flashCardsRevision: revision.flash_cards_revision },
+    multiplication: {
+      mastery: overview.mastery,
+      recentSessions: overview.recentSessions,
+      fluentFacts: overview.summary.fluentFacts,
+      xpTotal: overview.summary.xpTotal,
+      best60Seconds: overview.summary.best60Seconds,
+      best120Seconds: overview.summary.best120Seconds,
+    },
+    firmware: {
+      latest: firmware.version,
+      minimum: firmware.minimumVersion,
+      updateAvailable: firmware.updateAvailable,
+      mandatory: firmware.mandatory,
+    },
+  });
+}
+
+async function apiDeviceFlashCardSections(
+  request: Request,
+  env: Env,
+  authenticated: DeviceAuthContext,
+) {
+  const revision = await getContentRevision(env, authenticated.child.id);
+  const etag = `"flash-cards-r${revision.flash_cards_revision}"`;
+  if (request.headers.get('If-None-Match') === etag) {
+    return new Response(null, { status: 304, headers: deviceHeaders({ ETag: etag }) });
+  }
+  const sections = await getVisiblePracticeSets(env, authenticated.child.id, new Date());
+  if (sections.length > 50) return deviceError('device_content_too_large', 413);
+  const withCards = await Promise.all(sections.map(async (section) => ({
+    section,
+    cards: await getPracticeSetCards(env, section.id),
+  })));
+  const cardCount = withCards.reduce((sum, entry) => sum + entry.cards.length, 0);
+  if (cardCount > 2500 || withCards.some((entry) => entry.cards.length > 100)) {
+    return deviceError('device_content_too_large', 413);
+  }
+  return deviceJson({
+    schemaVersion: 1,
+    revision: revision.flash_cards_revision,
+    generatedAt: new Date().toISOString(),
+    sections: withCards.map(({ section, cards }) => ({
+      id: section.id,
+      title: section.title,
+      source: section.source,
+      pinned: Boolean(section.pinned),
+      updatedAt: section.updated_at,
+      cards: cards.map((card) => ({
+        id: card.id,
+        front: card.term,
+        back: card.definition ?? acceptedAnswersFromCard(card)[0] ?? card.term,
+        clue: card.example,
+        sortOrder: card.sort_order,
+      })),
+    })),
+  }, 200, { ETag: etag });
+}
+
+async function apiDeviceFlashCardStudy(
+  request: Request,
+  env: Env,
+  authenticated: DeviceAuthContext,
+) {
+  let body: z.infer<typeof FlashCardStudySubmissionSchema>;
+  try {
+    body = FlashCardStudySubmissionSchema.parse(await readBoundedJson(request, 512 * 1024));
+  } catch {
+    return deviceError('invalid_payload', 400);
+  }
+  if (body.firstPassGotIt > body.uniqueCards || body.uniqueCards > body.totalReviews) {
+    return deviceError('invalid_payload', 400);
+  }
+  const now = new Date();
+  const maximumDeviceTime = now.getTime() + 5 * 60 * 1000;
+  const submittedTimes = [body.startedAt, body.completedAt,
+    ...body.reviews.map((review) => review.reviewedAt)].filter(
+    (value): value is string => typeof value === 'string',
+  );
+  if (submittedTimes.some((value) => {
+    const timestamp = Date.parse(value);
+    return Number.isFinite(timestamp) && timestamp > maximumDeviceTime;
+  })) return deviceError('invalid_payload', 400);
+  const payloadHash = await sha256Hex(JSON.stringify(body));
+  const existing = await env.DB.prepare(
+    `SELECT id, payload_hash FROM flash_card_study_sessions
+     WHERE child_profile_id = ? AND client_attempt_id = ? LIMIT 1`,
+  ).bind(authenticated.child.id, body.clientAttemptId).first<{ id: string; payload_hash: string }>();
+  if (existing) {
+    if (existing.payload_hash !== payloadHash) return deviceError('client_attempt_conflict', 409);
+    return deviceJson({ schemaVersion: 1, sessionId: existing.id, duplicate: true });
+  }
+
+  const practiceSet = await getPracticeSetForChild(env, authenticated.child.id, body.practiceSetId);
+  if (!practiceSet) return deviceError('resource_not_found', 404);
+  const currentCards = await getPracticeSetCards(env, practiceSet.id);
+  const currentCardIds = new Set(currentCards.map((card) => card.id));
+  const receivedAt = now.toISOString();
+  const completedAt = body.completedAt && validIsoTimestamp(body.completedAt) &&
+      Date.parse(body.completedAt) >= Date.UTC(2024, 0, 1)
+    ? new Date(body.completedAt).toISOString()
+    : receivedAt;
+  const startedAt = body.startedAt && validIsoTimestamp(body.startedAt) &&
+      Date.parse(body.startedAt) >= Date.UTC(2024, 0, 1)
+    ? new Date(body.startedAt).toISOString()
+    : completedAt;
+  const sessionId = randomId('flash_study_');
+  await env.DB.batch([
+    env.DB.prepare(
+      `INSERT INTO flash_card_study_sessions
+       (id, child_profile_id, device_id, practice_set_id, client_attempt_id, content_revision,
+        started_at, completed_at, received_at, unique_cards, first_pass_got_it, total_reviews,
+        duration_seconds, payload_hash)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ).bind(
+      sessionId,
+      authenticated.child.id,
+      authenticated.device.id,
+      practiceSet.id,
+      body.clientAttemptId,
+      body.contentRevision,
+      startedAt,
+      completedAt,
+      receivedAt,
+      body.uniqueCards,
+      body.firstPassGotIt,
+      body.totalReviews,
+      body.durationSeconds,
+      payloadHash,
+    ),
+    ...body.reviews.map((review) => env.DB.prepare(
+      `INSERT INTO flash_card_study_reviews
+       (id, session_id, practice_set_card_id, card_fingerprint, rating, shown_count,
+        response_ms, reviewed_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    ).bind(
+      randomId('flash_review_'),
+      sessionId,
+      review.cardId && currentCardIds.has(review.cardId) ? review.cardId : null,
+      review.cardFingerprint,
+      review.rating,
+      review.shownCount,
+      review.responseMs ?? null,
+      review.reviewedAt && validIsoTimestamp(review.reviewedAt) &&
+          Date.parse(review.reviewedAt) >= Date.UTC(2024, 0, 1)
+        ? new Date(review.reviewedAt).toISOString()
+        : completedAt,
+    )),
+  ]);
+  return deviceJson({ schemaVersion: 1, sessionId, duplicate: false }, 201);
+}
+
+function apiDeviceFirmware(authenticated: DeviceAuthContext, env: Env) {
+  const policy = deviceFirmwarePolicy(authenticated.device, env);
+  return policy ? deviceJson(policy) : deviceError('temporarily_unavailable', 503, 300);
+}
+
+function deviceFirmwarePolicy(device: ChildDeviceRow, env: Env) {
+  const hardwareProfile = `waveshare-p4-lcd43-${device.hardware_revision.replace('_', '.')}`;
+  const configured = device.hardware_revision === 'rev3'
+    ? env.FIRMWARE_MANIFEST_REV3
+    : env.FIRMWARE_MANIFEST_REV1_3;
+  if (!configured) {
+    return {
+      schemaVersion: 1 as const,
+      hardwareProfile,
+      version: '0.1.0',
+      minimumVersion: '0.1.0',
+      updateAvailable: false,
+      mandatory: false,
+    };
+  }
+
+  let decoded: unknown;
+  try {
+    decoded = JSON.parse(configured);
+  } catch {
+    return null;
+  }
+  const result = FirmwareManifestSchema.safeParse(decoded);
+  if (!result.success || result.data.hardwareProfile !== hardwareProfile ||
+      compareFirmwareVersions(result.data.minimumVersion, result.data.version) > 0) {
+    return null;
+  }
+  const updateAvailable = compareFirmwareVersions(device.firmware_version, result.data.version) < 0;
+  const belowMinimum = compareFirmwareVersions(device.firmware_version, result.data.minimumVersion) < 0;
+  return {
+    ...result.data,
+    updateAvailable,
+    mandatory: updateAvailable && (result.data.mandatory || belowMinimum),
+  };
+}
+
+function compareFirmwareVersions(left: string, right: string) {
+  const split = (value: string) => {
+    const withoutBuild = value.split('+', 1)[0];
+    const separator = withoutBuild.indexOf('-');
+    const core = separator === -1 ? withoutBuild : withoutBuild.slice(0, separator);
+    const prerelease = separator === -1 ? '' : withoutBuild.slice(separator + 1);
+    return {
+      core: core.split('.').map((part) => Number.parseInt(part, 10)),
+      prerelease: prerelease?.split('.') ?? [],
+    };
+  };
+  const a = split(left);
+  const b = split(right);
+  for (let index = 0; index < 3; index += 1) {
+    if (a.core[index] !== b.core[index]) return a.core[index] < b.core[index] ? -1 : 1;
+  }
+  if (a.prerelease.length === 0 || b.prerelease.length === 0) {
+    return a.prerelease.length === b.prerelease.length ? 0 : a.prerelease.length === 0 ? 1 : -1;
+  }
+  for (let index = 0; index < Math.max(a.prerelease.length, b.prerelease.length); index += 1) {
+    const aPart = a.prerelease[index];
+    const bPart = b.prerelease[index];
+    if (aPart === undefined || bPart === undefined) return aPart === undefined ? -1 : 1;
+    if (aPart === bPart) continue;
+    const aNumeric = /^\d+$/.test(aPart);
+    const bNumeric = /^\d+$/.test(bPart);
+    if (aNumeric && bNumeric) return Number(aPart) < Number(bPart) ? -1 : 1;
+    if (aNumeric !== bNumeric) return aNumeric ? -1 : 1;
+    return aPart < bPart ? -1 : 1;
+  }
+  return 0;
+}
+
+async function apiParentDevices(parent: SessionParent, env: Env) {
+  const devices = await all<ChildDeviceRow & { child_display_name: string }>(env.DB.prepare(
+    `SELECT child_devices.*, child_profiles.display_name AS child_display_name
+     FROM child_devices
+     JOIN child_profiles ON child_profiles.id = child_devices.child_profile_id
+     WHERE child_profiles.parent_id = ?
+     ORDER BY child_devices.created_at DESC`,
+  ).bind(parent.id));
+  return json({ devices: devices.map((device) => ({
+    id: device.id,
+    childId: device.child_profile_id,
+    childDisplayName: device.child_display_name,
+    name: device.name,
+    status: device.status,
+    hardwareModel: device.hardware_model,
+    hardwareRevision: device.hardware_revision,
+    firmwareVersion: device.firmware_version,
+    createdAt: device.created_at,
+    updatedAt: device.updated_at,
+    lastSeenAt: device.last_seen_at,
+    revokedAt: device.revoked_at,
+  })), pendingPairings: [] });
+}
+
+async function apiParentPairDevice(parent: SessionParent, env: Env, request: Request) {
+  if (!env.PAIRING_HMAC_SECRET || env.PAIRING_HMAC_SECRET.length < 32) return json({ error: 'server_error' }, 500);
+  let body: z.infer<typeof ParentPairDeviceSchema>;
+  try {
+    body = ParentPairDeviceSchema.parse(await readBoundedJson(request, 16 * 1024));
+  } catch {
+    return json({ error: 'invalid_device_pairing_payload' }, 400);
+  }
+  const windowMilliseconds = 10 * 60 * 1000;
+  const windowStarted = new Date(
+    Math.floor(Date.now() / windowMilliseconds) * windowMilliseconds,
+  ).toISOString();
+  const claimFingerprint = await pairingCodeHmac(
+    env.PAIRING_HMAC_SECRET,
+    `claim:${parent.id}:${request.headers.get('CF-Connecting-IP') ?? 'unknown'}:${windowStarted}`,
+  );
+  await env.DB.prepare(
+    `INSERT INTO device_pairing_claim_limits (source_fingerprint, window_started_at, attempt_count)
+     VALUES (?, ?, 1)
+     ON CONFLICT(source_fingerprint) DO UPDATE SET attempt_count = min(1000, attempt_count + 1)`,
+  ).bind(claimFingerprint, windowStarted).run();
+  const claimLimit = await env.DB.prepare(
+    'SELECT attempt_count FROM device_pairing_claim_limits WHERE source_fingerprint = ? LIMIT 1',
+  ).bind(claimFingerprint).first<{ attempt_count: number }>();
+  if ((claimLimit?.attempt_count ?? 0) > 20) {
+    return json({ error: 'rate_limited', retryAfterSeconds: 600 }, 429);
+  }
+  const pairing = await env.DB.prepare('SELECT * FROM device_pairings WHERE code_hmac = ? LIMIT 1')
+    .bind(await pairingCodeHmac(env.PAIRING_HMAC_SECRET, body.code))
+    .first<DevicePairingRow>();
+  if (!pairing) return json({ error: 'pairing_code_invalid' }, 404);
+  if (pairing.failed_claim_count >= 20) return json({ error: 'rate_limited' }, 429);
+  if (pairing.status !== 'pending') return json({ error: 'pairing_code_used' }, 409);
+  if (pairing.expires_at <= new Date().toISOString()) {
+    await env.DB.prepare("UPDATE device_pairings SET status = 'expired' WHERE id = ? AND status = 'pending'")
+      .bind(pairing.id).run();
+    return json({ error: 'pairing_code_expired' }, 410);
+  }
+  const child = await getChildForParent(parent, env, body.childId);
+  if (!child || child.status !== 'active') {
+    await env.DB.prepare(
+      'UPDATE device_pairings SET failed_claim_count = min(20, failed_claim_count + 1) WHERE id = ?',
+    ).bind(pairing.id).run();
+    return json({ error: 'child_not_found' }, 404);
+  }
+  const now = new Date().toISOString();
+  try {
+    await env.DB.batch([
+      env.DB.prepare(
+        `INSERT INTO child_devices
+         (id, child_profile_id, name, token_hash, status, hardware_model, hardware_revision,
+          firmware_version, api_version, created_at, updated_at)
+         VALUES (?, ?, ?, ?, 'active', ?, ?, ?, ?, ?, ?)`,
+      ).bind(
+        pairing.proposed_device_id,
+        child.id,
+        body.name,
+        pairing.proposed_token_hash,
+        pairing.hardware_model,
+        pairing.hardware_revision,
+        pairing.firmware_version,
+        pairing.api_version,
+        now,
+        now,
+      ),
+      env.DB.prepare(
+        `UPDATE device_pairings
+         SET status = 'claimed', claimed_child_profile_id = ?, claimed_at = ?
+         WHERE id = ? AND status = 'pending'`,
+      ).bind(child.id, now, pairing.id),
+    ]);
+  } catch {
+    return json({ error: 'pairing_code_used' }, 409);
+  }
+  return json({ device: { id: pairing.proposed_device_id, name: body.name, childId: child.id, status: 'active' } }, 201);
+}
+
+async function apiParentUpdateDevice(
+  parent: SessionParent,
+  env: Env,
+  request: Request,
+  deviceId: string,
+) {
+  let body: z.infer<typeof ParentDeviceUpdateSchema>;
+  try {
+    body = ParentDeviceUpdateSchema.parse(await readBoundedJson(request, 16 * 1024));
+  } catch {
+    return json({ error: 'invalid_device_payload' }, 400);
+  }
+  const device = await env.DB.prepare(
+    `SELECT child_devices.* FROM child_devices
+     JOIN child_profiles ON child_profiles.id = child_devices.child_profile_id
+     WHERE child_devices.id = ? AND child_profiles.parent_id = ? LIMIT 1`,
+  ).bind(deviceId, parent.id).first<ChildDeviceRow>();
+  if (!device) return json({ error: 'device_not_found' }, 404);
+  const now = new Date().toISOString();
+  const status = body.status ?? device.status;
+  await env.DB.prepare(
+    `UPDATE child_devices SET name = ?, status = ?, updated_at = ?, revoked_at = ? WHERE id = ?`,
+  ).bind(
+    body.name ?? device.name,
+    status,
+    now,
+    status === 'revoked' ? (device.revoked_at ?? now) : null,
+    device.id,
+  ).run();
+  return json({ device: { id: device.id, name: body.name ?? device.name, status } });
+}
+
 async function apiRouter(request: Request, env: Env) {
   const parent = await getParentFromRequest(request, env);
   if (!parent) return json({ error: 'not_authenticated' }, 401);
@@ -553,6 +1259,22 @@ async function apiRouter(request: Request, env: Env) {
   const url = new URL(request.url);
   const pathname = stripTrailingSlash(url.pathname);
   const childModeSlug = getChildModeSlug(request);
+
+  if (pathname === '/api/parent/devices') {
+    if (childModeSlug) return parentReauthResponse();
+    if (request.method === 'GET') return apiParentDevices(parent, env);
+  }
+  if (pathname === '/api/parent/devices/pair') {
+    if (childModeSlug) return parentReauthResponse();
+    if (request.method === 'POST') return apiParentPairDevice(parent, env, request);
+  }
+  const parentDeviceMatch = pathname.match(/^\/api\/parent\/devices\/([^/]+)$/);
+  if (parentDeviceMatch) {
+    if (childModeSlug) return parentReauthResponse();
+    if (request.method === 'PATCH') {
+      return apiParentUpdateDevice(parent, env, request, decodeURIComponent(parentDeviceMatch[1]));
+    }
+  }
 
   if (pathname === '/api/me') {
     if (childModeSlug) return parentReauthResponse();
@@ -906,6 +1628,7 @@ async function apiSubmitMultiplicationSession(
   request: Request,
   childKey: string,
   childModeSlug: string | null,
+  deviceSubmission = false,
 ) {
   const child = await getChildForParent(parent, env, childKey);
   if (!child) return json({ error: 'child_not_found' }, 404);
@@ -915,7 +1638,9 @@ async function apiSubmitMultiplicationSession(
   try {
     body = MultiplicationSessionSubmissionSchema.parse(await request.json());
   } catch {
-    return json({ error: 'invalid_multiplication_session_payload' }, 400);
+    return deviceSubmission
+      ? deviceError('invalid_payload', 400)
+      : json({ error: 'invalid_multiplication_session_payload' }, 400);
   }
 
   const selectedFactors = normalizeSelectedFactors(body.selectedFactors);
@@ -923,15 +1648,34 @@ async function apiSubmitMultiplicationSession(
     selectedFactors.length !== new Set(body.selectedFactors).size ||
     body.attempts.some((attempt) => !selectedFactors.includes(attempt.factor))
   ) {
-    return json({ error: 'invalid_multiplication_session_payload' }, 400);
+    return deviceSubmission
+      ? deviceError('invalid_payload', 400)
+      : json({ error: 'invalid_multiplication_session_payload' }, 400);
   }
+
+  const receivedAt = new Date();
+  const maximumDeviceTime = receivedAt.getTime() + 5 * 60 * 1000;
+  const submittedTimes = [body.startedAt, ...body.attempts.flatMap((attempt) =>
+    attempt.attemptedAt ? [attempt.attemptedAt] : [])];
+  if (deviceSubmission && submittedTimes.some((value) => {
+    const timestamp = Date.parse(value);
+    return Number.isFinite(timestamp) && timestamp > maximumDeviceTime;
+  })) {
+    return deviceError('invalid_payload', 400);
+  }
+  const devicePayloadHash = deviceSubmission ? await sha256Hex(JSON.stringify(body)) : null;
 
   const existing = await env.DB.prepare(
     'SELECT * FROM multiplication_sessions WHERE child_profile_id = ? AND client_attempt_id = ? LIMIT 1',
   )
     .bind(child.id, body.clientAttemptId)
     .first<MultiplicationSessionRow>();
-  if (existing) return json({ result: await multiplicationCompletionResponse(env, child, existing, false) });
+  if (existing) {
+    if (deviceSubmission && existing.device_payload_hash !== devicePayloadHash) {
+      return deviceError('client_attempt_conflict', 409);
+    }
+    return json({ result: await multiplicationCompletionResponse(env, child, existing, false) });
+  }
 
   const config = {
     mode: body.mode,
@@ -939,8 +1683,12 @@ async function apiSubmitMultiplicationSession(
     durationSeconds: body.durationSeconds,
   };
   const { scored, scoreCorrect, scoreTotal } = scoreMultiplicationAttempts(config, body.attempts);
-  const completedAt = new Date().toISOString();
-  const startedAt = validIsoTimestamp(body.startedAt) ? new Date(body.startedAt).toISOString() : completedAt;
+  const completedAt = receivedAt.toISOString();
+  const submittedStart = Date.parse(body.startedAt);
+  const startedAt = validIsoTimestamp(body.startedAt) &&
+      (!deviceSubmission || submittedStart >= Date.UTC(2024, 0, 1))
+    ? new Date(body.startedAt).toISOString()
+    : completedAt;
   const xpAwarded = calculateMultiplicationXp(scoreCorrect, scoreTotal);
   const inputMethod = multiplicationSessionInputMethod(body.inputMethod, body.attempts.map((attempt) => attempt.inputMethod));
   const selectionKey = multiplicationSelectionKey(selectedFactors, body.durationSeconds, inputMethod);
@@ -958,8 +1706,9 @@ async function apiSubmitMultiplicationSession(
     env.DB.prepare(
       `INSERT INTO multiplication_sessions
        (id, child_profile_id, client_attempt_id, mode, selected_factors_json, selection_key, duration_seconds,
-        input_method, started_at, completed_at, score_correct, score_total, xp_awarded)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        input_method, started_at, completed_at, score_correct, score_total, xp_awarded,
+        device_payload_hash)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     ).bind(
       sessionId,
       child.id,
@@ -974,6 +1723,7 @@ async function apiSubmitMultiplicationSession(
       scoreCorrect,
       scoreTotal,
       xpAwarded,
+      devicePayloadHash,
     ),
     ...scored.map((attempt, index) =>
       env.DB.prepare(
@@ -990,7 +1740,8 @@ async function apiSubmitMultiplicationSession(
         attempt.isCorrect ? 1 : 0,
         attempt.responseMs ?? null,
         attempt.inputMethod ?? body.inputMethod,
-        body.attempts[index]?.attemptedAt && validIsoTimestamp(body.attempts[index].attemptedAt!)
+        body.attempts[index]?.attemptedAt && validIsoTimestamp(body.attempts[index].attemptedAt!) &&
+            (!deviceSubmission || Date.parse(body.attempts[index].attemptedAt!) >= Date.UTC(2024, 0, 1))
           ? new Date(body.attempts[index].attemptedAt!).toISOString()
           : completedAt,
       ),
@@ -1395,6 +2146,7 @@ async function apiCreatePracticeSet(parent: SessionParent, env: Env, request: Re
       now,
     ),
     ...practiceCardInsertStatements(env, practiceSetId, body.cards),
+    flashCardRevisionStatement(env, child.id, now),
   ];
   await env.DB.batch(statements);
 
@@ -1445,6 +2197,7 @@ async function apiUpdatePracticeSet(parent: SessionParent, env: Env, request: Re
     statements.push(env.DB.prepare('DELETE FROM practice_set_cards WHERE practice_set_id = ?').bind(practiceSet.id));
     statements.push(...practiceCardInsertStatements(env, practiceSet.id, body.cards));
   }
+  statements.push(flashCardRevisionStatement(env, child.id, now));
 
   await env.DB.batch(statements);
 
@@ -1919,7 +2672,7 @@ async function getVisiblePracticeSets(env: Env, childId: string, now: Date) {
          AND status = 'active'
          AND (starts_at IS NULL OR starts_at <= ?)
          AND (expires_at IS NULL OR expires_at > ?)
-       ORDER BY pinned DESC, COALESCE(expires_at, '9999-12-31T23:59:59.999Z'), created_at DESC`,
+       ORDER BY pinned DESC, updated_at DESC`,
     ).bind(childId, nowIso, nowIso),
   );
 }
@@ -2030,6 +2783,16 @@ function practiceCardInsertStatements(
       index + 1,
     ),
   );
+}
+
+function flashCardRevisionStatement(env: Env, childId: string, updatedAt: string) {
+  return env.DB.prepare(
+    `INSERT INTO child_content_revisions (child_profile_id, flash_cards_revision, updated_at)
+     VALUES (?, 1, ?)
+     ON CONFLICT(child_profile_id) DO UPDATE SET
+       flash_cards_revision = child_content_revisions.flash_cards_revision + 1,
+       updated_at = excluded.updated_at`,
+  ).bind(childId, updatedAt);
 }
 
 function practiceLessonId(practiceSetId: string) {
@@ -2680,12 +3443,13 @@ async function getRecentActivity(env: Env, childId: string) {
     lesson_title: string;
     track_title: string;
     track_slug: string;
+    activity_label: string | null;
   }>(
     env.DB.prepare(
       `SELECT * FROM (
          SELECT lesson_attempts.completed_at, lesson_attempts.score_correct, lesson_attempts.score_total,
                 lesson_attempts.xp_awarded, lessons.title as lesson_title, tracks.title as track_title,
-                tracks.slug as track_slug
+                tracks.slug as track_slug, NULL as activity_label
          FROM lesson_attempts
          JOIN lessons ON lessons.id = lesson_attempts.lesson_id
          JOIN units ON units.id = lessons.unit_id
@@ -2699,13 +3463,23 @@ async function getRecentActivity(env: Env, childId: string) {
                   ELSE 'Endless Practice'
                 END as lesson_title,
                 'Multiplication Facts' as track_title,
-                'multiplication-facts' as track_slug
+                'multiplication-facts' as track_slug,
+                NULL as activity_label
          FROM multiplication_sessions
          WHERE multiplication_sessions.child_profile_id = ?
+         UNION ALL
+         SELECT flash_card_study_sessions.completed_at, 0 as score_correct, 0 as score_total,
+                0 as xp_awarded, practice_sets.title as lesson_title,
+                'My Flash Cards' as track_title, 'flash-cards' as track_slug,
+                printf('Studied %d flash card%s', flash_card_study_sessions.unique_cards,
+                  CASE WHEN flash_card_study_sessions.unique_cards = 1 THEN '' ELSE 's' END) as activity_label
+         FROM flash_card_study_sessions
+         JOIN practice_sets ON practice_sets.id = flash_card_study_sessions.practice_set_id
+         WHERE flash_card_study_sessions.child_profile_id = ?
        )
        ORDER BY completed_at DESC
        LIMIT 6`,
-    ).bind(childId, childId),
+    ).bind(childId, childId, childId),
   );
 }
 
@@ -3001,6 +3775,98 @@ function httpsRedirect(url: URL) {
   return redirect(secureUrl, 308);
 }
 
+async function readBoundedJson(request: Request, maximumBytes: number) {
+  const declaredLength = Number(request.headers.get('Content-Length') ?? '0');
+  if (Number.isFinite(declaredLength) && declaredLength > maximumBytes) throw new Error('payload_too_large');
+  if (!request.body) return null;
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > maximumBytes) {
+      await reader.cancel('payload_too_large');
+      throw new Error('payload_too_large');
+    }
+    chunks.push(value);
+  }
+  const bytes = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return JSON.parse(new TextDecoder().decode(bytes)) as unknown;
+}
+
+async function sha256Hex(value: string) {
+  return toHex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value)));
+}
+
+function secureHashEqual(a: string, b: string) {
+  if (!/^[a-f0-9]{64}$/i.test(a) || !/^[a-f0-9]{64}$/i.test(b)) return false;
+  // Cloudflare's current SubtleCrypto has timingSafeEqual; the DOM lib used by Astro
+  // has not added it yet, so describe only that retrieved Workers extension here.
+  const workersSubtle = crypto.subtle as SubtleCrypto & {
+    timingSafeEqual?: (left: ArrayBufferView, right: ArrayBufferView) => boolean;
+  };
+  if (typeof workersSubtle.timingSafeEqual === 'function') {
+    return workersSubtle.timingSafeEqual(fromHex(a), fromHex(b));
+  }
+  // Node's WebCrypto test shim lacks the Workers-only primitive.
+  return constantTimeStringEqual(a, b);
+}
+
+async function pairingCodeHmac(secret: string, code: string) {
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+  return toHex(await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(code.toUpperCase())));
+}
+
+function randomPairingCode() {
+  const alphabet = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+  const bytes = crypto.getRandomValues(new Uint8Array(8));
+  return Array.from(bytes, (byte) => alphabet[byte & 31]).join('');
+}
+
+async function getContentRevision(env: Env, childId: string) {
+  const now = new Date().toISOString();
+  await env.DB.prepare(
+    `INSERT INTO child_content_revisions (child_profile_id, flash_cards_revision, updated_at)
+     VALUES (?, 0, ?) ON CONFLICT(child_profile_id) DO NOTHING`,
+  ).bind(childId, now).run();
+  const revision = await env.DB.prepare(
+    'SELECT * FROM child_content_revisions WHERE child_profile_id = ? LIMIT 1',
+  ).bind(childId).first<ContentRevisionRow>();
+  return revision ?? { child_profile_id: childId, flash_cards_revision: 0, updated_at: now };
+}
+
+function deviceHeaders(extra: HeadersInit = {}) {
+  const headers = new Headers(extra);
+  headers.set('Content-Type', 'application/json; charset=utf-8');
+  headers.set('Cache-Control', 'private, no-store');
+  return headers;
+}
+
+function deviceJson(data: unknown, status = 200, extraHeaders: HeadersInit = {}) {
+  return new Response(JSON.stringify(data), { status, headers: deviceHeaders(extraHeaders) });
+}
+
+function deviceError(error: string, status: number, retryAfterSeconds?: number) {
+  return deviceJson(
+    { error, ...(retryAfterSeconds ? { retryAfterSeconds } : {}) },
+    status,
+    retryAfterSeconds ? { 'Retry-After': String(retryAfterSeconds) } : {},
+  );
+}
+
 function shouldRedirectToHttps(request: Request, url: URL) {
   const forwardedProtocol = request.headers.get('X-Forwarded-Proto')?.split(',')[0]?.trim().toLowerCase();
   const host = request.headers.get('Host')?.split(':')[0]?.trim().toLowerCase();
@@ -3032,7 +3898,7 @@ function json(data: unknown, status = 200) {
     status,
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'no-store',
+      'Cache-Control': 'private, no-store',
     },
   });
 }

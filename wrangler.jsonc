@@ -4,7 +4,7 @@
   // deployment-specific Cloudflare values there.
   "name": "buddy-blocks",
   "main": "src/worker.ts",
-  "compatibility_date": "2026-06-01",
+  "compatibility_date": "2026-08-23",
   "assets": {
     "binding": "ASSETS",
     "directory": "./dist",
