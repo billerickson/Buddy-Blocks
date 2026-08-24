@@ -118,9 +118,9 @@ Each visible set exposes a virtual standard lesson ID:
 practice_set_<practiceSetId>
 ```
 
-The Worker serves that virtual lesson through the normal lesson API. Each card generates three questions in the same exposure-first order used by canonical Vocabulary lessons:
+The Worker serves that virtual lesson through the normal lesson API. Each card generates easy and hard questions in the same exposure-first order used by canonical Vocabulary lessons. Cards with an example sentence also begin with a context question:
 
-- Context: a `passage-question` using the example sentence when provided, or a short definition sentence when no example exists.
+- Context, when an example is provided: a `passage-question` using that sentence. Cards without an example skip this stage so the definition is not shown before the child answers.
 - Easy: a `flash-card` with the term on the card and definition choices.
 - Hard: a `flash-card` with the definition/example on the card and typed accepted answers.
 

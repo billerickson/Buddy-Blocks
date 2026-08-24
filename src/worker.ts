@@ -2816,25 +2816,25 @@ function practiceCardIdFromQuestionId(questionId: string) {
 function practiceQuestionsFromCards(cards: PracticeSetCardRow[]): LessonQuestion[] {
   const definitions = uniqueStrings(cards.map((card) => card.definition ?? card.term));
 
-  const contextQuestions: LessonQuestion[] = cards.map((card) => {
+  const contextQuestions: LessonQuestion[] = cards.flatMap((card) => {
+    if (!card.example) return [];
+
     const answer = card.definition ?? card.term;
     const choices = uniqueStrings([answer, ...definitions.filter((definition) => definition !== answer)]).slice(0, 4);
 
-    return {
+    return [{
       id: `practice_question_${card.id}_context`,
       type: 'passage-question' as const,
       prompt: 'Read the context before the flash cards.',
       payload: {
         passageTitle: card.term,
-        passage: card.example ?? `The word "${card.term}" means ${answer}.`,
+        passage: card.example,
         question: `What does "${card.term}" mean here?`,
         choices,
         correctAnswer: answer,
       },
-      explanation: card.example
-        ? `The context sentence supports this meaning: ${answer}.`
-        : `The word "${card.term}" means ${answer}.`,
-    };
+      explanation: `The context sentence supports this meaning: ${answer}.`,
+    }];
   });
 
   const easyQuestions: LessonQuestion[] = cards.map((card) => {

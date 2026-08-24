@@ -950,7 +950,7 @@ describe('worker practice set APIs', () => {
     });
   });
 
-  it('renders and completes a practice set as context, easy card, and hard card questions', async () => {
+  it('renders context only when supplied, then completes easy and hard card questions', async () => {
     const { env, sqlite } = createEnv();
     const created = await requestJson('/api/parent/children/mira/practice-sets', env, {
       method: 'POST',
@@ -975,7 +975,7 @@ describe('worker practice set APIs', () => {
       unit: { title: 'Weekly Practice' },
       track: { subject: 'vocabulary', title: 'Vocabulary' },
     });
-    expect(lesson.body.lesson.questions).toHaveLength(6);
+    expect(lesson.body.lesson.questions).toHaveLength(5);
     expect(lesson.body.lesson.questions[0]).toMatchObject({
       type: 'passage-question',
       prompt: 'Read the context before the flash cards.',
@@ -987,7 +987,15 @@ describe('worker practice set APIs', () => {
         choices: expect.arrayContaining(['very big', 'quick and light']),
       },
     });
-    expect(lesson.body.lesson.questions[2]).toMatchObject({
+    expect(lesson.body.lesson.questions).not.toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: 'passage-question',
+          payload: expect.objectContaining({ passageTitle: 'nimble' }),
+        }),
+      ]),
+    );
+    expect(lesson.body.lesson.questions[1]).toMatchObject({
       type: 'flash-card',
       prompt: 'Choose the best meaning.',
       payload: {
@@ -997,7 +1005,7 @@ describe('worker practice set APIs', () => {
         choices: expect.arrayContaining(['very big', 'quick and light']),
       },
     });
-    expect(lesson.body.lesson.questions[4]).toMatchObject({
+    expect(lesson.body.lesson.questions[3]).toMatchObject({
       type: 'flash-card',
       prompt: 'Type the vocabulary word.',
       payload: {
@@ -1024,13 +1032,13 @@ describe('worker practice set APIs', () => {
 
     expect(completion.response.status).toBe(200);
     expect(completion.body.result).toMatchObject({
-      scoreCorrect: 6,
-      scoreTotal: 6,
+      scoreCorrect: 5,
+      scoreTotal: 5,
       heartsRemaining: 5,
       nextLesson: null,
     });
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_set_attempts')).toBe(1);
-    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(6);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(5);
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM lesson_attempts')).toBe(0);
 
     const retry = await requestJson(`/api/children/mira/lessons/${lessonId}`, env, {
@@ -1050,7 +1058,7 @@ describe('worker practice set APIs', () => {
       xpAwarded: completion.body.result.xpAwarded,
     });
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_set_attempts')).toBe(1);
-    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(6);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(5);
 
     await requestJson(`/api/parent/children/mira/practice-sets/${created.body.practiceSet.id}`, env, {
       method: 'PATCH',
