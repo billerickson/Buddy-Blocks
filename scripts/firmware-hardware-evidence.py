@@ -23,7 +23,6 @@ from typing import TextIO
 
 
 BOOT_MARKER = "BUDDY_BOOT_READY"
-STORAGE_MARKER = "Previous LittleFS proof record verified"
 METRICS_MARKER = "metrics path="
 FATAL_PATTERNS = (
     "Guru Meditation Error",
@@ -41,6 +40,7 @@ class BootReady:
     surface: str
     paired: bool
     display_frame: bool
+    storage_verified: bool
 
 
 @dataclass(frozen=True)
@@ -69,20 +69,32 @@ def parse_boot_ready(line: str) -> BootReady | None:
         if "=" in token:
             key, value = token.split("=", 1)
             fields[key] = value
-    required = {"firmware_ms", "surface", "paired", "display_frame"}
+    required = {"firmware_ms", "surface", "paired", "display_frame", "storage"}
     if not required.issubset(fields):
         return None
     try:
         firmware_ms = int(fields["firmware_ms"])
         paired = int(fields["paired"])
         display_frame = int(fields["display_frame"])
+        storage = int(fields["storage"])
     except ValueError:
         return None
-    if firmware_ms < 0 or paired not in (0, 1) or display_frame not in (0, 1):
+    if (
+        firmware_ms < 0
+        or paired not in (0, 1)
+        or display_frame not in (0, 1)
+        or storage not in (0, 1)
+    ):
         return None
     if not re.fullmatch(r"[a-z0-9-]+", fields["surface"]):
         return None
-    return BootReady(firmware_ms, fields["surface"], bool(paired), bool(display_frame))
+    return BootReady(
+        firmware_ms,
+        fields["surface"],
+        bool(paired),
+        bool(display_frame),
+        bool(storage),
+    )
 
 
 def fatal_reason(lines: list[str]) -> str | None:
@@ -103,8 +115,8 @@ def evaluate_reboot(
 ) -> RebootResult:
     fatal = fatal_reason(lines)
     markers = [parsed for line in lines if (parsed := parse_boot_ready(line)) is not None]
-    storage_verified = any(STORAGE_MARKER in line for line in lines)
     ready = markers[-1] if markers else None
+    storage_verified = ready.storage_verified if ready is not None else False
     reasons: list[str] = []
     if fatal is not None:
         reasons.append(fatal)
@@ -128,7 +140,7 @@ def evaluate_reboot(
         if not ready.display_frame:
             reasons.append("no completed display frame")
     if not storage_verified:
-        reasons.append("LittleFS probe verification marker missing")
+        reasons.append("boot-ready marker did not confirm LittleFS")
     return RebootResult(
         iteration=iteration,
         passed=not reasons,
@@ -466,12 +478,14 @@ def run_soak(args: argparse.Namespace, repo_root: Path) -> int:
 def run_self_test() -> int:
     good = [
         "I buddy_m0: Previous LittleFS proof record verified (nonce suffix=1234)",
-        "I buddy_app: BUDDY_BOOT_READY firmware_ms=2840 surface=home paired=1 display_frame=1",
+        "I buddy_app: BUDDY_BOOT_READY firmware_ms=2840 surface=home paired=1 display_frame=1 storage=1",
     ]
     parsed = parse_boot_ready(good[1])
-    assert parsed == BootReady(2840, "home", True, True)
+    assert parsed == BootReady(2840, "home", True, True, True)
     assert parse_boot_ready("BUDDY_BOOT_READY surface=home") is None
-    assert parse_boot_ready("BUDDY_BOOT_READY firmware_ms=x surface=home paired=1 display_frame=1") is None
+    assert parse_boot_ready(
+        "BUDDY_BOOT_READY firmware_ms=x surface=home paired=1 display_frame=1 storage=1"
+    ) is None
     passed = evaluate_reboot(1, good, 3100, "home", 5000, True)
     assert passed.passed
     late = evaluate_reboot(
@@ -498,6 +512,10 @@ def run_self_test() -> int:
     assert not wrong_surface.passed and "expected surface" in wrong_surface.reason
     duplicate = evaluate_reboot(5, good + [good[1]], 3000, "home", 5000, True)
     assert not duplicate.passed and "found 2" in duplicate.reason
+    storage_failed = evaluate_reboot(
+        6, [good[1].replace("storage=1", "storage=0")], 3000, "home", 5000, True
+    )
+    assert not storage_failed.passed and "LittleFS" in storage_failed.reason
     print("firmware hardware evidence parser: PASS")
     return 0
 

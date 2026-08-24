@@ -59,7 +59,8 @@ Recorded transform and rationale: Pending.
 - [ ] Probe remains valid after a normal reboot.
 - [ ] Probe remains valid after controlled power removal.
 - [ ] Paired cached Home produces `BUDDY_BOOT_READY` within 5,000 ms with one
-      completed display frame while the router is unavailable.
+      completed display frame and successful LittleFS initialization while the
+      router is unavailable.
 - [ ] Machine-checked 100-reboot harness passes every iteration.
 - [ ] ESP32-C6 hosted link initializes.
 - [ ] 2.4 GHz WPA2 network obtains an IPv4 address.

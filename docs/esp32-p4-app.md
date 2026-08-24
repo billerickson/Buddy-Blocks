@@ -1310,8 +1310,9 @@ tests and are not claimed by simulator evidence.
 
 The complete firmware now emits `BUDDY_BOOT_READY` only after the initial LVGL
 surface is rendered and a newer display refresh completes. The marker records
-firmware readiness time, surface name, pairing state, and frame completion but
-contains no child content, credential, or stable device identifier. A guarded,
+firmware readiness time, surface name, pairing state, frame completion, and
+successful LittleFS initialization but contains no child content, credential,
+or stable device identifier. A guarded,
 non-destructive host harness performs the 100-reset gate and the eight-hour
 screen-on serial observation, writes ignored raw logs plus JSON summaries, and
 has a board-free parser self-test in CI. Reset automation does not stand in for

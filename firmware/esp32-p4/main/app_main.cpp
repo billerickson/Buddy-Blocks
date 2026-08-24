@@ -599,7 +599,7 @@ extern "C" void app_main(void)
     const uint64_t firmware_ready_ms = static_cast<uint64_t>(esp_timer_get_time() / 1000);
     ESP_LOGI(kTag,
              "BUDDY_BOOT_READY firmware_ms=%" PRIu64
-             " surface=%s paired=%d display_frame=%d",
+             " surface=%s paired=%d display_frame=%d storage=1",
              firmware_ready_ms, buddy_ui_current_screen_name(), sync.paired ? 1 : 0,
              first_frame == ESP_OK ? 1 : 0);
     if (firmware_ready_ms > 5000 || first_frame != ESP_OK) {
