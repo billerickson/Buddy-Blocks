@@ -38,9 +38,11 @@ scenarios=(
   multiplication-selection
   multiplication-no-selection
   multiplication-locked-feedback
+  multiplication-completed-recovery
   mastery-overview
   mastery-detail
   flash-card-reveal
+  flash-completed-recovery
   flash-library-empty
   wifi-selection
   wifi-scanning

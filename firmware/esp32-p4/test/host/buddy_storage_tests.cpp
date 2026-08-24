@@ -104,6 +104,21 @@ int main()
     require(store.list_outbox(events) == Result::kOk && events.empty(),
             "quarantined item leaves active queue");
 
+    const std::vector<uint8_t> large_event(kMaxContentBytes, static_cast<uint8_t>('x'));
+    for (int index = 0; index < 7; ++index) {
+        require(store.enqueue("large_" + std::to_string(index), large_event) == Result::kOk,
+                "outbox fills to its byte boundary deterministically");
+    }
+    require(store.enqueue("large_0", large_event) == Result::kOk,
+            "identical completion replay succeeds even when another full-size event will not fit");
+    std::vector<uint8_t> conflicting_event = large_event;
+    conflicting_event.front() = static_cast<uint8_t>('y');
+    require(store.enqueue("large_0", conflicting_event) == Result::kCorrupt,
+            "same activity ID with different content still fails closed");
+    require(store.enqueue("large_7", large_event) == Result::kOutboxFull,
+            "new activity is rejected at the eight MiB outbox boundary");
+    require(store.purge_outbox() == Result::kOk, "large outbox fixture is removed");
+
     std::error_code cleanup_error;
     std::filesystem::remove_all(path, cleanup_error);
     require(!cleanup_error, "temporary storage root removed");

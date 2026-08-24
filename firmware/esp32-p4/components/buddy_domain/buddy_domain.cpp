@@ -167,6 +167,7 @@ std::string encode_multiplication_session(const MultiplicationSessionState &stat
         packed << attempt.fact.factor << ',' << attempt.fact.multiplier << ',' << attempt.answer
                << ',' << attempt.response_ms;
     }
+    packed << '|' << (state.completed ? 1 : 0);
     return "{\"schemaVersion\":1,\"state\":\"" + packed.str() + "\"}";
 }
 
@@ -185,7 +186,10 @@ std::optional<MultiplicationSessionState> decode_multiplication_session(const st
                                            json.size() - std::char_traits<char>::length(prefix) -
                                                std::char_traits<char>::length(suffix));
     const auto fields = split(packed, '|');
-    if (fields.size() != 12) {
+    // The completion marker was added before the first production release.
+    // Accept the original 12-field development record as an unfinished
+    // session so early board images remain recoverable.
+    if (fields.size() != 12 && fields.size() != 13) {
         return std::nullopt;
     }
 
@@ -207,6 +211,13 @@ std::optional<MultiplicationSessionState> decode_multiplication_session(const st
     state.timed = timed == 1;
     state.feedback_visible = feedback == 1;
     state.last_correct = last_correct == 1;
+    if (fields.size() == 13) {
+        int completed = 0;
+        if (!parse_integer(fields[12], completed) || completed < 0 || completed > 1) {
+            return std::nullopt;
+        }
+        state.completed = completed == 1;
+    }
 
     for (const std::string &factor_value : split(fields[9], ',')) {
         int factor = 0;
@@ -249,7 +260,8 @@ std::optional<MultiplicationSessionState> decode_multiplication_session(const st
         }
     }
     if (state.selected_factors.empty() || state.deck.empty() ||
-        state.deck_index > state.deck.size() || state.attempts.size() > 500 ||
+        state.deck_index > state.deck.size() ||
+        state.attempts.size() > kMaxMultiplicationAttempts ||
         state.score_correct > static_cast<int>(state.attempts.size())) {
         return std::nullopt;
     }
@@ -302,6 +314,7 @@ std::string encode_flash_session(const FlashSessionState &state)
         packed << review.card_id << ',' << (review.got_it ? 1 : 0) << ','
                << std::min<uint32_t>(review.response_ms, 600000);
     }
+    packed << '|' << (state.completed ? 1 : 0);
     return "{\"schemaVersion\":1,\"state\":\"" + packed.str() + "\"}";
 }
 
@@ -319,8 +332,11 @@ std::optional<FlashSessionState> decode_flash_session(const std::string &json)
         split(json.substr(prefix_size, json.size() - prefix_size - suffix_size), '|');
     FlashSessionState state;
     int revealed = 0;
-    if (fields.size() != 7 || !safe_identifier(fields[0]) || !safe_identifier(fields[1]) ||
-        !parse_integer(fields[2], state.content_revision) ||
+    // Seven-field development records predate the durable completion marker
+    // and are interpreted as in-progress. Eight-field records can be handed
+    // to the outbox again after a reset without changing their payload.
+    if ((fields.size() != 7 && fields.size() != 8) || !safe_identifier(fields[0]) ||
+        !safe_identifier(fields[1]) || !parse_integer(fields[2], state.content_revision) ||
         !parse_integer(fields[3], state.seed) || !parse_integer(fields[4], state.elapsed_ms) ||
         !parse_integer(fields[5], revealed) || revealed < 0 || revealed > 1) {
         return std::nullopt;
@@ -328,6 +344,13 @@ std::optional<FlashSessionState> decode_flash_session(const std::string &json)
     state.client_attempt_id = fields[0];
     state.practice_set_id = fields[1];
     state.revealed = revealed == 1;
+    if (fields.size() == 8) {
+        int completed = 0;
+        if (!parse_integer(fields[7], completed) || completed < 0 || completed > 1) {
+            return std::nullopt;
+        }
+        state.completed = completed == 1;
+    }
     if (!fields[6].empty()) {
         for (const std::string &value : split(fields[6], ';')) {
             const auto parts = split(value, ',');
@@ -341,7 +364,7 @@ std::optional<FlashSessionState> decode_flash_session(const std::string &json)
             review.card_id = parts[0];
             review.got_it = got_it == 1;
             state.reviews.push_back(std::move(review));
-            if (state.reviews.size() > 1000)
+            if (state.reviews.size() > kMaxFlashReviews)
                 return std::nullopt;
         }
     }

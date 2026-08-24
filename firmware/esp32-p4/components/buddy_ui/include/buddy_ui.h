@@ -40,6 +40,7 @@ typedef bool (*buddy_ui_write_record_fn)(void *context, const char *relative_pat
 typedef bool (*buddy_ui_remove_record_fn)(void *context, const char *relative_path);
 typedef bool (*buddy_ui_enqueue_event_fn)(void *context, const char *stable_event_id,
                                           const char *payload, size_t payload_size);
+typedef size_t (*buddy_ui_queued_event_count_fn)(void *context);
 typedef bool (*buddy_ui_new_event_id_fn)(void *context, const char *event_prefix, char *output,
                                          size_t output_capacity);
 typedef uint64_t (*buddy_ui_monotonic_ms_fn)(void *context);
@@ -108,6 +109,7 @@ typedef struct {
     buddy_ui_write_record_fn write_record;
     buddy_ui_remove_record_fn remove_record;
     buddy_ui_enqueue_event_fn enqueue_event;
+    buddy_ui_queued_event_count_fn queued_event_count;
     buddy_ui_new_event_id_fn new_event_id;
     buddy_ui_monotonic_ms_fn monotonic_ms;
     buddy_ui_wifi_scan_fn wifi_scan;

@@ -1368,3 +1368,33 @@ snapshot and shows an orange low-storage warning below 2 MiB, while atomic
 writes continue preserving the separate 1 MiB hard headroom. A deterministic
 800 × 480 low-storage golden verifies that the warning and Sync action fit
 without displacing the learning cards.
+
+### 2026-08-24: Completed sessions use a replayable storage-to-outbox handoff
+
+A completion audit found a narrow power-loss window after a learning result was
+persisted but before its active-session record was removed. A completed flash
+round could return to its summary without retrying the outbox, and recomputing
+its elapsed time on a later retry could change the payload associated with the
+same idempotency ID. Completed multiplication and flash-card records now carry
+a backward-compatible completion marker. Their elapsed time is frozen at
+completion, the marker must be durably written before enqueue begins, and boot
+retries a completed record before removing it. The same immutable payload is
+therefore safe to replay whether power failed immediately before or after the
+outbox rename.
+
+The storage layer now checks an existing event before enforcing count/byte
+capacity, so an identical replay succeeds even when the queue is full; a
+different payload for the same ID still fails closed. UI queue totals are read
+back from the store instead of being guessed after a replay. The boot sequence
+also recovers a staged bootstrap snapshot alongside flash cards and active
+sessions.
+
+The same audit aligned interactive session bounds with the existing device API:
+one multiplication outbox record stops at 500 attempts and one flash study
+record stops at 1,000 reviews. Practice can start another round, but firmware no
+longer creates a locally valid activity that the Worker must reject solely for
+exceeding its array limit. Host tests cover old-record compatibility, full-
+outbox duplicate replay, conflict rejection, and both completed-session boot
+handoffs. Two reviewed 800 × 480 recovery screenshots bring the deterministic
+golden set to 34. Physical power-cut and exactly-once D1 evidence remain pending
+the board test.

@@ -12,6 +12,8 @@ constexpr int kMinFactor = 1;
 constexpr int kMaxFactor = 12;
 constexpr int kMinMultiplier = 1;
 constexpr int kMaxMultiplier = 12;
+constexpr size_t kMaxMultiplicationAttempts = 500;
+constexpr size_t kMaxFlashReviews = 1000;
 
 struct MultiplicationFact {
     int factor = 0;
@@ -48,6 +50,7 @@ struct MultiplicationSessionState {
     int score_correct = 0;
     bool feedback_visible = false;
     bool last_correct = false;
+    bool completed = false;
 };
 
 std::string encode_multiplication_session(const MultiplicationSessionState &state);
@@ -126,6 +129,7 @@ struct FlashSessionState {
     uint64_t elapsed_ms = 0;
     bool revealed = false;
     std::vector<FlashSessionReview> reviews;
+    bool completed = false;
 };
 
 std::string encode_flash_session(const FlashSessionState &state);

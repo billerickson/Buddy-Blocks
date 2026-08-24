@@ -194,8 +194,8 @@ the intended write.
 | Cut point | Setup and observation after reboot |
 | --- | --- |
 | Content temporary-file write | Change the website section so its revision advances, start Sync now, and remove power while Syncing is visible. Reboot offline. The prior complete snapshot or the new complete snapshot may load; a partial/corrupt snapshot may not. Reconnect and retry successfully. |
-| Multiplication outbox write | Work offline, finish a session, and remove power immediately as completion is committed. After reboot, the session is either safely resumable or appears once in the queue. Reconnect and confirm no more than one D1 session for its client ID. |
-| Flash-card outbox write | Work offline, finish a study round, and remove power immediately as its summary is committed. Reboot and verify the same all-or-nothing/exact-once behavior. |
+| Multiplication outbox write | Work offline, finish a session, and remove power immediately as completion is committed. After reboot, an unfinished record is resumable and a completed record is handed to the outbox automatically; it must not require answering another question. Reconnect and confirm exactly one D1 session for its client ID. |
+| Flash-card outbox write | Work offline, finish a study round, and remove power immediately as its summary is committed. After reboot, the completed summary must return and retry the same frozen-duration payload automatically. Reconnect and confirm exactly one D1 session for its client ID. |
 | OTA download | Start a pilot OTA only after USB recovery passes, remove power while download progress is changing, then reboot. The old slot must boot and remain usable. |
 | OTA switch/reboot | Remove power after verification/reboot-ready and around the first boot into the new slot. The old or valid new image must boot; the board may not brick or lose child state. |
 

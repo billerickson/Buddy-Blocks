@@ -102,6 +102,7 @@ struct AppState {
     uint64_t question_started_ms = 0;
     std::string client_attempt_id;
     bool session_saved = false;
+    bool multiplication_session_completed = false;
     bool storage_warning = false;
     lv_timer_t *timed_timer = nullptr;
     lv_obj_t *timer_label = nullptr;
@@ -119,6 +120,7 @@ struct AppState {
     uint64_t flash_card_started_ms = 0;
     uint32_t flash_content_revision = 0;
     bool flash_session_saved = false;
+    bool flash_session_completed = false;
     size_t touch_grid_taps = 0;
     int wifi_state = 1;
     uint32_t wifi_revision = 0;
@@ -175,8 +177,10 @@ constexpr const char *kFlashSessionPath = "sessions/flash-card-active.json";
 
 std::vector<int> selected_factors();
 void finish_multiplication(lv_event_t *);
+bool retain_completed_multiplication();
 bool restore_flash_session(const char *json);
 void finish_flash_round(lv_event_t *);
+bool retain_completed_flash_round();
 void sync_action(lv_event_t *);
 void home_sync_action(lv_event_t *);
 void firmware_check_action(lv_event_t *);
@@ -230,13 +234,16 @@ MultiplicationSessionState multiplication_state()
     const uint64_t current = now_ms();
     state.elapsed_ms =
         s_app.session_elapsed_offset_ms +
-        (current >= s_app.session_started_ms ? current - s_app.session_started_ms : 0);
+        (!s_app.multiplication_session_completed && current >= s_app.session_started_ms
+             ? current - s_app.session_started_ms
+             : 0);
     state.deck = s_app.deck;
     state.deck_index = s_app.deck_index;
     state.attempts = s_app.attempts;
     state.score_correct = s_app.score_correct;
     state.feedback_visible = s_app.feedback_visible;
     state.last_correct = s_app.last_correct;
+    state.completed = s_app.multiplication_session_completed;
     return state;
 }
 
@@ -594,6 +601,7 @@ void start_multiplication(lv_event_t *)
     s_app.feedback_visible = false;
     s_app.last_correct = false;
     s_app.session_saved = false;
+    s_app.multiplication_session_completed = false;
     s_app.storage_warning = false;
     s_app.session_started_ms = now_ms();
     s_app.session_elapsed_offset_ms = 0;
@@ -787,6 +795,13 @@ void keypad_event(lv_event_t *event)
 
 void next_fact(lv_event_t *)
 {
+    // The device API accepts at most 500 attempts in one idempotent session.
+    // Practice remains repeatable, but a single durable outbox record never
+    // grows beyond the server contract or becomes impossible to upload.
+    if (s_app.attempts.size() >= buddy::domain::kMaxMultiplicationAttempts) {
+        finish_multiplication(nullptr);
+        return;
+    }
     const MultiplicationFact previous = s_app.deck[s_app.deck_index];
     ++s_app.deck_index;
     s_app.answer.clear();
@@ -802,26 +817,39 @@ void next_fact(lv_event_t *)
     navigate(Screen::kMultiplicationQuestion);
 }
 
-void finish_multiplication(lv_event_t *)
+bool retain_completed_multiplication()
 {
-    if (s_app.session_saved) {
-        navigate(Screen::kMultiplicationSummary);
-        return;
-    }
+    if (s_app.session_saved)
+        return true;
     if (s_app.timed_timer != nullptr) {
         lv_timer_delete(s_app.timed_timer);
         s_app.timed_timer = nullptr;
     }
     s_app.timer_label = nullptr;
+    if (!s_app.multiplication_session_completed) {
+        const uint64_t current = now_ms();
+        if (current >= s_app.session_started_ms) {
+            s_app.session_elapsed_offset_ms += current - s_app.session_started_ms;
+        }
+        s_app.session_started_ms = current;
+        s_app.multiplication_session_completed = true;
+    }
+    // Persist the completion marker before the immutable outbox handoff. A
+    // reboot can then repeat the exact same client ID and payload if power is
+    // lost before the active record is removed.
+    if (!persist_multiplication())
+        return false;
     const MultiplicationSessionState state = multiplication_state();
-    (void)persist_multiplication();
     bool retained = true;
-    if (s_app.bootstrap.paired && s_services.enqueue_event != nullptr && !state.attempts.empty()) {
+    if (s_app.bootstrap.paired && !state.attempts.empty()) {
         const std::string payload = buddy::domain::multiplication_submission_json(state);
-        retained = s_services.enqueue_event(s_services.context, state.client_attempt_id.c_str(),
+        retained = s_services.enqueue_event != nullptr &&
+                   s_services.enqueue_event(s_services.context, state.client_attempt_id.c_str(),
                                             payload.data(), payload.size());
         if (retained) {
-            ++s_app.bootstrap.queued_events;
+            s_app.bootstrap.queued_events = s_services.queued_event_count != nullptr
+                                                ? s_services.queued_event_count(s_services.context)
+                                                : s_app.bootstrap.queued_events;
         }
     }
     if (!s_app.bootstrap.paired || state.attempts.empty() || retained) {
@@ -831,6 +859,12 @@ void finish_multiplication(lv_event_t *)
     } else {
         s_app.storage_warning = true;
     }
+    return retained;
+}
+
+void finish_multiplication(lv_event_t *)
+{
+    (void)retain_completed_multiplication();
     notify_activity_state();
     navigate(Screen::kMultiplicationSummary);
 }
@@ -879,8 +913,12 @@ void render_multiplication_question()
                values[index] == -1 ? kBerry : kPaper, keypad_event, values[index],
                !s_app.feedback_visible && enter_enabled);
     }
-    confirm_bar(s_app.feedback_visible ? "Next" : "Finish session", true,
-                s_app.feedback_visible ? next_fact : finish_multiplication);
+    const char *action =
+        s_app.feedback_visible && s_app.attempts.size() >= buddy::domain::kMaxMultiplicationAttempts
+            ? "Save 500-question round"
+        : s_app.feedback_visible ? "Next"
+                                 : "Finish session";
+    confirm_bar(action, true, s_app.feedback_visible ? next_fact : finish_multiplication);
 }
 
 void render_multiplication_summary()
@@ -971,9 +1009,12 @@ FlashSessionState current_flash_state()
     state.seed = s_app.flash_seed;
     const uint64_t current = now_ms();
     state.elapsed_ms = s_app.flash_elapsed_offset_ms +
-                       (current >= s_app.flash_started_ms ? current - s_app.flash_started_ms : 0);
+                       (!s_app.flash_session_completed && current >= s_app.flash_started_ms
+                            ? current - s_app.flash_started_ms
+                            : 0);
     state.revealed = s_app.flash_round != nullptr && s_app.flash_round->revealed();
     state.reviews = s_app.flash_reviews;
+    state.completed = s_app.flash_session_completed;
     return state;
 }
 
@@ -1013,6 +1054,7 @@ bool begin_flash_round(size_t section_index)
     s_app.flash_started_ms = now_ms();
     s_app.flash_card_started_ms = s_app.flash_started_ms;
     s_app.flash_session_saved = false;
+    s_app.flash_session_completed = false;
     s_app.storage_warning = false;
     s_app.flash_client_attempt_id.clear();
     if (s_app.bootstrap.paired && s_services.new_event_id != nullptr) {
@@ -1110,59 +1152,83 @@ std::string flash_card_fingerprint(const FlashCard &card)
     return std::string(64, '0');
 }
 
-void finish_flash_round(lv_event_t *)
+bool retain_completed_flash_round()
 {
-    if (!s_app.flash_round || s_app.flash_session_saved) {
-        navigate(Screen::kFlashSummary);
-        return;
-    }
-    bool retained = true;
-    if (s_app.bootstrap.paired && !s_app.flash_client_attempt_id.empty() &&
-        s_services.enqueue_event != nullptr) {
-        const auto summary = s_app.flash_round->summary();
-        const FlashSessionState state = current_flash_state();
-        std::unordered_map<std::string, unsigned> shown;
-        std::ostringstream json;
-        json << "{\"eventType\":\"flash_card_session\",\"body\":{"
-             << "\"clientAttemptId\":\"" << s_app.flash_client_attempt_id << "\","
-             << "\"practiceSetId\":\"" << s_app.flash_section_id << "\","
-             << "\"contentRevision\":" << s_app.flash_content_revision << ','
-             << "\"durationSeconds\":" << std::min<uint64_t>(state.elapsed_ms / 1000, 86400)
-             << ",\"uniqueCards\":" << summary.unique_studied
-             << ",\"firstPassGotIt\":" << summary.first_pass_got_it
-             << ",\"totalReviews\":" << summary.total_reviews << ",\"reviews\":[";
-        bool first = true;
-        for (const FlashSessionReview &review : s_app.flash_reviews) {
-            const FlashCard *card = flash_card_by_id(review.card_id);
-            if (card == nullptr)
-                continue;
-            const unsigned shown_count = ++shown[review.card_id];
-            if (!first)
-                json << ',';
-            first = false;
-            json << "{\"cardId\":\"" << review.card_id << "\","
-                 << "\"cardFingerprint\":\"" << flash_card_fingerprint(*card) << "\","
-                 << "\"rating\":\"" << (review.got_it ? "got_it" : "again") << "\","
-                 << "\"shownCount\":" << shown_count
-                 << ",\"responseMs\":" << std::min<uint32_t>(review.response_ms, 600000) << '}';
+    if (!s_app.flash_round)
+        return false;
+    if (s_app.flash_session_saved)
+        return true;
+    if (!s_app.flash_session_completed) {
+        const uint64_t current = now_ms();
+        if (current >= s_app.flash_started_ms) {
+            s_app.flash_elapsed_offset_ms += current - s_app.flash_started_ms;
         }
-        json << "]}}";
-        const std::string payload = json.str();
-        retained =
-            s_services.enqueue_event(s_services.context, s_app.flash_client_attempt_id.c_str(),
-                                     payload.data(), payload.size());
+        s_app.flash_started_ms = current;
+        s_app.flash_session_completed = true;
+    }
+    // The completion bit and frozen elapsed time are written before enqueue.
+    // This makes the payload byte-identical when boot recovery repeats a
+    // handoff interrupted immediately before or after the outbox rename.
+    if (!persist_flash_session())
+        return false;
+    bool retained = true;
+    if (s_app.bootstrap.paired && !s_app.flash_client_attempt_id.empty()) {
+        if (s_services.enqueue_event == nullptr) {
+            retained = false;
+        } else {
+            const auto summary = s_app.flash_round->summary();
+            const FlashSessionState state = current_flash_state();
+            std::unordered_map<std::string, unsigned> shown;
+            std::ostringstream json;
+            json << "{\"eventType\":\"flash_card_session\",\"body\":{"
+                 << "\"clientAttemptId\":\"" << s_app.flash_client_attempt_id << "\","
+                 << "\"practiceSetId\":\"" << s_app.flash_section_id << "\","
+                 << "\"contentRevision\":" << s_app.flash_content_revision << ','
+                 << "\"durationSeconds\":" << std::min<uint64_t>(state.elapsed_ms / 1000, 86400)
+                 << ",\"uniqueCards\":" << summary.unique_studied
+                 << ",\"firstPassGotIt\":" << summary.first_pass_got_it
+                 << ",\"totalReviews\":" << summary.total_reviews << ",\"reviews\":[";
+            bool first = true;
+            for (const FlashSessionReview &review : s_app.flash_reviews) {
+                const FlashCard *card = flash_card_by_id(review.card_id);
+                if (card == nullptr)
+                    continue;
+                const unsigned shown_count = ++shown[review.card_id];
+                if (!first)
+                    json << ',';
+                first = false;
+                json << "{\"cardId\":\"" << review.card_id << "\","
+                     << "\"cardFingerprint\":\"" << flash_card_fingerprint(*card) << "\","
+                     << "\"rating\":\"" << (review.got_it ? "got_it" : "again") << "\","
+                     << "\"shownCount\":" << shown_count
+                     << ",\"responseMs\":" << std::min<uint32_t>(review.response_ms, 600000) << '}';
+            }
+            json << "]}}";
+            const std::string payload = json.str();
+            retained =
+                s_services.enqueue_event(s_services.context, s_app.flash_client_attempt_id.c_str(),
+                                         payload.data(), payload.size());
+        }
     }
     if (retained) {
         s_app.flash_session_saved = true;
         s_app.storage_warning = false;
         if (s_app.bootstrap.paired && !s_app.flash_client_attempt_id.empty()) {
-            ++s_app.bootstrap.queued_events;
+            s_app.bootstrap.queued_events = s_services.queued_event_count != nullptr
+                                                ? s_services.queued_event_count(s_services.context)
+                                                : s_app.bootstrap.queued_events;
         }
         remove_flash_session();
     } else {
         s_app.storage_warning = true;
         (void)persist_flash_session();
     }
+    return retained;
+}
+
+void finish_flash_round(lv_event_t *)
+{
+    (void)retain_completed_flash_round();
     notify_activity_state();
     navigate(Screen::kFlashSummary);
 }
@@ -1209,6 +1275,7 @@ bool restore_flash_session(const char *json)
     s_app.flash_started_ms = now_ms();
     s_app.flash_card_started_ms = s_app.flash_started_ms;
     s_app.flash_session_saved = false;
+    s_app.flash_session_completed = restored->completed;
     return true;
 }
 
@@ -1234,7 +1301,8 @@ void flash_action(lv_event_t *event)
                                                       600000))});
         s_app.flash_card_started_ms = current_ms;
         (void)persist_flash_session();
-        if (s_app.flash_round->finished() || s_app.flash_round->current() == nullptr) {
+        if (s_app.flash_round->finished() || s_app.flash_round->current() == nullptr ||
+            s_app.flash_reviews.size() >= buddy::domain::kMaxFlashReviews) {
             finish_flash_round(nullptr);
             return;
         }
@@ -2337,12 +2405,16 @@ extern "C" bool buddy_ui_start(lv_display_t *display, const buddy_ui_bootstrap_t
             s_app.feedback_visible = restored->feedback_visible;
             s_app.last_correct = restored->last_correct;
             s_app.client_attempt_id = restored->client_attempt_id;
+            s_app.multiplication_session_completed = restored->completed;
             s_app.session_started_ms = now_ms();
             s_app.session_elapsed_offset_ms = restored->elapsed_ms;
             s_app.question_started_ms = s_app.session_started_ms;
             s_app.session_saved = false;
-            ensure_timed_timer();
+            if (!restored->completed)
+                ensure_timed_timer();
             resumed = true;
+        } else {
+            remove_multiplication_record();
         }
     }
     bool resumed_flash = false;
@@ -2351,10 +2423,16 @@ extern "C" bool buddy_ui_start(lv_display_t *display, const buddy_ui_bootstrap_t
         if (!resumed_flash)
             remove_flash_session();
     }
-    render(resumed             ? Screen::kMultiplicationQuestion
-           : resumed_flash     ? (s_app.flash_round != nullptr && s_app.flash_round->finished()
-                                      ? Screen::kFlashSummary
-                                      : Screen::kFlashStudy)
+    if (resumed && s_app.multiplication_session_completed) {
+        (void)retain_completed_multiplication();
+    }
+    if (resumed_flash && s_app.flash_session_completed) {
+        (void)retain_completed_flash_round();
+    }
+    render(resumed ? (s_app.multiplication_session_completed ? Screen::kMultiplicationSummary
+                                                             : Screen::kMultiplicationQuestion)
+           : resumed_flash
+               ? (s_app.flash_session_completed ? Screen::kFlashSummary : Screen::kFlashStudy)
            : bootstrap->paired ? Screen::kHome
                                : Screen::kWifi);
     notify_activity_state();
@@ -2649,6 +2727,8 @@ extern "C" bool buddy_ui_render_scenario(const char *scenario_name)
         s_app.feedback_visible = true;
         s_app.last_correct = false;
         render(Screen::kMultiplicationQuestion);
+    } else if (scenario == "multiplication-completed-recovery") {
+        render(Screen::kMultiplicationSummary);
     } else if (scenario == "mastery-overview") {
         render(Screen::kMasteryOverview);
     } else if (scenario == "mastery-detail") {
@@ -2660,6 +2740,8 @@ extern "C" bool buddy_ui_render_scenario(const char *scenario_name)
         s_app.flash_round = std::make_unique<FlashRound>(std::move(cards), 42);
         s_app.flash_round->reveal();
         render(Screen::kFlashStudy);
+    } else if (scenario == "flash-completed-recovery") {
+        render(Screen::kFlashSummary);
     } else if (scenario == "wifi-selection") {
         s_app.bootstrap.online = true;
         render(Screen::kWifi);

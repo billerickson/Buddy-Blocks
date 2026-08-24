@@ -106,6 +106,12 @@ bool enqueue_event(void *, const char *stable_event_id, const char *payload, siz
            buddy::storage::Result::kOk;
 }
 
+size_t queued_event_count(void *)
+{
+    std::vector<std::string> events;
+    return s_store.list_outbox(events) == buddy::storage::Result::kOk ? events.size() : 0;
+}
+
 bool new_event_id(void *, const char *, char *output, size_t output_capacity)
 {
     static constexpr char alphabet[] = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
@@ -532,6 +538,7 @@ extern "C" void app_main(void)
     ESP_ERROR_CHECK(s_sync.start());
     ESP_ERROR_CHECK(s_ota.start());
     (void)s_store.recover("content/flash-cards.json", 1);
+    (void)s_store.recover("content/bootstrap.json", 1);
     (void)s_store.recover("content/mastery.json", 1);
     (void)s_store.recover("sessions/multiplication-active.json", 1);
     (void)s_store.recover("sessions/flash-card-active.json", 1);
@@ -556,6 +563,7 @@ extern "C" void app_main(void)
         .write_record = write_record,
         .remove_record = remove_record,
         .enqueue_event = enqueue_event,
+        .queued_event_count = queued_event_count,
         .new_event_id = new_event_id,
         .monotonic_ms = monotonic_ms,
         .wifi_scan = wifi_scan,

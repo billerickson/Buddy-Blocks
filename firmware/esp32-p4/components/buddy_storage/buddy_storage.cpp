@@ -361,6 +361,19 @@ Result Store::enqueue(const std::string &stable_event_id, const std::vector<uint
     if (!valid_stable_id(stable_event_id)) {
         return Result::kInvalidPath;
     }
+    const std::string path = "outbox/" + stable_event_id + ".json";
+    Record existing{};
+    const Result existing_result = read(path, 1, existing);
+    if (existing_result == Result::kOk) {
+        // A completion handoff may be replayed after power failed between the
+        // immutable outbox write and removal of the active-session record.
+        // The identical event remains a success even when the queue is now at
+        // its event or byte limit; different content still fails closed.
+        return existing.payload == payload ? Result::kOk : Result::kCorrupt;
+    }
+    if (existing_result != Result::kNotFound) {
+        return existing_result;
+    }
     Capacity current{};
     const Result capacity_result = capacity(current);
     if (capacity_result != Result::kOk) {
@@ -369,12 +382,6 @@ Result Store::enqueue(const std::string &stable_event_id, const std::vector<uint
     if (current.outbox_events >= kMaxOutboxEvents ||
         current.outbox_bytes + payload.size() + sizeof(RecordHeader) > kMaxOutboxBytes) {
         return Result::kOutboxFull;
-    }
-    const std::string path = "outbox/" + stable_event_id + ".json";
-    Record existing{};
-    const Result existing_result = read(path, 1, existing);
-    if (existing_result == Result::kOk) {
-        return existing.payload == payload ? Result::kOk : Result::kCorrupt;
     }
     return write_atomic(path, 1, payload);
 }

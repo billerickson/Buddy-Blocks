@@ -1,4 +1,5 @@
 #include "buddy_ui.h"
+#include "buddy_domain.h"
 
 #include <array>
 #include <cstdint>
@@ -6,6 +7,8 @@
 #include <cstring>
 #include <fstream>
 #include <string>
+#include <unordered_map>
+#include <utility>
 #include <vector>
 
 namespace {
@@ -13,6 +16,8 @@ namespace {
 constexpr uint32_t kWidth = 800;
 constexpr uint32_t kHeight = 480;
 size_t s_filesystem_free = size_t{8} * 1024 * 1024;
+std::unordered_map<std::string, std::string> s_outbox;
+size_t s_removed_records = 0;
 
 void append_u32(std::vector<uint8_t> &output, uint32_t value)
 {
@@ -154,6 +159,31 @@ bool simulator_request(void *)
 {
     return true;
 }
+bool simulator_write_record(void *, const char *, unsigned, const char *, size_t)
+{
+    return true;
+}
+bool simulator_remove_record(void *, const char *)
+{
+    ++s_removed_records;
+    return true;
+}
+bool simulator_enqueue_event(void *, const char *stable_event_id, const char *payload,
+                             size_t payload_size)
+{
+    if (stable_event_id == nullptr || payload == nullptr)
+        return false;
+    const std::string body(payload, payload_size);
+    const auto existing = s_outbox.find(stable_event_id);
+    if (existing != s_outbox.end())
+        return existing->second == body;
+    s_outbox.emplace(stable_event_id, body);
+    return true;
+}
+size_t simulator_queued_event_count(void *)
+{
+    return s_outbox.size();
+}
 size_t simulator_flash_section_count(void *)
 {
     return 4;
@@ -168,6 +198,22 @@ bool simulator_flash_section(void *, size_t index, buddy_ui_flash_section_t *sec
     std::snprintf(section->source, sizeof(section->source), "Simulator");
     section->card_count = 5;
     section->pinned = index == 0;
+    return true;
+}
+bool simulator_flash_card(void *, size_t section_index, size_t card_index,
+                          buddy_ui_flash_card_t *card)
+{
+    if (card == nullptr || section_index >= simulator_flash_section_count(nullptr) ||
+        card_index >= 5) {
+        return false;
+    }
+    std::snprintf(card->id, sizeof(card->id), "sim_card_%u_%u",
+                  static_cast<unsigned>(section_index), static_cast<unsigned>(card_index));
+    std::snprintf(card->front, sizeof(card->front), "Card %u",
+                  static_cast<unsigned>(card_index + 1));
+    std::snprintf(card->back, sizeof(card->back), "Answer %u",
+                  static_cast<unsigned>(card_index + 1));
+    std::snprintf(card->clue, sizeof(card->clue), "Simulator recovery card");
     return true;
 }
 bool simulator_mastery(void *, int factor, int multiplier, buddy_ui_mastery_t *mastery)
@@ -230,6 +276,49 @@ int main(int argc, char **argv)
         s_filesystem_free = size_t{1536} * 1024;
     }
 
+    std::string multiplication_recovery;
+    std::string flash_recovery;
+    if (argc == 3 && std::strcmp(argv[1], "multiplication-completed-recovery") == 0) {
+        buddy::domain::MultiplicationSessionState state;
+        state.client_attempt_id = "esp32p4_simulator_completed_multiplication";
+        state.selected_factors = {2};
+        state.seed = 42;
+        state.elapsed_ms = 5000;
+        state.deck = {{2, 4}};
+        state.attempts = {{{2, 4}, 8, 1200}};
+        state.score_correct = 1;
+        state.feedback_visible = true;
+        state.last_correct = true;
+        state.completed = true;
+        multiplication_recovery = buddy::domain::encode_multiplication_session(state);
+        s_outbox.emplace(state.client_attempt_id,
+                         buddy::domain::multiplication_submission_json(state));
+    }
+    if (argc == 3 && std::strcmp(argv[1], "flash-completed-recovery") == 0) {
+        buddy::domain::FlashSessionState state;
+        state.client_attempt_id = "esp32p4_simulator_completed_flash";
+        state.practice_set_id = "sim_section_0";
+        state.content_revision = 12;
+        state.seed = 42;
+        state.elapsed_ms = 4567;
+        std::vector<buddy::domain::FlashCard> cards;
+        for (size_t index = 0; index < 5; ++index) {
+            cards.push_back({"sim_card_0_" + std::to_string(index), "", "", ""});
+        }
+        buddy::domain::FlashRound round(std::move(cards), state.seed);
+        state.reviews.push_back({round.current()->id, true, 1200});
+        state.completed = true;
+        flash_recovery = buddy::domain::encode_flash_session(state);
+        s_outbox.emplace(
+            state.client_attempt_id,
+            "{\"eventType\":\"flash_card_session\",\"body\":{\"clientAttemptId\":\"" +
+                state.client_attempt_id + "\",\"practiceSetId\":\"" + state.practice_set_id +
+                "\",\"contentRevision\":12,\"durationSeconds\":4,\"uniqueCards\":1," +
+                "\"firstPassGotIt\":1,\"totalReviews\":1,\"reviews\":[{\"cardId\":\"" +
+                state.reviews.front().card_id + "\",\"cardFingerprint\":\"" + std::string(64, '0') +
+                "\",\"rating\":\"got_it\",\"shownCount\":1,\"responseMs\":1200}]}}");
+    }
+
     const buddy_ui_bootstrap_t bootstrap{
         .child_name = "Avery",
         .device_name = "Kitchen Buddy Board",
@@ -244,8 +333,9 @@ int main(int argc, char **argv)
         .best_120_seconds = 72,
         .last_sync_text = "Yesterday",
         .device_id_suffix = "simulator",
-        .multiplication_session_json = nullptr,
-        .flash_session_json = nullptr,
+        .multiplication_session_json =
+            multiplication_recovery.empty() ? nullptr : multiplication_recovery.c_str(),
+        .flash_session_json = flash_recovery.empty() ? nullptr : flash_recovery.c_str(),
         .flash_content_revision = 12,
         .firmware_version = "0.1.0",
         .hardware_profile = "waveshare-p4-lcd43-rev3",
@@ -254,6 +344,10 @@ int main(int argc, char **argv)
         .reduced_motion = true,
     };
     buddy_ui_services_t services{};
+    services.write_record = simulator_write_record;
+    services.remove_record = simulator_remove_record;
+    services.enqueue_event = simulator_enqueue_event;
+    services.queued_event_count = simulator_queued_event_count;
     services.wifi_scan = simulator_wifi_scan;
     services.wifi_network_count = simulator_wifi_count;
     services.wifi_network = simulator_wifi_network;
@@ -263,6 +357,7 @@ int main(int argc, char **argv)
     services.request_firmware_check = simulator_request;
     services.flash_section_count = simulator_flash_section_count;
     services.flash_section = simulator_flash_section;
+    services.flash_card = simulator_flash_card;
     services.mastery = simulator_mastery;
     services.diagnostics = simulator_diagnostics;
     buddy_ui_set_services(&services);
@@ -270,6 +365,18 @@ int main(int argc, char **argv)
     if (!buddy_ui_start(display, &bootstrap)) {
         std::fprintf(stderr, "could not start Buddy Blocks UI\n");
         return 2;
+    }
+    if (!multiplication_recovery.empty() &&
+        (s_outbox.size() != 1 || s_removed_records == 0 ||
+         std::strcmp(buddy_ui_current_screen_name(), "multiplication-summary") != 0)) {
+        std::fprintf(stderr, "completed multiplication recovery did not reach the outbox\n");
+        return 1;
+    }
+    if (!flash_recovery.empty() &&
+        (s_outbox.size() != 1 || s_removed_records == 0 ||
+         std::strcmp(buddy_ui_current_screen_name(), "flash-summary") != 0)) {
+        std::fprintf(stderr, "completed flash recovery did not reach the outbox\n");
+        return 1;
     }
     if (argc == 2) {
         if (!buddy_ui_run_interaction_self_test()) {

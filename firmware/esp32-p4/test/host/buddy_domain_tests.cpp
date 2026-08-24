@@ -125,6 +125,7 @@ int main()
         3456,
         true,
         {{"card_a", false, 1200}, {"card_b", true, 900}},
+        true,
     };
     const std::string encoded_flash = encode_flash_session(flash_state);
     const auto restored_flash = decode_flash_session(encoded_flash);
@@ -134,8 +135,20 @@ int main()
                 restored_flash->content_revision == flash_state.content_revision &&
                 restored_flash->revealed && restored_flash->reviews.size() == 2 &&
                 !restored_flash->reviews.front().got_it &&
-                restored_flash->reviews.front().response_ms == 1200,
-            "active flash-card round survives a deterministic state round trip");
+                restored_flash->reviews.front().response_ms == 1200 && restored_flash->completed,
+            "completed flash-card round survives a deterministic state round trip");
+    const FlashSessionState restored_flash_value = restored_flash.value_or(FlashSessionState{});
+    require(encode_flash_session(restored_flash_value) == encoded_flash,
+            "completed flash-card recovery record re-encodes byte identically");
+    std::string legacy_flash_json = encoded_flash;
+    legacy_flash_json.erase(legacy_flash_json.rfind("|1\"}"), 2);
+    const auto legacy_flash = decode_flash_session(legacy_flash_json);
+    require(legacy_flash.has_value() && !legacy_flash->completed,
+            "pre-completion-marker flash-card session remains recoverable");
+    FlashSessionState oversized_flash = flash_state;
+    oversized_flash.reviews.assign(kMaxFlashReviews + 1, {"card_a", false, 1200});
+    require(!decode_flash_session(encode_flash_session(oversized_flash)).has_value(),
+            "flash-card recovery rejects records beyond the Worker review limit");
     require(!decode_flash_session(encoded_flash + "corrupt").has_value(),
             "corrupt flash-card session is rejected");
 
@@ -176,14 +189,29 @@ int main()
         1,
         false,
         true,
+        true,
     };
     const std::string active_json = encode_multiplication_session(active);
     const auto restored = decode_multiplication_session(active_json);
     require(restored.has_value() && restored->client_attempt_id == active.client_attempt_id &&
                 restored->selected_factors == active.selected_factors &&
                 restored->deck == active.deck && restored->attempts.size() == 1 &&
-                restored->attempts.front().response_ms == 2100,
-            "active multiplication session survives a JSON round trip");
+                restored->attempts.front().response_ms == 2100 && restored->completed,
+            "completed multiplication session survives a JSON round trip");
+    const MultiplicationSessionState restored_value =
+        restored.value_or(MultiplicationSessionState{});
+    require(encode_multiplication_session(restored_value) == active_json,
+            "completed multiplication recovery record re-encodes byte identically");
+    std::string legacy_active_json = active_json;
+    legacy_active_json.erase(legacy_active_json.rfind("|1\"}"), 2);
+    const auto legacy_active = decode_multiplication_session(legacy_active_json);
+    require(legacy_active.has_value() && !legacy_active->completed,
+            "pre-completion-marker multiplication session remains recoverable");
+    MultiplicationSessionState oversized_active = active;
+    oversized_active.attempts.assign(kMaxMultiplicationAttempts + 1, Attempt{{2, 4}, 8, 2100});
+    require(
+        !decode_multiplication_session(encode_multiplication_session(oversized_active)).has_value(),
+        "multiplication recovery rejects records beyond the Worker attempt limit");
     require(!decode_multiplication_session(active_json + "corrupt").has_value() &&
                 !decode_multiplication_session("{\"schemaVersion\":2}").has_value(),
             "invalid and unsupported active sessions are rejected");

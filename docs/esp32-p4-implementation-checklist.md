@@ -102,12 +102,15 @@ Exit gate: every Milestone 0 box above is checked. Until then, Milestone 1 is
 - [x] `buddy_ui` theme, `TopNav`, `OptionTile`, `OptionList`, `ChoiceGrid`,
   `ConfirmBar`, and pure `SelectionModel`.
 - [x] Atomic versioned CRC32 storage, interrupted-rename recovery, schema
-  rejection tests, migrations, and diagnostics.
+  rejection tests, migrations, and diagnostics. Completed multiplication and
+  flash-card sessions persist a completion marker before outbox handoff and
+  replay the byte-identical event automatically after an interrupted reboot.
 - [ ] Offline cached Home usable within five seconds.
 - [x] Host LVGL simulator fixed at 800 × 480.
-- [x] Deterministic interaction assertions and 32 reviewed golden screenshots,
+- [x] Deterministic interaction assertions and 34 reviewed golden screenshots,
   including first-boot pairing/sync, empty, loading, error, mastery, and manual
-  sync/update states.
+  sync/update states plus completed-session reboot recovery for both learning
+  modes.
 - [x] Firmware CI: both silicon profiles, host tests, simulator, formatting,
   static analysis, size threshold, and SHA-bound unsigned artifacts.
 - [x] Machine-readable post-frame boot marker and non-destructive 100-reboot /
@@ -129,6 +132,9 @@ Exit gate: reboot and power-loss storage tests pass with physical evidence.
   mastery, and personal best UI.
 - [x] Typed touch input uploads as `inputMethod: "keyboard"`.
 - [x] Active-session recovery and immutable bounded outbox.
+- [x] A single upload is bounded to the Worker contract of 500 attempts;
+  completion persists before handoff and replays with the same client ID after
+  a reset.
 - [x] Server scoring, XP, mastery, and idempotency parity tests.
 - [ ] Completed offline session survives reboot on hardware.
 
@@ -160,6 +166,9 @@ Exit gate: pairing needs no serial credentials and revocation purges child data.
 - [x] Study session/review migration and neutral recent activity.
 - [x] Immutable idempotent study outbox with nullable edited-card references and
   irreversible fingerprints.
+- [x] Completed study duration is frozen before handoff, a finished record is
+  retried on boot, and one activity is bounded to the Worker contract of 1,000
+  reviews.
 - [x] Reviewable, ignored D1 HIL fixture SQL generator for the 1/10/100/2,500
   card ladder, with exact-source cleanup and local-schema integration proof.
 - [ ] End-to-end create/edit/archive/offline/upload story passes once each.
@@ -198,16 +207,16 @@ irreversible eFuse is burned by an automated script.
 - [ ] Performance measurements remain pending hardware; operations,
   factory-reset, support, security, board-test, and release procedures are
   documented.
-- [x] All web and firmware tests pass in CI. Pull-request run `32738870448`
+- [x] All web and firmware tests pass in CI. Pull-request run `32743061296`
   passed on branch-head commit
-  `a29bb3372c0c5635f630430985ca597b58d1d069`, including Component Manager
+  `99a6560cf3062ce8fbcfcdb18cc751b9a25a5f8d`, including Component Manager
   cache restore, the six-profile firmware matrix, domain/content/storage host
-  tests, 31 reviewed simulator goldens, pinned formatting/static analysis,
+  tests, 32 reviewed simulator goldens, pinned formatting/static analysis,
   generated-file checks, and unsigned recovery artifact packaging.
 - [x] D1 migration 0004 validated locally, then applied and verified remotely
   through the established
   deployment process.
-- [x] Website/API deployment `61dbf86e-2b59-4d5b-bb34-af9a6e980788`
+- [x] Website/API deployment `558acc76-d085-439e-a7f5-e5cad81439a7`
   passes public health and expected unauthenticated-boundary smoke tests.
 - [x] Coherent hardware-proof, build-matrix, firmware, device-platform,
   release/CI, and final evidence commits are pushed to
@@ -224,7 +233,12 @@ Exit gate: the complete Version 1 Definition of Done is satisfied.
 - `npm run build`: PASS, including SEO validation for 12 public pages.
 - Host firmware tests: PASS, domain, content/schema, and atomic-storage/recovery
   suites.
-- LVGL simulator: PASS, interaction self-test and 32 golden screenshots.
+- LVGL simulator: PASS, interaction self-test and 34 golden screenshots,
+  including automatic, byte-identical completion replay from both durable
+  session types.
+- Outbox limit/replay regression: PASS; an identical event remains idempotent
+  at the 8 MiB limit, while a conflicting payload fails closed and a new event
+  returns `outbox_full`.
 - D1 HIL fixture integration: PASS in a fresh local database; 25 sections /
   2,500 cards created, then exact-source cleanup returned both counts to zero.
 - Pinned Espressif `clang-format` and native host/simulator `clang-tidy`:
