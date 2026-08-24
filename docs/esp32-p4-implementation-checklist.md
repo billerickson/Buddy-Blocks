@@ -103,6 +103,10 @@ Physical evidence (board connected; testing active):
 - [ ] Deferred CPU rotation: frame/flush/input/tearing/memory measurements.
 - [ ] PPA rotation: frame/flush/input/tearing/memory measurements.
 - [ ] Selected path and fallback are recorded with rationale.
+- [x] Instrument all three touch paths with the same controller-read-to-LVGL
+  press-dispatch metric. The BSP/PPA hook delegates to the adapter's normal raw
+  read and leaves its coordinate processing intact; physical values are still
+  required above.
 - [x] Four corners, center, and all targets in the 5 × 3 grid map correctly on
   patched BSP application `c0e18a26…da3f2`; the operator reported all 15
   targets turned teal and telemetry advanced through frame 341 without a lock

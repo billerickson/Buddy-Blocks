@@ -542,6 +542,7 @@ esp_err_t init_cpu_display()
 lv_display_t *s_adapter_display = nullptr;
 esp_lcd_panel_handle_t s_adapter_panel = nullptr;
 esp_lcd_touch_handle_t s_adapter_touch = nullptr;
+lv_indev_t *s_adapter_input = nullptr;
 
 esp_err_t init_ppa_display()
 {
@@ -577,7 +578,8 @@ esp_err_t init_ppa_display()
                         "GT911 creation failed for PPA path");
     const esp_lv_adapter_touch_config_t input_config =
         ESP_LV_ADAPTER_TOUCH_DEFAULT_CONFIG(s_adapter_display, s_adapter_touch);
-    ESP_RETURN_ON_FALSE(esp_lv_adapter_register_touch(&input_config) != nullptr, ESP_FAIL, kTag,
+    s_adapter_input = esp_lv_adapter_register_touch(&input_config);
+    ESP_RETURN_ON_FALSE(s_adapter_input != nullptr, ESP_FAIL, kTag,
                         "PPA touch registration failed");
     ESP_RETURN_ON_ERROR(esp_lv_adapter_start(), kTag, "PPA adapter start failed");
     ESP_RETURN_ON_ERROR(esp_lcd_panel_disp_on_off(s_adapter_panel, true), kTag,
@@ -585,6 +587,66 @@ esp_err_t init_ppa_display()
     return ESP_OK;
 }
 #endif
+
+#if !CONFIG_BUDDY_ROTATION_PATH_CPU
+esp_err_t measured_adapter_touch_read(esp_lcd_touch_handle_t touch,
+                                      esp_lcd_touch_point_data_t *points, uint8_t *count,
+                                      uint8_t max_count, void *)
+{
+    const esp_err_t read_result = esp_lcd_touch_read_data(touch);
+    if (read_result != ESP_OK) {
+        return read_result;
+    }
+    const esp_err_t data_result = esp_lcd_touch_get_data(touch, points, count, max_count);
+    if (data_result == ESP_OK && *count > 0) {
+        // This timestamp is taken after the controller sample is available. The
+        // paired LVGL input event below therefore measures read-to-dispatch
+        // latency without changing the adapter's coordinate processing.
+        s_last_touch_report_us.store(esp_timer_get_time());
+    }
+    return data_result;
+}
+#endif
+
+void touch_dispatch_event_callback(lv_event_t *)
+{
+    const int64_t report_at = s_last_touch_report_us.exchange(0);
+    if (report_at > 0) {
+        const int64_t now = esp_timer_get_time();
+        if (now >= report_at) {
+            portENTER_CRITICAL(&s_metrics_lock);
+            record_sample(s_metrics.touch_dispatch, static_cast<uint32_t>(now - report_at));
+            portEXIT_CRITICAL(&s_metrics_lock);
+        }
+    }
+    s_touch_count.fetch_add(1);
+}
+
+esp_err_t register_touch_metrics()
+{
+    lv_indev_t *input = nullptr;
+#if CONFIG_BUDDY_ROTATION_PATH_CPU
+    input = s_cpu.input;
+#elif CONFIG_BUDDY_ROTATION_PATH_PPA
+    input = s_adapter_input;
+#else
+    input = bsp_display_get_input_dev();
+#endif
+    ESP_RETURN_ON_FALSE(input != nullptr, ESP_ERR_INVALID_STATE, kTag,
+                        "LVGL touch input is unavailable");
+
+#if !CONFIG_BUDDY_ROTATION_PATH_CPU
+    const esp_lv_adapter_touch_callbacks_t callbacks{
+        .on_interrupt = nullptr,
+        .custom_touch_read = measured_adapter_touch_read,
+        .user_ctx = nullptr,
+    };
+    ESP_RETURN_ON_ERROR(esp_lv_adapter_set_touch_callbacks(input, &callbacks), kTag,
+                        "Touch metric callback registration failed");
+#endif
+    lv_indev_add_event_cb(input, touch_dispatch_event_callback, LV_EVENT_PRESSED, nullptr);
+    return ESP_OK;
+}
 
 lv_display_t *init_display()
 {
@@ -639,15 +701,6 @@ void grid_event_callback(lv_event_t *event)
     lv_obj_t *button = static_cast<lv_obj_t *>(lv_event_get_target(event));
     if (code == LV_EVENT_PRESSED) {
         lv_obj_set_style_bg_color(button, lv_color_hex(0xFFD84D), LV_PART_MAIN);
-        const int64_t report_at = s_last_touch_report_us.load();
-        if (report_at > 0) {
-            const int64_t callback_delay = esp_timer_get_time() - report_at;
-            portENTER_CRITICAL(&s_metrics_lock);
-            record_sample(s_metrics.touch_dispatch, static_cast<uint32_t>(callback_delay));
-            portEXIT_CRITICAL(&s_metrics_lock);
-            ESP_LOGI(kTag, "Touch callback delay=%" PRId64 "us (CPU-path internal sample)",
-                     callback_delay);
-        }
         return;
     }
     if (code != LV_EVENT_CLICKED) {
@@ -655,7 +708,7 @@ void grid_event_callback(lv_event_t *event)
     }
 
     lv_obj_set_style_bg_color(button, lv_color_hex(0x18BCA4), LV_PART_MAIN);
-    const uint32_t count = s_touch_count.fetch_add(1) + 1;
+    const uint32_t count = s_touch_count.load();
     if (s_touch_status_label != nullptr) {
         lv_label_set_text_fmt(s_touch_status_label,
                               "Tap all 15 targets + 4 corners + center | taps: %" PRIu32, count);
@@ -819,7 +872,9 @@ extern "C" esp_err_t buddy_board_initialize(buddy_board_runtime_t *runtime)
         "Landscape invariant failed: expected 800x480, got %dx%d", horizontal, vertical);
     ESP_RETURN_ON_ERROR(lock_display(UINT32_MAX), kTag, "Could not lock initialized display");
     lv_display_add_event_cb(s_board_display, display_metrics_callback, LV_EVENT_ALL, nullptr);
+    const esp_err_t touch_metrics_result = register_touch_metrics();
     unlock_display();
+    ESP_RETURN_ON_ERROR(touch_metrics_result, kTag, "Touch metrics initialization failed");
     ESP_RETURN_ON_ERROR(bsp_display_backlight_on(), kTag, "Backlight enable failed");
     runtime->display = s_board_display;
     return ESP_OK;

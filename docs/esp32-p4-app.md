@@ -1516,6 +1516,23 @@ Those containers now have zero internal padding. The simulator asserts the
 exact Settings, confirmation bar, primary action, keypad `2`, and Enter bounds,
 clicks a keypad digit, and compares 35 deterministic 800 × 480 screenshots.
 
+### 2026-08-24: Touch timing is controller-read to LVGL dispatch
+
+The initial BSP run exposed a metrics asymmetry: the custom CPU path timestamped
+its GT911 reads, while the BSP and explicit PPA paths delegated the entire read
+to `esp_lvgl_adapter` and therefore emitted a misleading zero sample count.
+All three candidates now use the same narrow definition: elapsed microseconds
+from a successful controller read containing a pressed point to LVGL's input
+device `LV_EVENT_PRESSED`. For the adapter paths, the supported custom-read hook
+performs the same `esp_lcd_touch_read_data` and `esp_lcd_touch_get_data` calls,
+then returns the untouched points to the adapter for its existing scaling,
+gesture, and coordinate-transform processing. This is an internal
+controller-read-to-dispatch metric, not finger-down-to-interrupt latency.
+
+Rev1.3 BSP, deferred-CPU, and explicit-PPA development images compile with this
+instrumentation. Their physical p95 values remain pending; no result is inferred
+from successful compilation.
+
 ### 2026-08-24: C6 recovery builds remove host-path nondeterminism
 
 ESP-Hosted 1.4.7's C6 slave needs a narrow IDF 5.5 compatibility patch for

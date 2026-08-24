@@ -54,9 +54,9 @@ touch sequence for every row.
 
 | Candidate | App SHA | Mean / p95 frame | Mean / p95 flush | Touch p95 | Internal heap min | PSRAM min | Tearing/corruption | 100 transitions | Result / evidence |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
-| Waveshare BSP rotation | `c01d2b9b…7cf2` initial; `90cb9162…342a` failed; `c0e18a26…da3f2` patched current | Current through 15-target grid: 6,454 / 7,890 us at frame 341; failing image stopped at 167 with 9,638 / 28,278 us | Current callback 879 / 6,937 us; wait 3 / 4 us; failing callback 589 / 7,224 us | Adapter counter unavailable; visible mapping pass | 88,872 bytes current | 29,227,016 bytes current | Current image resumed the saved paired question; keypad sequence worked, all 15 grid targets mapped visibly, operator confirmed corrected alignment, and frames advanced through 341 without a lock error | Pending | Original failure and full grid pass; transition/tearing loop pending. Failure log `serial-logs/m0-rev1_3-bsp-20260824T171654Z.log` SHA-256 `750a1bfe58de72a2420e3b87e1af696f859998b8a8c817a16c5d3b2b63974188`; current log/metrics `serial-logs/m0-rev1_3-bsp-ppa-fix-20260824T181200Z.*`; ignored photo SHA-256 `de409ed488bee05f91234236e344d6d5528e0c630689d57a6ce02a593fb3ffee` |
-| Deferred CPU full-frame rotation | `db139b4f…b6658` prepared | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Reproducible Rev1.3 image prepared; not yet flashed |
-| PPA rotation | `357ca812…06a55` prepared | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Reproducible Rev1.3 image prepared; not yet flashed |
+| Waveshare BSP rotation | `c01d2b9b…7cf2` initial; `90cb9162…342a` failed; `c0e18a26…da3f2` patched current; `037acf7c…a41c` instrumented prepared | Current through 15-target grid: 6,454 / 7,890 us at frame 341; failing image stopped at 167 with 9,638 / 28,278 us | Current callback 879 / 6,937 us; wait 3 / 4 us; failing callback 589 / 7,224 us | Current image: adapter counter unavailable; visible mapping pass. Instrumented image pending flash | 88,872 bytes current | 29,227,016 bytes current | Current image resumed the saved paired question; keypad sequence worked, all 15 grid targets mapped visibly, operator confirmed corrected alignment, and frames advanced through 341 without a lock error | Pending | Original failure and full grid pass; transition/tearing loop pending. Failure log `serial-logs/m0-rev1_3-bsp-20260824T171654Z.log` SHA-256 `750a1bfe58de72a2420e3b87e1af696f859998b8a8c817a16c5d3b2b63974188`; current log/metrics `serial-logs/m0-rev1_3-bsp-ppa-fix-20260824T181200Z.*`; ignored photo SHA-256 `de409ed488bee05f91234236e344d6d5528e0c630689d57a6ce02a593fb3ffee` |
+| Deferred CPU full-frame rotation | `0d0ff9a3…2ef7` instrumented prepared | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Rev1.3 image with controller-read-to-LVGL dispatch timing compiled; not yet flashed |
+| PPA rotation | `9c607e09…24a2e` instrumented prepared | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Rev1.3 image with controller-read-to-LVGL dispatch timing compiled; not yet flashed |
 
 Selected path: Pending.
 
@@ -88,6 +88,13 @@ Initial candidate: `swap_xy=true`, `mirror_x=true`, `mirror_y=false`.
 Recorded transform and rationale: `swap_xy=true`, `mirror_x=true`,
 `mirror_y=false` maps all 15 landscape targets correctly with USB connectors on
 the right. This is now the physically verified transform for the Rev1.3 board.
+
+Touch p95 is defined as elapsed microseconds from a successful GT911 controller
+read that reports a pressed point to LVGL's corresponding input-device
+`LV_EVENT_PRESSED`. It is an internal controller-read-to-dispatch measurement,
+not a claim about finger-down-to-interrupt latency. Instrumented builds preserve
+the adapter's normal scaling and transform path; their physical values remain
+pending until each candidate is flashed and tapped.
 
 ## Complete hardware-in-the-loop matrix
 
