@@ -11,7 +11,6 @@
 #include "esp_check.h"
 #include "esp_event.h"
 #include "esp_http_client.h"
-#include "esp_hosted.h"
 #include "esp_log.h"
 #include "esp_netif.h"
 #include "esp_random.h"
@@ -565,20 +564,12 @@ extern "C" esp_err_t buddy_connectivity_initialize(void)
     ESP_RETURN_ON_ERROR(esp_wifi_set_storage(WIFI_STORAGE_RAM), kTag, "Wi-Fi RAM storage failed");
     ESP_RETURN_ON_ERROR(esp_wifi_set_mode(WIFI_MODE_STA), kTag, "Station mode failed");
     ESP_RETURN_ON_ERROR(esp_wifi_start(), kTag, "Hosted Wi-Fi start failed");
-    esp_hosted_coprocessor_fwver_t c6_version{};
-    const esp_err_t c6_version_result = esp_hosted_get_coprocessor_fwversion(&c6_version);
-    if (c6_version_result == ESP_OK) {
-        std::snprintf(s_snapshot.c6_firmware_version, sizeof(s_snapshot.c6_firmware_version),
-                      "%u.%u.%u", static_cast<unsigned>(c6_version.major1),
-                      static_cast<unsigned>(c6_version.minor1),
-                      static_cast<unsigned>(c6_version.patch1));
-        ESP_LOGI(kTag, "ESP32-C6 hosted firmware version %s", s_snapshot.c6_firmware_version);
-    } else {
-        std::snprintf(s_snapshot.c6_firmware_version, sizeof(s_snapshot.c6_firmware_version),
-                      "unavailable (%s)", esp_err_to_name(c6_version_result));
-        ESP_LOGW(kTag, "Could not query ESP32-C6 hosted firmware version: %s",
-                 esp_err_to_name(c6_version_result));
-    }
+    // Some factory C6 images implement the required Wi-Fi RPCs but not the
+    // optional GetCoprocessorFwVersion command. Sending an unknown synchronous
+    // command can delay or disrupt later scan events, so do not probe it until
+    // the matching, recoverable C6 image has been established on hardware.
+    copy_text(s_snapshot.c6_firmware_version, "unreported factory image");
+    ESP_LOGW(kTag, "C6 version RPC deferred; preserving the factory slave image");
     ESP_RETURN_ON_ERROR(load_saved_networks(), kTag, "Saved Wi-Fi load failed");
     s_initialized = true;
     {

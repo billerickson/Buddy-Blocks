@@ -58,11 +58,69 @@ defaults="${firmware_root}/sdkconfig.defaults;${firmware_root}/${profile_overlay
 # invocation so a prior profile or a newly added security default cannot leak
 # into a supposedly reproducible release build.
 rm -f "${build_dir}/sdkconfig" "${build_dir}/sdkconfig.old"
+
+# Resolve the pinned managed components before applying the two narrow BSP
+# compatibility fixes. Keeping them as tracked patches avoids relying on local
+# edits inside the ignored managed_components directory and makes clean CI
+# checkouts behave like developer builds.
+idf.py -C "${firmware_root}" -B "${build_dir}" \
+  -D "PROJECT_VER=${firmware_version}" \
+  -D "SDKCONFIG=${build_dir}/sdkconfig" \
+  -D "SDKCONFIG_DEFAULTS=${defaults}" \
+  reconfigure
+
+waveshare_root="${firmware_root}/managed_components/waveshare__esp32_p4_wifi6_touch_lcd_4_3"
+waveshare_source="${waveshare_root}/esp32_p4_wifi6_touch_lcd_4_3.c"
+if [[ ! -f "${waveshare_root}/idf_component.yml" || ! -f "${waveshare_source}" ]] ||
+   ! grep -Fqx 'version: 1.0.1' "${waveshare_root}/idf_component.yml"; then
+  echo "Refusing to patch anything other than Waveshare BSP 1.0.1." >&2
+  exit 1
+fi
+for bsp_patch in \
+  "${firmware_root}/bsp-patches/waveshare-1.0.1-rev1-phy.patch" \
+  "${firmware_root}/bsp-patches/waveshare-1.0.1-double-brightness.patch"; do
+  if patch --dry-run --forward -s -d "${waveshare_root}" -p1 -i "${bsp_patch}" >/dev/null 2>&1; then
+    patch --forward -s -d "${waveshare_root}" -p1 -i "${bsp_patch}"
+  elif patch --dry-run --reverse -s -d "${waveshare_root}" -p1 -i "${bsp_patch}" >/dev/null 2>&1; then
+    : # Already applied by an earlier local build.
+  else
+    echo "Pinned Waveshare source no longer matches $(basename "${bsp_patch}")." >&2
+    exit 1
+  fi
+done
+
 idf.py -C "${firmware_root}" -B "${build_dir}" \
   -D "PROJECT_VER=${firmware_version}" \
   -D "SDKCONFIG=${build_dir}/sdkconfig" \
   -D "SDKCONFIG_DEFAULTS=${defaults}" \
   build
+
+# ESP32-P4 revisions before 3.0 and revisions 3.x are mutually exclusive in
+# ESP-IDF. Fail the build if Kconfig silently rejected a profile overlay, since
+# a successful compile is not evidence that the generated image can boot the
+# silicon named on the command line.
+sdkconfig="${build_dir}/sdkconfig"
+if [[ "${profile}" == "rev1_3" ]]; then
+  required_profile_values=(
+    'CONFIG_ESP32P4_SELECTS_REV_LESS_V3=y'
+    'CONFIG_ESP32P4_REV_MIN_100=y'
+    'CONFIG_ESP32P4_REV_MIN_FULL=100'
+    'CONFIG_SPIRAM_SPEED_200M=y'
+  )
+else
+  required_profile_values=(
+    '# CONFIG_ESP32P4_SELECTS_REV_LESS_V3 is not set'
+    'CONFIG_ESP32P4_REV_MIN_300=y'
+    'CONFIG_ESP32P4_REV_MIN_FULL=300'
+    'CONFIG_SPIRAM_SPEED_250M=y'
+  )
+fi
+for required_value in "${required_profile_values[@]}"; do
+  if ! grep -Fqx "${required_value}" "${sdkconfig}"; then
+    echo "Resolved sdkconfig does not match ${profile}: missing ${required_value}" >&2
+    exit 1
+  fi
+done
 
 image="${build_dir}/buddy_blocks_p4.bin"
 if [[ ! -f "${image}" ]]; then

@@ -29,6 +29,11 @@ The normal application version is `0.1.0`; release/package builds set
 `BUDDY_FIRMWARE_VERSION` and use a version-specific ignored build directory.
 Every build recreates generated `sdkconfig` from the tracked silicon, rotation,
 security, and version overlays so cached settings cannot leak across profiles.
+After resolving the exact Waveshare BSP 1.0.1 source, the build applies two
+tracked Apache-2.0-compatible patches: ESP-IDF selects the MIPI-DSI PLL source
+appropriate for the physical silicon revision, and the high-level BSP path no
+longer initializes GPIO26 backlight PWM twice. Patch application fails closed
+if the pinned source no longer matches.
 Verify a clean second build with:
 
 ```bash
@@ -54,6 +59,23 @@ connect to hidden networks, forget saved networks, or continue offline. Use
 Settings → Pair this board to generate the parent-authorized pairing code. The
 UI and storage start before Wi-Fi and remain usable when the router is missing.
 Credentials are stored only in NVS and erased by the typed factory-reset flow.
+
+The P4 and C6 are separate chips. A normal Buddy build or flash never rewrites
+the C6. Build the pinned, ignored C6 recovery candidate with:
+
+```bash
+./scripts/firmware-c6-build.sh
+```
+
+ESP-Hosted 1.4.7 is Apache-2.0 licensed. The build applies the tracked minimal
+IDF 5.5 include-order/field-name compatibility patch in a temporary copy and
+prints SHA-256 hashes for the resulting 4 MiB flash-layout bundle. It uses an
+exclusive fixed temporary root plus explicit `/tmp` alias prefix maps so host
+paths cannot change the embedded ELF digest or enter the image. It does not
+open a serial port or flash either chip. Do not write the candidate until a
+3.3 V USB-TTL adapter has read and hashed the installed C6 image through the
+board's C6-UART pads. The exact read-before-write sequence is in the board-day
+runbook.
 
 ## Flashing
 

@@ -106,6 +106,9 @@ jobs:
             done
           done
 
+      - name: Build pinned ESP32-C6 recovery candidate (never flash)
+        run: ./scripts/firmware-c6-build.sh
+
       # The IDF build resolves the exact pinned managed-component graph used by
       # the host LVGL simulator; no generated component source is committed.
       - name: Host domain and storage tests

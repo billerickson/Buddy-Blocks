@@ -111,6 +111,11 @@ struct DisplayMetrics {
 
 CpuDisplayContext s_cpu;
 DisplayMetrics s_metrics;
+// Diagnostics run in one task. Keep its fixed-size working buffers out of that
+// task's stack: DisplayMetrics is roughly 3.7 KiB and the percentile scratch
+// buffer is another 512 bytes.
+DisplayMetrics s_metrics_snapshot;
+uint32_t s_percentile_scratch[kMetricSampleCount]{};
 portMUX_TYPE s_metrics_lock = portMUX_INITIALIZER_UNLOCKED;
 std::atomic<uint32_t> s_touch_count{0};
 std::atomic<int64_t> s_last_touch_report_us{0};
@@ -156,11 +161,10 @@ uint32_t sample_p95(const SampleSeries &series)
     if (series.sample_fill == 0) {
         return 0;
     }
-    uint32_t ordered[kMetricSampleCount]{};
-    std::copy_n(series.samples, series.sample_fill, ordered);
-    std::sort(ordered, ordered + series.sample_fill);
+    std::copy_n(series.samples, series.sample_fill, s_percentile_scratch);
+    std::sort(s_percentile_scratch, s_percentile_scratch + series.sample_fill);
     const size_t index = (static_cast<size_t>(series.sample_fill) * 95 + 99) / 100 - 1;
-    return ordered[index];
+    return s_percentile_scratch[index];
 }
 
 void display_metrics_callback(lv_event_t *event)
@@ -726,10 +730,10 @@ void build_proof_ui(lv_display_t *display)
 void diagnostics_task(void *)
 {
     while (true) {
-        DisplayMetrics snapshot{};
         portENTER_CRITICAL(&s_metrics_lock);
-        snapshot = s_metrics;
+        s_metrics_snapshot = s_metrics;
         portEXIT_CRITICAL(&s_metrics_lock);
+        const DisplayMetrics &snapshot = s_metrics_snapshot;
 
         ESP_LOGI(kTag,
                  "metrics path=%s frames=%" PRIu32 " refresh_us(avg/p95/max)=%" PRIu32 "/%" PRIu32
