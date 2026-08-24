@@ -48,6 +48,8 @@ enum class Screen {
     kMultiplicationSetup,
     kMultiplicationQuestion,
     kMultiplicationSummary,
+    kMasteryOverview,
+    kMasteryDetail,
     kFlashLibrary,
     kFlashStudy,
     kFlashSummary,
@@ -87,6 +89,7 @@ struct AppState {
     std::string answer;
     std::vector<Attempt> attempts;
     int score_correct = 0;
+    int selected_mastery_factor = 1;
     bool feedback_visible = false;
     bool last_correct = false;
     uint64_t session_seed = 0x42554444594ULL;
@@ -147,6 +150,7 @@ struct AppState {
     size_t ota_downloaded = 0;
     size_t ota_size = 0;
     bool ota_mandatory = false;
+    bool firmware_checking = false;
     uint32_t mastery_revision = 0;
     uint8_t brightness_percent = 80;
     uint8_t screen_timeout_minutes = 5;
@@ -158,6 +162,7 @@ struct AppState {
 
 AppState s_app;
 buddy_ui_services_t s_services{};
+size_t empty_flash_section_count(void *) { return 0; }
 
 constexpr const char *kMultiplicationSessionPath = "sessions/multiplication-active.json";
 constexpr const char *kFlashSessionPath = "sessions/flash-card-active.json";
@@ -167,6 +172,8 @@ void finish_multiplication(lv_event_t *);
 bool restore_flash_session(const char *json);
 void finish_flash_round(lv_event_t *);
 void sync_action(lv_event_t *);
+void home_sync_action(lv_event_t *);
+void firmware_check_action(lv_event_t *);
 
 void notify_activity_state()
 {
@@ -359,6 +366,12 @@ lv_obj_t *top_nav(const char *title, bool show_back)
                    case Screen::kMultiplicationQuestion:
                        finish_multiplication(event);
                        break;
+                   case Screen::kMasteryDetail:
+                       navigate(Screen::kMasteryOverview);
+                       break;
+                   case Screen::kMasteryOverview:
+                       navigate(Screen::kMultiplicationSetup);
+                       break;
                    case Screen::kWifi:
                    case Screen::kWifiNetwork:
                    case Screen::kWifiForget:
@@ -436,9 +449,12 @@ void render_home()
     top_nav(s_app.child_name.c_str(), false);
     label(lv_screen_active(), s_app.bootstrap.paired ? "Ready to learn" : "Offline Demo",
           24, 72, 300, &lv_font_montserrat_24, kInk);
-    const char *status = s_app.bootstrap.online ? LV_SYMBOL_WIFI " Online" : LV_SYMBOL_WARNING " Offline";
+    const bool syncing = s_app.device_state == 3;
+    const char *status = syncing ? LV_SYMBOL_REFRESH " Syncing"
+                         : s_app.bootstrap.online ? LV_SYMBOL_WIFI " Online"
+                                                  : LV_SYMBOL_WARNING " Offline";
     lv_obj_t *pill = button(lv_screen_active(), status, 610, 65, 166, 52,
-                            s_app.bootstrap.online ? kTeal : kOrange, nullptr);
+                            syncing ? kReward : s_app.bootstrap.online ? kTeal : kOrange, nullptr);
     lv_obj_set_style_border_width(pill, 0, LV_PART_MAIN);
 
     lv_obj_t *facts = button(lv_screen_active(), "", 24, 132, 364, 218,
@@ -458,8 +474,29 @@ void render_home()
                              kBerry, home_event, 2);
     label(cards, "My Flash Cards", 24, 30, 316,
           &lv_font_montserrat_24, kInk, LV_TEXT_ALIGN_CENTER);
-    label(cards, "Study downloaded sections\nAgain & Got it", 24, 104, 316,
-          &lv_font_montserrat_20, kInk, LV_TEXT_ALIGN_CENTER);
+    size_t flash_section_count = s_app.bootstrap.flash_section_count;
+    buddy_ui_flash_section_t first_section{};
+    if (s_app.bootstrap.paired && s_services.flash_section_count != nullptr) {
+        flash_section_count = s_services.flash_section_count(s_services.context);
+        s_app.bootstrap.flash_section_count = flash_section_count;
+    }
+    const bool has_pinned = flash_section_count > 0 && s_services.flash_section != nullptr &&
+                            s_services.flash_section(s_services.context, 0, &first_section) &&
+                            first_section.pinned;
+    char flash_text[220];
+    if (has_pinned) {
+        std::snprintf(flash_text, sizeof(flash_text),
+                      "%u active section%s\nPinned: %s",
+                      static_cast<unsigned>(flash_section_count),
+                      flash_section_count == 1 ? "" : "s", first_section.title);
+    } else {
+        std::snprintf(flash_text, sizeof(flash_text),
+                      "Study downloaded sections\n%u active section%s • Again & Got it",
+                      static_cast<unsigned>(flash_section_count),
+                      flash_section_count == 1 ? "" : "s");
+    }
+    label(cards, flash_text, 24, 104, 316, &lv_font_montserrat_20, kInk,
+          LV_TEXT_ALIGN_CENTER);
 
     char footer[160];
     std::snprintf(footer, sizeof(footer), "Last synced: %s  |  Queued: %u",
@@ -467,10 +504,7 @@ void render_home()
     label(lv_screen_active(), footer, 24, 367, 550, &lv_font_montserrat_16, kMuted);
     button(lv_screen_active(), "Sync now", 620, 356, 156, 52,
            s_app.bootstrap.online ? kTeal : kPaper,
-           [](lv_event_t *) {
-               s_app.last_sync = s_app.bootstrap.online ? "Just now" : "Offline - connect in Settings";
-               navigate(Screen::kHome);
-           });
+           home_sync_action);
 }
 
 void table_event(lv_event_t *event)
@@ -586,6 +620,84 @@ void needs_practice(lv_event_t *)
     navigate(Screen::kMultiplicationSetup);
 }
 
+void open_mastery_overview(lv_event_t *) { navigate(Screen::kMasteryOverview); }
+
+void open_mastery_detail(lv_event_t *event)
+{
+    const int factor = static_cast<int>(reinterpret_cast<intptr_t>(lv_event_get_user_data(event)));
+    if (factor < 1 || factor > 12) return;
+    s_app.selected_mastery_factor = factor;
+    navigate(Screen::kMasteryDetail);
+}
+
+void render_mastery_overview()
+{
+    top_nav("Mastery Overview", true);
+    const auto mastery = mastery_snapshot();
+    for (int factor = 1; factor <= 12; ++factor) {
+        int fluent = 0;
+        int learning = 0;
+        for (int multiplier = 1; multiplier <= 12; ++multiplier) {
+            const size_t index = static_cast<size_t>((factor - 1) * 12 + multiplier - 1);
+            const auto level = buddy::domain::mastery_level(&mastery[index]);
+            if (level == buddy::domain::MasteryLevel::kFluent) {
+                ++fluent;
+            } else if (mastery[index].attempts > 0) {
+                ++learning;
+            }
+        }
+        char text[48];
+        std::snprintf(text, sizeof(text), "%ds\n%d fluent • %d learning", factor, fluent,
+                      learning);
+        const int column = (factor - 1) % 4;
+        const int row = (factor - 1) / 4;
+        option_tile(lv_screen_active(), text, 20 + column * 194, 70 + row * 104, 174, 88,
+                    fluent == 12, open_mastery_detail, factor);
+    }
+    confirm_bar("Choose tables", true,
+                [](lv_event_t *) { navigate(Screen::kMultiplicationSetup); });
+}
+
+void render_mastery_detail()
+{
+    char title[48];
+    std::snprintf(title, sizeof(title), "%ds Mastery Details", s_app.selected_mastery_factor);
+    top_nav(title, true);
+    const auto mastery = mastery_snapshot();
+    for (int multiplier = 1; multiplier <= 12; ++multiplier) {
+        const size_t index = static_cast<size_t>((s_app.selected_mastery_factor - 1) * 12 +
+                                                 multiplier - 1);
+        const auto &stats = mastery[index];
+        const auto level = buddy::domain::mastery_level(&stats);
+        const bool fluent = level == buddy::domain::MasteryLevel::kFluent;
+        const bool attempted = stats.attempts > 0;
+        const int accuracy = attempted ? stats.correct * 100 / stats.attempts : 0;
+        char text[80];
+        if (!attempted) {
+            std::snprintf(text, sizeof(text), "%d x %d\nNew", s_app.selected_mastery_factor,
+                          multiplier);
+        } else if (stats.best_keyboard_response_ms.has_value()) {
+            std::snprintf(text, sizeof(text), "%d x %d\n%s • %d%% • %.1fs",
+                          s_app.selected_mastery_factor, multiplier,
+                          fluent ? "Fluent" : "Learning", accuracy,
+                          stats.best_keyboard_response_ms.value() / 1000.0);
+        } else {
+            std::snprintf(text, sizeof(text), "%d x %d\n%s • %d%%",
+                          s_app.selected_mastery_factor, multiplier,
+                          fluent ? "Fluent" : "Learning", accuracy);
+        }
+        const int column = (multiplier - 1) % 4;
+        const int row = (multiplier - 1) / 4;
+        lv_obj_t *tile = option_tile(lv_screen_active(), text, 20 + column * 194,
+                                     70 + row * 104, 174, 88, fluent, nullptr, multiplier);
+        if (attempted && !fluent) {
+            lv_obj_set_style_bg_color(tile, color(kWash), LV_PART_MAIN);
+        }
+    }
+    confirm_bar("Back to overview", true,
+                [](lv_event_t *) { navigate(Screen::kMasteryOverview); });
+}
+
 void render_multiplication_setup()
 {
     top_nav("Multiplication Facts", true);
@@ -613,7 +725,9 @@ void render_multiplication_setup()
                 s_app.timed && s_app.duration_seconds == 60, mode_event, 60);
     option_tile(lv_screen_active(), "120 seconds", 636, 176, 140, 66,
                 s_app.timed && s_app.duration_seconds == 120, mode_event, 120);
-    button(lv_screen_active(), "Needs Practice", 482, 256, 294, 62, kPaper, needs_practice);
+    button(lv_screen_active(), "Needs Practice", 482, 256, 140, 62, kPaper, needs_practice);
+    button(lv_screen_active(), "Mastery", 636, 256, 140, 62, kPaper,
+           open_mastery_overview);
     const bool any = std::any_of(s_app.selected_factors.begin(), s_app.selected_factors.end(),
                                  [](bool selected) { return selected; });
     confirm_bar("Start", any, start_multiplication);
@@ -1179,12 +1293,12 @@ void settings_event(lv_event_t *event)
 {
     const intptr_t value = reinterpret_cast<intptr_t>(lv_event_get_user_data(event));
     if (value == 1) navigate(Screen::kWifi);
-    if (value == 2 && s_services.request_sync != nullptr) {
-        (void)s_services.request_sync(s_services.context);
-    }
+    if (value == 2) home_sync_action(event);
     if (value == 3) navigate(Screen::kPreferences);
     if (value == 4) navigate(Screen::kPairing);
-    if (value == 5) navigate(Screen::kUpdate);
+    if (value == 5) {
+        firmware_check_action(event);
+    }
     if (value == 6) navigate(Screen::kDiagnostics);
     if (value == 7) navigate(Screen::kHardwareProof);
     if (value == 8) navigate(Screen::kFactoryReset);
@@ -1527,23 +1641,31 @@ void render_update()
     const bool available = s_app.ota_state == 1 || s_app.ota_state == 2 || s_app.ota_state == 6;
     const bool working = s_app.ota_state == 3 || s_app.ota_state == 4;
     const bool reboot_ready = s_app.ota_state == 5;
-    const char *headline = reboot_ready
+    const char *headline = s_app.firmware_checking
+                               ? "Checking for updates..."
+                               : reboot_ready
                                ? "Update verified and ready"
                                : working ? (s_app.ota_state == 3 ? "Downloading securely"
                                                                  : "Verifying image")
                                          : available ? "Update available"
-                                                     : "This board is up to date";
+                                         : !s_app.bootstrap.online
+                                             ? "Connect to check for updates"
+                                             : "This board is up to date";
     label(lv_screen_active(), headline, 60, 80, 680, &lv_font_montserrat_28,
           reboot_ready ? kTeal : s_app.ota_mandatory ? kOrange : kInk, LV_TEXT_ALIGN_CENTER);
     char versions[180];
     if (s_app.ota_version.empty()) {
         std::snprintf(versions, sizeof(versions), "Installed firmware: %s",
                       s_app.firmware_version.c_str());
-    } else {
+    } else if (available || working || reboot_ready) {
         std::snprintf(versions, sizeof(versions),
                       "Available: %s  •  Minimum allowed: %s%s",
                       s_app.ota_version.c_str(), s_app.ota_minimum_version.c_str(),
                       s_app.ota_mandatory ? "  •  Required" : "");
+    } else {
+        std::snprintf(versions, sizeof(versions),
+                      "Installed: %s  •  Current release: %s",
+                      s_app.firmware_version.c_str(), s_app.ota_version.c_str());
     }
     label(lv_screen_active(), versions, 50, 132, 700, &lv_font_montserrat_20, kMuted,
           LV_TEXT_ALIGN_CENTER);
@@ -1576,7 +1698,10 @@ void render_update()
               "Keep stable USB power connected. Learning data stays in its own partition.",
               76, 294, 648, &lv_font_montserrat_16, kMuted, LV_TEXT_ALIGN_CENTER);
     }
-    if (reboot_ready) {
+    if (s_app.firmware_checking) {
+        confirm_bar("Checking securely", false, nullptr,
+                    "Back", [](lv_event_t *) { navigate(Screen::kSettings); });
+    } else if (reboot_ready) {
         confirm_bar("Restart into update", true, ota_reboot_action, "Later",
                     [](lv_event_t *) { navigate(Screen::kSettings); }, kTeal);
     } else if (available) {
@@ -1586,9 +1711,13 @@ void render_update()
     } else {
         if (working) {
             confirm_bar("Update in progress", false, nullptr);
+        } else if (!s_app.bootstrap.online) {
+            confirm_bar("Open Wi-Fi", true,
+                        [](lv_event_t *) { navigate(Screen::kWifi); },
+                        "Back", [](lv_event_t *) { navigate(Screen::kSettings); });
         } else {
-            confirm_bar("Back to Settings", true,
-                        [](lv_event_t *) { navigate(Screen::kSettings); });
+            confirm_bar("Check again", true, firmware_check_action,
+                        "Back", [](lv_event_t *) { navigate(Screen::kSettings); });
         }
     }
 }
@@ -1605,12 +1734,43 @@ void sync_action(lv_event_t *)
     if (s_services.request_sync != nullptr) (void)s_services.request_sync(s_services.context);
 }
 
+void home_sync_action(lv_event_t *)
+{
+    if (!s_app.bootstrap.online) {
+        navigate(Screen::kWifi);
+        return;
+    }
+    if (s_services.request_sync != nullptr &&
+        s_services.request_sync(s_services.context)) {
+        // Show request-in-flight state without falsifying the last successful
+        // sync timestamp. The sync service replaces this state on completion.
+        s_app.device_state = 3;
+    }
+    navigate(Screen::kHome);
+}
+
+void firmware_check_action(lv_event_t *)
+{
+    s_app.firmware_checking = false;
+    if (s_app.bootstrap.online && s_services.request_firmware_check != nullptr) {
+        s_app.firmware_checking =
+            s_services.request_firmware_check(s_services.context);
+    }
+    navigate(Screen::kUpdate);
+}
+
 void render_pairing()
 {
     top_nav("Pair Buddy Board", true);
     if (s_app.bootstrap.paired) {
-        label(lv_screen_active(), LV_SYMBOL_OK "  Paired and ready", 70, 104, 660,
-              &lv_font_montserrat_28, kTeal, LV_TEXT_ALIGN_CENTER);
+        const bool syncing = s_app.device_state == 3;
+        const bool ready = s_app.device_state == 4;
+        label(lv_screen_active(),
+              syncing ? LV_SYMBOL_REFRESH "  Pairing confirmed - syncing..."
+                      : ready ? LV_SYMBOL_OK "  Paired and ready"
+                              : LV_SYMBOL_WARNING "  Paired - sync needs attention",
+              70, 104, 660, &lv_font_montserrat_28,
+              ready ? kTeal : syncing ? kBlue : kOrange, LV_TEXT_ALIGN_CENTER);
         const std::string identity = s_app.device_name + "  •  Learning profile: " +
                                      s_app.child_name;
         label(lv_screen_active(), identity.c_str(), 70, 175, 660, &lv_font_montserrat_24, kInk,
@@ -1622,8 +1782,18 @@ void render_pairing()
                       s_app.bootstrap.queued_events == 1 ? "" : "s");
         label(lv_screen_active(), details, 70, 235, 660, &lv_font_montserrat_20, kMuted,
               LV_TEXT_ALIGN_CENTER);
-        confirm_bar("Sync now", s_app.bootstrap.online, sync_action,
-                    "Done", [](lv_event_t *) { navigate(Screen::kHome); });
+        if (!s_app.device_error.empty() && !syncing && !ready) {
+            label(lv_screen_active(), s_app.device_error.c_str(), 70, 285, 660,
+                  &lv_font_montserrat_16, kOrange, LV_TEXT_ALIGN_CENTER);
+        }
+        if (syncing) {
+            confirm_bar("Initial sync in progress", false, nullptr,
+                        "Continue offline", [](lv_event_t *) { navigate(Screen::kHome); });
+        } else {
+            confirm_bar("Sync now", s_app.bootstrap.online, sync_action,
+                        ready ? "Done" : "Continue offline",
+                        [](lv_event_t *) { navigate(Screen::kHome); });
+        }
         return;
     }
     if (!s_app.pairing_code.empty() && !s_app.claim_url.empty()) {
@@ -1770,14 +1940,19 @@ void render_diagnostics()
     char details[1000];
     std::snprintf(details, sizeof(details),
                   "Firmware %s  •  %s  •  P4 rev %u\n"
-                  "ESP-IDF 5.5.5  •  LVGL 9.5.0  •  BSP 1.0.1  •  Hosted 1.4.7 / Wi-Fi remote 0.14.5\n"
+                  "ESP-IDF 5.5.5  •  LVGL 9.5.0  •  BSP 1.0.1\n"
+                  "Hosted 1.4.7  •  Wi-Fi remote 0.14.5  •  C6 firmware %s\n"
                   "Device suffix %s  •  Network %s%s%s%s\n"
                   "Last sync %s  •  Content r%u  •  Queue %u  •  OTA %s\n"
                   "Heap free/min %u/%u KiB  •  PSRAM free/min %u/%u KiB\n"
                   "LittleFS free %u KiB  •  Reset reason %d\n"
                   "Secrets and complete identifiers are always redacted.",
                   s_app.firmware_version.c_str(), s_app.hardware_profile.c_str(),
-                  static_cast<unsigned>(telemetry.p4_revision), s_app.device_id_suffix.c_str(),
+                  static_cast<unsigned>(telemetry.p4_revision),
+                  telemetry.c6_firmware_version[0] == '\0'
+                      ? "unavailable until hosted handshake"
+                      : telemetry.c6_firmware_version,
+                  s_app.device_id_suffix.c_str(),
                   s_app.bootstrap.online ? "online" : "offline",
                   s_app.wifi_ipv4.empty() ? "" : " • ",
                   s_app.wifi_ipv4.empty() ? "" : s_app.wifi_ipv4.c_str(),
@@ -1907,6 +2082,8 @@ void render(Screen screen)
     case Screen::kMultiplicationSetup: render_multiplication_setup(); break;
     case Screen::kMultiplicationQuestion: render_multiplication_question(); break;
     case Screen::kMultiplicationSummary: render_multiplication_summary(); break;
+    case Screen::kMasteryOverview: render_mastery_overview(); break;
+    case Screen::kMasteryDetail: render_mastery_detail(); break;
     case Screen::kFlashLibrary: render_flash_library(); break;
     case Screen::kFlashStudy: render_flash_study(); break;
     case Screen::kFlashSummary: render_flash_summary(); break;
@@ -2025,7 +2202,11 @@ extern "C" void buddy_ui_update_connectivity(int state, const char *ssid, const 
     s_app.wifi_ipv4 = ipv4 == nullptr ? "" : ipv4;
     s_app.wifi_rssi = rssi;
     s_app.bootstrap.online = state == 4;
-    if (s_app.current == Screen::kWifi) render(Screen::kWifi);
+    if (state == 4 && !s_app.bootstrap.paired && s_app.current == Screen::kWifi) {
+        navigate(Screen::kPairing);
+    } else if (s_app.current == Screen::kWifi) {
+        render(Screen::kWifi);
+    }
 }
 
 extern "C" void buddy_ui_update_device(bool paired, int state, const char *pairing_code,
@@ -2037,6 +2218,7 @@ extern "C" void buddy_ui_update_device(bool paired, int state, const char *pairi
     if (revision == s_app.device_revision) return;
     s_app.device_revision = revision;
     s_app.device_state = state;
+    if (s_app.firmware_checking && state != 3) s_app.firmware_checking = false;
     s_app.bootstrap.paired = paired;
     s_app.pairing_code = pairing_code == nullptr ? "" : pairing_code;
     s_app.claim_url = claim_url == nullptr ? "" : claim_url;
@@ -2048,7 +2230,18 @@ extern "C" void buddy_ui_update_device(bool paired, int state, const char *pairi
     if (flash_authoring_url != nullptr && flash_authoring_url[0] != '\0') {
         s_app.flash_authoring_url = flash_authoring_url;
     }
-    if (s_app.current == Screen::kPairing || s_app.current == Screen::kHome) render(s_app.current);
+    if (s_app.current == Screen::kPairing && paired && state == 4) {
+        // A claimed device enters Home only after its initial content/mastery
+        // synchronization has completed successfully.
+        navigate(Screen::kHome);
+    } else if (s_app.current == Screen::kPairing || s_app.current == Screen::kHome) {
+        render(s_app.current);
+    } else if (s_app.current == Screen::kUpdate) {
+        // Manual policy checks can complete without changing the OTA manifest
+        // (already current or an authenticated/network error), so the sync
+        // service revision must also repaint this screen.
+        render(Screen::kUpdate);
+    }
 }
 
 extern "C" void buddy_ui_update_ota(int state, const char *version,
@@ -2116,7 +2309,71 @@ extern "C" bool buddy_ui_run_interaction_self_test(void)
     screen = lv_screen_active();
     bar = lv_obj_get_child(screen, -1);
     start = lv_obj_get_child(bar, 0);
-    return !lv_obj_has_state(start, LV_STATE_DISABLED);
+    if (lv_obj_has_state(start, LV_STATE_DISABLED)) return false;
+
+    // A clean unpaired board advances through the specified first-boot path
+    // without requiring hidden Back/Settings navigation.
+    s_app.bootstrap.paired = false;
+    s_app.bootstrap.online = false;
+    render(Screen::kWifi);
+    buddy_ui_update_connectivity(4, "Home Network", "192.0.2.24", -48,
+                                 s_app.wifi_revision + 1);
+    if (!s_app.navigation_pending) return false;
+    (void)lv_timer_handler();
+    if (s_app.current != Screen::kPairing) return false;
+    buddy_ui_update_device(true, 3, "", "", "Avery", "Kitchen Buddy Board", "", "", 12, 0,
+                           s_app.device_revision + 1);
+    if (s_app.navigation_pending || s_app.current != Screen::kPairing) return false;
+    buddy_ui_update_device(true, 4, "", "", "Avery", "Kitchen Buddy Board", "", "", 12, 0,
+                           s_app.device_revision + 1);
+    if (!s_app.navigation_pending) return false;
+    (void)lv_timer_handler();
+    if (s_app.current != Screen::kHome) return false;
+
+    // Home sync must invoke the service and show an in-flight state without
+    // replacing the last-successful timestamp with a false success.
+    s_app.click_seen = false;
+    s_app.bootstrap.online = true;
+    s_app.device_state = 4;
+    s_app.last_sync = "Yesterday";
+    render(Screen::kHome);
+    screen = lv_screen_active();
+    lv_obj_t *sync_button = lv_obj_get_child(screen, -1);
+    (void)lv_obj_send_event(sync_button, LV_EVENT_CLICKED, nullptr);
+    if (!s_app.navigation_pending || s_app.device_state != 3 || s_app.last_sync != "Yesterday") {
+        return false;
+    }
+    (void)lv_timer_handler();
+    if (s_app.current != Screen::kHome) return false;
+
+    // The same action while offline opens connection help instead of claiming
+    // a sync succeeded.
+    s_app.click_seen = false;
+    s_app.bootstrap.online = false;
+    render(Screen::kHome);
+    screen = lv_screen_active();
+    sync_button = lv_obj_get_child(screen, -1);
+    (void)lv_obj_send_event(sync_button, LV_EVENT_CLICKED, nullptr);
+    if (!s_app.navigation_pending) return false;
+    (void)lv_timer_handler();
+    if (s_app.current != Screen::kWifi) return false;
+
+    // Manual firmware checks remain visibly in flight while the service is
+    // working, then repaint even when the result is an error with no new OTA
+    // manifest revision.
+    s_app.bootstrap.online = true;
+    s_app.bootstrap.paired = true;
+    firmware_check_action(nullptr);
+    if (!s_app.navigation_pending || !s_app.firmware_checking) return false;
+    (void)lv_timer_handler();
+    if (s_app.current != Screen::kUpdate) return false;
+    buddy_ui_update_device(true, 3, "", "", "Avery", "Kitchen Buddy Board", "", "", 12, 0,
+                           s_app.device_revision + 1);
+    if (!s_app.firmware_checking || s_app.current != Screen::kUpdate) return false;
+    buddy_ui_update_device(true, 8, "", "", "Avery", "Kitchen Buddy Board", "",
+                           "Firmware policy check failed", 12, 0,
+                           s_app.device_revision + 1);
+    return !s_app.firmware_checking && s_app.current == Screen::kUpdate;
 }
 
 extern "C" bool buddy_ui_render_scenario(const char *scenario_name)
@@ -2134,6 +2391,12 @@ extern "C" bool buddy_ui_render_scenario(const char *scenario_name)
         s_app.bootstrap.online = true;
         s_app.bootstrap.queued_events = 0;
         s_app.last_sync = "Just now";
+        render(Screen::kHome);
+    } else if (scenario == "home-syncing") {
+        s_app.bootstrap.online = true;
+        s_app.bootstrap.queued_events = 2;
+        s_app.device_state = 3;
+        s_app.last_sync = "12 minutes ago";
         render(Screen::kHome);
     } else if (scenario == "option-states") {
         render(Screen::kOptionGallery);
@@ -2174,6 +2437,11 @@ extern "C" bool buddy_ui_render_scenario(const char *scenario_name)
         s_app.feedback_visible = true;
         s_app.last_correct = false;
         render(Screen::kMultiplicationQuestion);
+    } else if (scenario == "mastery-overview") {
+        render(Screen::kMasteryOverview);
+    } else if (scenario == "mastery-detail") {
+        s_app.selected_mastery_factor = 7;
+        render(Screen::kMasteryDetail);
     } else if (scenario == "flash-card-reveal") {
         std::vector<FlashCard> cards{{"golden_1", "benevolent", "kind and generous",
                                       "A benevolent neighbor helps."}};
@@ -2182,6 +2450,13 @@ extern "C" bool buddy_ui_render_scenario(const char *scenario_name)
         render(Screen::kFlashStudy);
     } else if (scenario == "wifi-selection") {
         s_app.bootstrap.online = true;
+        render(Screen::kWifi);
+    } else if (scenario == "wifi-scanning") {
+        s_app.wifi_state = 2;
+        render(Screen::kWifi);
+    } else if (scenario == "wifi-wrong-password") {
+        s_app.wifi_state = 5;
+        s_app.wifi_ssid = "Home Network";
         render(Screen::kWifi);
     } else if (scenario == "wifi-password") {
         load_wifi_networks();
@@ -2199,6 +2474,24 @@ extern "C" bool buddy_ui_render_scenario(const char *scenario_name)
         s_app.pairing_code = "7K3M9Q2R";
         s_app.claim_url = "https://buddyblocks.net/parent/?pair=7K3M9Q2R";
         render(Screen::kPairing);
+    } else if (scenario == "pairing-syncing") {
+        s_app.bootstrap.online = true;
+        s_app.bootstrap.paired = true;
+        s_app.device_state = 3;
+        s_app.device_error.clear();
+        render(Screen::kPairing);
+    } else if (scenario == "pairing-error") {
+        s_app.bootstrap.online = true;
+        s_app.bootstrap.paired = false;
+        s_app.pairing_code.clear();
+        s_app.claim_url.clear();
+        s_app.device_error = "Pairing code expired. Generate a new code.";
+        render(Screen::kPairing);
+    } else if (scenario == "flash-library-empty") {
+        s_app.bootstrap.paired = true;
+        s_app.bootstrap.online = true;
+        s_services.flash_section_count = empty_flash_section_count;
+        render(Screen::kFlashLibrary);
     } else if (scenario == "diagnostics") {
         render(Screen::kDiagnostics);
     } else if (scenario == "software-update") {
@@ -2210,6 +2503,15 @@ extern "C" bool buddy_ui_render_scenario(const char *scenario_name)
         s_app.ota_downloaded = 0;
         s_app.ota_size = 1993424;
         s_app.ota_mandatory = false;
+        render(Screen::kUpdate);
+    } else if (scenario == "software-update-checking") {
+        s_app.bootstrap.online = true;
+        s_app.firmware_checking = true;
+        s_app.ota_state = 0;
+        s_app.ota_version.clear();
+        s_app.ota_minimum_version.clear();
+        s_app.ota_release_notes.clear();
+        s_app.ota_message.clear();
         render(Screen::kUpdate);
     } else if (scenario == "settings") {
         render(Screen::kSettings);

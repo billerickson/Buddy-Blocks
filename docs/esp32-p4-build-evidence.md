@@ -54,19 +54,19 @@ from a clean signed tag.
 
 | Silicon profile | Rotation path | Image bytes | 7 MiB slot use | SHA-256 |
 | --- | --- | ---: | ---: | --- |
-| Rev3.x | Waveshare BSP | 1,090,720 | 14.9% | `c84727c8df84d2c73a50405784e3ed35f7534dbee8c6f2ae95d452bd134a5ee3` |
-| Rev3.x | Deferred CPU | 1,014,240 | 13.8% | `b2b22d8de554b2321d47a2a2be066e997982b54038869941d7a0f89703d72806` |
-| Rev3.x | PPA | 1,091,264 | 14.9% | `d71a7e3a962812a2773218b66e437571fd3c699cc7d6fa4ff72654dddb4b7028` |
-| Rev1.3 | Waveshare BSP | 1,090,480 | 14.9% | `6f3ae2af7fad93371c54833d154aa342dbc96acb2ccea51781c3f61781c2dd32` |
-| Rev1.3 | Deferred CPU | 1,014,000 | 13.8% | `39815a16e8d9fbc688d3aed56adc28fd97ae1801a60de0579cc693cc798942fd` |
-| Rev1.3 | PPA | 1,091,024 | 14.9% | `c7f0abd14d0dffc7a55ca77a609e827d81ca26dade3512035fda7e6c4f457bde` |
+| Rev3.x | Waveshare BSP | 2,014,112 | 27.4% | `885e95bc8a9244c1e67692b4897d996001ebe2f0b177a6e27d932ab843323bdd` |
+| Rev3.x | Deferred CPU | 1,937,872 | 26.4% | `c5f6f29be3e8d1d4e69ca463769f37a38ba947f93161cb1287826b37b7ed28cc` |
+| Rev3.x | PPA | 2,014,656 | 27.4% | `36fca219f899a0c024509cb7cff970e8b4efc5c4e05efa40540533031ba678e7` |
+| Rev1.3 | Waveshare BSP | 2,013,872 | 27.4% | `8f6237f86e69ea4cb8018265d275c7d51aace5a3322c41a3265f4427c99a855d` |
+| Rev1.3 | Deferred CPU | 1,937,632 | 26.4% | `36c775fba74042e26bfd2829d0923c7df08e8d84a0388d7bdfd103faadc00a10` |
+| Rev1.3 | PPA | 2,014,416 | 27.4% | `28291c9d2d48f58b6ad0c9cd0ffad3106f31f6fdd6b5dd312a8fbf9fbaa6e6bf` |
 
 Every build generated a component-size report and passed the repository's
 5,872,025-byte limit (80% of one 7 MiB OTA application slot). Build directories,
 reports, binaries, managed components, and the resolver lock are ignored.
 
 Two independent clean Rev3/BSP builds also produced the identical application
-SHA-256 `c84727c8df84d2c73a50405784e3ed35f7534dbee8c6f2ae95d452bd134a5ee3`.
+SHA-256 `885e95bc8a9244c1e67692b4897d996001ebe2f0b177a6e27d932ab843323bdd`.
 The reproducibility verifier deliberately does not compare against persistent
 developer build directories because an existing generated `sdkconfig` retains
 the settings from when it was first created.
@@ -79,12 +79,12 @@ sdkconfig overlays as follows:
 
 | Security profile | Application bytes | Slot use | Bootloader bytes | Build result |
 | --- | ---: | ---: | ---: | --- |
-| Development | 2,009,744 | 27.4% | 22,144 | PASS |
+| Development | 2,014,112 | 27.4% | 22,144 | PASS |
 | Pilot, RSA-signed | 2,035,712 | 27.7% | 22,240 | PASS |
-| Production, RSA-signed | 2,035,712 | 27.7% | 45,056 | PASS |
+| Production, RSA-signed | 2,101,248 | 28.6% | 45,056 | PASS |
 
 The pilot release report records 5,304,320 bytes of application-slot headroom,
-42,342 bytes of linker-reported static DRAM/DIRAM data plus BSS, and a 2,016,018
+42,374 bytes of linker-reported static DRAM/DIRAM data plus BSS, and a 2,020,250
 byte linked image. Its OTA image, combined USB-recovery image, manifest, reports,
 and SHA-256 inventory verify locally. The package URL remains an intentionally
 non-publishable `example.invalid` placeholder until a board-tested artifact is

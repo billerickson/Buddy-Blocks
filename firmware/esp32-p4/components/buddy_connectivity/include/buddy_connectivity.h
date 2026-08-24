@@ -45,6 +45,7 @@ typedef struct {
     buddy_connectivity_state_t state;
     char ssid[33];
     char ipv4[16];
+    char c6_firmware_version[32];
     int8_t rssi;
     uint8_t disconnect_reason;
     size_t scan_result_count;

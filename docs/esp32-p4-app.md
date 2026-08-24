@@ -1229,3 +1229,36 @@ trustworthy wall time is unavailable. Atomic filesystem records use CRC-32 and a
 versioned header; startup can promote a complete `.next` record after interrupted
 rename, while unsupported schemas and corrupt records fail closed. Server-side
 child-plus-client-ID idempotency remains authoritative.
+
+### 2026-08-23: Service state is authoritative for first boot and manual actions
+
+A completion audit found that the initial Home `Sync now` control changed only
+its label, and that successful Wi-Fi association and pairing claim still needed
+manual navigation. The UI now delegates Home and Settings sync to the sync
+service, never changes the last-successful timestamp until the service reports a
+success, advances an unpaired board from Wi-Fi to pairing, holds the pairing
+screen through initial synchronization, and enters Home only after that sync is
+ready. The Software Update screen now performs a fresh authenticated policy
+check and exposes checking, offline, available, failure, and retry states. Host
+interaction assertions cover these transitions; their physical touchscreen and
+network behavior remains part of the board acceptance test.
+
+### 2026-08-23: ESP32-C6 version uses the supported hosted RPC
+
+Diagnostics now calls `esp_hosted_get_coprocessor_fwversion()` after hosted
+Wi-Fi starts and records the returned semantic version without exposing any
+credential. The connectivity component declares the hosted and SDMMC driver
+dependencies required by the public ESP-Hosted headers. A failed query is
+reported as unavailable and does not prevent offline learning or Wi-Fi setup.
+This compiles in all six board/rotation profiles, but the actual C6 version and
+companion image hash remain physical Milestone 0 evidence and may not be inferred
+from the host component version.
+
+### 2026-08-23: Simulator evidence covers completion-audit states
+
+The reviewed deterministic 800 × 480 golden set expanded from 21 to 30 screens.
+It now includes Home syncing, multiplication mastery overview/details, empty
+flash-card library, Wi-Fi scanning and wrong-password errors, pairing failure
+and initial sync, and a manual firmware-check loading state. Pixel comparisons
+remain separate from interaction assertions; CI may compare these images but
+may not automatically accept replacements.

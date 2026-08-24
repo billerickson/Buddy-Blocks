@@ -72,7 +72,8 @@ Build evidence:
 - [x] PPA candidate builds for both silicon overlays.
 - [x] Application size is below 80% of a 7 MiB slot. The original hardware
   proof matrix peaked at 1,091,264 bytes; the complete signed pilot candidate
-  is 2,035,712 bytes (27.7%).
+  is 2,035,712 bytes (27.7%) and the signed production-profile build is
+  2,101,248 bytes (28.6%).
 - [x] Fixed firmware version plus ESP-IDF reproducible-build mode produce
   byte-identical application images in two independent clean Rev3/BSP builds.
 
@@ -104,7 +105,9 @@ Exit gate: every Milestone 0 box above is checked. Until then, Milestone 1 is
   rejection tests, migrations, and diagnostics.
 - [ ] Offline cached Home usable within five seconds.
 - [x] Host LVGL simulator fixed at 800 × 480.
-- [x] Deterministic interaction assertions and 21 reviewed golden screenshots.
+- [x] Deterministic interaction assertions and 30 reviewed golden screenshots,
+  including first-boot pairing/sync, empty, loading, error, mastery, and manual
+  sync/update states.
 - [x] Firmware CI: both silicon profiles, host tests, simulator, formatting,
   static analysis, size threshold, and SHA-bound unsigned artifacts.
 - [ ] 100-reboot loop evidence.
@@ -131,6 +134,8 @@ Exit gate: every website multiplication rule matches and reboot recovery passes.
 
 - [x] Touch Wi-Fi scanning, saved networks, WPA2/WPA3, hidden SSID, keyboard,
   forget, test outcomes, and continue-offline flow.
+- [x] Host interaction proof advances an unpaired board from connected Wi-Fi to
+  pairing, holds during initial sync, and enters Home only after sync succeeds.
 - [x] Pairing/device/content-revision D1 migration and index assertions.
 - [x] HMAC pairing codes, poll secret, token hashing, constant-time comparison,
   rate limits, and stable error contract.
@@ -160,6 +165,8 @@ Exit gate: the specification's complete flash-card synchronization story passes.
 - [x] Exact-profile firmware manifest and authenticated endpoint.
 - [x] Two-slot HTTPS OTA, size/SHA verification, health confirmation, and IDF
   rollback.
+- [x] Touchscreen manual firmware-policy check with deterministic checking,
+  offline, available, error, and retry behavior.
 - [x] SHA-labeled build/package/recovery artifacts and release report; runtime
   hardware fields remain explicitly pending.
 - [x] Development, pilot, and production security profiles.
@@ -181,8 +188,9 @@ irreversible eFuse is burned by an automated script.
   serial intervention.
 - [ ] Performance measurements pending hardware; operations, factory-reset,
   support, security, board-test, and release procedures are documented.
-- [ ] All web and firmware tests pass in CI; the full local suite passes and the
-  pull-request matrix is pending.
+- [ ] All web and firmware tests pass in CI; the prior pull-request matrix run
+  `32685637210` passed and the complete updated local suite passes, but the
+  current commit still requires its post-push matrix.
 - [x] D1 migration 0004 validated locally, then applied and verified remotely
   through the established
   deployment process.
@@ -194,15 +202,16 @@ irreversible eFuse is burned by an automated script.
 
 Exit gate: the complete Version 1 Definition of Done is satisfied.
 
-## 2026-08-23 software validation evidence
+## 2026-08-24 software validation evidence
 
 - `npm run content:validate`: PASS, 22 tracks / 3,882 questions.
 - `npm test`: PASS, 18 files / 164 tests.
 - `npm run check`: PASS, 92 files with zero diagnostics.
 - `npm run build`: PASS, including SEO validation for 12 public pages.
 - Host firmware tests: PASS, domain and atomic-storage suites.
-- LVGL simulator: PASS, interaction self-test and 21 golden screenshots.
-- Rev3/BSP development, signed pilot, and signed production builds: PASS.
+- LVGL simulator: PASS, interaction self-test and 30 golden screenshots.
+- All six silicon/rotation development builds, byte-for-byte Rev3/BSP
+  reproducibility, signed pilot, and signed production builds: PASS.
 - Wrangler deploy dry-run: PASS; local and remote D1 migration verification:
   PASS; production public/auth-boundary smoke: PASS.
 

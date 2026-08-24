@@ -93,6 +93,7 @@ typedef bool (*buddy_ui_mastery_fn)(void *context, int factor, int multiplier,
                                     buddy_ui_mastery_t *mastery);
 typedef struct {
     uint32_t p4_revision;
+    char c6_firmware_version[32];
     size_t free_internal_heap;
     size_t minimum_internal_heap;
     size_t free_psram;
@@ -116,6 +117,7 @@ typedef struct {
     buddy_ui_wifi_forget_fn wifi_forget;
     buddy_ui_request_fn request_pairing;
     buddy_ui_request_fn request_sync;
+    buddy_ui_request_fn request_firmware_check;
     buddy_ui_request_fn request_ota_install;
     buddy_ui_request_fn request_reboot;
     buddy_ui_activity_state_fn activity_state;

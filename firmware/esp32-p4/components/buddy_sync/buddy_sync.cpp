@@ -304,6 +304,7 @@ void Service::set_online(bool online)
 
 esp_err_t Service::request_pairing() { return enqueue(Command::kPair); }
 esp_err_t Service::request_sync() { return enqueue(Command::kSync); }
+esp_err_t Service::request_firmware_check() { return enqueue(Command::kFirmware); }
 
 Snapshot Service::snapshot() const
 {
@@ -339,6 +340,23 @@ void Service::task_loop()
         if (received && command == Command::kPair) {
             if (!current.online) publish(State::kError, "Connect to Wi-Fi before pairing");
             else (void)create_pairing();
+            continue;
+        }
+        if (received && command == Command::kFirmware) {
+            if (!current.online) {
+                publish(State::kError, "Connect to Wi-Fi before checking for updates");
+            } else if (!credentials_->paired) {
+                publish(State::kError, "Pair this board before checking for updates");
+            } else {
+                publish(State::kSyncing);
+                if (!ensure_trustworthy_time()) {
+                    publish(State::kRetrying, "Could not set the clock securely");
+                } else if (pull_firmware_policy()) {
+                    last_firmware_check_ms_ =
+                        static_cast<int64_t>(xTaskGetTickCount()) * portTICK_PERIOD_MS;
+                    publish(State::kReady);
+                }
+            }
             continue;
         }
         if (!current.online) continue;

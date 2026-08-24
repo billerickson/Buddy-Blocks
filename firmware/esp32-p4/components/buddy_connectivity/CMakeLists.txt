@@ -3,9 +3,11 @@ idf_component_register(
   INCLUDE_DIRS "include"
   REQUIRES
     esp_event
+    esp_driver_sdmmc
     esp_http_client
     esp_netif
     esp_wifi
+    espressif__esp_hosted
     nvs_flash
 )
 

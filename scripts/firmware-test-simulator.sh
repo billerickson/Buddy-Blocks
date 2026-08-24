@@ -27,6 +27,7 @@ mkdir -p "$actual_dir" "$golden_dir"
 scenarios=(
   home-offline
   home-online
+  home-syncing
   option-states
   choice-grid
   choice-grid-2
@@ -36,13 +37,21 @@ scenarios=(
   multiplication-selection
   multiplication-no-selection
   multiplication-locked-feedback
+  mastery-overview
+  mastery-detail
   flash-card-reveal
+  flash-library-empty
   wifi-selection
+  wifi-scanning
+  wifi-wrong-password
   wifi-password
   wifi-forget
   pairing-code
+  pairing-syncing
+  pairing-error
   diagnostics
   software-update
+  software-update-checking
   settings
   display-settings
   factory-reset

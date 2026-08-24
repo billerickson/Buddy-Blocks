@@ -184,6 +184,7 @@ bool wifi_forget(void *, const char *ssid)
 
 bool request_pairing(void *) { return s_sync.request_pairing() == ESP_OK; }
 bool request_sync(void *) { return s_sync.request_sync() == ESP_OK; }
+bool request_firmware_check(void *) { return s_sync.request_firmware_check() == ESP_OK; }
 bool request_ota_install(void *) { return s_ota.request_install() == ESP_OK; }
 
 bool request_reboot(void *)
@@ -330,6 +331,11 @@ bool diagnostics(void *, buddy_ui_diagnostics_t *output)
     buddy::storage::Capacity capacity{};
     (void)s_store.capacity(capacity);
     output->p4_revision = chip.revision;
+    buddy_connectivity_snapshot_t connectivity{};
+    if (buddy_connectivity_snapshot(&connectivity) == ESP_OK) {
+        std::snprintf(output->c6_firmware_version, sizeof(output->c6_firmware_version), "%s",
+                      connectivity.c6_firmware_version);
+    }
     output->free_internal_heap = heap_caps_get_free_size(MALLOC_CAP_INTERNAL);
     output->minimum_internal_heap = heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL);
     output->free_psram = heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
@@ -410,7 +416,8 @@ void connectivity_ui_task(void *)
             const std::string firmware_policy =
                 sync.firmware_hardware_profile + "\n" + sync.firmware_version + "\n" +
                 sync.firmware_minimum_version + "\n" + sync.firmware_url + "\n" +
-                sync.firmware_sha256 + "\n" + std::to_string(sync.firmware_size) + "\n" +
+                sync.firmware_sha256 + "\n" + sync.firmware_release_notes + "\n" +
+                std::to_string(sync.firmware_size) + "\n" +
                 (sync.firmware_mandatory ? "required" : "optional");
             if (!sync.firmware_hardware_profile.empty() &&
                 firmware_policy != loaded_firmware_policy) {
@@ -519,6 +526,7 @@ extern "C" void app_main(void)
         .wifi_forget = wifi_forget,
         .request_pairing = request_pairing,
         .request_sync = request_sync,
+        .request_firmware_check = request_firmware_check,
         .request_ota_install = request_ota_install,
         .request_reboot = request_reboot,
         .activity_state = activity_state,

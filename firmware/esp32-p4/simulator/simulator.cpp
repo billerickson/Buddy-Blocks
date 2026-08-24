@@ -133,6 +133,40 @@ bool simulator_wifi_network(void *, size_t index, buddy_ui_wifi_network_t *netwo
 }
 bool simulator_wifi_connect(void *, const char *, const char *, bool, bool) { return true; }
 bool simulator_wifi_forget(void *, const char *) { return true; }
+bool simulator_request(void *) { return true; }
+size_t simulator_flash_section_count(void *) { return 4; }
+bool simulator_flash_section(void *, size_t index, buddy_ui_flash_section_t *section)
+{
+    if (section == nullptr || index >= simulator_flash_section_count(nullptr)) return false;
+    std::snprintf(section->id, sizeof(section->id), "sim_section_%u",
+                  static_cast<unsigned>(index));
+    std::snprintf(section->title, sizeof(section->title), "%s",
+                  index == 0 ? "Week 1 Words" : "Study Set");
+    std::snprintf(section->source, sizeof(section->source), "Simulator");
+    section->card_count = 5;
+    section->pinned = index == 0;
+    return true;
+}
+bool simulator_mastery(void *, int factor, int multiplier, buddy_ui_mastery_t *mastery)
+{
+    if (mastery == nullptr || factor < 1 || factor > 12 || multiplier < 1 || multiplier > 12) {
+        return false;
+    }
+    if (factor == 2 || (factor == 7 && multiplier <= 4)) {
+        mastery->attempts = 8;
+        mastery->correct = 7;
+        mastery->correct_streak = 4;
+        mastery->best_keyboard_response_ms = 3200 + static_cast<uint32_t>(multiplier * 50);
+        mastery->has_best_keyboard_response = true;
+    } else if (factor == 7 && multiplier <= 8) {
+        mastery->attempts = 5;
+        mastery->correct = 3;
+        mastery->correct_streak = 1;
+        mastery->best_keyboard_response_ms = 6100;
+        mastery->has_best_keyboard_response = true;
+    }
+    return true;
+}
 
 } // namespace
 
@@ -185,6 +219,11 @@ int main(int argc, char **argv)
     services.wifi_network = simulator_wifi_network;
     services.wifi_connect = simulator_wifi_connect;
     services.wifi_forget = simulator_wifi_forget;
+    services.request_sync = simulator_request;
+    services.request_firmware_check = simulator_request;
+    services.flash_section_count = simulator_flash_section_count;
+    services.flash_section = simulator_flash_section;
+    services.mastery = simulator_mastery;
     buddy_ui_set_services(&services);
     buddy_ui_update_connectivity(4, "Home Network", "192.0.2.24", -48, 1);
     if (!buddy_ui_start(display, &bootstrap)) {

@@ -63,10 +63,11 @@ class Service {
     void set_online(bool online);
     esp_err_t request_pairing();
     esp_err_t request_sync();
+    esp_err_t request_firmware_check();
     Snapshot snapshot() const;
 
   private:
-    enum class Command : uint8_t { kPair, kSync, kNetworkChanged };
+    enum class Command : uint8_t { kPair, kSync, kFirmware, kNetworkChanged };
     struct Credentials;
 
     static void task_entry(void *context);
