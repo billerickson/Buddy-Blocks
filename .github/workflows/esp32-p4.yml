@@ -45,11 +45,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
       - name: Install host test runtime
-        run: |
-          apt-get update
-          apt-get install -y --no-install-recommends nodejs npm
-          npm ci
+        run: npm ci
 
       - name: Website, Worker, content, and shared-vector validation
         run: |
@@ -58,12 +60,6 @@ jobs:
           npm run check
           npm run build
 
-      - name: Host domain and storage tests
-        run: ./scripts/firmware-test-host.sh
-
-      - name: LVGL simulator and reviewed goldens
-        run: ./scripts/firmware-test-simulator.sh
-
       - name: Build silicon and rotation matrix
         run: |
           for profile in rev3 rev1_3; do
@@ -71,6 +67,14 @@ jobs:
               ./scripts/firmware-build.sh "$profile" "$rotation"
             done
           done
+
+      # The IDF build resolves the exact pinned managed-component graph used by
+      # the host LVGL simulator; no generated component source is committed.
+      - name: Host domain and storage tests
+        run: ./scripts/firmware-test-host.sh
+
+      - name: LVGL simulator and reviewed goldens
+        run: ./scripts/firmware-test-simulator.sh
 
       - name: Source and generated-file checks
         run: |
