@@ -7,9 +7,12 @@
 #include <cstring>
 #include <ctime>
 #include <memory>
+#include <optional>
 #include <strings.h>
+#include <sys/time.h>
 #include <vector>
 
+#include "buddy_content.h"
 #include "buddy_domain.h"
 #include "cJSON.h"
 #include "esp_crt_bundle.h"
@@ -34,8 +37,16 @@ constexpr TickType_t kPairPollTicks = pdMS_TO_TICKS(3000);
 constexpr TickType_t kIdlePollTicks = pdMS_TO_TICKS(15000);
 constexpr int64_t kPeriodicSyncMs = 15 * 60 * 1000;
 constexpr time_t kMinimumTrustedUnixTime = 1704067200; // 2024-01-01T00:00:00Z
+constexpr int64_t kTimeHintRefreshSeconds = 60 * 60;
+bool s_fresh_sntp_time_observed = false;
 
 using Json = std::unique_ptr<cJSON, decltype(&cJSON_Delete)>;
+
+cJSON *parse_json(const std::string &value)
+{
+    if (value.find('\0') != std::string::npos) return nullptr;
+    return cJSON_ParseWithLengthOpts(value.c_str(), value.size() + 1, nullptr, true);
+}
 
 std::string base64url(const uint8_t *bytes, size_t size)
 {
@@ -122,7 +133,7 @@ bool json_string(cJSON *object, const char *key, std::string &output, size_t max
 
 std::string json_error(const std::string &body)
 {
-    Json root(cJSON_ParseWithLength(body.data(), body.size()), cJSON_Delete);
+    Json root(parse_json(body), cJSON_Delete);
     std::string error;
     return root && json_string(root.get(), "error", error, 80) ? error : std::string{};
 }
@@ -138,44 +149,16 @@ std::string json_print(cJSON *value)
 
 bool valid_flash_snapshot(const std::string &body, uint32_t expected_revision)
 {
-    Json root(cJSON_ParseWithLength(body.data(), body.size()), cJSON_Delete);
-    if (!root || !cJSON_IsObject(root.get())) return false;
-    cJSON *schema = cJSON_GetObjectItemCaseSensitive(root.get(), "schemaVersion");
-    cJSON *revision = cJSON_GetObjectItemCaseSensitive(root.get(), "revision");
-    cJSON *sections = cJSON_GetObjectItemCaseSensitive(root.get(), "sections");
-    if (!cJSON_IsNumber(schema) || schema->valueint != 1 || !cJSON_IsNumber(revision) ||
-        revision->valuedouble < 0 || static_cast<uint32_t>(revision->valuedouble) != expected_revision ||
-        !cJSON_IsArray(sections) || cJSON_GetArraySize(sections) > 50) {
-        return false;
-    }
-    size_t total_cards = 0;
-    cJSON *section = nullptr;
-    cJSON_ArrayForEach(section, sections) {
-        std::string ignored;
-        cJSON *cards = cJSON_GetObjectItemCaseSensitive(section, "cards");
-        if (!cJSON_IsObject(section) || !json_string(section, "id", ignored, 128) ||
-            !json_string(section, "title", ignored, 100) || !cJSON_IsArray(cards) ||
-            cJSON_GetArraySize(cards) > 100) {
-            return false;
-        }
-        total_cards += static_cast<size_t>(cJSON_GetArraySize(cards));
-        if (total_cards > 2500) return false;
-        cJSON *card = nullptr;
-        cJSON_ArrayForEach(card, cards) {
-            if (!cJSON_IsObject(card) || !json_string(card, "id", ignored, 128) ||
-                !json_string(card, "front", ignored, 500) ||
-                !json_string(card, "back", ignored, 800)) {
-                return false;
-            }
-            cJSON *clue = cJSON_GetObjectItemCaseSensitive(card, "clue");
-            if (clue != nullptr && !cJSON_IsNull(clue) &&
-                (!cJSON_IsString(clue) || clue->valuestring == nullptr ||
-                 std::strlen(clue->valuestring) > 800)) {
-                return false;
-            }
-        }
-    }
-    return true;
+    content::Library candidate;
+    return candidate.replace_from_snapshot(body) && candidate.revision() == expected_revision;
+}
+
+bool valid_sha256(const std::string &value)
+{
+    return value.size() == 64 &&
+           std::all_of(value.begin(), value.end(), [](unsigned char character) {
+               return std::isxdigit(character) != 0;
+           });
 }
 
 void start_sntp_if_needed()
@@ -190,7 +173,13 @@ bool ensure_trustworthy_time()
 {
     start_sntp_if_needed();
     for (int attempt = 0; attempt < 40; ++attempt) {
-        if (std::time(nullptr) >= kMinimumTrustedUnixTime) return true;
+        const time_t now = std::time(nullptr);
+        if (s_fresh_sntp_time_observed && now >= kMinimumTrustedUnixTime) return true;
+        if (esp_sntp_get_sync_status() == SNTP_SYNC_STATUS_COMPLETED &&
+            now >= kMinimumTrustedUnixTime) {
+            s_fresh_sntp_time_observed = true;
+            return true;
+        }
         vTaskDelay(pdMS_TO_TICKS(250));
     }
     return false;
@@ -211,6 +200,9 @@ struct Service::Credentials {
     std::string device_name;
     uint32_t flash_revision = 0;
     int64_t last_successful_sync_unix = 0;
+    int64_t last_trustworthy_unix = 0;
+    int64_t server_clock_offset_ms = 0;
+    bool has_server_clock_offset = false;
     bool paired = false;
 };
 
@@ -352,6 +344,7 @@ void Service::task_loop()
                 if (!ensure_trustworthy_time()) {
                     publish(State::kRetrying, "Could not set the clock securely");
                 } else if (pull_firmware_policy()) {
+                    capture_trustworthy_time();
                     last_firmware_check_ms_ =
                         static_cast<int64_t>(xTaskGetTickCount()) * portTICK_PERIOD_MS;
                     publish(State::kReady);
@@ -390,11 +383,16 @@ bool Service::load_credentials()
     nvs_read_string(handle, "child_slug", credentials_->child_slug, 100);
     nvs_read_string(handle, "device_name", credentials_->device_name, 80);
     uint8_t paired = 0;
+    uint8_t has_clock_offset = 0;
     uint32_t revision = 0;
     (void)nvs_get_u8(handle, "paired", &paired);
     (void)nvs_get_u32(handle, "flash_rev", &revision);
     (void)nvs_get_i64(handle, "last_sync", &credentials_->last_successful_sync_unix);
+    (void)nvs_get_i64(handle, "time_hint", &credentials_->last_trustworthy_unix);
+    (void)nvs_get_i64(handle, "clock_off", &credentials_->server_clock_offset_ms);
+    (void)nvs_get_u8(handle, "clock_has", &has_clock_offset);
     credentials_->paired = paired == 1;
+    credentials_->has_server_clock_offset = has_clock_offset == 1;
     credentials_->flash_revision = revision;
     nvs_close(handle);
     return true;
@@ -403,14 +401,20 @@ bool Service::load_credentials()
 bool Service::save_credentials()
 {
     nvs_handle_t handle = 0;
-    if (nvs_open(kNamespace, NVS_READWRITE, &handle) != ESP_OK ||
-        nvs_erase_all(handle) != ESP_OK) {
+    if (nvs_open(kNamespace, NVS_READWRITE, &handle) != ESP_OK) {
         if (handle != 0) nvs_close(handle);
         return false;
     }
     esp_err_t result = nvs_set_str(handle, "device_id", credentials_->device_id.c_str());
+    const auto erase_key = [&](const char *key) {
+        if (result != ESP_OK) return;
+        const esp_err_t erased = nvs_erase_key(handle, key);
+        if (erased != ESP_OK && erased != ESP_ERR_NVS_NOT_FOUND) result = erased;
+    };
     const auto write_string = [&](const char *key, const std::string &value) {
-        if (result == ESP_OK && !value.empty()) result = nvs_set_str(handle, key, value.c_str());
+        if (result != ESP_OK) return;
+        if (value.empty()) erase_key(key);
+        else result = nvs_set_str(handle, key, value.c_str());
     };
     write_string("token", credentials_->token);
     write_string("poll", credentials_->poll_secret);
@@ -423,8 +427,18 @@ bool Service::save_credentials()
     write_string("device_name", credentials_->device_name);
     if (result == ESP_OK) result = nvs_set_u8(handle, "paired", credentials_->paired ? 1 : 0);
     if (result == ESP_OK) result = nvs_set_u32(handle, "flash_rev", credentials_->flash_revision);
-    if (result == ESP_OK && credentials_->last_successful_sync_unix > 0) {
+    if (result == ESP_OK && credentials_->last_successful_sync_unix > 0)
         result = nvs_set_i64(handle, "last_sync", credentials_->last_successful_sync_unix);
+    else if (result == ESP_OK) erase_key("last_sync");
+    if (result == ESP_OK && credentials_->last_trustworthy_unix > 0)
+        result = nvs_set_i64(handle, "time_hint", credentials_->last_trustworthy_unix);
+    else if (result == ESP_OK) erase_key("time_hint");
+    if (result == ESP_OK && credentials_->has_server_clock_offset) {
+        result = nvs_set_i64(handle, "clock_off", credentials_->server_clock_offset_ms);
+        if (result == ESP_OK) result = nvs_set_u8(handle, "clock_has", 1);
+    } else if (result == ESP_OK) {
+        erase_key("clock_off");
+        erase_key("clock_has");
     }
     if (result == ESP_OK) result = nvs_commit(handle);
     nvs_close(handle);
@@ -451,6 +465,7 @@ bool Service::create_pairing()
         publish(State::kRetrying, "Could not set the clock securely");
         return false;
     }
+    capture_trustworthy_time();
     Json body(cJSON_CreateObject(), cJSON_Delete);
     cJSON_AddStringToObject(body.get(), "deviceId", credentials_->device_id.c_str());
     cJSON_AddStringToObject(body.get(), "tokenHash", sha256_hex(credentials_->token).c_str());
@@ -468,7 +483,7 @@ bool Service::create_pairing()
                                                                     : json_error(response.body));
         return false;
     }
-    Json root(cJSON_ParseWithLength(response.body.data(), response.body.size()), cJSON_Delete);
+    Json root(parse_json(response.body), cJSON_Delete);
     if (!root || !json_string(root.get(), "pairingId", credentials_->pairing_id, 128) ||
         !json_string(root.get(), "code", credentials_->pairing_code, 8) ||
         !json_string(root.get(), "claimUrl", credentials_->claim_url, 512)) {
@@ -500,11 +515,12 @@ bool Service::poll_pairing()
         publish(State::kRetrying, "Could not set the clock securely");
         return false;
     }
+    capture_trustworthy_time();
     const HttpResponse response =
         request("/api/device/v1/pairings/" + credentials_->pairing_id, "GET", {},
                 "Pairing " + credentials_->poll_secret, {}, kPairingResponseLimit);
     if (response.transport != ESP_OK || response.status != 200) return false;
-    Json root(cJSON_ParseWithLength(response.body.data(), response.body.size()), cJSON_Delete);
+    Json root(parse_json(response.body), cJSON_Delete);
     std::string status;
     if (!root || !json_string(root.get(), "status", status, 16)) return false;
     if (status == "pending") return true;
@@ -532,7 +548,6 @@ bool Service::poll_pairing()
     credentials_->pairing_code.clear();
     credentials_->claim_url.clear();
     credentials_->poll_secret.clear();
-    if (!save_credentials()) return false;
     {
         std::lock_guard<std::recursive_mutex> guard(mutex_);
         snapshot_.paired = true;
@@ -541,6 +556,10 @@ bool Service::poll_pairing()
         snapshot_.child_name = credentials_->child_name;
         snapshot_.child_slug = credentials_->child_slug;
         snapshot_.device_name = credentials_->device_name;
+    }
+    if (!save_credentials()) {
+        publish(State::kError, "Pairing succeeded, but could not be retained; retrying");
+        return false;
     }
     publish(State::kSyncing);
     return synchronize();
@@ -554,6 +573,7 @@ bool Service::synchronize()
         publish(State::kRetrying, "Could not set the clock securely");
         return false;
     }
+    capture_trustworthy_time();
     if (!flush_outbox()) return false;
     uint32_t server_revision = credentials_->flash_revision;
     if (!pull_bootstrap(server_revision) || !pull_flash_cards(server_revision)) return false;
@@ -576,6 +596,34 @@ bool Service::synchronize()
     return true;
 }
 
+void Service::capture_trustworthy_time(std::optional<int64_t> server_time_ms)
+{
+    if (!s_fresh_sntp_time_observed) return;
+    timeval current{};
+    if (gettimeofday(&current, nullptr) != 0 || current.tv_sec < kMinimumTrustedUnixTime) return;
+    const bool refresh_hint = credentials_->last_trustworthy_unix < kMinimumTrustedUnixTime ||
+                              current.tv_sec < credentials_->last_trustworthy_unix ||
+                              current.tv_sec - credentials_->last_trustworthy_unix >=
+                                  kTimeHintRefreshSeconds;
+    bool changed = refresh_hint;
+    if (refresh_hint) credentials_->last_trustworthy_unix = current.tv_sec;
+    if (server_time_ms.has_value()) {
+        const int64_t local_ms = static_cast<int64_t>(current.tv_sec) * 1000 +
+                                 static_cast<int64_t>(current.tv_usec / 1000);
+        const int64_t next_offset = server_time_ms.value() - local_ms;
+        const bool material_offset_change =
+            !credentials_->has_server_clock_offset ||
+            credentials_->server_clock_offset_ms < next_offset - 1000 ||
+            credentials_->server_clock_offset_ms > next_offset + 1000;
+        changed = changed || material_offset_change;
+        credentials_->server_clock_offset_ms = next_offset;
+        credentials_->has_server_clock_offset = true;
+    }
+    if (changed && !save_credentials()) {
+        ESP_LOGW(kTag, "Could not persist trustworthy-time metadata");
+    }
+}
+
 bool Service::flush_outbox()
 {
     std::vector<std::string> events;
@@ -590,7 +638,7 @@ bool Service::flush_outbox()
             continue;
         }
         const std::string envelope(record.payload.begin(), record.payload.end());
-        Json root(cJSON_ParseWithLength(envelope.data(), envelope.size()), cJSON_Delete);
+        Json root(parse_json(envelope), cJSON_Delete);
         cJSON *type = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "eventType") : nullptr;
         cJSON *body = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "body") : nullptr;
         if (!cJSON_IsString(type) || type->valuestring == nullptr || !cJSON_IsObject(body)) {
@@ -655,13 +703,19 @@ bool Service::pull_bootstrap(uint32_t &server_revision)
                 error.empty() ? "Bootstrap sync failed" : error);
         return false;
     }
-    Json root(cJSON_ParseWithLength(response.body.data(), response.body.size()), cJSON_Delete);
+    Json root(parse_json(response.body), cJSON_Delete);
     cJSON *content = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "content") : nullptr;
     cJSON *revision = content ? cJSON_GetObjectItemCaseSensitive(content, "flashCardsRevision")
                               : nullptr;
     cJSON *child = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "child") : nullptr;
     cJSON *device = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "device") : nullptr;
-    if (!root || !cJSON_IsNumber(revision) || revision->valuedouble < 0 || !cJSON_IsObject(child) ||
+    std::string server_time;
+    if (!root || !cJSON_IsNumber(revision) || revision->valuedouble < 0 ||
+        revision->valuedouble > UINT32_MAX ||
+        revision->valuedouble !=
+            static_cast<double>(static_cast<uint32_t>(revision->valuedouble)) ||
+        !cJSON_IsObject(child) ||
+        !json_string(root.get(), "serverTime", server_time, 64) ||
         !json_string(child, "displayName", credentials_->child_name, 80) ||
         !json_string(child, "slug", credentials_->child_slug, 100) ||
         !cJSON_IsObject(device) ||
@@ -669,6 +723,17 @@ bool Service::pull_bootstrap(uint32_t &server_revision)
         publish(State::kError, "Bootstrap response was invalid");
         return false;
     }
+    const auto server_time_ms = domain::parse_server_timestamp_ms(server_time);
+    if (!server_time_ms.has_value()) {
+        publish(State::kError, "Bootstrap server clock was invalid");
+        return false;
+    }
+    content::Bootstrap parsed_bootstrap;
+    if (!content::parse_bootstrap(response.body, parsed_bootstrap)) {
+        publish(State::kError, "Bootstrap learning data was invalid");
+        return false;
+    }
+    credentials_->child_name = parsed_bootstrap.child_name;
     server_revision = static_cast<uint32_t>(revision->valuedouble);
     const std::vector<uint8_t> payload(response.body.begin(), response.body.end());
     if (store_.write_atomic("content/bootstrap.json", 1, payload) != storage::Result::kOk) {
@@ -681,18 +746,46 @@ bool Service::pull_bootstrap(uint32_t &server_revision)
         snapshot_.child_slug = credentials_->child_slug;
         snapshot_.device_name = credentials_->device_name;
     }
+    capture_trustworthy_time(server_time_ms);
     return save_credentials();
 }
 
 bool Service::pull_flash_cards(uint32_t server_revision)
 {
-    if (server_revision == credentials_->flash_revision) return true;
-    const std::string etag = credentials_->flash_revision == 0
-                                 ? std::string{}
-                                 : "\"flash-cards-r" + std::to_string(credentials_->flash_revision) + "\"";
+    storage::Record cached_record{};
+    std::optional<uint32_t> cached_revision;
+    if (store_.read("content/flash-cards.json", 1, cached_record) == storage::Result::kOk) {
+        const std::string cached(cached_record.payload.begin(), cached_record.payload.end());
+        if (valid_flash_snapshot(cached, server_revision)) {
+            cached_revision = server_revision;
+        } else if (valid_flash_snapshot(cached, credentials_->flash_revision)) {
+            cached_revision = credentials_->flash_revision;
+        }
+    }
+    const auto fetch_action = domain::flash_snapshot_fetch_action(
+        server_revision, credentials_->flash_revision, cached_revision);
+    if (fetch_action == domain::SnapshotFetchAction::kUseCache) {
+        if (credentials_->flash_revision == server_revision) return true;
+        credentials_->flash_revision = server_revision;
+        {
+            std::lock_guard<std::recursive_mutex> guard(mutex_);
+            snapshot_.content_revision = server_revision;
+        }
+        if (save_credentials()) return true;
+        publish(State::kError, "Could not repair the flash-card cache revision");
+        return false;
+    }
+    const std::string etag = fetch_action == domain::SnapshotFetchAction::kConditionalFetch
+                                 ? "\"flash-cards-r" +
+                                       std::to_string(credentials_->flash_revision) + "\""
+                                 : std::string{};
     const HttpResponse response = request("/api/device/v1/flash-card-sections", "GET", {},
                                           "Bearer " + credentials_->token, etag);
-    if (response.status == 304) return true;
+    if (response.status == 304) {
+        if (cached_revision.has_value() && cached_revision.value() == server_revision) return true;
+        publish(State::kRetrying, "Flash-card cache was missing; requesting a full snapshot");
+        return false;
+    }
     const std::string error = json_error(response.body);
     const auto action = domain::classify_http_result(response.status, error);
     if (action == domain::RetryAction::kRepair) {
@@ -714,7 +807,9 @@ bool Service::pull_flash_cards(uint32_t server_revision)
         std::lock_guard<std::recursive_mutex> guard(mutex_);
         snapshot_.content_revision = server_revision;
     }
-    return save_credentials();
+    if (save_credentials()) return true;
+    publish(State::kError, "Could not retain the flash-card content revision");
+    return false;
 }
 
 bool Service::pull_firmware_policy()
@@ -733,18 +828,19 @@ bool Service::pull_firmware_policy()
                 error.empty() ? "Firmware policy check failed" : error);
         return false;
     }
-    Json root(cJSON_ParseWithLength(response.body.data(), response.body.size()), cJSON_Delete);
+    Json root(parse_json(response.body), cJSON_Delete);
     std::string profile;
     std::string version;
     std::string minimum;
     cJSON *schema = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "schemaVersion") : nullptr;
     cJSON *update = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "updateAvailable") : nullptr;
     cJSON *mandatory = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "mandatory") : nullptr;
-    if (!root || !cJSON_IsNumber(schema) || schema->valueint != 1 ||
+    if (!root || !cJSON_IsNumber(schema) || schema->valuedouble != 1 ||
         !json_string(root.get(), "hardwareProfile", profile, 80) ||
         !json_string(root.get(), "version", version, 64) ||
         !json_string(root.get(), "minimumVersion", minimum, 64) || !cJSON_IsBool(update) ||
-        !cJSON_IsBool(mandatory)) {
+        !cJSON_IsBool(mandatory) || profile.empty() || version.empty() || minimum.empty() ||
+        (cJSON_IsTrue(mandatory) && !cJSON_IsTrue(update))) {
         publish(State::kError, "Firmware policy response was invalid");
         return false;
     }
@@ -754,9 +850,11 @@ bool Service::pull_firmware_policy()
     size_t size = 0;
     if (cJSON_IsTrue(update)) {
         cJSON *size_item = cJSON_GetObjectItemCaseSensitive(root.get(), "size");
-        if (!json_string(root.get(), "url", url, 1024) ||
-            !json_string(root.get(), "sha256", digest, 64) || !cJSON_IsNumber(size_item) ||
-            size_item->valuedouble <= 0 || size_item->valuedouble > 7 * 1024 * 1024) {
+        if (!json_string(root.get(), "url", url, 1024) || url.rfind("https://", 0) != 0 ||
+            !json_string(root.get(), "sha256", digest, 64) || !valid_sha256(digest) ||
+            !cJSON_IsNumber(size_item) || size_item->valuedouble <= 0 ||
+            size_item->valuedouble > 7 * 1024 * 1024 ||
+            size_item->valuedouble != static_cast<double>(static_cast<size_t>(size_item->valuedouble))) {
             publish(State::kError, "Firmware update manifest was incomplete");
             return false;
         }
@@ -784,19 +882,20 @@ bool Service::pull_firmware_policy()
 
 void Service::purge_child_state(const std::string &reason)
 {
+    bool purge_succeeded = true;
     for (const char *path : {"content/bootstrap.json", "content/flash-cards.json",
                              "content/mastery.json", "sessions/multiplication-active.json",
                              "sessions/flash-card-active.json"}) {
-        (void)store_.remove(path);
+        const storage::Result removed = store_.remove(path);
+        purge_succeeded = purge_succeeded &&
+                          (removed == storage::Result::kOk ||
+                           removed == storage::Result::kNotFound);
     }
-    std::vector<std::string> events;
-    if (store_.list_outbox(events) == storage::Result::kOk) {
-        for (const auto &event : events) (void)store_.acknowledge(event);
-    }
+    purge_succeeded = store_.purge_outbox() == storage::Result::kOk && purge_succeeded;
     const std::string device_id = credentials_->device_id;
     *credentials_ = Credentials{};
     credentials_->device_id = device_id;
-    (void)ensure_device_identity(true);
+    const bool identity_rotated = ensure_device_identity(true);
     {
         std::lock_guard<std::recursive_mutex> guard(mutex_);
         snapshot_.paired = false;
@@ -808,7 +907,12 @@ void Service::purge_child_state(const std::string &reason)
         snapshot_.content_revision = 0;
         snapshot_.queued_events = 0;
     }
-    publish(State::kPairingRequired, reason);
+    if (!purge_succeeded || !identity_rotated) {
+        publish(State::kError,
+                "Pairing was revoked, but local erasure could not be verified. Use Factory reset.");
+    } else {
+        publish(State::kPairingRequired, reason);
+    }
 }
 
 Service::HttpResponse Service::request(const std::string &path, const char *method,

@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <mutex>
+#include <optional>
 #include <string>
 
 #include "buddy_storage.h"
@@ -82,6 +83,7 @@ class Service {
     bool pull_bootstrap(uint32_t &server_revision);
     bool pull_flash_cards(uint32_t server_revision);
     bool pull_firmware_policy();
+    void capture_trustworthy_time(std::optional<int64_t> server_time_ms = std::nullopt);
     void purge_child_state(const std::string &reason);
     HttpResponse request(const std::string &path, const char *method,
                          const std::string &body = {}, const std::string &authorization = {},

@@ -1638,21 +1638,30 @@ void ota_reboot_action(lv_event_t *)
 void render_update()
 {
     top_nav("Software Update", true);
-    const bool available = s_app.ota_state == 1 || s_app.ota_state == 2 || s_app.ota_state == 6;
     const bool working = s_app.ota_state == 3 || s_app.ota_state == 4;
     const bool reboot_ready = s_app.ota_state == 5;
+    const bool ota_error = s_app.ota_state == 6;
+    const bool policy_error = !ota_error && !s_app.firmware_checking &&
+                              !s_app.device_error.empty() &&
+                              (s_app.device_state == 5 || s_app.device_state == 8);
+    const bool available = !policy_error &&
+                           (s_app.ota_state == 1 || s_app.ota_state == 2 || ota_error);
     const char *headline = s_app.firmware_checking
                                ? "Checking for updates..."
                                : reboot_ready
                                ? "Update verified and ready"
                                : working ? (s_app.ota_state == 3 ? "Downloading securely"
                                                                  : "Verifying image")
+                                         : ota_error ? "Update failed - try again"
+                                         : policy_error ? "Update check failed"
                                          : available ? "Update available"
                                          : !s_app.bootstrap.online
                                              ? "Connect to check for updates"
                                              : "This board is up to date";
     label(lv_screen_active(), headline, 60, 80, 680, &lv_font_montserrat_28,
-          reboot_ready ? kTeal : s_app.ota_mandatory ? kOrange : kInk, LV_TEXT_ALIGN_CENTER);
+          reboot_ready ? kTeal
+                       : s_app.ota_mandatory || ota_error || policy_error ? kOrange : kInk,
+          LV_TEXT_ALIGN_CENTER);
     char versions[180];
     if (s_app.ota_version.empty()) {
         std::snprintf(versions, sizeof(versions), "Installed firmware: %s",
@@ -1689,9 +1698,12 @@ void render_update()
         label(lv_screen_active(), s_app.ota_release_notes.c_str(), 76, 190, 648,
               &lv_font_montserrat_20, kInk, LV_TEXT_ALIGN_CENTER);
     }
-    if (!s_app.ota_message.empty()) {
-        label(lv_screen_active(), s_app.ota_message.c_str(), 76, 294, 648,
-              &lv_font_montserrat_16, s_app.ota_state == 6 ? kOrange : kMuted,
+    const char *status_message = !s_app.ota_message.empty()
+                                     ? s_app.ota_message.c_str()
+                                     : policy_error ? s_app.device_error.c_str() : nullptr;
+    if (status_message != nullptr) {
+        label(lv_screen_active(), status_message, 76, 294, 648,
+              &lv_font_montserrat_16, ota_error || policy_error ? kOrange : kMuted,
               LV_TEXT_ALIGN_CENTER);
     } else if (available) {
         label(lv_screen_active(),
@@ -1715,6 +1727,9 @@ void render_update()
             confirm_bar("Open Wi-Fi", true,
                         [](lv_event_t *) { navigate(Screen::kWifi); },
                         "Back", [](lv_event_t *) { navigate(Screen::kSettings); });
+        } else if (policy_error) {
+            confirm_bar("Retry check", true, firmware_check_action,
+                        "Back", [](lv_event_t *) { navigate(Screen::kSettings); }, kOrange);
         } else {
             confirm_bar("Check again", true, firmware_check_action,
                         "Back", [](lv_event_t *) { navigate(Screen::kSettings); });
@@ -2507,6 +2522,18 @@ extern "C" bool buddy_ui_render_scenario(const char *scenario_name)
     } else if (scenario == "software-update-checking") {
         s_app.bootstrap.online = true;
         s_app.firmware_checking = true;
+        s_app.ota_state = 0;
+        s_app.ota_version.clear();
+        s_app.ota_minimum_version.clear();
+        s_app.ota_release_notes.clear();
+        s_app.ota_message.clear();
+        render(Screen::kUpdate);
+    } else if (scenario == "software-update-error") {
+        s_app.bootstrap.online = true;
+        s_app.bootstrap.paired = true;
+        s_app.firmware_checking = false;
+        s_app.device_state = 8;
+        s_app.device_error = "Firmware policy check failed. Check the connection and retry.";
         s_app.ota_state = 0;
         s_app.ota_version.clear();
         s_app.ota_minimum_version.clear();

@@ -105,7 +105,7 @@ Exit gate: every Milestone 0 box above is checked. Until then, Milestone 1 is
   rejection tests, migrations, and diagnostics.
 - [ ] Offline cached Home usable within five seconds.
 - [x] Host LVGL simulator fixed at 800 × 480.
-- [x] Deterministic interaction assertions and 30 reviewed golden screenshots,
+- [x] Deterministic interaction assertions and 31 reviewed golden screenshots,
   including first-boot pairing/sync, empty, loading, error, mastery, and manual
   sync/update states.
 - [x] Firmware CI: both silicon profiles, host tests, simulator, formatting,
@@ -210,8 +210,9 @@ Exit gate: the complete Version 1 Definition of Done is satisfied.
 - `npm test`: PASS, 18 files / 164 tests.
 - `npm run check`: PASS, 92 files with zero diagnostics.
 - `npm run build`: PASS, including SEO validation for 12 public pages.
-- Host firmware tests: PASS, domain and atomic-storage suites.
-- LVGL simulator: PASS, interaction self-test and 30 golden screenshots.
+- Host firmware tests: PASS, domain, content/schema, and atomic-storage/recovery
+  suites.
+- LVGL simulator: PASS, interaction self-test and 31 golden screenshots.
 - All six silicon/rotation development builds, byte-for-byte Rev3/BSP
   reproducibility, signed pilot, and signed production builds: PASS.
 - Wrangler deploy dry-run: PASS; local and remote D1 migration verification:

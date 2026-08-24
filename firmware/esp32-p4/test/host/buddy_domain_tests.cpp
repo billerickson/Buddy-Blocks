@@ -139,6 +139,26 @@ int main()
                 classify_http_result(409, "client_attempt_conflict") == RetryAction::kQuarantine,
             "HTTP retry classification is stable");
 
+    require(flash_snapshot_fetch_action(12, 12, 12) ==
+                SnapshotFetchAction::kUseCache &&
+                flash_snapshot_fetch_action(13, 12, 12) ==
+                    SnapshotFetchAction::kConditionalFetch &&
+                flash_snapshot_fetch_action(12, 12, std::nullopt) ==
+                    SnapshotFetchAction::kUnconditionalFetch &&
+                flash_snapshot_fetch_action(0, 0, std::nullopt) ==
+                    SnapshotFetchAction::kUnconditionalFetch &&
+                flash_snapshot_fetch_action(13, 12, 13) ==
+                    SnapshotFetchAction::kUseCache,
+            "flash snapshot cache is trusted only after payload validation");
+
+    require(parse_server_timestamp_ms("2026-08-23T18:00:00.000Z") == 1787508000000LL &&
+                parse_server_timestamp_ms("2024-02-29T23:59:59.999Z") ==
+                    1709251199999LL &&
+                !parse_server_timestamp_ms("2025-02-29T00:00:00.000Z").has_value() &&
+                !parse_server_timestamp_ms("2026-08-23T18:00:00Z").has_value() &&
+                !parse_server_timestamp_ms("2026-08-23T18:00:60.000Z").has_value(),
+            "server UTC timestamps are parsed without depending on a process timezone");
+
     MultiplicationSessionState active{
         "esp32p4_demo_000000000000002a", false, 60, {2, 7}, 42, 1234,
         {{2, 4}, {7, 8}}, 1, {{{2, 4}, 8, 2100}}, 1, false, true,

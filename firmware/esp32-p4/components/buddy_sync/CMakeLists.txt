@@ -2,6 +2,7 @@ idf_component_register(
   SRCS "buddy_sync.cpp"
   INCLUDE_DIRS "include"
   REQUIRES
+    buddy_content
     buddy_domain
     buddy_storage
     esp_http_client

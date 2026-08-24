@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(buddy_blocks_host_tests LANGUAGES CXX)
+project(buddy_blocks_host_tests LANGUAGES C CXX)
 
 enable_testing()
 
@@ -17,6 +17,28 @@ target_link_libraries(buddy_domain_tests PRIVATE buddy_domain)
 target_include_directories(buddy_domain_tests PRIVATE "${CMAKE_BINARY_DIR}/generated")
 target_compile_options(buddy_domain_tests PRIVATE -Wall -Wextra -Werror)
 add_test(NAME buddy_domain_tests COMMAND buddy_domain_tests)
+
+add_library(cjson STATIC
+  "$ENV{IDF_PATH}/components/json/cJSON/cJSON.c"
+)
+target_include_directories(cjson PUBLIC
+  "$ENV{IDF_PATH}/components/json/cJSON"
+)
+
+add_library(buddy_content STATIC
+  ../../components/buddy_content/buddy_content.cpp
+)
+target_include_directories(buddy_content PUBLIC
+  ../../components/buddy_content/include
+)
+target_compile_features(buddy_content PUBLIC cxx_std_17)
+target_compile_options(buddy_content PRIVATE -Wall -Wextra -Werror -fno-exceptions -fno-rtti)
+target_link_libraries(buddy_content PUBLIC buddy_domain cjson)
+
+add_executable(buddy_content_tests buddy_content_tests.cpp)
+target_link_libraries(buddy_content_tests PRIVATE buddy_content)
+target_compile_options(buddy_content_tests PRIVATE -Wall -Wextra -Werror)
+add_test(NAME buddy_content_tests COMMAND buddy_content_tests)
 
 add_library(buddy_storage STATIC
   ../../components/buddy_storage/buddy_storage.cpp

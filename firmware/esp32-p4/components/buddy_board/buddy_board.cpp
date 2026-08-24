@@ -123,6 +123,7 @@ bool s_background_services_started = false;
 std::atomic<uint8_t> s_awake_brightness{80};
 std::atomic<uint8_t> s_timeout_minutes{5};
 std::atomic<int> s_applied_brightness{-1};
+std::atomic<bool> s_display_wake_lock{false};
 
 const char *rotation_path_name()
 {
@@ -773,7 +774,7 @@ void display_power_task(void *)
             unlock_display();
         }
         int requested = awake;
-        if (timeout_minutes > 0) {
+        if (!s_display_wake_lock.load() && timeout_minutes > 0) {
             const uint32_t dim_at_ms = static_cast<uint32_t>(timeout_minutes) * 60U * 1000U;
             if (inactive_ms >= dim_at_ms + 10000U) {
                 requested = 0;
@@ -869,6 +870,12 @@ extern "C" esp_err_t buddy_board_set_screen_timeout(uint8_t timeout_minutes)
                         ESP_ERR_INVALID_ARG, kTag, "Unsupported screen timeout");
     s_timeout_minutes.store(timeout_minutes);
     return ESP_OK;
+}
+
+extern "C" void buddy_board_set_display_wake_lock(bool enabled)
+{
+    const bool changed = s_display_wake_lock.exchange(enabled) != enabled;
+    if (changed) s_applied_brightness.store(-1);
 }
 
 extern "C" esp_err_t buddy_board_run_hardware_proof(void)

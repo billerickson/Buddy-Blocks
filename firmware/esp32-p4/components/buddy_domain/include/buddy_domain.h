@@ -156,4 +156,18 @@ class FlashRound {
 enum class RetryAction { kSuccess, kRetry, kQuarantine, kRepair, kMandatoryUpdate };
 RetryAction classify_http_result(int status_code, const std::string &error_code);
 
+/**
+ * Decide whether a validated flash-card snapshot can satisfy a server revision.
+ * A missing/corrupt cache must never be hidden by a matching revision in NVS.
+ * `cached_revision` is empty unless the complete cached payload passed schema
+ * and bounds validation.
+ */
+enum class SnapshotFetchAction { kUseCache, kConditionalFetch, kUnconditionalFetch };
+SnapshotFetchAction flash_snapshot_fetch_action(
+    uint32_t server_revision, uint32_t persisted_revision,
+    std::optional<uint32_t> cached_revision);
+
+/** Parse the exact UTC millisecond format emitted by Date.toISOString(). */
+std::optional<int64_t> parse_server_timestamp_ms(const std::string &value);
+
 } // namespace buddy::domain

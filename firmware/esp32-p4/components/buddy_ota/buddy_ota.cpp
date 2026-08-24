@@ -13,6 +13,7 @@
 #include "esp_log.h"
 #include "esp_ota_ops.h"
 #include "esp_partition.h"
+#include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 #include "freertos/task.h"
@@ -24,6 +25,7 @@ namespace {
 constexpr char kTag[] = "buddy_ota";
 constexpr size_t kMaximumImageBytes = 7U * 1024U * 1024U;
 constexpr size_t kReadBufferBytes = 8192;
+constexpr int64_t kMaximumDownloadDurationUs = 15LL * 60 * 1000 * 1000;
 
 bool valid_sha256(const std::string &value)
 {
@@ -189,8 +191,15 @@ bool Service::install()
     std::vector<char> buffer(kReadBufferBytes);
     size_t total = 0;
     bool failed = false;
+    bool timed_out = false;
+    const int64_t download_started_us = esp_timer_get_time();
     publish(State::kDownloading);
     while (total < manifest.size) {
+        if (esp_timer_get_time() - download_started_us > kMaximumDownloadDurationUs) {
+            failed = true;
+            timed_out = true;
+            break;
+        }
         const int read = esp_http_client_read(
             http, buffer.data(), static_cast<int>(std::min(buffer.size(), manifest.size - total)));
         if (read <= 0) {
@@ -214,7 +223,8 @@ bool Service::install()
     if (failed || total != manifest.size || !same_digest(to_hex(digest.data(), digest.size()),
                                                          manifest.sha256)) {
         (void)esp_ota_abort(ota_handle);
-        publish(State::kError, "Firmware size or SHA-256 did not match");
+        publish(State::kError, timed_out ? "Firmware download exceeded 15 minutes"
+                                         : "Firmware size or SHA-256 did not match");
         return false;
     }
     publish(State::kVerifying, {}, total);

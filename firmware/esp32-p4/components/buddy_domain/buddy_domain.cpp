@@ -536,4 +536,58 @@ RetryAction classify_http_result(int status_code, const std::string &error_code)
     return RetryAction::kQuarantine;
 }
 
+SnapshotFetchAction flash_snapshot_fetch_action(
+    uint32_t server_revision, uint32_t persisted_revision,
+    std::optional<uint32_t> cached_revision)
+{
+    if (cached_revision.has_value() && cached_revision.value() == server_revision) {
+        return SnapshotFetchAction::kUseCache;
+    }
+    if (persisted_revision > 0 && cached_revision.has_value() &&
+        cached_revision.value() == persisted_revision) {
+        return SnapshotFetchAction::kConditionalFetch;
+    }
+    return SnapshotFetchAction::kUnconditionalFetch;
+}
+
+std::optional<int64_t> parse_server_timestamp_ms(const std::string &value)
+{
+    int year = 0;
+    int month = 0;
+    int day = 0;
+    int hour = 0;
+    int minute = 0;
+    int second = 0;
+    int millisecond = 0;
+    int consumed = 0;
+    char zone = '\0';
+    if (std::sscanf(value.c_str(), "%4d-%2d-%2dT%2d:%2d:%2d.%3d%c%n", &year, &month,
+                    &day, &hour, &minute, &second, &millisecond, &zone, &consumed) != 8 ||
+        zone != 'Z' || consumed != static_cast<int>(value.size()) || year < 2024 ||
+        month < 1 || month > 12 || day < 1 || hour < 0 || hour > 23 ||
+        minute < 0 || minute > 59 || second < 0 || second > 59 || millisecond < 0 ||
+        millisecond > 999) {
+        return std::nullopt;
+    }
+    constexpr int days_per_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    const bool leap_year = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+    const int maximum_day = days_per_month[month - 1] + (month == 2 && leap_year ? 1 : 0);
+    if (day > maximum_day) return std::nullopt;
+
+    // Howard Hinnant's civil-calendar transform keeps this independent of the
+    // process timezone and of non-portable timegm() availability in newlib.
+    const int adjusted_year = year - (month <= 2 ? 1 : 0);
+    const int era = adjusted_year / 400;
+    const unsigned year_of_era = static_cast<unsigned>(adjusted_year - era * 400);
+    const unsigned adjusted_month = static_cast<unsigned>(month + (month > 2 ? -3 : 9));
+    const unsigned day_of_year = (153U * adjusted_month + 2U) / 5U +
+                                 static_cast<unsigned>(day - 1);
+    const unsigned day_of_era = year_of_era * 365U + year_of_era / 4U -
+                                year_of_era / 100U + day_of_year;
+    const int64_t days_since_epoch = static_cast<int64_t>(era) * 146097 + day_of_era - 719468;
+    const int64_t seconds_since_epoch = days_since_epoch * 86400 + hour * 3600 + minute * 60 +
+                                        second;
+    return seconds_since_epoch * 1000 + millisecond;
+}
+
 } // namespace buddy::domain

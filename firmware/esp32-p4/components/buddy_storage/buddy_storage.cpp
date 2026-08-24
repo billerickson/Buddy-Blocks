@@ -97,6 +97,37 @@ Result inspect_directory(const std::string &path, size_t &count, size_t &bytes,
     return Result::kOk;
 }
 
+bool has_suffix(const std::string &value, const char *suffix)
+{
+    const size_t suffix_length = std::strlen(suffix);
+    return value.size() >= suffix_length &&
+           value.compare(value.size() - suffix_length, suffix_length, suffix) == 0;
+}
+
+Result remove_record_files(const std::string &directory_path)
+{
+    DIR *directory = opendir(directory_path.c_str());
+    if (directory == nullptr) return errno == ENOENT ? Result::kOk : Result::kIoError;
+    Result result = Result::kOk;
+    while (dirent *entry = readdir(directory)) {
+        const std::string name = entry->d_name;
+        if (name == "." || name == ".." ||
+            (!has_suffix(name, ".json") && !has_suffix(name, ".json.next"))) {
+            continue;
+        }
+        const std::string path = directory_path + "/" + name;
+        struct stat info {};
+        if (stat(path.c_str(), &info) != 0) {
+            result = Result::kIoError;
+        } else if (S_ISREG(info.st_mode) && std::remove(path.c_str()) != 0) {
+            result = Result::kIoError;
+        }
+    }
+    closedir(directory);
+    sync_parent_best_effort(directory_path + "/purged");
+    return result;
+}
+
 } // namespace
 
 Store::Store(std::string root_path) : root_path_(std::move(root_path))
@@ -118,6 +149,20 @@ Result Store::initialize()
             !ensure_directory(absolute(directory))) {
             return Result::kIoError;
         }
+    }
+    std::vector<std::string> staged_outbox_ids;
+    DIR *outbox = opendir(absolute("outbox").c_str());
+    if (outbox == nullptr) return Result::kIoError;
+    while (dirent *entry = readdir(outbox)) {
+        const std::string name = entry->d_name;
+        if (!has_suffix(name, ".json.next")) continue;
+        const std::string event_id = name.substr(0, name.size() - std::strlen(".json.next"));
+        if (valid_stable_id(event_id)) staged_outbox_ids.push_back(event_id);
+    }
+    closedir(outbox);
+    for (const std::string &event_id : staged_outbox_ids) {
+        const Result recovered = recover("outbox/" + event_id + ".json", 1);
+        if (recovered == Result::kIoError) return recovered;
     }
     return Result::kOk;
 }
@@ -255,10 +300,15 @@ Result Store::remove(const std::string &relative_path)
     if (!valid_relative_path(relative_path)) {
         return Result::kInvalidPath;
     }
-    if (std::remove(absolute(relative_path).c_str()) == 0) {
-        return Result::kOk;
-    }
-    return errno == ENOENT ? Result::kNotFound : Result::kIoError;
+    bool removed = false;
+    const std::string final_path = absolute(relative_path);
+    if (std::remove(final_path.c_str()) == 0) removed = true;
+    else if (errno != ENOENT) return Result::kIoError;
+    const std::string next_path = final_path + ".next";
+    if (std::remove(next_path.c_str()) == 0) removed = true;
+    else if (errno != ENOENT) return Result::kIoError;
+    if (removed) sync_parent_best_effort(final_path);
+    return removed ? Result::kOk : Result::kNotFound;
 }
 
 Result Store::recover(const std::string &relative_path, uint16_t maximum_schema)
@@ -268,11 +318,11 @@ Result Store::recover(const std::string &relative_path, uint16_t maximum_schema)
     const Result final_result = read(relative_path, maximum_schema, final_record);
     Record next_record{};
     const Result next_result = read(relative_path + ".next", maximum_schema, next_record);
-    if (final_result == Result::kOk) {
+    if (final_result == Result::kOk || final_result == Result::kSchemaUnsupported) {
         if (next_result == Result::kOk || next_result == Result::kCorrupt) {
             (void)remove(relative_path + ".next");
         }
-        return Result::kOk;
+        return final_result;
     }
     if (next_result == Result::kOk) {
         const std::string next_path = absolute(relative_path + ".next");
@@ -340,6 +390,14 @@ Result Store::quarantine(const std::string &stable_event_id)
     const std::string source = absolute("outbox/" + stable_event_id + ".json");
     const std::string destination = absolute("outbox/quarantine/" + stable_event_id + ".json");
     return std::rename(source.c_str(), destination.c_str()) == 0 ? Result::kOk : Result::kIoError;
+}
+
+Result Store::purge_outbox()
+{
+    const std::lock_guard<std::recursive_mutex> guard(mutex_);
+    const Result active = remove_record_files(absolute("outbox"));
+    const Result quarantined = remove_record_files(absolute("outbox/quarantine"));
+    return active == Result::kOk && quarantined == Result::kOk ? Result::kOk : Result::kIoError;
 }
 
 Result Store::capacity(Capacity &capacity) const

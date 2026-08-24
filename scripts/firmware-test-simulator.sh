@@ -52,6 +52,7 @@ scenarios=(
   diagnostics
   software-update
   software-update-checking
+  software-update-error
   settings
   display-settings
   factory-reset

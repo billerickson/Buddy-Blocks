@@ -35,8 +35,8 @@ Verify a clean second build with:
 ./scripts/firmware-repro-check.sh rev3 bsp
 ```
 
-Host-only domain, atomic-storage, and deterministic 800 × 480 UI checks do not
-require a board:
+Host-only domain, content/schema, atomic-storage/recovery, and deterministic
+800 × 480 UI checks do not require a board:
 
 ```bash
 ./scripts/firmware-test-host.sh

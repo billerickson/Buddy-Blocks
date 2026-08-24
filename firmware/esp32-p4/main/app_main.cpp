@@ -435,6 +435,9 @@ void connectivity_ui_task(void *)
                 loaded_firmware_policy = firmware_policy;
             }
             const auto ota = s_ota.snapshot();
+            buddy_board_set_display_wake_lock(
+                ota.state == buddy::ota::State::kDownloading ||
+                ota.state == buddy::ota::State::kVerifying);
             const std::string authoring_url = sync.child_slug.empty()
                                                   ? std::string{}
                                                   : std::string(CONFIG_BUDDY_API_BASE_URL) +

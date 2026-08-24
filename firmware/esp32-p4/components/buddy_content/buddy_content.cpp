@@ -12,6 +12,81 @@ namespace {
 
 using Json = std::unique_ptr<cJSON, decltype(&cJSON_Delete)>;
 
+cJSON *parse_json(const std::string &value)
+{
+    if (value.find('\0') != std::string::npos) return nullptr;
+    return cJSON_ParseWithLengthOpts(value.c_str(), value.size() + 1, nullptr, true);
+}
+
+size_t utf8_sequence_length(const std::string &value, size_t index)
+{
+    const auto byte = [&](size_t offset) {
+        return static_cast<unsigned char>(value[index + offset]);
+    };
+    const auto continuation = [&](size_t offset) {
+        return index + offset < value.size() && (byte(offset) & 0xc0U) == 0x80U;
+    };
+    const unsigned char first = byte(0);
+    if (first <= 0x7fU) return 1;
+    if (first >= 0xc2U && first <= 0xdfU && continuation(1)) return 2;
+    if (first == 0xe0U && index + 2 < value.size() && byte(1) >= 0xa0U &&
+        byte(1) <= 0xbfU && continuation(2)) {
+        return 3;
+    }
+    if (((first >= 0xe1U && first <= 0xecU) || (first >= 0xeeU && first <= 0xefU)) &&
+        continuation(1) && continuation(2)) {
+        return 3;
+    }
+    if (first == 0xedU && index + 2 < value.size() && byte(1) >= 0x80U &&
+        byte(1) <= 0x9fU && continuation(2)) {
+        return 3;
+    }
+    if (first == 0xf0U && index + 3 < value.size() && byte(1) >= 0x90U &&
+        byte(1) <= 0xbfU && continuation(2) && continuation(3)) {
+        return 4;
+    }
+    if (first >= 0xf1U && first <= 0xf3U && continuation(1) && continuation(2) &&
+        continuation(3)) {
+        return 4;
+    }
+    if (first == 0xf4U && index + 3 < value.size() && byte(1) >= 0x80U &&
+        byte(1) <= 0x8fU && continuation(2) && continuation(3)) {
+        return 4;
+    }
+    return 0;
+}
+
+bool valid_utf8(const std::string &value)
+{
+    for (size_t index = 0; index < value.size();) {
+        const size_t sequence = utf8_sequence_length(value, index);
+        if (sequence == 0) return false;
+        index += sequence;
+    }
+    return true;
+}
+
+void sanitize_display_text(std::string &value)
+{
+    std::string sanitized;
+    sanitized.reserve(value.size());
+    for (size_t index = 0; index < value.size();) {
+        const unsigned char first = static_cast<unsigned char>(value[index]);
+        const size_t sequence = utf8_sequence_length(value, index);
+        if (first <= 0x7fU) {
+            sanitized.push_back(first >= 0x20U || first == '\n' || first == '\t'
+                                    ? static_cast<char>(first)
+                                    : '?');
+        } else {
+            // The pinned built-in Montserrat range is printable ASCII. Use an
+            // included glyph instead of passing an unavailable code point to LVGL.
+            sanitized.push_back('?');
+        }
+        index += sequence;
+    }
+    value = std::move(sanitized);
+}
+
 bool read_string(const cJSON *object, const char *key, std::string &output, size_t maximum,
                  bool optional = false)
 {
@@ -25,7 +100,7 @@ bool read_string(const cJSON *object, const char *key, std::string &output, size
         return false;
     }
     output = value->valuestring;
-    return !output.empty() || optional;
+    return valid_utf8(output) && (!output.empty() || optional);
 }
 
 bool safe_identifier(const std::string &value)
@@ -52,7 +127,8 @@ bool bounded_optional_integer(const cJSON *object, const char *key, int minimum,
                               int &output)
 {
     const cJSON *value = cJSON_GetObjectItemCaseSensitive(object, key);
-    return value == nullptr || bounded_integer(object, key, minimum, maximum, output);
+    return value == nullptr || cJSON_IsNull(value) ||
+           bounded_integer(object, key, minimum, maximum, output);
 }
 
 } // namespace
@@ -60,7 +136,7 @@ bool bounded_optional_integer(const cJSON *object, const char *key, int minimum,
 bool parse_bootstrap(const std::string &json, Bootstrap &output)
 {
     if (json.empty() || json.size() > 512U * 1024U) return false;
-    Json root(cJSON_ParseWithLength(json.data(), json.size()), cJSON_Delete);
+    Json root(parse_json(json), cJSON_Delete);
     const cJSON *schema = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "schemaVersion")
                                : nullptr;
     const cJSON *child = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "child") : nullptr;
@@ -73,7 +149,7 @@ bool parse_bootstrap(const std::string &json, Bootstrap &output)
     int xp = 0;
     Bootstrap parsed;
     parsed.mastery_by_ordered_fact.resize(144);
-    if (!root || !cJSON_IsNumber(schema) || schema->valueint != 1 || !cJSON_IsObject(child) ||
+    if (!root || !cJSON_IsNumber(schema) || schema->valuedouble != 1 || !cJSON_IsObject(child) ||
         !cJSON_IsObject(multiplication) || !cJSON_IsArray(mastery) ||
         cJSON_GetArraySize(mastery) > 144 ||
         !read_string(root.get(), "serverTime", parsed.server_time, 64) ||
@@ -86,6 +162,7 @@ bool parse_bootstrap(const std::string &json, Bootstrap &output)
                                   parsed.best_120_seconds)) {
         return false;
     }
+    sanitize_display_text(parsed.child_name);
     std::vector<bool> seen(144, false);
     cJSON *item = nullptr;
     cJSON_ArrayForEach(item, mastery) {
@@ -124,16 +201,19 @@ bool parse_bootstrap(const std::string &json, Bootstrap &output)
 bool Library::replace_from_snapshot(const std::string &json)
 {
     if (json.empty() || json.size() > 1024U * 1024U) return false;
-    Json root(cJSON_ParseWithLength(json.data(), json.size()), cJSON_Delete);
+    Json root(parse_json(json), cJSON_Delete);
     const cJSON *schema = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "schemaVersion")
                                : nullptr;
     const cJSON *revision = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "revision")
                                  : nullptr;
     const cJSON *sections = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "sections")
                                  : nullptr;
-    if (!root || !cJSON_IsNumber(schema) || schema->valueint != 1 ||
+    if (!root || !cJSON_IsNumber(schema) || schema->valuedouble != 1 ||
         !cJSON_IsNumber(revision) || revision->valuedouble < 0 ||
-        revision->valuedouble > UINT32_MAX || !cJSON_IsArray(sections) ||
+        revision->valuedouble > UINT32_MAX ||
+        revision->valuedouble !=
+            static_cast<double>(static_cast<uint32_t>(revision->valuedouble)) ||
+        !cJSON_IsArray(sections) ||
         cJSON_GetArraySize(sections) > 50) {
         return false;
     }
@@ -154,6 +234,8 @@ bool Library::replace_from_snapshot(const std::string &json)
             return false;
         }
         if (!safe_identifier(section.id)) return false;
+        sanitize_display_text(section.title);
+        sanitize_display_text(section.source);
         section.pinned = cJSON_IsTrue(pinned);
         total_cards += static_cast<size_t>(cJSON_GetArraySize(cards));
         if (total_cards > 2500) return false;
@@ -165,11 +247,15 @@ bool Library::replace_from_snapshot(const std::string &json)
                 !read_string(card_json, "front", card.front, 500) ||
                 !read_string(card_json, "back", card.back, 800) ||
                 !read_string(card_json, "clue", card.clue, 800, true) ||
-                !cJSON_IsNumber(sort_order) || sort_order->valueint < 0 ||
-                sort_order->valueint > 10000) {
+                !cJSON_IsNumber(sort_order) || sort_order->valuedouble < 0 ||
+                sort_order->valuedouble > 10000 ||
+                sort_order->valuedouble != static_cast<double>(sort_order->valueint)) {
                 return false;
             }
             if (!safe_identifier(card.id)) return false;
+            sanitize_display_text(card.front);
+            sanitize_display_text(card.back);
+            sanitize_display_text(card.clue);
             card.sort_order = sort_order->valueint;
             section.cards.push_back(std::move(card));
         }

@@ -54,6 +54,7 @@ class Store {
     Result list_outbox(std::vector<std::string> &stable_event_ids) const;
     Result acknowledge(const std::string &stable_event_id);
     Result quarantine(const std::string &stable_event_id);
+    Result purge_outbox();
     Result capacity(Capacity &capacity) const;
 
     const std::string &root_path() const;

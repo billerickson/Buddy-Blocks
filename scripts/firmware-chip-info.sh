@@ -16,4 +16,15 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # shellcheck disable=SC1091
 source "${repo_root}/scripts/firmware-env.sh"
 
-python -m esptool --chip esp32p4 --port "${serial_port}" chip_id
+log_dir="${repo_root}/firmware/esp32-p4/serial-logs"
+mkdir -p "${log_dir}"
+log_file="${log_dir}/board-identify-$(date -u +%Y%m%dT%H%M%SZ).log"
+
+echo "Capturing ignored board-identification evidence to ${log_file}"
+{
+  echo "Buddy Blocks board identification"
+  echo "UTC: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  echo "Port: ${serial_port}"
+  python -m esptool --chip esp32p4 --port "${serial_port}" chip_id
+  python -m esptool --chip esp32p4 --port "${serial_port}" flash_id
+} 2>&1 | tee "${log_file}"

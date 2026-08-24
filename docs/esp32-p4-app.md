@@ -1256,9 +1256,52 @@ from the host component version.
 
 ### 2026-08-23: Simulator evidence covers completion-audit states
 
-The reviewed deterministic 800 × 480 golden set expanded from 21 to 30 screens.
+The reviewed deterministic 800 × 480 golden set expanded from 21 to 31 screens.
 It now includes Home syncing, multiplication mastery overview/details, empty
 flash-card library, Wi-Fi scanning and wrong-password errors, pairing failure
-and initial sync, and a manual firmware-check loading state. Pixel comparisons
-remain separate from interaction assertions; CI may compare these images but
-may not automatically accept replacements.
+and initial sync, and manual firmware-check loading and failure states. Pixel
+comparisons remain separate from interaction assertions; CI may compare these
+images but may not automatically accept replacements.
+
+### 2026-08-24: Cached content is validated, repaired, and rendered safely
+
+The firmware no longer trusts an NVS flash-card revision without validating the
+corresponding atomic filesystem snapshot with the shared content parser. A
+missing or corrupt snapshot forces an unconditional fetch; a valid current
+snapshot repairs stale revision metadata, and a `304 Not Modified` response is
+accepted only when a valid local snapshot exists. Bootstrap and flash-card JSON
+must consume the whole document, use integral schema/revision/order fields, and
+pass strict UTF-8 validation. Valid non-ASCII card text that the built-in ASCII
+Montserrat subset cannot render is replaced deterministically with `?`; invalid
+UTF-8 is rejected. Host content tests cover these rules, including the valid
+`null` personal-best values returned for a newly paired child.
+
+### 2026-08-24: Interrupted outbox writes survive reboot and revocation purges all variants
+
+Startup now discovers fsynced `outbox/*.json.next` records and promotes them
+through the same CRC/schema recovery path used for other atomic records. Removal
+clears both the committed and staged forms, parent revocation also removes
+quarantined outbox records, and an unsupported future schema is never replaced
+with an older staged record. Host storage tests exercise interrupted writes,
+future-schema fail-closed behavior, quarantine, and complete outbox purge. The
+server's child-plus-client-ID uniqueness constraint remains the final
+idempotency boundary.
+
+### 2026-08-24: Trustworthy time requires a fresh SNTP observation
+
+TLS-dependent synchronization waits for a successful SNTP status from the
+current boot rather than accepting an inherited-looking wall clock. Each
+authenticated bootstrap records the strictly parsed UTC server timestamp as a
+persistent hint and server offset. The hint is diagnostic/recovery metadata,
+not a way to bypass TLS clock validation, and stale or implausibly future hints
+are refreshed after the next authenticated response.
+
+### 2026-08-24: OTA keeps the display awake and fails within a bounded interval
+
+Downloading and verifying an OTA image now holds a display wake lock so the
+board cannot dim or turn off mid-update. The download has a 15-minute overall
+deadline in addition to transport timeouts. Manual policy or download failures
+remain visibly failed with a retry action instead of being repainted as “up to
+date.” The simulator has a reviewed deterministic failure-state screenshot;
+download, rollback, and power-interruption behavior remain physical acceptance
+tests and are not claimed by simulator evidence.
