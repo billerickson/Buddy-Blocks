@@ -37,8 +37,11 @@ constexpr int kLogicalWidth = 800;
 constexpr int kLogicalHeight = 480;
 constexpr int kNativeWidth = 480;
 constexpr int kNativeHeight = 800;
+constexpr size_t kCacheLineBytes = 128;
 constexpr size_t kLogicalFrameBytes = kLogicalWidth * kLogicalHeight * sizeof(uint16_t);
 constexpr size_t kNativeFrameBytes = kNativeWidth * kNativeHeight * sizeof(uint16_t);
+static_assert(kLogicalFrameBytes % kCacheLineBytes == 0);
+static_assert(kNativeFrameBytes % kCacheLineBytes == 0);
 constexpr size_t kMetricSampleCount = 128;
 constexpr char kLittleFsLabel[] = "littlefs";
 constexpr char kLittleFsBasePath[] = "/littlefs";
@@ -494,12 +497,12 @@ esp_err_t init_cpu_display()
     ESP_RETURN_ON_ERROR(bsp_touch_new(&touch_config, &s_cpu.touch), kTag,
                         "GT911 creation failed for CPU path");
 
-    s_cpu.source_a = static_cast<uint16_t *>(
-        heap_caps_aligned_alloc(64, kLogicalFrameBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
-    s_cpu.source_b = static_cast<uint16_t *>(
-        heap_caps_aligned_alloc(64, kLogicalFrameBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
-    s_cpu.native = static_cast<uint16_t *>(
-        heap_caps_aligned_alloc(64, kNativeFrameBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+    s_cpu.source_a = static_cast<uint16_t *>(heap_caps_aligned_alloc(
+        kCacheLineBytes, kLogicalFrameBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+    s_cpu.source_b = static_cast<uint16_t *>(heap_caps_aligned_alloc(
+        kCacheLineBytes, kLogicalFrameBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+    s_cpu.native = static_cast<uint16_t *>(heap_caps_aligned_alloc(
+        kCacheLineBytes, kNativeFrameBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
     ESP_RETURN_ON_FALSE(s_cpu.source_a != nullptr && s_cpu.source_b != nullptr &&
                             s_cpu.native != nullptr,
                         ESP_ERR_NO_MEM, kTag, "Could not allocate three full RGB565 PSRAM buffers");
@@ -561,9 +564,17 @@ esp_err_t init_ppa_display()
     display_config.profile.rotation = ESP_LV_ADAPTER_ROTATE_90;
     display_config.profile.hor_res = kNativeWidth;
     display_config.profile.ver_res = kNativeHeight;
-    display_config.profile.buffer_height = kLogicalHeight;
+    // The adapter's documented MIPI-DSI partial default is a 50-line stripe.
+    // A full-height 480-line stripe needs 460800 internal bytes and cannot be
+    // allocated after the panel framebuffers and runtime services are live.
+    display_config.profile.buffer_height = 50;
     display_config.profile.use_psram = true;
-    display_config.profile.enable_ppa_accel = true;
+    // The P4 bridge uses its SRM PPA client for rotated flushes independently.
+    // This flag additionally installs the adapter's PPA LVGL blend/fill
+    // handler, which is outside this rotation benchmark and rejects some
+    // cache-line-sized partial regions in adapter 0.6.4. Keep normal LVGL
+    // software drawing so this candidate isolates PPA-assisted rotation.
+    display_config.profile.enable_ppa_accel = false;
     display_config.profile.require_double_buffer = true;
     display_config.tear_avoid_mode = ESP_LV_ADAPTER_TEAR_AVOID_MODE_TRIPLE_PARTIAL;
     s_adapter_display = esp_lv_adapter_register_display(&display_config);

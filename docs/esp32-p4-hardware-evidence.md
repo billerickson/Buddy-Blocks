@@ -55,8 +55,8 @@ touch sequence for every row.
 | Candidate | App SHA | Mean / p95 frame | Mean / p95 flush | Touch p95 | Internal heap min | PSRAM min | Tearing/corruption | 100 transitions | Result / evidence |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
 | Waveshare BSP rotation | `c01d2b9b…7cf2` initial; `90cb9162…342a` failed; `c0e18a26…da3f2` patched current; `037acf7c…a41c` instrumented prepared | Current through 15-target grid: 6,454 / 7,890 us at frame 341; failing image stopped at 167 with 9,638 / 28,278 us | Current callback 879 / 6,937 us; wait 3 / 4 us; failing callback 589 / 7,224 us | Current image: adapter counter unavailable; visible mapping pass. Instrumented image pending flash | 88,872 bytes current | 29,227,016 bytes current | Current image resumed the saved paired question; keypad sequence worked, all 15 grid targets mapped visibly, operator confirmed corrected alignment, and frames advanced through 341 without a lock error | Pending | Original failure and full grid pass; transition/tearing loop pending. Failure log `serial-logs/m0-rev1_3-bsp-20260824T171654Z.log` SHA-256 `750a1bfe58de72a2420e3b87e1af696f859998b8a8c817a16c5d3b2b63974188`; current log/metrics `serial-logs/m0-rev1_3-bsp-ppa-fix-20260824T181200Z.*`; ignored photo SHA-256 `de409ed488bee05f91234236e344d6d5528e0c630689d57a6ce02a593fb3ffee` |
-| Deferred CPU full-frame rotation | `0d0ff9a3…2ef7` instrumented prepared | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Rev1.3 image with controller-read-to-LVGL dispatch timing compiled; not yet flashed |
-| PPA rotation | `9c607e09…24a2e` instrumented prepared | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Rev1.3 image with controller-read-to-LVGL dispatch timing compiled; not yet flashed |
+| Deferred CPU full-frame rotation | `40880e59…23deb` corrected physical candidate | 23,838 / 28,463 us at frame 304 | Callback 12,127 / 14,482 us; wait 6 / 9 us; CPU rotate 14,229 / 13,982 us; complete pipeline 14,716 / 14,466 us | 56 us across 40 presses | 136,360 bytes | 26,999,012 bytes | Operator confirmed complete aligned landscape output, no clipping or tearing, responsive keypad sequence, and all 15 proof targets; no lock error or reboot through frame 304 | Pending | Physical interaction pass. Ignored log `serial-logs/m0-rev1_3-cpu-20260824T183524Z.log`, SHA-256 `15e7e12694796fa94c824333afb18d7c8161c9e675577a03f991ae2d01b60c25` |
+| PPA rotation | `7e622fc2…a039` stable striped-SRM candidate | 6,621 / 10,671 us at frame 338 | Callback 1,323 / 9,364 us; wait 3 / 4 us | 31 us across 27 presses | 87,960 bytes | 29,225,096 bytes | Operator confirmed correct unclipped alignment, responsive keypad sequence, and all 15 proof targets; no visible tearing, lock error, or reboot was reported through frame 338 | Pending | Physical interaction pass. Ignored log `serial-logs/m0-rev1_3-ppa-20260824T184705Z.log`, SHA-256 `666d2aa8e4fa595ca79e600c63395e9140bc76a0e4c30b94ac687490296f5585` |
 
 Selected path: Pending.
 
@@ -82,6 +82,7 @@ Initial candidate: `swap_xy=true`, `mirror_x=true`, `mirror_y=false`.
 | Disabled state distinguishable in room light | Pending | Pending |
 | Correct state distinguishable in room light | Pending | Pending |
 | Incorrect state distinguishable in room light | Pending | Pending |
+| Brightness levels 40%, 60%, 80%, and 100% are visibly distinct and stable | Operator tested all four levels on the physical Rev1.3 board and left the setting at 80% | Pass on `c0e18a26…da3f2` |
 | Long-list selection restored/revealed below fold | Pending | Pending |
 | Fixed confirmation remains visible while scrolling | Pending | Pending |
 
@@ -242,8 +243,9 @@ The upstream Waveshare P4 factory images are downloads, not repository files:
   `90cb91626549261ab56aa35f801dd8ec6a2df3b3565b26aba14dc80a4507342a`
   and flashed through the P4 USB-UART path. The boot log contains no duplicate
   GPIO26/LEDC reservation warning, verifies the existing LittleFS record,
-  reports one saved Wi-Fi profile, reacquires IPv4, and returns HTTPS 204.
-  Brightness levels still need visible operator confirmation.
+  reports one saved Wi-Fi profile, reacquires IPv4, and returns HTTPS 204. The
+  operator subsequently tested 40%, 60%, 80%, and 100% brightness, reported
+  every level visibly different and stable, and left the board at 80%.
 - The operator completed parent-authorized pairing and initial synchronization,
   then opened multiplication practice. The first keypad press remained in its
   active visual state, display telemetry stopped at frame 167, and the serial
@@ -257,6 +259,37 @@ The upstream Waveshare P4 factory images are downloads, not repository files:
   advanced frames 42 to 94 without a lock error, and the operator confirmed
   that the margins and fixed action alignment were corrected. Two isolated
   builds reproduced the exact application hash.
+- The first deferred-CPU flash request was rejected by esptool before any write
+  because a reused nested bootloader build still targeted Rev3.1. The scripted
+  build now deletes only the generated bootloader sub-build, regenerates it,
+  and validates its resolved silicon minimum independently from the parent
+  application. The first bootable CPU image then exposed 64-byte PSRAM buffer
+  alignment against the P4's 128-byte cache line. The corrected candidate uses
+  128-byte-aligned full-frame buffers and emits no cache-coherency error.
+- Corrected deferred-CPU application `40880e59…23deb` reached
+  `BUDDY_BOOT_READY`, reacquired IPv4, and returned HTTPS 204. The operator
+  completed the six-key sequence and all 15 proof targets, reported the full
+  landscape UI aligned with no clipping or tearing, and described it as
+  responsive. At frame 304 telemetry recorded 40 presses at 56 microseconds
+  p95 controller-read-to-dispatch, CPU rotation mean/p95 14,229/13,982
+  microseconds, internal heap minimum 136,360 bytes, and PSRAM minimum
+  26,999,012 bytes. The required 100-transition loop remains pending.
+- Two explicit-PPA configurations failed before the physical pass. A
+  full-height partial buffer could not allocate 460,800 internal bytes and its
+  PPA drawing engine exhausted pending transactions. Reducing the stripe to 50
+  lines removed that pressure, but the separate PPA blend/fill handler then
+  rejected a partial output region and reset before rendering. These failed
+  configurations are retained as negative evidence rather than passes.
+- Stable explicit-PPA application `7e622fc2…a039` uses the documented 50-line
+  MIPI stripe, keeps two LVGL software draw units, and disables only the
+  adapter's separate blend/fill accelerator. Rotated flushes still use the
+  adapter bridge's P4 PPA SRM client. The operator completed the keypad and all
+  15 proof targets, confirmed correct unclipped alignment, and described the
+  UI as responsive. At frame 338 its refresh mean/p95 was 6,621/10,671
+  microseconds, flush-callback mean/p95 was 1,323/9,364 microseconds, touch
+  dispatch p95 was 31 microseconds across 27 presses, internal heap minimum was
+  87,960 bytes, and PSRAM minimum was 29,225,096 bytes. HTTPS returned 204 and
+  no lock error or reboot occurred. The 100-transition loop remains pending.
 
 ## Exact Version 1 acceptance story
 

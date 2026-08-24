@@ -1468,9 +1468,11 @@ source context and the component version before applying; a changed dependency
 fails the build instead of being patched heuristically. The corrected Rev1.3
 image was flashed through the P4 USB-UART recovery path and booted without the
 GPIO26/LEDC warning. LittleFS and the saved Wi-Fi profile survived, and the C6
-returned online with an HTTPS 204. Visible brightness adjustment still requires
-an operator check; warning removal alone is not evidence that every duty level
-works.
+returned online with an HTTPS 204. The operator later tested 40%, 60%, 80%,
+and 100% on the physical board, reported all four levels visibly different and
+stable, and left the setting at 80%. This physically closes the
+brightness-output check; it does not by itself close the remaining room-light
+state-contrast checks.
 
 ### 2026-08-24: Rotated triple-partial PPA needs the pinned SRM workaround
 
@@ -1532,6 +1534,63 @@ controller-read-to-dispatch metric, not finger-down-to-interrupt latency.
 Rev1.3 BSP, deferred-CPU, and explicit-PPA development images compile with this
 instrumentation. Their physical p95 values remain pending; no result is inferred
 from successful compilation.
+
+### 2026-08-24: Deferred CPU rotation requires cache-line-aligned full frames
+
+The first attempt to install the deferred-CPU candidate was rejected by esptool
+before writing because a reused ESP-IDF nested bootloader sub-build still
+targeted Rev3.1 while the parent application targeted Rev1.3. Removing the
+parent sdkconfig alone does not invalidate that external-project configure
+stamp. Scripted builds now remove only the generated bootloader sub-build,
+regenerate it, and validate its resolved minimum silicon revision separately.
+Both Rev1.3 and Rev3 profiles pass that fail-closed check.
+
+The first bootable CPU image then reported that its 64-byte-aligned PSRAM frame
+address did not satisfy the P4's 128-byte cache-line requirement. All three
+full RGB565 buffers are now allocated at 128-byte alignment, with compile-time
+checks that both frame sizes are exact multiples of the line size. Corrected
+application `40880e596e25c7c319ff43e9e9f49f0a0596c6df3436c9568a026ca3bb23deb`
+booted without a cache-coherency error, connected through the factory C6, and
+returned HTTPS 204.
+
+On that corrected image the operator completed the requested keypad sequence
+and all 15 proof targets, confirmed a complete aligned landscape surface with
+no clipping or tearing, and described interaction as responsive. Through frame
+304 the controller-read-to-LVGL dispatch p95 was 56 microseconds across 40
+presses; CPU rotation mean/p95 was 14,229/13,982 microseconds, complete CPU
+pipeline mean/p95 was 14,716/14,466 microseconds, internal heap minimum was
+136,360 bytes, and PSRAM minimum was 26,999,012 bytes. This passes the candidate
+interaction and measurement check, but the 100-transition and extended stress
+gates remain pending.
+
+### 2026-08-24: Explicit PPA rotation uses striped SRM flushes, not PPA drawing
+
+The first explicit-PPA image requested a full 480-line partial buffer. That
+requires 460,800 internal bytes after the panel framebuffers and services are
+live, so allocation failed. The adapter's separate LVGL PPA blend/fill engine
+also exhausted its pending-transaction pool with two software draw units. A
+second image used the documented 50-line MIPI stripe and one draw unit, but the
+blend/fill engine rejected a cache-aligned partial output region and reset
+before the first screen. Neither image is a usable candidate.
+
+The stable candidate retains two LVGL software draw units for comparison,
+uses a 50-line stripe, and disables only the adapter's extra PPA blend/fill
+handler. The adapter bridge still performs every rotated flush through its P4
+PPA SRM client, so this remains the explicit PPA-rotation candidate rather than
+a CPU-rotation path. Application
+`7e622fc2ab66b1f28b535fd7507c9b3346bbec7042f6a4e6b4b31711aafea039`
+booted stably, restored the paired multiplication session, reacquired IPv4,
+and returned HTTPS 204.
+
+The operator confirmed correct alignment without clipping, completed the
+keypad sequence and all 15 proof targets, and described interaction as
+responsive. No visible tearing or display lock was reported during the
+sequence. At frame 338, refresh mean/p95 was 6,621/10,671 microseconds, render
+mean/p95 was 6,392/10,642 microseconds, flush-callback mean/p95 was
+1,323/9,364 microseconds, controller-read-to-LVGL dispatch p95 was 31
+microseconds across 27 presses, internal heap minimum was 87,960 bytes, and
+PSRAM minimum was 29,225,096 bytes. The 100-transition gate and final
+primary/fallback selection remain pending.
 
 ### 2026-08-24: C6 recovery builds remove host-path nondeterminism
 

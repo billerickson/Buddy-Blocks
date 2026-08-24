@@ -63,6 +63,12 @@ defaults="${firmware_root}/sdkconfig.defaults;${firmware_root}/${profile_overlay
 # invocation so a prior profile or a newly added security default cannot leak
 # into a supposedly reproducible release build.
 rm -f "${build_dir}/sdkconfig" "${build_dir}/sdkconfig.old"
+# ESP-IDF builds the second-stage bootloader as a nested external project. Its
+# configure stamp is not invalidated merely because the parent sdkconfig was
+# regenerated, so remove only that generated sub-build as well. Otherwise a
+# build directory first configured for Rev3 can pair a Rev1.3 application with
+# a stale Rev3 bootloader; esptool correctly refuses that unsafe image.
+rm -rf "${build_dir}/bootloader" "${build_dir}/bootloader-prefix"
 
 # Resolve the pinned managed components before applying the two narrow BSP
 # compatibility fixes. Keeping them as tracked patches avoids relying on local
@@ -123,6 +129,37 @@ fi
 for required_value in "${required_profile_values[@]}"; do
   if ! grep -Fqx "${required_value}" "${sdkconfig}"; then
     echo "Resolved sdkconfig does not match ${profile}: missing ${required_value}" >&2
+    exit 1
+  fi
+done
+
+# PPA-assisted rotation is performed by the adapter bridge's SRM client and
+# does not require its separate LVGL blend/fill accelerator. Keep two software
+# draw units for a fair render-side comparison across all rotation candidates.
+required_draw_units='CONFIG_LV_DRAW_SW_DRAW_UNIT_CNT=2'
+if ! grep -Fqx "${required_draw_units}" "${sdkconfig}"; then
+  echo "Resolved sdkconfig does not match ${rotation}: missing ${required_draw_units}" >&2
+  exit 1
+fi
+
+bootloader_sdkconfig="${build_dir}/bootloader/config/sdkconfig.h"
+if [[ "${profile}" == "rev1_3" ]]; then
+  required_bootloader_values=(
+    '#define CONFIG_ESP32P4_SELECTS_REV_LESS_V3 1'
+    '#define CONFIG_ESP32P4_REV_MIN_FULL 100'
+  )
+else
+  required_bootloader_values=(
+    '#define CONFIG_ESP32P4_REV_MIN_FULL 300'
+  )
+fi
+if [[ ! -f "${bootloader_sdkconfig}" ]]; then
+  echo "Nested bootloader sdkconfig was not generated: ${bootloader_sdkconfig}" >&2
+  exit 1
+fi
+for required_value in "${required_bootloader_values[@]}"; do
+  if ! grep -Fqx "${required_value}" "${bootloader_sdkconfig}"; then
+    echo "Nested bootloader does not match ${profile}: missing ${required_value}" >&2
     exit 1
   fi
 done

@@ -100,8 +100,12 @@ Physical evidence (board connected; testing active):
 - [x] LittleFS atomic probe survives normal reboot and a controlled USB power
   cycle.
 - [ ] Waveshare BSP rotation: frame/flush/input/tearing/memory measurements.
-- [ ] Deferred CPU rotation: frame/flush/input/tearing/memory measurements.
-- [ ] PPA rotation: frame/flush/input/tearing/memory measurements.
+- [x] Deferred CPU rotation: physical layout, keypad, full 15-target map,
+  responsiveness, frame/flush/CPU-rotation/input/memory telemetry, and absence
+  of visible tearing recorded for corrected application `40880e59…23deb`.
+- [x] PPA rotation: correct layout, keypad, full 15-target map,
+  responsiveness, frame/flush/input/memory telemetry, and absence of a visible
+  display lock recorded for stable striped-SRM application `7e622fc2…a039`.
 - [ ] Selected path and fallback are recorded with rationale.
 - [x] Instrument all three touch paths with the same controller-read-to-LVGL
   press-dispatch metric. The BSP/PPA hook delegates to the adapter's normal raw
