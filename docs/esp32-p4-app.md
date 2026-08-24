@@ -1441,9 +1441,9 @@ unidentified. Its flash must be read and hashed through the documented 3.3 V
 C6-UART pads before any C6 write. No C6 image or security eFuse was modified in
 this session.
 
-### 2026-08-24: Waveshare BSP is the first physically usable landscape path
+### 2026-08-24: Waveshare BSP is the first partially usable landscape path
 
-The corrected Rev1.3 development image renders the complete UI at 800 × 480.
+The corrected Rev1.3 development image renders an 800 × 480 landscape surface.
 The operator reported readable Wi-Fi and pairing screens in landscape with the
 USB connectors on the right and successfully used the touchscreen keyboard.
 Live serial telemetry after that interaction measured refresh mean/p95 at
@@ -1471,6 +1471,41 @@ GPIO26/LEDC warning. LittleFS and the saved Wi-Fi profile survived, and the C6
 returned online with an HTTPS 204. Visible brightness adjustment still requires
 an operator check; warning removal alone is not evidence that every duty level
 works.
+
+### 2026-08-24: Rotated triple-partial PPA needs the pinned SRM workaround
+
+The first parent-authorized pairing and initial sync succeeded on the physical
+Rev1.3 board. Navigation reached multiplication practice, but the first keypad
+press remained visibly active, display telemetry stopped at frame 167, and
+other tasks repeatedly failed to acquire the LVGL lock. The
+`esp_lvgl_adapter` 0.6.4 documentation identifies this exact ESP32-P4 failure
+mode when rotation and `ESP_LV_ADAPTER_TEAR_AVOID_MODE_TRIPLE_PARTIAL` use the
+PPA SRM engine. The Waveshare BSP candidate resolves to that configuration.
+
+Buddy Blocks now applies the adapter's Apache-2.0 SRM macroblock-order bypass
+workaround as a narrow tracked patch adapted to the exact ESP-IDF v5.5.5 commit.
+Bootstrap and every firmware build verify the IDF commit, dry-run the patch in
+both directions, and fail closed if its source context changes. The same fix is
+required before evaluating the explicit PPA candidate. The deferred CPU path
+remains the non-PPA architectural fallback until all candidates complete the
+same touch, transition, tearing, and timing matrix.
+
+Patched application
+`c0e18a2610ebc3191265743afd3fabaea58d8d02dab97cb1408e249e092da3f2`
+was flashed without erasing paired data and resumed the interrupted
+multiplication question. The operator completed the requested keypad sequence
+and reported that every key responded and the corrected margins aligned. Live
+telemetry advanced from frame 42 to frame 94 without another LVGL-lock error.
+This is a physical pass for the original failure sequence, not yet for the
+required 30-minute rapid-input or 100-transition gates. Two isolated builds
+produced the same application hash.
+
+The accompanying photo also showed the top-right control and fixed bottom
+action clipped. Both reusable parent containers were inheriting LVGL's default
+padding while their children already used absolute 800 × 480 coordinates.
+Those containers now have zero internal padding. The simulator asserts the
+exact Settings, confirmation bar, primary action, keypad `2`, and Enter bounds,
+clicks a keypad digit, and compares 35 deterministic 800 × 480 screenshots.
 
 ### 2026-08-24: C6 recovery builds remove host-path nondeterminism
 

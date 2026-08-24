@@ -44,6 +44,9 @@ Implementation:
   application slots, 16 MiB LittleFS, core dump, and reserve.
 - [x] Add a landscape 800 × 480 color/grid proof UI.
 - [x] Add selectable BSP, deferred CPU, and PPA rotation candidates.
+- [x] Apply the pinned `esp_lvgl_adapter` 0.6.4 rotated-`TRIPLE_PARTIAL` PPA
+  freeze workaround reproducibly to the exact ESP-IDF v5.5.5 commit; a source
+  mismatch fails closed.
 - [x] Add the initial SeedSigner-informed touch transform candidate:
   `swap_xy=true`, `mirror_x=true`, `mirror_y=false`.
 - [x] Add chip revision, flash, PSRAM, LittleFS, heap, render, flush, and touch
@@ -152,6 +155,10 @@ Exit gate: reboot and power-loss storage tests pass with physical evidence.
   completion persists before handoff and replays with the same client ID after
   a reset.
 - [x] Server scoring, XP, mastery, and idempotency parity tests.
+- [x] The physical Rev1.3 board resumed a saved multiplication question after
+  flashing application `c0e18a26…da3f2`; the requested keypad sequence worked,
+  frames advanced without another LVGL-lock failure, and the operator confirmed
+  corrected right/bottom alignment.
 - [ ] Completed offline session survives reboot on hardware.
 
 Exit gate: every website multiplication rule matches and reboot recovery passes.
@@ -168,7 +175,9 @@ Exit gate: every website multiplication rule matches and reboot recovery passes.
 - [x] Parent list/claim/rename/revoke UI with normal-parent-mode enforcement.
 - [x] Device bootstrap/mastery endpoint and at-most-hourly `last_seen_at` write.
 - [x] Firmware pairing state, initial sync, and local purge on revoke/archive.
-- [ ] Clean-board touchscreen setup/pairing physical evidence.
+- [x] Clean-board touchscreen setup/pairing physical evidence. The operator
+  scanned, entered a Wi-Fi password, authorized the code from a signed-in
+  parent session, selected a child, and reported successful initial sync.
 
 Exit gate: pairing needs no serial credentials and revocation purges child data.
 
@@ -249,9 +258,11 @@ Exit gate: the complete Version 1 Definition of Done is satisfied.
 - `npm run build`: PASS, including SEO validation for 12 public pages.
 - Host firmware tests: PASS, domain, content/schema, and atomic-storage/recovery
   suites.
-- LVGL simulator: PASS, interaction self-test and 34 golden screenshots,
+- LVGL simulator: PASS, interaction self-test and 35 golden screenshots,
   including automatic, byte-identical completion replay from both durable
-  session types.
+  session types. Exact multiplication keypad geometry/click handling and
+  full-screen fixed-action bounds are asserted after the physical clipping
+  report.
 - Outbox limit/replay regression: PASS; an identical event remains idempotent
   at the 8 MiB limit, while a conflicting payload fails closed and a new event
   returns `outbox_full`.
@@ -262,6 +273,9 @@ Exit gate: the complete Version 1 Definition of Done is satisfied.
   RSSI, and simulator-buffer integer widths.
 - All six silicon/rotation development builds, byte-for-byte Rev3/BSP
   reproducibility, signed pilot, and signed production builds: PASS.
+- The patched Rev1.3/BSP application is byte-identical across two isolated
+  builds, SHA-256
+  `c0e18a2610ebc3191265743afd3fabaea58d8d02dab97cb1408e249e092da3f2`.
 - Build-only ESP32-C6 recovery candidate: PASS twice with application SHA-256
   `96e905dc469b82cabd04f8809ff4b19d5f7229586694cf75ab99cc3fa9dbffdf`
   and merged-image SHA-256

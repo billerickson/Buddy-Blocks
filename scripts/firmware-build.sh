@@ -50,6 +50,11 @@ fi
 # shellcheck disable=SC1091
 source "${repo_root}/scripts/firmware-env.sh"
 
+# esp_lvgl_adapter 0.6.4 documents a PPA hardware hang for ESP32-P4 when
+# rotated TRIPLE_PARTIAL rendering is used. Apply its Apache-2.0 workaround to
+# the exact pinned IDF source before any BSP/PPA build.
+"${repo_root}/scripts/firmware-apply-idf-patches.sh" "${BUDDY_IDF_PATH}"
+
 mkdir -p "${build_dir}"
 version_overlay="${build_dir}/sdkconfig.defaults.version"
 printf 'CONFIG_BUDDY_FIRMWARE_VERSION="%s"\n' "${firmware_version}" >"${version_overlay}"

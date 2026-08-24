@@ -37,6 +37,7 @@ scenarios=(
   text-boundaries
   multiplication-selection
   multiplication-no-selection
+  multiplication-question
   multiplication-locked-feedback
   multiplication-completed-recovery
   mastery-overview

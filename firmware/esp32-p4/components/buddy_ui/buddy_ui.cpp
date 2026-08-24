@@ -373,6 +373,7 @@ lv_obj_t *top_nav(const char *title, bool show_back)
     lv_obj_set_style_bg_color(top, color(kInk), LV_PART_MAIN);
     lv_obj_set_style_border_width(top, 0, LV_PART_MAIN);
     lv_obj_set_style_radius(top, 0, LV_PART_MAIN);
+    lv_obj_set_style_pad_all(top, 0, LV_PART_MAIN);
     lv_obj_remove_flag(top, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_add_flag(top, LV_OBJ_FLAG_FLOATING);
     if (show_back) {
@@ -433,6 +434,7 @@ lv_obj_t *confirm_bar(const char *primary, bool enabled, lv_event_cb_t primary_c
     lv_obj_set_style_bg_color(bar, color(kMint), LV_PART_MAIN);
     lv_obj_set_style_border_width(bar, 0, LV_PART_MAIN);
     lv_obj_set_style_radius(bar, 0, LV_PART_MAIN);
+    lv_obj_set_style_pad_all(bar, 0, LV_PART_MAIN);
     lv_obj_remove_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_add_flag(bar, LV_OBJ_FLAG_FLOATING);
     if (secondary != nullptr) {
@@ -2561,6 +2563,19 @@ extern "C" bool buddy_ui_run_interaction_self_test(void)
     lv_obj_t *first_table = lv_obj_get_child(screen, 2);
     lv_obj_t *bar = lv_obj_get_child(screen, -1);
     lv_obj_t *start = lv_obj_get_child(bar, 0);
+    lv_obj_update_layout(screen);
+    const auto has_bounds = [](lv_obj_t *object, int x1, int y1, int x2, int y2) {
+        lv_area_t coordinates{};
+        lv_obj_get_coords(object, &coordinates);
+        return coordinates.x1 == x1 && coordinates.y1 == y1 && coordinates.x2 == x2 &&
+               coordinates.y2 == y2;
+    };
+    lv_obj_t *top = lv_obj_get_child(screen, 0);
+    lv_obj_t *settings = lv_obj_get_child(top, -1);
+    if (!has_bounds(settings, 734, 4, 791, 51) || !has_bounds(bar, 0, kConfirmTop, 799, 479) ||
+        !has_bounds(start, 16, kConfirmTop + 10, 783, kConfirmTop + 69)) {
+        return false;
+    }
     if (!lv_obj_has_state(start, LV_STATE_DISABLED))
         return false;
 
@@ -2585,6 +2600,27 @@ extern "C" bool buddy_ui_run_interaction_self_test(void)
     bar = lv_obj_get_child(screen, -1);
     start = lv_obj_get_child(bar, 0);
     if (lv_obj_has_state(start, LV_STATE_DISABLED))
+        return false;
+
+    // The exact physical failure found on Rev1.3 is guarded here: the normal
+    // question keypad must remain within the 800x480 viewport and a keypad
+    // click must update the answer through the deferred render.
+    s_app.click_seen = false;
+    (void)lv_obj_send_event(start, LV_EVENT_CLICKED, nullptr);
+    (void)lv_timer_handler();
+    if (s_app.current != Screen::kMultiplicationQuestion || s_app.deck.empty())
+        return false;
+    screen = lv_screen_active();
+    lv_obj_update_layout(screen);
+    lv_obj_t *key_two = lv_obj_get_child(screen, 5);
+    lv_obj_t *key_enter = lv_obj_get_child(screen, 15);
+    if (!has_bounds(key_two, 554, 72, 655, 137) || !has_bounds(key_enter, 670, 306, 771, 371)) {
+        return false;
+    }
+    s_app.click_seen = false;
+    (void)lv_obj_send_event(key_two, LV_EVENT_CLICKED, nullptr);
+    (void)lv_timer_handler();
+    if (s_app.current != Screen::kMultiplicationQuestion || s_app.answer != "2")
         return false;
 
     // A clean unpaired board advances through the specified first-boot path
@@ -2725,6 +2761,18 @@ extern "C" bool buddy_ui_render_scenario(const char *scenario_name)
         s_app.attempts = {{{7, 8}, 54, 2400}};
         s_app.score_correct = 0;
         s_app.feedback_visible = true;
+        s_app.last_correct = false;
+        render(Screen::kMultiplicationQuestion);
+    } else if (scenario == "multiplication-question") {
+        s_app.selected_factors.fill(false);
+        s_app.selected_factors[1] = true;
+        s_app.timed = false;
+        s_app.deck = {{2, 1}, {2, 2}};
+        s_app.deck_index = 0;
+        s_app.answer.clear();
+        s_app.attempts.clear();
+        s_app.score_correct = 0;
+        s_app.feedback_visible = false;
         s_app.last_correct = false;
         render(Screen::kMultiplicationQuestion);
     } else if (scenario == "multiplication-completed-recovery") {

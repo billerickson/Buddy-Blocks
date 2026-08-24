@@ -18,6 +18,8 @@ if [[ "${actual_tag}" != "v5.5.5" ]]; then
   exit 1
 fi
 
+"${repo_root}/scripts/firmware-apply-idf-patches.sh" "${idf_path}"
+
 IDF_TOOLS_PATH="${tools_path}" "${idf_path}/install.sh" esp32p4
 IDF_TOOLS_PATH="${tools_path}" python3 "${idf_path}/tools/idf_tools.py" install \
   cmake@3.30.2 ninja@1.12.1 esp-clang@esp-19.1.2_20250312

@@ -19,7 +19,7 @@ must not contain Wi-Fi passwords, device tokens, signing keys, or child content.
 | Silicon overlay | `rev1_3` |
 | Rotation path | Waveshare BSP candidate |
 | Security profile | Development |
-| Application SHA-256 | `90cb91626549261ab56aa35f801dd8ec6a2df3b3565b26aba14dc80a4507342a` (current corrected BSP image); the first stable image was `c01d2b9bff869e47691c2428151cbc1db6f4c924d40326a5204bfdf47bb87cf2` |
+| Application SHA-256 | `c0e18a2610ebc3191265743afd3fabaea58d8d02dab97cb1408e249e092da3f2` (current patched BSP image); failed predecessor `90cb91626549261ab56aa35f801dd8ec6a2df3b3565b26aba14dc80a4507342a`; first stable image `c01d2b9bff869e47691c2428151cbc1db6f4c924d40326a5204bfdf47bb87cf2` |
 | Manifest URL / SHA-256 | Pending |
 | Operator | Repository owner, reporting visible results through the Codex desktop session |
 | Start date/time/time zone | 2026-08-24, America/Chicago |
@@ -54,7 +54,7 @@ touch sequence for every row.
 
 | Candidate | App SHA | Mean / p95 frame | Mean / p95 flush | Touch p95 | Internal heap min | PSRAM min | Tearing/corruption | 100 transitions | Result / evidence |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
-| Waveshare BSP rotation | `c01d2b9b…7cf2` measured; `90cb9162…342a` current | 3,304 / 7,055 us after Wi-Fi interaction on prior stable image; current-image comparable sequence pending | callback 1,021 / 2,880 us; wait 3 / 4 us on prior stable image | Pending | 124,784 bytes on prior image | 29,329,424 bytes on prior image | User reported a readable landscape Wi-Fi and pairing screen; corrected image boots without the duplicate LEDC warning; current visible/tearing rerun pending | Pending | Partial pass; `serial-logs/m0-rev1_3-bsp-restored-20260824T165500Z.log` and `serial-logs/m0-rev1_3-bsp-20260824T171654Z.log` |
+| Waveshare BSP rotation | `c01d2b9b…7cf2` initial; `90cb9162…342a` failed; `c0e18a26…da3f2` patched current | Current boot/keypad sequence refresh 11,611 / 33,611 us at frame 94; failing image stopped at 167 with 9,638 / 28,278 us | Current callback 759 / 4,916 us; wait 3 / 4 us; failing callback 589 / 7,224 us | Pending | 88,872 bytes current | 29,227,016 bytes current | Current image resumed the saved paired question; requested keypad sequence worked, operator confirmed corrected right/bottom alignment, and frames advanced 42 to 94 without a lock error | Pending | Original failure fixed physically; full transition/tearing test pending. Failure log `serial-logs/m0-rev1_3-bsp-20260824T171654Z.log` SHA-256 `750a1bfe58de72a2420e3b87e1af696f859998b8a8c817a16c5d3b2b63974188`; current `serial-logs/m0-rev1_3-bsp-ppa-fix-20260824T181200Z.log`; ignored photo SHA-256 `de409ed488bee05f91234236e344d6d5528e0c630689d57a6ce02a593fb3ffee` |
 | Deferred CPU full-frame rotation | `db139b4f…b6658` prepared | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Reproducible Rev1.3 image prepared; not yet flashed |
 | PPA rotation | `357ca812…06a55` prepared | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Reproducible Rev1.3 image prepared; not yet flashed |
 
@@ -75,7 +75,7 @@ Initial candidate: `swap_xy=true`, `mirror_x=true`, `mirror_y=false`.
 | Press/release does not cross a transition | Pending | Pending |
 | Drag-out and scroll do not click | Pending | Pending |
 | 30-minute rapid-input start/end and video | Pending | Pending |
-| No double-submit, carried touch, lock stall, or unexpected reboot | Pending | Pending |
+| No double-submit, carried touch, lock stall, or unexpected reboot | The predecessor stopped at frame 167. On patched application `c0e18a26…da3f2`, the operator completed `1`, `2`, `3`, backspace, `4`, Enter; frames advanced 42 to 94 without a lock error or reboot | Pass for the original sequence; 30-minute stress remains pending |
 | Pressed state distinguishable in room light | Pending | Pending |
 | Selected state distinguishable in room light | Pending | Pending |
 | Checked state distinguishable in room light | Pending | Pending |
@@ -96,7 +96,7 @@ Recorded transform and rationale: Pending.
 | 100-reboot loop | Pending | Pending |
 | Landscape output and full touch grid | User observed readable landscape Wi-Fi/pairing screens with the USB connectors on the right; full grid not yet run | Partial |
 | Rotation/flush/input timing measured | Pending | Pending |
-| 100 transitions without tearing, incomplete frames, or LVGL-lock stalls | Pending | Pending |
+| 100 transitions without tearing, incomplete frames, or LVGL-lock stalls | The paired navigation sequence reached multiplication, then the first keypad press exposed an LVGL-lock stall before the loop could run | Fail on application `90cb9162…342a`; patched rerun pending |
 | 30-minute rapid-input test | Pending | Pending |
 | Required UI states visible in room light | Pending | Pending |
 | Long list and fixed action behavior | Pending | Pending |
@@ -125,9 +125,11 @@ Recorded transform and rationale: Pending.
 | Probe remains valid after normal reboot | Repeated boots verify the prior nonce before writing the next record | Pass |
 | Probe remains valid after controlled power removal | Prior Buddy proof verified after the operator's USB power removal, factory A/B boot, and Buddy restoration | Pass |
 | Router-off paired cached Home ready within 5,000 ms | Pending | Pending |
-| Completed frame and successful LittleFS init at ready marker | Current corrected image: `BUDDY_BOOT_READY firmware_ms=475 surface=wifi paired=0 display_frame=1 storage=1`; prior stable image: 549 ms | Pass |
+| Completed frame and successful LittleFS init at ready marker | Current patched image: `BUDDY_BOOT_READY firmware_ms=555 surface=multiplication-question paired=1 display_frame=1 storage=1`; unpaired corrected image: 475 ms; prior stable image: 549 ms | Pass |
 | ESP32-C6 hosted link initializes | 40 MHz four-bit SDIO, INIT received, WLAN capability, board type 13, slave chip ID 12 | Pass |
 | 2.4 GHz WPA2 obtains IPv4 | Home network security mode not yet recorded; the board advanced to pairing and HTTPS connectivity returned 204 | Partial; association/IP/TLS pass, WPA mode pending |
+| Parent-authorized pairing | Operator entered the board code while signed into the production parent site, selected a child, and the device accepted the claim | Pass |
+| Initial paired-child sync | Operator reported that pairing and initial synchronization completed and Home exposed the synchronized multiplication experience | Pass; exact content-scale ladder remains pending |
 | 2.4 GHz WPA3 obtains IPv4, if available | Pending | Pending |
 | Hidden SSID connects | Pending | Pending |
 | Wrong password is recoverable | Pending | Pending |
@@ -233,6 +235,19 @@ The upstream Waveshare P4 factory images are downloads, not repository files:
   GPIO26/LEDC reservation warning, verifies the existing LittleFS record,
   reports one saved Wi-Fi profile, reacquires IPv4, and returns HTTPS 204.
   Brightness levels still need visible operator confirmation.
+- The operator completed parent-authorized pairing and initial synchronization,
+  then opened multiplication practice. The first keypad press remained in its
+  active visual state, display telemetry stopped at frame 167, and the serial
+  log began reporting repeated LVGL-lock acquisition failures. The same photo
+  shows the Settings control clipped at the right edge and the fixed bottom
+  action shifted beyond the intended bounds. Source inspection matched the
+  freeze to the pinned adapter's documented ESP32-P4 rotated
+  `TRIPLE_PARTIAL` PPA issue. Application `c0e18a26…da3f2` includes the
+  tracked IDF v5.5.5 patch and zero-padding container correction. It resumed
+  the paired question after flashing, accepted the requested six-key sequence,
+  advanced frames 42 to 94 without a lock error, and the operator confirmed
+  that the margins and fixed action alignment were corrected. Two isolated
+  builds reproduced the exact application hash.
 
 ## Exact Version 1 acceptance story
 
