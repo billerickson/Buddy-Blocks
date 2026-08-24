@@ -15,7 +15,8 @@ if [[ ! -c "${serial_port}" ]]; then
 fi
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-"${repo_root}/scripts/firmware-build.sh" "${profile}" "${rotation}"
+BUDDY_SECURITY_PROFILE=development \
+  "${repo_root}/scripts/firmware-build.sh" "${profile}" "${rotation}" development
 
 # shellcheck disable=SC1091
 source "${repo_root}/scripts/firmware-env.sh"

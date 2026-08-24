@@ -1,0 +1,49 @@
+{
+  "selectedFactorNormalization": {
+    "input": [6, 2, 6, 13, 0, 3],
+    "expected": [2, 3, 6]
+  },
+  "factPool": {
+    "selectedFactors": [2, 6],
+    "expectedCount": 24,
+    "expectedFirst": "2x1",
+    "expectedLast": "6x12"
+  },
+  "deterministicDeck": {
+    "selectedFactors": [1],
+    "seed": "12345",
+    "expected": [
+      "1x9", "1x6", "1x5", "1x3", "1x4", "1x11", "1x12", "1x7",
+      "1x10", "1x1", "1x10", "1x11", "1x2", "1x6", "1x4", "1x7",
+      "1x5", "1x12", "1x3", "1x2", "1x8", "1x1", "1x9", "1x8"
+    ]
+  },
+  "missedFactSpacing": {
+    "deck": ["2x1", "2x2", "2x3", "2x4"],
+    "missed": "3x9",
+    "spacing": 3,
+    "expected": ["2x1", "2x2", "2x3", "3x9", "2x4"]
+  },
+  "xp": [
+    { "correct": 9, "total": 9, "expected": 0 },
+    { "correct": 18, "total": 20, "expected": 13 },
+    { "correct": 500, "total": 500, "expected": 30 }
+  ],
+  "mastery": [
+    {
+      "stats": { "attempts": 4, "correct": 4, "correctStreak": 3, "bestKeyboardResponseMs": 4200 },
+      "expected": "fluent",
+      "weight": 1
+    },
+    {
+      "stats": { "attempts": 8, "correct": 7, "correctStreak": 5, "bestKeyboardResponseMs": 6000 },
+      "expected": "learning",
+      "weight": 2
+    },
+    {
+      "stats": { "attempts": 10, "correct": 5, "correctStreak": 0, "bestKeyboardResponseMs": 2200 },
+      "expected": "learning",
+      "weight": 3
+    }
+  ]
+}

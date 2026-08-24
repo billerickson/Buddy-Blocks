@@ -1,3 +1,4 @@
 # Compatibility/recovery candidate for explicitly verified Rev1.3 hardware.
 CONFIG_ESP32P4_REV_MIN_100=y
 CONFIG_SPIRAM_SPEED_200M=y
+CONFIG_BUDDY_HARDWARE_REVISION="rev1_3"

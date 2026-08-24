@@ -58,4 +58,23 @@ config BUDDY_WIFI_MAX_RETRIES
     range 0 20
     default 5
 
+config BUDDY_API_BASE_URL
+    string "Buddy Blocks HTTPS API origin"
+    default "https://buddyblocks.net"
+    help
+        Public origin only; never include credentials or a trailing slash.
+
+config BUDDY_HARDWARE_REVISION
+    string "Hardware revision API profile"
+    default "rev3"
+    help
+        Must be rev3 or rev1_3 and must agree with the silicon build overlay.
+
+config BUDDY_FIRMWARE_VERSION
+    string "Semantic firmware version"
+    default "0.1.0"
+    help
+        Embedded in device requests and diagnostics. Release packaging supplies
+        this from the requested package version; ordinary builds use 0.1.0.
+
 endmenu

@@ -2,13 +2,10 @@ idf_component_register(
   SRCS "buddy_board.cpp"
   INCLUDE_DIRS "include"
   REQUIRES
-    esp_event
     esp_hw_support
     esp_mm
-    esp_netif
     esp_psram
     esp_timer
-    esp_wifi
     nvs_flash
     spi_flash
 )

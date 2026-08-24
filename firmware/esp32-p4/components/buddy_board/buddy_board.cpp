@@ -12,23 +12,22 @@
 #include "esp_cache.h"
 #include "esp_check.h"
 #include "esp_chip_info.h"
-#include "esp_event.h"
 #include "esp_flash.h"
 #include "esp_heap_caps.h"
 #include "esp_lcd_panel_ops.h"
 #include "esp_lcd_touch.h"
 #include "esp_littlefs.h"
 #include "esp_log.h"
-#include "esp_netif.h"
 #include "esp_psram.h"
 #include "esp_random.h"
 #include "esp_system.h"
 #include "esp_timer.h"
-#include "esp_wifi.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
+#include "freertos/semphr.h"
 #include "freertos/task.h"
 #include "lvgl.h"
+#include "nvs.h"
 #include "nvs_flash.h"
 #include "sdkconfig.h"
 
@@ -43,6 +42,7 @@ constexpr size_t kNativeFrameBytes = kNativeWidth * kNativeHeight * sizeof(uint1
 constexpr size_t kMetricSampleCount = 128;
 constexpr char kLittleFsLabel[] = "littlefs";
 constexpr char kLittleFsBasePath[] = "/littlefs";
+constexpr char kSystemNamespace[] = "buddy_system";
 constexpr uint32_t kProbeMagic = 0x42425030; // "BBP0"
 constexpr uint32_t kProbeSchema = 1;
 constexpr char kTag[] = "buddy_m0";
@@ -114,9 +114,15 @@ DisplayMetrics s_metrics;
 portMUX_TYPE s_metrics_lock = portMUX_INITIALIZER_UNLOCKED;
 std::atomic<uint32_t> s_touch_count{0};
 std::atomic<int64_t> s_last_touch_report_us{0};
-std::atomic<int> s_wifi_state{0}; // 0 skipped/starting, 1 connected, -1 failed
-std::atomic<int> s_wifi_retries{0};
 lv_obj_t *s_touch_status_label = nullptr;
+#if CONFIG_BUDDY_ROTATION_PATH_CPU
+SemaphoreHandle_t s_cpu_lvgl_mutex = nullptr;
+#endif
+lv_display_t *s_board_display = nullptr;
+bool s_background_services_started = false;
+std::atomic<uint8_t> s_awake_brightness{80};
+std::atomic<uint8_t> s_timeout_minutes{5};
+std::atomic<int> s_applied_brightness{-1};
 
 const char *rotation_path_name()
 {
@@ -283,9 +289,35 @@ esp_err_t init_storage()
     esp_vfs_littlefs_conf_t config{};
     config.base_path = kLittleFsBasePath;
     config.partition_label = kLittleFsLabel;
-    config.format_if_mount_failed = true; // Milestone 0 proof image only.
+    config.format_if_mount_failed = false;
     config.dont_mount = false;
-    ESP_RETURN_ON_ERROR(esp_vfs_littlefs_register(&config), kTag, "LittleFS mount failed");
+    esp_err_t mount_result = esp_vfs_littlefs_register(&config);
+    if (mount_result != ESP_OK) {
+        nvs_handle_t handle = 0;
+        uint8_t initialized = 0;
+        const esp_err_t open = nvs_open(kSystemNamespace, NVS_READWRITE, &handle);
+        if (open == ESP_OK) {
+            (void)nvs_get_u8(handle, "littlefs_ready", &initialized);
+            nvs_close(handle);
+        }
+        ESP_RETURN_ON_FALSE(open == ESP_OK, open, kTag,
+                            "Could not inspect the LittleFS first-boot marker");
+        ESP_RETURN_ON_FALSE(initialized == 0, mount_result, kTag,
+                            "LittleFS mount failed after prior initialization; refusing to format");
+        ESP_LOGW(kTag, "Blank first boot detected; formatting LittleFS exactly once");
+        ESP_RETURN_ON_ERROR(esp_littlefs_format(kLittleFsLabel), kTag,
+                            "First-boot LittleFS format failed");
+        ESP_RETURN_ON_ERROR(esp_vfs_littlefs_register(&config), kTag,
+                            "LittleFS mount after first-boot format failed");
+    }
+
+    nvs_handle_t marker = 0;
+    ESP_RETURN_ON_ERROR(nvs_open(kSystemNamespace, NVS_READWRITE, &marker), kTag,
+                        "Could not open LittleFS marker");
+    esp_err_t marker_result = nvs_set_u8(marker, "littlefs_ready", 1);
+    if (marker_result == ESP_OK) marker_result = nvs_commit(marker);
+    nvs_close(marker);
+    ESP_RETURN_ON_ERROR(marker_result, kTag, "Could not retain LittleFS marker");
 
     size_t total = 0;
     size_t used = 0;
@@ -432,7 +464,9 @@ uint32_t lvgl_tick_ms()
 void cpu_lvgl_task(void *)
 {
     while (true) {
+        xSemaphoreTakeRecursive(s_cpu_lvgl_mutex, portMAX_DELAY);
         const uint32_t suggested = static_cast<uint32_t>(lv_timer_handler());
+        xSemaphoreGiveRecursive(s_cpu_lvgl_mutex);
         const uint32_t delay_ms = std::clamp<uint32_t>(suggested, 5, 20);
         vTaskDelay(pdMS_TO_TICKS(delay_ms));
     }
@@ -470,6 +504,9 @@ esp_err_t init_cpu_display()
     s_cpu.flush_queue = xQueueCreate(1, sizeof(CpuFlushJob));
     ESP_RETURN_ON_FALSE(s_cpu.flush_queue != nullptr, ESP_ERR_NO_MEM, kTag,
                         "Could not create CPU flush queue");
+    s_cpu_lvgl_mutex = xSemaphoreCreateRecursiveMutex();
+    ESP_RETURN_ON_FALSE(s_cpu_lvgl_mutex != nullptr, ESP_ERR_NO_MEM, kTag,
+                        "Could not create CPU LVGL mutex");
     ESP_RETURN_ON_FALSE(xTaskCreate(cpu_rotation_task, "buddy_rotate", 6144, nullptr, 9,
                                     nullptr) == pdPASS,
                         ESP_ERR_NO_MEM, kTag, "Could not create CPU rotation task");
@@ -567,21 +604,22 @@ lv_display_t *init_display()
 #endif
 }
 
-esp_err_t lock_display()
+esp_err_t lock_display(uint32_t timeout_ms)
 {
 #if CONFIG_BUDDY_ROTATION_PATH_CPU
-    return ESP_OK;
+    const TickType_t wait = timeout_ms == UINT32_MAX ? portMAX_DELAY : pdMS_TO_TICKS(timeout_ms);
+    return xSemaphoreTakeRecursive(s_cpu_lvgl_mutex, wait) == pdTRUE ? ESP_OK : ESP_ERR_TIMEOUT;
 #elif CONFIG_BUDDY_ROTATION_PATH_PPA
-    return esp_lv_adapter_lock(UINT32_MAX);
+    return esp_lv_adapter_lock(timeout_ms);
 #else
-    return bsp_display_lock(UINT32_MAX);
+    return bsp_display_lock(timeout_ms);
 #endif
 }
 
 void unlock_display()
 {
 #if CONFIG_BUDDY_ROTATION_PATH_CPU
-    return;
+    xSemaphoreGiveRecursive(s_cpu_lvgl_mutex);
 #elif CONFIG_BUDDY_ROTATION_PATH_PPA
     esp_lv_adapter_unlock();
 #else
@@ -685,70 +723,6 @@ void build_proof_ui(lv_display_t *display)
     lv_obj_center(s_touch_status_label);
 }
 
-void wifi_event_handler(void *, esp_event_base_t event_base, int32_t event_id, void *event_data)
-{
-    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
-        esp_wifi_connect();
-        return;
-    }
-    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
-        const int retry = s_wifi_retries.fetch_add(1) + 1;
-        if (retry <= CONFIG_BUDDY_WIFI_MAX_RETRIES) {
-            ESP_LOGW(kTag, "Hosted Wi-Fi disconnected; retry %d/%d", retry,
-                     CONFIG_BUDDY_WIFI_MAX_RETRIES);
-            esp_wifi_connect();
-        } else {
-            s_wifi_state.store(-1);
-            ESP_LOGE(kTag, "Hosted Wi-Fi proof exhausted its initial retries");
-        }
-        return;
-    }
-    if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
-        const auto *got_ip = static_cast<const ip_event_got_ip_t *>(event_data);
-        s_wifi_state.store(1);
-        s_wifi_retries.store(0);
-        ESP_LOGI(kTag, "ESP32-C6 hosted Wi-Fi obtained IPv4 " IPSTR,
-                 IP2STR(&got_ip->ip_info.ip));
-    }
-}
-
-esp_err_t start_hosted_wifi_async()
-{
-    if (CONFIG_BUDDY_WIFI_SSID[0] == '\0') {
-        ESP_LOGW(kTag, "Hosted Wi-Fi proof skipped: configure credentials in ignored sdkconfig");
-        return ESP_OK;
-    }
-
-    ESP_RETURN_ON_ERROR(esp_netif_init(), kTag, "Network interface init failed");
-    ESP_RETURN_ON_ERROR(esp_event_loop_create_default(), kTag, "Event loop init failed");
-    ESP_RETURN_ON_FALSE(esp_netif_create_default_wifi_sta() != nullptr, ESP_FAIL, kTag,
-                        "Default hosted Wi-Fi station creation failed");
-
-    wifi_init_config_t init_config = WIFI_INIT_CONFIG_DEFAULT();
-    ESP_RETURN_ON_ERROR(esp_wifi_init(&init_config), kTag, "ESP32-C6 hosted Wi-Fi init failed");
-    ESP_RETURN_ON_ERROR(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID,
-                                                   wifi_event_handler, nullptr),
-                        kTag, "Wi-Fi event registration failed");
-    ESP_RETURN_ON_ERROR(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP,
-                                                   wifi_event_handler, nullptr),
-                        kTag, "IP event registration failed");
-
-    wifi_config_t wifi_config{};
-    std::strncpy(reinterpret_cast<char *>(wifi_config.sta.ssid), CONFIG_BUDDY_WIFI_SSID,
-                 sizeof(wifi_config.sta.ssid) - 1);
-    std::strncpy(reinterpret_cast<char *>(wifi_config.sta.password), CONFIG_BUDDY_WIFI_PASSWORD,
-                 sizeof(wifi_config.sta.password) - 1);
-    wifi_config.sta.threshold.authmode = WIFI_AUTH_WPA2_PSK;
-    wifi_config.sta.sae_pwe_h2e = WPA3_SAE_PWE_BOTH;
-
-    ESP_RETURN_ON_ERROR(esp_wifi_set_mode(WIFI_MODE_STA), kTag, "Hosted station mode failed");
-    ESP_RETURN_ON_ERROR(esp_wifi_set_config(WIFI_IF_STA, &wifi_config), kTag,
-                        "Hosted station configuration failed");
-    ESP_RETURN_ON_ERROR(esp_wifi_start(), kTag, "Hosted station start failed");
-    ESP_LOGI(kTag, "ESP32-C6 hosted Wi-Fi started asynchronously (credentials redacted)");
-    return ESP_OK;
-}
-
 void diagnostics_task(void *)
 {
     while (true) {
@@ -778,9 +752,9 @@ void diagnostics_task(void *)
                  snapshot.cpu_pipeline.max_us);
         ESP_LOGI(kTag,
                  "metrics touch_dispatch_us(avg/p95/max)=%" PRIu32 "/%" PRIu32 "/%" PRIu32
-                 " touches=%" PRIu32 " wifi=%d heap_min=%u psram_free=%u psram_min=%u",
+                 " touches=%" PRIu32 " heap_min=%u psram_free=%u psram_min=%u",
                  sample_average(snapshot.touch_dispatch), sample_p95(snapshot.touch_dispatch),
-                 snapshot.touch_dispatch.max_us, s_touch_count.load(), s_wifi_state.load(),
+                 snapshot.touch_dispatch.max_us, s_touch_count.load(),
                  static_cast<unsigned>(heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL)),
                  static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_SPIRAM)),
                  static_cast<unsigned>(heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM)));
@@ -788,28 +762,73 @@ void diagnostics_task(void *)
     }
 }
 
+void display_power_task(void *)
+{
+    while (true) {
+        const uint8_t awake = s_awake_brightness.load();
+        const uint8_t timeout_minutes = s_timeout_minutes.load();
+        uint32_t inactive_ms = 0;
+        if (s_board_display != nullptr && lock_display(250) == ESP_OK) {
+            inactive_ms = lv_display_get_inactive_time(s_board_display);
+            unlock_display();
+        }
+        int requested = awake;
+        if (timeout_minutes > 0) {
+            const uint32_t dim_at_ms = static_cast<uint32_t>(timeout_minutes) * 60U * 1000U;
+            if (inactive_ms >= dim_at_ms + 10000U) {
+                requested = 0;
+            } else if (inactive_ms >= dim_at_ms) {
+                requested = std::max<int>(10, awake / 4);
+            }
+        }
+        if (s_applied_brightness.exchange(requested) != requested) {
+            const esp_err_t result = bsp_display_brightness_set(requested);
+            if (result != ESP_OK) {
+                ESP_LOGE(kTag, "Backlight update to %d%% failed: %s", requested,
+                         esp_err_to_name(result));
+                s_applied_brightness.store(-1);
+            }
+        }
+        vTaskDelay(pdMS_TO_TICKS(250));
+    }
+}
+
 } // namespace
 
-extern "C" esp_err_t buddy_board_run_hardware_proof(void)
+extern "C" esp_err_t buddy_board_initialize(buddy_board_runtime_t *runtime)
 {
-    ESP_LOGW(kTag, "Milestone 0 proof boot: serial output is not physical pass evidence");
+    ESP_RETURN_ON_FALSE(runtime != nullptr, ESP_ERR_INVALID_ARG, kTag, "Runtime is required");
+    if (s_board_display != nullptr) {
+        runtime->display = s_board_display;
+        return ESP_OK;
+    }
     log_hardware_identity();
     ESP_RETURN_ON_ERROR(init_nvs(), kTag, "NVS initialization failed");
     ESP_RETURN_ON_ERROR(init_storage(), kTag, "LittleFS proof failed");
 
-    lv_display_t *display = init_display();
-    ESP_RETURN_ON_FALSE(display != nullptr, ESP_FAIL, kTag, "Display initialization failed");
-    const int horizontal = lv_display_get_horizontal_resolution(display);
-    const int vertical = lv_display_get_vertical_resolution(display);
+    s_board_display = init_display();
+    ESP_RETURN_ON_FALSE(s_board_display != nullptr, ESP_FAIL, kTag, "Display initialization failed");
+    const int horizontal = lv_display_get_horizontal_resolution(s_board_display);
+    const int vertical = lv_display_get_vertical_resolution(s_board_display);
     ESP_RETURN_ON_FALSE(horizontal == kLogicalWidth && vertical == kLogicalHeight,
                         ESP_ERR_INVALID_SIZE, kTag,
                         "Landscape invariant failed: expected 800x480, got %dx%d", horizontal,
                         vertical);
-    ESP_RETURN_ON_ERROR(lock_display(), kTag, "Could not lock display for proof UI");
-    lv_display_add_event_cb(display, display_metrics_callback, LV_EVENT_ALL, nullptr);
-    build_proof_ui(display);
+    ESP_RETURN_ON_ERROR(lock_display(UINT32_MAX), kTag, "Could not lock initialized display");
+    lv_display_add_event_cb(s_board_display, display_metrics_callback, LV_EVENT_ALL, nullptr);
     unlock_display();
     ESP_RETURN_ON_ERROR(bsp_display_backlight_on(), kTag, "Backlight enable failed");
+    runtime->display = s_board_display;
+    return ESP_OK;
+}
+
+extern "C" esp_err_t buddy_board_start_background_services(void)
+{
+    ESP_RETURN_ON_FALSE(s_board_display != nullptr, ESP_ERR_INVALID_STATE, kTag,
+                        "Board must be initialized before services start");
+    if (s_background_services_started) {
+        return ESP_OK;
+    }
 
 #if CONFIG_BUDDY_ROTATION_PATH_CPU
     ESP_RETURN_ON_FALSE(xTaskCreate(cpu_lvgl_task, "buddy_lvgl", 8192, nullptr, 8, nullptr) ==
@@ -819,11 +838,47 @@ extern "C" esp_err_t buddy_board_run_hardware_proof(void)
     ESP_RETURN_ON_FALSE(xTaskCreate(diagnostics_task, "buddy_diag", 4096, nullptr, 3, nullptr) ==
                             pdPASS,
                         ESP_ERR_NO_MEM, kTag, "Could not create diagnostics task");
+    ESP_RETURN_ON_FALSE(xTaskCreate(display_power_task, "buddy_power", 3072, nullptr, 3,
+                                    nullptr) == pdPASS,
+                        ESP_ERR_NO_MEM, kTag, "Could not create display power task");
 
-    const esp_err_t wifi_result = start_hosted_wifi_async();
-    if (wifi_result != ESP_OK) {
-        s_wifi_state.store(-1);
-        ESP_LOGE(kTag, "Hosted Wi-Fi proof did not start: %s", esp_err_to_name(wifi_result));
-    }
+    s_background_services_started = true;
     return ESP_OK;
+}
+
+extern "C" esp_err_t buddy_board_display_lock(uint32_t timeout_ms)
+{
+    return lock_display(timeout_ms);
+}
+
+extern "C" void buddy_board_display_unlock(void) { unlock_display(); }
+
+extern "C" esp_err_t buddy_board_set_brightness(uint8_t brightness_percent)
+{
+    ESP_RETURN_ON_FALSE(brightness_percent >= 10 && brightness_percent <= 100,
+                        ESP_ERR_INVALID_ARG, kTag, "Brightness must be 10..100");
+    s_awake_brightness.store(brightness_percent);
+    s_applied_brightness.store(-1);
+    return ESP_OK;
+}
+
+extern "C" esp_err_t buddy_board_set_screen_timeout(uint8_t timeout_minutes)
+{
+    ESP_RETURN_ON_FALSE(timeout_minutes == 0 || timeout_minutes == 2 ||
+                            timeout_minutes == 5 || timeout_minutes == 10,
+                        ESP_ERR_INVALID_ARG, kTag, "Unsupported screen timeout");
+    s_timeout_minutes.store(timeout_minutes);
+    return ESP_OK;
+}
+
+extern "C" esp_err_t buddy_board_run_hardware_proof(void)
+{
+    ESP_LOGW(kTag, "Milestone 0 proof boot: serial output is not physical pass evidence");
+    buddy_board_runtime_t runtime{};
+    ESP_RETURN_ON_ERROR(buddy_board_initialize(&runtime), kTag, "Board initialization failed");
+    ESP_RETURN_ON_ERROR(buddy_board_display_lock(UINT32_MAX), kTag,
+                        "Could not lock display for proof UI");
+    build_proof_ui(runtime.display);
+    buddy_board_display_unlock();
+    return buddy_board_start_background_services();
 }

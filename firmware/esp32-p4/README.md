@@ -25,26 +25,35 @@ physical revision has been read with esptool and confirmed in the boot log.
 
 The bootstrap installs ESP-IDF `v5.5.5` below ignored `.toolchains/`. Override
 `BUDDY_IDF_PATH` and `IDF_TOOLS_PATH` if an audited installation already exists.
-The application version is read from tracked `version.txt`, and reproducible
-build mode removes timestamps and host paths. Verify a clean second build with:
+The normal application version is `0.1.0`; release/package builds set
+`BUDDY_FIRMWARE_VERSION` and use a version-specific ignored build directory.
+Every build recreates generated `sdkconfig` from the tracked silicon, rotation,
+security, and version overlays so cached settings cannot leak across profiles.
+Verify a clean second build with:
 
 ```bash
 ./scripts/firmware-repro-check.sh rev3 bsp
 ```
 
-## Local Wi-Fi proof credentials
+Host-only domain, atomic-storage, and deterministic 800 × 480 UI checks do not
+require a board:
 
-Credentials must never be committed. Generate the ignored local `sdkconfig`
-for the selected build, then use `idf.py menuconfig` and set:
-
-```text
-Buddy Blocks hardware proof
-  -> Wi-Fi SSID for the Milestone 0 proof
-  -> Wi-Fi password for the Milestone 0 proof
+```bash
+./scripts/firmware-test-host.sh
+./scripts/firmware-test-simulator.sh
 ```
 
-The UI and storage start before Wi-Fi and remain usable when those values are
-blank or the router is unavailable.
+Simulator screenshots are compared byte-for-byte with reviewed PNGs in
+`test/goldens/`. Use `./scripts/firmware-test-simulator.sh --update` only when
+intentionally reviewing a visual change; CI never accepts new goldens.
+
+## Wi-Fi and pairing
+
+Use Settings → Wi-Fi on the touchscreen to scan, enter WPA2/WPA3 credentials,
+connect to hidden networks, forget saved networks, or continue offline. Use
+Settings → Pair this board to generate the parent-authorized pairing code. The
+UI and storage start before Wi-Fi and remain usable when the router is missing.
+Credentials are stored only in NVS and erased by the typed factory-reset flow.
 
 ## Flashing
 
@@ -55,7 +64,8 @@ When a supported board is attached, identify its serial port and revision first:
 ./scripts/firmware-flash.sh /dev/cu.usbmodemXXXX rev3 bsp
 ```
 
-The flash helper builds before flashing and never selects a profile implicitly.
+The flash helper builds before flashing, always forces the `development`
+security profile, and never selects a silicon profile implicitly.
 It does not burn eFuses, enable irreversible security settings, or flash the C6
 coprocessor. It records console output under the ignored `serial-logs/`
 directory; leave the monitor with Ctrl-].
@@ -64,5 +74,10 @@ directory; leave the monitor with Ctrl-].
 
 Build directories, managed components, dependency resolver output, local
 sdkconfig files, serial logs, recovery downloads, credentials, and all signing
-or encryption keys are ignored by git. Release signing is introduced only in
-Milestone 5 with separate development, pilot, and production profiles.
+or encryption keys are ignored by git. Separate `development`, `pilot`, and
+`production` profiles are documented in
+[`../../docs/esp32-p4-security-runbook.md`](../../docs/esp32-p4-security-runbook.md).
+The board-day command sequence is in
+[`../../docs/esp32-p4-board-test-runbook.md`](../../docs/esp32-p4-board-test-runbook.md).
+No repository script burns eFuses; production flashing remains prohibited until
+the owner approves it after recovery and rollback pass on sacrificial hardware.
