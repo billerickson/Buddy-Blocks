@@ -16,7 +16,7 @@ on:
       - 'tests/esp32-p4-domain-parity.test.ts'
       - 'tests/fixtures/esp32-p4-domain-vectors.json'
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - '.github/workflows/esp32-p4.yml'
       - 'firmware/esp32-p4/**'

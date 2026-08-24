@@ -181,11 +181,30 @@ irreversible eFuse is burned by an automated script.
   serial intervention.
 - [ ] Performance measurements pending hardware; operations, factory-reset,
   support, security, board-test, and release procedures are documented.
-- [ ] All web and firmware tests pass in CI; no critical/high issue remains.
-- [ ] D1 migrations validated locally, then remotely through the established
+- [ ] All web and firmware tests pass in CI; the full local suite passes and the
+  pull-request matrix is pending.
+- [x] D1 migration 0004 validated locally, then applied and verified remotely
+  through the established
   deployment process.
-- [ ] Website/API deploy smoke test passes.
-- [ ] Coherent milestone commits are pushed to `origin`.
+- [x] Website/API deployment `61dbf86e-2b59-4d5b-bb34-af9a6e980788`
+  passes public health and expected unauthenticated-boundary smoke tests.
+- [x] Five coherent hardware-proof, build-matrix, firmware, device-platform,
+  and release/CI commits are pushed to `origin/codex/esp32-p4-app`.
 - [ ] Version 1 release artifacts are published without secrets/signing keys.
 
 Exit gate: the complete Version 1 Definition of Done is satisfied.
+
+## 2026-08-23 software validation evidence
+
+- `npm run content:validate`: PASS, 22 tracks / 3,882 questions.
+- `npm test`: PASS, 18 files / 164 tests.
+- `npm run check`: PASS, 92 files with zero diagnostics.
+- `npm run build`: PASS, including SEO validation for 12 public pages.
+- Host firmware tests: PASS, domain and atomic-storage suites.
+- LVGL simulator: PASS, interaction self-test and 21 golden screenshots.
+- Rev3/BSP development, signed pilot, and signed production builds: PASS.
+- Wrangler deploy dry-run: PASS; local and remote D1 migration verification:
+  PASS; production public/auth-boundary smoke: PASS.
+
+No line above is physical-board evidence. Milestone exit order, OTA/recovery,
+soak, and family-pilot gates remain unchanged.
