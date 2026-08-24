@@ -22,7 +22,7 @@ fi
 format_files=()
 while IFS= read -r file; do
   format_files+=("${repo_root}/${file}")
-done < <(git -C "${repo_root}" ls-files \
+done < <(git -c safe.directory="${repo_root}" -C "${repo_root}" ls-files \
   'firmware/esp32-p4/**/*.c' \
   'firmware/esp32-p4/**/*.cc' \
   'firmware/esp32-p4/**/*.cpp' \
