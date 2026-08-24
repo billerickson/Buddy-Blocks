@@ -43,12 +43,24 @@ jobs:
       BUDDY_IDF_PATH: /opt/esp/idf
       IDF_TOOLS_PATH: /opt/esp
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
+
+      - name: Source and tracked-file checks
+        run: |
+          git diff --check
+          bash -n scripts/firmware-*.sh
+          node --check scripts/generate-firmware-domain-vectors.mjs
+          node --check scripts/generate-firmware-release-metadata.mjs
+          node --check scripts/generate-sha256sums.mjs
+          git check-ignore -q firmware/esp32-p4/dependencies.lock
+          git check-ignore -q firmware/esp32-p4/managed_components
+          test -z "$(git ls-files 'firmware/esp32-p4/dependencies.lock' 'firmware/esp32-p4/managed_components/**')"
+          test -z "$(git ls-files 'firmware/esp32-p4/secrets/*' '*.pem' '*.key' '*.bin' | head -n 1)"
 
       - name: Install host test runtime
         run: npm ci
@@ -76,18 +88,11 @@ jobs:
       - name: LVGL simulator and reviewed goldens
         run: ./scripts/firmware-test-simulator.sh
 
-      - name: Source and generated-file checks
+      - name: Generated-file checks
         run: |
-          git -C "${GITHUB_WORKSPACE}" diff --check
-          bash -n scripts/firmware-*.sh
-          node --check scripts/generate-firmware-domain-vectors.mjs
-          node --check scripts/generate-firmware-release-metadata.mjs
-          node --check scripts/generate-sha256sums.mjs
           test ! -e firmware/esp32-p4/sdkconfig
-          git -C "${GITHUB_WORKSPACE}" check-ignore -q firmware/esp32-p4/dependencies.lock
-          git -C "${GITHUB_WORKSPACE}" check-ignore -q firmware/esp32-p4/managed_components
-          test -z "$(git -C "${GITHUB_WORKSPACE}" ls-files 'firmware/esp32-p4/dependencies.lock' 'firmware/esp32-p4/managed_components/**')"
-          test -z "$(git -C "${GITHUB_WORKSPACE}" ls-files 'firmware/esp32-p4/secrets/*' '*.pem' '*.key' '*.bin' | head -n 1)"
+          test -e firmware/esp32-p4/dependencies.lock
+          test -d firmware/esp32-p4/managed_components
 
       - name: Package SHA-labeled recovery artifacts
         run: |
@@ -105,7 +110,7 @@ jobs:
           sha256sum ci-artifacts/*.tar.gz > ci-artifacts/SHA256SUMS
 
       - name: Upload unsigned pull-request-safe artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: buddy-blocks-esp32-p4-${{ github.sha }}
           path: ci-artifacts/
