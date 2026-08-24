@@ -103,7 +103,10 @@ Physical evidence (board connected; testing active):
 - [ ] Deferred CPU rotation: frame/flush/input/tearing/memory measurements.
 - [ ] PPA rotation: frame/flush/input/tearing/memory measurements.
 - [ ] Selected path and fallback are recorded with rationale.
-- [ ] Four corners, center, and all targets in the 5 × 3 grid map correctly.
+- [x] Four corners, center, and all targets in the 5 × 3 grid map correctly on
+  patched BSP application `c0e18a26…da3f2`; the operator reported all 15
+  targets turned teal and telemetry advanced through frame 341 without a lock
+  error.
 - [ ] ESP32-C6 hosted Wi-Fi obtains an IP and records both protocol versions.
   Association, production HTTPS reachability, and the host component versions
   are physically proven; the factory C6 slave does not answer the optional

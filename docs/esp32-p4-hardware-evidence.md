@@ -14,7 +14,7 @@ must not contain Wi-Fi passwords, device tokens, signing keys, or child content.
 
 | Field | Recorded value |
 | --- | --- |
-| Firmware Git SHA | `3415692c51bc1b6ca83f648cc96efdeeae71dc6b` (the flashed binary was built from the same firmware sources immediately before this commit) |
+| Firmware Git SHA | `6cd25841f8335aee8fc787c63587e97091a60681` (the flashed binary was built from these firmware sources immediately before this commit) |
 | Firmware semantic version | `0.1.0` |
 | Silicon overlay | `rev1_3` |
 | Rotation path | Waveshare BSP candidate |
@@ -54,7 +54,7 @@ touch sequence for every row.
 
 | Candidate | App SHA | Mean / p95 frame | Mean / p95 flush | Touch p95 | Internal heap min | PSRAM min | Tearing/corruption | 100 transitions | Result / evidence |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
-| Waveshare BSP rotation | `c01d2b9b…7cf2` initial; `90cb9162…342a` failed; `c0e18a26…da3f2` patched current | Current boot/keypad sequence refresh 11,611 / 33,611 us at frame 94; failing image stopped at 167 with 9,638 / 28,278 us | Current callback 759 / 4,916 us; wait 3 / 4 us; failing callback 589 / 7,224 us | Pending | 88,872 bytes current | 29,227,016 bytes current | Current image resumed the saved paired question; requested keypad sequence worked, operator confirmed corrected right/bottom alignment, and frames advanced 42 to 94 without a lock error | Pending | Original failure fixed physically; full transition/tearing test pending. Failure log `serial-logs/m0-rev1_3-bsp-20260824T171654Z.log` SHA-256 `750a1bfe58de72a2420e3b87e1af696f859998b8a8c817a16c5d3b2b63974188`; current `serial-logs/m0-rev1_3-bsp-ppa-fix-20260824T181200Z.log`; ignored photo SHA-256 `de409ed488bee05f91234236e344d6d5528e0c630689d57a6ce02a593fb3ffee` |
+| Waveshare BSP rotation | `c01d2b9b…7cf2` initial; `90cb9162…342a` failed; `c0e18a26…da3f2` patched current | Current through 15-target grid: 6,454 / 7,890 us at frame 341; failing image stopped at 167 with 9,638 / 28,278 us | Current callback 879 / 6,937 us; wait 3 / 4 us; failing callback 589 / 7,224 us | Adapter counter unavailable; visible mapping pass | 88,872 bytes current | 29,227,016 bytes current | Current image resumed the saved paired question; keypad sequence worked, all 15 grid targets mapped visibly, operator confirmed corrected alignment, and frames advanced through 341 without a lock error | Pending | Original failure and full grid pass; transition/tearing loop pending. Failure log `serial-logs/m0-rev1_3-bsp-20260824T171654Z.log` SHA-256 `750a1bfe58de72a2420e3b87e1af696f859998b8a8c817a16c5d3b2b63974188`; current log/metrics `serial-logs/m0-rev1_3-bsp-ppa-fix-20260824T181200Z.*`; ignored photo SHA-256 `de409ed488bee05f91234236e344d6d5528e0c630689d57a6ce02a593fb3ffee` |
 | Deferred CPU full-frame rotation | `db139b4f…b6658` prepared | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Reproducible Rev1.3 image prepared; not yet flashed |
 | PPA rotation | `357ca812…06a55` prepared | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Reproducible Rev1.3 image prepared; not yet flashed |
 
@@ -70,8 +70,8 @@ Initial candidate: `swap_xy=true`, `mirror_x=true`, `mirror_y=false`.
 
 | Check | Observation / evidence | Result |
 | --- | --- | --- |
-| Top-left, top-right, bottom-left, bottom-right, center | Pending | Pending |
-| Every target in the 5 × 3 proof grid | Pending | Pending |
+| Top-left, top-right, bottom-left, bottom-right, center | Operator reported all edge and center targets changed state at the touched position | Pass on `c0e18a26…da3f2` |
+| Every target in the 5 × 3 proof grid | Operator reported all 15 targets turned teal; frames advanced 133 to 341 during the grid interaction without a lock error | Pass on `c0e18a26…da3f2` |
 | Press/release does not cross a transition | Pending | Pending |
 | Drag-out and scroll do not click | Pending | Pending |
 | 30-minute rapid-input start/end and video | Pending | Pending |
@@ -85,7 +85,9 @@ Initial candidate: `swap_xy=true`, `mirror_x=true`, `mirror_y=false`.
 | Long-list selection restored/revealed below fold | Pending | Pending |
 | Fixed confirmation remains visible while scrolling | Pending | Pending |
 
-Recorded transform and rationale: Pending.
+Recorded transform and rationale: `swap_xy=true`, `mirror_x=true`,
+`mirror_y=false` maps all 15 landscape targets correctly with USB connectors on
+the right. This is now the physically verified transform for the Rev1.3 board.
 
 ## Complete hardware-in-the-loop matrix
 
@@ -94,7 +96,7 @@ Recorded transform and rationale: Pending.
 | Board and silicon revision recorded | Product and P4 v1.3 recorded; printed PCB revision is not legible | Pass with printed-revision limitation |
 | Cold boot | User removed and restored USB power; Buddy image was restored afterward and reached ready state in 549 ms | Pass |
 | 100-reboot loop | Pending | Pending |
-| Landscape output and full touch grid | User observed readable landscape Wi-Fi/pairing screens with the USB connectors on the right; full grid not yet run | Partial |
+| Landscape output and full touch grid | Readable landscape with USB connectors on the right; operator reported all 15 edge/center proof targets changed at the touched location | Pass on current BSP candidate |
 | Rotation/flush/input timing measured | Pending | Pending |
 | 100 transitions without tearing, incomplete frames, or LVGL-lock stalls | The paired navigation sequence reached multiplication, then the first keypad press exposed an LVGL-lock stall before the loop could run | Fail on application `90cb9162…342a`; patched rerun pending |
 | 30-minute rapid-input test | Pending | Pending |

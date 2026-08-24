@@ -1500,6 +1500,15 @@ This is a physical pass for the original failure sequence, not yet for the
 required 30-minute rapid-input or 100-transition gates. Two isolated builds
 produced the same application hash.
 
+The same candidate then passed the full visible 5 × 3 touch map: the operator
+reported all 15 targets, including the four edge targets and center, changed at
+the touched location. Frames advanced from 133 to 341 during this interaction
+without a lock error. The verified Rev1.3 landscape transform is therefore
+`swap_xy=true`, `mirror_x=true`, `mirror_y=false` with USB connectors on the
+right. The BSP adapter does not currently feed touch timestamps into Buddy's
+numeric input-latency counter, so the visible mapping is a pass while touch p95
+remains unavailable until that instrumentation gap is closed.
+
 The accompanying photo also showed the top-right control and fixed bottom
 action clipped. Both reusable parent containers were inheriting LVGL's default
 padding while their children already used absolute 800 × 480 coordinates.
