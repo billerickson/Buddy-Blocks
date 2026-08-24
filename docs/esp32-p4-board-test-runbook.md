@@ -10,7 +10,7 @@ From the repository root, replace the example port with the actual character
 device:
 
 ```bash
-ls /dev/cu.usbmodem* /dev/cu.usbserial* 2>/dev/null
+find /dev -maxdepth 1 \( -name 'cu.usbmodem*' -o -name 'cu.usbserial*' \) -print
 ./scripts/firmware-chip-info.sh /dev/cu.usbmodemXXXX
 ```
 
@@ -100,10 +100,50 @@ flash command from step 2. Record the C6 companion version/hash and recovery
 procedure separately; do not overwrite the C6 until its exact board procedure
 and image have been verified.
 
-## 6. Signed OTA gate
+## 6. Cached-Home and 100-reboot gate
+
+After pairing, finish or discard any active study session, synchronize once,
+and return to Home. Disconnect or disable the router so this measures the local
+path rather than a successful network request. The harness performs only reset
+line/ROM-loader operations; it never writes flash or eFuses. It requires one
+completed display frame, a valid LittleFS probe, paired cached Home within five
+seconds by both firmware and host clocks, and no panic on every boot:
+
+```bash
+./scripts/firmware-hardware-evidence.sh reboot-loop \
+  /dev/cu.usbmodemXXXX --count 100
+```
+
+The command stops at the first failure by default. Add `--keep-going` only when
+collecting all failures for diagnosis. It writes an ignored raw serial log and
+JSON summary under `firmware/esp32-p4/serial-logs/`; attach both paths to the
+hardware evidence log. A reset loop is not power-loss evidence. Separately cut
+board power during an active session, after a completed offline multiplication
+session, and after a completed flash-card round, then verify recovery and the
+exact-once queues as described in step 3.
+
+## 7. Signed OTA gate
 
 Stop and review
 [`esp32-p4-security-runbook.md`](./esp32-p4-security-runbook.md). OTA validation
 uses the pilot profile only and starts after USB recovery is physically proven.
 Stable USB power is mandatory. Production flashing and all eFuse burns require
 a later, explicit owner approval for the exact command.
+
+## 8. Eight-hour screen-on soak
+
+Set Settings → Display → Screen timeout to **Never**, use stable USB power, and
+leave a representative cached screen visible. Exercise navigation, offline
+study, and reconnect/sync periodically while this command records the
+ten-second display/heap telemetry stream:
+
+```bash
+./scripts/firmware-hardware-evidence.sh soak \
+  /dev/cu.usbmodemXXXX --hours 8
+```
+
+The harness fails on a panic marker, an unexpected reboot after the first 30
+seconds, a serial disconnect, an incomplete duration, or insufficient telemetry.
+It emits ignored raw and JSON evidence paths. The operator must also record the
+visible screen state, touch responsiveness, and absence of tearing/corruption;
+serial telemetry alone does not prove those observations or the seven-day pilot.

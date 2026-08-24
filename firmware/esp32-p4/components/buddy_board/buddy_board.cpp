@@ -847,6 +847,29 @@ extern "C" esp_err_t buddy_board_start_background_services(void)
     return ESP_OK;
 }
 
+extern "C" uint32_t buddy_board_completed_frames(void)
+{
+    uint32_t completed_refreshes = 0;
+    portENTER_CRITICAL(&s_metrics_lock);
+    completed_refreshes = s_metrics.refresh.count;
+    portEXIT_CRITICAL(&s_metrics_lock);
+    return completed_refreshes;
+}
+
+extern "C" esp_err_t buddy_board_wait_for_frame_after(uint32_t completed_frames,
+                                                        uint32_t timeout_ms)
+{
+    ESP_RETURN_ON_FALSE(s_board_display != nullptr, ESP_ERR_INVALID_STATE, kTag,
+                        "Board must be initialized before waiting for a frame");
+    const int64_t deadline_us =
+        esp_timer_get_time() + static_cast<int64_t>(timeout_ms) * 1000;
+    do {
+        if (buddy_board_completed_frames() > completed_frames) return ESP_OK;
+        vTaskDelay(pdMS_TO_TICKS(5));
+    } while (esp_timer_get_time() < deadline_us);
+    return ESP_ERR_TIMEOUT;
+}
+
 extern "C" esp_err_t buddy_board_display_lock(uint32_t timeout_ms)
 {
     return lock_display(timeout_ms);

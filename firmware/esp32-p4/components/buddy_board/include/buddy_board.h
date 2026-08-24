@@ -15,6 +15,10 @@ typedef struct {
 
 esp_err_t buddy_board_initialize(buddy_board_runtime_t *runtime);
 esp_err_t buddy_board_start_background_services(void);
+/** Read the monotonic count of completed LVGL display refreshes. */
+uint32_t buddy_board_completed_frames(void);
+/** Wait until LVGL completes a display refresh newer than the supplied count. */
+esp_err_t buddy_board_wait_for_frame_after(uint32_t completed_frames, uint32_t timeout_ms);
 esp_err_t buddy_board_display_lock(uint32_t timeout_ms);
 void buddy_board_display_unlock(void);
 /** Apply the configured awake brightness immediately (10..100 percent). */

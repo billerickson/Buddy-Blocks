@@ -1305,3 +1305,15 @@ remain visibly failed with a retry action instead of being repainted as “up to
 date.” The simulator has a reviewed deterministic failure-state screenshot;
 download, rollback, and power-interruption behavior remain physical acceptance
 tests and are not claimed by simulator evidence.
+
+### 2026-08-24: Boot and soak gates emit machine-readable physical evidence
+
+The complete firmware now emits `BUDDY_BOOT_READY` only after the initial LVGL
+surface is rendered and a newer display refresh completes. The marker records
+firmware readiness time, surface name, pairing state, and frame completion but
+contains no child content, credential, or stable device identifier. A guarded,
+non-destructive host harness performs the 100-reset gate and the eight-hour
+screen-on serial observation, writes ignored raw logs plus JSON summaries, and
+has a board-free parser self-test in CI. Reset automation does not stand in for
+controlled power-removal evidence, and serial telemetry does not stand in for
+physical display, touch, recovery, OTA/rollback, soak, or pilot observations.

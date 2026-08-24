@@ -6,6 +6,7 @@ on:
       - '.github/workflows/esp32-p4.yml'
       - 'firmware/esp32-p4/**'
       - 'scripts/firmware-*.sh'
+      - 'scripts/firmware-*.py'
       - 'scripts/generate-firmware-domain-vectors.mjs'
       - 'scripts/generate-firmware-release-metadata.mjs'
       - 'scripts/generate-sha256sums.mjs'
@@ -21,6 +22,7 @@ on:
       - '.github/workflows/esp32-p4.yml'
       - 'firmware/esp32-p4/**'
       - 'scripts/firmware-*.sh'
+      - 'scripts/firmware-*.py'
       - 'scripts/generate-firmware-domain-vectors.mjs'
       - 'scripts/generate-firmware-release-metadata.mjs'
       - 'scripts/generate-sha256sums.mjs'
@@ -49,6 +51,7 @@ jobs:
         run: |
           git diff --check
           bash -n scripts/firmware-*.sh
+          PYTHONDONTWRITEBYTECODE=1 python3 scripts/firmware-hardware-evidence.py self-test
           node --check scripts/generate-firmware-domain-vectors.mjs
           node --check scripts/generate-firmware-release-metadata.mjs
           node --check scripts/generate-sha256sums.mjs

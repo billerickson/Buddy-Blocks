@@ -58,10 +58,21 @@ Recorded transform and rationale: Pending.
 - [ ] LittleFS probe writes, `fsync`s, renames, reads, and verifies.
 - [ ] Probe remains valid after a normal reboot.
 - [ ] Probe remains valid after controlled power removal.
+- [ ] Paired cached Home produces `BUDDY_BOOT_READY` within 5,000 ms with one
+      completed display frame while the router is unavailable.
+- [ ] Machine-checked 100-reboot harness passes every iteration.
 - [ ] ESP32-C6 hosted link initializes.
 - [ ] 2.4 GHz WPA2 network obtains an IPv4 address.
 - [ ] 2.4 GHz WPA3 network obtains an IPv4 address, if available.
 - [ ] Missing router does not block the local proof UI.
+
+100-reboot raw log: Pending.
+
+100-reboot JSON summary: Pending.
+
+Maximum observed firmware readiness time: Pending.
+
+Maximum observed host reset-to-ready time: Pending.
 
 ## Recovery
 
@@ -77,6 +88,17 @@ The upstream Waveshare P4 factory images are downloads, not repository files:
 - [ ] Buddy Blocks development image can be restored afterward.
 - [ ] Exact C6 recovery image, pads, command, and image hash are recorded.
 - [ ] C6 recovery procedure is physically tested.
+
+## Soak
+
+- [ ] Display timeout is set to Never for the complete run.
+- [ ] Eight-hour harness completes with no panic, unexpected reboot, serial
+      disconnect, or telemetry gap.
+- [ ] Screen remains visibly correct and touch remains responsive after the run.
+
+Eight-hour raw log: Pending.
+
+Eight-hour JSON summary: Pending.
 
 ## Test operator sign-off
 

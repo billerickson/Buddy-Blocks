@@ -110,6 +110,8 @@ Exit gate: every Milestone 0 box above is checked. Until then, Milestone 1 is
   sync/update states.
 - [x] Firmware CI: both silicon profiles, host tests, simulator, formatting,
   static analysis, size threshold, and SHA-bound unsigned artifacts.
+- [x] Machine-readable post-frame boot marker and non-destructive 100-reboot /
+  eight-hour soak evidence harness with a board-free parser self-test in CI.
 - [ ] 100-reboot loop evidence.
 - [ ] Power-loss snapshot/outbox evidence.
 

@@ -79,5 +79,16 @@ or encryption keys are ignored by git. Separate `development`, `pilot`, and
 [`../../docs/esp32-p4-security-runbook.md`](../../docs/esp32-p4-security-runbook.md).
 The board-day command sequence is in
 [`../../docs/esp32-p4-board-test-runbook.md`](../../docs/esp32-p4-board-test-runbook.md).
+After pairing and synchronizing cached content, the required reboot and soak
+evidence can be captured without rewriting flash:
+
+```bash
+./scripts/firmware-hardware-evidence.sh reboot-loop /dev/cu.usbmodemXXXX --count 100
+./scripts/firmware-hardware-evidence.sh soak /dev/cu.usbmodemXXXX --hours 8
+```
+
+Both commands write ignored raw logs and machine-readable JSON summaries. They
+do not replace the required operator observations of the display, touch,
+power-loss behavior, recovery, OTA rollback, or family pilot.
 No repository script burns eFuses; production flashing remains prohibited until
 the owner approves it after recovery and rollback pass on sacrificial hardware.

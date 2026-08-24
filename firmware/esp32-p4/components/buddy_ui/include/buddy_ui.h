@@ -139,6 +139,9 @@ void buddy_ui_set_services(const buddy_ui_services_t *services);
 /** Build the complete application shell on an already locked 800x480 display. */
 bool buddy_ui_start(lv_display_t *display, const buddy_ui_bootstrap_t *bootstrap);
 
+/** Stable diagnostic name for the currently rendered surface. */
+const char *buddy_ui_current_screen_name(void);
+
 /** Thread-safe callers must acquire the board display lock before updating. */
 void buddy_ui_update_status(bool online, size_t queued_events, const char *last_sync_text);
 

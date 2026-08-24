@@ -21,6 +21,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cinttypes>
 #include <ctime>
 #include <cstdio>
 #include <mutex>
@@ -579,6 +580,7 @@ extern "C" void app_main(void)
         .screen_timeout_minutes = s_screen_timeout_minutes,
         .reduced_motion = s_reduced_motion,
     };
+    const uint32_t frames_before_initial_surface = buddy_board_completed_frames();
     ESP_ERROR_CHECK(buddy_board_display_lock(UINT32_MAX));
     const bool ui_started = buddy_ui_start(runtime.display, &bootstrap);
     buddy_board_display_unlock();
@@ -588,6 +590,22 @@ extern "C" void app_main(void)
                         ? ESP_OK
                         : ESP_ERR_NO_MEM);
     ESP_ERROR_CHECK(buddy_board_start_background_services());
+
+    // Machine-readable physical evidence: this marker is emitted only after
+    // the initial LVGL surface has rendered and at least one refresh completed.
+    // It contains no child content, credentials, or stable device identifier.
+    const esp_err_t first_frame =
+        buddy_board_wait_for_frame_after(frames_before_initial_surface, 2000);
+    const uint64_t firmware_ready_ms = static_cast<uint64_t>(esp_timer_get_time() / 1000);
+    ESP_LOGI(kTag,
+             "BUDDY_BOOT_READY firmware_ms=%" PRIu64
+             " surface=%s paired=%d display_frame=%d",
+             firmware_ready_ms, buddy_ui_current_screen_name(), sync.paired ? 1 : 0,
+             first_frame == ESP_OK ? 1 : 0);
+    if (firmware_ready_ms > 5000 || first_frame != ESP_OK) {
+        ESP_LOGW(kTag,
+                 "Local UI missed the five-second readiness gate or no frame completed");
+    }
 
     // The complete local UI is now usable. Hosted Wi-Fi initialization comes
     // afterwards so a slow or absent C6 cannot hold the learning experience at

@@ -2119,6 +2119,36 @@ void render(Screen screen)
     }
 }
 
+const char *screen_name(Screen screen)
+{
+    switch (screen) {
+    case Screen::kHome: return "home";
+    case Screen::kMultiplicationSetup: return "multiplication-setup";
+    case Screen::kMultiplicationQuestion: return "multiplication-question";
+    case Screen::kMultiplicationSummary: return "multiplication-summary";
+    case Screen::kMasteryOverview: return "mastery-overview";
+    case Screen::kMasteryDetail: return "mastery-detail";
+    case Screen::kFlashLibrary: return "flash-library";
+    case Screen::kFlashStudy: return "flash-study";
+    case Screen::kFlashSummary: return "flash-summary";
+    case Screen::kSettings: return "settings";
+    case Screen::kWifi: return "wifi";
+    case Screen::kWifiNetwork: return "wifi-network";
+    case Screen::kWifiForget: return "wifi-forget";
+    case Screen::kPairing: return "pairing";
+    case Screen::kUpdate: return "software-update";
+    case Screen::kPreferences: return "display-settings";
+    case Screen::kFactoryReset: return "factory-reset";
+    case Screen::kDiagnostics: return "diagnostics";
+    case Screen::kHardwareProof: return "hardware-proof";
+    case Screen::kOptionGallery: return "option-gallery";
+    case Screen::kChoiceGallery: return "choice-gallery";
+    case Screen::kLongOptionGallery: return "long-option-gallery";
+    case Screen::kTextBoundaryGallery: return "text-boundary-gallery";
+    }
+    return "unknown";
+}
+
 } // namespace
 
 extern "C" void buddy_ui_set_services(const buddy_ui_services_t *services)
@@ -2193,6 +2223,11 @@ extern "C" bool buddy_ui_start(lv_display_t *display, const buddy_ui_bootstrap_t
                                    : bootstrap->paired ? Screen::kHome : Screen::kWifi);
     notify_activity_state();
     return true;
+}
+
+extern "C" const char *buddy_ui_current_screen_name(void)
+{
+    return screen_name(s_app.current);
 }
 
 extern "C" void buddy_ui_update_status(bool online, size_t queued_events,
