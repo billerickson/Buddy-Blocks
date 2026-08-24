@@ -232,6 +232,42 @@ flash command from step 2. Record the C6 companion version/hash and recovery
 procedure separately; do not overwrite the C6 until its exact board procedure
 and image have been verified.
 
+### C6 read-before-write recovery procedure
+
+The C6 does not appear on the P4's `USB TO UART` connection. This procedure
+requires a separate 3.3 V USB-TTL adapter and jumper wires at the unpopulated
+four-pad `C6-UART` header. Do not connect a 5 V logic adapter or its VCC pin.
+With all power removed, connect adapter TX to board RX, adapter RX to board TX,
+and GND to GND. Short C6 IO9 to GND before applying power. Hold the P4 BOOT
+button while powering the board so the P4 cannot take the C6 back out of its
+ROM downloader. Use the serial device belonging to the TTL adapter below, not
+the P4 usbmodem device.
+
+Build the hash-bound candidate without touching the board:
+
+```bash
+./scripts/firmware-c6-build.sh
+```
+
+Then identify and read all 4 MiB of the installed C6 before considering a
+write. Replace the placeholders with the actual TTL port and ignored backup
+path:
+
+```bash
+source scripts/firmware-env.sh
+python -m esptool --chip esp32c6 --port /dev/cu.usbserialXXXX flash_id
+python -m esptool --chip esp32c6 --port /dev/cu.usbserialXXXX \
+  read_flash 0x0 0x400000 \
+  firmware/esp32-p4/.artifacts/recovery/c6-factory-before-write.bin
+shasum -a 256 \
+  firmware/esp32-p4/.artifacts/recovery/c6-factory-before-write.bin
+```
+
+Stop and record the flash ID, byte count, and SHA-256. Preserve two copies of
+that ignored backup. Do not run `erase_flash`, do not write the C6 candidate,
+and do not change any eFuse in this step. A later C6 write requires explicit
+owner approval after reviewing those facts and the exact artifact hash.
+
 ## 10. Cached-Home and 100-reboot gate
 
 After pairing, finish or discard any active study session, synchronize once,

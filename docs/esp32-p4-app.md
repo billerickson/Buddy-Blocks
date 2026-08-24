@@ -1398,3 +1398,96 @@ outbox duplicate replay, conflict rejection, and both completed-session boot
 handoffs. Two reviewed 800 × 480 recovery screenshots bring the deterministic
 golden set to 34. Physical power-cut and exactly-once D1 evidence remain pending
 the board test.
+
+### 2026-08-24: Rev1.3 builds fail closed on the resolved silicon target
+
+The first physical-board audit identified ESP32-P4 revision v1.3. Before any
+Buddy image was written, inspection of the generated sdkconfig found that the
+Rev1.3 defaults named a minimum revision but had not enabled ESP-IDF's
+pre-Rev3 selector. Kconfig had therefore resolved the image as Rev3.1 despite a
+successful compile. The Rev1.3 overlay now explicitly selects pre-Rev3 silicon,
+and every scripted build checks the resolved selector, full minimum-revision
+number, and silicon-appropriate PSRAM clock. Rev3 and Rev1.3 builds both pass
+the new gate. The rejected image was never flashed.
+
+### 2026-08-24: Physical diagnostics keep fixed metric buffers off task stacks
+
+The first Buddy hardware boot proved display, touch-controller, PSRAM, NOR, and
+LittleFS initialization, then reset repeatedly. The reset trace identified a
+stack overflow in the 4 KiB diagnostics task: an approximately 3.7 KiB metrics
+snapshot and 512-byte percentile buffer were automatic variables. Those fixed
+buffers now have static lifetime while access remains serialized through the
+existing diagnostics task and metrics lock. The corrected image boots stably,
+emits `BUDDY_BOOT_READY`, and continues reporting exact p95 values. The blue
+display blinking during the reset loop was a failure, not an intended UI state.
+
+### 2026-08-24: Factory C6 version probing is deferred until recovery is proven
+
+The pinned P4 host (`esp_hosted` 1.4.7 and `esp_wifi_remote` 0.14.5) receives a
+valid 40 MHz four-bit SDIO INIT event from the shipped C6 and exposes WLAN, but
+the factory slave does not answer the optional coprocessor-version RPC. Sending
+that synchronous probe before the first scan was removed for the factory-image
+compatibility path; diagnostics now reports `unreported factory image` rather
+than inventing a version. This supersedes the 2026-08-23 decision to issue the
+RPC unconditionally.
+
+As a control, the P4 application recovered from the unit's pre-write full-flash
+backup repeatedly failed C6 SDIO initialization with `0x107`, including after a
+true two-chip cold power cycle. Restoring Buddy Blocks, followed by another cold
+boot, produced the network list; the operator entered a Wi-Fi password through
+the touchscreen, the board advanced to pairing, and a production HTTPS
+connectivity request returned 204. The shipped C6 therefore remains usable but
+unidentified. Its flash must be read and hashed through the documented 3.3 V
+C6-UART pads before any C6 write. No C6 image or security eFuse was modified in
+this session.
+
+### 2026-08-24: Waveshare BSP is the first physically usable landscape path
+
+The corrected Rev1.3 development image renders the complete UI at 800 × 480.
+The operator reported readable Wi-Fi and pairing screens in landscape with the
+USB connectors on the right and successfully used the touchscreen keyboard.
+Live serial telemetry after that interaction measured refresh mean/p95 at
+3,304/7,055 microseconds, flush-callback mean/p95 at 1,021/2,880 microseconds,
+internal heap minimum 124,784 bytes, and PSRAM minimum 29,329,424 bytes. This is
+partial BSP evidence only: the full touch grid, tearing sequence, transition
+loop, deferred CPU candidate, and PPA candidate remain required before choosing
+the primary path and reliable fallback.
+
+### 2026-08-24: Pinned BSP fixes are explicit and fail closed
+
+The first stable boot also emitted an LEDC warning that GPIO26 might conflict.
+Source inspection showed the Waveshare 1.0.1 high-level display path initializes
+the backlight channel and then reaches `bsp_display_new_with_handles()`, which
+initializes the same channel again. This is a duplicate software reservation,
+not evidence that the board's documented backlight GPIO is unusable. The build
+now resolves the pinned component before applying two minimal tracked patches:
+remove the duplicate brightness initialization, and retain the earlier
+revision-aware automatic MIPI-DSI PLL selection required by Rev1.3. The
+Waveshare component is Apache-2.0 licensed. Both patches validate their exact
+source context and the component version before applying; a changed dependency
+fails the build instead of being patched heuristically. The corrected Rev1.3
+image was flashed through the P4 USB-UART recovery path and booted without the
+GPIO26/LEDC warning. LittleFS and the saved Wi-Fi profile survived, and the C6
+returned online with an HTTPS 204. Visible brightness adjustment still requires
+an operator check; warning removal alone is not evidence that every duty level
+works.
+
+### 2026-08-24: C6 recovery builds remove host-path nondeterminism
+
+ESP-Hosted 1.4.7's C6 slave needs a narrow IDF 5.5 compatibility patch for
+include order and a renamed Wi-Fi configuration field. The recovery-only build
+applies that patch to a disposable copy, validates the 4 MiB SDIO/slave pin
+configuration and semantic version, merges a complete image, and never opens a
+serial port. A first reproducibility audit found macOS's `/tmp` aliases and an
+upstream debug section allowed a random build suffix to change the embedded ELF
+digest even after application code became identical. The script now uses an
+exclusive fixed temporary root, adds explicit mappings for the `/tmp` and
+`//tmp` spellings emitted by the toolchain, and fails if the temporary name
+leaks into the application image. CI builds the candidate but does not publish it as
+a board-approved recovery image. The installed factory C6 remains unidentified
+until it is read through the 3.3 V UART pads; no C6 write is authorized before
+that backup and a separate recovery test. Two clean fixed-root builds produced
+the same C6 application SHA-256
+`96e905dc469b82cabd04f8809ff4b19d5f7229586694cf75ab99cc3fa9dbffdf`
+and merged-image SHA-256
+`919cbb999a1d67b23d196b4607624ec434d0ea384d6f24592cad07a1dd608ea4`.

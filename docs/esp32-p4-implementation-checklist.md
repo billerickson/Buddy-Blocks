@@ -76,20 +76,30 @@ Build evidence:
   2,101,248 bytes (28.6%).
 - [x] Fixed firmware version plus ESP-IDF reproducible-build mode produce
   byte-identical application images in two independent clean Rev3/BSP builds.
+- [x] The build-only ESP-Hosted 1.4.7 / IDF 5.5.5 C6 recovery candidate
+  validates its 4 MiB SDIO configuration and produces byte-identical
+  application and merged-image hashes in two clean builds. It has not been
+  flashed; installed-slave identification and recovery remain physical gates.
 
-Physical evidence (`BLOCKED—HARDWARE` until the board is connected):
+Physical evidence (board connected; testing active):
 
-- [ ] Board model and printed PCB revision photographed/recorded.
-- [ ] `esptool.py chip_id`, boot log, and `esp_chip_info()` agree on silicon
+- [x] Board model photographed and recorded; the supplied photo cannot resolve
+  a printed PCB revision, and that limitation is recorded rather than guessed.
+- [x] `esptool.py chip_id`, boot log, and `esp_chip_info()` agree on silicon
   revision.
-- [ ] Flash size is 32 MiB and PSRAM size is 32 MiB.
-- [ ] LittleFS atomic probe survives reboot.
+- [x] Flash size is 32 MiB and PSRAM size is 32 MiB.
+- [x] LittleFS atomic probe survives normal reboot and a controlled USB power
+  cycle.
 - [ ] Waveshare BSP rotation: frame/flush/input/tearing/memory measurements.
 - [ ] Deferred CPU rotation: frame/flush/input/tearing/memory measurements.
 - [ ] PPA rotation: frame/flush/input/tearing/memory measurements.
 - [ ] Selected path and fallback are recorded with rationale.
 - [ ] Four corners, center, and all targets in the 5 × 3 grid map correctly.
 - [ ] ESP32-C6 hosted Wi-Fi obtains an IP and records both protocol versions.
+  Association, production HTTPS reachability, and the host component versions
+  are physically proven; the factory C6 slave does not answer the optional
+  version RPC, so its version/image hash remain pending a read-only C6-pad
+  backup.
 - [ ] Known-good P4 recovery image is verified by hash and recovery flash.
 - [ ] Known-good C6 recovery image/procedure is verified on the board.
 
@@ -246,6 +256,11 @@ Exit gate: the complete Version 1 Definition of Done is satisfied.
   RSSI, and simulator-buffer integer widths.
 - All six silicon/rotation development builds, byte-for-byte Rev3/BSP
   reproducibility, signed pilot, and signed production builds: PASS.
+- Build-only ESP32-C6 recovery candidate: PASS twice with application SHA-256
+  `96e905dc469b82cabd04f8809ff4b19d5f7229586694cf75ab99cc3fa9dbffdf`
+  and merged-image SHA-256
+  `919cbb999a1d67b23d196b4607624ec434d0ea384d6f24592cad07a1dd608ea4`;
+  no C6 write performed.
 - Four ignored, unpublished `1.0.0-rc.3` pilot/production package inventories
   for both silicon profiles verify at commit
   `69e234bdc32adca3f76b5e8fc9b698d62bc63ce6`.
