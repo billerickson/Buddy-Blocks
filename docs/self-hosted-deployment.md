@@ -74,6 +74,12 @@ npm run db:migrate:remote
 npm run db:seed:remote
 ```
 
+Migration `0004_esp32_p4_devices.sql` adds pairing, child-device,
+content-revision, and flash-card-study tables plus their idempotency indexes.
+Apply it before deploying a Worker that exposes `/api/device/v1/*`. For an
+existing family database, take the normal D1 backup/export and validate the
+migration locally against a copy before the remote command.
+
 After the remote seed, confirm that curriculum rows exist and family-owned rows are empty:
 
 ```bash
@@ -85,6 +91,34 @@ npx wrangler d1 execute DB --config wrangler.deploy.jsonc --remote --command "SE
 The parent and child counts must both be `0` immediately after curriculum seed. First-run setup creates the first parent later through the app.
 
 ## Deploy
+
+### Device API configuration
+
+Create the pairing-code HMAC key as a Wrangler secret. Use at least 32 random
+bytes and never put the value in `wrangler.jsonc`, `.env`, logs, or Git:
+
+```bash
+npx wrangler secret put PAIRING_HMAC_SECRET --config wrangler.deploy.jsonc
+```
+
+Firmware manifests are public signed-release metadata, not credentials. Put
+each complete JSON manifest in the matching Worker variable. Omit a profile
+until its signed image has been published at the manifest's HTTPS URL:
+
+```json
+{
+  "vars": {
+    "TIME_ZONE": "America/Chicago",
+    "FIRMWARE_MANIFEST_REV3": "{\"schemaVersion\":1,\"hardwareProfile\":\"waveshare-p4-lcd43-rev3\",\"version\":\"1.0.0\",\"minimumVersion\":\"1.0.0\",\"url\":\"https://example.invalid/releases/buddy-blocks-p4-rev3-v1.0.0.bin\",\"sha256\":\"64-lowercase-hex-characters\",\"size\":2000000,\"releaseNotes\":\"Version 1\",\"mandatory\":false}",
+    "FIRMWARE_MANIFEST_REV1_3": "{\"schemaVersion\":1,\"hardwareProfile\":\"waveshare-p4-lcd43-rev1.3\",\"version\":\"1.0.0\",\"minimumVersion\":\"1.0.0\",\"url\":\"https://example.invalid/releases/buddy-blocks-p4-rev1.3-v1.0.0.bin\",\"sha256\":\"64-lowercase-hex-characters\",\"size\":2000000,\"releaseNotes\":\"Version 1\",\"mandatory\":false}"
+  }
+}
+```
+
+Replace every placeholder with output from `firmware-package.sh`. The Worker
+strictly validates schema, HTTPS URL, profile, semantic versions, size, and
+SHA-256 and returns `503` for malformed deployment metadata. Never offer a Rev3
+image to Rev1.3 hardware.
 
 The production route is configured in the local `wrangler.deploy.jsonc`:
 
@@ -129,6 +163,13 @@ Run this smoke test before treating the deployment as production ready:
 - A child can open the kid home, open a track, start a lesson, answer questions, see retry hints only after a missed first attempt, and save progress.
 - An archived child is blocked from kid routes and APIs, then regains access after unarchive with progress preserved.
 - Remote D1 parent and child rows reflect only the setup-created family.
+- A parent can claim, rename, list, and revoke an ESP32-P4 board.
+- A revoked device receives `device_revoked`, and its next contact purges local
+  child data.
+- Device bootstrap, flash snapshot/ETag, multiplication upload, flash-card study
+  upload, and exact-profile firmware manifest pass authenticated smoke tests.
+- Repeating either activity upload with the same `clientAttemptId` creates
+  exactly one server session.
 - `learn.billplustara.com` remains live as the old MVP deployment during this smoke period.
 
 Do not retire `learn.billplustara.com` until the new-domain smoke test passes and the release checklist explicitly authorizes retirement.

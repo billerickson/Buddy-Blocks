@@ -60,11 +60,24 @@ type DashboardData = {
       xp_awarded: number;
       lesson_title: string;
       track_title: string;
+      activity_label: string | null;
     }>;
   }>;
 };
 
 const gradeOptions = Array.from({ length: 12 }, (_, index) => index + 1);
+
+type ParentDevice = {
+  id: string;
+  childId: string;
+  childDisplayName: string;
+  name: string;
+  status: 'active' | 'revoked';
+  hardwareRevision: 'rev3' | 'rev1_3';
+  firmwareVersion: string;
+  lastSeenAt: string | null;
+  revokedAt: string | null;
+};
 
 export default function ParentDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
@@ -136,6 +149,8 @@ export default function ParentDashboard() {
         </p>
       </div>
 
+      <DeviceManager children={data.children.map(({ child }) => child)} />
+
       <form className="soft-panel grid gap-4 p-5 lg:grid-cols-[1fr_140px_auto]" onSubmit={createChild}>
         <div>
           <label className="block font-black" htmlFor="new-child-name">Child name</label>
@@ -182,6 +197,170 @@ export default function ParentDashboard() {
         />
       ))}
     </section>
+  );
+}
+
+function DeviceManager({ children }: { children: ChildProfile[] }) {
+  const [devices, setDevices] = useState<ParentDevice[]>([]);
+  const [code, setCode] = useState('');
+  const [childId, setChildId] = useState('');
+  const [name, setName] = useState('Buddy Board');
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  const activeChildren = children.filter((child) => child.status === 'active');
+  const loadDevices = () =>
+    fetchApi<{ devices: ParentDevice[] }>('/api/parent/devices')
+      .then((result) => {
+        setDevices(result.devices);
+        setLoading(false);
+      })
+      .catch((reason) => {
+        setMessage(reason instanceof Error ? reason.message : 'Devices could not be loaded.');
+        setLoading(false);
+      });
+
+  useEffect(() => {
+    const pairCode = new URLSearchParams(window.location.search).get('pair');
+    if (pairCode) setCode(pairCode.toUpperCase());
+    if (!childId && activeChildren[0]) setChildId(activeChildren[0].id);
+    loadDevices();
+  }, []);
+
+  async function pairDevice(event: Event) {
+    event.preventDefault();
+    setMessage('');
+    try {
+      await fetchApi('/api/parent/devices/pair', {
+        method: 'POST',
+        body: JSON.stringify({ code: code.replace(/\s/g, '').toUpperCase(), childId, name }),
+      });
+      setCode('');
+      setMessage('Buddy Board paired. It can now finish its first sync.');
+      await loadDevices();
+    } catch (reason) {
+      setMessage(reason instanceof Error ? reason.message : 'That pairing code could not be claimed.');
+    }
+  }
+
+  async function updateDevice(device: ParentDevice, payload: { name?: string; status?: 'revoked' }) {
+    if (payload.status === 'revoked' && !window.confirm(`Revoke ${device.name}? The board will erase child data when it reconnects.`)) {
+      return;
+    }
+    try {
+      await fetchApi(`/api/parent/devices/${encodeURIComponent(device.id)}`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      });
+      setMessage(payload.status === 'revoked' ? 'Device revoked.' : 'Device renamed.');
+      await loadDevices();
+    } catch (reason) {
+      setMessage(reason instanceof Error ? reason.message : 'The device could not be updated.');
+    }
+  }
+
+  return (
+    <section className="soft-panel p-5 sm:p-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="stat-chip w-fit">ESP32-P4</p>
+          <h2 className="mt-3 text-3xl">Buddy Boards</h2>
+          <p className="mt-2 font-extrabold text-muted">Pair, name, and revoke touchscreen learning devices.</p>
+        </div>
+        <span className="stat-chip">{devices.filter((device) => device.status === 'active').length} active</span>
+      </div>
+
+      <form className="mt-5 grid gap-3 lg:grid-cols-[180px_1fr_1fr_auto]" onSubmit={pairDevice}>
+        <div>
+          <label className="block font-black" htmlFor="device-code">8-character code</label>
+          <input
+            id="device-code"
+            value={code}
+            maxLength={8}
+            pattern="[0-9A-HJ-KM-NP-TV-Z]{8}"
+            onInput={(event) => setCode((event.currentTarget as HTMLInputElement).value.toUpperCase())}
+            required
+            className="mt-2 min-h-[50px] w-full rounded-lg border-[3px] border-ink bg-white px-4 font-mono text-lg font-black uppercase tracking-[0.18em]"
+          />
+        </div>
+        <div>
+          <label className="block font-black" htmlFor="device-child">Child</label>
+          <select
+            id="device-child"
+            value={childId}
+            onInput={(event) => setChildId((event.currentTarget as HTMLSelectElement).value)}
+            required
+            className="mt-2 min-h-[50px] w-full rounded-lg border-[3px] border-ink bg-white px-3 font-extrabold"
+          >
+            <option value="" disabled>Select a child</option>
+            {activeChildren.map((child) => <option key={child.id} value={child.id}>{child.displayName}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="block font-black" htmlFor="device-name">Device name</label>
+          <input
+            id="device-name"
+            value={name}
+            maxLength={80}
+            onInput={(event) => setName((event.currentTarget as HTMLInputElement).value)}
+            required
+            className="mt-2 min-h-[50px] w-full rounded-lg border-[3px] border-ink bg-white px-4 font-extrabold"
+          />
+        </div>
+        <button className="primary-button self-end" type="submit" disabled={!activeChildren.length}>Pair device</button>
+      </form>
+
+      {message && <p className="mt-4 rounded-lg bg-white p-3 font-black text-muted" role="status">{message}</p>}
+      <div className="mt-5 grid gap-3">
+        {loading && <p className="font-black text-muted">Loading devices...</p>}
+        {!loading && devices.length === 0 && <p className="font-black text-muted">No Buddy Boards paired yet.</p>}
+        {devices.map((device) => <DeviceRow key={device.id} device={device} onUpdate={updateDevice} />)}
+      </div>
+    </section>
+  );
+}
+
+function DeviceRow({
+  device,
+  onUpdate,
+}: {
+  device: ParentDevice;
+  onUpdate: (device: ParentDevice, payload: { name?: string; status?: 'revoked' }) => void;
+}) {
+  const [name, setName] = useState(device.name);
+  useEffect(() => setName(device.name), [device.name]);
+  return (
+    <div className={`block-card grid gap-3 p-4 lg:grid-cols-[1fr_auto] lg:items-center ${device.status === 'revoked' ? 'opacity-70' : ''}`}>
+      <div>
+        <div className="flex flex-wrap items-center gap-2">
+          <strong className="display-font text-2xl">{device.name}</strong>
+          <span className="stat-chip">{device.status}</span>
+          <span className="stat-chip">{device.childDisplayName}</span>
+          <span className="stat-chip">{device.hardwareRevision.replace('_', '.')}</span>
+          <span className="stat-chip">v{device.firmwareVersion}</span>
+        </div>
+        <p className="mt-2 text-sm font-extrabold text-muted">
+          {device.lastSeenAt ? `Last seen ${formatDate(device.lastSeenAt)}` : 'Waiting for first authenticated sync'}
+        </p>
+      </div>
+      {device.status === 'active' && (
+        <div className="flex flex-wrap gap-2">
+          <input
+            aria-label={`Rename ${device.name}`}
+            value={name}
+            maxLength={80}
+            onInput={(event) => setName((event.currentTarget as HTMLInputElement).value)}
+            className="min-h-[44px] rounded-lg border-2 border-ink bg-white px-3 font-extrabold"
+          />
+          <button className="secondary-button min-h-[44px] px-4 py-2" type="button" onClick={() => onUpdate(device, { name })}>
+            Rename
+          </button>
+          <button className="danger-button min-h-[44px] px-4 py-2" type="button" onClick={() => onUpdate(device, { status: 'revoked' })}>
+            Revoke
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -315,7 +494,8 @@ function ChildPanel({
                         <p className="font-bold text-muted">{activity.track_title} · {formatDate(activity.completed_at)}</p>
                       </div>
                       <div className="font-black">
-                        {activity.score_correct}/{activity.score_total} · {activity.xp_awarded} XP
+                        {activity.activity_label ??
+                          `${activity.score_correct}/${activity.score_total} · ${activity.xp_awarded} XP`}
                       </div>
                     </div>
                   ))

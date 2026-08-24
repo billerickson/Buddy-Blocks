@@ -1,0 +1,15 @@
+Checks: >
+  -*,
+  clang-analyzer-core.*,
+  clang-analyzer-cplusplus.*,
+  clang-analyzer-deadcode.*,
+  clang-analyzer-nullability.*,
+  clang-analyzer-security.*,
+  clang-analyzer-unix.*,
+  bugprone-implicit-widening-of-multiplication-result,
+  bugprone-signed-char-misuse,
+  bugprone-unchecked-optional-access,
+  bugprone-use-after-move
+WarningsAsErrors: '*'
+HeaderFilterRegex: '.*/firmware/esp32-p4/(components|main|simulator|test)/.*'
+SystemHeaders: false

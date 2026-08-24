@@ -1,0 +1,80 @@
+menu "Buddy Blocks hardware proof"
+
+choice BUDDY_ROTATION_PATH
+    prompt "Landscape rotation candidate"
+    default BUDDY_ROTATION_PATH_BSP
+
+    config BUDDY_ROTATION_PATH_BSP
+        bool "Waveshare BSP adapter rotation"
+        help
+            Use BSP 1.0.1 with ESP_LV_ADAPTER_ROTATE_90. This is the first
+            physical candidate and keeps the BSP's PPA setting disabled.
+
+    config BUDDY_ROTATION_PATH_CPU
+        bool "Deferred CPU full-frame rotation"
+        help
+            Render two full 800x480 RGB565 buffers in PSRAM and rotate into a
+            separate 480x800 scanout buffer on a dedicated task.
+
+    config BUDDY_ROTATION_PATH_PPA
+        bool "Direct esp_lv_adapter PPA rotation"
+        help
+            Register the BSP panel directly with esp_lv_adapter and explicitly
+            enable the ESP32-P4 PPA rotation path.
+endchoice
+
+config BUDDY_CPU_ROTATE_CLOCKWISE
+    bool "Rotate the CPU candidate clockwise"
+    default y
+    depends on BUDDY_ROTATION_PATH_CPU
+
+config BUDDY_TOUCH_SWAP_XY
+    bool "Swap GT911 X/Y"
+    default y
+
+config BUDDY_TOUCH_MIRROR_X
+    bool "Mirror GT911 X"
+    default y
+
+config BUDDY_TOUCH_MIRROR_Y
+    bool "Mirror GT911 Y"
+    default n
+
+config BUDDY_WIFI_SSID
+    string "Wi-Fi SSID for the Milestone 0 proof"
+    default ""
+    help
+        Stored only in the ignored generated sdkconfig. Never add a real SSID
+        to sdkconfig.defaults or another tracked file.
+
+config BUDDY_WIFI_PASSWORD
+    string "Wi-Fi password for the Milestone 0 proof"
+    default ""
+    help
+        Stored only in the ignored generated sdkconfig and never logged.
+
+config BUDDY_WIFI_MAX_RETRIES
+    int "Maximum initial Wi-Fi retries"
+    range 0 20
+    default 5
+
+config BUDDY_API_BASE_URL
+    string "Buddy Blocks HTTPS API origin"
+    default "https://buddyblocks.net"
+    help
+        Public origin only; never include credentials or a trailing slash.
+
+config BUDDY_HARDWARE_REVISION
+    string "Hardware revision API profile"
+    default "rev3"
+    help
+        Must be rev3 or rev1_3 and must agree with the silicon build overlay.
+
+config BUDDY_FIRMWARE_VERSION
+    string "Semantic firmware version"
+    default "0.1.0"
+    help
+        Embedded in device requests and diagnostics. Release packaging supplies
+        this from the requested package version; ordinary builds use 0.1.0.
+
+endmenu

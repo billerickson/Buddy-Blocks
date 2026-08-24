@@ -244,6 +244,7 @@ function createEnv({ seed = true }: { seed?: boolean } = {}) {
     env: {
       DB: sqlite,
       TIME_ZONE: 'America/Chicago',
+      PAIRING_HMAC_SECRET: 'test-only-pairing-hmac-secret-at-least-32-bytes',
       ASSETS: { fetch: async (request: Request) => new Response(`asset:${new URL(request.url).pathname}`) },
     },
   };
@@ -252,6 +253,11 @@ function createEnv({ seed = true }: { seed?: boolean } = {}) {
 function countRows(db: DatabaseSync, sql: string, ...bindings: unknown[]) {
   const row = db.prepare(sql).get(...(bindings as never[])) as { total: number } | undefined;
   return row?.total ?? 0;
+}
+
+async function sha256Hex(value: string) {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
+  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
 async function getJson(pathname: string, env: unknown) {
@@ -272,9 +278,11 @@ async function requestJson(
     body,
     cookie = `${SESSION_COOKIE}=session_1`,
     origin,
-  }: { method?: string; body?: unknown; cookie?: string; origin?: string } = {},
+    requestHeaders,
+  }: { method?: string; body?: unknown; cookie?: string; origin?: string; requestHeaders?: HeadersInit } = {},
 ) {
-  const headers = new Headers({ Cookie: cookie });
+  const headers = new Headers(requestHeaders);
+  if (cookie) headers.set('Cookie', cookie);
   if (body !== undefined) headers.set('Content-Type', 'application/json');
   if (origin) headers.set('Origin', origin);
   const response = await worker.fetch(
@@ -296,6 +304,13 @@ async function getText(pathname: string, env: unknown, cookie = `${SESSION_COOKI
     env as Parameters<typeof worker.fetch>[1],
   );
   return { response, body: await response.text() };
+}
+
+async function requestRaw(pathname: string, env: unknown, headers: HeadersInit) {
+  return worker.fetch(
+    new Request(`https://learn.example.test${pathname}`, { headers }),
+    env as Parameters<typeof worker.fetch>[1],
+  );
 }
 
 describe('worker track APIs', () => {
@@ -935,7 +950,7 @@ describe('worker practice set APIs', () => {
     });
   });
 
-  it('renders and completes a practice set as context, easy card, and hard card questions', async () => {
+  it('renders context only when supplied, then completes easy and hard card questions', async () => {
     const { env, sqlite } = createEnv();
     const created = await requestJson('/api/parent/children/mira/practice-sets', env, {
       method: 'POST',
@@ -960,7 +975,7 @@ describe('worker practice set APIs', () => {
       unit: { title: 'Weekly Practice' },
       track: { subject: 'vocabulary', title: 'Vocabulary' },
     });
-    expect(lesson.body.lesson.questions).toHaveLength(6);
+    expect(lesson.body.lesson.questions).toHaveLength(5);
     expect(lesson.body.lesson.questions[0]).toMatchObject({
       type: 'passage-question',
       prompt: 'Read the context before the flash cards.',
@@ -972,7 +987,15 @@ describe('worker practice set APIs', () => {
         choices: expect.arrayContaining(['very big', 'quick and light']),
       },
     });
-    expect(lesson.body.lesson.questions[2]).toMatchObject({
+    expect(lesson.body.lesson.questions).not.toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: 'passage-question',
+          payload: expect.objectContaining({ passageTitle: 'nimble' }),
+        }),
+      ]),
+    );
+    expect(lesson.body.lesson.questions[1]).toMatchObject({
       type: 'flash-card',
       prompt: 'Choose the best meaning.',
       payload: {
@@ -982,7 +1005,7 @@ describe('worker practice set APIs', () => {
         choices: expect.arrayContaining(['very big', 'quick and light']),
       },
     });
-    expect(lesson.body.lesson.questions[4]).toMatchObject({
+    expect(lesson.body.lesson.questions[3]).toMatchObject({
       type: 'flash-card',
       prompt: 'Type the vocabulary word.',
       payload: {
@@ -1009,13 +1032,13 @@ describe('worker practice set APIs', () => {
 
     expect(completion.response.status).toBe(200);
     expect(completion.body.result).toMatchObject({
-      scoreCorrect: 6,
-      scoreTotal: 6,
+      scoreCorrect: 5,
+      scoreTotal: 5,
       heartsRemaining: 5,
       nextLesson: null,
     });
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_set_attempts')).toBe(1);
-    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(6);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(5);
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM lesson_attempts')).toBe(0);
 
     const retry = await requestJson(`/api/children/mira/lessons/${lessonId}`, env, {
@@ -1035,7 +1058,7 @@ describe('worker practice set APIs', () => {
       xpAwarded: completion.body.result.xpAwarded,
     });
     expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_set_attempts')).toBe(1);
-    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(6);
+    expect(countRows(sqlite.db, 'SELECT count(*) as total FROM practice_card_attempts')).toBe(5);
 
     await requestJson(`/api/parent/children/mira/practice-sets/${created.body.practiceSet.id}`, env, {
       method: 'PATCH',
@@ -1719,6 +1742,316 @@ describe('child profile status migration', () => {
   });
 });
 
+describe('ESP32-P4 device APIs', () => {
+  it('pairs once, scopes content/activity, preserves idempotency, and enforces revocation', async () => {
+    const { env, sqlite } = createEnv();
+    const deviceId = '018f6f5e-2f16-7f4a-9b42-77c85dc85e10';
+    const deviceToken = 'bbdev_v1_test_device_token_0123456789abcdefghijklmnopqrstuvwxyz';
+    const pollSecret = 'bbpoll_v1_test_poll_secret_0123456789abcdefghijklmnopqrstuvwxyz';
+    const pairing = await requestJson('/api/device/v1/pairings', env, {
+      method: 'POST',
+      cookie: '',
+      body: {
+        deviceId,
+        tokenHash: await sha256Hex(deviceToken),
+        pollSecretHash: await sha256Hex(pollSecret),
+        hardwareModel: 'waveshare-esp32-p4-wifi6-touch-lcd-4.3',
+        hardwareRevision: 'rev3',
+        firmwareVersion: '0.1.0',
+        apiVersion: 1,
+      },
+    });
+    expect(pairing.response.status).toBe(201);
+    expect(pairing.body.code).toMatch(/^[0-9A-HJKMNP-TV-Z]{8}$/);
+
+    const childModeClaim = await requestJson('/api/parent/devices/pair', env, {
+      method: 'POST',
+      cookie: `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=mira`,
+      body: { code: pairing.body.code, childId: 'child_mira', name: 'Kitchen Buddy' },
+    });
+    expect(childModeClaim.response.status).toBe(403);
+    expect(childModeClaim.body.error).toBe('parent_reauth_required');
+
+    const claimed = await requestJson('/api/parent/devices/pair', env, {
+      method: 'POST',
+      body: { code: pairing.body.code, childId: 'child_mira', name: 'Kitchen Buddy' },
+    });
+    expect(claimed.response.status).toBe(201);
+    const secondClaim = await requestJson('/api/parent/devices/pair', env, {
+      method: 'POST',
+      body: { code: pairing.body.code, childId: 'child_mira', name: 'Duplicate' },
+    });
+    expect(secondClaim.response.status).toBe(409);
+
+    const poll = await requestJson(`/api/device/v1/pairings/${pairing.body.pairingId}`, env, {
+      cookie: '',
+      requestHeaders: { Authorization: `Pairing ${pollSecret}` },
+    });
+    expect(poll.body).toMatchObject({
+      status: 'claimed',
+      deviceId,
+      device: { id: deviceId, name: 'Kitchen Buddy' },
+      child: { id: 'child_mira', slug: 'mira' },
+    });
+
+    const childCookie = `${SESSION_COOKIE}=session_1; ${CHILD_COOKIE}=mira`;
+    const section = await requestJson('/api/children/mira/flash-card-sections', env, {
+      method: 'POST',
+      cookie: childCookie,
+      body: {
+        title: 'Board words',
+        subject: 'vocabulary',
+        source: 'Friday quiz',
+        status: 'active',
+        pinned: true,
+        cards: [{ term: 'vast', definition: 'very large', example: 'A vast desert.' }],
+      },
+    });
+    expect(section.response.status).toBe(201);
+
+    const authenticationHeaders = {
+      Authorization: `Bearer ${deviceToken}`,
+      'X-Buddy-Blocks-Device-ID': deviceId,
+      'X-Buddy-Blocks-Firmware': '0.1.0',
+    };
+    const bootstrap = await requestJson('/api/device/v1/bootstrap', env, {
+      cookie: '',
+      requestHeaders: authenticationHeaders,
+    });
+    expect(bootstrap.response.status).toBe(200);
+    expect(bootstrap.body).toMatchObject({
+      device: { id: deviceId, name: 'Kitchen Buddy' },
+      child: { id: 'child_mira', slug: 'mira', displayName: 'Mira' },
+      content: { flashCardsRevision: 1 },
+      multiplication: { fluentFacts: 0, xpTotal: 0, best60Seconds: 0, best120Seconds: 0 },
+    });
+    expect(bootstrap.response.headers.get('Cache-Control')).toBe('private, no-store');
+
+    Object.assign(env, {
+      FIRMWARE_MANIFEST_REV3: JSON.stringify({
+        schemaVersion: 1,
+        hardwareProfile: 'waveshare-p4-lcd43-rev3',
+        version: '1.2.0',
+        minimumVersion: '1.0.0',
+        url: 'https://releases.example.test/buddy-blocks-rev3-v1.2.0.bin',
+        sha256: 'a'.repeat(64),
+        size: 1_958_528,
+        releaseNotes: 'Test release',
+        mandatory: false,
+      }),
+    });
+    const firmware = await requestJson('/api/device/v1/firmware', env, {
+      cookie: '', requestHeaders: authenticationHeaders,
+    });
+    expect(firmware.response.status).toBe(200);
+    expect(firmware.body).toMatchObject({
+      hardwareProfile: 'waveshare-p4-lcd43-rev3',
+      version: '1.2.0',
+      minimumVersion: '1.0.0',
+      updateAvailable: true,
+      mandatory: true,
+    });
+    const currentFirmware = await requestJson('/api/device/v1/firmware', env, {
+      cookie: '',
+      requestHeaders: { ...authenticationHeaders, 'X-Buddy-Blocks-Firmware': '1.2.0' },
+    });
+    expect(currentFirmware.body).toMatchObject({ updateAvailable: false, mandatory: false });
+    const invalidFirmwareHeader = await requestJson('/api/device/v1/firmware', env, {
+      cookie: '',
+      requestHeaders: { ...authenticationHeaders, 'X-Buddy-Blocks-Firmware': 'not-semver' },
+    });
+    expect(invalidFirmwareHeader.response.status).toBe(401);
+
+    const requiredUpdate = await requestJson('/api/device/v1/flash-card-sections', env, {
+      cookie: '', requestHeaders: authenticationHeaders,
+    });
+    expect(requiredUpdate.response.status).toBe(426);
+    expect(requiredUpdate.body.error).toBe('firmware_update_required');
+    authenticationHeaders['X-Buddy-Blocks-Firmware'] = '1.2.0';
+
+    const snapshot = await requestJson('/api/device/v1/flash-card-sections', env, {
+      cookie: '',
+      requestHeaders: authenticationHeaders,
+    });
+    expect(snapshot.body.sections[0]).toMatchObject({
+      title: 'Board words',
+      pinned: true,
+      cards: [{ front: 'vast', back: 'very large', clue: 'A vast desert.' }],
+    });
+    const etag = snapshot.response.headers.get('ETag');
+    const notModified = await requestRaw(
+      '/api/device/v1/flash-card-sections',
+      env,
+      { ...authenticationHeaders, 'If-None-Match': etag! },
+    );
+    expect(notModified.status).toBe(304);
+
+    const oversizedSection = sqlite.db.prepare(
+      `INSERT INTO practice_sets
+       (id, child_profile_id, subject, title, source, status, pinned, starts_at,
+        expires_at, archived_at, created_at, updated_at)
+       VALUES (?, 'child_mira', 'vocabulary', ?, 'oversized-device-fixture',
+        'active', 0, NULL, NULL, NULL, ?, ?)`,
+    );
+    const oversizedCard = sqlite.db.prepare(
+      `INSERT INTO practice_set_cards
+       (id, practice_set_id, term, definition, example, accepted_answers_json, sort_order)
+       VALUES (?, ?, ?, ?, ?, '[]', ?)`,
+    );
+    const oversizedTimestamp = new Date().toISOString();
+    for (let sectionIndex = 0; sectionIndex < 6; sectionIndex += 1) {
+      const sectionId = `oversized_section_${sectionIndex}`;
+      oversizedSection.run(
+        sectionId,
+        `Oversized section ${sectionIndex}`,
+        oversizedTimestamp,
+        oversizedTimestamp,
+      );
+      for (let cardIndex = 0; cardIndex < 100; cardIndex += 1) {
+        oversizedCard.run(
+          `oversized_card_${sectionIndex}_${cardIndex}`,
+          sectionId,
+          'f'.repeat(500),
+          'b'.repeat(800),
+          'c'.repeat(800),
+          cardIndex,
+        );
+      }
+    }
+    sqlite.db.prepare(
+      `UPDATE child_content_revisions
+       SET flash_cards_revision = flash_cards_revision + 1
+       WHERE child_profile_id = 'child_mira'`,
+    ).run();
+    const oversizedSnapshot = await requestJson('/api/device/v1/flash-card-sections', env, {
+      cookie: '',
+      requestHeaders: authenticationHeaders,
+    });
+    expect(oversizedSnapshot.response.status).toBe(413);
+    expect(oversizedSnapshot.body).toEqual({ error: 'device_content_too_large' });
+    sqlite.db.prepare(
+      `DELETE FROM practice_sets
+       WHERE child_profile_id = 'child_mira' AND source = 'oversized-device-fixture'`,
+    ).run();
+    sqlite.db.prepare(
+      `UPDATE child_content_revisions
+       SET flash_cards_revision = flash_cards_revision + 1
+       WHERE child_profile_id = 'child_mira'`,
+    ).run();
+
+    const multiplicationBody = {
+      clientAttemptId: 'esp32p4_85e10_01JDEVICEATTEMPT000000001',
+      mode: 'practice',
+      selectedFactors: [7],
+      durationSeconds: null,
+      inputMethod: 'keyboard',
+      startedAt: '1970-01-01T00:00:00.000Z',
+      attempts: [{ factor: 7, multiplier: 8, answer: 56, responseMs: 2400, inputMethod: 'keyboard' }],
+    };
+    const submitted = await requestJson('/api/device/v1/multiplication/sessions', env, {
+      method: 'POST', cookie: '', requestHeaders: authenticationHeaders, body: multiplicationBody,
+    });
+    const duplicate = await requestJson('/api/device/v1/multiplication/sessions', env, {
+      method: 'POST', cookie: '', requestHeaders: authenticationHeaders, body: multiplicationBody,
+    });
+    expect(submitted.response.status).toBe(201);
+    expect(duplicate.response.status).toBe(200);
+    expect(countRows(sqlite.db, 'SELECT count(*) AS total FROM multiplication_sessions')).toBe(1);
+    const storedMultiplication = sqlite.db.prepare(
+      'SELECT started_at, device_payload_hash FROM multiplication_sessions LIMIT 1',
+    ).get() as { started_at: string; device_payload_hash: string };
+    expect(storedMultiplication.started_at).not.toContain('1970-01-01');
+    expect(storedMultiplication.device_payload_hash).toMatch(/^[a-f0-9]{64}$/);
+    const multiplicationConflict = await requestJson('/api/device/v1/multiplication/sessions', env, {
+      method: 'POST', cookie: '', requestHeaders: authenticationHeaders,
+      body: { ...multiplicationBody, attempts: [{ ...multiplicationBody.attempts[0], answer: 54 }] },
+    });
+    expect(multiplicationConflict.response.status).toBe(409);
+    expect(multiplicationConflict.body.error).toBe('client_attempt_conflict');
+
+    const originalCardId = snapshot.body.sections[0].cards[0].id;
+    await requestJson(`/api/children/mira/flash-card-sections/${section.body.practiceSet.id}`, env, {
+      method: 'PATCH',
+      cookie: childCookie,
+      body: { cards: [{ term: 'orbit', definition: 'a path around an object' }] },
+    });
+    const studyBody = {
+      clientAttemptId: 'esp32p4_85e10_01JFLASHSTUDY00000000001',
+      practiceSetId: section.body.practiceSet.id,
+      contentRevision: snapshot.body.revision,
+      durationSeconds: 45,
+      uniqueCards: 1,
+      firstPassGotIt: 0,
+      totalReviews: 2,
+      reviews: [{
+        cardId: originalCardId,
+        cardFingerprint: '0'.repeat(64),
+        rating: 'again',
+        shownCount: 2,
+        responseMs: 1200,
+      }],
+    };
+    const studied = await requestJson('/api/device/v1/flash-card-sessions', env, {
+      method: 'POST', cookie: '', requestHeaders: authenticationHeaders, body: studyBody,
+    });
+    const studiedAgain = await requestJson('/api/device/v1/flash-card-sessions', env, {
+      method: 'POST', cookie: '', requestHeaders: authenticationHeaders, body: studyBody,
+    });
+    expect(studied.response.status).toBe(201);
+    expect(studiedAgain.body.duplicate).toBe(true);
+    const studyConflict = await requestJson('/api/device/v1/flash-card-sessions', env, {
+      method: 'POST', cookie: '', requestHeaders: authenticationHeaders,
+      body: { ...studyBody, durationSeconds: 46 },
+    });
+    expect(studyConflict.response.status).toBe(409);
+    expect(studyConflict.body.error).toBe('client_attempt_conflict');
+    expect(countRows(sqlite.db, 'SELECT count(*) AS total FROM flash_card_study_sessions')).toBe(1);
+    expect(sqlite.db.prepare('SELECT practice_set_card_id FROM flash_card_study_reviews').get()).toMatchObject({
+      practice_set_card_id: null,
+    });
+    const dashboardAfterStudy = await requestJson('/api/parent/dashboard', env);
+    expect(dashboardAfterStudy.body.children[0].recentActivity).toEqual(
+      expect.arrayContaining([expect.objectContaining({ activity_label: 'Studied 1 flash card' })]),
+    );
+
+    const listed = await requestJson('/api/parent/devices', env);
+    expect(listed.body.devices).toEqual([
+      expect.objectContaining({ id: deviceId, childDisplayName: 'Mira', status: 'active' }),
+    ]);
+    const revoked = await requestJson(`/api/parent/devices/${deviceId}`, env, {
+      method: 'PATCH', body: { status: 'revoked' },
+    });
+    expect(revoked.body.device.status).toBe('revoked');
+    const rejected = await requestJson('/api/device/v1/bootstrap', env, {
+      cookie: '', requestHeaders: authenticationHeaders,
+    });
+    expect(rejected.response.status).toBe(403);
+    expect(rejected.body.error).toBe('device_revoked');
+  });
+
+  it('rate limits repeated device bearer authentication failures by source', async () => {
+    const { env, sqlite } = createEnv();
+    let latest: Awaited<ReturnType<typeof requestJson>> | undefined;
+    for (let attempt = 0; attempt < 21; attempt += 1) {
+      latest = await requestJson('/api/device/v1/bootstrap', env, {
+        cookie: '',
+        requestHeaders: {
+          Authorization: 'Bearer bbdev_v1_invalid_token',
+          'X-Buddy-Blocks-Device-ID': '018f6f5e-2f16-7f4a-9b42-77c85dc85e10',
+          'X-Buddy-Blocks-Firmware': '0.1.0',
+          'CF-Connecting-IP': '192.0.2.55',
+        },
+      });
+    }
+    expect(latest?.response.status).toBe(429);
+    expect(latest?.response.headers.get('Retry-After')).toBe('600');
+    expect(latest?.body).toEqual({ error: 'rate_limited', retryAfterSeconds: 600 });
+    expect(sqlite.db.prepare(
+      'SELECT attempt_count FROM device_auth_failure_limits',
+    ).get()).toMatchObject({ attempt_count: 21 });
+  });
+});
+
 describe('performance index migration', () => {
   it('adds the lookup indexes used by batched reads', () => {
     const db = createTestDatabase();
@@ -1744,6 +2077,12 @@ describe('performance index migration', () => {
     expect(tables.has('multiplication_sessions')).toBe(true);
     expect(tables.has('multiplication_fact_attempts')).toBe(true);
     expect(tables.has('child_multiplication_mastery')).toBe(true);
+    expect(tables.has('device_pairings')).toBe(true);
+    expect(tables.has('child_devices')).toBe(true);
+    expect(tables.has('device_auth_failure_limits')).toBe(true);
+    expect(tables.has('child_content_revisions')).toBe(true);
+    expect(tables.has('flash_card_study_sessions')).toBe(true);
+    expect(tables.has('flash_card_study_reviews')).toBe(true);
     expect(indexesFor('practice_sets').has('idx_practice_sets_child_status')).toBe(true);
     expect(indexesFor('practice_set_cards').has('idx_practice_set_cards_set_sort')).toBe(true);
     expect(indexesFor('practice_set_attempts').has('idx_practice_set_attempts_child_set')).toBe(true);
@@ -1752,6 +2091,13 @@ describe('performance index migration', () => {
     expect(indexesFor('hosted_interest_emails').has('idx_hosted_interest_emails_created_at')).toBe(true);
     expect(indexesFor('multiplication_sessions').has('idx_multiplication_sessions_child_completed')).toBe(true);
     expect(indexesFor('multiplication_sessions').has('idx_multiplication_sessions_child_selection')).toBe(true);
+    expect(indexesFor('child_devices').has('idx_child_devices_child_status')).toBe(true);
+    expect(indexesFor('device_auth_failure_limits').has('idx_device_auth_failure_limits_last_attempt')).toBe(true);
+    expect(indexesFor('flash_card_study_sessions').has('idx_flash_card_study_sessions_child_attempt')).toBe(true);
+    expect(
+      new Set(db.prepare('PRAGMA table_info(multiplication_sessions)').all()
+        .map((row) => String((row as { name: unknown }).name))).has('device_payload_hash'),
+    ).toBe(true);
     expect(
       new Set(db.prepare('PRAGMA table_info(questions)').all().map((row) => String((row as { name: unknown }).name))).has('hint'),
     ).toBe(true);

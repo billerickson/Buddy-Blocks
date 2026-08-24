@@ -1,0 +1,16 @@
+dependencies:
+  idf:
+    version: "==5.5.5"
+  lvgl/lvgl:
+    version: "==9.5.0"
+    public: true
+  waveshare/esp32_p4_wifi6_touch_lcd_4_3:
+    version: "==1.0.1"
+    public: true
+  espressif/esp_hosted:
+    version: "==1.4.7"
+  espressif/esp_wifi_remote:
+    version: "==0.14.5"
+  joltwallet/littlefs:
+    version: "==1.22.3"
+    public: true

@@ -6,6 +6,11 @@
     "types": ["@cloudflare/workers-types", "node"]
   },
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": [
+    "dist",
+    "node_modules",
+    ".toolchains",
+    "firmware/esp32-p4/build-*",
+    "firmware/esp32-p4/managed_components"
+  ]
 }
-
