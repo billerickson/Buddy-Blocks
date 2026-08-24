@@ -46,27 +46,29 @@ specification.
 
 ## Milestone 0 build matrix
 
-The instrumented matrix was built in isolated fresh directories from the source
-in this document's commit. Firmware version `0.1.0` and ESP-IDF reproducible
-build mode prevent repository dirtiness, timestamps, and host paths from
-changing these application images. Release artifacts will still be rebuilt
-from a clean signed tag.
+The final pre-board instrumented matrix was built in isolated fresh directories
+by GitHub Actions run `32713158857` from exact firmware source commit
+`4aa090503c4eabb5c3b115b6785614d09370cca6`. Firmware version `0.1.0` and
+ESP-IDF reproducible-build mode prevent repository dirtiness, timestamps, and
+host paths from changing these application images. Release artifacts will still
+be rebuilt from a clean signed tag.
 
 | Silicon profile | Rotation path | Image bytes | 7 MiB slot use | SHA-256 |
 | --- | --- | ---: | ---: | --- |
-| Rev3.x | Waveshare BSP | 2,014,112 | 27.4% | `885e95bc8a9244c1e67692b4897d996001ebe2f0b177a6e27d932ab843323bdd` |
-| Rev3.x | Deferred CPU | 1,937,872 | 26.4% | `c5f6f29be3e8d1d4e69ca463769f37a38ba947f93161cb1287826b37b7ed28cc` |
-| Rev3.x | PPA | 2,014,656 | 27.4% | `36fca219f899a0c024509cb7cff970e8b4efc5c4e05efa40540533031ba678e7` |
-| Rev1.3 | Waveshare BSP | 2,013,872 | 27.4% | `8f6237f86e69ea4cb8018265d275c7d51aace5a3322c41a3265f4427c99a855d` |
-| Rev1.3 | Deferred CPU | 1,937,632 | 26.4% | `36c775fba74042e26bfd2829d0923c7df08e8d84a0388d7bdfd103faadc00a10` |
-| Rev1.3 | PPA | 2,014,416 | 27.4% | `28291c9d2d48f58b6ad0c9cd0ffad3106f31f6fdd6b5dd312a8fbf9fbaa6e6bf` |
+| Rev3.x | Waveshare BSP | 2,022,672 | 27.6% | `135fe1fd90deb975b2c4b0f565cf658bc2e37c3ebdbe59a5805c53c5090adedc` |
+| Rev3.x | Deferred CPU | 1,946,048 | 26.5% | `c0f7807d2c97baca2c94a9c53cc7fa95a1099a0290966f9f5d58f276009d62bf` |
+| Rev3.x | PPA | 2,023,216 | 27.6% | `92e99fd46d7b328a166927671cbc5a800a9104121d0c57125599a6d808640caa` |
+| Rev1.3 | Waveshare BSP | 2,022,432 | 27.6% | `adc8399198f340fc6995184272a4d831e6acab87a9a71f1c1ad3893156c62282` |
+| Rev1.3 | Deferred CPU | 1,945,824 | 26.5% | `07f9d0d92d3b4a88d7b8f17248080d8f0860feb8f08a84a3ca8f02cefd7d984b` |
+| Rev1.3 | PPA | 2,022,976 | 27.6% | `cbf229de9a471e81ea7b620120ac1ddb749a74d17f12dd9ac9939ee4f54e50ac` |
 
 Every build generated a component-size report and passed the repository's
 5,872,025-byte limit (80% of one 7 MiB OTA application slot). Build directories,
 reports, binaries, managed components, and the resolver lock are ignored.
 
-Two independent clean Rev3/BSP builds also produced the identical application
-SHA-256 `885e95bc8a9244c1e67692b4897d996001ebe2f0b177a6e27d932ab843323bdd`.
+Two additional independent clean Rev3/BSP builds from the same source also
+produced the identical application SHA-256
+`3bb540aa183fdcea314a4912f7e4b64977febb4104c648a6ec61808772cbdc94`.
 The reproducibility verifier deliberately does not compare against persistent
 developer build directories because an existing generated `sdkconfig` retains
 the settings from when it was first created.
@@ -74,23 +76,23 @@ the settings from when it was first created.
 ## Complete application candidate
 
 After the offline application, device synchronization, OTA, diagnostics, and UI
-were linked, the Rev3/BSP `1.0.0-rc.1` candidates built from regenerated tracked
+were linked, the Rev3/BSP `1.0.0-rc.2` candidates built from regenerated tracked
 sdkconfig overlays as follows:
 
 | Security profile | Application bytes | Slot use | Bootloader bytes | Build result |
 | --- | ---: | ---: | ---: | --- |
-| Development | 2,014,112 | 27.4% | 22,144 | PASS |
+| Development | 2,022,672 | 27.6% | 22,144 | PASS |
 | Pilot, RSA-signed | 2,035,712 | 27.7% | 22,240 | PASS |
 | Production, RSA-signed | 2,101,248 | 28.6% | 45,056 | PASS |
 
 The final ignored pilot package was regenerated from commit
-`ca8a1de087084bed07e555b83ab7f0700332b215`. Its release report records
+`4aa090503c4eabb5c3b115b6785614d09370cca6`. Its release report records
 5,304,320 bytes of application-slot headroom, 42,374 bytes of linker-reported
-static DRAM/DIRAM data plus BSS, and a 2,020,258-byte linked image. The signed
+static DRAM/DIRAM data plus BSS, and a 2,028,442-byte linked image. The signed
 OTA image SHA-256 is
-`460a9c23eeb055e9e8b4d68c08d0eaaf063676c2790a87a047ae3298d37ecd1e`;
+`9708d12d5aacdd2292f8e6c548ef497a2aefbb42438700426f80a541c16f9481`;
 the combined USB-recovery image SHA-256 is
-`5cc4b5ce3a6c2930ca2e7d6cc0e7a1ae1c9aef45de6c0c15d1a4ab154cfe6992`.
+`a86d8286a8da5cca5f853a9f64dd1d4374dc18dba52df74193729b485ab599a9`.
 Every entry in the generated SHA-256 inventory verifies locally. The package
 URL remains an intentionally non-publishable `example.invalid` placeholder
 until a board-tested artifact is approved for release.
@@ -104,11 +106,13 @@ was burned.
 
 ## Continuous integration
 
-Pull-request run `32697315599` passed on exact source commit
-`3071c4befe8700186994a47ff2b52238f5b82af4`. Its source-check job completed in
-14 seconds and its build/test/package job completed in 21 minutes 57 seconds.
+Pull-request run `32713158857` passed on exact source commit
+`4aa090503c4eabb5c3b115b6785614d09370cca6`. Its source-check job completed in
+16 seconds and its build/test/package job completed in 22 minutes 18 seconds.
 The run passed the website, Worker, content, and shared-vector validation; all
-six silicon/rotation firmware builds; host domain and storage tests; the LVGL
-interaction test and 30 reviewed 800 x 480 goldens; generated-file checks; and
-unsigned, pull-request-safe recovery artifact packaging. This is host/CI
-evidence only and does not satisfy any physical board exit gate.
+six silicon/rotation firmware builds; host domain, content/schema, and
+storage/recovery tests; the LVGL interaction test and 31 reviewed 800 x 480
+goldens; generated-file checks; and unsigned, pull-request-safe recovery
+artifact packaging. The downloaded ignored CI inventory and all six application
+hashes were verified locally. This is host/CI evidence only and does not satisfy
+any physical board exit gate.
