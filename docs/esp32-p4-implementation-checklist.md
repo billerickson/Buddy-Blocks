@@ -190,11 +190,12 @@ irreversible eFuse is burned by an automated script.
   serial intervention.
 - [ ] Performance measurements pending hardware; operations, factory-reset,
   support, security, board-test, and release procedures are documented.
-- [x] All web and firmware tests pass in CI. Pull-request run `32713158857`
-  passed on exact source commit `4aa090503c4eabb5c3b115b6785614d09370cca6`,
-  including the six-profile firmware matrix, domain/content/storage host tests,
-  31 reviewed simulator goldens, generated-file checks, and unsigned recovery
-  artifact packaging.
+- [x] All web and firmware tests pass in CI. Pull-request run `32736296956`
+  passed on branch-head commit
+  `69e234bdc32adca3f76b5e8fc9b698d62bc63ce6`, including Component Manager
+  cache restore, the six-profile firmware matrix, domain/content/storage host
+  tests, 31 reviewed simulator goldens, pinned formatting/static analysis,
+  generated-file checks, and unsigned recovery artifact packaging.
 - [x] D1 migration 0004 validated locally, then applied and verified remotely
   through the established
   deployment process.
@@ -216,8 +217,14 @@ Exit gate: the complete Version 1 Definition of Done is satisfied.
 - Host firmware tests: PASS, domain, content/schema, and atomic-storage/recovery
   suites.
 - LVGL simulator: PASS, interaction self-test and 31 golden screenshots.
+- Pinned Espressif `clang-format` and native host/simulator `clang-tidy`:
+  PASS; the first analysis pass corrected timestamp, storage/content size,
+  RSSI, and simulator-buffer integer widths.
 - All six silicon/rotation development builds, byte-for-byte Rev3/BSP
   reproducibility, signed pilot, and signed production builds: PASS.
+- Four ignored, unpublished `1.0.0-rc.3` pilot/production package inventories
+  for both silicon profiles verify at commit
+  `69e234bdc32adca3f76b5e8fc9b698d62bc63ce6`.
 - Wrangler deploy dry-run: PASS; local and remote D1 migration verification:
   PASS; production public/auth-boundary smoke: PASS.
 

@@ -1318,3 +1318,22 @@ screen-on serial observation, writes ignored raw logs plus JSON summaries, and
 has a board-free parser self-test in CI. Reset automation does not stand in for
 controlled power-removal evidence, and serial telemetry does not stand in for
 physical display, touch, recovery, OTA/rollback, soak, or pilot observations.
+
+### 2026-08-24: Static analysis uses pinned Clang with native compile databases
+
+CI installs Espressif `esp-clang@esp-19.1.2_20250312` through the pinned
+ESP-IDF 5.5.5 tool manifest. `clang-format` checks every tracked firmware C/C++
+source and header. `clang-tidy` analyzes the portable domain, content, storage,
+UI, simulator, and host-test code through the native host and simulator CMake
+compile databases, with analyzer and selected bug-prone diagnostics promoted to
+errors. The ESP32-P4 cross database is not used for this stage because it
+contains GCC-only RISC-V options and ESP-IDF path-prefix processing breaks a
+workspace path containing spaces. Hardware-only sources remain gated by strict
+`-Wall -Wextra -Werror` compilation in all six real ESP32-P4 builds. The first
+analysis pass found and fixed integer-width issues in timestamp, storage/content
+size, RSSI, and simulator-buffer calculations. CI restores only the Component
+Manager download cache; the tracked manifest constraints and generated lock
+validation still prevent accepting an unpinned upgrade. The tracked-file query
+uses a command-scoped Git `safe.directory` value so the analyzer works in the
+container's split runner/root ownership model without changing global Git
+trust.

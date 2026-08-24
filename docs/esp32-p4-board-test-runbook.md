@@ -20,6 +20,8 @@ esptool chip revision, flash size, and port in
 `rev3` only for Rev3.x silicon; use `rev1_3` for Rev1.3.
 The identification helper performs only read/reset operations and saves both
 `chip_id` and `flash_id` output under the ignored `serial-logs/` directory.
+Stop here and share the command output and board-marking photo before choosing a
+flash profile. The next command depends on this evidence.
 
 ## 2. Flash the complete development app
 

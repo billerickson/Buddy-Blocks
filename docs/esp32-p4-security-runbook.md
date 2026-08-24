@@ -66,15 +66,33 @@ Package an exact-profile signed release only after the ignored signing key and
 release notes exist:
 
 ```bash
-./scripts/firmware-package.sh rev3 bsp pilot 1.0.0-rc.1 0.1.0 \
-  https://example.invalid/releases/buddy-blocks-p4-rev3-v1.0.0-rc.1.bin \
-  /absolute/path/to/release-notes.txt
+./scripts/firmware-package.sh rev3 bsp pilot 1.0.0-rc.3 0.1.0 \
+  https://example.invalid/releases/buddy-blocks-p4-rev3-v1.0.0-rc.3.bin \
+  /absolute/path/to/release-notes.txt \
+  firmware/esp32-p4/.artifacts/releases/v1.0.0-rc.3/rev3-pilot
 ```
 
 The output is ignored and contains the signed application image, a combined
 32 MiB USB recovery image, manifest, release report, component-size report, and
 SHA-256 inventory. Verify every hash after copying artifacts to release
 storage. The manifest hardware profile must exactly match the board profile.
+
+Pre-board `1.0.0-rc.3` pilot packages have been prepared and hash-verified for
+both `rev3` and `rev1_3` under the ignored
+`firmware/esp32-p4/.artifacts/releases/` tree. Matching production-profile
+packages exist only as configuration/build evidence. Their manifests use
+`example.invalid`, none is published, and none is authorized for flashing.
+After step 1 of the board runbook identifies the silicon, verify the matching
+pilot inventory locally with:
+
+```bash
+cd firmware/esp32-p4/.artifacts/releases/v1.0.0-rc.3/rev3-pilot
+env LC_ALL=C LANG=C shasum -a 256 -c SHA256SUMS
+```
+
+Use `rev1_3-pilot` instead only when the chip-identification evidence requires
+that profile. Publishing a real manifest remains gated on development-image
+bring-up and physical USB recovery.
 
 ## Irreversible production gate
 
