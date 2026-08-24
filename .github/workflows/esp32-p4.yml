@@ -52,8 +52,8 @@ jobs:
           node --check scripts/generate-firmware-domain-vectors.mjs
           node --check scripts/generate-firmware-release-metadata.mjs
           node --check scripts/generate-sha256sums.mjs
-          git check-ignore -q firmware/esp32-p4/dependencies.lock
-          git check-ignore -q firmware/esp32-p4/managed_components
+          git check-ignore --no-index -q firmware/esp32-p4/dependencies.lock
+          git check-ignore --no-index -q firmware/esp32-p4/managed_components/.ci-sentinel
           test -z "$(git ls-files 'firmware/esp32-p4/dependencies.lock' 'firmware/esp32-p4/managed_components/**')"
           test -z "$(git ls-files 'firmware/esp32-p4/secrets/*' '*.pem' '*.key' '*.bin' | head -n 1)"
 
