@@ -1,0 +1,107 @@
+name: ESP32-P4 firmware
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/esp32-p4.yml'
+      - 'firmware/esp32-p4/**'
+      - 'scripts/firmware-*.sh'
+      - 'scripts/generate-firmware-domain-vectors.mjs'
+      - 'scripts/generate-firmware-release-metadata.mjs'
+      - 'scripts/generate-sha256sums.mjs'
+      - 'src/worker.ts'
+      - 'src/components/islands/ParentDashboard.tsx'
+      - 'migrations/0004_esp32_p4_devices.sql'
+      - 'tests/worker-api.test.ts'
+      - 'tests/esp32-p4-domain-parity.test.ts'
+      - 'tests/fixtures/esp32-p4-domain-vectors.json'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/esp32-p4.yml'
+      - 'firmware/esp32-p4/**'
+      - 'scripts/firmware-*.sh'
+      - 'scripts/generate-firmware-domain-vectors.mjs'
+      - 'scripts/generate-firmware-release-metadata.mjs'
+      - 'scripts/generate-sha256sums.mjs'
+      - 'src/worker.ts'
+      - 'src/components/islands/ParentDashboard.tsx'
+      - 'migrations/0004_esp32_p4_devices.sql'
+      - 'tests/worker-api.test.ts'
+      - 'tests/esp32-p4-domain-parity.test.ts'
+      - 'tests/fixtures/esp32-p4-domain-vectors.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test-package:
+    runs-on: ubuntu-24.04
+    container: espressif/idf:v5.5.5
+    env:
+      BUDDY_IDF_PATH: /opt/esp/idf
+      IDF_TOOLS_PATH: /opt/esp
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install host test runtime
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends nodejs npm
+          npm ci
+
+      - name: Website, Worker, content, and shared-vector validation
+        run: |
+          npm run content:validate
+          npm test
+          npm run check
+          npm run build
+
+      - name: Host domain and storage tests
+        run: ./scripts/firmware-test-host.sh
+
+      - name: LVGL simulator and reviewed goldens
+        run: ./scripts/firmware-test-simulator.sh
+
+      - name: Build silicon and rotation matrix
+        run: |
+          for profile in rev3 rev1_3; do
+            for rotation in bsp cpu ppa; do
+              ./scripts/firmware-build.sh "$profile" "$rotation"
+            done
+          done
+
+      - name: Source and generated-file checks
+        run: |
+          git diff --check
+          bash -n scripts/firmware-*.sh
+          node --check scripts/generate-firmware-domain-vectors.mjs
+          node --check scripts/generate-firmware-release-metadata.mjs
+          node --check scripts/generate-sha256sums.mjs
+          test ! -e firmware/esp32-p4/sdkconfig
+          test ! -e firmware/esp32-p4/dependencies.lock
+          test -z "$(git ls-files 'firmware/esp32-p4/secrets/*' '*.pem' '*.key' '*.bin' | head -n 1)"
+
+      - name: Package SHA-labeled recovery artifacts
+        run: |
+          mkdir -p ci-artifacts
+          for profile in rev3 rev1_3; do
+            for rotation in bsp cpu ppa; do
+              build="firmware/esp32-p4/build-${profile}-${rotation}"
+              sha="$(sha256sum "$build/buddy_blocks_p4.bin" | cut -d' ' -f1)"
+              short="${sha:0:12}"
+              tar -C "$build" -czf "ci-artifacts/buddy-blocks-${profile}-${rotation}-${short}.tar.gz" \
+                buddy_blocks_p4.bin bootloader/bootloader.bin partition_table/partition-table.bin \
+                ota_data_initial.bin flasher_args.json size-components.txt size-summary.json
+            done
+          done
+          sha256sum ci-artifacts/*.tar.gz > ci-artifacts/SHA256SUMS
+
+      - name: Upload unsigned pull-request-safe artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: buddy-blocks-esp32-p4-${{ github.sha }}
+          path: ci-artifacts/
+          if-no-files-found: error
+          retention-days: 14

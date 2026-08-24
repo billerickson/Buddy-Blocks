@@ -1193,3 +1193,39 @@ therefore use isolated fresh build directories, preserving developer Wi-Fi
 credentials while ensuring defaults are actually applied. Two independent
 fresh Rev3/BSP builds then matched byte-for-byte. Persistent local build output
 is never accepted as release evidence.
+
+### 2026-08-23: Every scripted build regenerates sdkconfig from overlays
+
+The initial reproducibility proof isolated build directories, but that still
+allowed a persistent developer directory to retain stale configuration between
+security profiles. `firmware-build.sh` now deletes only the generated
+`sdkconfig` and `sdkconfig.old` inside its exact resolved build directory before
+configuration. Tracked base, silicon, rotation, security, and generated-version
+overlays are therefore authoritative on every invocation. This does not delete
+source, signing keys, or artifacts.
+
+### 2026-08-23: Secure Boot requires a larger bootloader region
+
+The first production-profile link proved that the original `0x8000` partition
+table offset left too little room for the Secure Boot v2 bootloader. The table is
+now at `0x10000`; NVS begins at `0x11000`, OTA data at `0x22000`, and the factory
+application at `0x30000`. The signed production bootloader and both 7 MiB OTA
+slots then passed ESP-IDF size validation. This is build-only evidence; no image
+was flashed and no security eFuse was burned.
+
+### 2026-08-23: Runtime release measurements remain explicitly pending
+
+Release reports record application/slot headroom, linked image size, and static
+DRAM from the linker map. Internal heap, PSRAM, and filesystem watermarks require
+a physical run and are emitted as `null` with `pending physical board test`
+evidence until the board log supplies them. Build output must not be promoted to
+hardware evidence.
+
+### 2026-08-23: Offline identity and storage integrity
+
+Device activity IDs use a real 48-bit millisecond timestamp followed by 80 random
+bits. A persisted monotonic fallback keeps IDs time-sortable across reboots when
+trustworthy wall time is unavailable. Atomic filesystem records use CRC-32 and a
+versioned header; startup can promote a complete `.next` record after interrupted
+rename, while unsupported schemas and corrupt records fail closed. Server-side
+child-plus-client-ID idempotency remains authoritative.

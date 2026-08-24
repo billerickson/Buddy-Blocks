@@ -70,3 +70,29 @@ SHA-256 `c84727c8df84d2c73a50405784e3ed35f7534dbee8c6f2ae95d452bd134a5ee3`.
 The reproducibility verifier deliberately does not compare against persistent
 developer build directories because an existing generated `sdkconfig` retains
 the settings from when it was first created.
+
+## Complete application candidate
+
+After the offline application, device synchronization, OTA, diagnostics, and UI
+were linked, the Rev3/BSP `1.0.0-rc.1` candidates built from regenerated tracked
+sdkconfig overlays as follows:
+
+| Security profile | Application bytes | Slot use | Bootloader bytes | Build result |
+| --- | ---: | ---: | ---: | --- |
+| Development | 2,009,744 | 27.4% | 22,144 | PASS |
+| Pilot, RSA-signed | 2,035,712 | 27.7% | 22,240 | PASS |
+| Production, RSA-signed | 2,035,712 | 27.7% | 45,056 | PASS |
+
+The pilot release report records 5,304,320 bytes of application-slot headroom,
+42,342 bytes of linker-reported static DRAM/DIRAM data plus BSS, and a 2,016,018
+byte linked image. Its OTA image, combined USB-recovery image, manifest, reports,
+and SHA-256 inventory verify locally. The package URL remains an intentionally
+non-publishable `example.invalid` placeholder until a board-tested artifact is
+approved for release.
+
+The production generated configuration enables rollback, Secure Boot v2,
+RSA-signed applications/updates, AES-256 release-mode flash encryption, and NVS
+encryption. The larger Secure Boot bootloader fits below the partition table at
+`0x10000` with 12,288 bytes remaining. This is configuration and build evidence
+only: no candidate was flashed, no runtime watermark was measured, and no eFuse
+was burned.

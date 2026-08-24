@@ -70,8 +70,9 @@ Build evidence:
 - [x] Rev1.3 BSP candidate builds with ESP-IDF `v5.5.5`.
 - [x] Deferred CPU candidate builds for both silicon overlays.
 - [x] PPA candidate builds for both silicon overlays.
-- [x] Application size is below 80% of a 7 MiB slot (largest: 1,091,264
-  bytes, 14.9%).
+- [x] Application size is below 80% of a 7 MiB slot. The original hardware
+  proof matrix peaked at 1,091,264 bytes; the complete signed pilot candidate
+  is 2,035,712 bytes (27.7%).
 - [x] Fixed firmware version plus ESP-IDF reproducible-build mode produce
   byte-identical application images in two independent clean Rev3/BSP builds.
 
@@ -96,14 +97,15 @@ Exit gate: every Milestone 0 box above is checked. Until then, Milestone 1 is
 
 ## Milestone 1 — Firmware foundation — PENDING
 
-- [ ] Service/event-queue architecture with bounded queues.
-- [ ] `buddy_ui` theme, `TopNav`, `OptionTile`, `OptionList`, `ChoiceGrid`,
+- [x] Service/event-queue architecture with bounded queues.
+- [x] `buddy_ui` theme, `TopNav`, `OptionTile`, `OptionList`, `ChoiceGrid`,
   `ConfirmBar`, and pure `SelectionModel`.
-- [ ] Atomic versioned storage, recovery, migrations, and diagnostics.
+- [x] Atomic versioned CRC32 storage, interrupted-rename recovery, schema
+  rejection tests, migrations, and diagnostics.
 - [ ] Offline cached Home usable within five seconds.
-- [ ] Host LVGL simulator fixed at 800 × 480.
-- [ ] Deterministic interaction assertions and reviewed golden screenshots.
-- [ ] Firmware CI: both silicon profiles, host tests, simulator, formatting,
+- [x] Host LVGL simulator fixed at 800 × 480.
+- [x] Deterministic interaction assertions and 21 reviewed golden screenshots.
+- [x] Firmware CI: both silicon profiles, host tests, simulator, formatting,
   static analysis, size threshold, and SHA-bound unsigned artifacts.
 - [ ] 100-reboot loop evidence.
 - [ ] Power-loss snapshot/outbox evidence.
@@ -112,42 +114,42 @@ Exit gate: reboot and power-loss storage tests pass with physical evidence.
 
 ## Milestone 2 — Offline Multiplication Facts Lab — PENDING
 
-- [ ] Shared JSON golden vectors consumed by TypeScript and firmware tests.
-- [ ] Factor normalization, pools, weights, seeded shuffle, no immediate repeat,
+- [x] Shared JSON golden vectors consumed by TypeScript and firmware tests.
+- [x] Factor normalization, pools, weights, seeded shuffle, no immediate repeat,
   and missed-fact spacing match the website.
-- [ ] Practice, 60-second, and 120-second modes use monotonic time.
-- [ ] Table/mode selection, Needs Practice, keypad, locked feedback, summary,
+- [x] Practice, 60-second, and 120-second modes use monotonic time.
+- [x] Table/mode selection, Needs Practice, keypad, locked feedback, summary,
   mastery, and personal best UI.
-- [ ] Typed touch input uploads as `inputMethod: "keyboard"`.
-- [ ] Active-session recovery and immutable outbox.
-- [ ] Server scoring, XP, mastery, and idempotency parity tests.
+- [x] Typed touch input uploads as `inputMethod: "keyboard"`.
+- [x] Active-session recovery and immutable bounded outbox.
+- [x] Server scoring, XP, mastery, and idempotency parity tests.
 - [ ] Completed offline session survives reboot on hardware.
 
 Exit gate: every website multiplication rule matches and reboot recovery passes.
 
 ## Milestone 3 — Wi-Fi, pairing, and device APIs — PENDING
 
-- [ ] Touch Wi-Fi scanning, saved networks, WPA2/WPA3, hidden SSID, keyboard,
+- [x] Touch Wi-Fi scanning, saved networks, WPA2/WPA3, hidden SSID, keyboard,
   forget, test outcomes, and continue-offline flow.
-- [ ] Pairing/device/content-revision D1 migration and index assertions.
-- [ ] HMAC pairing codes, poll secret, token hashing, constant-time comparison,
+- [x] Pairing/device/content-revision D1 migration and index assertions.
+- [x] HMAC pairing codes, poll secret, token hashing, constant-time comparison,
   rate limits, and stable error contract.
-- [ ] Parent list/claim/rename/revoke UI with normal-parent-mode enforcement.
-- [ ] Device bootstrap/mastery endpoint and at-most-hourly `last_seen_at` write.
-- [ ] Firmware pairing state, initial sync, and local purge on revoke/archive.
+- [x] Parent list/claim/rename/revoke UI with normal-parent-mode enforcement.
+- [x] Device bootstrap/mastery endpoint and at-most-hourly `last_seen_at` write.
+- [x] Firmware pairing state, initial sync, and local purge on revoke/archive.
 - [ ] Clean-board touchscreen setup/pairing physical evidence.
 
 Exit gate: pairing needs no serial credentials and revocation purges child data.
 
 ## Milestone 4 — Flash-card sync and study — PENDING
 
-- [ ] All parent and child flash-card mutations increment revision atomically.
-- [ ] Child-mode authoring regression tests remain green.
-- [ ] Visible snapshot filtering, limits, ETag, and 304 endpoint.
-- [ ] Device library ordering, empty state, reveal/rate, deterministic shuffle,
+- [x] All parent and child flash-card mutations increment revision atomically.
+- [x] Child-mode authoring regression tests remain green.
+- [x] Visible snapshot filtering, limits, ETag, and 304 endpoint.
+- [x] Device library ordering, empty state, reveal/rate, deterministic shuffle,
   three-card requeue, finish, summary, and round recovery.
-- [ ] Study session/review migration and neutral recent activity.
-- [ ] Immutable idempotent study outbox with nullable edited-card references and
+- [x] Study session/review migration and neutral recent activity.
+- [x] Immutable idempotent study outbox with nullable edited-card references and
   irreversible fingerprints.
 - [ ] End-to-end create/edit/archive/offline/upload story passes once each.
 
@@ -155,12 +157,13 @@ Exit gate: the specification's complete flash-card synchronization story passes.
 
 ## Milestone 5 — OTA and production security — PENDING
 
-- [ ] Exact-profile firmware manifest and authenticated endpoint.
-- [ ] Two-slot HTTPS OTA, size/SHA verification, health confirmation, and IDF
+- [x] Exact-profile firmware manifest and authenticated endpoint.
+- [x] Two-slot HTTPS OTA, size/SHA verification, health confirmation, and IDF
   rollback.
-- [ ] SHA-labeled build/package/recovery artifacts and release report.
-- [ ] Development, pilot, and production security profiles.
-- [ ] Encrypted NVS, release-mode flash encryption, Secure Boot v2, signed OTA,
+- [x] SHA-labeled build/package/recovery artifacts and release report; runtime
+  hardware fields remain explicitly pending.
+- [x] Development, pilot, and production security profiles.
+- [x] Encrypted NVS, release-mode flash encryption, Secure Boot v2, signed OTA,
   and redacted logs.
 - [ ] USB recovery runbook tested on sacrificial hardware.
 - [ ] Valid, interrupted, deliberately unhealthy, and rollback OTA evidence.
@@ -176,7 +179,8 @@ irreversible eFuse is burned by an automated script.
 - [ ] Eight-hour screen-on soak passes.
 - [ ] Seven-day family pilot passes without crash, corruption, lost queue, or
   serial intervention.
-- [ ] Performance, operations, factory-reset, support, and release docs complete.
+- [ ] Performance measurements pending hardware; operations, factory-reset,
+  support, security, board-test, and release procedures are documented.
 - [ ] All web and firmware tests pass in CI; no critical/high issue remains.
 - [ ] D1 migrations validated locally, then remotely through the established
   deployment process.
