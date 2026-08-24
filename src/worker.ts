@@ -309,6 +309,7 @@ const SETUP_PATH = '/setup/';
 const PARENT_GATE_PATH = '/parent-gate/';
 const PRACTICE_LESSON_PREFIX = 'practice_set_';
 const PRACTICE_SET_XP_BASE = 8;
+const DEVICE_FLASH_CARD_MAX_RESPONSE_BYTES = 1024 * 1024;
 const SetupParentSchema = z.object({
   username: z
     .string()
@@ -928,7 +929,7 @@ async function apiDeviceFlashCardSections(
   if (cardCount > 2500 || withCards.some((entry) => entry.cards.length > 100)) {
     return deviceError('device_content_too_large', 413);
   }
-  return deviceJson({
+  const payload = {
     schemaVersion: 1,
     revision: revision.flash_cards_revision,
     generatedAt: new Date().toISOString(),
@@ -946,7 +947,12 @@ async function apiDeviceFlashCardSections(
         sortOrder: card.sort_order,
       })),
     })),
-  }, 200, { ETag: etag });
+  };
+  const body = JSON.stringify(payload);
+  if (new TextEncoder().encode(body).byteLength > DEVICE_FLASH_CARD_MAX_RESPONSE_BYTES) {
+    return deviceError('device_content_too_large', 413);
+  }
+  return new Response(body, { status: 200, headers: deviceHeaders({ ETag: etag }) });
 }
 
 async function apiDeviceFlashCardStudy(

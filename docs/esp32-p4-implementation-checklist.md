@@ -158,6 +158,8 @@ Exit gate: pairing needs no serial credentials and revocation purges child data.
 - [x] Study session/review migration and neutral recent activity.
 - [x] Immutable idempotent study outbox with nullable edited-card references and
   irreversible fingerprints.
+- [x] Reviewable, ignored D1 HIL fixture SQL generator for the 1/10/100/2,500
+  card ladder, with exact-source cleanup and local-schema integration proof.
 - [ ] End-to-end create/edit/archive/offline/upload story passes once each.
 
 Exit gate: the specification's complete flash-card synchronization story passes.
@@ -188,11 +190,15 @@ irreversible eFuse is burned by an automated script.
 - [ ] Eight-hour screen-on soak passes.
 - [ ] Seven-day family pilot passes without crash, corruption, lost queue, or
   serial intervention.
-- [ ] Performance measurements pending hardware; operations, factory-reset,
-  support, security, board-test, and release procedures are documented.
-- [x] All web and firmware tests pass in CI. Pull-request run `32736296956`
+- [x] Exhaustive board-day runbook and blank evidence matrices cover every
+  §17.5 gate, the exact 18-step story, and all seven pilot days without
+  claiming unobserved results.
+- [ ] Performance measurements remain pending hardware; operations,
+  factory-reset, support, security, board-test, and release procedures are
+  documented.
+- [x] All web and firmware tests pass in CI. Pull-request run `32738870448`
   passed on branch-head commit
-  `69e234bdc32adca3f76b5e8fc9b698d62bc63ce6`, including Component Manager
+  `a29bb3372c0c5635f630430985ca597b58d1d069`, including Component Manager
   cache restore, the six-profile firmware matrix, domain/content/storage host
   tests, 31 reviewed simulator goldens, pinned formatting/static analysis,
   generated-file checks, and unsigned recovery artifact packaging.
@@ -212,11 +218,13 @@ Exit gate: the complete Version 1 Definition of Done is satisfied.
 
 - `npm run content:validate`: PASS, 22 tracks / 3,882 questions.
 - `npm test`: PASS, 18 files / 164 tests.
-- `npm run check`: PASS, 92 files with zero diagnostics.
+- `npm run check`: PASS, 93 files with zero diagnostics.
 - `npm run build`: PASS, including SEO validation for 12 public pages.
 - Host firmware tests: PASS, domain, content/schema, and atomic-storage/recovery
   suites.
 - LVGL simulator: PASS, interaction self-test and 31 golden screenshots.
+- D1 HIL fixture integration: PASS in a fresh local database; 25 sections /
+  2,500 cards created, then exact-source cleanup returned both counts to zero.
 - Pinned Espressif `clang-format` and native host/simulator `clang-tidy`:
   PASS; the first analysis pass corrected timestamp, storage/content size,
   RSSI, and simulator-buffer integer widths.

@@ -1337,3 +1337,27 @@ validation still prevent accepting an unpinned upgrade. The tracked-file query
 uses a command-scoped Git `safe.directory` value so the analyzer works in the
 container's split runner/root ownership model without changing global Git
 trust.
+
+### 2026-08-24: Content-scale hardware fixtures are reviewable and disposable
+
+The 1/10/100/2,500-card hardware ladder uses a tracked Node generator that
+emits SQL only into the ignored HIL artifact directory. It does not connect to
+Cloudflare or apply migrations. Counts are restricted to the four required
+scale points plus zero for cleanup; rows use the exact source
+`buddy-blocks-hil:content-scale`, at most 100 cards per section, and a
+disposable child ID. Applying the reviewed SQL remains a separate, explicit
+Wrangler command. Cleanup deletes only that child's exact-source sections and
+advances the flash-card revision so the device observes the removal.
+
+The generator and cleanup were exercised against a fresh local D1 database:
+the largest fixture produced 25 sections and 2,500 cards, and the cleanup
+returned both counts to zero. This is database-fixture evidence only; device
+download, parsing, storage, rendering, and use at each scale remain physical
+hardware gates.
+
+The same audit found that section/card-count checks alone did not enforce the
+specified 1 MiB uncompressed snapshot ceiling. The device endpoint now
+serializes the final response once, measures its UTF-8 byte length, and returns
+the stable `413 device_content_too_large` contract before sending an oversized
+body. A Worker regression test constructs a valid-count response larger than 1
+MiB and verifies that boundary.

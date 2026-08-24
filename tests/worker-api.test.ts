@@ -1878,6 +1878,59 @@ describe('ESP32-P4 device APIs', () => {
     );
     expect(notModified.status).toBe(304);
 
+    const oversizedSection = sqlite.db.prepare(
+      `INSERT INTO practice_sets
+       (id, child_profile_id, subject, title, source, status, pinned, starts_at,
+        expires_at, archived_at, created_at, updated_at)
+       VALUES (?, 'child_mira', 'vocabulary', ?, 'oversized-device-fixture',
+        'active', 0, NULL, NULL, NULL, ?, ?)`,
+    );
+    const oversizedCard = sqlite.db.prepare(
+      `INSERT INTO practice_set_cards
+       (id, practice_set_id, term, definition, example, accepted_answers_json, sort_order)
+       VALUES (?, ?, ?, ?, ?, '[]', ?)`,
+    );
+    const oversizedTimestamp = new Date().toISOString();
+    for (let sectionIndex = 0; sectionIndex < 6; sectionIndex += 1) {
+      const sectionId = `oversized_section_${sectionIndex}`;
+      oversizedSection.run(
+        sectionId,
+        `Oversized section ${sectionIndex}`,
+        oversizedTimestamp,
+        oversizedTimestamp,
+      );
+      for (let cardIndex = 0; cardIndex < 100; cardIndex += 1) {
+        oversizedCard.run(
+          `oversized_card_${sectionIndex}_${cardIndex}`,
+          sectionId,
+          'f'.repeat(500),
+          'b'.repeat(800),
+          'c'.repeat(800),
+          cardIndex,
+        );
+      }
+    }
+    sqlite.db.prepare(
+      `UPDATE child_content_revisions
+       SET flash_cards_revision = flash_cards_revision + 1
+       WHERE child_profile_id = 'child_mira'`,
+    ).run();
+    const oversizedSnapshot = await requestJson('/api/device/v1/flash-card-sections', env, {
+      cookie: '',
+      requestHeaders: authenticationHeaders,
+    });
+    expect(oversizedSnapshot.response.status).toBe(413);
+    expect(oversizedSnapshot.body).toEqual({ error: 'device_content_too_large' });
+    sqlite.db.prepare(
+      `DELETE FROM practice_sets
+       WHERE child_profile_id = 'child_mira' AND source = 'oversized-device-fixture'`,
+    ).run();
+    sqlite.db.prepare(
+      `UPDATE child_content_revisions
+       SET flash_cards_revision = flash_cards_revision + 1
+       WHERE child_profile_id = 'child_mira'`,
+    ).run();
+
     const multiplicationBody = {
       clientAttemptId: 'esp32p4_85e10_01JDEVICEATTEMPT000000001',
       mode: 'practice',

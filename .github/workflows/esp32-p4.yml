@@ -8,6 +8,7 @@ on:
       - 'scripts/firmware-*.sh'
       - 'scripts/firmware-*.py'
       - 'scripts/generate-firmware-domain-vectors.mjs'
+      - 'scripts/generate-firmware-card-fixture.mjs'
       - 'scripts/generate-firmware-release-metadata.mjs'
       - 'scripts/generate-sha256sums.mjs'
       - 'src/worker.ts'
@@ -24,6 +25,7 @@ on:
       - 'scripts/firmware-*.sh'
       - 'scripts/firmware-*.py'
       - 'scripts/generate-firmware-domain-vectors.mjs'
+      - 'scripts/generate-firmware-card-fixture.mjs'
       - 'scripts/generate-firmware-release-metadata.mjs'
       - 'scripts/generate-sha256sums.mjs'
       - 'src/worker.ts'
@@ -53,6 +55,8 @@ jobs:
           bash -n scripts/firmware-*.sh
           PYTHONDONTWRITEBYTECODE=1 python3 scripts/firmware-hardware-evidence.py self-test
           node --check scripts/generate-firmware-domain-vectors.mjs
+          node --check scripts/generate-firmware-card-fixture.mjs
+          node scripts/generate-firmware-card-fixture.mjs --self-test
           node --check scripts/generate-firmware-release-metadata.mjs
           node --check scripts/generate-sha256sums.mjs
           git check-ignore --no-index -q firmware/esp32-p4/dependencies.lock
