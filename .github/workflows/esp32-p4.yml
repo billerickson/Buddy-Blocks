@@ -96,7 +96,7 @@ jobs:
             for rotation in bsp cpu ppa; do
               build="firmware/esp32-p4/build-${profile}-${rotation}"
               sha="$(sha256sum "$build/buddy_blocks_p4.bin" | cut -d' ' -f1)"
-              short="${sha:0:12}"
+              short="$(printf '%s' "$sha" | cut -c1-12)"
               tar -C "$build" -czf "ci-artifacts/buddy-blocks-${profile}-${rotation}-${short}.tar.gz" \
                 buddy_blocks_p4.bin bootloader/bootloader.bin partition_table/partition-table.bin \
                 ota_data_initial.bin flasher_args.json size-components.txt size-summary.json
