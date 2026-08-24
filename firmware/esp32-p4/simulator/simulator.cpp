@@ -12,6 +12,7 @@ namespace {
 
 constexpr uint32_t kWidth = 800;
 constexpr uint32_t kHeight = 480;
+size_t s_filesystem_free = size_t{8} * 1024 * 1024;
 
 void append_u32(std::vector<uint8_t> &output, uint32_t value)
 {
@@ -190,6 +191,19 @@ bool simulator_mastery(void *, int factor, int multiplier, buddy_ui_mastery_t *m
     return true;
 }
 
+bool simulator_diagnostics(void *, buddy_ui_diagnostics_t *diagnostics)
+{
+    if (diagnostics == nullptr)
+        return false;
+    diagnostics->free_internal_heap = size_t{512} * 1024;
+    diagnostics->minimum_internal_heap = size_t{384} * 1024;
+    diagnostics->free_psram = size_t{24} * 1024 * 1024;
+    diagnostics->minimum_psram = size_t{20} * 1024 * 1024;
+    diagnostics->filesystem_free = s_filesystem_free;
+    diagnostics->filesystem_low = s_filesystem_free < size_t{2} * 1024 * 1024;
+    return true;
+}
+
 } // namespace
 
 int main(int argc, char **argv)
@@ -211,6 +225,10 @@ int main(int argc, char **argv)
     lv_display_set_buffers(display, frame.data(), nullptr, frame.size() * sizeof(uint16_t),
                            LV_DISPLAY_RENDER_MODE_DIRECT);
     lv_display_set_flush_cb(display, flush);
+
+    if (argc == 3 && std::strcmp(argv[1], "home-storage-low") == 0) {
+        s_filesystem_free = size_t{1536} * 1024;
+    }
 
     const buddy_ui_bootstrap_t bootstrap{
         .child_name = "Avery",
@@ -246,6 +264,7 @@ int main(int argc, char **argv)
     services.flash_section_count = simulator_flash_section_count;
     services.flash_section = simulator_flash_section;
     services.mastery = simulator_mastery;
+    services.diagnostics = simulator_diagnostics;
     buddy_ui_set_services(&services);
     buddy_ui_update_connectivity(4, "Home Network", "192.0.2.24", -48, 1);
     if (!buddy_ui_start(display, &bootstrap)) {

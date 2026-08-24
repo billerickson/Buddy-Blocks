@@ -105,13 +105,15 @@ Exit gate: every Milestone 0 box above is checked. Until then, Milestone 1 is
   rejection tests, migrations, and diagnostics.
 - [ ] Offline cached Home usable within five seconds.
 - [x] Host LVGL simulator fixed at 800 × 480.
-- [x] Deterministic interaction assertions and 31 reviewed golden screenshots,
+- [x] Deterministic interaction assertions and 32 reviewed golden screenshots,
   including first-boot pairing/sync, empty, loading, error, mastery, and manual
   sync/update states.
 - [x] Firmware CI: both silicon profiles, host tests, simulator, formatting,
   static analysis, size threshold, and SHA-bound unsigned artifacts.
 - [x] Machine-readable post-frame boot marker and non-destructive 100-reboot /
   eight-hour soak evidence harness with a board-free parser self-test in CI.
+- [x] Live Home warning below 2 MiB LittleFS free while atomic writes preserve
+  the separate 1 MiB headroom; deterministic low-storage golden reviewed.
 - [ ] 100-reboot loop evidence.
 - [ ] Power-loss snapshot/outbox evidence.
 
@@ -222,7 +224,7 @@ Exit gate: the complete Version 1 Definition of Done is satisfied.
 - `npm run build`: PASS, including SEO validation for 12 public pages.
 - Host firmware tests: PASS, domain, content/schema, and atomic-storage/recovery
   suites.
-- LVGL simulator: PASS, interaction self-test and 31 golden screenshots.
+- LVGL simulator: PASS, interaction self-test and 32 golden screenshots.
 - D1 HIL fixture integration: PASS in a fresh local database; 25 sections /
   2,500 cards created, then exact-source cleanup returned both counts to zero.
 - Pinned Espressif `clang-format` and native host/simulator `clang-tidy`:

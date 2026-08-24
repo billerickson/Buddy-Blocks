@@ -1256,7 +1256,7 @@ from the host component version.
 
 ### 2026-08-23: Simulator evidence covers completion-audit states
 
-The reviewed deterministic 800 × 480 golden set expanded from 21 to 31 screens.
+The reviewed deterministic 800 × 480 golden set expanded from 21 to 32 screens.
 It now includes Home syncing, multiplication mastery overview/details, empty
 flash-card library, Wi-Fi scanning and wrong-password errors, pairing failure
 and initial sync, and manual firmware-check loading and failure states. Pixel
@@ -1361,3 +1361,10 @@ serializes the final response once, measures its UTF-8 byte length, and returns
 the stable `413 device_content_too_large` contract before sending an oversized
 body. A Worker regression test constructs a valid-count response larger than 1
 MiB and verifies that boundary.
+
+The storage-layer audit also found that the 2 MiB warning threshold was defined
+but not surfaced proactively. Home now reads the same live Diagnostics capacity
+snapshot and shows an orange low-storage warning below 2 MiB, while atomic
+writes continue preserving the separate 1 MiB hard headroom. A deterministic
+800 × 480 low-storage golden verifies that the warning and Sync action fit
+without displacing the learning cards.

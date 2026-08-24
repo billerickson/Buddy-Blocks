@@ -361,7 +361,7 @@ bool diagnostics(void *, buddy_ui_diagnostics_t *output)
     esp_chip_info_t chip{};
     esp_chip_info(&chip);
     buddy::storage::Capacity capacity{};
-    (void)s_store.capacity(capacity);
+    const bool capacity_available = s_store.capacity(capacity) == buddy::storage::Result::kOk;
     output->p4_revision = chip.revision;
     buddy_connectivity_snapshot_t connectivity{};
     if (buddy_connectivity_snapshot(&connectivity) == ESP_OK) {
@@ -373,6 +373,8 @@ bool diagnostics(void *, buddy_ui_diagnostics_t *output)
     output->free_psram = heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
     output->minimum_psram = heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM);
     output->filesystem_free = capacity.free_bytes;
+    output->filesystem_low =
+        capacity_available && capacity.free_bytes < buddy::storage::kWarningFreeBytes;
     output->reset_reason = static_cast<int>(esp_reset_reason());
     return true;
 }

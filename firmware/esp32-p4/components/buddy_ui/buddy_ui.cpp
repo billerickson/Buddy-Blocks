@@ -502,10 +502,21 @@ void render_home()
     }
     label(cards, flash_text, 24, 104, 316, &lv_font_montserrat_20, kInk, LV_TEXT_ALIGN_CENTER);
 
+    buddy_ui_diagnostics_t telemetry{};
+    const bool storage_low = s_services.diagnostics != nullptr &&
+                             s_services.diagnostics(s_services.context, &telemetry) &&
+                             telemetry.filesystem_low;
     char footer[160];
-    std::snprintf(footer, sizeof(footer), "Last synced: %s  |  Queued: %u", s_app.last_sync.c_str(),
-                  static_cast<unsigned>(s_app.bootstrap.queued_events));
-    label(lv_screen_active(), footer, 24, 367, 550, &lv_font_montserrat_16, kMuted);
+    if (storage_low) {
+        std::snprintf(footer, sizeof(footer), "Storage low: %u KiB free  |  Sync queued work",
+                      static_cast<unsigned>(telemetry.filesystem_free / 1024));
+    } else {
+        std::snprintf(footer, sizeof(footer), "Last synced: %s  |  Queued: %u",
+                      s_app.last_sync.c_str(),
+                      static_cast<unsigned>(s_app.bootstrap.queued_events));
+    }
+    label(lv_screen_active(), footer, 24, 367, 550, &lv_font_montserrat_16,
+          storage_low ? kOrange : kMuted);
     button(lv_screen_active(), "Sync now", 620, 356, 156, 52,
            s_app.bootstrap.online ? kTeal : kPaper, home_sync_action);
 }
@@ -2593,6 +2604,11 @@ extern "C" bool buddy_ui_render_scenario(const char *scenario_name)
         s_app.bootstrap.queued_events = 2;
         s_app.device_state = 3;
         s_app.last_sync = "12 minutes ago";
+        render(Screen::kHome);
+    } else if (scenario == "home-storage-low") {
+        s_app.bootstrap.online = true;
+        s_app.bootstrap.queued_events = 4;
+        s_app.device_state = 4;
         render(Screen::kHome);
     } else if (scenario == "option-states") {
         render(Screen::kOptionGallery);

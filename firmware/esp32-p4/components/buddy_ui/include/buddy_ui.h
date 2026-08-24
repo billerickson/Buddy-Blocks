@@ -98,6 +98,7 @@ typedef struct {
     size_t free_psram;
     size_t minimum_psram;
     size_t filesystem_free;
+    bool filesystem_low;
     int reset_reason;
 } buddy_ui_diagnostics_t;
 typedef bool (*buddy_ui_diagnostics_fn)(void *context, buddy_ui_diagnostics_t *diagnostics);

@@ -28,6 +28,7 @@ scenarios=(
   home-offline
   home-online
   home-syncing
+  home-storage-low
   option-states
   choice-grid
   choice-grid-2
