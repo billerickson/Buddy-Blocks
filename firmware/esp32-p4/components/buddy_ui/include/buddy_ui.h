@@ -35,13 +35,13 @@ typedef struct {
 } buddy_ui_bootstrap_t;
 
 typedef bool (*buddy_ui_write_record_fn)(void *context, const char *relative_path,
-                                          unsigned schema_version, const char *payload,
-                                          size_t payload_size);
+                                         unsigned schema_version, const char *payload,
+                                         size_t payload_size);
 typedef bool (*buddy_ui_remove_record_fn)(void *context, const char *relative_path);
 typedef bool (*buddy_ui_enqueue_event_fn)(void *context, const char *stable_event_id,
                                           const char *payload, size_t payload_size);
-typedef bool (*buddy_ui_new_event_id_fn)(void *context, const char *event_prefix,
-                                         char *output, size_t output_capacity);
+typedef bool (*buddy_ui_new_event_id_fn)(void *context, const char *event_prefix, char *output,
+                                         size_t output_capacity);
 typedef uint64_t (*buddy_ui_monotonic_ms_fn)(void *context);
 typedef struct {
     char ssid[33];
@@ -54,12 +54,11 @@ typedef bool (*buddy_ui_wifi_scan_fn)(void *context);
 typedef size_t (*buddy_ui_wifi_network_count_fn)(void *context);
 typedef bool (*buddy_ui_wifi_network_fn)(void *context, size_t index,
                                          buddy_ui_wifi_network_t *network);
-typedef bool (*buddy_ui_wifi_connect_fn)(void *context, const char *ssid,
-                                         const char *password, bool save, bool hidden);
+typedef bool (*buddy_ui_wifi_connect_fn)(void *context, const char *ssid, const char *password,
+                                         bool save, bool hidden);
 typedef bool (*buddy_ui_wifi_forget_fn)(void *context, const char *ssid);
 typedef bool (*buddy_ui_request_fn)(void *context);
-typedef void (*buddy_ui_activity_state_fn)(void *context, bool timed_session,
-                                           bool unsaved_session);
+typedef void (*buddy_ui_activity_state_fn)(void *context, bool timed_session, bool unsaved_session);
 typedef bool (*buddy_ui_set_u8_fn)(void *context, uint8_t value);
 typedef bool (*buddy_ui_set_bool_fn)(void *context, bool value);
 typedef struct {
@@ -149,11 +148,10 @@ void buddy_ui_update_status(bool online, size_t queued_events, const char *last_
 void buddy_ui_update_connectivity(int state, const char *ssid, const char *ipv4, int rssi,
                                   uint32_t revision);
 
-void buddy_ui_update_device(bool paired, int state, const char *pairing_code,
-                            const char *claim_url, const char *child_name,
-                            const char *device_name, const char *flash_authoring_url,
-                            const char *last_error, uint32_t content_revision,
-                            size_t queued_events, uint32_t revision);
+void buddy_ui_update_device(bool paired, int state, const char *pairing_code, const char *claim_url,
+                            const char *child_name, const char *device_name,
+                            const char *flash_authoring_url, const char *last_error,
+                            uint32_t content_revision, size_t queued_events, uint32_t revision);
 
 /** OTA state values use the buddy::ota::State numeric contract. */
 void buddy_ui_update_ota(int state, const char *version, const char *minimum_version,

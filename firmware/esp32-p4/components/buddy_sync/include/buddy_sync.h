@@ -85,9 +85,9 @@ class Service {
     bool pull_firmware_policy();
     void capture_trustworthy_time(std::optional<int64_t> server_time_ms = std::nullopt);
     void purge_child_state(const std::string &reason);
-    HttpResponse request(const std::string &path, const char *method,
-                         const std::string &body = {}, const std::string &authorization = {},
-                         const std::string &etag = {}, size_t maximum_body = 1024 * 1024);
+    HttpResponse request(const std::string &path, const char *method, const std::string &body = {},
+                         const std::string &authorization = {}, const std::string &etag = {},
+                         size_t maximum_body = 1024 * 1024);
     void publish(State state, const std::string &error = {});
     void refresh_queue_count();
     esp_err_t enqueue(Command command);

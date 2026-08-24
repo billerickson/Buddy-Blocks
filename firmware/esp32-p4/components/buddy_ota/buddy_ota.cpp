@@ -47,13 +47,14 @@ std::string to_hex(const unsigned char *digest, size_t size)
 
 bool same_digest(const std::string &left, const std::string &right)
 {
-    if (left.size() != right.size()) return false;
+    if (left.size() != right.size())
+        return false;
     unsigned char difference = 0;
     for (size_t index = 0; index < left.size(); ++index) {
         const auto left_byte = static_cast<unsigned char>(left[index]);
         const auto right_byte = static_cast<unsigned char>(right[index]);
-        difference |= static_cast<unsigned char>(std::tolower(left_byte) ^
-                                                 std::tolower(right_byte));
+        difference |=
+            static_cast<unsigned char>(std::tolower(left_byte) ^ std::tolower(right_byte));
     }
     return difference == 0;
 }
@@ -65,9 +66,11 @@ Service::Service(std::string hardware_profile) : hardware_profile_(std::move(har
 esp_err_t Service::start()
 {
     std::lock_guard<std::recursive_mutex> guard(mutex_);
-    if (started_) return ESP_OK;
+    if (started_)
+        return ESP_OK;
     commands_ = xQueueCreate(1, sizeof(uint8_t));
-    if (commands_ == nullptr) return ESP_ERR_NO_MEM;
+    if (commands_ == nullptr)
+        return ESP_ERR_NO_MEM;
     started_ = xTaskCreate(task_entry, "buddy_ota", 12288, this, 5, nullptr) == pdPASS;
     return started_ ? ESP_OK : ESP_ERR_NO_MEM;
 }
@@ -95,12 +98,12 @@ void Service::set_install_blockers(bool timed_session, bool unsaved_session, boo
 esp_err_t Service::request_install()
 {
     std::lock_guard<std::recursive_mutex> guard(mutex_);
-    if (!started_ || commands_ == nullptr) return ESP_ERR_INVALID_STATE;
+    if (!started_ || commands_ == nullptr)
+        return ESP_ERR_INVALID_STATE;
     if (timed_session_ || unsaved_session_ || !stable_power_) {
-        publish(State::kBlocked, timed_session_ ? "Finish the timed session before updating"
-                                                : unsaved_session_
-                                                      ? "Save or sync the active session first"
-                                                      : "Connect stable USB power before updating");
+        publish(State::kBlocked, timed_session_     ? "Finish the timed session before updating"
+                                 : unsaved_session_ ? "Save or sync the active session first"
+                                                    : "Connect stable USB power before updating");
         return ESP_ERR_INVALID_STATE;
     }
     const uint8_t command = 1;
@@ -112,10 +115,12 @@ esp_err_t Service::request_install()
 esp_err_t Service::confirm_running_image_healthy(bool all_health_checks_passed)
 {
     const esp_partition_t *running = esp_ota_get_running_partition();
-    if (running == nullptr) return ESP_ERR_NOT_FOUND;
+    if (running == nullptr)
+        return ESP_ERR_NOT_FOUND;
     esp_ota_img_states_t state{};
     const esp_err_t result = esp_ota_get_state_partition(running, &state);
-    if (result == ESP_ERR_NOT_SUPPORTED || (result == ESP_OK && state != ESP_OTA_IMG_PENDING_VERIFY)) {
+    if (result == ESP_ERR_NOT_SUPPORTED ||
+        (result == ESP_OK && state != ESP_OTA_IMG_PENDING_VERIFY)) {
         return ESP_OK;
     }
     ESP_RETURN_ON_ERROR(result, kTag, "Could not read running OTA state");
@@ -132,13 +137,17 @@ Snapshot Service::snapshot() const
     return snapshot_;
 }
 
-void Service::task_entry(void *context) { static_cast<Service *>(context)->task_loop(); }
+void Service::task_entry(void *context)
+{
+    static_cast<Service *>(context)->task_loop();
+}
 
 void Service::task_loop()
 {
     uint8_t command = 0;
     while (true) {
-        if (xQueueReceive(static_cast<QueueHandle_t>(commands_), &command, portMAX_DELAY) == pdTRUE) {
+        if (xQueueReceive(static_cast<QueueHandle_t>(commands_), &command, portMAX_DELAY) ==
+            pdTRUE) {
             (void)install();
         }
     }
@@ -151,7 +160,8 @@ bool Service::install()
     const esp_partition_t *partition = esp_ota_get_next_update_partition(nullptr);
     if (manifest.hardware_profile != hardware_profile_ || manifest.url.rfind("https://", 0) != 0 ||
         !valid_sha256(manifest.sha256) || manifest.size == 0 ||
-        manifest.size > kMaximumImageBytes || partition == nullptr || manifest.size > partition->size) {
+        manifest.size > kMaximumImageBytes || partition == nullptr ||
+        manifest.size > partition->size) {
         publish(State::kError, "Firmware manifest failed validation");
         return false;
     }
@@ -164,14 +174,15 @@ bool Service::install()
     config.keep_alive_enable = true;
     esp_http_client_handle_t http = esp_http_client_init(&config);
     if (http == nullptr || esp_http_client_open(http, 0) != ESP_OK) {
-        if (http != nullptr) esp_http_client_cleanup(http);
+        if (http != nullptr)
+            esp_http_client_cleanup(http);
         publish(State::kError, "Could not open the verified firmware download");
         return false;
     }
     const int64_t content_length = esp_http_client_fetch_headers(http);
     const int status = esp_http_client_get_status_code(http);
-    if (status != 200 || (content_length >= 0 &&
-                          static_cast<size_t>(content_length) != manifest.size)) {
+    if (status != 200 ||
+        (content_length >= 0 && static_cast<size_t>(content_length) != manifest.size)) {
         esp_http_client_close(http);
         esp_http_client_cleanup(http);
         publish(State::kError, "Firmware server returned an unexpected image");
@@ -220,8 +231,8 @@ bool Service::install()
     std::array<unsigned char, 32> digest{};
     mbedtls_sha256_finish(&sha, digest.data());
     mbedtls_sha256_free(&sha);
-    if (failed || total != manifest.size || !same_digest(to_hex(digest.data(), digest.size()),
-                                                         manifest.sha256)) {
+    if (failed || total != manifest.size ||
+        !same_digest(to_hex(digest.data(), digest.size()), manifest.sha256)) {
         (void)esp_ota_abort(ota_handle);
         publish(State::kError, timed_out ? "Firmware download exceeded 15 minutes"
                                          : "Firmware size or SHA-256 did not match");

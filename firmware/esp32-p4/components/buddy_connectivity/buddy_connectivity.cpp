@@ -29,12 +29,12 @@ constexpr char kTag[] = "buddy_wifi";
 constexpr char kNamespace[] = "buddy_wifi";
 constexpr size_t kMaximumSaved = BUDDY_CONNECTIVITY_MAX_NETWORKS;
 constexpr size_t kMaximumScanned = BUDDY_CONNECTIVITY_MAX_SCAN_RESULTS;
-constexpr std::array<const char *, kMaximumSaved> kSsidKeys{
-    "ssid0", "ssid1", "ssid2", "ssid3", "ssid4"};
-constexpr std::array<const char *, kMaximumSaved> kPasswordKeys{
-    "pass0", "pass1", "pass2", "pass3", "pass4"};
-constexpr std::array<const char *, kMaximumSaved> kSecurityKeys{
-    "sec0", "sec1", "sec2", "sec3", "sec4"};
+constexpr std::array<const char *, kMaximumSaved> kSsidKeys{"ssid0", "ssid1", "ssid2", "ssid3",
+                                                            "ssid4"};
+constexpr std::array<const char *, kMaximumSaved> kPasswordKeys{"pass0", "pass1", "pass2", "pass3",
+                                                                "pass4"};
+constexpr std::array<const char *, kMaximumSaved> kSecurityKeys{"sec0", "sec1", "sec2", "sec3",
+                                                                "sec4"};
 
 struct SavedNetwork {
     std::string ssid;
@@ -90,14 +90,19 @@ template <size_t Size> void copy_text(char (&destination)[Size], const char *sou
 buddy_wifi_security_t security_for(wifi_auth_mode_t auth)
 {
     switch (auth) {
-    case WIFI_AUTH_OPEN: return BUDDY_WIFI_OPEN;
+    case WIFI_AUTH_OPEN:
+        return BUDDY_WIFI_OPEN;
     case WIFI_AUTH_WPA3_PSK:
-    case WIFI_AUTH_WPA2_WPA3_PSK: return BUDDY_WIFI_WPA3_PERSONAL;
-    case WIFI_AUTH_WEP: return BUDDY_WIFI_UNSUPPORTED;
+    case WIFI_AUTH_WPA2_WPA3_PSK:
+        return BUDDY_WIFI_WPA3_PERSONAL;
+    case WIFI_AUTH_WEP:
+        return BUDDY_WIFI_UNSUPPORTED;
     case WIFI_AUTH_WPA_PSK:
     case WIFI_AUTH_WPA2_PSK:
-    case WIFI_AUTH_WPA_WPA2_PSK: return BUDDY_WIFI_WPA2_PERSONAL;
-    default: return BUDDY_WIFI_UNSUPPORTED;
+    case WIFI_AUTH_WPA_WPA2_PSK:
+        return BUDDY_WIFI_WPA2_PERSONAL;
+    default:
+        return BUDDY_WIFI_UNSUPPORTED;
     }
 }
 
@@ -106,8 +111,7 @@ wifi_auth_mode_t auth_for(buddy_wifi_security_t security, bool has_password)
     if (!has_password || security == BUDDY_WIFI_OPEN) {
         return WIFI_AUTH_OPEN;
     }
-    return security == BUDDY_WIFI_WPA3_PERSONAL ? WIFI_AUTH_WPA2_WPA3_PSK
-                                                : WIFI_AUTH_WPA2_PSK;
+    return security == BUDDY_WIFI_WPA3_PERSONAL ? WIFI_AUTH_WPA2_WPA3_PSK : WIFI_AUTH_WPA2_PSK;
 }
 
 bool authentication_failure(uint8_t reason)
@@ -132,9 +136,8 @@ void bump_revision_locked()
 
 bool is_saved_locked(const char *ssid)
 {
-    return std::any_of(s_saved.begin(), s_saved.end(), [ssid](const SavedNetwork &network) {
-        return network.ssid == ssid;
-    });
+    return std::any_of(s_saved.begin(), s_saved.end(),
+                       [ssid](const SavedNetwork &network) { return network.ssid == ssid; });
 }
 
 esp_err_t load_saved_networks()
@@ -169,8 +172,8 @@ esp_err_t load_saved_networks()
             continue;
         }
         loaded.push_back({ssid.data(), password.data(),
-                          static_cast<buddy_wifi_security_t>(std::min<uint8_t>(
-                              security, BUDDY_WIFI_UNSUPPORTED))});
+                          static_cast<buddy_wifi_security_t>(
+                              std::min<uint8_t>(security, BUDDY_WIFI_UNSUPPORTED))});
     }
     nvs_close(handle);
     {
@@ -205,7 +208,8 @@ esp_err_t persist_saved_networks()
                                 static_cast<uint8_t>(copy[index].security));
         }
     }
-    if (result == ESP_OK) result = nvs_commit(handle);
+    if (result == ESP_OK)
+        result = nvs_commit(handle);
     nvs_close(handle);
     return result;
 }
@@ -216,30 +220,35 @@ void remember_pending_network()
     if (!s_pending_save || s_pending.ssid.empty()) {
         return;
     }
-    s_saved.erase(std::remove_if(s_saved.begin(), s_saved.end(), [](const SavedNetwork &item) {
-                      return item.ssid == s_pending.ssid;
-                  }),
-                  s_saved.end());
+    s_saved.erase(
+        std::remove_if(s_saved.begin(), s_saved.end(),
+                       [](const SavedNetwork &item) { return item.ssid == s_pending.ssid; }),
+        s_saved.end());
     s_saved.insert(s_saved.begin(), s_pending);
-    if (s_saved.size() > kMaximumSaved) s_saved.resize(kMaximumSaved);
+    if (s_saved.size() > kMaximumSaved)
+        s_saved.resize(kMaximumSaved);
     s_pending_save = false;
-    for (auto &network : s_scan_results) network.saved = is_saved_locked(network.ssid);
+    for (auto &network : s_scan_results)
+        network.saved = is_saved_locked(network.ssid);
     bump_revision_locked();
 }
 
 void scan_completed()
 {
     uint16_t count = 0;
-    if (esp_wifi_scan_get_ap_num(&count) != ESP_OK) count = 0;
+    if (esp_wifi_scan_get_ap_num(&count) != ESP_OK)
+        count = 0;
     count = static_cast<uint16_t>(std::min<size_t>(count, kMaximumScanned));
     std::array<wifi_ap_record_t, kMaximumScanned> records{};
-    if (count > 0 && esp_wifi_scan_get_ap_records(&count, records.data()) != ESP_OK) count = 0;
+    if (count > 0 && esp_wifi_scan_get_ap_records(&count, records.data()) != ESP_OK)
+        count = 0;
 
     LockGuard guard;
     s_scan_results.clear();
     for (uint16_t index = 0; index < count; ++index) {
         const char *ssid = reinterpret_cast<const char *>(records[index].ssid);
-        if (ssid[0] == '\0') continue;
+        if (ssid[0] == '\0')
+            continue;
         buddy_wifi_network_t network{};
         copy_text(network.ssid, ssid);
         network.rssi = records[index].rssi;
@@ -252,16 +261,20 @@ void scan_completed()
             s_scan_results.begin(), s_scan_results.end(), [&network](const auto &existing) {
                 return std::strcmp(existing.ssid, network.ssid) == 0;
             });
-        if (duplicate == s_scan_results.end()) s_scan_results.push_back(network);
+        if (duplicate == s_scan_results.end())
+            s_scan_results.push_back(network);
     }
-    std::sort(s_scan_results.begin(), s_scan_results.end(), [](const auto &left, const auto &right) {
-        if (left.current != right.current) return left.current;
-        if (left.saved != right.saved) return left.saved;
-        return left.rssi > right.rssi;
-    });
+    std::sort(s_scan_results.begin(), s_scan_results.end(),
+              [](const auto &left, const auto &right) {
+                  if (left.current != right.current)
+                      return left.current;
+                  if (left.saved != right.saved)
+                      return left.saved;
+                  return left.rssi > right.rssi;
+              });
     if (s_snapshot.state == BUDDY_CONNECTIVITY_SCANNING) {
-        s_snapshot.state = s_snapshot.ipv4[0] == '\0' ? BUDDY_CONNECTIVITY_IDLE
-                                                       : BUDDY_CONNECTIVITY_CONNECTED;
+        s_snapshot.state =
+            s_snapshot.ipv4[0] == '\0' ? BUDDY_CONNECTIVITY_IDLE : BUDDY_CONNECTIVITY_CONNECTED;
     }
     bump_revision_locked();
 }
@@ -286,13 +299,11 @@ void event_handler(void *, esp_event_base_t event_base, int32_t event_id, void *
                                ? BUDDY_CONNECTIVITY_WRONG_PASSWORD
                                : BUDDY_CONNECTIVITY_FAILED;
         const bool more_saved = s_next_saved_index < s_saved.size();
-        const uint32_t base_delay_ms = s_last_attempt_automatic && more_saved
-                                           ? 1000U
-                                           : s_last_attempt_automatic
-                                                 ? std::min<uint32_t>(
-                                                       300000U,
-                                                       5000U << std::min(s_retry_cycle, 6U))
-                                                 : 30000U;
+        const uint32_t base_delay_ms =
+            s_last_attempt_automatic && more_saved ? 1000U
+            : s_last_attempt_automatic
+                ? std::min<uint32_t>(300000U, 5000U << std::min(s_retry_cycle, 6U))
+                : 30000U;
         const uint32_t jitter_ms = base_delay_ms > 1000U ? esp_random() % 1000U : 0;
         if (!more_saved) {
             s_next_saved_index = 0;
@@ -327,7 +338,8 @@ void event_handler(void *, esp_event_base_t event_base, int32_t event_id, void *
             bump_revision_locked();
         }
         s_persist_pending.store(true);
-        if (s_probe_task != nullptr) xTaskNotifyGive(s_probe_task);
+        if (s_probe_task != nullptr)
+            xTaskNotifyGive(s_probe_task);
     }
 }
 
@@ -338,8 +350,8 @@ void execute_connect(const Command &command)
                 std::min(std::strlen(command.ssid), sizeof(config.sta.ssid)));
     std::memcpy(config.sta.password, command.password,
                 std::min(std::strlen(command.password), sizeof(config.sta.password)));
-    config.sta.threshold.authmode = command.password[0] == '\0' ? WIFI_AUTH_OPEN
-                                                                 : WIFI_AUTH_WPA2_PSK;
+    config.sta.threshold.authmode =
+        command.password[0] == '\0' ? WIFI_AUTH_OPEN : WIFI_AUTH_WPA2_PSK;
     config.sta.sae_pwe_h2e = WPA3_SAE_PWE_BOTH;
     config.sta.scan_method = command.hidden ? WIFI_FAST_SCAN : WIFI_ALL_CHANNEL_SCAN;
     {
@@ -349,29 +361,25 @@ void execute_connect(const Command &command)
         s_snapshot.ipv4[0] = '\0';
         s_snapshot.state = BUDDY_CONNECTIVITY_CONNECTING;
         s_snapshot.disconnect_reason = 0;
-        const auto saved = std::find_if(s_saved.begin(), s_saved.end(), [&command](const auto &item) {
-            return item.ssid == command.ssid;
-        });
+        const auto saved =
+            std::find_if(s_saved.begin(), s_saved.end(),
+                         [&command](const auto &item) { return item.ssid == command.ssid; });
         const auto scanned = std::find_if(
-            s_scan_results.begin(), s_scan_results.end(), [&command](const auto &item) {
-                return std::strcmp(item.ssid, command.ssid) == 0;
-            });
+            s_scan_results.begin(), s_scan_results.end(),
+            [&command](const auto &item) { return std::strcmp(item.ssid, command.ssid) == 0; });
         if (command.automatic && saved != s_saved.end()) {
             s_next_saved_index = static_cast<size_t>(saved - s_saved.begin()) + 1;
         }
-        const buddy_wifi_security_t security = saved != s_saved.end()
-                                                    ? saved->security
-                                                : scanned != s_scan_results.end()
-                                                    ? scanned->security
-                                                : command.password[0] == '\0'
-                                                    ? BUDDY_WIFI_OPEN
-                                                    : BUDDY_WIFI_WPA2_PERSONAL;
+        const buddy_wifi_security_t security = saved != s_saved.end()            ? saved->security
+                                               : scanned != s_scan_results.end() ? scanned->security
+                                               : command.password[0] == '\0'
+                                                   ? BUDDY_WIFI_OPEN
+                                                   : BUDDY_WIFI_WPA2_PERSONAL;
         config.sta.threshold.authmode = auth_for(security, command.password[0] != '\0');
         s_pending = {command.ssid, command.password, security};
         s_pending_save = command.save;
         s_last_attempt_automatic = command.automatic;
-        s_connect_deadline = xTaskGetTickCount() +
-                             pdMS_TO_TICKS(command.automatic ? 5000 : 15000);
+        s_connect_deadline = xTaskGetTickCount() + pdMS_TO_TICKS(command.automatic ? 5000 : 15000);
         bump_revision_locked();
     }
     (void)esp_wifi_disconnect();
@@ -391,17 +399,21 @@ void execute_forget(const Command &command)
     {
         LockGuard guard;
         const size_t before = s_saved.size();
-        s_saved.erase(std::remove_if(s_saved.begin(), s_saved.end(), [&command](const auto &item) {
-                          return item.ssid == command.ssid;
-                      }),
-                      s_saved.end());
-        if (before == s_saved.size()) return;
+        s_saved.erase(
+            std::remove_if(s_saved.begin(), s_saved.end(),
+                           [&command](const auto &item) { return item.ssid == command.ssid; }),
+            s_saved.end());
+        if (before == s_saved.size())
+            return;
         disconnect_current = std::strcmp(s_snapshot.ssid, command.ssid) == 0;
-        for (auto &network : s_scan_results) network.saved = is_saved_locked(network.ssid);
+        for (auto &network : s_scan_results)
+            network.saved = is_saved_locked(network.ssid);
         bump_revision_locked();
     }
-    if (persist_saved_networks() != ESP_OK) ESP_LOGE(kTag, "Could not persist forgotten network");
-    if (disconnect_current) (void)esp_wifi_disconnect();
+    if (persist_saved_networks() != ESP_OK)
+        ESP_LOGE(kTag, "Could not persist forgotten network");
+    if (disconnect_current)
+        (void)esp_wifi_disconnect();
 }
 
 void connectivity_task(void *)
@@ -425,8 +437,12 @@ void connectivity_task(void *)
                 }
                 break;
             }
-            case CommandType::kConnect: execute_connect(command); break;
-            case CommandType::kForget: execute_forget(command); break;
+            case CommandType::kConnect:
+                execute_connect(command);
+                break;
+            case CommandType::kForget:
+                execute_forget(command);
+                break;
             case CommandType::kDisconnect:
                 (void)esp_wifi_disconnect();
                 {
@@ -453,8 +469,7 @@ void connectivity_task(void *)
         {
             LockGuard guard;
             const TickType_t now = xTaskGetTickCount();
-            if (s_connect_deadline != 0 &&
-                static_cast<int32_t>(now - s_connect_deadline) >= 0 &&
+            if (s_connect_deadline != 0 && static_cast<int32_t>(now - s_connect_deadline) >= 0 &&
                 s_snapshot.state == BUDDY_CONNECTIVITY_CONNECTING) {
                 s_connect_deadline = 0;
                 connection_timed_out = true;
@@ -471,8 +486,10 @@ void connectivity_task(void *)
                 run_automatic = true;
             }
         }
-        if (connection_timed_out) (void)esp_wifi_disconnect();
-        if (run_automatic) execute_connect(automatic);
+        if (connection_timed_out)
+            (void)esp_wifi_disconnect();
+        if (run_automatic)
+            execute_connect(automatic);
     }
 }
 
@@ -488,7 +505,8 @@ void internet_probe_task(void *)
             LockGuard guard;
             has_ipv4 = s_snapshot.ipv4[0] != '\0';
         }
-        if (!has_ipv4) continue;
+        if (!has_ipv4)
+            continue;
 
         esp_http_client_config_t config{};
         config.url = kConnectivityCheckUrl;
@@ -515,7 +533,8 @@ void internet_probe_task(void *)
 
 esp_err_t enqueue(const Command &command)
 {
-    if (!s_initialized || s_commands == nullptr) return ESP_ERR_INVALID_STATE;
+    if (!s_initialized || s_commands == nullptr)
+        return ESP_ERR_INVALID_STATE;
     return xQueueSend(s_commands, &command, 0) == pdTRUE ? ESP_OK : ESP_ERR_TIMEOUT;
 }
 
@@ -523,7 +542,8 @@ esp_err_t enqueue(const Command &command)
 
 extern "C" esp_err_t buddy_connectivity_initialize(void)
 {
-    if (s_initialized) return ESP_OK;
+    if (s_initialized)
+        return ESP_OK;
     s_lock = xSemaphoreCreateMutex();
     s_commands = xQueueCreate(8, sizeof(Command));
     ESP_RETURN_ON_FALSE(s_lock != nullptr && s_commands != nullptr, ESP_ERR_NO_MEM, kTag,
@@ -536,29 +556,26 @@ extern "C" esp_err_t buddy_connectivity_initialize(void)
     ESP_RETURN_ON_FALSE(s_station != nullptr, ESP_FAIL, kTag, "Station interface failed");
     wifi_init_config_t init = WIFI_INIT_CONFIG_DEFAULT();
     ESP_RETURN_ON_ERROR(esp_wifi_init(&init), kTag, "ESP32-C6 hosted Wi-Fi init failed");
-    ESP_RETURN_ON_ERROR(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, event_handler,
-                                                   nullptr),
-                        kTag, "Wi-Fi event handler failed");
-    ESP_RETURN_ON_ERROR(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, event_handler,
-                                                   nullptr),
-                        kTag, "IP event handler failed");
+    ESP_RETURN_ON_ERROR(
+        esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, event_handler, nullptr), kTag,
+        "Wi-Fi event handler failed");
+    ESP_RETURN_ON_ERROR(
+        esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, event_handler, nullptr), kTag,
+        "IP event handler failed");
     ESP_RETURN_ON_ERROR(esp_wifi_set_storage(WIFI_STORAGE_RAM), kTag, "Wi-Fi RAM storage failed");
     ESP_RETURN_ON_ERROR(esp_wifi_set_mode(WIFI_MODE_STA), kTag, "Station mode failed");
     ESP_RETURN_ON_ERROR(esp_wifi_start(), kTag, "Hosted Wi-Fi start failed");
     esp_hosted_coprocessor_fwver_t c6_version{};
     const esp_err_t c6_version_result = esp_hosted_get_coprocessor_fwversion(&c6_version);
     if (c6_version_result == ESP_OK) {
-        std::snprintf(s_snapshot.c6_firmware_version,
-                      sizeof(s_snapshot.c6_firmware_version), "%u.%u.%u",
-                      static_cast<unsigned>(c6_version.major1),
+        std::snprintf(s_snapshot.c6_firmware_version, sizeof(s_snapshot.c6_firmware_version),
+                      "%u.%u.%u", static_cast<unsigned>(c6_version.major1),
                       static_cast<unsigned>(c6_version.minor1),
                       static_cast<unsigned>(c6_version.patch1));
-        ESP_LOGI(kTag, "ESP32-C6 hosted firmware version %s",
-                 s_snapshot.c6_firmware_version);
+        ESP_LOGI(kTag, "ESP32-C6 hosted firmware version %s", s_snapshot.c6_firmware_version);
     } else {
-        std::snprintf(s_snapshot.c6_firmware_version,
-                      sizeof(s_snapshot.c6_firmware_version), "unavailable (%s)",
-                      esp_err_to_name(c6_version_result));
+        std::snprintf(s_snapshot.c6_firmware_version, sizeof(s_snapshot.c6_firmware_version),
+                      "unavailable (%s)", esp_err_to_name(c6_version_result));
         ESP_LOGW(kTag, "Could not query ESP32-C6 hosted firmware version: %s",
                  esp_err_to_name(c6_version_result));
     }
@@ -569,9 +586,9 @@ extern "C" esp_err_t buddy_connectivity_initialize(void)
         s_snapshot.state = BUDDY_CONNECTIVITY_IDLE;
         bump_revision_locked();
     }
-    ESP_RETURN_ON_FALSE(xTaskCreate(connectivity_task, "buddy_connect", 7168, nullptr, 6,
-                                    nullptr) == pdPASS,
-                        ESP_ERR_NO_MEM, kTag, "Connectivity task creation failed");
+    ESP_RETURN_ON_FALSE(
+        xTaskCreate(connectivity_task, "buddy_connect", 7168, nullptr, 6, nullptr) == pdPASS,
+        ESP_ERR_NO_MEM, kTag, "Connectivity task creation failed");
     ESP_RETURN_ON_FALSE(xTaskCreate(internet_probe_task, "buddy_net_probe", 5120, nullptr, 5,
                                     &s_probe_task) == pdPASS,
                         ESP_ERR_NO_MEM, kTag, "Connectivity probe task creation failed");
@@ -612,7 +629,7 @@ extern "C" esp_err_t buddy_connectivity_request_scan(void)
 }
 
 extern "C" esp_err_t buddy_connectivity_request_connect(const char *ssid, const char *password,
-                                                          bool save_network, bool hidden)
+                                                        bool save_network, bool hidden)
 {
     if (ssid == nullptr || password == nullptr || ssid[0] == '\0' || std::strlen(ssid) > 32 ||
         std::strlen(password) > 64) {
@@ -629,7 +646,8 @@ extern "C" esp_err_t buddy_connectivity_request_connect(const char *ssid, const 
 
 extern "C" esp_err_t buddy_connectivity_request_forget(const char *ssid)
 {
-    if (ssid == nullptr || ssid[0] == '\0' || std::strlen(ssid) > 32) return ESP_ERR_INVALID_ARG;
+    if (ssid == nullptr || ssid[0] == '\0' || std::strlen(ssid) > 32)
+        return ESP_ERR_INVALID_ARG;
     Command command{};
     command.type = CommandType::kForget;
     copy_text(command.ssid, ssid);
@@ -645,29 +663,33 @@ extern "C" esp_err_t buddy_connectivity_request_disconnect(void)
 
 extern "C" esp_err_t buddy_connectivity_snapshot(buddy_connectivity_snapshot_t *snapshot)
 {
-    if (snapshot == nullptr || !s_initialized) return ESP_ERR_INVALID_ARG;
+    if (snapshot == nullptr || !s_initialized)
+        return ESP_ERR_INVALID_ARG;
     LockGuard guard;
     *snapshot = s_snapshot;
     return ESP_OK;
 }
 
-extern "C" esp_err_t buddy_connectivity_scan_result(size_t index,
-                                                       buddy_wifi_network_t *network)
+extern "C" esp_err_t buddy_connectivity_scan_result(size_t index, buddy_wifi_network_t *network)
 {
-    if (network == nullptr || !s_initialized) return ESP_ERR_INVALID_ARG;
+    if (network == nullptr || !s_initialized)
+        return ESP_ERR_INVALID_ARG;
     LockGuard guard;
-    if (index >= s_scan_results.size()) return ESP_ERR_NOT_FOUND;
+    if (index >= s_scan_results.size())
+        return ESP_ERR_NOT_FOUND;
     *network = s_scan_results[index];
     return ESP_OK;
 }
 
 extern "C" void buddy_connectivity_report_internet(bool reachable, bool captive_portal)
 {
-    if (!s_initialized) return;
+    if (!s_initialized)
+        return;
     LockGuard guard;
-    if (s_snapshot.ipv4[0] == '\0') return;
-    s_snapshot.state = reachable ? BUDDY_CONNECTIVITY_CONNECTED
-                                 : captive_portal ? BUDDY_CONNECTIVITY_CAPTIVE_PORTAL
-                                                  : BUDDY_CONNECTIVITY_NO_INTERNET;
+    if (s_snapshot.ipv4[0] == '\0')
+        return;
+    s_snapshot.state = reachable        ? BUDDY_CONNECTIVITY_CONNECTED
+                       : captive_portal ? BUDDY_CONNECTIVITY_CAPTIVE_PORTAL
+                                        : BUDDY_CONNECTIVITY_NO_INTERNET;
     bump_revision_locked();
 }

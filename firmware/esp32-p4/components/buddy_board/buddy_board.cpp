@@ -271,7 +271,8 @@ esp_err_t write_atomic_storage_probe()
     probe.checksum = fnv1a(&probe, sizeof(probe));
 
     FILE *file = std::fopen(next_path, "wb");
-    ESP_RETURN_ON_FALSE(file != nullptr, ESP_FAIL, kTag, "Could not create LittleFS proof temp file");
+    ESP_RETURN_ON_FALSE(file != nullptr, ESP_FAIL, kTag,
+                        "Could not create LittleFS proof temp file");
     const bool wrote_all = std::fwrite(&probe, 1, sizeof(probe), file) == sizeof(probe);
     const bool flushed = std::fflush(file) == 0;
     const bool synced = flushed && fsync(fileno(file)) == 0;
@@ -316,7 +317,8 @@ esp_err_t init_storage()
     ESP_RETURN_ON_ERROR(nvs_open(kSystemNamespace, NVS_READWRITE, &marker), kTag,
                         "Could not open LittleFS marker");
     esp_err_t marker_result = nvs_set_u8(marker, "littlefs_ready", 1);
-    if (marker_result == ESP_OK) marker_result = nvs_commit(marker);
+    if (marker_result == ESP_OK)
+        marker_result = nvs_commit(marker);
     nvs_close(marker);
     ESP_RETURN_ON_ERROR(marker_result, kTag, "Could not retain LittleFS marker");
 
@@ -348,8 +350,7 @@ void log_hardware_identity()
     const esp_err_t flash_result = esp_flash_get_size(nullptr, &flash_bytes);
     const size_t psram_bytes = esp_psram_get_size();
 
-    ESP_LOGI(kTag,
-             "BUILD EVIDENCE ONLY: chip model=%d cores=%d revision=%d features=0x%" PRIx32,
+    ESP_LOGI(kTag, "BUILD EVIDENCE ONLY: chip model=%d cores=%d revision=%d features=0x%" PRIx32,
              chip.model, chip.cores, chip.revision, chip.features);
     if (flash_result == ESP_OK) {
         ESP_LOGI(kTag, "External NOR bytes=%" PRIu32, flash_bytes);
@@ -357,7 +358,8 @@ void log_hardware_identity()
         ESP_LOGE(kTag, "External NOR size query failed: %s", esp_err_to_name(flash_result));
     }
     ESP_LOGI(kTag, "PSRAM bytes=%u", static_cast<unsigned>(psram_bytes));
-    ESP_LOGI(kTag, "Reset reason=%d rotation candidate=%s", esp_reset_reason(), rotation_path_name());
+    ESP_LOGI(kTag, "Reset reason=%d rotation candidate=%s", esp_reset_reason(),
+             rotation_path_name());
 }
 
 #if CONFIG_BUDDY_ROTATION_PATH_CPU
@@ -396,14 +398,14 @@ void cpu_rotation_task(void *)
         const int64_t rotation_started = esp_timer_get_time();
         rotate_landscape_to_native(job.source, s_cpu.native);
         const int64_t rotation_finished = esp_timer_get_time();
-        const esp_err_t sync_result = esp_cache_msync(
-            s_cpu.native, kNativeFrameBytes,
-            ESP_CACHE_MSYNC_FLAG_DIR_C2M | ESP_CACHE_MSYNC_FLAG_TYPE_DATA);
+        const esp_err_t sync_result =
+            esp_cache_msync(s_cpu.native, kNativeFrameBytes,
+                            ESP_CACHE_MSYNC_FLAG_DIR_C2M | ESP_CACHE_MSYNC_FLAG_TYPE_DATA);
         if (sync_result != ESP_OK) {
             ESP_LOGE(kTag, "CPU rotation cache sync failed: %s", esp_err_to_name(sync_result));
         }
-        const esp_err_t draw_result = esp_lcd_panel_draw_bitmap(
-            s_cpu.panel, 0, 0, kNativeWidth, kNativeHeight, s_cpu.native);
+        const esp_err_t draw_result =
+            esp_lcd_panel_draw_bitmap(s_cpu.panel, 0, 0, kNativeWidth, kNativeHeight, s_cpu.native);
         const int64_t flush_finished = esp_timer_get_time();
         if (draw_result != ESP_OK) {
             ESP_LOGE(kTag, "CPU rotation panel flush failed: %s", esp_err_to_name(draw_result));
@@ -419,8 +421,8 @@ void cpu_flush_callback(lv_display_t *display, const lv_area_t *area, uint8_t *p
 {
     if (area->x1 != 0 || area->y1 != 0 || area->x2 != kLogicalWidth - 1 ||
         area->y2 != kLogicalHeight - 1) {
-        ESP_LOGE(kTag, "CPU rotation requires a full 800x480 flush; got (%d,%d)-(%d,%d)",
-                 area->x1, area->y1, area->x2, area->y2);
+        ESP_LOGE(kTag, "CPU rotation requires a full 800x480 flush; got (%d,%d)-(%d,%d)", area->x1,
+                 area->y1, area->x2, area->y2);
         lv_display_flush_ready(display);
         return;
     }
@@ -443,10 +445,9 @@ void cpu_touch_read_callback(lv_indev_t *input, lv_indev_data_t *data)
     uint8_t points = 0;
 
     const esp_err_t read_result = esp_lcd_touch_read_data(context->touch);
-    const esp_err_t data_result =
-        read_result == ESP_OK
-            ? esp_lcd_touch_get_data(context->touch, &point, &points, 1)
-            : read_result;
+    const esp_err_t data_result = read_result == ESP_OK
+                                      ? esp_lcd_touch_get_data(context->touch, &point, &points, 1)
+                                      : read_result;
     if (data_result == ESP_OK && points > 0) {
         data->point.x = point.x;
         data->point.y = point.y;
@@ -489,12 +490,12 @@ esp_err_t init_cpu_display()
     ESP_RETURN_ON_ERROR(bsp_touch_new(&touch_config, &s_cpu.touch), kTag,
                         "GT911 creation failed for CPU path");
 
-    s_cpu.source_a = static_cast<uint16_t *>(heap_caps_aligned_alloc(
-        64, kLogicalFrameBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
-    s_cpu.source_b = static_cast<uint16_t *>(heap_caps_aligned_alloc(
-        64, kLogicalFrameBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
-    s_cpu.native = static_cast<uint16_t *>(heap_caps_aligned_alloc(
-        64, kNativeFrameBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+    s_cpu.source_a = static_cast<uint16_t *>(
+        heap_caps_aligned_alloc(64, kLogicalFrameBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+    s_cpu.source_b = static_cast<uint16_t *>(
+        heap_caps_aligned_alloc(64, kLogicalFrameBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+    s_cpu.native = static_cast<uint16_t *>(
+        heap_caps_aligned_alloc(64, kNativeFrameBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
     ESP_RETURN_ON_FALSE(s_cpu.source_a != nullptr && s_cpu.source_b != nullptr &&
                             s_cpu.native != nullptr,
                         ESP_ERR_NO_MEM, kTag, "Could not allocate three full RGB565 PSRAM buffers");
@@ -508,8 +509,8 @@ esp_err_t init_cpu_display()
     s_cpu_lvgl_mutex = xSemaphoreCreateRecursiveMutex();
     ESP_RETURN_ON_FALSE(s_cpu_lvgl_mutex != nullptr, ESP_ERR_NO_MEM, kTag,
                         "Could not create CPU LVGL mutex");
-    ESP_RETURN_ON_FALSE(xTaskCreate(cpu_rotation_task, "buddy_rotate", 6144, nullptr, 9,
-                                    nullptr) == pdPASS,
+    ESP_RETURN_ON_FALSE(xTaskCreate(cpu_rotation_task, "buddy_rotate", 6144, nullptr, 9, nullptr) ==
+                            pdPASS,
                         ESP_ERR_NO_MEM, kTag, "Could not create CPU rotation task");
 
     lv_init();
@@ -653,8 +654,7 @@ void grid_event_callback(lv_event_t *event)
     const uint32_t count = s_touch_count.fetch_add(1) + 1;
     if (s_touch_status_label != nullptr) {
         lv_label_set_text_fmt(s_touch_status_label,
-                              "Tap all 15 targets + 4 corners + center | taps: %" PRIu32,
-                              count);
+                              "Tap all 15 targets + 4 corners + center | taps: %" PRIu32, count);
     }
 }
 
@@ -717,8 +717,7 @@ void build_proof_ui(lv_display_t *display)
     lv_obj_remove_flag(footer, LV_OBJ_FLAG_SCROLLABLE);
 
     s_touch_status_label = lv_label_create(footer);
-    lv_label_set_text(s_touch_status_label,
-                      "Tap all 15 targets + 4 corners + center | taps: 0");
+    lv_label_set_text(s_touch_status_label, "Tap all 15 targets + 4 corners + center | taps: 0");
     lv_obj_set_style_text_color(s_touch_status_label, lv_color_hex(0x645D79), LV_PART_MAIN);
     lv_obj_set_style_text_font(s_touch_status_label, &lv_font_montserrat_20, LV_PART_MAIN);
     lv_obj_center(s_touch_status_label);
@@ -733,15 +732,14 @@ void diagnostics_task(void *)
         portEXIT_CRITICAL(&s_metrics_lock);
 
         ESP_LOGI(kTag,
-                 "metrics path=%s frames=%" PRIu32
-                 " refresh_us(avg/p95/max)=%" PRIu32 "/%" PRIu32 "/%" PRIu32
-                 " render_us(avg/p95/max)=%" PRIu32 "/%" PRIu32 "/%" PRIu32
+                 "metrics path=%s frames=%" PRIu32 " refresh_us(avg/p95/max)=%" PRIu32 "/%" PRIu32
+                 "/%" PRIu32 " render_us(avg/p95/max)=%" PRIu32 "/%" PRIu32 "/%" PRIu32
                  " flush_cb_us(avg/p95/max)=%" PRIu32 "/%" PRIu32 "/%" PRIu32,
                  rotation_path_name(), snapshot.refresh.count, sample_average(snapshot.refresh),
-                 sample_p95(snapshot.refresh), snapshot.refresh.max_us, sample_average(snapshot.render),
-                 sample_p95(snapshot.render), snapshot.render.max_us,
-                 sample_average(snapshot.flush_callback), sample_p95(snapshot.flush_callback),
-                 snapshot.flush_callback.max_us);
+                 sample_p95(snapshot.refresh), snapshot.refresh.max_us,
+                 sample_average(snapshot.render), sample_p95(snapshot.render),
+                 snapshot.render.max_us, sample_average(snapshot.flush_callback),
+                 sample_p95(snapshot.flush_callback), snapshot.flush_callback.max_us);
         ESP_LOGI(kTag,
                  "metrics wait_us(avg/p95/max)=%" PRIu32 "/%" PRIu32 "/%" PRIu32
                  " cpu_rotate_us(avg/p95/max)=%" PRIu32 "/%" PRIu32 "/%" PRIu32
@@ -808,13 +806,13 @@ extern "C" esp_err_t buddy_board_initialize(buddy_board_runtime_t *runtime)
     ESP_RETURN_ON_ERROR(init_storage(), kTag, "LittleFS proof failed");
 
     s_board_display = init_display();
-    ESP_RETURN_ON_FALSE(s_board_display != nullptr, ESP_FAIL, kTag, "Display initialization failed");
+    ESP_RETURN_ON_FALSE(s_board_display != nullptr, ESP_FAIL, kTag,
+                        "Display initialization failed");
     const int horizontal = lv_display_get_horizontal_resolution(s_board_display);
     const int vertical = lv_display_get_vertical_resolution(s_board_display);
-    ESP_RETURN_ON_FALSE(horizontal == kLogicalWidth && vertical == kLogicalHeight,
-                        ESP_ERR_INVALID_SIZE, kTag,
-                        "Landscape invariant failed: expected 800x480, got %dx%d", horizontal,
-                        vertical);
+    ESP_RETURN_ON_FALSE(
+        horizontal == kLogicalWidth && vertical == kLogicalHeight, ESP_ERR_INVALID_SIZE, kTag,
+        "Landscape invariant failed: expected 800x480, got %dx%d", horizontal, vertical);
     ESP_RETURN_ON_ERROR(lock_display(UINT32_MAX), kTag, "Could not lock initialized display");
     lv_display_add_event_cb(s_board_display, display_metrics_callback, LV_EVENT_ALL, nullptr);
     unlock_display();
@@ -839,8 +837,8 @@ extern "C" esp_err_t buddy_board_start_background_services(void)
     ESP_RETURN_ON_FALSE(xTaskCreate(diagnostics_task, "buddy_diag", 4096, nullptr, 3, nullptr) ==
                             pdPASS,
                         ESP_ERR_NO_MEM, kTag, "Could not create diagnostics task");
-    ESP_RETURN_ON_FALSE(xTaskCreate(display_power_task, "buddy_power", 3072, nullptr, 3,
-                                    nullptr) == pdPASS,
+    ESP_RETURN_ON_FALSE(xTaskCreate(display_power_task, "buddy_power", 3072, nullptr, 3, nullptr) ==
+                            pdPASS,
                         ESP_ERR_NO_MEM, kTag, "Could not create display power task");
 
     s_background_services_started = true;
@@ -857,14 +855,14 @@ extern "C" uint32_t buddy_board_completed_frames(void)
 }
 
 extern "C" esp_err_t buddy_board_wait_for_frame_after(uint32_t completed_frames,
-                                                        uint32_t timeout_ms)
+                                                      uint32_t timeout_ms)
 {
     ESP_RETURN_ON_FALSE(s_board_display != nullptr, ESP_ERR_INVALID_STATE, kTag,
                         "Board must be initialized before waiting for a frame");
-    const int64_t deadline_us =
-        esp_timer_get_time() + static_cast<int64_t>(timeout_ms) * 1000;
+    const int64_t deadline_us = esp_timer_get_time() + static_cast<int64_t>(timeout_ms) * 1000;
     do {
-        if (buddy_board_completed_frames() > completed_frames) return ESP_OK;
+        if (buddy_board_completed_frames() > completed_frames)
+            return ESP_OK;
         vTaskDelay(pdMS_TO_TICKS(5));
     } while (esp_timer_get_time() < deadline_us);
     return ESP_ERR_TIMEOUT;
@@ -875,12 +873,15 @@ extern "C" esp_err_t buddy_board_display_lock(uint32_t timeout_ms)
     return lock_display(timeout_ms);
 }
 
-extern "C" void buddy_board_display_unlock(void) { unlock_display(); }
+extern "C" void buddy_board_display_unlock(void)
+{
+    unlock_display();
+}
 
 extern "C" esp_err_t buddy_board_set_brightness(uint8_t brightness_percent)
 {
-    ESP_RETURN_ON_FALSE(brightness_percent >= 10 && brightness_percent <= 100,
-                        ESP_ERR_INVALID_ARG, kTag, "Brightness must be 10..100");
+    ESP_RETURN_ON_FALSE(brightness_percent >= 10 && brightness_percent <= 100, ESP_ERR_INVALID_ARG,
+                        kTag, "Brightness must be 10..100");
     s_awake_brightness.store(brightness_percent);
     s_applied_brightness.store(-1);
     return ESP_OK;
@@ -888,8 +889,8 @@ extern "C" esp_err_t buddy_board_set_brightness(uint8_t brightness_percent)
 
 extern "C" esp_err_t buddy_board_set_screen_timeout(uint8_t timeout_minutes)
 {
-    ESP_RETURN_ON_FALSE(timeout_minutes == 0 || timeout_minutes == 2 ||
-                            timeout_minutes == 5 || timeout_minutes == 10,
+    ESP_RETURN_ON_FALSE(timeout_minutes == 0 || timeout_minutes == 2 || timeout_minutes == 5 ||
+                            timeout_minutes == 10,
                         ESP_ERR_INVALID_ARG, kTag, "Unsupported screen timeout");
     s_timeout_minutes.store(timeout_minutes);
     return ESP_OK;
@@ -898,7 +899,8 @@ extern "C" esp_err_t buddy_board_set_screen_timeout(uint8_t timeout_minutes)
 extern "C" void buddy_board_set_display_wake_lock(bool enabled)
 {
     const bool changed = s_display_wake_lock.exchange(enabled) != enabled;
-    if (changed) s_applied_brightness.store(-1);
+    if (changed)
+        s_applied_brightness.store(-1);
 }
 
 extern "C" esp_err_t buddy_board_run_hardware_proof(void)

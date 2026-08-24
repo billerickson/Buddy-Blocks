@@ -64,8 +64,7 @@ int main()
     require(store.enqueue("esp32p4_recoverable_event", staged_event) == Result::kOk,
             "recoverable outbox event is written");
     std::filesystem::rename(std::string(path) + "/outbox/esp32p4_recoverable_event.json",
-                            std::string(path) +
-                                "/outbox/esp32p4_recoverable_event.json.next");
+                            std::string(path) + "/outbox/esp32p4_recoverable_event.json.next");
     Store rebooted(path);
     std::vector<std::string> rebooted_events;
     require(rebooted.initialize() == Result::kOk &&
@@ -74,8 +73,7 @@ int main()
             "boot promotes a fully written outbox event after interrupted rename");
     require(rebooted.quarantine("esp32p4_recoverable_event") == Result::kOk &&
                 rebooted.purge_outbox() == Result::kOk &&
-                rebooted.list_outbox(rebooted_events) == Result::kOk &&
-                rebooted_events.empty() &&
+                rebooted.list_outbox(rebooted_events) == Result::kOk && rebooted_events.empty() &&
                 !std::filesystem::exists(std::string(path) +
                                          "/outbox/quarantine/esp32p4_recoverable_event.json"),
             "revocation purge removes queued and quarantined outbox data");

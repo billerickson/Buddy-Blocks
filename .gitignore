@@ -23,6 +23,7 @@ firmware/esp32-p4/*.elf
 firmware/esp32-p4/*.map
 firmware/esp32-p4/*.uf2
 firmware/esp32-p4/*.log
+firmware/esp32-p4/warnings.txt
 firmware/esp32-p4/serial-logs/
 
 # Firmware credentials, local overrides, and signing/encryption material.

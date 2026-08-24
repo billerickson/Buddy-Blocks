@@ -34,8 +34,8 @@ uint32_t crc32(const void *data, size_t length)
     for (size_t index = 0; index < length; ++index) {
         value ^= bytes[index];
         for (int bit = 0; bit < 8; ++bit) {
-            value = (value >> 1) ^ (0xedb88320U &
-                                     static_cast<uint32_t>(-static_cast<int32_t>(value & 1U)));
+            value = (value >> 1) ^
+                    (0xedb88320U & static_cast<uint32_t>(-static_cast<int32_t>(value & 1U)));
         }
     }
     return ~value;
@@ -44,7 +44,7 @@ uint32_t crc32(const void *data, size_t length)
 bool ensure_directory(const std::string &path)
 {
     if (mkdir(path.c_str(), 0755) == 0 || errno == EEXIST) {
-        struct stat info {};
+        struct stat info{};
         return stat(path.c_str(), &info) == 0 && S_ISDIR(info.st_mode);
     }
     return false;
@@ -79,7 +79,7 @@ Result inspect_directory(const std::string &path, size_t &count, size_t &bytes,
             name.substr(name.size() - 5) != ".json") {
             continue;
         }
-        struct stat info {};
+        struct stat info{};
         const std::string item_path = path + "/" + name;
         if (stat(item_path.c_str(), &info) != 0 || !S_ISREG(info.st_mode)) {
             continue;
@@ -107,7 +107,8 @@ bool has_suffix(const std::string &value, const char *suffix)
 Result remove_record_files(const std::string &directory_path)
 {
     DIR *directory = opendir(directory_path.c_str());
-    if (directory == nullptr) return errno == ENOENT ? Result::kOk : Result::kIoError;
+    if (directory == nullptr)
+        return errno == ENOENT ? Result::kOk : Result::kIoError;
     Result result = Result::kOk;
     while (dirent *entry = readdir(directory)) {
         const std::string name = entry->d_name;
@@ -116,7 +117,7 @@ Result remove_record_files(const std::string &directory_path)
             continue;
         }
         const std::string path = directory_path + "/" + name;
-        struct stat info {};
+        struct stat info{};
         if (stat(path.c_str(), &info) != 0) {
             result = Result::kIoError;
         } else if (S_ISREG(info.st_mode) && std::remove(path.c_str()) != 0) {
@@ -143,8 +144,8 @@ Result Store::initialize()
     if (root_path_.empty() || !ensure_directory(root_path_)) {
         return Result::kIoError;
     }
-    for (const char *directory : {"content", "outbox", "outbox/quarantine", "sessions",
-                                  "diagnostics"}) {
+    for (const char *directory :
+         {"content", "outbox", "outbox/quarantine", "sessions", "diagnostics"}) {
         if (ensure_parent_directories(std::string(directory) + "/placeholder") != Result::kOk ||
             !ensure_directory(absolute(directory))) {
             return Result::kIoError;
@@ -152,17 +153,21 @@ Result Store::initialize()
     }
     std::vector<std::string> staged_outbox_ids;
     DIR *outbox = opendir(absolute("outbox").c_str());
-    if (outbox == nullptr) return Result::kIoError;
+    if (outbox == nullptr)
+        return Result::kIoError;
     while (dirent *entry = readdir(outbox)) {
         const std::string name = entry->d_name;
-        if (!has_suffix(name, ".json.next")) continue;
+        if (!has_suffix(name, ".json.next"))
+            continue;
         const std::string event_id = name.substr(0, name.size() - std::strlen(".json.next"));
-        if (valid_stable_id(event_id)) staged_outbox_ids.push_back(event_id);
+        if (valid_stable_id(event_id))
+            staged_outbox_ids.push_back(event_id);
     }
     closedir(outbox);
     for (const std::string &event_id : staged_outbox_ids) {
         const Result recovered = recover("outbox/" + event_id + ".json", 1);
-        if (recovered == Result::kIoError) return recovered;
+        if (recovered == Result::kIoError)
+            return recovered;
     }
     return Result::kOk;
 }
@@ -216,7 +221,8 @@ Result Store::write_atomic(const std::string &relative_path, uint16_t schema_ver
         return Result::kTooLarge;
     }
     Capacity current{};
-    if (capacity(current) == Result::kOk && current.free_bytes < payload.size() + kMinimumFreeBytes) {
+    if (capacity(current) == Result::kOk &&
+        current.free_bytes < payload.size() + kMinimumFreeBytes) {
         return Result::kNoSpace;
     }
     const Result parent_result = ensure_parent_directories(relative_path);
@@ -224,8 +230,12 @@ Result Store::write_atomic(const std::string &relative_path, uint16_t schema_ver
         return parent_result;
     }
 
-    RecordHeader header{kRecordMagic, schema_version, 0, static_cast<uint32_t>(payload.size()),
-                        crc32(payload.data(), payload.size()), 0};
+    RecordHeader header{kRecordMagic,
+                        schema_version,
+                        0,
+                        static_cast<uint32_t>(payload.size()),
+                        crc32(payload.data(), payload.size()),
+                        0};
     header.header_checksum = crc32(&header, sizeof(header));
     const std::string final_path = absolute(relative_path);
     const std::string next_path = final_path + ".next";
@@ -282,11 +292,12 @@ Result Store::read(const std::string &relative_path, uint16_t maximum_schema, Re
         return Result::kSchemaUnsupported;
     }
     std::vector<uint8_t> payload(header.payload_length);
-    const bool payload_read = payload.empty() ||
-                              std::fread(payload.data(), 1, payload.size(), file) == payload.size();
+    const bool payload_read =
+        payload.empty() || std::fread(payload.data(), 1, payload.size(), file) == payload.size();
     const int trailing = std::fgetc(file);
     std::fclose(file);
-    if (!payload_read || trailing != EOF || crc32(payload.data(), payload.size()) != header.payload_checksum) {
+    if (!payload_read || trailing != EOF ||
+        crc32(payload.data(), payload.size()) != header.payload_checksum) {
         return Result::kCorrupt;
     }
     record.schema_version = header.schema_version;
@@ -302,12 +313,17 @@ Result Store::remove(const std::string &relative_path)
     }
     bool removed = false;
     const std::string final_path = absolute(relative_path);
-    if (std::remove(final_path.c_str()) == 0) removed = true;
-    else if (errno != ENOENT) return Result::kIoError;
+    if (std::remove(final_path.c_str()) == 0)
+        removed = true;
+    else if (errno != ENOENT)
+        return Result::kIoError;
     const std::string next_path = final_path + ".next";
-    if (std::remove(next_path.c_str()) == 0) removed = true;
-    else if (errno != ENOENT) return Result::kIoError;
-    if (removed) sync_parent_best_effort(final_path);
+    if (std::remove(next_path.c_str()) == 0)
+        removed = true;
+    else if (errno != ENOENT)
+        return Result::kIoError;
+    if (removed)
+        sync_parent_best_effort(final_path);
     return removed ? Result::kOk : Result::kNotFound;
 }
 
@@ -376,9 +392,8 @@ Result Store::list_outbox(std::vector<std::string> &stable_event_ids) const
 Result Store::acknowledge(const std::string &stable_event_id)
 {
     const std::lock_guard<std::recursive_mutex> guard(mutex_);
-    return valid_stable_id(stable_event_id)
-               ? remove("outbox/" + stable_event_id + ".json")
-               : Result::kInvalidPath;
+    return valid_stable_id(stable_event_id) ? remove("outbox/" + stable_event_id + ".json")
+                                            : Result::kInvalidPath;
 }
 
 Result Store::quarantine(const std::string &stable_event_id)
@@ -413,32 +428,44 @@ Result Store::capacity(Capacity &capacity) const
     capacity.total_bytes = total_bytes;
     capacity.free_bytes = total_bytes - used_bytes;
 #else
-    struct statvfs filesystem {};
+    struct statvfs filesystem{};
     if (statvfs(root_path_.c_str(), &filesystem) != 0) {
         return Result::kIoError;
     }
     capacity.total_bytes = static_cast<size_t>(filesystem.f_blocks) * filesystem.f_frsize;
     capacity.free_bytes = static_cast<size_t>(filesystem.f_bavail) * filesystem.f_frsize;
 #endif
-    const Result outbox_result =
-        inspect_directory(absolute("outbox"), capacity.outbox_events, capacity.outbox_bytes, nullptr);
+    const Result outbox_result = inspect_directory(absolute("outbox"), capacity.outbox_events,
+                                                   capacity.outbox_bytes, nullptr);
     return outbox_result == Result::kNotFound ? Result::kOk : outbox_result;
 }
 
-const std::string &Store::root_path() const { return root_path_; }
+const std::string &Store::root_path() const
+{
+    return root_path_;
+}
 
 const char *result_name(Result result)
 {
     switch (result) {
-    case Result::kOk: return "ok";
-    case Result::kNotFound: return "not_found";
-    case Result::kInvalidPath: return "invalid_path";
-    case Result::kTooLarge: return "too_large";
-    case Result::kNoSpace: return "no_space";
-    case Result::kIoError: return "io_error";
-    case Result::kCorrupt: return "corrupt";
-    case Result::kSchemaUnsupported: return "schema_unsupported";
-    case Result::kOutboxFull: return "outbox_full";
+    case Result::kOk:
+        return "ok";
+    case Result::kNotFound:
+        return "not_found";
+    case Result::kInvalidPath:
+        return "invalid_path";
+    case Result::kTooLarge:
+        return "too_large";
+    case Result::kNoSpace:
+        return "no_space";
+    case Result::kIoError:
+        return "io_error";
+    case Result::kCorrupt:
+        return "corrupt";
+    case Result::kSchemaUnsupported:
+        return "schema_unsupported";
+    case Result::kOutboxFull:
+        return "outbox_full";
     }
     return "unknown";
 }

@@ -67,6 +67,7 @@ jobs:
     env:
       BUDDY_IDF_PATH: /opt/esp/idf
       IDF_TOOLS_PATH: /opt/esp
+      IDF_COMPONENT_CACHE_PATH: ${{ github.workspace }}/.cache/idf-component-manager
     steps:
       - uses: actions/checkout@v7
 
@@ -77,6 +78,14 @@ jobs:
 
       - name: Install host test runtime
         run: npm ci
+
+      - name: Restore pinned ESP-IDF component cache
+        uses: actions/cache@v5
+        with:
+          path: .cache/idf-component-manager
+          key: esp32-p4-components-idf-5.5.5-${{ hashFiles('firmware/esp32-p4/idf_component.yml') }}
+          restore-keys: |
+            esp32-p4-components-idf-5.5.5-
 
       - name: Website, Worker, content, and shared-vector validation
         run: |
@@ -100,6 +109,11 @@ jobs:
 
       - name: LVGL simulator and reviewed goldens
         run: ./scripts/firmware-test-simulator.sh
+
+      - name: Pinned formatting and static analysis
+        run: |
+          python "$IDF_PATH/tools/idf_tools.py" install esp-clang@esp-19.1.2_20250312
+          ./scripts/firmware-lint.sh
 
       - name: Generated-file checks
         run: |

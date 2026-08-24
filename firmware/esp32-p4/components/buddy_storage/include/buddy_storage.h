@@ -9,11 +9,11 @@
 namespace buddy::storage {
 
 constexpr uint32_t kRecordMagic = 0x42524231; // BRB1
-constexpr size_t kMaxContentBytes = 1024 * 1024;
+constexpr size_t kMaxContentBytes = size_t{1024} * 1024;
 constexpr size_t kMaxOutboxEvents = 1000;
-constexpr size_t kMaxOutboxBytes = 8 * 1024 * 1024;
-constexpr size_t kMinimumFreeBytes = 1024 * 1024;
-constexpr size_t kWarningFreeBytes = 2 * 1024 * 1024;
+constexpr size_t kMaxOutboxBytes = size_t{8} * 1024 * 1024;
+constexpr size_t kMinimumFreeBytes = size_t{1024} * 1024;
+constexpr size_t kWarningFreeBytes = size_t{2} * 1024 * 1024;
 
 enum class Result {
     kOk,

@@ -95,7 +95,8 @@ int calculate_xp(int score_correct, int score_total)
 bool score_attempt(const std::vector<int> &selected_factors, const Attempt &attempt)
 {
     const auto normalized = normalize_selected_factors(selected_factors);
-    return std::find(normalized.begin(), normalized.end(), attempt.fact.factor) != normalized.end() &&
+    return std::find(normalized.begin(), normalized.end(), attempt.fact.factor) !=
+               normalized.end() &&
            attempt.fact.multiplier >= kMinMultiplier && attempt.fact.multiplier <= kMaxMultiplier &&
            attempt.answer == attempt.fact.factor * attempt.fact.multiplier;
 }
@@ -148,17 +149,20 @@ std::string encode_multiplication_session(const MultiplicationSessionState &stat
            << state.deck_index << '|' << state.score_correct << '|'
            << (state.feedback_visible ? 1 : 0) << '|' << (state.last_correct ? 1 : 0) << '|';
     for (size_t index = 0; index < state.selected_factors.size(); ++index) {
-        if (index > 0) packed << ',';
+        if (index > 0)
+            packed << ',';
         packed << state.selected_factors[index];
     }
     packed << '|';
     for (size_t index = 0; index < state.deck.size(); ++index) {
-        if (index > 0) packed << ';';
+        if (index > 0)
+            packed << ';';
         packed << state.deck[index].factor << ',' << state.deck[index].multiplier;
     }
     packed << '|';
     for (size_t index = 0; index < state.attempts.size(); ++index) {
-        if (index > 0) packed << ';';
+        if (index > 0)
+            packed << ';';
         const Attempt &attempt = state.attempts[index];
         packed << attempt.fact.factor << ',' << attempt.fact.multiplier << ',' << attempt.answer
                << ',' << attempt.response_ms;
@@ -170,15 +174,16 @@ std::optional<MultiplicationSessionState> decode_multiplication_session(const st
 {
     constexpr const char *prefix = "{\"schemaVersion\":1,\"state\":\"";
     constexpr const char *suffix = "\"}";
-    if (json.size() <= std::char_traits<char>::length(prefix) + std::char_traits<char>::length(suffix) ||
+    if (json.size() <=
+            std::char_traits<char>::length(prefix) + std::char_traits<char>::length(suffix) ||
         json.compare(0, std::char_traits<char>::length(prefix), prefix) != 0 ||
         json.compare(json.size() - std::char_traits<char>::length(suffix),
                      std::char_traits<char>::length(suffix), suffix) != 0) {
         return std::nullopt;
     }
-    const std::string packed = json.substr(
-        std::char_traits<char>::length(prefix),
-        json.size() - std::char_traits<char>::length(prefix) - std::char_traits<char>::length(suffix));
+    const std::string packed = json.substr(std::char_traits<char>::length(prefix),
+                                           json.size() - std::char_traits<char>::length(prefix) -
+                                               std::char_traits<char>::length(suffix));
     const auto fields = split(packed, '|');
     if (fields.size() != 12) {
         return std::nullopt;
@@ -218,9 +223,9 @@ std::optional<MultiplicationSessionState> decode_multiplication_session(const st
             const auto parts = split(fact_value, ',');
             MultiplicationFact fact;
             if (parts.size() != 2 || !parse_integer(parts[0], fact.factor) ||
-                !parse_integer(parts[1], fact.multiplier) ||
-                fact.factor < kMinFactor || fact.factor > kMaxFactor ||
-                fact.multiplier < kMinMultiplier || fact.multiplier > kMaxMultiplier) {
+                !parse_integer(parts[1], fact.multiplier) || fact.factor < kMinFactor ||
+                fact.factor > kMaxFactor || fact.multiplier < kMinMultiplier ||
+                fact.multiplier > kMaxMultiplier) {
                 return std::nullopt;
             }
             state.deck.push_back(fact);
@@ -243,8 +248,9 @@ std::optional<MultiplicationSessionState> decode_multiplication_session(const st
             state.attempts.push_back(attempt);
         }
     }
-    if (state.selected_factors.empty() || state.deck.empty() || state.deck_index > state.deck.size() ||
-        state.attempts.size() > 500 || state.score_correct > static_cast<int>(state.attempts.size())) {
+    if (state.selected_factors.empty() || state.deck.empty() ||
+        state.deck_index > state.deck.size() || state.attempts.size() > 500 ||
+        state.score_correct > static_cast<int>(state.attempts.size())) {
         return std::nullopt;
     }
     return state;
@@ -258,20 +264,24 @@ std::string multiplication_submission_json(const MultiplicationSessionState &sta
          << "\"mode\":\"" << (state.timed ? "timed" : "practice") << "\","
          << "\"selectedFactors\":[";
     for (size_t index = 0; index < state.selected_factors.size(); ++index) {
-        if (index > 0) json << ',';
+        if (index > 0)
+            json << ',';
         json << state.selected_factors[index];
     }
     json << "],\"durationSeconds\":";
-    if (state.timed) json << state.duration_seconds;
-    else json << "null";
+    if (state.timed)
+        json << state.duration_seconds;
+    else
+        json << "null";
     // `keyboard` is the existing API term for typed input, including the touch keypad.
     json << ",\"inputMethod\":\"keyboard\",\"startedAt\":\"1970-01-01T00:00:00.000Z\","
          << "\"attempts\":[";
     for (size_t index = 0; index < state.attempts.size(); ++index) {
-        if (index > 0) json << ',';
+        if (index > 0)
+            json << ',';
         const Attempt &attempt = state.attempts[index];
-        json << "{\"factor\":" << attempt.fact.factor << ",\"multiplier\":"
-             << attempt.fact.multiplier << ",\"answer\":" << attempt.answer
+        json << "{\"factor\":" << attempt.fact.factor
+             << ",\"multiplier\":" << attempt.fact.multiplier << ",\"answer\":" << attempt.answer
              << ",\"responseMs\":" << std::min<uint32_t>(attempt.response_ms, 600000)
              << ",\"inputMethod\":\"keyboard\"}";
     }
@@ -286,7 +296,8 @@ std::string encode_flash_session(const FlashSessionState &state)
            << state.content_revision << '|' << state.seed << '|' << state.elapsed_ms << '|'
            << (state.revealed ? 1 : 0) << '|';
     for (size_t index = 0; index < state.reviews.size(); ++index) {
-        if (index > 0) packed << ';';
+        if (index > 0)
+            packed << ';';
         const FlashSessionReview &review = state.reviews[index];
         packed << review.card_id << ',' << (review.got_it ? 1 : 0) << ','
                << std::min<uint32_t>(review.response_ms, 600000);
@@ -304,13 +315,14 @@ std::optional<FlashSessionState> decode_flash_session(const std::string &json)
         json.compare(json.size() - suffix_size, suffix_size, suffix) != 0) {
         return std::nullopt;
     }
-    const auto fields = split(json.substr(prefix_size, json.size() - prefix_size - suffix_size), '|');
+    const auto fields =
+        split(json.substr(prefix_size, json.size() - prefix_size - suffix_size), '|');
     FlashSessionState state;
     int revealed = 0;
     if (fields.size() != 7 || !safe_identifier(fields[0]) || !safe_identifier(fields[1]) ||
-        !parse_integer(fields[2], state.content_revision) || !parse_integer(fields[3], state.seed) ||
-        !parse_integer(fields[4], state.elapsed_ms) || !parse_integer(fields[5], revealed) ||
-        revealed < 0 || revealed > 1) {
+        !parse_integer(fields[2], state.content_revision) ||
+        !parse_integer(fields[3], state.seed) || !parse_integer(fields[4], state.elapsed_ms) ||
+        !parse_integer(fields[5], revealed) || revealed < 0 || revealed > 1) {
         return std::nullopt;
     }
     state.client_attempt_id = fields[0];
@@ -329,7 +341,8 @@ std::optional<FlashSessionState> decode_flash_session(const std::string &json)
             review.card_id = parts[0];
             review.got_it = got_it == 1;
             state.reviews.push_back(std::move(review));
-            if (state.reviews.size() > 1000) return std::nullopt;
+            if (state.reviews.size() > 1000)
+                return std::nullopt;
         }
     }
     return state;
@@ -356,10 +369,9 @@ void avoid_adjacent_duplicates(std::vector<MultiplicationFact> &facts)
         if (!(facts[index] == facts[index - 1])) {
             continue;
         }
-        const auto swap_it = std::find_if(facts.begin() + static_cast<std::ptrdiff_t>(index + 1),
-                                          facts.end(), [&](const MultiplicationFact &candidate) {
-                                              return !(candidate == facts[index - 1]);
-                                          });
+        const auto swap_it = std::find_if(
+            facts.begin() + static_cast<std::ptrdiff_t>(index + 1), facts.end(),
+            [&](const MultiplicationFact &candidate) { return !(candidate == facts[index - 1]); });
         if (swap_it != facts.end()) {
             std::iter_swap(facts.begin() + static_cast<std::ptrdiff_t>(index), swap_it);
         }
@@ -368,10 +380,11 @@ void avoid_adjacent_duplicates(std::vector<MultiplicationFact> &facts)
 
 } // namespace
 
-std::vector<MultiplicationFact> build_deck(
-    const std::vector<int> &selected_factors,
-    const std::vector<MasteryStats> &mastery_by_ordered_fact, bool adaptive,
-    std::optional<MultiplicationFact> previous_fact, uint64_t seed)
+std::vector<MultiplicationFact> build_deck(const std::vector<int> &selected_factors,
+                                           const std::vector<MasteryStats> &mastery_by_ordered_fact,
+                                           bool adaptive,
+                                           std::optional<MultiplicationFact> previous_fact,
+                                           uint64_t seed)
 {
     std::vector<MultiplicationFact> weighted;
     for (const MultiplicationFact &fact : build_fact_pool(selected_factors)) {
@@ -386,7 +399,8 @@ std::vector<MultiplicationFact> build_deck(
 
     SeededRandom random(seed);
     shuffle(weighted, random);
-    if (previous_fact.has_value() && weighted.size() > 1 && weighted.front() == previous_fact.value()) {
+    if (previous_fact.has_value() && weighted.size() > 1 &&
+        weighted.front() == previous_fact.value()) {
         const auto swap_it = std::find_if(weighted.begin() + 1, weighted.end(),
                                           [&](const MultiplicationFact &candidate) {
                                               return !(candidate == previous_fact.value());
@@ -399,12 +413,11 @@ std::vector<MultiplicationFact> build_deck(
     return weighted;
 }
 
-void requeue_missed(std::vector<MultiplicationFact> &remaining,
-                    const MultiplicationFact &fact, size_t spacing)
+void requeue_missed(std::vector<MultiplicationFact> &remaining, const MultiplicationFact &fact,
+                    size_t spacing)
 {
-    remaining.insert(remaining.begin() +
-                         static_cast<std::ptrdiff_t>(std::min(remaining.size(), spacing)),
-                     fact);
+    remaining.insert(
+        remaining.begin() + static_cast<std::ptrdiff_t>(std::min(remaining.size(), spacing)), fact);
 }
 
 SelectionModel::SelectionModel(Mode mode) : mode_(mode) {}
@@ -459,11 +472,20 @@ bool SelectionModel::is_selected(const std::string &stable_id) const
     return std::find(selected_.begin(), selected_.end(), stable_id) != selected_.end();
 }
 
-bool SelectionModel::can_commit() const { return !selected_.empty(); }
+bool SelectionModel::can_commit() const
+{
+    return !selected_.empty();
+}
 
-const std::vector<std::string> &SelectionModel::selected() const { return selected_; }
+const std::vector<std::string> &SelectionModel::selected() const
+{
+    return selected_;
+}
 
-std::vector<std::string> SelectionModel::commit() const { return selected_; }
+std::vector<std::string> SelectionModel::commit() const
+{
+    return selected_;
+}
 
 FlashRound::FlashRound(std::vector<FlashCard> cards, uint64_t seed)
     : cards_(std::move(cards)), mastered_(cards_.size(), false)
@@ -480,9 +502,15 @@ const FlashCard *FlashRound::current() const
     return cursor_ < queue_.size() ? &cards_[queue_[cursor_].card_index] : nullptr;
 }
 
-void FlashRound::reveal() { revealed_ = current() != nullptr; }
+void FlashRound::reveal()
+{
+    revealed_ = current() != nullptr;
+}
 
-bool FlashRound::revealed() const { return revealed_; }
+bool FlashRound::revealed() const
+{
+    return revealed_;
+}
 
 bool FlashRound::rate(bool got_it)
 {
@@ -511,12 +539,14 @@ bool FlashRound::rate(bool got_it)
 
 bool FlashRound::finished() const
 {
-    return !cards_.empty() && std::all_of(mastered_.begin(), mastered_.end(), [](bool value) {
-               return value;
-           });
+    return !cards_.empty() &&
+           std::all_of(mastered_.begin(), mastered_.end(), [](bool value) { return value; });
 }
 
-const FlashRoundSummary &FlashRound::summary() const { return summary_; }
+const FlashRoundSummary &FlashRound::summary() const
+{
+    return summary_;
+}
 
 RetryAction classify_http_result(int status_code, const std::string &error_code)
 {
@@ -536,9 +566,9 @@ RetryAction classify_http_result(int status_code, const std::string &error_code)
     return RetryAction::kQuarantine;
 }
 
-SnapshotFetchAction flash_snapshot_fetch_action(
-    uint32_t server_revision, uint32_t persisted_revision,
-    std::optional<uint32_t> cached_revision)
+SnapshotFetchAction flash_snapshot_fetch_action(uint32_t server_revision,
+                                                uint32_t persisted_revision,
+                                                std::optional<uint32_t> cached_revision)
 {
     if (cached_revision.has_value() && cached_revision.value() == server_revision) {
         return SnapshotFetchAction::kUseCache;
@@ -561,18 +591,18 @@ std::optional<int64_t> parse_server_timestamp_ms(const std::string &value)
     int millisecond = 0;
     int consumed = 0;
     char zone = '\0';
-    if (std::sscanf(value.c_str(), "%4d-%2d-%2dT%2d:%2d:%2d.%3d%c%n", &year, &month,
-                    &day, &hour, &minute, &second, &millisecond, &zone, &consumed) != 8 ||
-        zone != 'Z' || consumed != static_cast<int>(value.size()) || year < 2024 ||
-        month < 1 || month > 12 || day < 1 || hour < 0 || hour > 23 ||
-        minute < 0 || minute > 59 || second < 0 || second > 59 || millisecond < 0 ||
-        millisecond > 999) {
+    if (std::sscanf(value.c_str(), "%4d-%2d-%2dT%2d:%2d:%2d.%3d%c%n", &year, &month, &day, &hour,
+                    &minute, &second, &millisecond, &zone, &consumed) != 8 ||
+        zone != 'Z' || consumed != static_cast<int>(value.size()) || year < 2024 || month < 1 ||
+        month > 12 || day < 1 || hour < 0 || hour > 23 || minute < 0 || minute > 59 || second < 0 ||
+        second > 59 || millisecond < 0 || millisecond > 999) {
         return std::nullopt;
     }
     constexpr int days_per_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     const bool leap_year = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
     const int maximum_day = days_per_month[month - 1] + (month == 2 && leap_year ? 1 : 0);
-    if (day > maximum_day) return std::nullopt;
+    if (day > maximum_day)
+        return std::nullopt;
 
     // Howard Hinnant's civil-calendar transform keeps this independent of the
     // process timezone and of non-portable timegm() availability in newlib.
@@ -580,13 +610,13 @@ std::optional<int64_t> parse_server_timestamp_ms(const std::string &value)
     const int era = adjusted_year / 400;
     const unsigned year_of_era = static_cast<unsigned>(adjusted_year - era * 400);
     const unsigned adjusted_month = static_cast<unsigned>(month + (month > 2 ? -3 : 9));
-    const unsigned day_of_year = (153U * adjusted_month + 2U) / 5U +
-                                 static_cast<unsigned>(day - 1);
-    const unsigned day_of_era = year_of_era * 365U + year_of_era / 4U -
-                                year_of_era / 100U + day_of_year;
+    const unsigned day_of_year = (153U * adjusted_month + 2U) / 5U + static_cast<unsigned>(day - 1);
+    const unsigned day_of_era =
+        year_of_era * 365U + year_of_era / 4U - year_of_era / 100U + day_of_year;
     const int64_t days_since_epoch = static_cast<int64_t>(era) * 146097 + day_of_era - 719468;
-    const int64_t seconds_since_epoch = days_since_epoch * 86400 + hour * 3600 + minute * 60 +
-                                        second;
+    const int64_t seconds_since_epoch = days_since_epoch * 86400LL +
+                                        static_cast<int64_t>(hour) * 3600LL +
+                                        static_cast<int64_t>(minute) * 60LL + second;
     return seconds_since_epoch * 1000 + millisecond;
 }
 

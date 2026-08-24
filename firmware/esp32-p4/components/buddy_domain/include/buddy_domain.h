@@ -71,12 +71,13 @@ int practice_weight(const MasteryStats *stats);
 int calculate_xp(int score_correct, int score_total);
 bool score_attempt(const std::vector<int> &selected_factors, const Attempt &attempt);
 
-std::vector<MultiplicationFact> build_deck(
-    const std::vector<int> &selected_factors,
-    const std::vector<MasteryStats> &mastery_by_ordered_fact, bool adaptive,
-    std::optional<MultiplicationFact> previous_fact, uint64_t seed);
-void requeue_missed(std::vector<MultiplicationFact> &remaining,
-                    const MultiplicationFact &fact, size_t spacing = 3);
+std::vector<MultiplicationFact> build_deck(const std::vector<int> &selected_factors,
+                                           const std::vector<MasteryStats> &mastery_by_ordered_fact,
+                                           bool adaptive,
+                                           std::optional<MultiplicationFact> previous_fact,
+                                           uint64_t seed);
+void requeue_missed(std::vector<MultiplicationFact> &remaining, const MultiplicationFact &fact,
+                    size_t spacing = 3);
 
 class SelectionModel {
   public:
@@ -163,9 +164,9 @@ RetryAction classify_http_result(int status_code, const std::string &error_code)
  * and bounds validation.
  */
 enum class SnapshotFetchAction { kUseCache, kConditionalFetch, kUnconditionalFetch };
-SnapshotFetchAction flash_snapshot_fetch_action(
-    uint32_t server_revision, uint32_t persisted_revision,
-    std::optional<uint32_t> cached_revision);
+SnapshotFetchAction flash_snapshot_fetch_action(uint32_t server_revision,
+                                                uint32_t persisted_revision,
+                                                std::optional<uint32_t> cached_revision);
 
 /** Parse the exact UTC millisecond format emitted by Date.toISOString(). */
 std::optional<int64_t> parse_server_timestamp_ms(const std::string &value);

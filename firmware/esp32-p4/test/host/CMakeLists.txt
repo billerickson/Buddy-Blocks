@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(buddy_blocks_host_tests LANGUAGES C CXX)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 enable_testing()
 
 add_library(buddy_domain STATIC

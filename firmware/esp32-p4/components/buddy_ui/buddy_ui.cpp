@@ -28,7 +28,10 @@ constexpr int kWidth = 800;
 constexpr int kHeight = 480;
 constexpr int kTopHeight = 56;
 constexpr int kConfirmTop = 400;
-lv_color_t color(uint32_t value) { return lv_color_hex(value); }
+lv_color_t color(uint32_t value)
+{
+    return lv_color_hex(value);
+}
 
 constexpr uint32_t kInk = 0x242134;
 constexpr uint32_t kMuted = 0x645D79;
@@ -162,7 +165,10 @@ struct AppState {
 
 AppState s_app;
 buddy_ui_services_t s_services{};
-size_t empty_flash_section_count(void *) { return 0; }
+size_t empty_flash_section_count(void *)
+{
+    return 0;
+}
 
 constexpr const char *kMultiplicationSessionPath = "sessions/multiplication-active.json";
 constexpr const char *kFlashSessionPath = "sessions/flash-card-active.json";
@@ -177,22 +183,24 @@ void firmware_check_action(lv_event_t *);
 
 void notify_activity_state()
 {
-    if (s_services.activity_state == nullptr) return;
+    if (s_services.activity_state == nullptr)
+        return;
     const bool multiplication_active = !s_app.client_attempt_id.empty() && !s_app.session_saved;
     const bool flash_active = s_app.flash_round != nullptr && !s_app.flash_session_saved;
-    s_services.activity_state(s_services.context,
-                              multiplication_active && s_app.timed,
+    s_services.activity_state(s_services.context, multiplication_active && s_app.timed,
                               multiplication_active || flash_active);
 }
 
 std::vector<buddy::domain::MasteryStats> mastery_snapshot()
 {
     std::vector<buddy::domain::MasteryStats> mastery(144);
-    if (s_services.mastery == nullptr) return mastery;
+    if (s_services.mastery == nullptr)
+        return mastery;
     for (int factor = 1; factor <= 12; ++factor) {
         for (int multiplier = 1; multiplier <= 12; ++multiplier) {
             buddy_ui_mastery_t value{};
-            if (!s_services.mastery(s_services.context, factor, multiplier, &value)) continue;
+            if (!s_services.mastery(s_services.context, factor, multiplier, &value))
+                continue;
             auto &stats = mastery[static_cast<size_t>((factor - 1) * 12 + multiplier - 1)];
             stats.attempts = value.attempts;
             stats.correct = value.correct;
@@ -207,9 +215,8 @@ std::vector<buddy::domain::MasteryStats> mastery_snapshot()
 
 uint64_t now_ms()
 {
-    return s_services.monotonic_ms != nullptr
-               ? s_services.monotonic_ms(s_services.context)
-               : static_cast<uint64_t>(lv_tick_get());
+    return s_services.monotonic_ms != nullptr ? s_services.monotonic_ms(s_services.context)
+                                              : static_cast<uint64_t>(lv_tick_get());
 }
 
 MultiplicationSessionState multiplication_state()
@@ -221,8 +228,9 @@ MultiplicationSessionState multiplication_state()
     state.selected_factors = selected_factors();
     state.seed = s_app.active_session_seed;
     const uint64_t current = now_ms();
-    state.elapsed_ms = s_app.session_elapsed_offset_ms +
-                       (current >= s_app.session_started_ms ? current - s_app.session_started_ms : 0);
+    state.elapsed_ms =
+        s_app.session_elapsed_offset_ms +
+        (current >= s_app.session_started_ms ? current - s_app.session_started_ms : 0);
     state.deck = s_app.deck;
     state.deck_index = s_app.deck_index;
     state.attempts = s_app.attempts;
@@ -237,9 +245,10 @@ bool persist_multiplication()
     if (s_services.write_record == nullptr || s_app.client_attempt_id.empty()) {
         return true;
     }
-    const std::string payload = buddy::domain::encode_multiplication_session(multiplication_state());
+    const std::string payload =
+        buddy::domain::encode_multiplication_session(multiplication_state());
     const bool saved = s_services.write_record(s_services.context, kMultiplicationSessionPath, 1,
-                                                payload.data(), payload.size());
+                                               payload.data(), payload.size());
     s_app.storage_warning = !saved;
     return saved;
 }
@@ -269,8 +278,8 @@ void navigate(Screen screen)
 void guard_click(lv_event_t *event)
 {
     const uint64_t current = now_ms();
-    if (s_app.navigation_pending ||
-        (s_app.click_seen && current >= s_app.last_click_ms && current - s_app.last_click_ms < 120)) {
+    if (s_app.navigation_pending || (s_app.click_seen && current >= s_app.last_click_ms &&
+                                     current - s_app.last_click_ms < 120)) {
         lv_event_stop_processing(event);
         return;
     }
@@ -284,8 +293,8 @@ void style_text(lv_obj_t *object, uint32_t text_color, const lv_font_t *font)
     lv_obj_set_style_text_font(object, font, LV_PART_MAIN);
 }
 
-lv_obj_t *label(lv_obj_t *parent, const char *text, int x, int y, int width,
-                const lv_font_t *font, uint32_t text_color, lv_text_align_t align = LV_TEXT_ALIGN_LEFT)
+lv_obj_t *label(lv_obj_t *parent, const char *text, int x, int y, int width, const lv_font_t *font,
+                uint32_t text_color, lv_text_align_t align = LV_TEXT_ALIGN_LEFT)
 {
     lv_obj_t *value = lv_label_create(parent);
     lv_label_set_text(value, text);
@@ -335,8 +344,8 @@ lv_obj_t *option_tile(lv_obj_t *parent, const char *text, int x, int y, int widt
                       bool selected, lv_event_cb_t callback, intptr_t stable_value,
                       bool enabled = true)
 {
-    lv_obj_t *object = button(parent, text, x, y, width, height,
-                              selected ? kReward : kPaper, callback, stable_value, enabled);
+    lv_obj_t *object = button(parent, text, x, y, width, height, selected ? kReward : kPaper,
+                              callback, stable_value, enabled);
     lv_obj_set_style_border_color(object, color(selected ? kBlue : kInk), LV_PART_MAIN);
     lv_obj_set_style_border_width(object, selected ? 4 : 2, LV_PART_MAIN);
     if (selected) {
@@ -360,48 +369,47 @@ lv_obj_t *top_nav(const char *title, bool show_back)
     lv_obj_remove_flag(top, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_add_flag(top, LV_OBJ_FLAG_FLOATING);
     if (show_back) {
-        button(top, LV_SYMBOL_LEFT " Back", 8, 4, 116, 48, kPaper,
-               [](lv_event_t *event) {
-                   switch (s_app.current) {
-                   case Screen::kMultiplicationQuestion:
-                       finish_multiplication(event);
-                       break;
-                   case Screen::kMasteryDetail:
-                       navigate(Screen::kMasteryOverview);
-                       break;
-                   case Screen::kMasteryOverview:
-                       navigate(Screen::kMultiplicationSetup);
-                       break;
-                   case Screen::kWifi:
-                   case Screen::kWifiNetwork:
-                   case Screen::kWifiForget:
-                   case Screen::kPairing:
-                   case Screen::kUpdate:
-                   case Screen::kPreferences:
-                   case Screen::kFactoryReset:
-                   case Screen::kDiagnostics:
-                   case Screen::kHardwareProof:
-                       navigate(s_app.current == Screen::kWifiNetwork ||
-                                        s_app.current == Screen::kWifiForget
-                                    ? Screen::kWifi
-                                    : Screen::kSettings);
-                       break;
-                   case Screen::kFlashStudy:
-                       finish_flash_round(event);
-                       break;
-                   case Screen::kFlashSummary:
-                       navigate(Screen::kFlashLibrary);
-                       break;
-                   default:
-                       navigate(Screen::kHome);
-                       break;
-                   }
-               });
+        button(top, LV_SYMBOL_LEFT " Back", 8, 4, 116, 48, kPaper, [](lv_event_t *event) {
+            switch (s_app.current) {
+            case Screen::kMultiplicationQuestion:
+                finish_multiplication(event);
+                break;
+            case Screen::kMasteryDetail:
+                navigate(Screen::kMasteryOverview);
+                break;
+            case Screen::kMasteryOverview:
+                navigate(Screen::kMultiplicationSetup);
+                break;
+            case Screen::kWifi:
+            case Screen::kWifiNetwork:
+            case Screen::kWifiForget:
+            case Screen::kPairing:
+            case Screen::kUpdate:
+            case Screen::kPreferences:
+            case Screen::kFactoryReset:
+            case Screen::kDiagnostics:
+            case Screen::kHardwareProof:
+                navigate(s_app.current == Screen::kWifiNetwork ||
+                                 s_app.current == Screen::kWifiForget
+                             ? Screen::kWifi
+                             : Screen::kSettings);
+                break;
+            case Screen::kFlashStudy:
+                finish_flash_round(event);
+                break;
+            case Screen::kFlashSummary:
+                navigate(Screen::kFlashLibrary);
+                break;
+            default:
+                navigate(Screen::kHome);
+                break;
+            }
+        });
     } else {
         label(top, "BUDDY BLOCKS", 18, 17, 190, &lv_font_montserrat_16, kReward);
     }
-    label(top, title, show_back ? 140 : 220, 13, show_back ? 500 : 390,
-          &lv_font_montserrat_24, kPaper, LV_TEXT_ALIGN_CENTER);
+    label(top, title, show_back ? 140 : 220, 13, show_back ? 500 : 390, &lv_font_montserrat_24,
+          kPaper, LV_TEXT_ALIGN_CENTER);
     button(top, LV_SYMBOL_SETTINGS, 734, 4, 58, 48, kPaper,
            [](lv_event_t *) { navigate(Screen::kSettings); });
     return top;
@@ -447,33 +455,31 @@ void home_event(lv_event_t *event)
 void render_home()
 {
     top_nav(s_app.child_name.c_str(), false);
-    label(lv_screen_active(), s_app.bootstrap.paired ? "Ready to learn" : "Offline Demo",
-          24, 72, 300, &lv_font_montserrat_24, kInk);
+    label(lv_screen_active(), s_app.bootstrap.paired ? "Ready to learn" : "Offline Demo", 24, 72,
+          300, &lv_font_montserrat_24, kInk);
     const bool syncing = s_app.device_state == 3;
-    const char *status = syncing ? LV_SYMBOL_REFRESH " Syncing"
+    const char *status = syncing                  ? LV_SYMBOL_REFRESH " Syncing"
                          : s_app.bootstrap.online ? LV_SYMBOL_WIFI " Online"
                                                   : LV_SYMBOL_WARNING " Offline";
     lv_obj_t *pill = button(lv_screen_active(), status, 610, 65, 166, 52,
-                            syncing ? kReward : s_app.bootstrap.online ? kTeal : kOrange, nullptr);
+                            syncing                  ? kReward
+                            : s_app.bootstrap.online ? kTeal
+                                                     : kOrange,
+                            nullptr);
     lv_obj_set_style_border_width(pill, 0, LV_PART_MAIN);
 
-    lv_obj_t *facts = button(lv_screen_active(), "", 24, 132, 364, 218,
-                             kBlue, home_event, 1);
-    label(facts, "Multiplication Facts", 24, 30, 316,
-          &lv_font_montserrat_24, kInk, LV_TEXT_ALIGN_CENTER);
+    lv_obj_t *facts = button(lv_screen_active(), "", 24, 132, 364, 218, kBlue, home_event, 1);
+    label(facts, "Multiplication Facts", 24, 30, 316, &lv_font_montserrat_24, kInk,
+          LV_TEXT_ALIGN_CENTER);
     char mastery_text[120];
     std::snprintf(mastery_text, sizeof(mastery_text),
                   "Practice 1s-12s\n%u/144 fluent • %d XP\nBest: 60s %d • 120s %d",
                   static_cast<unsigned>(s_app.bootstrap.fluent_facts),
-                  s_app.bootstrap.multiplication_xp_total,
-                  s_app.bootstrap.best_60_seconds,
+                  s_app.bootstrap.multiplication_xp_total, s_app.bootstrap.best_60_seconds,
                   s_app.bootstrap.best_120_seconds);
-    label(facts, mastery_text, 24, 104, 316,
-          &lv_font_montserrat_20, kInk, LV_TEXT_ALIGN_CENTER);
-    lv_obj_t *cards = button(lv_screen_active(), "", 412, 132, 364, 218,
-                             kBerry, home_event, 2);
-    label(cards, "My Flash Cards", 24, 30, 316,
-          &lv_font_montserrat_24, kInk, LV_TEXT_ALIGN_CENTER);
+    label(facts, mastery_text, 24, 104, 316, &lv_font_montserrat_20, kInk, LV_TEXT_ALIGN_CENTER);
+    lv_obj_t *cards = button(lv_screen_active(), "", 412, 132, 364, 218, kBerry, home_event, 2);
+    label(cards, "My Flash Cards", 24, 30, 316, &lv_font_montserrat_24, kInk, LV_TEXT_ALIGN_CENTER);
     size_t flash_section_count = s_app.bootstrap.flash_section_count;
     buddy_ui_flash_section_t first_section{};
     if (s_app.bootstrap.paired && s_services.flash_section_count != nullptr) {
@@ -485,8 +491,7 @@ void render_home()
                             first_section.pinned;
     char flash_text[220];
     if (has_pinned) {
-        std::snprintf(flash_text, sizeof(flash_text),
-                      "%u active section%s\nPinned: %s",
+        std::snprintf(flash_text, sizeof(flash_text), "%u active section%s\nPinned: %s",
                       static_cast<unsigned>(flash_section_count),
                       flash_section_count == 1 ? "" : "s", first_section.title);
     } else {
@@ -495,16 +500,14 @@ void render_home()
                       static_cast<unsigned>(flash_section_count),
                       flash_section_count == 1 ? "" : "s");
     }
-    label(cards, flash_text, 24, 104, 316, &lv_font_montserrat_20, kInk,
-          LV_TEXT_ALIGN_CENTER);
+    label(cards, flash_text, 24, 104, 316, &lv_font_montserrat_20, kInk, LV_TEXT_ALIGN_CENTER);
 
     char footer[160];
-    std::snprintf(footer, sizeof(footer), "Last synced: %s  |  Queued: %u",
-                  s_app.last_sync.c_str(), static_cast<unsigned>(s_app.bootstrap.queued_events));
+    std::snprintf(footer, sizeof(footer), "Last synced: %s  |  Queued: %u", s_app.last_sync.c_str(),
+                  static_cast<unsigned>(s_app.bootstrap.queued_events));
     label(lv_screen_active(), footer, 24, 367, 550, &lv_font_montserrat_16, kMuted);
     button(lv_screen_active(), "Sync now", 620, 356, 156, 52,
-           s_app.bootstrap.online ? kTeal : kPaper,
-           home_sync_action);
+           s_app.bootstrap.online ? kTeal : kPaper, home_sync_action);
 }
 
 void table_event(lv_event_t *event)
@@ -540,12 +543,12 @@ std::vector<int> selected_factors()
 
 void timed_timer_tick(lv_timer_t *)
 {
-    if (!s_app.timed || s_app.current != Screen::kMultiplicationQuestion) return;
+    if (!s_app.timed || s_app.current != Screen::kMultiplicationQuestion)
+        return;
     const uint64_t current = now_ms();
-    const uint64_t elapsed = s_app.session_elapsed_offset_ms +
-                             (current >= s_app.session_started_ms
-                                  ? current - s_app.session_started_ms
-                                  : 0);
+    const uint64_t elapsed =
+        s_app.session_elapsed_offset_ms +
+        (current >= s_app.session_started_ms ? current - s_app.session_started_ms : 0);
     const uint64_t duration = static_cast<uint64_t>(s_app.duration_seconds) * 1000ULL;
     if (elapsed >= duration) {
         finish_multiplication(nullptr);
@@ -616,16 +619,21 @@ void needs_practice(lv_event_t *)
         s_app.selected_factors[static_cast<size_t>(factor - 1)] = needs_practice;
         selected_any = selected_any || needs_practice;
     }
-    if (!selected_any) s_app.selected_factors.fill(true);
+    if (!selected_any)
+        s_app.selected_factors.fill(true);
     navigate(Screen::kMultiplicationSetup);
 }
 
-void open_mastery_overview(lv_event_t *) { navigate(Screen::kMasteryOverview); }
+void open_mastery_overview(lv_event_t *)
+{
+    navigate(Screen::kMasteryOverview);
+}
 
 void open_mastery_detail(lv_event_t *event)
 {
     const int factor = static_cast<int>(reinterpret_cast<intptr_t>(lv_event_get_user_data(event)));
-    if (factor < 1 || factor > 12) return;
+    if (factor < 1 || factor > 12)
+        return;
     s_app.selected_mastery_factor = factor;
     navigate(Screen::kMasteryDetail);
 }
@@ -647,8 +655,7 @@ void render_mastery_overview()
             }
         }
         char text[48];
-        std::snprintf(text, sizeof(text), "%ds\n%d fluent • %d learning", factor, fluent,
-                      learning);
+        std::snprintf(text, sizeof(text), "%ds\n%d fluent • %d learning", factor, fluent, learning);
         const int column = (factor - 1) % 4;
         const int row = (factor - 1) / 4;
         option_tile(lv_screen_active(), text, 20 + column * 194, 70 + row * 104, 174, 88,
@@ -665,8 +672,8 @@ void render_mastery_detail()
     top_nav(title, true);
     const auto mastery = mastery_snapshot();
     for (int multiplier = 1; multiplier <= 12; ++multiplier) {
-        const size_t index = static_cast<size_t>((s_app.selected_mastery_factor - 1) * 12 +
-                                                 multiplier - 1);
+        const size_t index =
+            static_cast<size_t>((s_app.selected_mastery_factor - 1) * 12 + multiplier - 1);
         const auto &stats = mastery[index];
         const auto level = buddy::domain::mastery_level(&stats);
         const bool fluent = level == buddy::domain::MasteryLevel::kFluent;
@@ -678,24 +685,21 @@ void render_mastery_detail()
                           multiplier);
         } else if (stats.best_keyboard_response_ms.has_value()) {
             std::snprintf(text, sizeof(text), "%d x %d\n%s • %d%% • %.1fs",
-                          s_app.selected_mastery_factor, multiplier,
-                          fluent ? "Fluent" : "Learning", accuracy,
-                          stats.best_keyboard_response_ms.value() / 1000.0);
+                          s_app.selected_mastery_factor, multiplier, fluent ? "Fluent" : "Learning",
+                          accuracy, stats.best_keyboard_response_ms.value() / 1000.0);
         } else {
-            std::snprintf(text, sizeof(text), "%d x %d\n%s • %d%%",
-                          s_app.selected_mastery_factor, multiplier,
-                          fluent ? "Fluent" : "Learning", accuracy);
+            std::snprintf(text, sizeof(text), "%d x %d\n%s • %d%%", s_app.selected_mastery_factor,
+                          multiplier, fluent ? "Fluent" : "Learning", accuracy);
         }
         const int column = (multiplier - 1) % 4;
         const int row = (multiplier - 1) / 4;
-        lv_obj_t *tile = option_tile(lv_screen_active(), text, 20 + column * 194,
-                                     70 + row * 104, 174, 88, fluent, nullptr, multiplier);
+        lv_obj_t *tile = option_tile(lv_screen_active(), text, 20 + column * 194, 70 + row * 104,
+                                     174, 88, fluent, nullptr, multiplier);
         if (attempted && !fluent) {
             lv_obj_set_style_bg_color(tile, color(kWash), LV_PART_MAIN);
         }
     }
-    confirm_bar("Back to overview", true,
-                [](lv_event_t *) { navigate(Screen::kMasteryOverview); });
+    confirm_bar("Back to overview", true, [](lv_event_t *) { navigate(Screen::kMasteryOverview); });
 }
 
 void render_multiplication_setup()
@@ -726,8 +730,7 @@ void render_multiplication_setup()
     option_tile(lv_screen_active(), "120 seconds", 636, 176, 140, 66,
                 s_app.timed && s_app.duration_seconds == 120, mode_event, 120);
     button(lv_screen_active(), "Needs Practice", 482, 256, 140, 62, kPaper, needs_practice);
-    button(lv_screen_active(), "Mastery", 636, 256, 140, 62, kPaper,
-           open_mastery_overview);
+    button(lv_screen_active(), "Mastery", 636, 256, 140, 62, kPaper, open_mastery_overview);
     const bool any = std::any_of(s_app.selected_factors.begin(), s_app.selected_factors.end(),
                                  [](bool selected) { return selected; });
     confirm_bar("Start", any, start_multiplication);
@@ -749,11 +752,9 @@ void keypad_event(lv_event_t *event)
         const MultiplicationFact fact = s_app.deck[s_app.deck_index];
         const int answer = std::atoi(s_app.answer.c_str());
         const uint64_t current = now_ms();
-        const uint64_t response = current >= s_app.question_started_ms
-                                      ? current - s_app.question_started_ms
-                                      : 0;
-        Attempt attempt{fact, answer,
-                        static_cast<uint32_t>(std::min<uint64_t>(response, 600000))};
+        const uint64_t response =
+            current >= s_app.question_started_ms ? current - s_app.question_started_ms : 0;
+        Attempt attempt{fact, answer, static_cast<uint32_t>(std::min<uint64_t>(response, 600000))};
         s_app.last_correct = buddy::domain::score_attempt(selected_factors(), attempt);
         s_app.attempts.push_back(attempt);
         if (s_app.last_correct) {
@@ -781,9 +782,8 @@ void next_fact(lv_event_t *)
     s_app.feedback_visible = false;
     if (s_app.deck_index >= s_app.deck.size()) {
         const auto mastery = mastery_snapshot();
-        s_app.deck = buddy::domain::build_deck(selected_factors(), mastery, !s_app.timed,
-                                               previous, s_app.active_session_seed +
-                                                             s_app.attempts.size());
+        s_app.deck = buddy::domain::build_deck(selected_factors(), mastery, !s_app.timed, previous,
+                                               s_app.active_session_seed + s_app.attempts.size());
         s_app.deck_index = 0;
     }
     s_app.question_started_ms = now_ms();
@@ -837,8 +837,8 @@ void render_multiplication_question()
                   static_cast<unsigned>(s_app.attempts.size() + 1), s_app.score_correct);
     label(lv_screen_active(), progress, 28, 74, 380, &lv_font_montserrat_16, kMuted);
     if (s_app.timed) {
-        s_app.timer_label = label(lv_screen_active(), "Time", 258, 74, 150,
-                                  &lv_font_montserrat_16, kBerryDark, LV_TEXT_ALIGN_RIGHT);
+        s_app.timer_label = label(lv_screen_active(), "Time", 258, 74, 150, &lv_font_montserrat_16,
+                                  kBerryDark, LV_TEXT_ALIGN_RIGHT);
     } else {
         s_app.timer_label = nullptr;
     }
@@ -850,15 +850,16 @@ void render_multiplication_question()
           &lv_font_montserrat_28, kBlue, LV_TEXT_ALIGN_CENTER);
     if (s_app.feedback_visible) {
         char feedback[80];
-        std::snprintf(feedback, sizeof(feedback), s_app.last_correct ? "Correct!" : "Try this fact again - %d",
+        std::snprintf(feedback, sizeof(feedback),
+                      s_app.last_correct ? "Correct!" : "Try this fact again - %d",
                       fact.factor * fact.multiplier);
         label(lv_screen_active(), feedback, 28, 254, 380, &lv_font_montserrat_20,
               s_app.last_correct ? kTeal : kBerryDark, LV_TEXT_ALIGN_CENTER);
     }
 
     const int values[12] = {1, 2, 3, 4, 5, 6, 7, 8, 9, -2, 0, -1};
-    const char *texts[12] = {"1", "2", "3", "4", "5", "6", "7", "8", "9",
-                             LV_SYMBOL_BACKSPACE, "0", "Enter"};
+    const char *texts[12] = {"1", "2",    "3", "4", "5", "6", "7", "8", "9", LV_SYMBOL_BACKSPACE,
+                             "0", "Enter"};
     for (int index = 0; index < 12; ++index) {
         const int column = index % 3;
         const int row = index / 3;
@@ -881,22 +882,23 @@ void render_multiplication_summary()
     label(lv_screen_active(), headline, 60, 104, 680, &lv_font_montserrat_28, kInk,
           LV_TEXT_ALIGN_CENTER);
     char detail[140];
-    const char *retention = !s_app.bootstrap.paired
-                                ? "Demo result stays on this device only."
-                                : s_app.storage_warning
-                                      ? "Storage is full; this session remains recoverable. Sync to free space."
-                                      : "Saved safely and waiting for exactly-once sync.";
+    const char *retention =
+        !s_app.bootstrap.paired ? "Demo result stays on this device only."
+        : s_app.storage_warning
+            ? "Storage is full; this session remains recoverable. Sync to free space."
+            : "Saved safely and waiting for exactly-once sync.";
     std::snprintf(detail, sizeof(detail), "Accuracy %d%%  •  XP pending sync: %d\n%s",
                   total == 0 ? 0 : s_app.score_correct * 100 / total, xp, retention);
     label(lv_screen_active(), detail, 100, 180, 600, &lv_font_montserrat_20, kMuted,
           LV_TEXT_ALIGN_CENTER);
     if (s_app.storage_warning) {
-        confirm_bar("Retry save", true, finish_multiplication,
-                    "Home", [](lv_event_t *) { navigate(Screen::kHome); }, kOrange);
+        confirm_bar(
+            "Retry save", true, finish_multiplication, "Home",
+            [](lv_event_t *) { navigate(Screen::kHome); }, kOrange);
     } else {
-        confirm_bar("Practice again", true,
-                    [](lv_event_t *) { navigate(Screen::kMultiplicationSetup); },
-                    "Home", [](lv_event_t *) { navigate(Screen::kHome); });
+        confirm_bar(
+            "Practice again", true, [](lv_event_t *) { navigate(Screen::kMultiplicationSetup); },
+            "Home", [](lv_event_t *) { navigate(Screen::kHome); });
     }
 }
 
@@ -927,7 +929,8 @@ void load_flash_sections()
 bool load_flash_cards(size_t section_index)
 {
     s_app.flash_cards.clear();
-    if (section_index >= s_app.flash_sections.size()) return false;
+    if (section_index >= s_app.flash_sections.size())
+        return false;
     const buddy_ui_flash_section_t &section = s_app.flash_sections[section_index];
     if (!s_app.bootstrap.paired || s_services.flash_card == nullptr) {
         s_app.flash_cards = {
@@ -941,7 +944,8 @@ bool load_flash_cards(size_t section_index)
     }
     for (size_t index = 0; index < section.card_count; ++index) {
         buddy_ui_flash_card_t card{};
-        if (!s_services.flash_card(s_services.context, section_index, index, &card)) return false;
+        if (!s_services.flash_card(s_services.context, section_index, index, &card))
+            return false;
         s_app.flash_cards.push_back({card.id, card.front, card.back, card.clue});
     }
     return !s_app.flash_cards.empty();
@@ -970,7 +974,7 @@ bool persist_flash_session()
     }
     const std::string payload = buddy::domain::encode_flash_session(current_flash_state());
     const bool saved = s_services.write_record(s_services.context, kFlashSessionPath, 1,
-                                                payload.data(), payload.size());
+                                               payload.data(), payload.size());
     s_app.storage_warning = !saved;
     return saved;
 }
@@ -984,7 +988,8 @@ void remove_flash_session()
 
 bool begin_flash_round(size_t section_index)
 {
-    if (section_index >= s_app.flash_sections.size() || !load_flash_cards(section_index)) return false;
+    if (section_index >= s_app.flash_sections.size() || !load_flash_cards(section_index))
+        return false;
     s_app.selected_flash_index = static_cast<int>(section_index);
     s_app.flash_section_id = s_app.flash_sections[section_index].id;
     s_app.flash_section_title = s_app.flash_sections[section_index].title;
@@ -1014,18 +1019,20 @@ bool begin_flash_round(size_t section_index)
 
 void start_flash_round(lv_event_t *event)
 {
-    const intptr_t raw = event == nullptr ? s_app.selected_flash_index
-                                          : reinterpret_cast<intptr_t>(lv_event_get_user_data(event));
-    if (raw >= 0 && begin_flash_round(static_cast<size_t>(raw))) navigate(Screen::kFlashStudy);
+    const intptr_t raw = event == nullptr
+                             ? s_app.selected_flash_index
+                             : reinterpret_cast<intptr_t>(lv_event_get_user_data(event));
+    if (raw >= 0 && begin_flash_round(static_cast<size_t>(raw)))
+        navigate(Screen::kFlashStudy);
 }
 
 void render_empty_flash_library()
 {
     const char *authoring_url = s_app.flash_authoring_url.empty()
-                                   ? "https://buddyblocks.net/kid/"
-                                   : s_app.flash_authoring_url.c_str();
-    label(lv_screen_active(), "No downloaded flash cards yet", 70, 72, 660,
-          &lv_font_montserrat_24, kInk, LV_TEXT_ALIGN_CENTER);
+                                    ? "https://buddyblocks.net/kid/"
+                                    : s_app.flash_authoring_url.c_str();
+    label(lv_screen_active(), "No downloaded flash cards yet", 70, 72, 660, &lv_font_montserrat_24,
+          kInk, LV_TEXT_ALIGN_CENTER);
     lv_obj_t *qr = lv_qrcode_create(lv_screen_active());
     lv_qrcode_set_size(qr, 190);
     lv_qrcode_set_dark_color(qr, color(kInk));
@@ -1035,8 +1042,9 @@ void render_empty_flash_library()
     lv_obj_set_pos(qr, 305, 112);
     label(lv_screen_active(), "Open My Flash Cards on the website, create a section, then sync.",
           80, 315, 640, &lv_font_montserrat_16, kMuted, LV_TEXT_ALIGN_CENTER);
-    confirm_bar("Sync now", s_app.bootstrap.online, sync_action,
-                "Continue offline", [](lv_event_t *) { navigate(Screen::kHome); }, kTeal);
+    confirm_bar(
+        "Sync now", s_app.bootstrap.online, sync_action, "Continue offline",
+        [](lv_event_t *) { navigate(Screen::kHome); }, kTeal);
 }
 
 void render_flash_library()
@@ -1047,8 +1055,9 @@ void render_flash_library()
         render_empty_flash_library();
         return;
     }
-    label(lv_screen_active(), s_app.bootstrap.paired ? "Downloaded and ready offline" : "Demo library",
-          24, 68, 500, &lv_font_montserrat_20, kInk);
+    label(lv_screen_active(),
+          s_app.bootstrap.paired ? "Downloaded and ready offline" : "Demo library", 24, 68, 500,
+          &lv_font_montserrat_20, kInk);
     lv_obj_t *list = lv_obj_create(lv_screen_active());
     lv_obj_set_pos(list, 16, 104);
     lv_obj_set_size(list, 768, 286);
@@ -1068,8 +1077,8 @@ void render_flash_library()
                       section.source[0] == '\0' ? "My Flash Cards" : section.source);
         label(row, detail, 20, 52, 700, &lv_font_montserrat_16, kMuted);
     }
-    confirm_bar("Choose a section above", false, nullptr,
-                "Home", [](lv_event_t *) { navigate(Screen::kHome); });
+    confirm_bar("Choose a section above", false, nullptr, "Home",
+                [](lv_event_t *) { navigate(Screen::kHome); });
 }
 
 const FlashCard *flash_card_by_id(const std::string &id)
@@ -1114,21 +1123,23 @@ void finish_flash_round(lv_event_t *)
         bool first = true;
         for (const FlashSessionReview &review : s_app.flash_reviews) {
             const FlashCard *card = flash_card_by_id(review.card_id);
-            if (card == nullptr) continue;
+            if (card == nullptr)
+                continue;
             const unsigned shown_count = ++shown[review.card_id];
-            if (!first) json << ',';
+            if (!first)
+                json << ',';
             first = false;
             json << "{\"cardId\":\"" << review.card_id << "\","
                  << "\"cardFingerprint\":\"" << flash_card_fingerprint(*card) << "\","
                  << "\"rating\":\"" << (review.got_it ? "got_it" : "again") << "\","
-                 << "\"shownCount\":" << shown_count << ",\"responseMs\":"
-                 << std::min<uint32_t>(review.response_ms, 600000) << '}';
+                 << "\"shownCount\":" << shown_count
+                 << ",\"responseMs\":" << std::min<uint32_t>(review.response_ms, 600000) << '}';
         }
         json << "]}}";
         const std::string payload = json.str();
-        retained = s_services.enqueue_event(s_services.context,
-                                             s_app.flash_client_attempt_id.c_str(),
-                                             payload.data(), payload.size());
+        retained =
+            s_services.enqueue_event(s_services.context, s_app.flash_client_attempt_id.c_str(),
+                                     payload.data(), payload.size());
     }
     if (retained) {
         s_app.flash_session_saved = true;
@@ -1147,18 +1158,21 @@ void finish_flash_round(lv_event_t *)
 
 bool restore_flash_session(const char *json)
 {
-    if (json == nullptr) return false;
+    if (json == nullptr)
+        return false;
     const auto restored = buddy::domain::decode_flash_session(json);
-    if (!restored.has_value()) return false;
+    if (!restored.has_value())
+        return false;
     load_flash_sections();
-    const auto section = std::find_if(
-        s_app.flash_sections.begin(), s_app.flash_sections.end(),
-        [&](const buddy_ui_flash_section_t &candidate) {
-            return restored->practice_set_id == candidate.id;
-        });
-    if (section == s_app.flash_sections.end()) return false;
+    const auto section = std::find_if(s_app.flash_sections.begin(), s_app.flash_sections.end(),
+                                      [&](const buddy_ui_flash_section_t &candidate) {
+                                          return restored->practice_set_id == candidate.id;
+                                      });
+    if (section == s_app.flash_sections.end())
+        return false;
     const size_t section_index = static_cast<size_t>(section - s_app.flash_sections.begin());
-    if (!load_flash_cards(section_index)) return false;
+    if (!load_flash_cards(section_index))
+        return false;
     s_app.selected_flash_index = static_cast<int>(section_index);
     s_app.flash_section_id = restored->practice_set_id;
     s_app.flash_section_title = section->title;
@@ -1170,9 +1184,11 @@ bool restore_flash_session(const char *json)
     s_app.flash_round = std::make_unique<FlashRound>(s_app.flash_cards, restored->seed);
     for (const FlashSessionReview &review : restored->reviews) {
         const FlashCard *current = s_app.flash_round->current();
-        if (current == nullptr || current->id != review.card_id) return false;
+        if (current == nullptr || current->id != review.card_id)
+            return false;
         s_app.flash_round->reveal();
-        if (!s_app.flash_round->rate(review.got_it)) return false;
+        if (!s_app.flash_round->rate(review.got_it))
+            return false;
         s_app.flash_reviews.push_back(review);
     }
     if (restored->revealed && s_app.flash_round->current() != nullptr) {
@@ -1197,14 +1213,14 @@ void flash_action(lv_event_t *event)
     } else {
         const FlashCard *current = s_app.flash_round->current();
         const uint64_t current_ms = now_ms();
-        if (current == nullptr || !s_app.flash_round->rate(value > 0)) return;
+        if (current == nullptr || !s_app.flash_round->rate(value > 0))
+            return;
         s_app.flash_reviews.push_back(
             {current->id, value > 0,
-             static_cast<uint32_t>(std::min<uint64_t>(
-                 current_ms >= s_app.flash_card_started_ms
-                     ? current_ms - s_app.flash_card_started_ms
-                     : 0,
-                 600000))});
+             static_cast<uint32_t>(std::min<uint64_t>(current_ms >= s_app.flash_card_started_ms
+                                                          ? current_ms - s_app.flash_card_started_ms
+                                                          : 0,
+                                                      600000))});
         s_app.flash_card_started_ms = current_ms;
         (void)persist_flash_session();
         if (s_app.flash_round->finished() || s_app.flash_round->current() == nullptr) {
@@ -1258,12 +1274,13 @@ void render_flash_study()
 void render_flash_summary()
 {
     top_nav("Round Complete", true);
-    const auto summary = s_app.flash_round ? s_app.flash_round->summary()
-                                           : buddy::domain::FlashRoundSummary{};
+    const auto summary =
+        s_app.flash_round ? s_app.flash_round->summary() : buddy::domain::FlashRoundSummary{};
     char value[220];
     const uint64_t elapsed = current_flash_state().elapsed_ms / 1000;
     std::snprintf(value, sizeof(value),
-                  "%u unique cards studied\n%u first-pass Got it\n%u total reviews  •  %" PRIu64 " sec",
+                  "%u unique cards studied\n%u first-pass Got it\n%u total reviews  •  %" PRIu64
+                  " sec",
                   static_cast<unsigned>(summary.unique_studied),
                   static_cast<unsigned>(summary.first_pass_got_it),
                   static_cast<unsigned>(summary.total_reviews), elapsed);
@@ -1271,75 +1288,100 @@ void render_flash_summary()
           LV_TEXT_ALIGN_CENTER);
     if (s_app.storage_warning) {
         label(lv_screen_active(),
-              "Storage is full; this round remains recoverable until sync frees space.",
-              80, 310, 640, &lv_font_montserrat_16, kOrange, LV_TEXT_ALIGN_CENTER);
+              "Storage is full; this round remains recoverable until sync frees space.", 80, 310,
+              640, &lv_font_montserrat_16, kOrange, LV_TEXT_ALIGN_CENTER);
     }
     if (s_app.storage_warning) {
-        confirm_bar("Retry save", true, finish_flash_round,
-                    "Library", [](lv_event_t *) { navigate(Screen::kFlashLibrary); }, kOrange);
+        confirm_bar(
+            "Retry save", true, finish_flash_round, "Library",
+            [](lv_event_t *) { navigate(Screen::kFlashLibrary); }, kOrange);
     } else {
-        confirm_bar("Study again", true,
-                    [](lv_event_t *) {
-                        if (s_app.selected_flash_index >= 0 &&
-                            begin_flash_round(static_cast<size_t>(s_app.selected_flash_index))) {
-                            navigate(Screen::kFlashStudy);
-                        }
-                    },
-                    "Library", [](lv_event_t *) { navigate(Screen::kFlashLibrary); });
+        confirm_bar(
+            "Study again", true,
+            [](lv_event_t *) {
+                if (s_app.selected_flash_index >= 0 &&
+                    begin_flash_round(static_cast<size_t>(s_app.selected_flash_index))) {
+                    navigate(Screen::kFlashStudy);
+                }
+            },
+            "Library", [](lv_event_t *) { navigate(Screen::kFlashLibrary); });
     }
 }
 
 void settings_event(lv_event_t *event)
 {
     const intptr_t value = reinterpret_cast<intptr_t>(lv_event_get_user_data(event));
-    if (value == 1) navigate(Screen::kWifi);
-    if (value == 2) home_sync_action(event);
-    if (value == 3) navigate(Screen::kPreferences);
-    if (value == 4) navigate(Screen::kPairing);
+    if (value == 1)
+        navigate(Screen::kWifi);
+    if (value == 2)
+        home_sync_action(event);
+    if (value == 3)
+        navigate(Screen::kPreferences);
+    if (value == 4)
+        navigate(Screen::kPairing);
     if (value == 5) {
         firmware_check_action(event);
     }
-    if (value == 6) navigate(Screen::kDiagnostics);
-    if (value == 7) navigate(Screen::kHardwareProof);
-    if (value == 8) navigate(Screen::kFactoryReset);
+    if (value == 6)
+        navigate(Screen::kDiagnostics);
+    if (value == 7)
+        navigate(Screen::kHardwareProof);
+    if (value == 8)
+        navigate(Screen::kFactoryReset);
 }
 
 const char *wifi_state_text()
 {
     switch (s_app.wifi_state) {
-    case 2: return "Scanning...";
-    case 3: return "Connecting...";
-    case 4: return "Connected";
-    case 5: return "Wrong password - try again";
-    case 6: return "Connected to Wi-Fi, but no internet";
-    case 7: return "Captive portal detected (not supported)";
-    case 8: return "Could not connect";
-    default: return "Offline";
+    case 2:
+        return "Scanning...";
+    case 3:
+        return "Connecting...";
+    case 4:
+        return "Connected";
+    case 5:
+        return "Wrong password - try again";
+    case 6:
+        return "Connected to Wi-Fi, but no internet";
+    case 7:
+        return "Captive portal detected (not supported)";
+    case 8:
+        return "Could not connect";
+    default:
+        return "Offline";
     }
 }
 
 const char *wifi_security_text(int security)
 {
     switch (security) {
-    case 0: return "Open";
-    case 2: return "WPA3";
-    case 3: return "Unsupported security";
-    default: return "WPA2/WPA3";
+    case 0:
+        return "Open";
+    case 2:
+        return "WPA3";
+    case 3:
+        return "Unsupported security";
+    default:
+        return "WPA2/WPA3";
     }
 }
 
 const char *wifi_signal_text(int signal)
 {
-    if (signal >= -55) return "Excellent";
-    if (signal >= -67) return "Good";
-    if (signal >= -75) return "Fair";
+    if (signal >= -55)
+        return "Excellent";
+    if (signal >= -67)
+        return "Good";
+    if (signal >= -75)
+        return "Fair";
     return "Weak";
 }
 
 void load_wifi_networks()
 {
     s_app.wifi_networks.clear();
-    if (s_services.wifi_network_count == nullptr || s_services.wifi_network == nullptr) return;
+    if (s_services.wifi_network_count == nullptr || s_services.wifi_network == nullptr)
+        return;
     const size_t count = std::min<size_t>(s_services.wifi_network_count(s_services.context), 20);
     for (size_t index = 0; index < count; ++index) {
         buddy_ui_wifi_network_t network{};
@@ -1352,7 +1394,8 @@ void load_wifi_networks()
 void wifi_row_event(lv_event_t *event)
 {
     const intptr_t index = reinterpret_cast<intptr_t>(lv_event_get_user_data(event));
-    if (index < 0 || static_cast<size_t>(index) >= s_app.wifi_networks.size()) return;
+    if (index < 0 || static_cast<size_t>(index) >= s_app.wifi_networks.size())
+        return;
     s_app.selected_wifi_index = static_cast<int>(index);
     s_app.hidden_wifi = false;
     navigate(Screen::kWifiNetwork);
@@ -1367,7 +1410,8 @@ void hidden_wifi_event(lv_event_t *)
 
 void refresh_wifi(lv_event_t *)
 {
-    if (s_services.wifi_scan != nullptr) (void)s_services.wifi_scan(s_services.context);
+    if (s_services.wifi_scan != nullptr)
+        (void)s_services.wifi_scan(s_services.context);
 }
 
 void wifi_focus_event(lv_event_t *event)
@@ -1377,17 +1421,16 @@ void wifi_focus_event(lv_event_t *event)
 
 const char *wifi_key_text(size_t index)
 {
-    static constexpr std::array<const char *, 26> lower{
-        "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d",
-        "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m"};
-    static constexpr std::array<const char *, 26> upper{
-        "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D",
-        "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M"};
+    static constexpr std::array<const char *, 26> lower{"q", "w", "e", "r", "t", "y", "u", "i", "o",
+                                                        "p", "a", "s", "d", "f", "g", "h", "j", "k",
+                                                        "l", "z", "x", "c", "v", "b", "n", "m"};
+    static constexpr std::array<const char *, 26> upper{"Q", "W", "E", "R", "T", "Y", "U", "I", "O",
+                                                        "P", "A", "S", "D", "F", "G", "H", "J", "K",
+                                                        "L", "Z", "X", "C", "V", "B", "N", "M"};
     static constexpr std::array<const char *, 26> symbols{
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "@", "#", "$",
         "%", "&", "*", "+", "-", "_", ".", ",", "!", "?", "/", ":", ";"};
-    return s_app.wifi_symbols ? symbols[index]
-                              : s_app.wifi_shift ? upper[index] : lower[index];
+    return s_app.wifi_symbols ? symbols[index] : s_app.wifi_shift ? upper[index] : lower[index];
 }
 
 void update_wifi_keyboard_labels()
@@ -1402,7 +1445,8 @@ void update_wifi_keyboard_labels()
 
 void wifi_keyboard_event(lv_event_t *event)
 {
-    if (s_app.wifi_active_input == nullptr) return;
+    if (s_app.wifi_active_input == nullptr)
+        return;
     const intptr_t key = reinterpret_cast<intptr_t>(lv_event_get_user_data(event));
     if (key >= 0 && key < 26) {
         lv_textarea_add_text(s_app.wifi_active_input, wifi_key_text(static_cast<size_t>(key)));
@@ -1434,34 +1478,34 @@ void build_wifi_keyboard(int top)
     constexpr int key_height = 48;
     for (int index = 0; index < 10; ++index) {
         s_app.wifi_key_buttons[static_cast<size_t>(index)] =
-            button(s_app.wifi_keyboard, wifi_key_text(static_cast<size_t>(index)),
-                   8 + index * 76, 0, 70, key_height, kPaper, wifi_keyboard_event, index);
+            button(s_app.wifi_keyboard, wifi_key_text(static_cast<size_t>(index)), 8 + index * 76,
+                   0, 70, key_height, kPaper, wifi_keyboard_event, index);
     }
     for (int index = 0; index < 9; ++index) {
         const int key = index + 10;
         s_app.wifi_key_buttons[static_cast<size_t>(key)] =
-            button(s_app.wifi_keyboard, wifi_key_text(static_cast<size_t>(key)),
-                   37 + index * 78, 52, 72, key_height, kPaper, wifi_keyboard_event, key);
+            button(s_app.wifi_keyboard, wifi_key_text(static_cast<size_t>(key)), 37 + index * 78,
+                   52, 72, key_height, kPaper, wifi_keyboard_event, key);
     }
-    button(s_app.wifi_keyboard, "Shift", 8, 104, 88, key_height, kReward,
-           wifi_keyboard_event, 100);
+    button(s_app.wifi_keyboard, "Shift", 8, 104, 88, key_height, kReward, wifi_keyboard_event, 100);
     for (int index = 0; index < 7; ++index) {
         const int key = index + 19;
         s_app.wifi_key_buttons[static_cast<size_t>(key)] =
-            button(s_app.wifi_keyboard, wifi_key_text(static_cast<size_t>(key)),
-                   103 + index * 76, 104, 70, key_height, kPaper, wifi_keyboard_event, key);
+            button(s_app.wifi_keyboard, wifi_key_text(static_cast<size_t>(key)), 103 + index * 76,
+                   104, 70, key_height, kPaper, wifi_keyboard_event, key);
     }
     button(s_app.wifi_keyboard, LV_SYMBOL_BACKSPACE, 641, 104, 119, key_height, kReward,
            wifi_keyboard_event, 101);
-    button(s_app.wifi_keyboard, "123 / ABC", 8, 156, 150, key_height, kPaper,
-           wifi_keyboard_event, 103);
-    button(s_app.wifi_keyboard, "Space", 166, 156, 594, key_height, kPaper,
-           wifi_keyboard_event, 102);
+    button(s_app.wifi_keyboard, "123 / ABC", 8, 156, 150, key_height, kPaper, wifi_keyboard_event,
+           103);
+    button(s_app.wifi_keyboard, "Space", 166, 156, 594, key_height, kPaper, wifi_keyboard_event,
+           102);
 }
 
 void wifi_reveal_event(lv_event_t *event)
 {
-    if (s_app.wifi_password_input == nullptr) return;
+    if (s_app.wifi_password_input == nullptr)
+        return;
     const lv_obj_t *checkbox = static_cast<lv_obj_t *>(lv_event_get_target(event));
     lv_textarea_set_password_mode(s_app.wifi_password_input,
                                   !lv_obj_has_state(checkbox, LV_STATE_CHECKED));
@@ -1469,17 +1513,20 @@ void wifi_reveal_event(lv_event_t *event)
 
 void connect_wifi(lv_event_t *)
 {
-    if (s_services.wifi_connect == nullptr || s_app.wifi_password_input == nullptr) return;
+    if (s_services.wifi_connect == nullptr || s_app.wifi_password_input == nullptr)
+        return;
     const char *ssid = nullptr;
     if (s_app.hidden_wifi) {
-        if (s_app.wifi_ssid_input == nullptr) return;
+        if (s_app.wifi_ssid_input == nullptr)
+            return;
         ssid = lv_textarea_get_text(s_app.wifi_ssid_input);
     } else if (s_app.selected_wifi_index >= 0 &&
                static_cast<size_t>(s_app.selected_wifi_index) < s_app.wifi_networks.size()) {
         ssid = s_app.wifi_networks[static_cast<size_t>(s_app.selected_wifi_index)].ssid;
     }
     const char *password = lv_textarea_get_text(s_app.wifi_password_input);
-    if (ssid == nullptr || ssid[0] == '\0') return;
+    if (ssid == nullptr || ssid[0] == '\0')
+        return;
     if (s_services.wifi_connect(s_services.context, ssid, password, true, s_app.hidden_wifi)) {
         navigate(Screen::kWifi);
     }
@@ -1492,11 +1539,15 @@ void forget_wifi(lv_event_t *)
         return;
     }
     (void)s_services.wifi_forget(
-        s_services.context, s_app.wifi_networks[static_cast<size_t>(s_app.selected_wifi_index)].ssid);
+        s_services.context,
+        s_app.wifi_networks[static_cast<size_t>(s_app.selected_wifi_index)].ssid);
     navigate(Screen::kWifi);
 }
 
-void confirm_forget_wifi(lv_event_t *) { navigate(Screen::kWifiForget); }
+void confirm_forget_wifi(lv_event_t *)
+{
+    navigate(Screen::kWifiForget);
+}
 
 void render_wifi_forget()
 {
@@ -1507,20 +1558,22 @@ void render_wifi_forget()
             ? &s_app.wifi_networks[static_cast<size_t>(s_app.selected_wifi_index)]
             : nullptr;
     const char *ssid = network == nullptr ? "this saved network" : network->ssid;
-    label(lv_screen_active(), "Forget saved network?", 70, 105, 660,
-          &lv_font_montserrat_28, kInk, LV_TEXT_ALIGN_CENTER);
+    label(lv_screen_active(), "Forget saved network?", 70, 105, 660, &lv_font_montserrat_28, kInk,
+          LV_TEXT_ALIGN_CENTER);
     std::string explanation = "The saved password for " + std::string(ssid) +
                               " will be erased. You can add it again later.";
-    label(lv_screen_active(), explanation.c_str(), 100, 185, 600,
-          &lv_font_montserrat_20, kMuted, LV_TEXT_ALIGN_CENTER);
-    confirm_bar("Forget network", network != nullptr && network->saved, forget_wifi,
-                "Cancel", [](lv_event_t *) { navigate(Screen::kWifi); }, kOrange);
+    label(lv_screen_active(), explanation.c_str(), 100, 185, 600, &lv_font_montserrat_20, kMuted,
+          LV_TEXT_ALIGN_CENTER);
+    confirm_bar(
+        "Forget network", network != nullptr && network->saved, forget_wifi, "Cancel",
+        [](lv_event_t *) { navigate(Screen::kWifi); }, kOrange);
 }
 
 void render_settings()
 {
     top_nav("Settings", true);
-    const char *items[] = {LV_SYMBOL_WIFI "  Wi-Fi", LV_SYMBOL_REFRESH "  Sync now",
+    const char *items[] = {LV_SYMBOL_WIFI "  Wi-Fi",
+                           LV_SYMBOL_REFRESH "  Sync now",
                            LV_SYMBOL_SETTINGS "  Display",
                            LV_SYMBOL_HOME "  Device & pairing",
                            LV_SYMBOL_DOWNLOAD "  Software update",
@@ -1528,8 +1581,8 @@ void render_settings()
                            LV_SYMBOL_EYE_OPEN "  Hardware proof",
                            LV_SYMBOL_TRASH "  Factory reset"};
     for (int index = 0; index < 8; ++index) {
-        option_tile(lv_screen_active(), items[index], 24 + (index % 2) * 388,
-                    66 + (index / 2) * 80, 364, 68, false, settings_event, index + 1);
+        option_tile(lv_screen_active(), items[index], 24 + (index % 2) * 388, 66 + (index / 2) * 80,
+                    364, 68, false, settings_event, index + 1);
     }
 }
 
@@ -1575,11 +1628,11 @@ void render_preferences()
     constexpr std::array<const char *, 4> timeout_names{"Never", "2 min", "5 min", "10 min"};
     for (size_t index = 0; index < timeouts.size(); ++index) {
         option_tile(lv_screen_active(), timeout_names[index], 24 + static_cast<int>(index) * 194,
-                    230, 170, 66, s_app.screen_timeout_minutes == timeouts[index],
-                    preference_event, 200 + timeouts[index]);
+                    230, 170, 66, s_app.screen_timeout_minutes == timeouts[index], preference_event,
+                    200 + timeouts[index]);
     }
-    option_tile(lv_screen_active(), "Reduced motion", 24, 326, 752, 62,
-                s_app.reduced_motion, preference_event, 300);
+    option_tile(lv_screen_active(), "Reduced motion", 24, 326, 752, 62, s_app.reduced_motion,
+                preference_event, 300);
     confirm_bar("Done", true, [](lv_event_t *) { navigate(Screen::kSettings); });
 }
 
@@ -1591,8 +1644,7 @@ void factory_reset_action(lv_event_t *)
         navigate(Screen::kFactoryReset);
         return;
     }
-    if (s_services.factory_reset == nullptr ||
-        !s_services.factory_reset(s_services.context)) {
+    if (s_services.factory_reset == nullptr || !s_services.factory_reset(s_services.context)) {
         s_app.factory_reset_error = "Reset could not start. Please restart and try again.";
         navigate(Screen::kFactoryReset);
     }
@@ -1602,7 +1654,8 @@ void render_factory_reset()
 {
     top_nav("Factory Reset", true);
     label(lv_screen_active(),
-          "This erases Wi-Fi, pairing, child content, queued activity, saved sessions, and diagnostics.\nIt does not change Secure Boot or hardware security settings.",
+          "This erases Wi-Fi, pairing, child content, queued activity, saved sessions, and "
+          "diagnostics.\nIt does not change Secure Boot or hardware security settings.",
           34, 62, 732, &lv_font_montserrat_16, kOrange, LV_TEXT_ALIGN_CENTER);
     label(lv_screen_active(), "Type RESET", 24, 126, 140, &lv_font_montserrat_16, kInk);
     s_app.factory_reset_input = lv_textarea_create(lv_screen_active());
@@ -1617,8 +1670,9 @@ void render_factory_reset()
         label(lv_screen_active(), s_app.factory_reset_error.c_str(), 160, 370, 616,
               &lv_font_montserrat_16, kOrange, LV_TEXT_ALIGN_CENTER);
     }
-    confirm_bar("Erase and restart", true, factory_reset_action, "Cancel",
-                [](lv_event_t *) { navigate(Screen::kSettings); }, kOrange);
+    confirm_bar(
+        "Erase and restart", true, factory_reset_action, "Cancel",
+        [](lv_event_t *) { navigate(Screen::kSettings); }, kOrange);
 }
 
 void ota_install_action(lv_event_t *)
@@ -1644,36 +1698,32 @@ void render_update()
     const bool policy_error = !ota_error && !s_app.firmware_checking &&
                               !s_app.device_error.empty() &&
                               (s_app.device_state == 5 || s_app.device_state == 8);
-    const bool available = !policy_error &&
-                           (s_app.ota_state == 1 || s_app.ota_state == 2 || ota_error);
-    const char *headline = s_app.firmware_checking
-                               ? "Checking for updates..."
-                               : reboot_ready
-                               ? "Update verified and ready"
-                               : working ? (s_app.ota_state == 3 ? "Downloading securely"
-                                                                 : "Verifying image")
-                                         : ota_error ? "Update failed - try again"
-                                         : policy_error ? "Update check failed"
-                                         : available ? "Update available"
-                                         : !s_app.bootstrap.online
-                                             ? "Connect to check for updates"
-                                             : "This board is up to date";
+    const bool available =
+        !policy_error && (s_app.ota_state == 1 || s_app.ota_state == 2 || ota_error);
+    const char *headline = s_app.firmware_checking ? "Checking for updates..."
+                           : reboot_ready          ? "Update verified and ready"
+                           : working
+                               ? (s_app.ota_state == 3 ? "Downloading securely" : "Verifying image")
+                           : ota_error               ? "Update failed - try again"
+                           : policy_error            ? "Update check failed"
+                           : available               ? "Update available"
+                           : !s_app.bootstrap.online ? "Connect to check for updates"
+                                                     : "This board is up to date";
     label(lv_screen_active(), headline, 60, 80, 680, &lv_font_montserrat_28,
-          reboot_ready ? kTeal
-                       : s_app.ota_mandatory || ota_error || policy_error ? kOrange : kInk,
+          reboot_ready                                       ? kTeal
+          : s_app.ota_mandatory || ota_error || policy_error ? kOrange
+                                                             : kInk,
           LV_TEXT_ALIGN_CENTER);
     char versions[180];
     if (s_app.ota_version.empty()) {
         std::snprintf(versions, sizeof(versions), "Installed firmware: %s",
                       s_app.firmware_version.c_str());
     } else if (available || working || reboot_ready) {
-        std::snprintf(versions, sizeof(versions),
-                      "Available: %s  •  Minimum allowed: %s%s",
+        std::snprintf(versions, sizeof(versions), "Available: %s  •  Minimum allowed: %s%s",
                       s_app.ota_version.c_str(), s_app.ota_minimum_version.c_str(),
                       s_app.ota_mandatory ? "  •  Required" : "");
     } else {
-        std::snprintf(versions, sizeof(versions),
-                      "Installed: %s  •  Current release: %s",
+        std::snprintf(versions, sizeof(versions), "Installed: %s  •  Current release: %s",
                       s_app.firmware_version.c_str(), s_app.ota_version.c_str());
     }
     label(lv_screen_active(), versions, 50, 132, 700, &lv_font_montserrat_20, kMuted,
@@ -1685,8 +1735,8 @@ void render_update()
         lv_bar_set_range(progress, 0, 1000);
         const int value = s_app.ota_size == 0
                               ? (s_app.ota_state == 4 || reboot_ready ? 1000 : 0)
-                              : static_cast<int>(std::min<size_t>(
-                                    1000, s_app.ota_downloaded * 1000 / s_app.ota_size));
+                              : static_cast<int>(std::min<size_t>(1000, s_app.ota_downloaded *
+                                                                            1000 / s_app.ota_size));
         lv_bar_set_value(progress, value, LV_ANIM_OFF);
         char bytes[100];
         std::snprintf(bytes, sizeof(bytes), "%u / %u KiB",
@@ -1698,41 +1748,43 @@ void render_update()
         label(lv_screen_active(), s_app.ota_release_notes.c_str(), 76, 190, 648,
               &lv_font_montserrat_20, kInk, LV_TEXT_ALIGN_CENTER);
     }
-    const char *status_message = !s_app.ota_message.empty()
-                                     ? s_app.ota_message.c_str()
-                                     : policy_error ? s_app.device_error.c_str() : nullptr;
+    const char *status_message = !s_app.ota_message.empty() ? s_app.ota_message.c_str()
+                                 : policy_error             ? s_app.device_error.c_str()
+                                                            : nullptr;
     if (status_message != nullptr) {
-        label(lv_screen_active(), status_message, 76, 294, 648,
-              &lv_font_montserrat_16, ota_error || policy_error ? kOrange : kMuted,
-              LV_TEXT_ALIGN_CENTER);
+        label(lv_screen_active(), status_message, 76, 294, 648, &lv_font_montserrat_16,
+              ota_error || policy_error ? kOrange : kMuted, LV_TEXT_ALIGN_CENTER);
     } else if (available) {
         label(lv_screen_active(),
-              "Keep stable USB power connected. Learning data stays in its own partition.",
-              76, 294, 648, &lv_font_montserrat_16, kMuted, LV_TEXT_ALIGN_CENTER);
+              "Keep stable USB power connected. Learning data stays in its own partition.", 76, 294,
+              648, &lv_font_montserrat_16, kMuted, LV_TEXT_ALIGN_CENTER);
     }
     if (s_app.firmware_checking) {
-        confirm_bar("Checking securely", false, nullptr,
-                    "Back", [](lv_event_t *) { navigate(Screen::kSettings); });
+        confirm_bar("Checking securely", false, nullptr, "Back",
+                    [](lv_event_t *) { navigate(Screen::kSettings); });
     } else if (reboot_ready) {
-        confirm_bar("Restart into update", true, ota_reboot_action, "Later",
-                    [](lv_event_t *) { navigate(Screen::kSettings); }, kTeal);
+        confirm_bar(
+            "Restart into update", true, ota_reboot_action, "Later",
+            [](lv_event_t *) { navigate(Screen::kSettings); }, kTeal);
     } else if (available) {
-        confirm_bar(s_app.ota_state == 6 ? "Retry update" : "Download and install", true,
-                    ota_install_action, "Back", [](lv_event_t *) { navigate(Screen::kSettings); },
-                    s_app.ota_mandatory ? kOrange : kBerry);
+        confirm_bar(
+            s_app.ota_state == 6 ? "Retry update" : "Download and install", true,
+            ota_install_action, "Back", [](lv_event_t *) { navigate(Screen::kSettings); },
+            s_app.ota_mandatory ? kOrange : kBerry);
     } else {
         if (working) {
             confirm_bar("Update in progress", false, nullptr);
         } else if (!s_app.bootstrap.online) {
-            confirm_bar("Open Wi-Fi", true,
-                        [](lv_event_t *) { navigate(Screen::kWifi); },
-                        "Back", [](lv_event_t *) { navigate(Screen::kSettings); });
+            confirm_bar(
+                "Open Wi-Fi", true, [](lv_event_t *) { navigate(Screen::kWifi); }, "Back",
+                [](lv_event_t *) { navigate(Screen::kSettings); });
         } else if (policy_error) {
-            confirm_bar("Retry check", true, firmware_check_action,
-                        "Back", [](lv_event_t *) { navigate(Screen::kSettings); }, kOrange);
+            confirm_bar(
+                "Retry check", true, firmware_check_action, "Back",
+                [](lv_event_t *) { navigate(Screen::kSettings); }, kOrange);
         } else {
-            confirm_bar("Check again", true, firmware_check_action,
-                        "Back", [](lv_event_t *) { navigate(Screen::kSettings); });
+            confirm_bar("Check again", true, firmware_check_action, "Back",
+                        [](lv_event_t *) { navigate(Screen::kSettings); });
         }
     }
 }
@@ -1746,7 +1798,8 @@ void pairing_action(lv_event_t *)
 
 void sync_action(lv_event_t *)
 {
-    if (s_services.request_sync != nullptr) (void)s_services.request_sync(s_services.context);
+    if (s_services.request_sync != nullptr)
+        (void)s_services.request_sync(s_services.context);
 }
 
 void home_sync_action(lv_event_t *)
@@ -1755,8 +1808,7 @@ void home_sync_action(lv_event_t *)
         navigate(Screen::kWifi);
         return;
     }
-    if (s_services.request_sync != nullptr &&
-        s_services.request_sync(s_services.context)) {
+    if (s_services.request_sync != nullptr && s_services.request_sync(s_services.context)) {
         // Show request-in-flight state without falsifying the last successful
         // sync timestamp. The sync service replaces this state on completion.
         s_app.device_state = 3;
@@ -1768,8 +1820,7 @@ void firmware_check_action(lv_event_t *)
 {
     s_app.firmware_checking = false;
     if (s_app.bootstrap.online && s_services.request_firmware_check != nullptr) {
-        s_app.firmware_checking =
-            s_services.request_firmware_check(s_services.context);
+        s_app.firmware_checking = s_services.request_firmware_check(s_services.context);
     }
     navigate(Screen::kUpdate);
 }
@@ -1782,12 +1833,15 @@ void render_pairing()
         const bool ready = s_app.device_state == 4;
         label(lv_screen_active(),
               syncing ? LV_SYMBOL_REFRESH "  Pairing confirmed - syncing..."
-                      : ready ? LV_SYMBOL_OK "  Paired and ready"
-                              : LV_SYMBOL_WARNING "  Paired - sync needs attention",
+              : ready ? LV_SYMBOL_OK "  Paired and ready"
+                      : LV_SYMBOL_WARNING "  Paired - sync needs attention",
               70, 104, 660, &lv_font_montserrat_28,
-              ready ? kTeal : syncing ? kBlue : kOrange, LV_TEXT_ALIGN_CENTER);
-        const std::string identity = s_app.device_name + "  •  Learning profile: " +
-                                     s_app.child_name;
+              ready     ? kTeal
+              : syncing ? kBlue
+                        : kOrange,
+              LV_TEXT_ALIGN_CENTER);
+        const std::string identity =
+            s_app.device_name + "  •  Learning profile: " + s_app.child_name;
         label(lv_screen_active(), identity.c_str(), 70, 175, 660, &lv_font_montserrat_24, kInk,
               LV_TEXT_ALIGN_CENTER);
         char details[180];
@@ -1802,8 +1856,8 @@ void render_pairing()
                   &lv_font_montserrat_16, kOrange, LV_TEXT_ALIGN_CENTER);
         }
         if (syncing) {
-            confirm_bar("Initial sync in progress", false, nullptr,
-                        "Continue offline", [](lv_event_t *) { navigate(Screen::kHome); });
+            confirm_bar("Initial sync in progress", false, nullptr, "Continue offline",
+                        [](lv_event_t *) { navigate(Screen::kHome); });
         } else {
             confirm_bar("Sync now", s_app.bootstrap.online, sync_action,
                         ready ? "Done" : "Continue offline",
@@ -1821,27 +1875,28 @@ void render_pairing()
         lv_obj_set_pos(qr, 36, 86);
         label(lv_screen_active(), "Open the parent page or scan:", 310, 90, 450,
               &lv_font_montserrat_20, kMuted);
-        label(lv_screen_active(), s_app.pairing_code.c_str(), 310, 135, 450,
-              &lv_font_montserrat_28, kBerry, LV_TEXT_ALIGN_CENTER);
-        label(lv_screen_active(), s_app.claim_url.c_str(), 310, 205, 450,
-              &lv_font_montserrat_16, kInk, LV_TEXT_ALIGN_CENTER);
+        label(lv_screen_active(), s_app.pairing_code.c_str(), 310, 135, 450, &lv_font_montserrat_28,
+              kBerry, LV_TEXT_ALIGN_CENTER);
+        label(lv_screen_active(), s_app.claim_url.c_str(), 310, 205, 450, &lv_font_montserrat_16,
+              kInk, LV_TEXT_ALIGN_CENTER);
         label(lv_screen_active(), "Waiting for a parent to choose a child...", 310, 300, 450,
               &lv_font_montserrat_20, kMuted, LV_TEXT_ALIGN_CENTER);
         confirm_bar("Generate a new code", s_app.bootstrap.online, pairing_action,
                     "Continue offline", [](lv_event_t *) { navigate(Screen::kHome); });
         return;
     }
-    label(lv_screen_active(), "Pairing requires a parent", 70, 105, 660,
-          &lv_font_montserrat_28, kInk, LV_TEXT_ALIGN_CENTER);
+    label(lv_screen_active(), "Pairing requires a parent", 70, 105, 660, &lv_font_montserrat_28,
+          kInk, LV_TEXT_ALIGN_CENTER);
     label(lv_screen_active(),
-          "Connect Wi-Fi, generate a short-lived code, then claim it from the parent dashboard.\nNo parent password or browser cookie is stored on this board.",
+          "Connect Wi-Fi, generate a short-lived code, then claim it from the parent "
+          "dashboard.\nNo parent password or browser cookie is stored on this board.",
           70, 175, 660, &lv_font_montserrat_20, kMuted, LV_TEXT_ALIGN_CENTER);
     if (!s_app.device_error.empty()) {
-        label(lv_screen_active(), s_app.device_error.c_str(), 70, 292, 660,
-              &lv_font_montserrat_16, kOrange, LV_TEXT_ALIGN_CENTER);
+        label(lv_screen_active(), s_app.device_error.c_str(), 70, 292, 660, &lv_font_montserrat_16,
+              kOrange, LV_TEXT_ALIGN_CENTER);
     }
-    confirm_bar("Generate pairing code", s_app.bootstrap.online, pairing_action,
-                "Continue offline", [](lv_event_t *) { navigate(Screen::kHome); });
+    confirm_bar("Generate pairing code", s_app.bootstrap.online, pairing_action, "Continue offline",
+                [](lv_event_t *) { navigate(Screen::kHome); });
 }
 
 void render_wifi()
@@ -1875,8 +1930,8 @@ void render_wifi()
     }
     option_tile(list, "+ Hidden network", 0, y, 732, 68, false, hidden_wifi_event, 0);
     lv_obj_set_height(list, 288);
-    confirm_bar("Refresh scan", s_app.wifi_state != 2, refresh_wifi,
-                "Continue offline", [](lv_event_t *) { navigate(Screen::kHome); });
+    confirm_bar("Refresh scan", s_app.wifi_state != 2, refresh_wifi, "Continue offline",
+                [](lv_event_t *) { navigate(Screen::kHome); });
 }
 
 void render_wifi_network()
@@ -1911,8 +1966,8 @@ void render_wifi_network()
         label(lv_screen_active(), details, 20, 68, 760, &lv_font_montserrat_20, kInk);
     }
     const int password_top = s_app.hidden_wifi ? 112 : 102;
-    label(lv_screen_active(), "Password", 20, password_top + 10, 140,
-          &lv_font_montserrat_16, kMuted);
+    label(lv_screen_active(), "Password", 20, password_top + 10, 140, &lv_font_montserrat_16,
+          kMuted);
     s_app.wifi_password_input = lv_textarea_create(lv_screen_active());
     lv_obj_set_pos(s_app.wifi_password_input, 150, password_top);
     lv_obj_set_size(s_app.wifi_password_input, 430, 48);
@@ -1927,14 +1982,13 @@ void render_wifi_network()
     style_text(reveal, kInk, &lv_font_montserrat_16);
     lv_obj_add_event_cb(reveal, wifi_reveal_event, LV_EVENT_VALUE_CHANGED, nullptr);
 
-    s_app.wifi_active_input =
-        s_app.hidden_wifi ? s_app.wifi_ssid_input : s_app.wifi_password_input;
+    s_app.wifi_active_input = s_app.hidden_wifi ? s_app.wifi_ssid_input : s_app.wifi_password_input;
     build_wifi_keyboard(keyboard_top);
     const bool can_forget = network != nullptr && network->saved;
-    confirm_bar("Connect", true, connect_wifi, can_forget ? "Forget saved" : "Cancel",
-                can_forget ? confirm_forget_wifi
-                           : [](lv_event_t *) { navigate(Screen::kWifi); },
-                can_forget ? kOrange : kPaper);
+    confirm_bar(
+        "Connect", true, connect_wifi, can_forget ? "Forget saved" : "Cancel",
+        can_forget ? confirm_forget_wifi : [](lv_event_t *) { navigate(Screen::kWifi); },
+        can_forget ? kOrange : kPaper);
 }
 
 void render_diagnostics()
@@ -1944,10 +1998,10 @@ void render_diagnostics()
     if (s_services.diagnostics != nullptr) {
         (void)s_services.diagnostics(s_services.context, &telemetry);
     }
-    const char *ota_state = s_app.ota_state == 5 ? "ready to reboot"
-                            : s_app.ota_state == 6 ? "last update failed"
+    const char *ota_state = s_app.ota_state == 5                           ? "ready to reboot"
+                            : s_app.ota_state == 6                         ? "last update failed"
                             : s_app.ota_state == 3 || s_app.ota_state == 4 ? "updating"
-                                                                        : "idle";
+                                                                           : "idle";
     char rssi_text[32]{};
     if (s_app.wifi_rssi != 0) {
         std::snprintf(rssi_text, sizeof(rssi_text), " • RSSI %d dBm", s_app.wifi_rssi);
@@ -1964,14 +2018,11 @@ void render_diagnostics()
                   "Secrets and complete identifiers are always redacted.",
                   s_app.firmware_version.c_str(), s_app.hardware_profile.c_str(),
                   static_cast<unsigned>(telemetry.p4_revision),
-                  telemetry.c6_firmware_version[0] == '\0'
-                      ? "unavailable until hosted handshake"
-                      : telemetry.c6_firmware_version,
-                  s_app.device_id_suffix.c_str(),
-                  s_app.bootstrap.online ? "online" : "offline",
+                  telemetry.c6_firmware_version[0] == '\0' ? "unavailable until hosted handshake"
+                                                           : telemetry.c6_firmware_version,
+                  s_app.device_id_suffix.c_str(), s_app.bootstrap.online ? "online" : "offline",
                   s_app.wifi_ipv4.empty() ? "" : " • ",
-                  s_app.wifi_ipv4.empty() ? "" : s_app.wifi_ipv4.c_str(),
-                  rssi_text,
+                  s_app.wifi_ipv4.empty() ? "" : s_app.wifi_ipv4.c_str(), rssi_text,
                   s_app.last_sync.c_str(), static_cast<unsigned>(s_app.content_revision),
                   static_cast<unsigned>(s_app.bootstrap.queued_events), ota_state,
                   static_cast<unsigned>(telemetry.free_internal_heap / 1024),
@@ -1997,8 +2048,8 @@ void render_hardware_proof()
         for (int column = 0; column < 5; ++column) {
             char text[12];
             std::snprintf(text, sizeof(text), "%d,%d", column + 1, row + 1);
-            button(lv_screen_active(), text, 8 + column * 158, 66 + row * 102, 150, 90,
-                   kPaper, grid_event);
+            button(lv_screen_active(), text, 8 + column * 158, 66 + row * 102, 150, 90, kPaper,
+                   grid_event);
         }
     }
     char footer[80];
@@ -2011,37 +2062,37 @@ void render_hardware_proof()
 void render_option_gallery()
 {
     top_nav("OptionTile States", true);
-    label(lv_screen_active(), "Stable IDs • entire tile is tappable • 52 px minimum",
-          24, 66, 752, &lv_font_montserrat_16, kMuted, LV_TEXT_ALIGN_CENTER);
+    label(lv_screen_active(), "Stable IDs • entire tile is tappable • 52 px minimum", 24, 66, 752,
+          &lv_font_montserrat_16, kMuted, LV_TEXT_ALIGN_CENTER);
     option_tile(lv_screen_active(), "Rest", 24, 104, 232, 82, false, nullptr, 101);
-    lv_obj_t *pressed = option_tile(lv_screen_active(), "Pressed", 284, 104, 232, 82,
-                                    false, nullptr, 102);
+    lv_obj_t *pressed =
+        option_tile(lv_screen_active(), "Pressed", 284, 104, 232, 82, false, nullptr, 102);
     lv_obj_add_state(pressed, LV_STATE_PRESSED);
     option_tile(lv_screen_active(), "Selected", 544, 104, 232, 82, true, nullptr, 103);
-    option_tile(lv_screen_active(), "Persisted selection\nRestored by stable value ID",
-                24, 206, 362, 96, true, nullptr, 104);
-    option_tile(lv_screen_active(), "Disabled\nUnavailable right now",
-                414, 206, 362, 96, false, nullptr, 105, false);
-    lv_obj_t *correct = option_tile(lv_screen_active(), "Correct", 24, 322, 232, 66,
-                                    false, nullptr, 106);
+    option_tile(lv_screen_active(), "Persisted selection\nRestored by stable value ID", 24, 206,
+                362, 96, true, nullptr, 104);
+    option_tile(lv_screen_active(), "Disabled\nUnavailable right now", 414, 206, 362, 96, false,
+                nullptr, 105, false);
+    lv_obj_t *correct =
+        option_tile(lv_screen_active(), "Correct", 24, 322, 232, 66, false, nullptr, 106);
     lv_obj_set_style_bg_color(correct, color(kTeal), LV_PART_MAIN);
-    lv_obj_t *incorrect = option_tile(lv_screen_active(), "Incorrect", 284, 322, 232, 66,
-                                      false, nullptr, 107);
+    lv_obj_t *incorrect =
+        option_tile(lv_screen_active(), "Incorrect", 284, 322, 232, 66, false, nullptr, 107);
     lv_obj_set_style_bg_color(incorrect, color(kOrange), LV_PART_MAIN);
-    option_tile(lv_screen_active(), "Long label wraps safely", 544, 322, 232, 66,
-                false, nullptr, 108);
+    option_tile(lv_screen_active(), "Long label wraps safely", 544, 322, 232, 66, false, nullptr,
+                108);
 }
 
 void render_choice_gallery()
 {
     top_nav("ChoiceGrid Contract", true);
-    label(lv_screen_active(), "Choose an answer, then use the fixed Check answer action",
-          24, 66, 752, &lv_font_montserrat_16, kMuted, LV_TEXT_ALIGN_CENTER);
+    label(lv_screen_active(), "Choose an answer, then use the fixed Check answer action", 24, 66,
+          752, &lv_font_montserrat_16, kMuted, LV_TEXT_ALIGN_CENTER);
     option_tile(lv_screen_active(), "A  •  48", 28, 104, 356, 112, false, nullptr, 201);
     option_tile(lv_screen_active(), "B  •  54", 416, 104, 356, 112, true, nullptr, 202);
     if (s_app.gallery_choice_count >= 3) {
-        option_tile(lv_screen_active(), "C  •  Two-line answer\nwith helpful detail",
-                    28, 236, 356, 112, false, nullptr, 203);
+        option_tile(lv_screen_active(), "C  •  Two-line answer\nwith helpful detail", 28, 236, 356,
+                    112, false, nullptr, 203);
     }
     if (s_app.gallery_choice_count >= 4) {
         option_tile(lv_screen_active(), "D  •  64", 416, 236, 356, 112, false, nullptr, 204);
@@ -2064,12 +2115,14 @@ void render_long_option_gallery()
         char row[100];
         std::snprintf(row, sizeof(row), "Saved option %d\nStable value ID option_%d", index + 1,
                       index + 1);
-        lv_obj_t *tile = option_tile(list, row, 0, index * 82, 732, 74, index == 7,
-                                     nullptr, 300 + index);
-        if (index == 7) restored = tile;
+        lv_obj_t *tile =
+            option_tile(list, row, 0, index * 82, 732, 74, index == 7, nullptr, 300 + index);
+        if (index == 7)
+            restored = tile;
     }
     lv_obj_update_layout(list);
-    if (restored != nullptr) lv_obj_scroll_to_view(restored, LV_ANIM_OFF);
+    if (restored != nullptr)
+        lv_obj_scroll_to_view(restored, LV_ANIM_OFF);
     confirm_bar("Continue with option 8", true, nullptr);
 }
 
@@ -2079,12 +2132,13 @@ void render_text_boundary_gallery()
     label(lv_screen_active(), "Maximum-length labels wrap; missing glyphs use a safe replacement.",
           32, 76, 736, &lv_font_montserrat_20, kMuted, LV_TEXT_ALIGN_CENTER);
     option_tile(lv_screen_active(),
-                "A two-line option label remains readable and never becomes a marquee",
-                36, 132, 728, 92, false, nullptr, 401);
-    option_tile(lv_screen_active(), "Unsupported sample: math \xE2\x88\x91  CJK \xE6\xBC\xA2  emoji \xF0\x9F\x8C\x9F",
+                "A two-line option label remains readable and never becomes a marquee", 36, 132,
+                728, 92, false, nullptr, 401);
+    option_tile(lv_screen_active(),
+                "Unsupported sample: math \xE2\x88\x91  CJK \xE6\xBC\xA2  emoji \xF0\x9F\x8C\x9F",
                 36, 244, 728, 76, false, nullptr, 402);
-    label(lv_screen_active(), "Large value: 4,294,967,295", 36, 342, 728,
-          &lv_font_montserrat_24, kInk, LV_TEXT_ALIGN_CENTER);
+    label(lv_screen_active(), "Large value: 4,294,967,295", 36, 342, 728, &lv_font_montserrat_24,
+          kInk, LV_TEXT_ALIGN_CENTER);
     confirm_bar("Done", true, nullptr);
 }
 
@@ -2093,58 +2147,127 @@ void render(Screen screen)
     s_app.current = screen;
     prepare_screen(screen == Screen::kHome ? kWash : kMint);
     switch (screen) {
-    case Screen::kHome: render_home(); break;
-    case Screen::kMultiplicationSetup: render_multiplication_setup(); break;
-    case Screen::kMultiplicationQuestion: render_multiplication_question(); break;
-    case Screen::kMultiplicationSummary: render_multiplication_summary(); break;
-    case Screen::kMasteryOverview: render_mastery_overview(); break;
-    case Screen::kMasteryDetail: render_mastery_detail(); break;
-    case Screen::kFlashLibrary: render_flash_library(); break;
-    case Screen::kFlashStudy: render_flash_study(); break;
-    case Screen::kFlashSummary: render_flash_summary(); break;
-    case Screen::kSettings: render_settings(); break;
-    case Screen::kWifi: render_wifi(); break;
-    case Screen::kWifiNetwork: render_wifi_network(); break;
-    case Screen::kWifiForget: render_wifi_forget(); break;
-    case Screen::kPairing: render_pairing(); break;
-    case Screen::kUpdate: render_update(); break;
-    case Screen::kPreferences: render_preferences(); break;
-    case Screen::kFactoryReset: render_factory_reset(); break;
-    case Screen::kDiagnostics: render_diagnostics(); break;
-    case Screen::kHardwareProof: render_hardware_proof(); break;
-    case Screen::kOptionGallery: render_option_gallery(); break;
-    case Screen::kChoiceGallery: render_choice_gallery(); break;
-    case Screen::kLongOptionGallery: render_long_option_gallery(); break;
-    case Screen::kTextBoundaryGallery: render_text_boundary_gallery(); break;
+    case Screen::kHome:
+        render_home();
+        break;
+    case Screen::kMultiplicationSetup:
+        render_multiplication_setup();
+        break;
+    case Screen::kMultiplicationQuestion:
+        render_multiplication_question();
+        break;
+    case Screen::kMultiplicationSummary:
+        render_multiplication_summary();
+        break;
+    case Screen::kMasteryOverview:
+        render_mastery_overview();
+        break;
+    case Screen::kMasteryDetail:
+        render_mastery_detail();
+        break;
+    case Screen::kFlashLibrary:
+        render_flash_library();
+        break;
+    case Screen::kFlashStudy:
+        render_flash_study();
+        break;
+    case Screen::kFlashSummary:
+        render_flash_summary();
+        break;
+    case Screen::kSettings:
+        render_settings();
+        break;
+    case Screen::kWifi:
+        render_wifi();
+        break;
+    case Screen::kWifiNetwork:
+        render_wifi_network();
+        break;
+    case Screen::kWifiForget:
+        render_wifi_forget();
+        break;
+    case Screen::kPairing:
+        render_pairing();
+        break;
+    case Screen::kUpdate:
+        render_update();
+        break;
+    case Screen::kPreferences:
+        render_preferences();
+        break;
+    case Screen::kFactoryReset:
+        render_factory_reset();
+        break;
+    case Screen::kDiagnostics:
+        render_diagnostics();
+        break;
+    case Screen::kHardwareProof:
+        render_hardware_proof();
+        break;
+    case Screen::kOptionGallery:
+        render_option_gallery();
+        break;
+    case Screen::kChoiceGallery:
+        render_choice_gallery();
+        break;
+    case Screen::kLongOptionGallery:
+        render_long_option_gallery();
+        break;
+    case Screen::kTextBoundaryGallery:
+        render_text_boundary_gallery();
+        break;
     }
 }
 
 const char *screen_name(Screen screen)
 {
     switch (screen) {
-    case Screen::kHome: return "home";
-    case Screen::kMultiplicationSetup: return "multiplication-setup";
-    case Screen::kMultiplicationQuestion: return "multiplication-question";
-    case Screen::kMultiplicationSummary: return "multiplication-summary";
-    case Screen::kMasteryOverview: return "mastery-overview";
-    case Screen::kMasteryDetail: return "mastery-detail";
-    case Screen::kFlashLibrary: return "flash-library";
-    case Screen::kFlashStudy: return "flash-study";
-    case Screen::kFlashSummary: return "flash-summary";
-    case Screen::kSettings: return "settings";
-    case Screen::kWifi: return "wifi";
-    case Screen::kWifiNetwork: return "wifi-network";
-    case Screen::kWifiForget: return "wifi-forget";
-    case Screen::kPairing: return "pairing";
-    case Screen::kUpdate: return "software-update";
-    case Screen::kPreferences: return "display-settings";
-    case Screen::kFactoryReset: return "factory-reset";
-    case Screen::kDiagnostics: return "diagnostics";
-    case Screen::kHardwareProof: return "hardware-proof";
-    case Screen::kOptionGallery: return "option-gallery";
-    case Screen::kChoiceGallery: return "choice-gallery";
-    case Screen::kLongOptionGallery: return "long-option-gallery";
-    case Screen::kTextBoundaryGallery: return "text-boundary-gallery";
+    case Screen::kHome:
+        return "home";
+    case Screen::kMultiplicationSetup:
+        return "multiplication-setup";
+    case Screen::kMultiplicationQuestion:
+        return "multiplication-question";
+    case Screen::kMultiplicationSummary:
+        return "multiplication-summary";
+    case Screen::kMasteryOverview:
+        return "mastery-overview";
+    case Screen::kMasteryDetail:
+        return "mastery-detail";
+    case Screen::kFlashLibrary:
+        return "flash-library";
+    case Screen::kFlashStudy:
+        return "flash-study";
+    case Screen::kFlashSummary:
+        return "flash-summary";
+    case Screen::kSettings:
+        return "settings";
+    case Screen::kWifi:
+        return "wifi";
+    case Screen::kWifiNetwork:
+        return "wifi-network";
+    case Screen::kWifiForget:
+        return "wifi-forget";
+    case Screen::kPairing:
+        return "pairing";
+    case Screen::kUpdate:
+        return "software-update";
+    case Screen::kPreferences:
+        return "display-settings";
+    case Screen::kFactoryReset:
+        return "factory-reset";
+    case Screen::kDiagnostics:
+        return "diagnostics";
+    case Screen::kHardwareProof:
+        return "hardware-proof";
+    case Screen::kOptionGallery:
+        return "option-gallery";
+    case Screen::kChoiceGallery:
+        return "choice-gallery";
+    case Screen::kLongOptionGallery:
+        return "long-option-gallery";
+    case Screen::kTextBoundaryGallery:
+        return "text-boundary-gallery";
     }
     return "unknown";
 }
@@ -2167,16 +2290,16 @@ extern "C" bool buddy_ui_start(lv_display_t *display, const buddy_ui_bootstrap_t
     s_app.bootstrap = *bootstrap;
     s_app.child_name = bootstrap->child_name == nullptr ? "Demo Learner" : bootstrap->child_name;
     s_app.device_name = bootstrap->device_name == nullptr ? "Buddy Board" : bootstrap->device_name;
-    s_app.flash_authoring_url = bootstrap->flash_authoring_url == nullptr
-                                     ? "" : bootstrap->flash_authoring_url;
+    s_app.flash_authoring_url =
+        bootstrap->flash_authoring_url == nullptr ? "" : bootstrap->flash_authoring_url;
     s_app.last_sync = bootstrap->last_sync_text == nullptr ? "Never" : bootstrap->last_sync_text;
     s_app.content_revision = bootstrap->flash_content_revision;
-    s_app.firmware_version = bootstrap->firmware_version == nullptr
-                                 ? "0.1.0" : bootstrap->firmware_version;
-    s_app.hardware_profile = bootstrap->hardware_profile == nullptr
-                                 ? "unknown" : bootstrap->hardware_profile;
-    s_app.device_id_suffix = bootstrap->device_id_suffix == nullptr
-                                 ? "unpaired" : bootstrap->device_id_suffix;
+    s_app.firmware_version =
+        bootstrap->firmware_version == nullptr ? "0.1.0" : bootstrap->firmware_version;
+    s_app.hardware_profile =
+        bootstrap->hardware_profile == nullptr ? "unknown" : bootstrap->hardware_profile;
+    s_app.device_id_suffix =
+        bootstrap->device_id_suffix == nullptr ? "unpaired" : bootstrap->device_id_suffix;
     s_app.brightness_percent = bootstrap->brightness_percent;
     s_app.screen_timeout_minutes = bootstrap->screen_timeout_minutes;
     s_app.reduced_motion = bootstrap->reduced_motion;
@@ -2185,8 +2308,8 @@ extern "C" bool buddy_ui_start(lv_display_t *display, const buddy_ui_bootstrap_t
     lv_display_set_default(display);
     bool resumed = false;
     if (bootstrap->multiplication_session_json != nullptr) {
-        const auto restored = buddy::domain::decode_multiplication_session(
-            bootstrap->multiplication_session_json);
+        const auto restored =
+            buddy::domain::decode_multiplication_session(bootstrap->multiplication_session_json);
         if (restored.has_value()) {
             s_app.selected_factors.fill(false);
             for (const int factor : restored->selected_factors) {
@@ -2214,13 +2337,15 @@ extern "C" bool buddy_ui_start(lv_display_t *display, const buddy_ui_bootstrap_t
     bool resumed_flash = false;
     if (!resumed && bootstrap->flash_session_json != nullptr) {
         resumed_flash = restore_flash_session(bootstrap->flash_session_json);
-        if (!resumed_flash) remove_flash_session();
+        if (!resumed_flash)
+            remove_flash_session();
     }
-    render(resumed ? Screen::kMultiplicationQuestion
-                   : resumed_flash ? (s_app.flash_round != nullptr && s_app.flash_round->finished()
-                                          ? Screen::kFlashSummary
-                                          : Screen::kFlashStudy)
-                                   : bootstrap->paired ? Screen::kHome : Screen::kWifi);
+    render(resumed             ? Screen::kMultiplicationQuestion
+           : resumed_flash     ? (s_app.flash_round != nullptr && s_app.flash_round->finished()
+                                      ? Screen::kFlashSummary
+                                      : Screen::kFlashStudy)
+           : bootstrap->paired ? Screen::kHome
+                               : Screen::kWifi);
     notify_activity_state();
     return true;
 }
@@ -2231,7 +2356,7 @@ extern "C" const char *buddy_ui_current_screen_name(void)
 }
 
 extern "C" void buddy_ui_update_status(bool online, size_t queued_events,
-                                         const char *last_sync_text)
+                                       const char *last_sync_text)
 {
     s_app.bootstrap.online = online;
     s_app.bootstrap.queued_events = queued_events;
@@ -2242,10 +2367,10 @@ extern "C" void buddy_ui_update_status(bool online, size_t queued_events,
 }
 
 extern "C" void buddy_ui_update_connectivity(int state, const char *ssid, const char *ipv4,
-                                                int rssi,
-                                                uint32_t revision)
+                                             int rssi, uint32_t revision)
 {
-    if (revision == s_app.wifi_revision) return;
+    if (revision == s_app.wifi_revision)
+        return;
     s_app.wifi_revision = revision;
     s_app.wifi_state = state;
     s_app.wifi_ssid = ssid == nullptr ? "" : ssid;
@@ -2260,23 +2385,27 @@ extern "C" void buddy_ui_update_connectivity(int state, const char *ssid, const 
 }
 
 extern "C" void buddy_ui_update_device(bool paired, int state, const char *pairing_code,
-                                         const char *claim_url, const char *child_name,
-                                         const char *device_name, const char *flash_authoring_url,
-                                         const char *last_error, uint32_t content_revision,
-                                         size_t queued_events, uint32_t revision)
+                                       const char *claim_url, const char *child_name,
+                                       const char *device_name, const char *flash_authoring_url,
+                                       const char *last_error, uint32_t content_revision,
+                                       size_t queued_events, uint32_t revision)
 {
-    if (revision == s_app.device_revision) return;
+    if (revision == s_app.device_revision)
+        return;
     s_app.device_revision = revision;
     s_app.device_state = state;
-    if (s_app.firmware_checking && state != 3) s_app.firmware_checking = false;
+    if (s_app.firmware_checking && state != 3)
+        s_app.firmware_checking = false;
     s_app.bootstrap.paired = paired;
     s_app.pairing_code = pairing_code == nullptr ? "" : pairing_code;
     s_app.claim_url = claim_url == nullptr ? "" : claim_url;
     s_app.device_error = last_error == nullptr ? "" : last_error;
     s_app.content_revision = content_revision;
     s_app.bootstrap.queued_events = queued_events;
-    if (child_name != nullptr && child_name[0] != '\0') s_app.child_name = child_name;
-    if (device_name != nullptr && device_name[0] != '\0') s_app.device_name = device_name;
+    if (child_name != nullptr && child_name[0] != '\0')
+        s_app.child_name = child_name;
+    if (device_name != nullptr && device_name[0] != '\0')
+        s_app.device_name = device_name;
     if (flash_authoring_url != nullptr && flash_authoring_url[0] != '\0') {
         s_app.flash_authoring_url = flash_authoring_url;
     }
@@ -2294,13 +2423,13 @@ extern "C" void buddy_ui_update_device(bool paired, int state, const char *pairi
     }
 }
 
-extern "C" void buddy_ui_update_ota(int state, const char *version,
-                                      const char *minimum_version,
-                                      const char *release_notes, const char *message,
-                                      size_t downloaded, size_t total_size, bool mandatory,
-                                      uint32_t revision)
+extern "C" void buddy_ui_update_ota(int state, const char *version, const char *minimum_version,
+                                    const char *release_notes, const char *message,
+                                    size_t downloaded, size_t total_size, bool mandatory,
+                                    uint32_t revision)
 {
-    if (revision == s_app.ota_revision) return;
+    if (revision == s_app.ota_revision)
+        return;
     s_app.ota_revision = revision;
     s_app.ota_state = state;
     s_app.ota_version = version == nullptr ? "" : version;
@@ -2310,14 +2439,15 @@ extern "C" void buddy_ui_update_ota(int state, const char *version,
     s_app.ota_downloaded = downloaded;
     s_app.ota_size = total_size;
     s_app.ota_mandatory = mandatory;
-    if (s_app.current == Screen::kUpdate) render(Screen::kUpdate);
+    if (s_app.current == Screen::kUpdate)
+        render(Screen::kUpdate);
 }
 
-extern "C" void buddy_ui_update_mastery(size_t fluent_facts, int xp_total,
-                                           int best_60_seconds, int best_120_seconds,
-                                           uint32_t revision)
+extern "C" void buddy_ui_update_mastery(size_t fluent_facts, int xp_total, int best_60_seconds,
+                                        int best_120_seconds, uint32_t revision)
 {
-    if (revision == s_app.mastery_revision) return;
+    if (revision == s_app.mastery_revision)
+        return;
     s_app.mastery_revision = revision;
     s_app.bootstrap.fluent_facts = fluent_facts;
     s_app.bootstrap.multiplication_xp_total = xp_total;
@@ -2330,55 +2460,66 @@ extern "C" void buddy_ui_update_mastery(size_t fluent_facts, int xp_total,
 
 extern "C" bool buddy_ui_run_interaction_self_test(void)
 {
-    if (s_app.display == nullptr) return false;
+    if (s_app.display == nullptr)
+        return false;
     s_app.navigation_pending = false;
     s_app.click_seen = false;
     s_app.selected_factors.fill(false);
     render(Screen::kMultiplicationSetup);
     lv_obj_t *screen = lv_screen_active();
-    if (lv_obj_get_child_count(screen) < 20) return false;
+    if (lv_obj_get_child_count(screen) < 20)
+        return false;
     lv_obj_t *first_table = lv_obj_get_child(screen, 2);
     lv_obj_t *bar = lv_obj_get_child(screen, -1);
     lv_obj_t *start = lv_obj_get_child(bar, 0);
-    if (!lv_obj_has_state(start, LV_STATE_DISABLED)) return false;
+    if (!lv_obj_has_state(start, LV_STATE_DISABLED))
+        return false;
 
     // A press that becomes a drag/press-lost sequence must not commit.
     (void)lv_obj_send_event(first_table, LV_EVENT_PRESSED, nullptr);
     (void)lv_obj_send_event(first_table, LV_EVENT_PRESS_LOST, nullptr);
     (void)lv_obj_send_event(first_table, LV_EVENT_RELEASED, nullptr);
-    if (s_app.selected_factors[0]) return false;
+    if (s_app.selected_factors[0])
+        return false;
 
     // Two immediate clicks before the deferred render are treated as one
     // physical tap, preventing select-then-unselect and double submission.
     (void)lv_obj_send_event(first_table, LV_EVENT_CLICKED, nullptr);
     (void)lv_obj_send_event(first_table, LV_EVENT_CLICKED, nullptr);
-    if (!s_app.selected_factors[0] || !s_app.navigation_pending) return false;
+    if (!s_app.selected_factors[0] || !s_app.navigation_pending)
+        return false;
     (void)lv_timer_handler();
-    if (s_app.navigation_pending || !s_app.selected_factors[0]) return false;
+    if (s_app.navigation_pending || !s_app.selected_factors[0])
+        return false;
 
     screen = lv_screen_active();
     bar = lv_obj_get_child(screen, -1);
     start = lv_obj_get_child(bar, 0);
-    if (lv_obj_has_state(start, LV_STATE_DISABLED)) return false;
+    if (lv_obj_has_state(start, LV_STATE_DISABLED))
+        return false;
 
     // A clean unpaired board advances through the specified first-boot path
     // without requiring hidden Back/Settings navigation.
     s_app.bootstrap.paired = false;
     s_app.bootstrap.online = false;
     render(Screen::kWifi);
-    buddy_ui_update_connectivity(4, "Home Network", "192.0.2.24", -48,
-                                 s_app.wifi_revision + 1);
-    if (!s_app.navigation_pending) return false;
+    buddy_ui_update_connectivity(4, "Home Network", "192.0.2.24", -48, s_app.wifi_revision + 1);
+    if (!s_app.navigation_pending)
+        return false;
     (void)lv_timer_handler();
-    if (s_app.current != Screen::kPairing) return false;
+    if (s_app.current != Screen::kPairing)
+        return false;
     buddy_ui_update_device(true, 3, "", "", "Avery", "Kitchen Buddy Board", "", "", 12, 0,
                            s_app.device_revision + 1);
-    if (s_app.navigation_pending || s_app.current != Screen::kPairing) return false;
+    if (s_app.navigation_pending || s_app.current != Screen::kPairing)
+        return false;
     buddy_ui_update_device(true, 4, "", "", "Avery", "Kitchen Buddy Board", "", "", 12, 0,
                            s_app.device_revision + 1);
-    if (!s_app.navigation_pending) return false;
+    if (!s_app.navigation_pending)
+        return false;
     (void)lv_timer_handler();
-    if (s_app.current != Screen::kHome) return false;
+    if (s_app.current != Screen::kHome)
+        return false;
 
     // Home sync must invoke the service and show an in-flight state without
     // replacing the last-successful timestamp with a false success.
@@ -2394,7 +2535,8 @@ extern "C" bool buddy_ui_run_interaction_self_test(void)
         return false;
     }
     (void)lv_timer_handler();
-    if (s_app.current != Screen::kHome) return false;
+    if (s_app.current != Screen::kHome)
+        return false;
 
     // The same action while offline opens connection help instead of claiming
     // a sync succeeded.
@@ -2404,9 +2546,11 @@ extern "C" bool buddy_ui_run_interaction_self_test(void)
     screen = lv_screen_active();
     sync_button = lv_obj_get_child(screen, -1);
     (void)lv_obj_send_event(sync_button, LV_EVENT_CLICKED, nullptr);
-    if (!s_app.navigation_pending) return false;
+    if (!s_app.navigation_pending)
+        return false;
     (void)lv_timer_handler();
-    if (s_app.current != Screen::kWifi) return false;
+    if (s_app.current != Screen::kWifi)
+        return false;
 
     // Manual firmware checks remain visibly in flight while the service is
     // working, then repaint even when the result is an error with no new OTA
@@ -2414,15 +2558,17 @@ extern "C" bool buddy_ui_run_interaction_self_test(void)
     s_app.bootstrap.online = true;
     s_app.bootstrap.paired = true;
     firmware_check_action(nullptr);
-    if (!s_app.navigation_pending || !s_app.firmware_checking) return false;
+    if (!s_app.navigation_pending || !s_app.firmware_checking)
+        return false;
     (void)lv_timer_handler();
-    if (s_app.current != Screen::kUpdate) return false;
+    if (s_app.current != Screen::kUpdate)
+        return false;
     buddy_ui_update_device(true, 3, "", "", "Avery", "Kitchen Buddy Board", "", "", 12, 0,
                            s_app.device_revision + 1);
-    if (!s_app.firmware_checking || s_app.current != Screen::kUpdate) return false;
+    if (!s_app.firmware_checking || s_app.current != Screen::kUpdate)
+        return false;
     buddy_ui_update_device(true, 8, "", "", "Avery", "Kitchen Buddy Board", "",
-                           "Firmware policy check failed", 12, 0,
-                           s_app.device_revision + 1);
+                           "Firmware policy check failed", 12, 0, s_app.device_revision + 1);
     return !s_app.firmware_checking && s_app.current == Screen::kUpdate;
 }
 
@@ -2493,8 +2639,8 @@ extern "C" bool buddy_ui_render_scenario(const char *scenario_name)
         s_app.selected_mastery_factor = 7;
         render(Screen::kMasteryDetail);
     } else if (scenario == "flash-card-reveal") {
-        std::vector<FlashCard> cards{{"golden_1", "benevolent", "kind and generous",
-                                      "A benevolent neighbor helps."}};
+        std::vector<FlashCard> cards{
+            {"golden_1", "benevolent", "kind and generous", "A benevolent neighbor helps."}};
         s_app.flash_round = std::make_unique<FlashRound>(std::move(cards), 42);
         s_app.flash_round->reveal();
         render(Screen::kFlashStudy);

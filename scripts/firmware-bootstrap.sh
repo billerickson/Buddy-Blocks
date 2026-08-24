@@ -20,7 +20,7 @@ fi
 
 IDF_TOOLS_PATH="${tools_path}" "${idf_path}/install.sh" esp32p4
 IDF_TOOLS_PATH="${tools_path}" python3 "${idf_path}/tools/idf_tools.py" install \
-  cmake@3.30.2 ninja@1.12.1
+  cmake@3.30.2 ninja@1.12.1 esp-clang@esp-19.1.2_20250312
 
 echo "ESP-IDF v5.5.5 is ready."
 echo "Next: source ./scripts/firmware-env.sh"

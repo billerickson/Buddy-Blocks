@@ -14,7 +14,8 @@ using Json = std::unique_ptr<cJSON, decltype(&cJSON_Delete)>;
 
 cJSON *parse_json(const std::string &value)
 {
-    if (value.find('\0') != std::string::npos) return nullptr;
+    if (value.find('\0') != std::string::npos)
+        return nullptr;
     return cJSON_ParseWithLengthOpts(value.c_str(), value.size() + 1, nullptr, true);
 }
 
@@ -27,30 +28,31 @@ size_t utf8_sequence_length(const std::string &value, size_t index)
         return index + offset < value.size() && (byte(offset) & 0xc0U) == 0x80U;
     };
     const unsigned char first = byte(0);
-    if (first <= 0x7fU) return 1;
-    if (first >= 0xc2U && first <= 0xdfU && continuation(1)) return 2;
-    if (first == 0xe0U && index + 2 < value.size() && byte(1) >= 0xa0U &&
-        byte(1) <= 0xbfU && continuation(2)) {
+    if (first <= 0x7fU)
+        return 1;
+    if (first >= 0xc2U && first <= 0xdfU && continuation(1))
+        return 2;
+    if (first == 0xe0U && index + 2 < value.size() && byte(1) >= 0xa0U && byte(1) <= 0xbfU &&
+        continuation(2)) {
         return 3;
     }
     if (((first >= 0xe1U && first <= 0xecU) || (first >= 0xeeU && first <= 0xefU)) &&
         continuation(1) && continuation(2)) {
         return 3;
     }
-    if (first == 0xedU && index + 2 < value.size() && byte(1) >= 0x80U &&
-        byte(1) <= 0x9fU && continuation(2)) {
+    if (first == 0xedU && index + 2 < value.size() && byte(1) >= 0x80U && byte(1) <= 0x9fU &&
+        continuation(2)) {
         return 3;
     }
-    if (first == 0xf0U && index + 3 < value.size() && byte(1) >= 0x90U &&
-        byte(1) <= 0xbfU && continuation(2) && continuation(3)) {
+    if (first == 0xf0U && index + 3 < value.size() && byte(1) >= 0x90U && byte(1) <= 0xbfU &&
+        continuation(2) && continuation(3)) {
         return 4;
     }
-    if (first >= 0xf1U && first <= 0xf3U && continuation(1) && continuation(2) &&
-        continuation(3)) {
+    if (first >= 0xf1U && first <= 0xf3U && continuation(1) && continuation(2) && continuation(3)) {
         return 4;
     }
-    if (first == 0xf4U && index + 3 < value.size() && byte(1) >= 0x80U &&
-        byte(1) <= 0x8fU && continuation(2) && continuation(3)) {
+    if (first == 0xf4U && index + 3 < value.size() && byte(1) >= 0x80U && byte(1) <= 0x8fU &&
+        continuation(2) && continuation(3)) {
         return 4;
     }
     return 0;
@@ -60,7 +62,8 @@ bool valid_utf8(const std::string &value)
 {
     for (size_t index = 0; index < value.size();) {
         const size_t sequence = utf8_sequence_length(value, index);
-        if (sequence == 0) return false;
+        if (sequence == 0)
+            return false;
         index += sequence;
     }
     return true;
@@ -74,9 +77,8 @@ void sanitize_display_text(std::string &value)
         const unsigned char first = static_cast<unsigned char>(value[index]);
         const size_t sequence = utf8_sequence_length(value, index);
         if (first <= 0x7fU) {
-            sanitized.push_back(first >= 0x20U || first == '\n' || first == '\t'
-                                    ? static_cast<char>(first)
-                                    : '?');
+            sanitized.push_back(
+                first >= 0x20U || first == '\n' || first == '\t' ? static_cast<char>(first) : '?');
         } else {
             // The pinned built-in Montserrat range is printable ASCII. Use an
             // included glyph instead of passing an unavailable code point to LVGL.
@@ -111,8 +113,7 @@ bool safe_identifier(const std::string &value)
            });
 }
 
-bool bounded_integer(const cJSON *object, const char *key, int minimum, int maximum,
-                     int &output)
+bool bounded_integer(const cJSON *object, const char *key, int minimum, int maximum, int &output)
 {
     const cJSON *value = cJSON_GetObjectItemCaseSensitive(object, key);
     if (!cJSON_IsNumber(value) || value->valuedouble < minimum || value->valuedouble > maximum ||
@@ -135,16 +136,16 @@ bool bounded_optional_integer(const cJSON *object, const char *key, int minimum,
 
 bool parse_bootstrap(const std::string &json, Bootstrap &output)
 {
-    if (json.empty() || json.size() > 512U * 1024U) return false;
+    if (json.empty() || json.size() > size_t{512} * 1024U)
+        return false;
     Json root(parse_json(json), cJSON_Delete);
-    const cJSON *schema = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "schemaVersion")
-                               : nullptr;
+    const cJSON *schema =
+        root ? cJSON_GetObjectItemCaseSensitive(root.get(), "schemaVersion") : nullptr;
     const cJSON *child = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "child") : nullptr;
     const cJSON *multiplication =
         root ? cJSON_GetObjectItemCaseSensitive(root.get(), "multiplication") : nullptr;
-    const cJSON *mastery = multiplication
-                               ? cJSON_GetObjectItemCaseSensitive(multiplication, "mastery")
-                               : nullptr;
+    const cJSON *mastery =
+        multiplication ? cJSON_GetObjectItemCaseSensitive(multiplication, "mastery") : nullptr;
     int fluent = 0;
     int xp = 0;
     Bootstrap parsed;
@@ -165,7 +166,8 @@ bool parse_bootstrap(const std::string &json, Bootstrap &output)
     sanitize_display_text(parsed.child_name);
     std::vector<bool> seen(144, false);
     cJSON *item = nullptr;
-    cJSON_ArrayForEach(item, mastery) {
+    cJSON_ArrayForEach(item, mastery)
+    {
         int factor = 0;
         int multiplier = 0;
         int attempts = 0;
@@ -179,7 +181,8 @@ bool parse_bootstrap(const std::string &json, Bootstrap &output)
             return false;
         }
         const size_t index = static_cast<size_t>((factor - 1) * 12 + multiplier - 1);
-        if (seen[index]) return false;
+        if (seen[index])
+            return false;
         seen[index] = true;
         domain::MasteryStats stats{attempts, correct, streak, std::nullopt};
         const cJSON *best = cJSON_GetObjectItemCaseSensitive(item, "bestKeyboardResponseMs");
@@ -200,28 +203,28 @@ bool parse_bootstrap(const std::string &json, Bootstrap &output)
 
 bool Library::replace_from_snapshot(const std::string &json)
 {
-    if (json.empty() || json.size() > 1024U * 1024U) return false;
+    if (json.empty() || json.size() > size_t{1024} * 1024U)
+        return false;
     Json root(parse_json(json), cJSON_Delete);
-    const cJSON *schema = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "schemaVersion")
-                               : nullptr;
-    const cJSON *revision = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "revision")
-                                 : nullptr;
-    const cJSON *sections = root ? cJSON_GetObjectItemCaseSensitive(root.get(), "sections")
-                                 : nullptr;
-    if (!root || !cJSON_IsNumber(schema) || schema->valuedouble != 1 ||
-        !cJSON_IsNumber(revision) || revision->valuedouble < 0 ||
-        revision->valuedouble > UINT32_MAX ||
+    const cJSON *schema =
+        root ? cJSON_GetObjectItemCaseSensitive(root.get(), "schemaVersion") : nullptr;
+    const cJSON *revision =
+        root ? cJSON_GetObjectItemCaseSensitive(root.get(), "revision") : nullptr;
+    const cJSON *sections =
+        root ? cJSON_GetObjectItemCaseSensitive(root.get(), "sections") : nullptr;
+    if (!root || !cJSON_IsNumber(schema) || schema->valuedouble != 1 || !cJSON_IsNumber(revision) ||
+        revision->valuedouble < 0 || revision->valuedouble > UINT32_MAX ||
         revision->valuedouble !=
             static_cast<double>(static_cast<uint32_t>(revision->valuedouble)) ||
-        !cJSON_IsArray(sections) ||
-        cJSON_GetArraySize(sections) > 50) {
+        !cJSON_IsArray(sections) || cJSON_GetArraySize(sections) > 50) {
         return false;
     }
 
     std::vector<Section> parsed;
     size_t total_cards = 0;
     cJSON *section_json = nullptr;
-    cJSON_ArrayForEach(section_json, sections) {
+    cJSON_ArrayForEach(section_json, sections)
+    {
         Section section;
         const cJSON *pinned = cJSON_GetObjectItemCaseSensitive(section_json, "pinned");
         const cJSON *cards = cJSON_GetObjectItemCaseSensitive(section_json, "cards");
@@ -229,18 +232,20 @@ bool Library::replace_from_snapshot(const std::string &json)
             !read_string(section_json, "title", section.title, 100) ||
             !read_string(section_json, "source", section.source, 200, true) ||
             !read_string(section_json, "updatedAt", section.updated_at, 64) ||
-            (!cJSON_IsBool(pinned)) || !cJSON_IsArray(cards) ||
-            cJSON_GetArraySize(cards) > 100) {
+            (!cJSON_IsBool(pinned)) || !cJSON_IsArray(cards) || cJSON_GetArraySize(cards) > 100) {
             return false;
         }
-        if (!safe_identifier(section.id)) return false;
+        if (!safe_identifier(section.id))
+            return false;
         sanitize_display_text(section.title);
         sanitize_display_text(section.source);
         section.pinned = cJSON_IsTrue(pinned);
         total_cards += static_cast<size_t>(cJSON_GetArraySize(cards));
-        if (total_cards > 2500) return false;
+        if (total_cards > 2500)
+            return false;
         cJSON *card_json = nullptr;
-        cJSON_ArrayForEach(card_json, cards) {
+        cJSON_ArrayForEach(card_json, cards)
+        {
             Card card;
             const cJSON *sort_order = cJSON_GetObjectItemCaseSensitive(card_json, "sortOrder");
             if (!cJSON_IsObject(card_json) || !read_string(card_json, "id", card.id, 128) ||
@@ -252,21 +257,22 @@ bool Library::replace_from_snapshot(const std::string &json)
                 sort_order->valuedouble != static_cast<double>(sort_order->valueint)) {
                 return false;
             }
-            if (!safe_identifier(card.id)) return false;
+            if (!safe_identifier(card.id))
+                return false;
             sanitize_display_text(card.front);
             sanitize_display_text(card.back);
             sanitize_display_text(card.clue);
             card.sort_order = sort_order->valueint;
             section.cards.push_back(std::move(card));
         }
-        std::stable_sort(section.cards.begin(), section.cards.end(),
-                         [](const Card &left, const Card &right) {
-                             return left.sort_order < right.sort_order;
-                         });
+        std::stable_sort(
+            section.cards.begin(), section.cards.end(),
+            [](const Card &left, const Card &right) { return left.sort_order < right.sort_order; });
         parsed.push_back(std::move(section));
     }
     std::stable_sort(parsed.begin(), parsed.end(), [](const Section &left, const Section &right) {
-        if (left.pinned != right.pinned) return left.pinned;
+        if (left.pinned != right.pinned)
+            return left.pinned;
         return left.updated_at > right.updated_at;
     });
     {
@@ -299,7 +305,8 @@ size_t Library::section_count() const
 bool Library::section(size_t index, Section &output) const
 {
     std::lock_guard<std::recursive_mutex> guard(mutex_);
-    if (index >= sections_.size()) return false;
+    if (index >= sections_.size())
+        return false;
     const Section &source = sections_[index];
     output.id = source.id;
     output.title = source.title;

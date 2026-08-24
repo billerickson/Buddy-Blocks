@@ -81,7 +81,7 @@ std::vector<uint8_t> stored_deflate(const std::vector<uint8_t> &raw)
 bool write_png(const std::string &path, const std::vector<uint16_t> &frame)
 {
     std::vector<uint8_t> raw;
-    raw.reserve((kWidth * 3U + 1U) * kHeight);
+    raw.reserve((static_cast<size_t>(kWidth) * 3U + 1U) * kHeight);
     for (uint32_t y = 0; y < kHeight; ++y) {
         raw.push_back(0);
         for (uint32_t x = 0; x < kWidth; ++x) {
@@ -115,7 +115,10 @@ void flush(lv_display_t *display, const lv_area_t *, uint8_t *)
     lv_display_flush_ready(display);
 }
 
-uint32_t deterministic_tick() { return 1000; }
+uint32_t deterministic_tick()
+{
+    return 1000;
+}
 
 constexpr std::array<buddy_ui_wifi_network_t, 3> kWifiNetworks{{
     {{'H', 'o', 'm', 'e', ' ', 'N', 'e', 't', 'w', 'o', 'r', 'k', '\0'}, -48, 2, true, true},
@@ -123,23 +126,42 @@ constexpr std::array<buddy_ui_wifi_network_t, 3> kWifiNetworks{{
     {{'L', 'i', 'b', 'r', 'a', 'r', 'y', '\0'}, -78, 1, false, false},
 }};
 
-bool simulator_wifi_scan(void *) { return true; }
-size_t simulator_wifi_count(void *) { return kWifiNetworks.size(); }
+bool simulator_wifi_scan(void *)
+{
+    return true;
+}
+size_t simulator_wifi_count(void *)
+{
+    return kWifiNetworks.size();
+}
 bool simulator_wifi_network(void *, size_t index, buddy_ui_wifi_network_t *network)
 {
-    if (network == nullptr || index >= kWifiNetworks.size()) return false;
+    if (network == nullptr || index >= kWifiNetworks.size())
+        return false;
     *network = kWifiNetworks[index];
     return true;
 }
-bool simulator_wifi_connect(void *, const char *, const char *, bool, bool) { return true; }
-bool simulator_wifi_forget(void *, const char *) { return true; }
-bool simulator_request(void *) { return true; }
-size_t simulator_flash_section_count(void *) { return 4; }
+bool simulator_wifi_connect(void *, const char *, const char *, bool, bool)
+{
+    return true;
+}
+bool simulator_wifi_forget(void *, const char *)
+{
+    return true;
+}
+bool simulator_request(void *)
+{
+    return true;
+}
+size_t simulator_flash_section_count(void *)
+{
+    return 4;
+}
 bool simulator_flash_section(void *, size_t index, buddy_ui_flash_section_t *section)
 {
-    if (section == nullptr || index >= simulator_flash_section_count(nullptr)) return false;
-    std::snprintf(section->id, sizeof(section->id), "sim_section_%u",
-                  static_cast<unsigned>(index));
+    if (section == nullptr || index >= simulator_flash_section_count(nullptr))
+        return false;
+    std::snprintf(section->id, sizeof(section->id), "sim_section_%u", static_cast<unsigned>(index));
     std::snprintf(section->title, sizeof(section->title), "%s",
                   index == 0 ? "Week 1 Words" : "Study Set");
     std::snprintf(section->source, sizeof(section->source), "Simulator");
@@ -179,7 +201,7 @@ int main(int argc, char **argv)
 
     lv_init();
     lv_tick_set_cb(deterministic_tick);
-    std::vector<uint16_t> frame(kWidth * kHeight, 0);
+    std::vector<uint16_t> frame(static_cast<size_t>(kWidth) * kHeight, 0);
     lv_display_t *display = lv_display_create(kWidth, kHeight);
     if (display == nullptr) {
         std::fprintf(stderr, "could not create LVGL display\n");

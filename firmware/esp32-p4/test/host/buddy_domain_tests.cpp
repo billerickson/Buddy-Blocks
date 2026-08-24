@@ -50,12 +50,10 @@ int main()
     require(practice_weight(nullptr) == 2 && practice_weight(&fluent) == 1 &&
                 practice_weight(&weak) == 3,
             "adaptive practice weights");
-    require(calculate_xp(9, 9) == 0 && calculate_xp(18, 20) == 13 &&
-                calculate_xp(500, 500) == 30,
+    require(calculate_xp(9, 9) == 0 && calculate_xp(18, 20) == 13 && calculate_xp(500, 500) == 30,
             "XP formula and cap");
     for (const auto &entry : vectors::xp_cases) {
-        require(calculate_xp(entry.correct, entry.total) == entry.expected,
-                "shared XP vector");
+        require(calculate_xp(entry.correct, entry.total) == entry.expected, "shared XP vector");
     }
     for (const auto &entry : vectors::mastery_cases) {
         MasteryStats stats{entry.attempts, entry.correct, entry.streak, entry.best_ms};
@@ -64,10 +62,11 @@ int main()
                 "shared mastery vector");
     }
 
-    const auto shared_deck = build_deck(vectors::deck_factors, {}, true, std::nullopt,
-                                        vectors::deck_seed);
+    const auto shared_deck =
+        build_deck(vectors::deck_factors, {}, true, std::nullopt, vectors::deck_seed);
     std::vector<std::string> shared_deck_keys;
-    for (const auto &fact_value : shared_deck) shared_deck_keys.push_back(fact_key(fact_value));
+    for (const auto &fact_value : shared_deck)
+        shared_deck_keys.push_back(fact_key(fact_value));
     require(shared_deck_keys == vectors::deck_expected, "shared seeded-deck vector");
 
     std::vector<MasteryStats> mastery(144);
@@ -83,12 +82,13 @@ int main()
     require(fluent_copies == 1 && deck_a.size() == 23, "adaptive deck copy counts");
 
     std::vector<MultiplicationFact> remaining;
-    for (const auto &value : vectors::requeue_deck) remaining.push_back(parse_fact(value));
+    for (const auto &value : vectors::requeue_deck)
+        remaining.push_back(parse_fact(value));
     requeue_missed(remaining, parse_fact(vectors::requeue_missed), vectors::requeue_spacing);
     std::vector<std::string> requeued_keys;
-    for (const auto &fact_value : remaining) requeued_keys.push_back(fact_key(fact_value));
-    require(requeued_keys == vectors::requeue_expected,
-            "missed fact returns after three others");
+    for (const auto &fact_value : remaining)
+        requeued_keys.push_back(fact_key(fact_value));
+    require(requeued_keys == vectors::requeue_expected, "missed fact returns after three others");
 
     SelectionModel selection(SelectionModel::Mode::kMultiple);
     selection.set_options({"1", "2", "3"});
@@ -97,11 +97,14 @@ int main()
             "valid selection is explicit");
     selection.select("2");
     require(!selection.can_commit(), "multi-select toggles without implicit commit");
-    require(selection.restore({"3", "missing"}) && selection.commit() == std::vector<std::string>({"3"}),
+    require(selection.restore({"3", "missing"}) &&
+                selection.commit() == std::vector<std::string>({"3"}),
             "persisted selection restores by stable ID");
 
-    std::vector<FlashCard> cards{{"a", "A", "a", ""}, {"b", "B", "b", ""},
-                                 {"c", "C", "c", ""}, {"d", "D", "d", ""},
+    std::vector<FlashCard> cards{{"a", "A", "a", ""},
+                                 {"b", "B", "b", ""},
+                                 {"c", "C", "c", ""},
+                                 {"d", "D", "d", ""},
                                  {"e", "E", "e", ""}};
     FlashRound round(cards, 77);
     const std::string missed_id = round.current()->id;
@@ -115,7 +118,12 @@ int main()
     require(round.current()->id == missed_id, "Again card returns at the fourth position");
 
     FlashSessionState flash_state{
-        "esp32p4_demo_00000000000000ff", "practice_set_1", 12, 99, 3456, true,
+        "esp32p4_demo_00000000000000ff",
+        "practice_set_1",
+        12,
+        99,
+        3456,
+        true,
         {{"card_a", false, 1200}, {"card_b", true, 900}},
     };
     const std::string encoded_flash = encode_flash_session(flash_state);
@@ -139,29 +147,35 @@ int main()
                 classify_http_result(409, "client_attempt_conflict") == RetryAction::kQuarantine,
             "HTTP retry classification is stable");
 
-    require(flash_snapshot_fetch_action(12, 12, 12) ==
-                SnapshotFetchAction::kUseCache &&
-                flash_snapshot_fetch_action(13, 12, 12) ==
-                    SnapshotFetchAction::kConditionalFetch &&
+    require(flash_snapshot_fetch_action(12, 12, 12) == SnapshotFetchAction::kUseCache &&
+                flash_snapshot_fetch_action(13, 12, 12) == SnapshotFetchAction::kConditionalFetch &&
                 flash_snapshot_fetch_action(12, 12, std::nullopt) ==
                     SnapshotFetchAction::kUnconditionalFetch &&
                 flash_snapshot_fetch_action(0, 0, std::nullopt) ==
                     SnapshotFetchAction::kUnconditionalFetch &&
-                flash_snapshot_fetch_action(13, 12, 13) ==
-                    SnapshotFetchAction::kUseCache,
+                flash_snapshot_fetch_action(13, 12, 13) == SnapshotFetchAction::kUseCache,
             "flash snapshot cache is trusted only after payload validation");
 
     require(parse_server_timestamp_ms("2026-08-23T18:00:00.000Z") == 1787508000000LL &&
-                parse_server_timestamp_ms("2024-02-29T23:59:59.999Z") ==
-                    1709251199999LL &&
+                parse_server_timestamp_ms("2024-02-29T23:59:59.999Z") == 1709251199999LL &&
                 !parse_server_timestamp_ms("2025-02-29T00:00:00.000Z").has_value() &&
                 !parse_server_timestamp_ms("2026-08-23T18:00:00Z").has_value() &&
                 !parse_server_timestamp_ms("2026-08-23T18:00:60.000Z").has_value(),
             "server UTC timestamps are parsed without depending on a process timezone");
 
     MultiplicationSessionState active{
-        "esp32p4_demo_000000000000002a", false, 60, {2, 7}, 42, 1234,
-        {{2, 4}, {7, 8}}, 1, {{{2, 4}, 8, 2100}}, 1, false, true,
+        "esp32p4_demo_000000000000002a",
+        false,
+        60,
+        {2, 7},
+        42,
+        1234,
+        {{2, 4}, {7, 8}},
+        1,
+        {{{2, 4}, 8, 2100}},
+        1,
+        false,
+        true,
     };
     const std::string active_json = encode_multiplication_session(active);
     const auto restored = decode_multiplication_session(active_json);

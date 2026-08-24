@@ -10,7 +10,8 @@ namespace {
 
 void require(bool condition, const char *message)
 {
-    if (condition) return;
+    if (condition)
+        return;
     std::cerr << "FAILED: " << message << '\n';
     std::exit(1);
 }
@@ -65,8 +66,9 @@ int main()
     require(!parse_bootstrap(embedded_null, bootstrap),
             "bootstrap rejects embedded-null corruption");
     const std::string fractional_schema =
-        std::string(kBootstrap).replace(std::string(kBootstrap).find("\"schemaVersion\": 1"),
-                                        18, "\"schemaVersion\": 1.5");
+        std::string(kBootstrap)
+            .replace(std::string(kBootstrap).find("\"schemaVersion\": 1"), 18,
+                     "\"schemaVersion\": 1.5");
     require(!parse_bootstrap(fractional_schema, bootstrap),
             "bootstrap schema version must be integral");
 
@@ -77,23 +79,20 @@ int main()
     Section section;
     Card card;
     require(library.section(0, section) && section.id == "section_pinned" && section.pinned &&
-                section.cards.size() == 2 && library.card(0, 0, card) &&
-                card.id == "card_first" && card.front == "caf?",
+                section.cards.size() == 2 && library.card(0, 0, card) && card.id == "card_first" &&
+                card.front == "caf?",
             "pinned sections, card order, and unsupported glyph replacement are deterministic");
 
-    const std::string fractional_revision =
-        std::string(kSnapshot).replace(std::string(kSnapshot).find("\"revision\": 12"), 14,
-                                       "\"revision\": 12.5");
+    const std::string fractional_revision = std::string(kSnapshot).replace(
+        std::string(kSnapshot).find("\"revision\": 12"), 14, "\"revision\": 12.5");
     require(!library.replace_from_snapshot(fractional_revision),
             "fractional content revisions are rejected");
-    const std::string fractional_sort =
-        std::string(kSnapshot).replace(std::string(kSnapshot).find("\"sortOrder\": 2"), 14,
-                                       "\"sortOrder\": 2.5");
+    const std::string fractional_sort = std::string(kSnapshot).replace(
+        std::string(kSnapshot).find("\"sortOrder\": 2"), 14, "\"sortOrder\": 2.5");
     require(!library.replace_from_snapshot(fractional_sort),
             "fractional card ordering is rejected");
-    const std::string unsafe_identifier =
-        std::string(kSnapshot).replace(std::string(kSnapshot).find("section_later"), 13,
-                                       "section later");
+    const std::string unsafe_identifier = std::string(kSnapshot).replace(
+        std::string(kSnapshot).find("section_later"), 13, "section later");
     require(!library.replace_from_snapshot(unsafe_identifier),
             "unsafe content identifiers are rejected");
     std::string invalid_utf8(kSnapshot);
