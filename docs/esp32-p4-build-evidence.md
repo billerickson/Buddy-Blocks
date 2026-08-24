@@ -83,12 +83,17 @@ sdkconfig overlays as follows:
 | Pilot, RSA-signed | 2,035,712 | 27.7% | 22,240 | PASS |
 | Production, RSA-signed | 2,101,248 | 28.6% | 45,056 | PASS |
 
-The pilot release report records 5,304,320 bytes of application-slot headroom,
-42,374 bytes of linker-reported static DRAM/DIRAM data plus BSS, and a 2,020,250
-byte linked image. Its OTA image, combined USB-recovery image, manifest, reports,
-and SHA-256 inventory verify locally. The package URL remains an intentionally
-non-publishable `example.invalid` placeholder until a board-tested artifact is
-approved for release.
+The final ignored pilot package was regenerated from commit
+`ca8a1de087084bed07e555b83ab7f0700332b215`. Its release report records
+5,304,320 bytes of application-slot headroom, 42,374 bytes of linker-reported
+static DRAM/DIRAM data plus BSS, and a 2,020,258-byte linked image. The signed
+OTA image SHA-256 is
+`460a9c23eeb055e9e8b4d68c08d0eaaf063676c2790a87a047ae3298d37ecd1e`;
+the combined USB-recovery image SHA-256 is
+`5cc4b5ce3a6c2930ca2e7d6cc0e7a1ae1c9aef45de6c0c15d1a4ab154cfe6992`.
+Every entry in the generated SHA-256 inventory verifies locally. The package
+URL remains an intentionally non-publishable `example.invalid` placeholder
+until a board-tested artifact is approved for release.
 
 The production generated configuration enables rollback, Secure Boot v2,
 RSA-signed applications/updates, AES-256 release-mode flash encryption, and NVS

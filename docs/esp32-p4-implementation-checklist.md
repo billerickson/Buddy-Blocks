@@ -197,8 +197,9 @@ irreversible eFuse is burned by an automated script.
   deployment process.
 - [x] Website/API deployment `61dbf86e-2b59-4d5b-bb34-af9a6e980788`
   passes public health and expected unauthenticated-boundary smoke tests.
-- [x] Five coherent hardware-proof, build-matrix, firmware, device-platform,
-  and release/CI commits are pushed to `origin/codex/esp32-p4-app`.
+- [x] Coherent hardware-proof, build-matrix, firmware, device-platform,
+  release/CI, and final evidence commits are pushed to
+  `origin/codex/esp32-p4-app`.
 - [ ] Version 1 release artifacts are published without secrets/signing keys.
 
 Exit gate: the complete Version 1 Definition of Done is satisfied.
