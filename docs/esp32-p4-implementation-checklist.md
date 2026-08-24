@@ -188,9 +188,10 @@ irreversible eFuse is burned by an automated script.
   serial intervention.
 - [ ] Performance measurements pending hardware; operations, factory-reset,
   support, security, board-test, and release procedures are documented.
-- [ ] All web and firmware tests pass in CI; the prior pull-request matrix run
-  `32685637210` passed and the complete updated local suite passes, but the
-  current commit still requires its post-push matrix.
+- [x] All web and firmware tests pass in CI. Pull-request run `32697315599`
+  passed on exact source commit `3071c4befe8700186994a47ff2b52238f5b82af4`,
+  including the six-profile firmware matrix, host tests, 30 reviewed simulator
+  goldens, generated-file checks, and unsigned recovery artifact packaging.
 - [x] D1 migration 0004 validated locally, then applied and verified remotely
   through the established
   deployment process.

@@ -96,3 +96,14 @@ encryption. The larger Secure Boot bootloader fits below the partition table at
 `0x10000` with 12,288 bytes remaining. This is configuration and build evidence
 only: no candidate was flashed, no runtime watermark was measured, and no eFuse
 was burned.
+
+## Continuous integration
+
+Pull-request run `32697315599` passed on exact source commit
+`3071c4befe8700186994a47ff2b52238f5b82af4`. Its source-check job completed in
+14 seconds and its build/test/package job completed in 21 minutes 57 seconds.
+The run passed the website, Worker, content, and shared-vector validation; all
+six silicon/rotation firmware builds; host domain and storage tests; the LVGL
+interaction test and 30 reviewed 800 x 480 goldens; generated-file checks; and
+unsigned, pull-request-safe recovery artifact packaging. This is host/CI
+evidence only and does not satisfy any physical board exit gate.
